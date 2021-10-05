@@ -1,0 +1,38 @@
+name: localdaily
+description: LocalDaily App.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  #Configure
+  connectivity: ^3.0.6
+  fluro: 2.0.3
+  get_it: ^7.2.0
+  lint: ^1.7.2
+  rxdart: ^0.27.2
+  provider: ^6.0.1
+
+  #Assets
+  cupertino_icons: ^1.0.3
+
+  #Widgets
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - lib/assets/images/
+    - lib/assets/icons/
