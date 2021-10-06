@@ -1,7 +1,7 @@
 part of 'home_view.dart';
 
-class _HomeMobile extends StatelessWidget {
-  const _HomeMobile({
+class _LoginPhoneSaveMobile extends StatelessWidget {
+  const _LoginPhoneSaveMobile({
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
@@ -12,6 +12,7 @@ class _HomeMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,

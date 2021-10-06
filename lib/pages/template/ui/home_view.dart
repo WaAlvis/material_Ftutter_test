@@ -54,9 +54,6 @@ class _HomeBodyState extends State<_HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-
-    final HomeViewModel viewModel = context.watch<HomeViewModel>();
-
     return LayoutBuilder(builder: (_, BoxConstraints constraints) {
       final double maxWidth = constraints.maxWidth;
 
@@ -65,12 +62,11 @@ class _HomeBodyState extends State<_HomeBody> {
           SliverFillRemaining(
             hasScrollBody: false,
             child: maxWidth > 1024
-              ? _HomeWeb(
+              ? _LoginPhoneSaveWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
-                  goHome: ()=> viewModel.goHome(context),
                 )
-              : _HomeMobile(
+              : _LoginPhoneSaveMobile(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
                 ),
