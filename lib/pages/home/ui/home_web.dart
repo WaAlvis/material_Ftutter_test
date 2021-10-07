@@ -6,29 +6,68 @@ class _HomeWeb extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
-    required this.goHome,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final TextEditingController passwordCtrl;
-  final VoidCallback goHome;
 
   @override
   Widget build(BuildContext context) {
 
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
-      color: LdColors.black,
+      // padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+      color: LdColors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Flexible(
-            child: Stack(
+          Container(
+            color: LdColors.black,
+            child: Column(
               children: <Widget>[
-                // Create screens direc
+                PositionedDirectional(
+                  top: 0,
+                  start: 0,
+                  child: RichText(
+                    text: const TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Compra y vende tus ',
+                          style: TextStyle(
+                            color: Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'GTWalsheimPro',
+                            fontStyle: FontStyle.normal,
+                            fontSize: 65.0,
+                          ),
+                        ),
+                        TextSpan(
+                          style: TextStyle(
+                            color: Color(0xffe6e922),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'GTWalsheimPro',
+                            fontStyle: FontStyle.normal,
+                            fontSize: 65.0,
+                          ),
+                          text: 'DLY COP ',
+                        ),
+                        TextSpan(
+                          style: TextStyle(
+                            color: Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'GTWalsheimPro',
+                            fontStyle: FontStyle.normal,
+                            fontSize: 65.0,
+                          ),
+                          text: ' en minutos',
+                        )
+                      ],
+                    ),
+                  ),
+                ),
                 const PositionedDirectional(
                   top: 178,
                   start: 30,
@@ -44,51 +83,10 @@ class _HomeWeb extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                PositionedDirectional(
-                  top: 0,
-                  start: 0,
-                  child: RichText(
-                    text: const TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Compra y vende tus ',
-                        style: TextStyle(
-                          color: Color(0xffffffff),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle: FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
-                      ),
-                      TextSpan(
-                        style: TextStyle(
-                          color: Color(0xffe6e922),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle: FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
-                        text: 'DLY COP ',
-                      ),
-                      TextSpan(
-                        style: TextStyle(
-                          color: Color(0xffffffff),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle: FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
-                        text: ' en minutos',
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
             ),
           ),
-          // Rectangle 10
-          Flexible(
+          /*Flexible(
             child: Container(
               width: 1450,
               height: 250,
@@ -115,7 +113,7 @@ class _HomeWeb extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                   TextButton(
-                    onPressed: goHome,
+                    onPressed: ()=> viewModel.goHome(context),
                     child: const Text(
                       'Presiona aqui',
                     ),
@@ -149,7 +147,10 @@ class _HomeWeb extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+          ),*/
+          const _TableHome(),
+          const _TableHome(),
+          const _ProductHome(),
         ],
       ),
     );

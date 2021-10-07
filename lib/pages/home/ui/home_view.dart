@@ -12,8 +12,9 @@ import 'package:provider/provider.dart';
 import '../../../app_theme.dart';
 
 part 'home_mobile.dart';
-
 part 'home_web.dart';
+part 'components/product_home.dart';
+part 'components/table_home.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -68,7 +69,6 @@ class _HomeBodyState extends State<_HomeBody> {
               ? _HomeWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
-                  goHome: ()=> viewModel.goHome(context),
                 )
               : _HomeMobile(
                   keyForm: keyForm,
