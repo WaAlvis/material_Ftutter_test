@@ -151,6 +151,94 @@ class _HomeWeb extends StatelessWidget {
           const _TableHome(),
           const _TableHome(),
           const _ProductHome(),
+          const _StartHome(),
+          const _SecurityHome(),
+          const _InformationHome(),
+          Container(
+            color: const Color(0xff101011),
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      RichText(
+                        text: const TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              style: TextStyle(
+                                color: Color(0xffffffff),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'GTWalsheimPro',
+                                fontStyle:  FontStyle.normal,
+                                fontSize: 56.0,
+                              ),
+                              text: 'Compre y venda ',
+                            ),
+                            TextSpan(
+                              style: TextStyle(
+                                color: Color(0xffe6e922),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'GTWalsheimPro',
+                                fontStyle:  FontStyle.normal,
+                                fontSize: 56.0,
+                              ),
+                              text: 'DLY COP ',
+                            ),
+                            TextSpan(
+                              style: TextStyle(
+                                color: Color(0xffffffff),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'GTWalsheimPro',
+                                fontStyle:  FontStyle.normal,
+                                fontSize: 56.0,
+                              ),
+                              text: ' desde cualquier lugar',
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Text(
+                        'Descubra cómo funcionan DLY COP y comercie con la moneda.',
+                        style: TextStyle(
+                          color: Color(0xffffffff),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'GTWalsheimPro',
+                          fontStyle:  FontStyle.normal,
+                          fontSize: 24.0,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      // Rectangle 10
+                      Container(
+                        width: 160,
+                        height: 50,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          color: Color(0xffe6e922),
+                        ),
+                        child: const Text(
+                          'Empezar',
+                          style: TextStyle(
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'GTWalsheimPro',
+                            fontStyle:  FontStyle.normal,
+                            fontSize: 20.0,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const Expanded(child: SizedBox.shrink())
+              ],
+            ),
+          )
         ],
       ),
     );

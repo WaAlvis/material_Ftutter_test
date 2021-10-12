@@ -35,8 +35,8 @@ class _TableHome extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           Table(
-            children: const <TableRow>[
-              TableRow(
+            children: <TableRow>[
+              const TableRow(
                 children: <Widget>[
                   Text(
                     'Vendedor',
@@ -93,11 +93,12 @@ class _TableHome extends StatelessWidget {
                     ),
                     textAlign: TextAlign.left,
                   ),
+                  Text(''),
                 ],
               ),
               TableRow(
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'nashira60 ',
                     style: TextStyle(
                       color: Color(0xff0055ff),
@@ -108,7 +109,7 @@ class _TableHome extends StatelessWidget {
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  Text(
+                  const Text(
                     '(100+; 99%) ',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -119,7 +120,7 @@ class _TableHome extends StatelessWidget {
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  Text(
+                  const Text(
                     'Transferencias con un banco específico: bancolombia ',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -130,7 +131,7 @@ class _TableHome extends StatelessWidget {
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  Text(
+                  const Text(
                     '164,697,830.19 COP ',
                     style: TextStyle(
                       color: Color(0xff5aac6e),
@@ -141,7 +142,7 @@ class _TableHome extends StatelessWidget {
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  Text(
+                  const Text(
                     '50,000 - 220,024 COP	 ',
                     style: TextStyle(
                       color: Color(0xff5aac6e),
@@ -152,7 +153,28 @@ class _TableHome extends StatelessWidget {
                     ),
                     textAlign: TextAlign.left,
                   ),
-
+                  Container(
+                    width: 100,
+                    height: 45,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                      ),
+                      color: Color(0xff000000),
+                    ),
+                    child: const Text(
+                      'Comprar',
+                      style: TextStyle(
+                        color: Color(0xffffffff),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'GTWalsheimPro',
+                        fontStyle:  FontStyle.normal,
+                        fontSize: 24.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
                 ],
               )
             ],

@@ -13,8 +13,11 @@ import '../../../app_theme.dart';
 
 part 'home_mobile.dart';
 part 'home_web.dart';
-part 'components/product_home.dart';
 part 'components/table_home.dart';
+part 'components/product_home.dart';
+part 'components/start_home.dart';
+part 'components/security_home.dart';
+part 'components/information_home.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
