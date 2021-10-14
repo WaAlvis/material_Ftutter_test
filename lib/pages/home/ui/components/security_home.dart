@@ -18,19 +18,13 @@ class _SecurityHome extends StatelessWidget {
             width: 173,
             height: 173,
             decoration: const BoxDecoration(
-              color: Color(0xffc4c4c4),
+              color: LdColors.grayLight,
             ),
           ),
           Flexible(
             child: Text(
               description,
-              style: const TextStyle(
-                color: Color(0xff3e4462),
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Inter',
-                fontStyle:  FontStyle.normal,
-                fontSize: 24.0,
-              ),
+              style: textTheme.textBigBlack,
               textAlign: TextAlign.left,
             ),
           )
@@ -40,7 +34,7 @@ class _SecurityHome extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 30),
-      color: const Color(0xfffafafa),
+      color: LdColors.whiteGray,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -48,10 +42,8 @@ class _SecurityHome extends StatelessWidget {
               width: 706,
               height: 716,
               decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(28),
-                ),
-                color: Color(0xffc4c4c4),
+                borderRadius: BorderRadius.all(Radius.circular(28)),
+                color: LdColors.grayLight,
               ),
             ),
           ),
@@ -59,48 +51,24 @@ class _SecurityHome extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
+                Text(
                   'Seguridad',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'GTWalsheimPro',
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 24.0,
-                  ),
+                  style: textTheme.textBigBlack,
                   textAlign: TextAlign.left,
                 ),
                 RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        style: TextStyle(
-                          color: Color(0xff040505),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
+                        style: textTheme.titleBigBlack,
                         text: 'Compra y vende tus ',
                       ),
                       TextSpan(
-                        style: TextStyle(
-                          color: Color(0xffe6e922),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
+                        style: textTheme.titleBigYellow,
                         text: 'DLY COP ',
                       ),
                       TextSpan(
-                        style: TextStyle(
-                          color:  Color(0xff040505),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
+                        style: textTheme.titleBigBlack,
                         text: 'con confianza',
                       )
                     ],

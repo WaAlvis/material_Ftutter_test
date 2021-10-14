@@ -19,40 +19,24 @@ class _InformationHome extends StatelessWidget {
               width: 329,
               height: 212,
               decoration: const BoxDecoration(
-                color: Color(0xffc4c4c4),
+                color: LdColors.grayLight,
               ),
             ),
             Text(
               title,
-              style: const TextStyle(
-                color: Color(0xffffffff),
+              style: textTheme.subtitleWhite.copyWith(
                 fontWeight: FontWeight.w700,
-                fontFamily: 'GTWalsheimPro',
-                fontStyle: FontStyle.normal,
-                fontSize: 36.0,
               ),
               textAlign: TextAlign.left,
             ),
-            const Text(
+            Text(
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-              style: TextStyle(
-                color: Color(0xffffffff),
-                fontWeight: FontWeight.w400,
-                fontFamily: 'GTWalsheimPro',
-                fontStyle:  FontStyle.normal,
-                fontSize: 24.0,
-              ),
+              style: textTheme.textBigWhite,
               textAlign: TextAlign.left,
             ),
-            const Text(
+            Text(
               'Leer más',
-              style: TextStyle(
-                color: Color(0xffe6e922),
-                fontWeight: FontWeight.w400,
-                fontFamily: 'GTWalsheimPro',
-                fontStyle: FontStyle.normal,
-                fontSize: 24.0,
-              ),
+              style: textTheme.textBigYellow,
               textAlign: TextAlign.left,
             )
           ],
@@ -62,40 +46,22 @@ class _InformationHome extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 30),
-      color: const Color(0xff101011),
+      color: LdColors.black,
       child: Column(
         children: <Widget>[
-          const Text(
+          Text(
             'Obtén información',
-            style: TextStyle(
-              color: Color(0xffffffff),
-              fontWeight: FontWeight.w400,
-              fontFamily: 'GTWalsheimPro',
-              fontStyle:  FontStyle.normal,
-              fontSize: 24.0,
-            ),
+            style: textTheme.textBigWhite,
             textAlign: TextAlign.left,
           ),
-          const Text(
+          Text(
             'Profundiza tu investigación',
-            style: TextStyle(
-              color: Color(0xffffffff),
-              fontWeight: FontWeight.w700,
-              fontFamily: 'GTWalsheimPro',
-              fontStyle:  FontStyle.normal,
-              fontSize: 65.0,
-            ),
+            style: textTheme.titleBigWhite,
             textAlign: TextAlign.center,
           ),
-          const Text(
+          Text(
             'Con cualquier inversión, es importante comprender lo que estás comprando. Explora estos recursos y regresa para conocer más formas de ampliar tus conocimientos sobre las criptomonedas.',
-            style: TextStyle(
-              color: Color(0xffffffff),
-              fontWeight: FontWeight.w400,
-              fontFamily: 'GTWalsheimPro',
-              fontStyle:  FontStyle.normal,
-              fontSize: 24.0,
-            ),
+            style: textTheme.textBigWhite,
             textAlign: TextAlign.center,
           ),
           Row(

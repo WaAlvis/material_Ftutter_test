@@ -36,3 +36,11 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/icons/
+
+  fonts:
+    - family: GTWalsheimPro
+      fonts:
+        - asset: lib/assets/fonts/GTWalsheimPro-Bold.ttf
+        - asset: lib/assets/fonts/GTWalsheimPro-Black.ttf
+        - asset: lib/assets/fonts/GTWalsheimPro-Regular.ttf
+        - asset: lib/assets/fonts/GTWalsheimPro-RegularOblique.ttf

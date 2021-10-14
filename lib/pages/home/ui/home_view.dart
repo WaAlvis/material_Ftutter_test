@@ -9,7 +9,7 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app_theme.dart';
+import 'package:localdaily/app_theme.dart';
 
 part 'home_mobile.dart';
 part 'home_web.dart';

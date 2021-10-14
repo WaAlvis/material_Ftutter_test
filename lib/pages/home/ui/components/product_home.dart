@@ -12,67 +12,39 @@ class _ProductHome extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 30),
-      color: const Color(0xfffafafa),
+      color: LdColors.whiteGray,
       child: Row(
         children: <Widget>[
           Flexible(
             child: Column(
               children: <Widget>[
-                const Text(
+                Text(
                   'Producto',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'GTWalsheimPro',
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 24.0,
-                  ),
+                  style: textTheme.textBigBlack,
                   textAlign: TextAlign.left,
                 ),
                 RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        style: TextStyle(
-                          color: Color(0xff040505),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
+                        style: textTheme.titleBigBlack,
                         text: 'Tus ',
                       ),
                       TextSpan(
-                        style: TextStyle(
-                          color: Color(0xffe6e922),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
+                        style: textTheme.titleBigYellow,
                         text: 'DLY COP ',
                       ),
                       TextSpan(
-                        style: TextStyle(
-                          color:  Color(0xff040505),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 65.0,
-                        ),
+                        style: textTheme.titleBigBlack,
                         text: 'al alcance de tu mano',
                       )
                     ],
                   ),
                 ),
-                const Text(
+                Text(
                   'Verifica tu cuenta, obtén fondos y realiza un seguimiento de tus activos en todas sus pantallas. Ya sea tu primera o milésima inversión, tenemos las herramientas ideales para ti.',
-                  style: TextStyle(
-                    color: Color(0xff3e4462),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'GTWalsheimPro',
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 24.0,
+                  style: textTheme.textBigBlack.copyWith(
+                    color: LdColors.black,
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -83,30 +55,20 @@ class _ProductHome extends StatelessWidget {
                     borderRadius: BorderRadius.all(
                       Radius.circular(22),
                     ),
-                    color: Color(0xff040505),
+                    color: LdColors.black,
                   ),
                   child: Column(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text(
                         'Nuevos inversores',
-                        style: TextStyle(
-                          color: Color(0xffffffff),
+                        style: textTheme.textBigWhite.copyWith(
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 24.0,
                         ),
                         textAlign: TextAlign.left,
                       ),
                       Text(
                         'Hacemos que sea fácil entender y comprar tus primeras DLY COP.',
-                        style: TextStyle(
-                          color: Color(0xffffffff),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'GTWalsheimPro',
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 24.0,
-                        ),
+                        style: textTheme.textBigWhite,
                         textAlign: TextAlign.left,
                       )
                     ],
@@ -120,17 +82,11 @@ class _ProductHome extends StatelessWidget {
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
-                    color: Color(0xffe6e922),
+                    color: LdColors.yellow,
                   ),
-                  child: const Text(
+                  child: Text(
                     'Empieza a comprar y vender DLY COP',
-                    style: TextStyle(
-                      color: Color(0xff000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textBlack,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -145,7 +101,7 @@ class _ProductHome extends StatelessWidget {
                 borderRadius: BorderRadius.all(
                   Radius.circular(28),
                 ),
-                color: Color(0xffc4c4c4),
+                color: LdColors.grayLight,
               ),
             ),
           ),

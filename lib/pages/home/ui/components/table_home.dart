@@ -16,141 +16,73 @@ class _TableHome extends StatelessWidget {
         borderRadius: const BorderRadius.all(
           Radius.circular(17),
         ),
-        border: Border.all(
-          color: const Color(0xfff3f3f3),
-        ),
-        color: const Color(0xffffffff),
+        border: Border.all(color: LdColors.black),
+        color: LdColors.white,
       ),
       child: Column(
         children: <Widget>[
-          const Text(
+          Text(
             'Comprar DLYs online en Colombia',
-            style: TextStyle(
-              color: Color(0xff000000),
-              fontWeight: FontWeight.w400,
-              fontFamily: 'GTWalsheimPro',
-              fontStyle:  FontStyle.normal,
-              fontSize: 36.0,
-            ),
+            style: textTheme.subtitleBlack,
             textAlign: TextAlign.left,
           ),
           Table(
             children: <TableRow>[
-              const TableRow(
+              TableRow(
                 children: <Widget>[
                   Text(
                     'Vendedor',
-                    style: TextStyle(
-                      color: Color(0xff888696),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGray,
                     textAlign: TextAlign.left,
                   ),
                   Text(
                     'Puntuación',
-                    style: TextStyle(
-                      color: Color(0xff888696),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGray,
                     textAlign: TextAlign.left,
                   ),
                   Text(
                     'Forma de pago',
-                    style: TextStyle(
-                      color: Color(0xff888696),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGray,
                     textAlign: TextAlign.left,
                   ),
                   Text(
                     'Precio/DLY COP',
-                    style: TextStyle(
-                      color: Color(0xff888696),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGray,
                     textAlign: TextAlign.left,
                   ),
                   Text(
                     'Límites',
-                    style: TextStyle(
-                      color: Color(0xff888696),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGray,
                     textAlign: TextAlign.left,
                   ),
-                  Text(''),
+                  const Text(''),
                 ],
               ),
               TableRow(
                 children: <Widget>[
-                  const Text(
+                  Text(
                     'nashira60 ',
-                    style: TextStyle(
-                      color: Color(0xff0055ff),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textBlue,
                     textAlign: TextAlign.left,
                   ),
-                  const Text(
+                  Text(
                     '(100+; 99%) ',
-                    style: TextStyle(
-                      color: Color(0xff000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textBlack,
                     textAlign: TextAlign.left,
                   ),
-                  const Text(
+                  Text(
                     'Transferencias con un banco específico: bancolombia ',
-                    style: TextStyle(
-                      color: Color(0xff000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textBlack,
                     textAlign: TextAlign.left,
                   ),
-                  const Text(
+                  Text(
                     '164,697,830.19 COP ',
-                    style: TextStyle(
-                      color: Color(0xff5aac6e),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGreen,
                     textAlign: TextAlign.left,
                   ),
-                  const Text(
+                  Text(
                     '50,000 - 220,024 COP	 ',
-                    style: TextStyle(
-                      color: Color(0xff5aac6e),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'GTWalsheimPro',
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 20.0,
-                    ),
+                    style: textTheme.textGreen,
                     textAlign: TextAlign.left,
                   ),
                   Container(
@@ -158,20 +90,12 @@ class _TableHome extends StatelessWidget {
                     height: 45,
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                      ),
-                      color: Color(0xff000000),
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                      color: LdColors.black,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Comprar',
-                      style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'GTWalsheimPro',
-                        fontStyle:  FontStyle.normal,
-                        fontSize: 24.0,
-                      ),
+                      style: textTheme.textBigWhite,
                       textAlign: TextAlign.center,
                     ),
                   )

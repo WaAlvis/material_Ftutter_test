@@ -10,7 +10,6 @@ class _StartHome extends StatelessWidget {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-
     Widget _columnSection (String title, String description) {
 
       return Flexible(
@@ -20,29 +19,19 @@ class _StartHome extends StatelessWidget {
               width: 212,
               height: 212,
               decoration: const BoxDecoration(
-                color: Color(0xffc4c4c4),
+                color: LdColors.grayLight,
               ),
             ),
             Text(
               title,
-              style: const TextStyle(
-                color: Color(0xff000000),
+              style: textTheme.subtitleBlack.copyWith(
                 fontWeight: FontWeight.w700,
-                fontFamily: 'GTWalsheimPro',
-                fontStyle:  FontStyle.normal,
-                fontSize: 36.0,
               ),
               textAlign: TextAlign.center,
             ),
             Text(
               description,
-              style: const TextStyle(
-                color: Color(0xff000000),
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Inter',
-                fontStyle:  FontStyle.normal,
-                fontSize: 24.0,
-              ),
+              style: textTheme.textBigBlack,
               textAlign: TextAlign.center,
             )
           ],
@@ -52,51 +41,27 @@ class _StartHome extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 30),
-      color: const Color(0xffffffff),
+      color: LdColors.white,
       child: Column(
         children: <Widget>[
-          const Text(
+          Text(
             'Empezar',
-            style: TextStyle(
-              color: Color(0xff000000),
-              fontWeight: FontWeight.w400,
-              fontFamily: 'GTWalsheimPro',
-              fontStyle:  FontStyle.normal,
-              fontSize: 24.0,
-            ),
+            style: textTheme.textBigBlack,
             textAlign: TextAlign.left,
           ),
           RichText(
-            text: const TextSpan(
+            text: TextSpan(
               children: <TextSpan>[
                 TextSpan(
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'GTWalsheimPro',
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 65.0,
-                  ),
+                  style: textTheme.titleBigBlack,
                   text: 'Compra ',
                 ),
                 TextSpan(
-                  style: TextStyle(
-                    color: Color(0xffe6e922),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'GTWalsheimPro',
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 65.0,
-                  ),
+                  style: textTheme.titleBigYellow,
                   text: 'DLY COP ',
                 ),
                 TextSpan(
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'GTWalsheimPro',
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 65.0,
-                  ),
+                  style: textTheme.titleBigBlack,
                   text: 'en minutos',
                 )
               ],
