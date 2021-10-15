@@ -25,7 +25,7 @@ extension GFilesAttributes on TextTheme{
 
   TextStyle get titleBigWhite => bodyText1!.copyWith(
       color: LdColors.white,
-      fontSize: 65,
+      fontSize: 55,
       fontWeight: FontWeight.w700,
       fontFamily: 'GTWalsheimPro',
   );
@@ -39,56 +39,56 @@ extension GFilesAttributes on TextTheme{
 
   TextStyle get subtitleWhite => bodyText1!.copyWith(
       color: LdColors.white,
-      fontSize: 36,
-      fontWeight: FontWeight.w400,
+      fontSize: 28,
+      fontWeight: FontWeight.w600,
       fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textBigWhite => bodyText1!.copyWith(
       color: LdColors.white,
-      fontSize: 24,
+      fontSize: 22,
       fontWeight: FontWeight.w400,
       fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textWhite => bodyText1!.copyWith(
     color: LdColors.white,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get titleBigBlack => bodyText1!.copyWith(
     color: LdColors.black,
-    fontSize: 65,
+    fontSize: 55,
     fontWeight: FontWeight.w700,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get subtitleBlack => bodyText1!.copyWith(
     color: LdColors.black,
-    fontSize: 36,
-    fontWeight: FontWeight.w400,
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textBigBlack => bodyText1!.copyWith(
     color: LdColors.black,
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textBlack => bodyText1!.copyWith(
       color: LdColors.black,
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: FontWeight.w400,
       fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get titleBigYellow => bodyText1!.copyWith(
       color: LdColors.yellow,
-      fontSize: 65,
+      fontSize: 55,
       fontWeight: FontWeight.w700,
       fontFamily: 'GTWalsheimPro',
   );
@@ -102,28 +102,35 @@ extension GFilesAttributes on TextTheme{
 
   TextStyle get textBigYellow => bodyText1!.copyWith(
     color: LdColors.yellow,
-    fontSize: 24,
+    fontSize: 22,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'GTWalsheimPro',
+  );
+
+  TextStyle get textYellow => bodyText1!.copyWith(
+    color: LdColors.yellow,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textGray => bodyText1!.copyWith(
     color: LdColors.gray,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textGreen => bodyText1!.copyWith(
     color: LdColors.green,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textBlue => bodyText1!.copyWith(
     color: LdColors.blue,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );

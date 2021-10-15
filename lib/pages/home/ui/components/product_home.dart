@@ -11,34 +11,42 @@ class _ProductHome extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 30),
+      padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 70),
       color: LdColors.whiteGray,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Flexible(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'Producto',
-                  style: textTheme.textBigBlack,
+                  style: textTheme.textBigBlack.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 21,
+                  ),
                   textAlign: TextAlign.left,
                 ),
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        style: textTheme.titleBigBlack,
-                        text: 'Tus ',
-                      ),
-                      TextSpan(
-                        style: textTheme.titleBigYellow,
-                        text: 'DLY COP ',
-                      ),
-                      TextSpan(
-                        style: textTheme.titleBigBlack,
-                        text: 'al alcance de tu mano',
-                      )
-                    ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          style: textTheme.titleBigBlack,
+                          text: 'Tus ',
+                        ),
+                        TextSpan(
+                          style: textTheme.titleBigYellow,
+                          text: 'DLY COP ',
+                        ),
+                        TextSpan(
+                          style: textTheme.titleBigBlack,
+                          text: 'al alcance de tu mano',
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Text(
@@ -50,7 +58,9 @@ class _ProductHome extends StatelessWidget {
                 ),
                 Container(
                   width: 610,
-                  height: 145,
+                  height: 110,
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  margin: const EdgeInsets.symmetric(vertical: 20),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(22),
@@ -58,7 +68,9 @@ class _ProductHome extends StatelessWidget {
                     color: LdColors.black,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+
                       Text(
                         'Nuevos inversores',
                         style: textTheme.textBigWhite.copyWith(
@@ -66,9 +78,10 @@ class _ProductHome extends StatelessWidget {
                         ),
                         textAlign: TextAlign.left,
                       ),
+                      const SizedBox(height: 10),
                       Text(
                         'Hacemos que sea fácil entender y comprar tus primeras DLY COP.',
-                        style: textTheme.textBigWhite,
+                        style: textTheme.textWhite,
                         textAlign: TextAlign.left,
                       )
                     ],
@@ -78,6 +91,7 @@ class _ProductHome extends StatelessWidget {
                 Container(
                   width: 610,
                   height: 50,
+                  alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
@@ -86,17 +100,20 @@ class _ProductHome extends StatelessWidget {
                   ),
                   child: Text(
                     'Empieza a comprar y vender DLY COP',
-                    style: textTheme.textBlack,
-                    textAlign: TextAlign.left,
+                    style: textTheme.textBlack.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(width: 35),
           Expanded(
             child: Container(
               width: 787,
-              height: 570,
+              height: 470,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(
                   Radius.circular(28),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:localdaily/api/repository/interactor/api_interactor.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -7,6 +5,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:localdaily/app_theme.dart';
