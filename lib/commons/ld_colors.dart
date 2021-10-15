@@ -5,6 +5,7 @@ class LdColors {
   LdColors._();
 
   static const Color white = Color(0xffffffff);
+  static const Color grayText = Color(0xffa2a9b0);
   static const Color whiteDark = Color(0xfff3f3f3);
   static const Color whiteGray = Color(0xfffafafa);
   static const Color blackDark = Color(0xff000000);

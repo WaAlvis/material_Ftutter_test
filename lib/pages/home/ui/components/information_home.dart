@@ -41,7 +41,7 @@ class _InformationHome extends StatelessWidget {
             Text(
               'Leer más',
               style: textTheme.textYellow.copyWith(
-                decoration: TextDecoration.underline
+                decoration: TextDecoration.underline,
               ),
               textAlign: TextAlign.left,
             )
@@ -58,7 +58,7 @@ class _InformationHome extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.17),
             child: Column(
-              children: [
+              children: <Widget>[
                 Text(
                   'Obtén información',
                   style: textTheme.textBigWhite,

@@ -58,6 +58,13 @@ extension GFilesAttributes on TextTheme{
     fontFamily: 'GTWalsheimPro',
   );
 
+  TextStyle get textSmallWhite => bodyText1!.copyWith(
+    color: LdColors.grayText,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'GTWalsheimPro',
+  );
+
   TextStyle get titleBigBlack => bodyText1!.copyWith(
     color: LdColors.black,
     fontSize: 55,
@@ -84,6 +91,13 @@ extension GFilesAttributes on TextTheme{
       fontSize: 18,
       fontWeight: FontWeight.w400,
       fontFamily: 'GTWalsheimPro',
+  );
+
+  TextStyle get textSmallBlack => bodyText1!.copyWith(
+    color: LdColors.black,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get titleBigYellow => bodyText1!.copyWith(

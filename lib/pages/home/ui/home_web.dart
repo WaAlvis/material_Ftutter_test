@@ -75,7 +75,7 @@ class _HomeWeb extends StatelessWidget {
                   const _SecurityHome(),
                   const _InformationHome(),
                   Container(
-                    color: const Color(0xff101011),
+                    color: LdColors.black,
                     padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
                     child: Row(
                       children: <Widget>[
@@ -137,7 +137,8 @@ class _HomeWeb extends StatelessWidget {
                         const Expanded(child: SizedBox.shrink())
                       ],
                     ),
-                  )
+                  ),
+                  const LdFooter()
                 ],
               ),
             ),

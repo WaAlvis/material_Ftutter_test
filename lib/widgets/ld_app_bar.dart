@@ -35,7 +35,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                 flex: 5,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                  children: <Widget>[
                     Text(
                       'Comprar',
                       style: textTheme.textWhite,
