@@ -1,4 +1,4 @@
-part of 'home_view.dart';
+part of 'buy_sell_view.dart';
 
 class _LoginPhoneSaveWeb extends StatelessWidget {
   const _LoginPhoneSaveWeb({

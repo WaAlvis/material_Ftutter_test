@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/configure/get_it_locator.dart';
+import 'package:localdaily/configure/ld_router.dart';
 
 import '../app_theme.dart';
 
@@ -23,6 +25,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         backgroundColor: LdColors.black,
         centerTitle: true,
+        leading: const SizedBox.shrink(),
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
@@ -36,9 +39,13 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text(
-                      'Comprar',
-                      style: textTheme.textWhite,
+                    // locator<LdRouter>()
+                    TextButton(
+                      onPressed: ()=> locator<LdRouter>().goBuy(context),
+                      child: Text(
+                        'Comprar',
+                        style: textTheme.textWhite,
+                      )
                     ),
                     Text(
                       'Vender',

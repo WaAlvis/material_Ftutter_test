@@ -34,4 +34,26 @@ class LdRouter {
        transition: TransitionType.none,
     );
   }
+
+  void goBuy(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.buyRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goSell(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.sellRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
+  }
 }
