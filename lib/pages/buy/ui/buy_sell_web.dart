@@ -6,10 +6,12 @@ class _BuySellWeb extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
+    required this.isBuy
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final TextEditingController passwordCtrl;
+  final bool isBuy;
 
   @override
   Widget build(BuildContext context) {
@@ -62,15 +64,37 @@ class _BuySellWeb extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const _FilterBuySell(),
-                  const _TableBuySell(isBuy: true),
+                  _FilterBuySell(isBuy: isBuy),
+                  _TableBuySell(isBuy: isBuy),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 350,
+                        height: 40,
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(top: 10, bottom: 50),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: LdColors.grayButton,
+                        ),
+                        child: Text(
+                          isBuy ? 'Cargar más compras' : 'Cargar más ventas',
+                          style: textTheme.textBlack.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
                   const LdFooter()
                 ],
               ),
             ),
           )
         ],
-      )
+      ),
     );
   }
 }

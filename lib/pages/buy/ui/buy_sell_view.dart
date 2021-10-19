@@ -17,7 +17,9 @@ part 'components/table_buy_sell.dart';
 part 'components/filter_buy_sell.dart';
 
 class BuySellView extends StatelessWidget {
-  const BuySellView({Key? key}) : super(key: key);
+  const BuySellView({Key? key, this.isBuy = false}) : super(key: key);
+
+  final bool isBuy;
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +29,26 @@ class BuySellView extends StatelessWidget {
           locator<ApiInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return const Scaffold(
+        return Scaffold(
           backgroundColor: LdColors.white,
-          body: _HomeBody(),
+          body: _BuySellBody(isBuy: isBuy),
         );
       },
     );
   }
 }
 
-class _HomeBody extends StatefulWidget {
-  const _HomeBody({Key? key}) : super(key: key);
+class _BuySellBody extends StatefulWidget {
+
+  const _BuySellBody({Key? key, required this.isBuy}) : super(key: key);
+
+  final bool isBuy;
 
   @override
-  _HomeBodyState createState() => _HomeBodyState();
+  _BuySellBodyState createState() => _BuySellBodyState();
 }
 
-class _HomeBodyState extends State<_HomeBody> {
+class _BuySellBodyState extends State<_BuySellBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
 
@@ -69,6 +74,7 @@ class _HomeBodyState extends State<_HomeBody> {
               ? _BuySellWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
+                  isBuy: widget.isBuy
                 )
               : _BuySellMobile(
                   keyForm: keyForm,

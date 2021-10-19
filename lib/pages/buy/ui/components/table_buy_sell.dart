@@ -1,14 +1,14 @@
 part of '../buy_sell_view.dart';
 
 class _TableBuySell extends StatelessWidget {
-  const _TableBuySell({Key? key, this.isBuy = false}) : super(key: key);
+  const _TableBuySell({Key? key,  required this.isBuy}) : super(key: key);
 
   final bool isBuy;
 
   @override
   Widget build(BuildContext context) {
 
-    final List items = [0,0,0,0,0,00,0,0,0,0,0];
+    final List<int> items = <int>[0,0,0,0,0,00,0,0,0,0,0];
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
@@ -42,7 +42,7 @@ class _TableBuySell extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Text(
-                'Comprar DLYs online en Colombia',
+                isBuy ? 'Comprar DLYs online en Colombia' : 'Vender DLYs online en Colombia',
                 style: textTheme.subtitleBlack,
                 textAlign: TextAlign.left,
               ),
@@ -52,7 +52,7 @@ class _TableBuySell extends StatelessWidget {
               children: <TableRow>[
                 TableRow(
                   children: <Widget>[
-                    _titleCellTable('Vendedor'),
+                    _titleCellTable(isBuy ? 'Vendedor' : 'Comprador'),
                     _titleCellTable('Puntuación'),
                     _titleCellTable('Forma de pago'),
                     _titleCellTable('Precio/DLY COP'),

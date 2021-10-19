@@ -45,11 +45,14 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                       child: Text(
                         'Comprar',
                         style: textTheme.textWhite,
-                      )
+                      ),
                     ),
-                    Text(
-                      'Vender',
-                      style: textTheme.textWhite,
+                    TextButton(
+                      onPressed: ()=> locator<LdRouter>().goSell(context),
+                      child: Text(
+                        'Vender',
+                        style: textTheme.textWhite,
+                      ),
                     ),
                     Text(
                       'Instrucciones',

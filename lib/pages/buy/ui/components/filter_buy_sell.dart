@@ -1,7 +1,7 @@
 part of '../buy_sell_view.dart';
 
 class _FilterBuySell extends StatelessWidget {
-  const _FilterBuySell({Key? key, this.isBuy = false}) : super(key: key);
+  const _FilterBuySell({Key? key, required this.isBuy}) : super(key: key);
 
   final bool isBuy;
 
@@ -12,17 +12,13 @@ class _FilterBuySell extends StatelessWidget {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    Widget _titleCellTable(String title){
+    final TextStyle blackText = textTheme.textBlack.copyWith(
+      fontWeight: FontWeight.w500,
+    );
 
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Text(
-          title,
-          style: textTheme.textGray,
-          textAlign: TextAlign.left,
-        ),
-      );
-    }
+    final TextStyle whiteText = textTheme.textWhite.copyWith(
+      fontWeight: FontWeight.w500,
+    );
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 15),
@@ -37,72 +33,162 @@ class _FilterBuySell extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text(
-                'Comprar DLYs online en Colombia',
-                style: textTheme.subtitleBlack,
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              children: <TableRow>[
-                TableRow(
-                  children: <Widget>[
-                    _titleCellTable('Vendedor'),
-                    _titleCellTable('Puntuación'),
-                    _titleCellTable('Forma de pago'),
-                    _titleCellTable('Precio/DLY COP'),
-                    _titleCellTable('Límites'),
-                    _titleCellTable('')
-                  ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 270,
+                  height: 42,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      color: LdColors.whiteDark,
+                    ),
+                    color: isBuy ? LdColors.black : LdColors.white,
+                  ),
+                  child: Text(
+                    'Compra Rápida',
+                    style: isBuy ? whiteText : blackText,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                TableRow(
-                  children: <Widget>[
-                    Text(
-                      'nashira60 ',
-                      style: textTheme.textBlue,
-                      textAlign: TextAlign.left,
+                const SizedBox(width: 12),
+                Container(
+                  width: 270,
+                  height: 42,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      color: LdColors.whiteDark,
                     ),
-                    Text(
-                      '(100+; 99%) ',
-                      style: textTheme.textBlack,
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      'Transferencias con un banco específico: bancolombia ',
-                      style: textTheme.textBlack,
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      '164,697.19 COP ',
-                      style: textTheme.textGreen,
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      '5,000 - 22,024 COP	 ',
-                      style: textTheme.textGreen,
-                      textAlign: TextAlign.left,
-                    ),
-                    Container(
-                      width: 30,
-                      height: 40,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        color: LdColors.black,
+                    color: isBuy ? LdColors.white : LdColors.black,
+                  ),
+                  child: Text(
+                    'Venta Rápida',
+                    style: isBuy ? blackText : whiteText,
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    height: 42,
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        color: LdColors.whiteDark,
                       ),
-                      child: Text(
-                        isBuy ? 'Comprar' : 'Vender',
-                        style: textTheme.textBigWhite.copyWith(
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
+                      color: LdColors.grayBg,
+                    ),
+                    child: Text(
+                      'Cantidad',
+                      style: textTheme.textBlack.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: LdColors.grayLight,
                       ),
-                    )
-                  ],
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Container(
+                  width: 70,
+                  height: 42,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      color: LdColors.whiteDark,
+                    ),
+                    color: LdColors.grayBg,
+                  ),
+                  child: Text(
+                    'COP',
+                    style: textTheme.textBlack.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: LdColors.blackText,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    width: 170,
+                    height: 42,
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        color: LdColors.whiteDark,
+                      ),
+                      color: LdColors.grayBg,
+                    ),
+                    child: Text(
+                      'Colombia',
+                      style: textTheme.textBlack.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: LdColors.blackText,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    width: 270,
+                    height: 42,
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        color: LdColors.whiteDark,
+                      ),
+                      color: LdColors.grayBg,
+                    ),
+                    child: Text(
+                      'Todas las ofertas online',
+                      style: textTheme.textBlack.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: LdColors.blackText,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Container(
+                  width: 120,
+                  height: 42,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      color: LdColors.whiteDark,
+                    ),
+                    color: LdColors.black,
+                  ),
+                  child: Text(
+                    'Buscar',
+                    style: textTheme.textWhite.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 )
               ],
             ),

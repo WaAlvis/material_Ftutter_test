@@ -26,7 +26,7 @@ class AppRoutes {
 
   static final buyRoute = AppRoute(
     '/buy',
-    Handler(handlerFunc: (_, __) => const BuySellView()),
+    Handler(handlerFunc: (_, __) => const BuySellView(isBuy: true)),
   );
 
   static final sellRoute = AppRoute(
