@@ -144,7 +144,7 @@ class _HomeWeb extends StatelessWidget {
             ),
           )
         ],
-      )
+      ),
     );
   }
 }

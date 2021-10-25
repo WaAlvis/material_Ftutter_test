@@ -21,34 +21,34 @@ class AppTheme{
   );
 }
 
-extension GFilesAttributes on TextTheme{
+extension LDailyAttributes on TextTheme{
 
   TextStyle get titleBigWhite => bodyText1!.copyWith(
-      color: LdColors.white,
-      fontSize: 55,
-      fontWeight: FontWeight.w700,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.white,
+    fontSize: 55,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get titleMediumWhite => bodyText1!.copyWith(
-      color: LdColors.white,
-      fontSize: 56,
-      fontWeight: FontWeight.w700,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.white,
+    fontSize: 56,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get subtitleWhite => bodyText1!.copyWith(
-      color: LdColors.white,
-      fontSize: 28,
-      fontWeight: FontWeight.w600,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.white,
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textBigWhite => bodyText1!.copyWith(
-      color: LdColors.white,
-      fontSize: 22,
-      fontWeight: FontWeight.w400,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.white,
+    fontSize: 22,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textWhite => bodyText1!.copyWith(
@@ -87,10 +87,10 @@ extension GFilesAttributes on TextTheme{
   );
 
   TextStyle get textBlack => bodyText1!.copyWith(
-      color: LdColors.black,
-      fontSize: 18,
-      fontWeight: FontWeight.w400,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.black,
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textSmallBlack => bodyText1!.copyWith(
@@ -101,17 +101,17 @@ extension GFilesAttributes on TextTheme{
   );
 
   TextStyle get titleBigYellow => bodyText1!.copyWith(
-      color: LdColors.yellow,
-      fontSize: 55,
-      fontWeight: FontWeight.w700,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.yellow,
+    fontSize: 55,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get titleMediumYellow => bodyText1!.copyWith(
-      color: LdColors.yellow,
-      fontSize: 56,
-      fontWeight: FontWeight.w700,
-      fontFamily: 'GTWalsheimPro',
+    color: LdColors.yellow,
+    fontSize: 56,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'GTWalsheimPro',
   );
 
   TextStyle get textBigYellow => bodyText1!.copyWith(

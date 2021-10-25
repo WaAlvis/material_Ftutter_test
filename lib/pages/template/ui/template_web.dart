@@ -1,7 +1,7 @@
-part of 'buy_sell_view.dart';
+part of 'template_view.dart';
 
-class _LoginPhoneSaveWeb extends StatelessWidget {
-  const _LoginPhoneSaveWeb({
+class _TemplateWeb extends StatelessWidget {
+  const _TemplateWeb({
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,

@@ -47,10 +47,20 @@ class LdRouter {
   }
 
   void goSell(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.sellRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goLogin(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.loginRoute.route,
       replace: true,
       clearStack: true,
       transition: TransitionType.none,

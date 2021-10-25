@@ -1,7 +1,7 @@
-part of 'buy_sell_view.dart';
+part of 'login_view.dart';
 
-class _LoginPhoneSaveMobile extends StatelessWidget {
-  const _LoginPhoneSaveMobile({
+class _LoginMobile extends StatelessWidget {
+  const _LoginMobile({
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
@@ -12,7 +12,6 @@ class _LoginPhoneSaveMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,

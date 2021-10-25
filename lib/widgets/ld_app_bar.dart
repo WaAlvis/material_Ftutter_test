@@ -73,9 +73,12 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                               color: LdColors.white,
                             ),
                           ),
-                          child: Text(
-                            'Iniciar sesión',
-                            style: textTheme.textWhite,
+                          child: TextButton(
+                            onPressed: ()=> locator<LdRouter>().goLogin(context),
+                            child: Text(
+                              'Iniciar sesión',
+                              style: textTheme.textWhite,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 15),

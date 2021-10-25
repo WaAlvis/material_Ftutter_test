@@ -9,7 +9,7 @@ class _FilterBuySell extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final BuySellViewModel viewModel = context.watch<BuySellViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     final TextStyle blackText = textTheme.textBlack.copyWith(

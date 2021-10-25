@@ -11,7 +11,7 @@ class _TableBuySell extends StatelessWidget {
     final List<int> items = <int>[0,0,0,0,0,00,0,0,0,0,0];
 
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final BuySellViewModel viewModel = context.watch<BuySellViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     Widget _titleCellTable(String title){

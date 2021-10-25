@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
-import 'package:localdaily/pages/buy/ui/buy_sell_view.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/pages/login/ui/login_view.dart';
 
 class AppRoutes {
 
@@ -14,30 +16,36 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => SignupPage()),
   );*/
 
-  static final rootRoute = AppRoute(
+  static final AppRoute rootRoute = AppRoute(
     '/',
-    Handler(handlerFunc: (context, parameters) => const HomeView()),
+    Handler(handlerFunc: (BuildContext? context, parameters) => const HomeView()),
   );
 
-  static final homeRoute = AppRoute(
+  static final AppRoute homeRoute = AppRoute(
     '/home',
     Handler(handlerFunc: (_, __) => const HomeView()),
   );
 
-  static final buyRoute = AppRoute(
+  static final AppRoute buyRoute = AppRoute(
     '/buy',
     Handler(handlerFunc: (_, __) => const BuySellView(isBuy: true)),
   );
 
-  static final sellRoute = AppRoute(
+  static final AppRoute sellRoute = AppRoute(
     '/sell',
     Handler(handlerFunc: (_, __) => const BuySellView()),
   );
 
-  static final List<AppRoute> routes = [
+  static final AppRoute loginRoute = AppRoute(
+    '/login',
+    Handler(handlerFunc: (_, __) => const LoginView()),
+  );
+
+  static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
     homeRoute,
     buyRoute,
-    sellRoute
+    sellRoute,
+    loginRoute
   ];
 }

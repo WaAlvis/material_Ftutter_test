@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/api/repository/interactor/api_interactor.dart';
+import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/pages/buy_sell/buy_sell_view_model.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';
 
-import 'package:localdaily/app_theme.dart';
-
 part 'buy_sell_mobile.dart';
 part 'buy_sell_web.dart';
-part 'components/table_buy_sell.dart';
 part 'components/filter_buy_sell.dart';
+part 'components/table_buy_sell.dart';
 
 class BuySellView extends StatelessWidget {
   const BuySellView({Key? key, this.isBuy = false}) : super(key: key);
@@ -23,8 +22,8 @@ class BuySellView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeViewModel>(
-      create: (_) => HomeViewModel(
+    return ChangeNotifierProvider<BuySellViewModel>(
+      create: (_) => BuySellViewModel(
           locator<LdRouter>(),
           locator<ApiInteractor>(),
       ),
@@ -61,7 +60,7 @@ class _BuySellBodyState extends State<_BuySellBody> {
   @override
   Widget build(BuildContext context) {
 
-    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final BuySellViewModel viewModel = context.watch<BuySellViewModel>();
 
     return LayoutBuilder(builder: (_, BoxConstraints constraints) {
       final double maxWidth = constraints.maxWidth;
@@ -74,7 +73,7 @@ class _BuySellBodyState extends State<_BuySellBody> {
               ? _BuySellWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
-                  isBuy: widget.isBuy
+                  isBuy: widget.isBuy,
                 )
               : _BuySellMobile(
                   keyForm: keyForm,
