@@ -1,8 +1,8 @@
-part of 'login_view.dart';
+part of 'register_view.dart';
 
-class _LoginWeb extends StatelessWidget {
+class _RegisterWeb extends StatelessWidget {
 
-  const _LoginWeb({
+  const _RegisterWeb({
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
@@ -17,7 +17,7 @@ class _LoginWeb extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final LoginViewModel viewModel = context.watch<LoginViewModel>();
+    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -29,15 +29,14 @@ class _LoginWeb extends StatelessWidget {
             child: Container(
               // padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
               color: LdColors.whiteGray,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: size.height - 100,
-                    child: const _CardLogin(),
-                  ),
-                  const LdFooter()
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const <Widget>[
+                    _CardRegister(),
+                    LdFooter()
+                  ],
+                ),
               ),
             ),
           )

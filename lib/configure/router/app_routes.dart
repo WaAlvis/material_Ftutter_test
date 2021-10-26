@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/pages/register/ui/register_view.dart';
 
 class AppRoutes {
 
@@ -41,11 +42,17 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
 
+  static final AppRoute registerRoute = AppRoute(
+    '/register',
+    Handler(handlerFunc: (_, __) => const RegisterView()),
+  );
+
   static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
     homeRoute,
     buyRoute,
     sellRoute,
-    loginRoute
+    loginRoute,
+    registerRoute,
   ];
 }

@@ -92,9 +92,12 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                             ),
                             color: LdColors.white,
                           ),
-                          child: Text(
-                            'Regístrate',
-                            style: textTheme.textBlack,
+                          child: TextButton(
+                            onPressed: ()=> locator<LdRouter>().goRegister(context),
+                            child: Text(
+                              'Regístrate',
+                              style: textTheme.textBlack,
+                            ),
                           ),
                         )
                       ],

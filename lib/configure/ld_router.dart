@@ -66,4 +66,15 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
+  void goRegister(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.registerRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
+  }
 }
