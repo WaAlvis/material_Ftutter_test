@@ -26,11 +26,25 @@ class _HomeMobile extends StatelessWidget {
                 image: AssetImage(LdAssets.logo),
               ),
             ),
-            child: const Text('Es una prueba mobile', style: TextStyle(color: LdColors.black),),
+            child: const Text(
+              'Home, Es una prueba mobile',
+              style: TextStyle(color: LdColors.black),
+            ),
           ),
         ),
+
+        ElevatedButton(
+          onPressed: () => locator<LdRouter>().goLogin(context),
+          child: const Text('go Login'),
+        ),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () => locator<LdRouter>().goRegister(context),
+          child: const Text('go register'),
+        ),
         Flexible(
-          child: Container(),
+          child: Container(
+          ),
         ),
       ],
     );

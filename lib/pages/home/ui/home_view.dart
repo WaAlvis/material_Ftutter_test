@@ -67,12 +67,14 @@ class _HomeBodyState extends State<_HomeBody> {
         slivers: <Widget>[
           SliverFillRemaining(
             hasScrollBody: false,
-            child: maxWidth > 1024
+            child:
+            maxWidth > 1024
               ? _HomeWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
                 )
-              : _HomeMobile(
+              :
+            _HomeMobile(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
                 ),
