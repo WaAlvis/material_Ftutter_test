@@ -25,4 +25,14 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       }
     });
   }
+
+  void goRegister(BuildContext context) {
+    LdConnection().validateConnection().then((bool value) {
+      if (value) {
+        _route.goRegister(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
 }

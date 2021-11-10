@@ -21,13 +21,20 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final TextTheme textTheme = Theme.of(context).textTheme;
+
     return ChangeNotifierProvider<LoginViewModel>(
       create: (_) => LoginViewModel(
           locator<LdRouter>(),
           locator<ApiInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return Scaffold(
+        return Scaffold(appBar: AppBar(
+          leading: Icon(Icons.arrow_back_ios, color: LdColors.blackText,),
+          title: Text('Iniciar sesión',style: textTheme.button,),
+          backgroundColor: Colors.transparent, // 1
+          elevation: 0, // 2
+        ),
           backgroundColor: LdColors.white,
           body: _LoginBody(isBuy: isBuy),
         );

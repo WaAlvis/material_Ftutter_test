@@ -21,7 +21,8 @@ class AppRoutes {
 
   static final AppRoute rootRoute = AppRoute(
     '/',
-    Handler(handlerFunc: (BuildContext? context, parameters) => const HomeView()),
+    // Handler(handlerFunc: (BuildContext? context, parameters) => const LoginView(),)
+      Handler(handlerFunc: (BuildContext? context, parameters) => const HomeView(),)
   );
 
   static final AppRoute homeRoute = AppRoute(

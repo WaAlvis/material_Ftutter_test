@@ -12,86 +12,111 @@ class _LoginMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final LoginViewModel viewModel = context.watch<LoginViewModel>();
+    final Size size = MediaQuery.of(context).size;
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       color: LdColors.grayBg,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Text(
             '¡Bienvenido!',
-            style: TextStyle(fontSize: 34),
+            style: textTheme.textBigBlack,
           ),
-          SizedBox(
-            height: 20,
+          const SizedBox(height: 20),
+          Text(
+            'Inicia sesión en LocalDaily',
+            style: textTheme.textBigBlack,
           ),
-          Text('inicia sesión en LocalDaily'),
-          SizedBox(
-            height: 40,
+          const SizedBox(height: 40),
+          Text(
+            'Nombre de usuario *',
+            style: textTheme.textBigBlack,
           ),
-          Text('Nombre de usuario *'),
-          SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 5),
           const TextField(
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
               hintText: 'Ingresa tu usuario',
             ),
           ),
-          SizedBox(
-            height: 40,
+          const SizedBox(height: 40),
+          Text(
+            'Contraseña *',
+            style: textTheme.textBigBlack,
           ),
-          Text('Contraseña *'),
-          SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 5),
           const TextField(
             obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
               hintText: '8+ digitos',
               suffixIcon: Icon(
                 Icons.visibility_off,
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          new GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, "myRoute");
-            },
-            child: new Text(
-              "Olvidé mi contraseña",
-              style: TextStyle(decoration: TextDecoration.underline),
+          const SizedBox(height: 20),
+          TextButton(
+            onPressed: ()=> viewModel.goRegister(context),
+            child: Text(
+              'Olvidé mi contraseña',
+              style: textTheme.textBlack.copyWith(
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
-          SizedBox(
-            height: 50,
+          const SizedBox(height: 50),
+          Text(
+            '¿No tienes cuenta en LocalDaily?',
+            style: textTheme.textBlack,
           ),
-          Text('¿No tienes cuenta en LocalDaily?'),
-          SizedBox(
-            height: 20,
+          const SizedBox(height: 20),
+          Text(
+            'Crear cuenta',
+            style: textTheme.textBlack.copyWith(
+                decoration: TextDecoration.underline,
+            ),
           ),
-          new Text(
-            "Crear cuenta",
-            style: TextStyle(decoration: TextDecoration.underline),
-          ),
-          Spacer(),
-          ElevatedButton(
-              onPressed: () {print('Se oprime Ingresar....');},
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-              ),
-              child: Text('Ingresar'))
+          const Spacer(),
+          button_primary(viewModel: viewModel, textTheme: textTheme)
         ],
+      ),
+    );
+  }
+}
+
+class button_primary extends StatelessWidget {
+  const button_primary({
+    Key? key,
+    required this.viewModel,
+    required this.textTheme,
+  }) : super(key: key);
+
+  final LoginViewModel viewModel;
+  final TextTheme textTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: ()=> viewModel.goHome(context),
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+      ),
+      child: Text(
+        'Ingresar',
+        style: textTheme.textWhite,
       ),
     );
   }

@@ -12,41 +12,16 @@ class _HomeMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Flexible(
-          child: Container(
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                alignment: Alignment.topCenter,
-                fit: BoxFit.fill,
-                image: AssetImage(LdAssets.logo),
-              ),
-            ),
-            child: const Text(
-              'Home, Es una prueba mobile',
-              style: TextStyle(color: LdColors.black),
-            ),
-          ),
-        ),
+    return SafeArea(
 
-        ElevatedButton(
-          onPressed: () => locator<LdRouter>().goLogin(context),
-          child: const Text('go Login'),
-        ),
-        const SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () => locator<LdRouter>().goRegister(context),
-          child: const Text('go register'),
-        ),
-        Flexible(
-          child: Container(
-          ),
-        ),
-      ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+         Flexible(child: Container(color: Colors.blueAccent,),flex: 2,),
+          Flexible(child: Container(),flex: 8,)
+        ],
+      ),
     );
   }
 }
