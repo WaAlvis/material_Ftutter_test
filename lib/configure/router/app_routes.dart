@@ -4,6 +4,7 @@ import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/register/ui/register_view.dart';
+import 'package:localdaily/pages/validate_email/ui/validate_email_view.dart';
 
 class AppRoutes {
 
@@ -47,6 +48,11 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const RegisterView()),
   );
 
+  static final AppRoute validateEmailRoute = AppRoute(
+    '/validate_email',
+    Handler(handlerFunc: (_, __) => const ValidateEmailView()),
+  );
+
   static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
     homeRoute,
@@ -54,5 +60,6 @@ class AppRoutes {
     sellRoute,
     loginRoute,
     registerRoute,
+    validateEmailRoute,
   ];
 }

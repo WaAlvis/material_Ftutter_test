@@ -79,4 +79,14 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+  void goValidateEmail(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.validateEmailRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
+  }
 }

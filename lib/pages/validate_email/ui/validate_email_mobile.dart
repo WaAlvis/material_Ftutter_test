@@ -1,7 +1,7 @@
-part of 'register_view.dart';
+part of 'validate_email_view.dart';
 
-class _RegisterMobile extends StatelessWidget {
-  const _RegisterMobile({
+class _ValidateEmailMobile extends StatelessWidget {
+  const _ValidateEmailMobile({
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
@@ -16,44 +16,49 @@ class _RegisterMobile extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       color: LdColors.grayBg,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Image.asset('lib/assets/images/correo.png'),
           Text(
-            '¡Bienvenido!',
+            'Verifica tu correo',
             style: TextStyle(fontSize: 34),
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          Text(
+            'Confirma tu dirección de correo electrónico haciendo clic en el enlace que hemos enviado a:',
+            textAlign: TextAlign.center,
           ),
           SizedBox(
             height: 20,
           ),
-          Text('Para continuar, ingresa tu correo electrónico.'),
-          SizedBox(
-            height: 40,
-          ),
-          Text('Correo electronico'),
+          Text('juan.vega@gmail.com',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
           SizedBox(
             height: 5,
           ),
-          const TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              hintText: 'ejemplo@correo.com',
-            ),
-          ),
+
           SizedBox(
             height: 40,
           ),
           Spacer(),
+          new Text(
+            "Reenviar link de correo",
+            style: TextStyle(decoration: TextDecoration.underline),
+          ),
+          SizedBox(
+            height: 40,
+          ),
           ElevatedButton(
-              onPressed: () => locator<LdRouter>().goValidateEmail(context),
-              // onPressed: () { print('Navegando a validacion de email');},
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 42),
                 shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0),
                 ),
               ),
-              child: Text('Enviar link de verificacion'))
+              child: Text('Abrir correo'))
         ],
       ),
     );
