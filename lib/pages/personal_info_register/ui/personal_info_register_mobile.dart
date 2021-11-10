@@ -1,7 +1,7 @@
-part of 'login_view.dart';
+part of 'personal_info_register_view.dart';
 
-class _LoginMobile extends StatelessWidget {
-  const _LoginMobile({
+class _PersonalInfoRegisterMobile extends StatelessWidget {
+  const _PersonalInfoRegisterMobile({
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
@@ -19,7 +19,7 @@ class _LoginMobile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '¡Bienvenido!',
+            '¡LLenar pagina de registro de datos!',
             style: TextStyle(fontSize: 34),
           ),
           SizedBox(
@@ -83,7 +83,9 @@ class _LoginMobile extends StatelessWidget {
           ),
           Spacer(),
           ElevatedButton(
-              onPressed: () {print('Se oprime Ingresar....');},
+              onPressed: () {
+
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
                 shape: new RoundedRectangleBorder(

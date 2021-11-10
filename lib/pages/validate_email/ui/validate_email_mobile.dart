@@ -51,7 +51,7 @@ class _ValidateEmailMobile extends StatelessWidget {
             height: 40,
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () => locator<LdRouter>().goPersonalInfoRegister(context),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 42),
                 shape: new RoundedRectangleBorder(

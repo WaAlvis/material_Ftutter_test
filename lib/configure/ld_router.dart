@@ -89,4 +89,14 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+  void goPersonalInfoRegister(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.personalInfoRegisterRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
+    );
+  }
 }
