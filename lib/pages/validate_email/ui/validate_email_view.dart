@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localdaily/api/repository/interactor/api_interactor.dart';
+import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
@@ -25,7 +25,7 @@ class ValidateEmailView extends StatelessWidget {
     return ChangeNotifierProvider<ValidateEmailViewModel>(
       create: (_) => ValidateEmailViewModel(
           locator<LdRouter>(),
-          locator<ApiInteractor>(),
+          locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
         return Scaffold(

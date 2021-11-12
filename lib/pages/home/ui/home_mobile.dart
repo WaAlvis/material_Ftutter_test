@@ -14,6 +14,7 @@ class _HomeMobile extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
 
     final List<Map<String, String>> items = <Map<String, String>>[
       <String, String>{
@@ -59,6 +60,7 @@ class _HomeMobile extends StatelessWidget {
         'banco': 'MercadoPago'
       }
     ];
+
     return Container(
       color: LdColors.blueDark,
       child: SafeArea(
@@ -77,10 +79,13 @@ class _HomeMobile extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Image.asset(LdAssets.logoPng),
                       ),
-                      const Icon(
-                        Icons.account_circle,
-                        color: LdColors.white,
-                        size: 32,
+                      IconButton(
+                        onPressed: () => viewModel.goLogin(context),
+                        icon: const Icon(
+                          Icons.account_circle,
+                          color: LdColors.white,
+                          size: 32,
+                        ),
                       ),
                     ],
                   ),

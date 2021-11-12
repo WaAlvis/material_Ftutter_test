@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 @immutable
 class LdConnection {
 
-  Future<bool> validateConnection() async {
+  static Future<bool> validateConnection() async {
     final ConnectivityResult connectivityResult =
     await Connectivity().checkConnectivity();
 

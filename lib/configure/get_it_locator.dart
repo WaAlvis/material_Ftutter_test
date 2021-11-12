@@ -1,12 +1,43 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:localdaily/api/repository/interactor/api_interactor.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/api_service.dart';
 
 GetIt locator = GetIt.instance;
 
-Future<void> setUpLocator() async {
+class LdLocator {
 
-  locator.registerSingleton<LdRouter>(LdRouter());
-  locator.registerSingleton<ApiInteractor>(ApiInteractor());
-  // locator.registerSingleton<LoginService>(LoginService());
+  static Future<void> setUpLocator() async {
+
+    final Dio dio = _getDioApiService();
+
+    locator.registerSingleton<LdRouter>(LdRouter());
+    locator.registerSingleton<ServiceInteractor>(ServiceInteractor());
+    locator.registerSingleton<ApiService>(ApiService(dio));
+    // locator.registerSingleton<LoginService>(LoginService());
+  }
+
+  static Dio _getDioApiService() {
+    final Dio dio = Dio();
+
+    dio.options.receiveDataWhenStatusError = true;
+
+    dio.options.connectTimeout = 30 * 1000;
+    dio.options.receiveTimeout = 30 * 1000;
+
+
+    /*dio.options.headers[HttpHeaders.userAgentHeader] =
+    await _device.userAgent();
+
+    // dio.options.headers['Demo-Header'] = 'demo header';
+    dio.options.headers['app-version'] = await _device.appVersion();*/
+
+    dio.interceptors.add(LogInterceptor(
+      responseBody: true,
+      requestBody: true,
+    ),);
+
+    return dio;
+  }
 }

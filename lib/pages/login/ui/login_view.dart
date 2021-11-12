@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:localdaily/api/repository/interactor/api_interactor.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -24,10 +21,7 @@ class LoginView extends StatelessWidget {
   final TextTheme textTheme = Theme.of(context).textTheme;
 
     return ChangeNotifierProvider<LoginViewModel>(
-      create: (_) => LoginViewModel(
-          locator<LdRouter>(),
-          locator<ApiInteractor>(),
-      ),
+      create: (_) => LoginViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(appBar: AppBar(
           leading: const Icon(

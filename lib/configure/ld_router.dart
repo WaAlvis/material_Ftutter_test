@@ -63,8 +63,8 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.loginRoute.route,
-      replace: true,
-      clearStack: true,
+      replace: false,
+      clearStack: false,
       transition: TransitionType.none,
     );
   }

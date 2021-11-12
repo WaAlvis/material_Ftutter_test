@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localdaily/api/repository/interactor/api_interactor.dart';
+import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (_) => HomeViewModel(
           locator<LdRouter>(),
-          locator<ApiInteractor>(),
+          locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
         return const Scaffold(

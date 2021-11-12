@@ -14,7 +14,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppRouter(routes: AppRoutes.routes).setupRoutes();
 
-  setUpLocator();
+  LdLocator.setUpLocator();
   await locator.allReady();
 
   runZonedGuarded(() {
