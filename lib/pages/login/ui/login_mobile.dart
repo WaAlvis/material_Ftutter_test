@@ -87,36 +87,8 @@ class _LoginMobile extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          button_primary(viewModel: viewModel, textTheme: textTheme)
+          const _PrimaryButton()
         ],
-      ),
-    );
-  }
-}
-
-class button_primary extends StatelessWidget {
-  const button_primary({
-    Key? key,
-    required this.viewModel,
-    required this.textTheme,
-  }) : super(key: key);
-
-  final LoginViewModel viewModel;
-  final TextTheme textTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: ()=> viewModel.goHome(context),
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-      ),
-      child: Text(
-        'Ingresar',
-        style: textTheme.textWhite,
       ),
     );
   }

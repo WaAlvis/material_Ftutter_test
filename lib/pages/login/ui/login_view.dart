@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/api/repository/interactor/api_interactor.dart';
 import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -11,6 +10,7 @@ import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
+part 'components/primary_button.dart';
 part 'login_mobile.dart';
 part 'login_web.dart';
 
@@ -30,8 +30,14 @@ class LoginView extends StatelessWidget {
       ),
       builder: (BuildContext context, _) {
         return Scaffold(appBar: AppBar(
-          leading: Icon(Icons.arrow_back_ios, color: LdColors.blackText,),
-          title: Text('Iniciar sesión',style: textTheme.button,),
+          leading: const Icon(
+            Icons.arrow_back_ios,
+            color: LdColors.blackText,
+          ),
+          title: Text(
+            'Iniciar sesión',
+            style: textTheme.button,
+          ),
           backgroundColor: Colors.transparent, // 1
           elevation: 0, // 2
         ),
@@ -79,7 +85,7 @@ class _LoginBodyState extends State<_LoginBody> {
               ? _LoginWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
-                  isBuy: widget.isBuy
+                  isBuy: widget.isBuy,
                 )
               : _LoginMobile(
                   keyForm: keyForm,

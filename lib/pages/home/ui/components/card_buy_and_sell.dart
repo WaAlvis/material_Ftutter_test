@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_colors.dart';
-
-import '../home_view.dart';
+part of '../home_view.dart';
 
 class CardBuyAndSell extends StatelessWidget {
   const CardBuyAndSell({
@@ -26,7 +22,7 @@ class CardBuyAndSell extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
         child: Column(
-          children: [
+          children: <Widget>[
             TitleBarCard(
               name: items[index]['nickname']!,
               stars: '${items[index]['stars']!} +',
@@ -76,9 +72,7 @@ class CardBuyAndSell extends StatelessWidget {
                   ),
                 ),
                 const Flexible(
-                  child: Icon(
-                    // Icons.arrow_circle_left
-                      Icons.arrow_forward_ios),
+                  child: Icon(Icons.arrow_forward_ios),
                 ),
               ],
             ),
@@ -88,12 +82,13 @@ class CardBuyAndSell extends StatelessWidget {
     );
   }
 }
+
 class TitleBarCard extends StatelessWidget {
   final String name;
   final String stars;
   final TextTheme textTheme;
 
-  TitleBarCard({
+  const TitleBarCard({
     Key? key,
     required this.name,
     required this.stars,
@@ -103,28 +98,21 @@ class TitleBarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
+      children: <Widget>[
         const Icon(
           Icons.account_circle,
           color: LdColors.black,
         ),
-        const SizedBox(
-          width: 8,
-        ),
+        const SizedBox(width: 8),
         Text(
           name,
           style: textTheme.textSmallBlack,
         ),
-        Spacer(),
-        const Icon(
-          Icons.star,
-        ),
-        const SizedBox(
-          width: 3,
-        ),
+        const Spacer(),
+        const Icon(Icons.star),
+        const SizedBox(width: 3),
         Text(stars),
       ],
     );
   }
 }
-

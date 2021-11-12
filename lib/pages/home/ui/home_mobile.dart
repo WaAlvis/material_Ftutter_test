@@ -1,6 +1,5 @@
 part of 'home_view.dart';
 
-
 class _HomeMobile extends StatelessWidget {
   const _HomeMobile({
     Key? key,
@@ -13,6 +12,7 @@ class _HomeMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     final List<Map<String, String>> items = <Map<String, String>>[
@@ -23,35 +23,35 @@ class _HomeMobile extends StatelessWidget {
         'value2': '830000',
         'banco': 'Nequi'
       },
-      {
+      <String, String>{
         'nickname': 'San Carlos',
         'stars': '112',
         'value1': '11002000',
         'value2': '875000',
         'banco': 'Davivienda'
       },
-      {
+      <String, String>{
         'nickname': 'Camilos',
         'stars': '302',
         'value1': '124000',
         'value2': '890000',
         'banco': 'PSE'
       },
-      {
+      <String, String>{
         'nickname': 'Sandra',
         'stars': '102',
         'value1': '1200000',
         'value2': '845000',
         'banco': 'Nequi'
       },
-      {
+      <String, String>{
         'nickname': 'Camilos',
         'stars': '32',
         'value1': '1204000',
         'value2': '830000',
         'banco': 'Bancolombia'
       },
-      {
+      <String, String>{
         'nickname': 'Diego',
         'stars': '112',
         'value1': '129400',
@@ -72,10 +72,10 @@ class _HomeMobile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Align(
-                        child: Image.asset('lib/assets/images/logo.png',),
                         alignment: Alignment.centerLeft,
+                        child: Image.asset(LdAssets.logoPng),
                       ),
                       const Icon(
                         Icons.account_circle,
@@ -141,7 +141,7 @@ class _HomeMobile extends StatelessWidget {
                             horizontal: 12,
                           ),
                           child: Column(
-                            children: [
+                            children: <Widget>[
                               OptionsFilterRow(textTheme: textTheme, quantityFilter: 2,),
                               const Divider(
                                 height: 8,
@@ -186,20 +186,20 @@ class _HomeMobile extends StatelessWidget {
                         onRefresh: () async {
                           // keyRefresh.currentState?.show(atTop: false);
                           await Future<Duration>.delayed(
-                              const Duration(seconds: 1));
+                            const Duration(seconds: 1),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
                           ),
                           child: Column(
-                            children:  [
-                              Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, top: 18),
-                                  child: OptionsFilterRow(textTheme: textTheme, quantityFilter: 1,
-                                  ),
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10, top: 18),
+                                child: OptionsFilterRow(
+                                  textTheme: textTheme,
+                                  quantityFilter: 1,
                                 ),
                               ),
                               const Divider(
@@ -265,10 +265,11 @@ class OptionsFilterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10, top: 18),
       child: Row(
-        children: [
+        children: <Widget>[
           const SizedBox(
             width: 5,
           ),
@@ -301,22 +302,20 @@ class InfoValueCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Text(
           title,
           style: textTheme.textSmallWhite.copyWith(fontSize: 15),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
+          children: <Widget>[
             Text(
               valueMoney,
               style:
                   textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w700),
             ),
-            const SizedBox(
-              width: 8,
-            ),
+            const SizedBox(width: 8),
             Text(
               'COP/DLY',
               style: textTheme.textSmallWhite
@@ -328,4 +327,3 @@ class InfoValueCard extends StatelessWidget {
     );
   }
 }
-

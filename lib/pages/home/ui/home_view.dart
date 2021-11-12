@@ -7,16 +7,18 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
-import 'package:localdaily/pages/home/ui/components/card_buy_and_sell.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';
 
-part 'components/information_home.dart';
-part 'components/product_home.dart';
-part 'components/security_home.dart';
-part 'components/start_home.dart';
-part 'components/table_home.dart';
+// Components web
+part 'components_web/information_home.dart';
+part 'components_web/product_home.dart';
+part 'components_web/security_home.dart';
+part 'components_web/start_home.dart';
+part 'components_web/table_home.dart';
+// Components Mobile
+part 'components/card_buy_and_sell.dart';
 part 'home_mobile.dart';
 part 'home_web.dart';
 
