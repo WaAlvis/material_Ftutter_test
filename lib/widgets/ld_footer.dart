@@ -30,6 +30,7 @@ class LdFooter extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               Text(
+
                 'Comprar',
                 style: textTheme.textSmallWhite,
               ),

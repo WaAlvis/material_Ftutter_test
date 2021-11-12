@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/api/repository/interactor/api_interactor.dart';
 import 'package:localdaily/app_theme.dart';
@@ -6,6 +7,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/pages/home/ui/components/card_buy_and_sell.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,8 @@ class HomeView extends StatelessWidget {
       builder: (BuildContext context, _) {
         return const Scaffold(
           backgroundColor: LdColors.white,
-          body: _HomeBody(),
+          body:
+          _HomeBody(),
         );
       },
     );
