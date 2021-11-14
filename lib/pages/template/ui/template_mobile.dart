@@ -24,7 +24,7 @@ class _TemplateMobile extends StatelessWidget {
               image: DecorationImage(
                 alignment: Alignment.topCenter,
                 fit: BoxFit.fill,
-                image: AssetImage(LdAssets.logoPng),
+                image: AssetImage(LdAssets.logo),
               ),
             ),
             child: const Text('Es una prueba mobile', style: TextStyle(color: LdColors.black),),

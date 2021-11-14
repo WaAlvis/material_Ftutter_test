@@ -21,64 +21,66 @@ class _HomeMobile extends StatelessWidget {
         'nickname': 'Bayron',
         'stars': '182',
         'value1': '25000',
-        'value2': '830000',
-        'banco': 'Nequi'
+        'value2': '1.5',
+        'banco': 'Nequi',
+        'time' : '3h'
       },
       <String, String>{
         'nickname': 'San Carlos',
         'stars': '112',
         'value1': '11002000',
-        'value2': '875000',
-        'banco': 'Davivienda'
+        'value2': '1.3',
+        'banco': 'Davivienda',
+    'time' : '2d'
       },
       <String, String>{
         'nickname': 'Camilos',
         'stars': '302',
         'value1': '124000',
-        'value2': '890000',
-        'banco': 'PSE'
+        'value2': '1.6',
+        'banco': 'PSE',
+        'time':'2h'
       },
       <String, String>{
         'nickname': 'Sandra',
         'stars': '102',
         'value1': '1200000',
-        'value2': '845000',
-        'banco': 'Nequi'
+        'value2': '2.0',
+        'banco': 'Nequi',
+        'time' : '3d'
       },
       <String, String>{
         'nickname': 'Camilos',
         'stars': '32',
         'value1': '1204000',
-        'value2': '830000',
-        'banco': 'Bancolombia'
+        'value2': '1.9',
+        'banco': 'Bancolombia',
+        'time' : '1h'
       },
       <String, String>{
         'nickname': 'Diego',
         'stars': '112',
         'value1': '129400',
-        'value2': '865000',
+        'value2': '1.5',
         'banco': 'MercadoPago'
+        ,'time' : '3h'
       }
     ];
 
     return Container(
-      color: LdColors.blueDark,
+      color: LdColors.black,
       child: SafeArea(
         child: Column(
           children: <Widget>[
             Expanded(
               child: Container(
-                color: LdColors.blueDark,
+                color: LdColors.blackBackground,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Image.asset(LdAssets.logoPng),
-                      ),
+                      SvgPicture.asset(LdAssets.logo, width: 150,),
                       IconButton(
                         onPressed: () => viewModel.goLogin(context),
                         icon: const Icon(
@@ -102,28 +104,28 @@ class _HomeMobile extends StatelessWidget {
                     preferredSize:
                         const Size.fromHeight(kMinInteractiveDimension + 1),
                     child: Container(
-                      color: LdColors.blueDark,
+                      color: LdColors.blackBackground,
                       child: Column(
                         children: <Widget>[
                           TabBar(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            indicatorColor: Colors.yellow,
+                            indicatorColor: LdColors.orangePrimary,
                             indicatorWeight: 3,
                             labelColor: Colors.grey,
                             unselectedLabelColor: Colors.red,
                             tabs: <Widget>[
                               Tab(
                                 child: Text(
-                                  'Compra',
+                                  'Comprar',
                                   style: textTheme.textYellow
-                                      .copyWith(fontWeight: FontWeight.w500),
+                                      .copyWith(fontWeight: FontWeight.w400, color: LdColors.orangePrimary),
                                 ),
                               ),
                               Tab(
                                 child: Text(
-                                  'Vende',
+                                  'Vender',
                                   style: textTheme.textYellow
-                                      .copyWith(fontWeight: FontWeight.w500),
+                                      .copyWith(fontWeight: FontWeight.w400, color: LdColors.orangePrimary),
                                 ),
                               )
                             ],
@@ -158,8 +160,8 @@ class _HomeMobile extends StatelessWidget {
                                 child: Text(
                                   'Ofertas para comprar',
                                   textAlign: TextAlign.center,
-                                  style: textTheme.textBigBlack
-                                      .copyWith(fontWeight: FontWeight.w500),
+                                  style: textTheme.textBlack
+                                      .copyWith(fontWeight: FontWeight.w500, color: LdColors.orangePrimary),
                                 ),
                               ),
                               Expanded(
@@ -282,7 +284,7 @@ class OptionsFilterRow extends StatelessWidget {
           Text(
             'Filtros ($quantityFilter)',
             style:
-                textTheme.textSmallBlack.copyWith(fontWeight: FontWeight.w600),
+                textTheme.textSmallBlack,
           )
         ],
       ),
@@ -310,7 +312,7 @@ class InfoValueCard extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: textTheme.textSmallWhite.copyWith(fontSize: 15),
+          style: textTheme.textSmallWhite.copyWith(fontSize: 13),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -318,14 +320,14 @@ class InfoValueCard extends StatelessWidget {
             Text(
               valueMoney,
               style:
-                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w700),
+                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(width: 8),
             Text(
               'COP/DLY',
               style: textTheme.textSmallWhite
-                  .copyWith(fontWeight: FontWeight.w600),
-            )
+                  .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+            ),
           ],
         )
       ],

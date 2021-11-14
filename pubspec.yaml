@@ -27,6 +27,7 @@ dependencies:
 
   #Assets
   cupertino_icons: ^1.0.3
+  flutter_svg: ^0.23.0+1
 
   #Widgets
 
@@ -40,7 +41,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true
+#  generate: true
   assets:
     - lib/assets/images/
     - lib/assets/icons/
