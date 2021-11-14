@@ -202,29 +202,24 @@ class _HomeMobile extends StatelessWidget {
                           ),
                           child: Column(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10, top: 18),
-                                child: OptionsFilterRow(
-                                  textTheme: textTheme,
-                                  quantityFilter: 1,
-                                ),
-                              ),
+                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 3,),
                               const Divider(
                                 height: 8,
                                 color: LdColors.gray,
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                const EdgeInsets.symmetric(vertical: 8.0),
                                 child: Text(
-                                  'Ofertas para Vender',
+                                  'Ofertas para vender',
                                   textAlign: TextAlign.center,
-                                  style: textTheme.textBigBlack
-                                      .copyWith(fontWeight: FontWeight.w500),
+                                  style: textTheme.textBlack
+                                      .copyWith(fontWeight: FontWeight.w500, color: LdColors.orangePrimary),
                                 ),
                               ),
                               Expanded(
                                 child: ListView.separated(
+
                                   separatorBuilder:
                                       (BuildContext context, int index) {
                                     return const SizedBox(
@@ -232,14 +227,13 @@ class _HomeMobile extends StatelessWidget {
                                     );
                                   },
                                   // controller: _scrollController,
-                                  shrinkWrap: true,
                                   itemCount: items.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return CardBuyAndSell(
-                                        index: index,
-                                        items: items,
-                                        textTheme: textTheme,
+                                      index: index,
+                                      items: items,
+                                      textTheme: textTheme,
                                     );
                                   },
                                 ),
@@ -247,8 +241,7 @@ class _HomeMobile extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
-                    ],
+                      ),                    ],
                   ),
                 ),
               ),
