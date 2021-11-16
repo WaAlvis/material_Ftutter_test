@@ -60,7 +60,7 @@ extension LDailyAttributes on TextTheme{
 
   TextStyle get textSmallWhite => bodyText1!.copyWith(
     color: LdColors.grayText,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );
@@ -95,7 +95,7 @@ extension LDailyAttributes on TextTheme{
 
   TextStyle get textSmallBlack => bodyText1!.copyWith(
     color: LdColors.black,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
   );

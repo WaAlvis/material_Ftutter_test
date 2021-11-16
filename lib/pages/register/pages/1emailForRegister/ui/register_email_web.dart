@@ -1,4 +1,4 @@
-part of 'register_view.dart';
+part of 'register_email_view.dart';
 
 class _RegisterWeb extends StatelessWidget {
 

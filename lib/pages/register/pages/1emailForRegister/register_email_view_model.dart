@@ -3,15 +3,15 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/view_model.dart';
-import 'validate_email_status.dart';
+import 'register_email_status.dart';
 
-class ValidateEmailViewModel extends ViewModel<ValidateEmailStatus> {
+class RegisterViewModel extends ViewModel<RegisterStatus> {
 
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
-  ValidateEmailViewModel(this._route, this._interactor) {
-    status = ValidateEmailStatus(isLoading: false, isError: false);
+  RegisterViewModel(this._route, this._interactor) {
+    status = RegisterStatus(isLoading: false, isError: false);
   }
 
   Future<void> onInit({bool validateNotification = false}) async {}
@@ -19,7 +19,17 @@ class ValidateEmailViewModel extends ViewModel<ValidateEmailStatus> {
   void goHome(BuildContext context) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        _route.goHome(context);
+        _route.goPersonalInfoRegister(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
+  void goValidateEmail(BuildContext context) {
+    LdConnection.validateConnection().then((bool value) {
+      if (value) {
+        _route.goValidateEmail(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }

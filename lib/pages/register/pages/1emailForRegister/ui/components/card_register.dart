@@ -1,4 +1,4 @@
-part of '../register_view.dart';
+part of '../register_email_view.dart';
 
 class _CardRegister extends StatelessWidget {
   const _CardRegister({Key? key}) : super(key: key);

@@ -42,9 +42,10 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   }
 
   void goRegister(BuildContext context) {
+    _route.goEmailRegister(context);
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        _route.goRegister(context);
+        _route.goEmailRegister(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }

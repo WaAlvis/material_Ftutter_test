@@ -67,11 +67,11 @@ class LdRouter {
     );
   }
 
-  void goRegister(BuildContext context) {
+  void goEmailRegister(BuildContext context) {
 
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.registerRoute.route,
+      AppRoutes.registerEmailRoute.route,
       replace: true,
       clearStack: true,
       transition: TransitionType.none,
@@ -81,7 +81,7 @@ class LdRouter {
 
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.validateEmailRoute.route,
+      AppRoutes.registerValidateEmailRoute.route,
       replace: true,
       clearStack: true,
       transition: TransitionType.none,

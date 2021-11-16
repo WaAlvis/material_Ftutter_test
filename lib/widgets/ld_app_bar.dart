@@ -93,7 +93,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                             color: LdColors.white,
                           ),
                           child: TextButton(
-                            onPressed: ()=> locator<LdRouter>().goRegister(context),
+                            onPressed: ()=> locator<LdRouter>().goEmailRegister(context),
                             child: Text(
                               'Regístrate',
                               style: textTheme.textBlack,

@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
+import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
-
-part 'components/primary_button.dart';
-
 part 'login_mobile.dart';
-
 part 'login_web.dart';
 
 class LoginView extends StatelessWidget {
