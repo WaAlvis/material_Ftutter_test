@@ -9,7 +9,9 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
+
 part 'login_mobile.dart';
+
 part 'login_web.dart';
 
 class LoginView extends StatelessWidget {
@@ -52,17 +54,30 @@ class _LoginBody extends StatefulWidget {
 
   @override
   _LoginBodyState createState() => _LoginBodyState();
+
 }
 
 class _LoginBodyState extends State<_LoginBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController usuarioCtrl = TextEditingController();
+
 
   @override
   void dispose() {
     passwordCtrl.dispose();
+    usuarioCtrl.dispose();
     super.dispose();
   }
+
+  @override
+  void initState() {
+    super.initState();
+    // Start listening to changes.
+    passwordCtrl.addListener(_printLastValuePass);
+    usuarioCtrl.addListener(_printLastValueUsuario);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +100,19 @@ class _LoginBodyState extends State<_LoginBody> {
                   : _LoginMobile(
                       keyForm: keyForm,
                       passwordCtrl: passwordCtrl,
+                      usuarioCtrl: usuarioCtrl,
                     ),
             )
           ],
         );
       },
     );
+  }
+  void _printLastValuePass() {
+    print('Second text field: ${passwordCtrl.text}');
+  }
+
+  void _printLastValueUsuario() {
+    print('Second text field: ${passwordCtrl.text}');
   }
 }

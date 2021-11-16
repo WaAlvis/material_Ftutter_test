@@ -9,7 +9,7 @@ class InputTextCustom extends StatelessWidget {
         required this.textTheme,
         required this.hintText,
         this.obscureText = false,
-        this.suffixIcon,
+        this.suffixIcon, this.controller,
       }) : super(key: key);
 
   final TextTheme textTheme;
@@ -17,6 +17,7 @@ class InputTextCustom extends StatelessWidget {
   final bool obscureText;
   final String hintText;
   final Widget? suffixIcon;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,19 @@ class InputTextCustom extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          //'Nombre de usuario *',
           data,
           style: textTheme.textSmallBlack,
         ),
         const SizedBox(height: 5),
-        TextField(
+        TextFormField(
           obscureText: obscureText,
+          controller: controller,
+          validator: (String? value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
           decoration: InputDecoration(
             hintStyle:
             textTheme.textSmallBlack.copyWith(color: LdColors.grayLight),
