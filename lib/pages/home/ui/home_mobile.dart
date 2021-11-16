@@ -181,6 +181,7 @@ class _HomeMobile extends StatelessWidget {
                                         index: index,
                                         items: items,
                                         textTheme: textTheme,
+                                      viewModel: viewModel, //Pase bien el VM
                                     );
                                   },
                                 ),
@@ -234,6 +235,7 @@ class _HomeMobile extends StatelessWidget {
                                       index: index,
                                       items: items,
                                       textTheme: textTheme,
+                                      viewModel: viewModel,
                                     );
                                   },
                                 ),
