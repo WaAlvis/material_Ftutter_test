@@ -19,7 +19,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void goHome(BuildContext context) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        _route.goPersonalInfoRegister(context);
+        _route.goHome(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/pages/register/pages/3personal_info_register/personal_info_register_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/personal_info_register/personal_info_register_view_model.dart';
+import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_register.dart';
@@ -23,6 +25,8 @@ class PersonalInfoRegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return ChangeNotifierProvider<PersonalInfoRegisterViewModel>(
       create: (_) => PersonalInfoRegisterViewModel(
           locator<LdRouter>(),
@@ -31,6 +35,18 @@ class PersonalInfoRegisterView extends StatelessWidget {
       builder: (BuildContext context, _) {
         return Scaffold(
           backgroundColor: LdColors.white,
+          appBar: AppBar(
+            backgroundColor: LdColors.blackBackground,
+            leading: const Icon(
+              Icons.arrow_back_ios,
+              color: LdColors.white,
+            ),
+            title: Text(
+              'Crear cuenta',
+              style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
+            ),
+            elevation: 0, // 2
+          ),
           body: _PersonalInfoRegisterBody(isBuy: isBuy),
         );
       },
