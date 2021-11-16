@@ -49,7 +49,8 @@ class CardBuyAndSell extends StatelessWidget {
                         valueMoney: items[index]['value1']!,
                         textTheme: textTheme,
                       ),
-                      SizedBox(height: 8,),
+                      const SizedBox(height: 8,
+                      ),
                       RichText(
                         text: TextSpan(
                           text: 'Valor ',
