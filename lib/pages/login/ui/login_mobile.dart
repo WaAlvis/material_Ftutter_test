@@ -68,7 +68,7 @@ class _LoginMobile extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   TextButton(
-                    onPressed: () => viewModel.goRegister(context),
+                    onPressed: () => viewModel.goRecoverPassword(context),
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size(50, 30),

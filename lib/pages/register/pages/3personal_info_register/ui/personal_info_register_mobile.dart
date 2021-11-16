@@ -89,30 +89,37 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                     style: textTheme.textSmallBlack,
                   ),
                   const SizedBox(height: 10),
-                  CheckTileBoxCustom(
-                    '8+ caracteres',
-                    textTheme: textTheme,
-                    value: true,
-                  ),
-                  CheckTileBoxCustom(
-                    '1 Numero',
-                    textTheme: textTheme,
-                    value: true,
-                  ),
-                  CheckTileBoxCustom(
-                    '1 Mayuscula',
-                    textTheme: textTheme,
-                    value: true,
-                  ),
-                  CheckTileBoxCustom(
-                    '1 Minuscula',
-                    textTheme: textTheme,
-                    value: false,
-                  ),
-                  CheckTileBoxCustom(
-                    '1 caracter especial',
-                    textTheme: textTheme,
-                    value: false,
+                  Container(
+                    height: 200,
+                    child: Column(
+                      children: [
+                        CheckTileBoxCustom(
+                          '8+ caracteres',
+                          textTheme: textTheme,
+                          value: true,
+                        ),
+                        CheckTileBoxCustom(
+                          '1 Numero',
+                          textTheme: textTheme,
+                          value: true,
+                        ),
+                        CheckTileBoxCustom(
+                          '1 Mayuscula',
+                          textTheme: textTheme,
+                          value: true,
+                        ),
+                        CheckTileBoxCustom(
+                          '1 Minuscula',
+                          textTheme: textTheme,
+                          value: false,
+                        ),
+                        CheckTileBoxCustom(
+                          '1 caracter especial',
+                          textTheme: textTheme,
+                          value: false,
+                        ),
+                      ],
+                    ),
                   ),
                   PrimaryButton(
                     'Ingresar',
@@ -142,6 +149,7 @@ class CheckTileBoxCustom extends StatelessWidget {
     return SizedBox(
       height: 28.0,
       child: CheckboxListTile(
+        contentPadding: EdgeInsets.all(0),
         title: Text(
           data,
           style: textTheme.textSmallBlack,

@@ -52,6 +52,18 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     });
   }
 
+  void goRecoverPassword(BuildContext context) {
+    print('Implementar vista de recuperar contrasenia');
+    // _route.goEmailRegister(context);
+    // LdConnection.validateConnection().then((bool value) {
+    //   if (value) {
+    //     _route.goEmailRegister(context);
+    //   } else {
+    //     // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+    //   }
+    // });
+  }
+
   Future<void> login(BuildContext context) async {
 
     status = status.copyWith(isLoading: true);

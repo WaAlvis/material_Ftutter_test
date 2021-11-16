@@ -40,8 +40,8 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.buyRoute.route,
-      replace: true,
-      clearStack: true,
+      replace: false,
+      clearStack: false,
       transition: TransitionType.none,
     );
   }
@@ -50,8 +50,8 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.sellRoute.route,
-      replace: true,
-      clearStack: true,
+      replace: false ,
+      clearStack: false,
       transition: TransitionType.none,
     );
   }
@@ -72,8 +72,8 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.registerEmailRoute.route,
-      replace: true,
-      clearStack: true,
+      replace: false,
+      clearStack: false,
       transition: TransitionType.none,
     );
   }
@@ -82,8 +82,8 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.registerValidateEmailRoute.route,
-      replace: true,
-      clearStack: true,
+      replace: false,
+      clearStack: false,
       transition: TransitionType.none,
     );
   }
@@ -92,8 +92,8 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.personalInfoRegisterRoute.route,
-      replace: true,
-      clearStack: true,
+      replace: false,
+      clearStack: false,
       transition: TransitionType.none,
     );
   }
