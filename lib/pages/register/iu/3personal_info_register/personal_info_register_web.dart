@@ -1,8 +1,6 @@
 part of 'personal_info_register_view.dart';
 
-
 class _PersonalInfoRegisterWeb extends StatelessWidget {
-
   const _PersonalInfoRegisterWeb({
     Key? key,
     required this.keyForm,
@@ -16,9 +14,9 @@ class _PersonalInfoRegisterWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final PersonalInfoRegisterViewModel viewModel = context.watch<PersonalInfoRegisterViewModel>();
+    final RegisterUserViewModel viewModel =
+        context.watch<RegisterUserViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -35,8 +33,7 @@ class _PersonalInfoRegisterWeb extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(
                     height: size.height - 100,
-                    child:
-                    const _CardPersonalInfoRegister(),
+                    child: CardRegister(),
                   ),
                   const LdFooter()
                 ],

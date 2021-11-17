@@ -13,7 +13,8 @@ class _RegisterMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
+    final RegisterUserViewModel viewModel =
+        context.watch<RegisterUserViewModel>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +56,6 @@ class _RegisterMobile extends StatelessWidget {
                   hintText: 'ejemplo@correo.com',
                 ),
                 const Spacer(),
-
                 PrimaryButton(
                   'Ingresar',
                   onPressed: () => viewModel.goValidateEmail(context),

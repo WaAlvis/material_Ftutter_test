@@ -10,7 +10,6 @@ import 'package:localdaily/view_model.dart';
 import 'login_status.dart';
 
 class LoginViewModel extends ViewModel<LoginStatus> {
-
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -29,11 +28,11 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
   Future<void> onInit({bool validateNotification = false}) async {}
 
-  void goHome(BuildContext context,
-      TextEditingController userCtrl,
-      TextEditingController passwordCtrl,
-      ) {
-
+  void goHome(
+    BuildContext context,
+    TextEditingController userCtrl,
+    TextEditingController passwordCtrl,
+  ) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
         login(context, userCtrl.text, passwordCtrl.text);
@@ -66,28 +65,30 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     // });
   }
 
-  Future<void> login(BuildContext context, String email, String password) async {
-
+  Future<void> login(
+      BuildContext context, String email, String password) async {
     status = status.copyWith(isLoading: true);
     print('Email: $email');
     print('Password: $password');
 
     final BodyLogin bodyLogin = BodyLogin(
-        identity: email,
-        password: password,
-        signature: 'T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
-        wearableId: 'd9b1289a-ae98-4e86-a145-ac046a8bd5be',
+      identity: email,
+      password: password,
+      signature:
+          'T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
+      wearableId: 'd9b1289a-ae98-4e86-a145-ac046a8bd5be',
     );
 
-    try{
-      final ResponseData<ResponseLogin>  response = await _interactor.postLogin(bodyLogin);
+    try {
+      final ResponseData<ResponseLogin> response =
+          await _interactor.postLogin(bodyLogin);
       print('Login Res: ${response.statusCode} ');
-      if(response.isSuccess){
+      if (response.isSuccess) {
         _route.goHome(context);
-      }else {
+      } else {
         // TODO: Mostrar alerta
       }
-    } catch (err){
+    } catch (err) {
       print('Login Error As: ${err}');
     }
     status = status.copyWith(isLoading: false);

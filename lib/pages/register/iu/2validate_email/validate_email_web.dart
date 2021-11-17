@@ -1,7 +1,6 @@
 part of 'validate_email_view.dart';
 
 class _ValidateEmailWeb extends StatelessWidget {
-
   const _ValidateEmailWeb({
     Key? key,
     required this.keyForm,
@@ -15,9 +14,9 @@ class _ValidateEmailWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final ValidateEmailViewModel viewModel = context.watch<ValidateEmailViewModel>();
+    final RegisterUserViewModel viewModel =
+        context.watch<RegisterUserViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -32,10 +31,7 @@ class _ValidateEmailWeb extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    _CardRegister(),
-                    LdFooter()
-                  ],
+                  children: const <Widget>[CardRegister(), LdFooter()],
                 ),
               ),
             ),

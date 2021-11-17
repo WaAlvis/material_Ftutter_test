@@ -1,7 +1,6 @@
 part of 'register_email_view.dart';
 
 class _RegisterWeb extends StatelessWidget {
-
   const _RegisterWeb({
     Key? key,
     required this.keyForm,
@@ -15,9 +14,7 @@ class _RegisterWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -32,10 +29,7 @@ class _RegisterWeb extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    _CardRegister(),
-                    LdFooter()
-                  ],
+                  children: const <Widget>[CardRegister(), LdFooter()],
                 ),
               ),
             ),

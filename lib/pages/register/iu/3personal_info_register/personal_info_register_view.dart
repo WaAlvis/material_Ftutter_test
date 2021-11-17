@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:localdaily/pages/register/pages/3personal_info_register/personal_info_register_view_model.dart';
-import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/register/iu/components/card_register.dart';
+import 'package:localdaily/pages/register/iu/register_user_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
-part 'components/card_register.dart';
-
-
 part 'personal_info_register_mobile.dart';
 part 'personal_info_register_web.dart';
 
 class PersonalInfoRegisterView extends StatelessWidget {
-  const PersonalInfoRegisterView({Key? key, this.isBuy = false}) : super(key: key);
+  const PersonalInfoRegisterView({Key? key, this.isBuy = false})
+      : super(key: key);
 
   final bool isBuy;
 
@@ -27,11 +22,8 @@ class PersonalInfoRegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<PersonalInfoRegisterViewModel>(
-      create: (_) => PersonalInfoRegisterViewModel(
-          locator<LdRouter>(),
-          locator<ServiceInteractor>(),
-      ),
+    return ChangeNotifierProvider<RegisterUserViewModel>(
+      create: (_) => RegisterUserViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(
           backgroundColor: LdColors.white,
@@ -55,13 +47,14 @@ class PersonalInfoRegisterView extends StatelessWidget {
 }
 
 class _PersonalInfoRegisterBody extends StatefulWidget {
-
-  const _PersonalInfoRegisterBody({Key? key, required this.isBuy}) : super(key: key);
+  const _PersonalInfoRegisterBody({Key? key, required this.isBuy})
+      : super(key: key);
 
   final bool isBuy;
 
   @override
-  _PersonalInfoRegisterBodyState createState() => _PersonalInfoRegisterBodyState();
+  _PersonalInfoRegisterBodyState createState() =>
+      _PersonalInfoRegisterBodyState();
 }
 
 class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
@@ -76,29 +69,30 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
 
   @override
   Widget build(BuildContext context) {
+    final RegisterUserViewModel viewModel =
+        context.watch<RegisterUserViewModel>();
 
-    final PersonalInfoRegisterViewModel viewModel = context.watch<PersonalInfoRegisterViewModel>();
+    return LayoutBuilder(
+      builder: (_, BoxConstraints constraints) {
+        final double maxWidth = constraints.maxWidth;
 
-    return LayoutBuilder(builder: (_, BoxConstraints constraints) {
-      final double maxWidth = constraints.maxWidth;
-
-      return CustomScrollView(
-        slivers: <Widget>[
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: maxWidth > 1024
-              ? _PersonalInfoRegisterWeb(
-                  keyForm: keyForm,
-                  passwordCtrl: passwordCtrl,
-                  isBuy: widget.isBuy
-                )
-              : _PersonalInfoRegisterMobile(
-                  keyForm: keyForm,
-                  passwordCtrl: passwordCtrl,
-                ),
-          )
-        ],
-      );
-    },);
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: maxWidth > 1024
+                  ? _PersonalInfoRegisterWeb(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      isBuy: widget.isBuy)
+                  : _PersonalInfoRegisterMobile(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                    ),
+            )
+          ],
+        );
+      },
+    );
   }
 }

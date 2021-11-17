@@ -1,17 +1,17 @@
-part of '../validate_email_view.dart';
+import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_colors.dart';
 
-class _CardRegister extends StatelessWidget {
-  const _CardRegister({Key? key}) : super(key: key);
+import '../../../../app_theme.dart';
+
+class CardRegister extends StatelessWidget {
+  const CardRegister({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final ValidateEmailViewModel viewModel = context.watch<ValidateEmailViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    Widget _columnData(String title){
-
+    Widget _columnData(String title) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -45,8 +45,7 @@ class _CardRegister extends StatelessWidget {
       );
     }
 
-    Widget _twoRows(String oneTitle,String twoTitle) {
-
+    Widget _twoRows(String oneTitle, String twoTitle) {
       return Row(
         children: <Widget>[
           Expanded(
@@ -96,7 +95,8 @@ class _CardRegister extends StatelessWidget {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Crear una cuenta significa que estás de acuerdo con nuestros ',
+                        text:
+                            'Crear una cuenta significa que estás de acuerdo con nuestros ',
                         style: textTheme.textSmallBlack,
                       ),
                       TextSpan(
@@ -130,11 +130,13 @@ class _CardRegister extends StatelessWidget {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Este sitio está protegido por  reCAPTCHA y se aplica la ',
+                        text:
+                            'Este sitio está protegido por  reCAPTCHA y se aplica la ',
                         style: textTheme.textSmallBlack,
                       ),
                       TextSpan(
-                        text: 'Politica de privacidad  y los Términos  de servicio ',
+                        text:
+                            'Politica de privacidad  y los Términos  de servicio ',
                         style: textTheme.textBlue.copyWith(
                           fontSize: 15,
                           decoration: TextDecoration.underline,

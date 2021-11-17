@@ -3,10 +3,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
-import 'package:localdaily/pages/register/pages/1emailForRegister/ui/register_email_view.dart';
-import 'package:localdaily/pages/register/pages/2validate_email/ui/validate_email_view.dart';
-import 'package:localdaily/pages/register/pages/3personal_info_register/ui/personal_info_register_view.dart';
-
+import 'package:localdaily/pages/register/iu/1emailForRegister/register_email_view.dart';
+import 'package:localdaily/pages/register/iu/2validate_email/validate_email_view.dart';
+import 'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
 class AppRoutes {
 
   /*static final loginRoute = AppRoute(

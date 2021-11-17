@@ -2,17 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/register/pages/1emailForRegister/register_email_view_model.dart';
-import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/pages/register/iu/components/card_register.dart';
+import 'package:localdaily/pages/register/iu/register_user_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
-part 'components/card_register.dart';
 part 'register_email_mobile.dart';
 part 'register_email_web.dart';
 
@@ -25,11 +22,8 @@ class RegisterEmailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<RegisterViewModel>(
-      create: (_) => RegisterViewModel(
-          locator<LdRouter>(),
-          locator<ServiceInteractor>(),
-      ),
+    return ChangeNotifierProvider<RegisterUserViewModel>(
+      create: (_) => RegisterUserViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(
           appBar: AppBar(
@@ -53,7 +47,6 @@ class RegisterEmailView extends StatelessWidget {
 }
 
 class _RegisterBody extends StatefulWidget {
-
   const _RegisterBody({Key? key, required this.isBuy}) : super(key: key);
 
   final bool isBuy;
@@ -74,29 +67,31 @@ class _RegisterBodyState extends State<_RegisterBody> {
 
   @override
   Widget build(BuildContext context) {
+    final RegisterUserViewModel viewModel =
+        context.watch<RegisterUserViewModel>();
 
-    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
+    return LayoutBuilder(
+      builder: (_, BoxConstraints constraints) {
+        final double maxWidth = constraints.maxWidth;
 
-    return LayoutBuilder(builder: (_, BoxConstraints constraints) {
-      final double maxWidth = constraints.maxWidth;
-
-      return CustomScrollView(
-        slivers: <Widget>[
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: maxWidth > 1024
-              ? _RegisterWeb(
-                  keyForm: keyForm,
-                  passwordCtrl: passwordCtrl,
-                  isBuy: widget.isBuy,
-                )
-              : _RegisterMobile(
-                  keyForm: keyForm,
-                  passwordCtrl: passwordCtrl,
-                ),
-          )
-        ],
-      );
-    },);
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: maxWidth > 1024
+                  ? _RegisterWeb(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      isBuy: widget.isBuy,
+                    )
+                  : _RegisterMobile(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                    ),
+            )
+          ],
+        );
+      },
+    );
   }
 }
