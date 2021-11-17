@@ -27,7 +27,7 @@ class _RegisterMobile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Text(
                   'Crear mi cuenta',
                   style: textTheme.textBigWhite,
@@ -49,11 +49,15 @@ class _RegisterMobile extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
             child: Column(
               children: <Widget>[
-                InputTextCustom('Correo electronico',
-                    textTheme: textTheme, hintText: 'ejemplo@correo.com'),
+                InputTextCustom(
+                  'Correo electronico',
+                  textTheme: textTheme,
+                  hintText: 'ejemplo@correo.com',
+                ),
                 const Spacer(),
 
-                PrimaryButton('Ingresar',
+                PrimaryButton(
+                  'Ingresar',
                   onPressed: () => viewModel.goValidateEmail(context),
                 ),
               ],

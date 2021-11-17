@@ -88,7 +88,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
               ? _RegisterWeb(
                   keyForm: keyForm,
                   passwordCtrl: passwordCtrl,
-                  isBuy: widget.isBuy
+                  isBuy: widget.isBuy,
                 )
               : _RegisterMobile(
                   keyForm: keyForm,

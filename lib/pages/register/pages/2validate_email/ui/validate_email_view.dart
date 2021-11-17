@@ -7,8 +7,8 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/register/pages/2validate_email/validate_email_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
-import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_register.dart';
@@ -86,14 +86,15 @@ class _ValidateEmailBodyState extends State<_ValidateEmailBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                  ? _ValidateEmailWeb(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                      isBuy: widget.isBuy)
-                  : _ValidateEmailMobile(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                    ),
+                ? _ValidateEmailWeb(
+                    keyForm: keyForm,
+                    passwordCtrl: passwordCtrl,
+                    isBuy: widget.isBuy,
+                  )
+                : _ValidateEmailMobile(
+                    keyForm: keyForm,
+                    passwordCtrl: passwordCtrl,
+                  ),
             )
           ],
         );

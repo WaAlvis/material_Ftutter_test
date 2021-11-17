@@ -29,12 +29,14 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
   Future<void> onInit({bool validateNotification = false}) async {}
 
-  void goHome(BuildContext context) {
+  void goHome(BuildContext context,
+      TextEditingController userCtrl,
+      TextEditingController passwordCtrl,
+      ) {
 
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        login(context);
-        //_route.goHome(context);
+        login(context, userCtrl.text, passwordCtrl.text);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -64,15 +66,17 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     // });
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> login(BuildContext context, String email, String password) async {
 
     status = status.copyWith(isLoading: true);
+    print('Email: $email');
+    print('Password: $password');
 
     final BodyLogin bodyLogin = BodyLogin(
-        identity: 'rdg123@hotmail.com',
-        password: '12345678',
-        signature: 'TCswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
-        wearableId: 'a2245936-54fa-411d-91f0-cfc71cd60bc0',
+        identity: email,
+        password: password,
+        signature: 'T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
+        wearableId: 'd9b1289a-ae98-4e86-a145-ac046a8bd5be',
     );
 
     try{

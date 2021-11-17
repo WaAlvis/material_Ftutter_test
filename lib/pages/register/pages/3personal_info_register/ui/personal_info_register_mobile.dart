@@ -89,10 +89,10 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                     style: textTheme.textSmallBlack,
                   ),
                   const SizedBox(height: 10),
-                  Container(
+                  SizedBox(
                     height: 200,
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         CheckTileBoxCustom(
                           '8+ caracteres',
                           textTheme: textTheme,
@@ -127,7 +127,8 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   ),
                 ],
               ),
-            ))
+            ),
+        )
       ],
     );
   }
@@ -149,7 +150,6 @@ class CheckTileBoxCustom extends StatelessWidget {
     return SizedBox(
       height: 28.0,
       child: CheckboxListTile(
-        contentPadding: EdgeInsets.all(0),
         title: Text(
           data,
           style: textTheme.textSmallBlack,

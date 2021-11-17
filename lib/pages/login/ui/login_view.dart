@@ -62,22 +62,12 @@ class _LoginBodyState extends State<_LoginBody> {
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController usuarioCtrl = TextEditingController();
 
-
   @override
   void dispose() {
     passwordCtrl.dispose();
     usuarioCtrl.dispose();
     super.dispose();
   }
-
-  @override
-  void initState() {
-    super.initState();
-    // Start listening to changes.
-    passwordCtrl.addListener(_printLastValuePass);
-    usuarioCtrl.addListener(_printLastValueUsuario);
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,27 +82,20 @@ class _LoginBodyState extends State<_LoginBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                  ? _LoginWeb(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                      isBuy: widget.isBuy,
-                    )
-                  : _LoginMobile(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                      usuarioCtrl: usuarioCtrl,
-                    ),
+                ? _LoginWeb(
+                    keyForm: keyForm,
+                    passwordCtrl: passwordCtrl,
+                    isBuy: widget.isBuy,
+                  )
+                : _LoginMobile(
+                    keyForm: keyForm,
+                    passwordCtrl: passwordCtrl,
+                    userCtrl: usuarioCtrl,
+                  ),
             )
           ],
         );
       },
     );
-  }
-  void _printLastValuePass() {
-    print('Second text field: ${passwordCtrl.text}');
-  }
-
-  void _printLastValueUsuario() {
-    print('Second text field: ${passwordCtrl.text}');
   }
 }
