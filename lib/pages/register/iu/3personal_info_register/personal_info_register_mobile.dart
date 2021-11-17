@@ -122,8 +122,8 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   ),
                 ),
                 PrimaryButton(
-                  'Ingresar',
-                  onPressed: () => viewModel.goHome(context),
+                  'Registrar',
+                  onPressed: () => viewModel.registerUser(context),
                 ),
               ],
             ),
