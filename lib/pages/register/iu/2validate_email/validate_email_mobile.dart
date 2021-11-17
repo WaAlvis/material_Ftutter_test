@@ -13,8 +13,7 @@ class _ValidateEmailMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final RegisterUserViewModel viewModel =
-        context.watch<RegisterUserViewModel>();
+    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),

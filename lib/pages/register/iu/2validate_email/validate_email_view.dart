@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
-import 'package:localdaily/pages/register/iu/register_user_view_model.dart';
+import 'package:localdaily/pages/register/iu/register_view_model.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -21,8 +21,8 @@ class ValidateEmailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<RegisterUserViewModel>(
-      create: (_) => RegisterUserViewModel(),
+    return ChangeNotifierProvider<RegisterViewModel>(
+      create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(
           appBar: AppBar(
@@ -66,8 +66,7 @@ class _ValidateEmailBodyState extends State<_ValidateEmailBody> {
 
   @override
   Widget build(BuildContext context) {
-    final RegisterUserViewModel viewModel =
-        context.watch<RegisterUserViewModel>();
+    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {

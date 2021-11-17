@@ -15,8 +15,7 @@ class _PersonalInfoRegisterWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final RegisterUserViewModel viewModel =
-        context.watch<RegisterUserViewModel>();
+    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(

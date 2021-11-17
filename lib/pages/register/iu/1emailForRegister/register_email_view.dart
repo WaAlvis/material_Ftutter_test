@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
-import 'package:localdaily/pages/register/iu/register_user_view_model.dart';
+import 'package:localdaily/pages/register/iu/register_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -22,8 +22,8 @@ class RegisterEmailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<RegisterUserViewModel>(
-      create: (_) => RegisterUserViewModel(),
+    return ChangeNotifierProvider<RegisterViewModel>(
+      create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(
           appBar: AppBar(
@@ -67,8 +67,8 @@ class _RegisterBodyState extends State<_RegisterBody> {
 
   @override
   Widget build(BuildContext context) {
-    final RegisterUserViewModel viewModel =
-        context.watch<RegisterUserViewModel>();
+    final RegisterViewModel viewModel =
+        context.watch<RegisterViewModel>();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {

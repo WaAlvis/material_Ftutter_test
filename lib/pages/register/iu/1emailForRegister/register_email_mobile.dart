@@ -13,8 +13,7 @@ class _RegisterMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final RegisterUserViewModel viewModel =
-        context.watch<RegisterUserViewModel>();
+    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

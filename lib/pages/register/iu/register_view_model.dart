@@ -3,25 +3,25 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/registerDataUser/body_register_data_user.dart';
-import 'package:localdaily/services/models/registerDataUser/response_register.dart';
+import 'package:localdaily/services/models/register/body_register_data_user.dart';
+import 'package:localdaily/services/models/register/response_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 
-import 'register_user_status.dart';
+import 'register_status.dart';
 
-class RegisterUserViewModel extends ViewModel<RegisterUserStatus> {
+class RegisterViewModel extends ViewModel<RegisterStatus> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
-  RegisterUserViewModel({
+  RegisterViewModel({
     LdRouter? route,
     ServiceInteractor? interactor,
   }) {
     _route = route ?? locator<LdRouter>();
     _interactor = interactor ?? locator<ServiceInteractor>();
 
-    status = RegisterUserStatus(isLoading: false, isError: false);
+    status = RegisterStatus(isLoading: false, isError: false);
   }
 
   Future<void> onInit({bool validateNotification = false}) async {}
@@ -87,7 +87,7 @@ class RegisterUserViewModel extends ViewModel<RegisterUserStatus> {
         // TODO: Mostrar alerta
       }
     } catch (err) {
-      print('Login Error As: ${err}');
+      print('RegisterUser Error As: ${err}');
     }
     status = status.copyWith(isLoading: false);
   }
