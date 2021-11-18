@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
-import 'package:localdaily/services/models/register/response_register.dart';
+import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
@@ -19,7 +19,7 @@ abstract class WebAdminService {
   Future<ResponseData> getUsers();*/
 
   @POST(UrlsApi.registerUsers)
-  Future<ResponseData<ResponseRegister>> registerUser(
+  Future<ResponseData<ResultRegister>> registerUser(
     @Body() BodyRegisterDataUser bodyRegisterDataUser,
   );
 }

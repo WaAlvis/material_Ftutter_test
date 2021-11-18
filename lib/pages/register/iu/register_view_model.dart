@@ -4,7 +4,7 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
-import 'package:localdaily/services/models/register/response_register.dart';
+import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -124,7 +124,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
 
     try {
-      final ResponseData<ResponseRegister> response =
+      final ResponseData<ResultRegister> response =
       await _interactor.postRegisterUser(bodyRegister);
       print('Register Res: ${response.statusCode} ');
       if (response.isSuccess) {

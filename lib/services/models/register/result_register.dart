@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:localdaily/services/models/login/token_login.dart';
 
-part 'response_register.g.dart';
+part 'result_register.g.dart';
 
 @JsonSerializable()
-class ResponseRegister{
+class ResultRegister{
 
-  ResponseRegister({
+  ResultRegister({
     required this.id,
     required this.nickName,
     required this.firstName,
@@ -20,8 +20,8 @@ class ResponseRegister{
     required this.password,
     required this.isActive,
   });
-  factory ResponseRegister.fromJson(Map<String, dynamic> json) =>
-      _$ResponseRegisterFromJson(json);
+  factory ResultRegister.fromJson(Map<String, dynamic> json) =>
+      _$ResultRegisterFromJson(json);
 
   // TokenLogin tokenData;
   // String? user;
@@ -38,5 +38,5 @@ class ResponseRegister{
   String password;
   bool isActive;
 
-  Map<String, dynamic> toJson() => _$ResponseRegisterToJson(this);
+  Map<String, dynamic> toJson() => _$ResultRegisterToJson(this);
 }

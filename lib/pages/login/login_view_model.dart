@@ -4,7 +4,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
-import 'package:localdaily/services/models/login/response_login.dart';
+import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'login_status.dart';
@@ -80,7 +80,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     );
 
     try {
-      final ResponseData<ResponseLogin> response =
+      final ResponseData<ResultLogin> response =
           await _interactor.postLogin(bodyLogin);
       print('Login Res: ${response.statusCode} ');
       if (response.isSuccess) {

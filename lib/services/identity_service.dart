@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
-import 'package:localdaily/services/models/login/response_login.dart';
+import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
@@ -19,7 +19,7 @@ abstract class IdentityService {
   Future<ResponseData> getUsers();*/
 
   @POST(UrlsApi.users)
-  Future<ResponseData<ResponseLogin>> login(
+  Future<ResponseData<ResultLogin>> login(
     @Body() BodyLogin bodyLogin,
   );
 

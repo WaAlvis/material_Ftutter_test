@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/login/response_login.dart';
-import 'package:localdaily/services/models/register/response_register.dart';
+import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/register/result_register.dart';
 
 class LdConverter<T> implements JsonConverter<T, Object?> {
 
@@ -9,11 +9,11 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
   @override
   T fromJson(Object? json) {
     if (json is Map<String, dynamic>) {
-      if ('$T' == '$ResponseLogin?' || T == ResponseLogin) {
-        return ResponseLogin.fromJson(json) as T;
+      if ('$T' == '$ResultLogin?' || T == ResultLogin) {
+        return ResultLogin.fromJson(json) as T;
       }
-      else if ('$T' == '$ResponseRegister?' || T == ResponseRegister) {
-        return ResponseRegister.fromJson(json) as T;
+      else if ('$T' == '$ResultRegister?' || T == ResultRegister) {
+        return ResultRegister.fromJson(json) as T;
       }
     }
     return json as T;
