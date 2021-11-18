@@ -110,11 +110,14 @@ class _LoginMobile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  PrimaryButton('Ingresar', onPressed: () {
-                    if (keyForm.currentState!.validate()) {
-                      viewModel.goHome(context, userCtrl, passwordCtrl);
-                    }
-                  },),
+                  PrimaryButton(
+                    'Ingresar',
+                    onPressed: () {
+                      if (keyForm.currentState!.validate()) {
+                        viewModel.goHome(context, userCtrl, passwordCtrl);
+                      }
+                    },
+                  ),
                 ],
               ),
             ),

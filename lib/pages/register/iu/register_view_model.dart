@@ -56,38 +56,84 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> registerUser(
-    BuildContext context,
-    // String email, String password
-  ) async {
+  Future<void> registerUser(BuildContext context, {
+    required TextEditingController nickNameCtrl,
+    required TextEditingController firstNameCtrl,
+    required TextEditingController firstLastNameCtrl,
+    required TextEditingController secondNameCtrl,
+    required TextEditingController secondLastNameCtrl,
+    required TextEditingController phoneCtrl,
+    required TextEditingController emailCtrl,
+    required TextEditingController dateBirthCtrl,
+    required TextEditingController passwordCtrl,
+    required TextEditingController confirrmPassCtrl,
+    // String email, String password,
+  }) async {
     status = status.copyWith(isLoading: true);
+    LdConnection.validateConnection().then(
+          (bool value) {
+        if (value) {
+          register(context,
+            nickName: nickNameCtrl.text,
+            firstName: firstNameCtrl.text,
+            firstLastName: firstLastNameCtrl.text,
+            secondName: secondNameCtrl.text,
+            secondLastName: secondLastNameCtrl.text,
+            password: passwordCtrl.text,
+            phone: phoneCtrl.text,
+            email: emailCtrl.text,
+            dateBirth: dateBirthCtrl.text,
+          );
+        }
+        else {
+          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        }
+      },
+    );
+  }
+
+  Future<void> register(BuildContext context,
+      {
+        required String nickName,
+        required String firstName,
+        required String firstLastName,
+        required String secondName,
+        required String secondLastName,
+        required String password,
+        required String phone,
+        required String email,
+        required String dateBirth,
+      }) async {
+    status = status.copyWith(isLoading: true);
+    print('name: $firstName');
+    print('Email: $email');
+    print('Password: $password');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
-      nickName: 'e',
-      secondName: 'e',
-      secondLastName: 'w',
-      firstLastName: 'e',
-      password: 'z',
-      phone: 'e',
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
-      email: 's',
-      firstName: 's',
+      nickName: nickName,
+      firstName: firstName,
+      firstLastName: firstLastName,
+      secondName: secondName,
+      secondLastName: secondLastName,
+      password: password,
+      phone: phone,
+      email: email,
       dateBirth: '1985/10/25',
       isActive: true,
     );
 
     try {
       final ResponseData<ResponseRegister> response =
-          await _interactor.postRegisterUser(bodyRegister);
-      print('RegisterUser Res: ${response.statusCode} ');
-
+      await _interactor.postRegisterUser(bodyRegister);
+      print('Register Res: ${response.statusCode} ');
       if (response.isSuccess) {
         _route.goHome(context);
       } else {
         // TODO: Mostrar alerta
       }
     } catch (err) {
-      print('RegisterUser Error As: ${err}');
+      print('Registro Error As: ${err}');
     }
     status = status.copyWith(isLoading: false);
   }

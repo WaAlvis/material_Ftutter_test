@@ -10,6 +10,7 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'personal_info_register_mobile.dart';
+
 part 'personal_info_register_web.dart';
 
 class PersonalInfoRegisterView extends StatelessWidget {
@@ -59,11 +60,30 @@ class _PersonalInfoRegisterBody extends StatefulWidget {
 
 class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
+
+  final TextEditingController nickNameCtrl = TextEditingController();
+  final TextEditingController firstNameCtrl = TextEditingController();
+  final TextEditingController firstLastNameCtrl = TextEditingController();
+  final TextEditingController secondNameCtrl = TextEditingController();
+  final TextEditingController secondLastNameCtrl = TextEditingController();
+  final TextEditingController phoneCtrl = TextEditingController();
+  final TextEditingController emailCtrl = TextEditingController();
+  final TextEditingController dateBirthCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController confirrmPassCtrl = TextEditingController();
 
   @override
   void dispose() {
+    nickNameCtrl.dispose();
+    firstNameCtrl.dispose();
+    firstLastNameCtrl.dispose();
+    secondNameCtrl.dispose();
+    secondLastNameCtrl.dispose();
+    phoneCtrl.dispose();
+    emailCtrl.dispose();
+    dateBirthCtrl.dispose();
     passwordCtrl.dispose();
+    confirrmPassCtrl.dispose();
     super.dispose();
   }
 
@@ -80,14 +100,23 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                ? _PersonalInfoRegisterWeb(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    isBuy: widget.isBuy)
-                : _PersonalInfoRegisterMobile(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                  ),
+                  ? _PersonalInfoRegisterWeb(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      isBuy: widget.isBuy)
+                  : _PersonalInfoRegisterMobile(
+                      keyForm: keyForm,
+                      nickNameCtrl: nickNameCtrl,
+                      firstNameCtrl: firstNameCtrl,
+                      firstLastNameCtrl: firstLastNameCtrl,
+                      secondNameCtrl: secondNameCtrl,
+                      secondLastNameCtrl: secondLastNameCtrl,
+                      phoneCtrl: phoneCtrl,
+                      emailCtrl: emailCtrl,
+                      dateBirthCtrl: dateBirthCtrl,
+                      passwordCtrl: passwordCtrl,
+                      confirrmPassCtrl: confirrmPassCtrl,
+                    ),
             )
           ],
         );
