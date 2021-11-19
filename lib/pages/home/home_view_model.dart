@@ -59,6 +59,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
         print('Exito obteniendo la data de Home');
         _route.goValidateEmail(context);
       } else {
+        print('ERROR obteniendo la data de Home');
         // TODO: Mostrar alerta
       }
     } catch (err) {

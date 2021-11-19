@@ -82,7 +82,7 @@ class _HomeMobile extends StatelessWidget {
                     children: <Widget>[
                       SvgPicture.asset(LdAssets.logo, width: 150,),
                       IconButton(
-                        onPressed: () => viewModel.goLogin(context),
+                        onPressed: () => viewModel.dataHome(context),
                         icon: const Icon(
                           Icons.account_circle,
                           color: LdColors.white,

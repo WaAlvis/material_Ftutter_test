@@ -10,7 +10,7 @@ part 'web_admin_service.g.dart';
 
 class UrlsApi {
   static const String users = '/User';
-  static const String advertisement = '/Advertisement';
+  static const String advertisement = '/Advertisement/GetData';
 }
 
 @RestApi(baseUrl: 'http://3.135.189.138:9001')

@@ -17,7 +17,7 @@ class CardBuyAndSell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => viewModel.dataHome(context), //asi pase bien la navegacion?
+      onTap: () => viewModel.goLogin(context), //asi pase bien la navegacion?
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
