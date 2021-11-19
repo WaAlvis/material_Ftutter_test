@@ -4,21 +4,21 @@ import 'package:localdaily/services/models/home/pagination.dart';
 part 'body_home.g.dart';
 
 @JsonSerializable()
-class Bodyhome {
-  Bodyhome({
+class BodyHome {
+  BodyHome({
     required this.type,
     required this.pagination,
 
 
       });
 
-  factory Bodyhome.fromJson(Map<String, dynamic> json) =>
-      _$BodyhomeFromJson(json);
+  factory BodyHome.fromJson(Map<String, dynamic> json) =>
+      _$BodyHomeFromJson(json);
 
   int type;
   Pagination pagination;
 
 
 
-  Map<String, dynamic> toJson() => _$BodyhomeToJson(this);
+  Map<String, dynamic> toJson() => _$BodyHomeToJson(this);
 }

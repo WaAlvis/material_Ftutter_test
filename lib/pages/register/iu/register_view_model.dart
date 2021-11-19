@@ -26,15 +26,15 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
 
   Future<void> onInit({bool validateNotification = false}) async {}
 
-  void goHome(BuildContext context) {
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
-        _route.goHome(context);
-      } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-      }
-    });
-  }
+  // void goHome(BuildContext context) {
+  //   LdConnection.validateConnection().then((bool value) {
+  //     if (value) {
+  //       _route.goHome(context);
+  //     } else {
+  //       // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+  //     }
+  //   });
+  // }
 
   void goValidateEmail(BuildContext context) {
     LdConnection.validateConnection().then((bool value) {

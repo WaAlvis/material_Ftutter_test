@@ -1,5 +1,7 @@
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/identity_service.dart';
+import 'package:localdaily/services/models/home/body_home.dart';
+import 'package:localdaily/services/models/home/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
@@ -19,6 +21,13 @@ class ServiceInteractor {
   Future<ResponseData<ResultRegister>> postRegisterUser(BodyRegisterDataUser bodyRegisterUser) async {
     final  ResponseData<ResultRegister> response =
       await locator<WebAdminService>().registerUser( bodyRegisterUser);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultHome>> postGetAdvertisment(BodyHome bodyHome) async {
+    final  ResponseData<ResultHome> response =
+    await locator<WebAdminService>().getAdvertismentHome( bodyHome);
 
     return response;
   }

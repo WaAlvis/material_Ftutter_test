@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:localdaily/services/models/home/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 
@@ -14,6 +15,9 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
       }
       else if ('$T' == '$ResultRegister?' || T == ResultRegister) {
         return ResultRegister.fromJson(json) as T;
+      }
+      if ('$T' == '$ResultHome?' || T == ResultHome) {
+        return ResultHome.fromJson(json) as T;
       }
     }
     return json as T;
