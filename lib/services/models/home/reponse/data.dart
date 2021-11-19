@@ -1,0 +1,28 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:localdaily/services/models/home/reponse/advertisement.dart';
+import 'package:localdaily/services/models/home/reponse/user_data_home.dart';
+import 'package:localdaily/services/models/login/token_login.dart';
+
+part 'data.g.dart';
+
+@JsonSerializable()
+class Data{
+
+  Data({
+    required this.user,
+    required this.advertisement,
+
+  });
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      _$DataFromJson(json);
+
+  // TokenLogin tokenData;
+  // String? user;
+   UserDataHome user;
+  Advertisement advertisement;
+
+
+
+
+  Map<String, dynamic> toJson() => _$DataToJson(this);
+}

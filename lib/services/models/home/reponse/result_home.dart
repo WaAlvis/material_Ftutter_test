@@ -1,14 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:localdaily/services/models/home/reponse/data.dart';
 import 'package:localdaily/services/models/login/token_login.dart';
 
-part '../response_register.g.dart';
+part 'result_home.g.dart';
 
 @JsonSerializable()
 class ResultHome{
 
   ResultHome({
-    required this.isSuccess,
-    required this.statusCode,
+    required this.data,
+    required this.totalItems,
+    required this.totalPages,
 
   });
   factory ResultHome.fromJson(Map<String, dynamic> json) =>
@@ -16,9 +18,10 @@ class ResultHome{
 
   // TokenLogin tokenData;
   // String? user;
-  String isSuccess;
-  String statusCode;
-   result;
+  List<Data> data;
+  int totalItems;
+  int totalPages;
+
 
 
 
