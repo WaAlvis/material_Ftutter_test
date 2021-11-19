@@ -5,6 +5,7 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/pagination.dart';
 import 'package:localdaily/services/models/home/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/reponse/user_data_home.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'home_status.dart';
@@ -14,10 +15,18 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   final ServiceInteractor _interactor;
 
   HomeViewModel(this._route, this._interactor) {
-    status = HomeStatus(isLoading: false, isError: false);
+    status = HomeStatus(
+      isLoading: false,
+      isError: false,
+      sellersDataHome: ResultHome(data: [], totalItems: 10, totalPages: 1),
+      buyersDataHome: ResultHome(data: [], totalItems: 10, totalPages: 1),
+    );
   }
 
-  Future<void> onInit({bool validateNotification = false}) async {}
+  Future<void> onInit(BuildContext context,
+      {bool validateNotification = false}) async {
+    dataHome(context);
+  }
 
   void goLogin(BuildContext context) {
     LdConnection.validateConnection().then((bool value) {
@@ -29,14 +38,14 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     });
   }
 
-  Future<void> dataHome(BuildContext context,) async {
+  Future<void> dataHome(
+    BuildContext context,
+  ) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
-          (bool value) {
+      (bool value) {
         if (value) {
-          getDataHome(
-            context,
-          );
+          getDataHome(context, 1);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
         }
@@ -44,20 +53,24 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     );
   }
 
-  Future<void> getDataHome(BuildContext context,) async {
+  Future<void> getDataHome(BuildContext context, int type) async {
     status = status.copyWith(isLoading: true);
 
-    final Pagination pagination = Pagination(
-        isPaginable:true, currentPage: 1, itemsPerPage: 10);
-    final BodyHome bodyHome = BodyHome(type: 1, pagination: pagination);
+    final Pagination pagination =
+        Pagination(isPaginable: true, currentPage: 1, itemsPerPage: 10);
+    final BodyHome bodyBuyersHome =
+        BodyHome(type: type, pagination: pagination);
 
     try {
       final ResponseData<ResultHome> response =
-      await _interactor.postGetAdvertisment(bodyHome);
+          await _interactor.postGetAdvertisment(bodyBuyersHome);
       print('HomeData Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Exito obteniendo la data de Home');
-        _route.goValidateEmail(context);
+        print('Exito obteniendo la data de Buyers en Home');
+        if (type == 0)
+          status.buyersDataHome = response.result!;
+        else
+          status.sellersDataHome = response.result!;
       } else {
         print('ERROR obteniendo la data de Home');
         // TODO: Mostrar alerta

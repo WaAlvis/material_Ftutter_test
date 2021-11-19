@@ -9,7 +9,7 @@ class CardBuyAndSell extends StatelessWidget {
     required this.viewModel,
   }) : super(key: key);
 
-  final List<Map<String, String>> items;
+  final List<Data> items;
   final TextTheme textTheme;
   final int index;
   final HomeViewModel viewModel;
@@ -28,9 +28,9 @@ class CardBuyAndSell extends StatelessWidget {
           child: Column(
             children: <Widget>[
               TitleBarCard(
-                name: items[index]['nickname']!,
-                stars: '${items[index]['stars']!} +',
-                time: items[index]['time']!,
+                name: items[index].user.nickName,
+                stars: '+${items[index].user.rateBuyer}',
+                time: '5D!',
                 textTheme: textTheme,
               ),
               const Padding(
@@ -47,7 +47,7 @@ class CardBuyAndSell extends StatelessWidget {
                     children: <Widget>[
                       InfoValueCard(
                         title: 'Cantidad',
-                        valueMoney: items[index]['value1']!,
+                        valueMoney: items[index].advertisement.valueToSell,
                         textTheme: textTheme,
                       ),
                       const SizedBox(height: 8),
@@ -58,7 +58,7 @@ class CardBuyAndSell extends StatelessWidget {
                               .copyWith(color: LdColors.grayText, fontSize: 14),
                           children: <TextSpan>[
                             TextSpan(
-                              text: items[index]['value2'],
+                              text: items[index].advertisement.margin,
                               style: textTheme.textGray,
                             ),
                             const TextSpan(text: ' COP/DLY'),
@@ -82,7 +82,7 @@ class CardBuyAndSell extends StatelessWidget {
                 width: double.maxFinite,
                 child: Flexible(
                   child: Text(
-                    'Transferencia bancaria nacional. ${items[index]['banco']}.',
+                    'Transferencia bancaria nacional. ${items[index].advertisement.bankName}.',
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     maxLines: 3,

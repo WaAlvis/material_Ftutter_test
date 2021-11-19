@@ -36,32 +36,32 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Flexible(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            color: LdColors.blackBackground,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Informacion de la cuenta',
-                  style: textTheme.textBigWhite,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Escribe la informacion de ingreso a tu cuenta',
-                  style:
-                      textTheme.textSmallWhite.copyWith(color: LdColors.grayBg),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // Flexible(
+        //   child: Container(
+        //     padding: const EdgeInsets.symmetric(
+        //       horizontal: 16,
+        //     ),
+        //     color: LdColors.blackBackground,
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.stretch,
+        //       children: <Widget>[
+        //         const SizedBox(
+        //           height: 20,
+        //         ),
+        //         Text(
+        //           'Informacion de la cuenta',
+        //           style: textTheme.textBigWhite,
+        //         ),
+        //         const SizedBox(height: 12),
+        //         Text(
+        //           'Escribe la informacion de ingreso a tu cuenta',
+        //           style:
+        //               textTheme.textSmallWhite.copyWith(color: LdColors.grayBg),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         Flexible(
           flex: 5,
           child: Container(

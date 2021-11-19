@@ -8,6 +8,8 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/services/models/home/reponse/data.dart';
+import 'package:localdaily/view_model.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +61,14 @@ class _HomeBodyState extends State<_HomeBody> {
   void dispose() {
     passwordCtrl.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().onInit(context);
+    });
+    super.initState();
   }
 
   @override

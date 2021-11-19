@@ -15,57 +15,8 @@ class _HomeMobile extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final List<Data> items = viewModel.status.sellersDataHome.data;
 
-    final List<Map<String, String>> items = <Map<String, String>>[
-      <String, String>{
-        'nickname': 'Bayron',
-        'stars': '182',
-        'value1': '25000',
-        'value2': '1.5',
-        'banco': 'Nequi',
-        'time' : '3h'
-      },
-      <String, String>{
-        'nickname': 'San Carlos',
-        'stars': '112',
-        'value1': '11002000',
-        'value2': '1.3',
-        'banco': 'Davivienda',
-    'time' : '2d'
-      },
-      <String, String>{
-        'nickname': 'Camilos',
-        'stars': '302',
-        'value1': '124000',
-        'value2': '1.6',
-        'banco': 'PSE',
-        'time':'2h'
-      },
-      <String, String>{
-        'nickname': 'Sandra',
-        'stars': '102',
-        'value1': '1200000',
-        'value2': '2.0',
-        'banco': 'Nequi',
-        'time' : '3d'
-      },
-      <String, String>{
-        'nickname': 'Camilos',
-        'stars': '32',
-        'value1': '1204000',
-        'value2': '1.9',
-        'banco': 'Bancolombia',
-        'time' : '1h'
-      },
-      <String, String>{
-        'nickname': 'Diego',
-        'stars': '112',
-        'value1': '129400',
-        'value2': '1.5',
-        'banco': 'MercadoPago'
-        ,'time' : '3h'
-      }
-    ];
 
     return Container(
       color: LdColors.black,
@@ -329,3 +280,55 @@ class InfoValueCard extends StatelessWidget {
     );
   }
 }
+
+
+// final List<Map<String, String>> items = <Map<String, String>>[
+//   <String, String>{  1111111
+//     'nickname': 'Bayron',
+//     'stars': '182',
+//     'value1': '25000',
+//     'value2': '1.5',
+//     'banco': 'Nequi',
+//     'time' : '3h'
+//   },
+//   <String, String>{
+//     'nickname': 'San Carlos',
+//     'stars': '112',
+//     'value1': '11002000',
+//     'value2': '1.3',
+//     'banco': 'Davivienda',
+// 'time' : '2d'
+//   },
+//   <String, String>{
+//     'nickname': 'Camilos',
+//     'stars': '302',
+//     'value1': '124000',
+//     'value2': '1.6',
+//     'banco': 'PSE',
+//     'time':'2h'
+//   },
+//   <String, String>{
+//     'nickname': 'Sandra',
+//     'stars': '102',
+//     'value1': '1200000',
+//     'value2': '2.0',
+//     'banco': 'Nequi',
+//     'time' : '3d'
+//   },
+//   <String, String>{
+//     'nickname': 'Camilos',
+//     'stars': '32',
+//     'value1': '1204000',
+//     'value2': '1.9',
+//     'banco': 'Bancolombia',
+//     'time' : '1h'
+//   },
+//   <String, String>{
+//     'nickname': 'Diego',
+//     'stars': '112',
+//     'value1': '129400',
+//     'value2': '1.5',
+//     'banco': 'MercadoPago'
+//     ,'time' : '3h'
+//   }
+// ];
