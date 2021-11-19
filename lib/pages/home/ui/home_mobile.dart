@@ -15,7 +15,8 @@ class _HomeMobile extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final List<Data> items = viewModel.status.sellersDataHome.data;
+    final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
+    final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
 
 
     return Container(
@@ -125,12 +126,12 @@ class _HomeMobile extends StatelessWidget {
                                     );
                                   },
                                   // controller: _scrollController,
-                                  itemCount: items.length,
+                                  itemCount: itemsBuyers.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return CardBuyAndSell(
                                         index: index,
-                                        items: items,
+                                        items: itemsBuyers,
                                         textTheme: textTheme,
                                       viewModel: viewModel, //Pase bien el VM
                                     );
@@ -154,7 +155,7 @@ class _HomeMobile extends StatelessWidget {
                           ),
                           child: Column(
                             children: <Widget>[
-                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 3,),
+                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 3),
                               const Divider(
                                 height: 8,
                                 color: LdColors.gray,
@@ -179,12 +180,12 @@ class _HomeMobile extends StatelessWidget {
                                     );
                                   },
                                   // controller: _scrollController,
-                                  itemCount: items.length,
+                                  itemCount: itemsSellers.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return CardBuyAndSell(
                                       index: index,
-                                      items: items,
+                                      items: itemsSellers,
                                       textTheme: textTheme,
                                       viewModel: viewModel,
                                     );

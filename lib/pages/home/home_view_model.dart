@@ -46,6 +46,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       (bool value) {
         if (value) {
           getDataHome(context, 1);
+          getDataHome(context, 0);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
         }
