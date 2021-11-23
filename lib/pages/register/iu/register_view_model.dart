@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
@@ -13,6 +16,8 @@ import 'register_status.dart';
 class RegisterViewModel extends ViewModel<RegisterStatus> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
+
+  var bytes = utf8.encode('woolha');
 
   RegisterViewModel({
     LdRouter? route,
@@ -56,7 +61,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> registerUser(BuildContext context, {
+  Future<void> registerUser(
+    BuildContext context, {
     required TextEditingController nickNameCtrl,
     required TextEditingController firstNameCtrl,
     required TextEditingController firstLastNameCtrl,
@@ -71,9 +77,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
-          (bool value) {
+      (bool value) {
         if (value) {
-          register(context,
+          register(
+            context,
             nickName: nickNameCtrl.text,
             firstName: firstNameCtrl.text,
             firstLastName: firstLastNameCtrl.text,
@@ -84,30 +91,30 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             email: emailCtrl.text,
             dateBirth: dateBirthCtrl.text,
           );
-        }
-        else {
+        } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
         }
       },
     );
   }
 
-  Future<void> register(BuildContext context,
-      {
-        required String nickName,
-        required String firstName,
-        required String firstLastName,
-        required String secondName,
-        required String secondLastName,
-        required String password,
-        required String phone,
-        required String email,
-        required String dateBirth,
-      }) async {
+  Future<void> register(
+    BuildContext context, {
+    required String nickName,
+    required String firstName,
+    required String firstLastName,
+    required String secondName,
+    required String secondLastName,
+    required String password,
+    required String phone,
+    required String email,
+    required String dateBirth,
+  }) async {
     status = status.copyWith(isLoading: true);
     print('name: $firstName');
     print('Email: $email');
-    print('Password: $password');
+    String sha256pass = encrypPass(password).toString();
+    print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
@@ -116,7 +123,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       firstLastName: firstLastName,
       secondName: secondName,
       secondLastName: secondLastName,
-      password: password,
+      password: sha256pass,
       phone: phone,
       email: email,
       dateBirth: '1985/10/25',
@@ -125,7 +132,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
 
     try {
       final ResponseData<ResultRegister> response =
-      await _interactor.postRegisterUser(bodyRegister);
+          await _interactor.postRegisterUser(bodyRegister);
       print('Register Res: ${response.statusCode} ');
       if (response.isSuccess) {
         _route.goHome(context);
@@ -136,5 +143,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       print('Registro Error As: ${err}');
     }
     status = status.copyWith(isLoading: false);
+  }
+
+  Digest encrypPass(String pass) {
+    var bytes = utf8.encode(pass);
+    return sha256.convert(bytes);
   }
 }

@@ -28,6 +28,7 @@ dependencies:
   #Assets
   cupertino_icons: ^1.0.3
   flutter_svg: ^0.23.0+1
+  crypto: ^3.0.1
 
   #Widgets
 
