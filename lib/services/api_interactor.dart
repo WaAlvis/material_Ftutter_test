@@ -1,5 +1,5 @@
 import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/services/1identity_service.dart';
+import 'package:localdaily/services/identity_service.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -7,9 +7,9 @@ import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
-import 'package:localdaily/services/2web_admin_service.dart';
+import 'package:localdaily/services/web_admin_service.dart';
 
-import '3users_service.dart';
+import 'users_service.dart';
 
 class ServiceInteractor {
 

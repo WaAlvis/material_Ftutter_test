@@ -4,7 +4,7 @@ import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
-part '1identity_service.g.dart';
+part 'identity_service.g.dart';
 
 class UrlsApi {
   static const String login = '/Authentication';
@@ -19,6 +19,4 @@ abstract class IdentityService {
   Future<ResponseData<ResultLogin>> login(
     @Body() BodyLogin bodyLogin,
   );
-
-
 }
