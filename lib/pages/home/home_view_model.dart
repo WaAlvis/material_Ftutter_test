@@ -64,7 +64,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
 
     try {
       final ResponseData<ResultHome> response =
-          await _interactor.postGetAdvertisment(bodyBuyersHome);
+          await _interactor.postGetHomeBuyerSellers(bodyBuyersHome);
       print('HomeData Res: ${response.statusCode} ');
       if (response.isSuccess) {
         print('Exito obteniendo la data de Buyers en Home');

@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/identity_service.dart';
-import 'package:localdaily/services/web_admin_service.dart';
+import 'package:localdaily/services/1identity_service.dart';
+import 'package:localdaily/services/2web_admin_service.dart';
 
 GetIt locator = GetIt.instance;
 

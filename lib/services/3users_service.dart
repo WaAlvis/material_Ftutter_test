@@ -6,21 +6,19 @@ import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
-part '2web_admin_service.g.dart';
+part '3users_service.g.dart';
 
 class UrlsApi {
-  static const String getDataHome = '/GetData';
+  static const String createUser = '/User';
 }
 
-@RestApi(baseUrl: 'http://3.135.189.138:9001/Advertisement')
-abstract class WebAdminService {
+@RestApi(baseUrl: 'http://3.135.189.138:9002')
+abstract class UsersService {
 
-  factory WebAdminService(Dio dio, {String baseUrl}) = _WebAdminService;
+  factory UsersService(Dio dio, {String baseUrl}) = _UsersService;
 
-  @POST(UrlsApi.getDataHome)
-  Future<ResponseData<ResultHome>> getAdvertismentHome(
-    @Body() BodyHome bodyHome,
-  );
-
-
+  @POST(UrlsApi.createUser)
+  Future<ResponseData<ResultRegister>> registerUser(
+      @Body() BodyRegisterDataUser bodyRegisterDataUser,
+      );
 }
