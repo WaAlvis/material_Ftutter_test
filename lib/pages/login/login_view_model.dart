@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
@@ -69,9 +69,9 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   }
 
   Future<void> login(
-      BuildContext context, String email, String password) async {
+      BuildContext context, String email, String password,) async {
     status = status.copyWith(isLoading: true);
-    String pass256 = encrypPass(password).toString();
+    final String pass256 = encrypPass(password).toString();
     print('Email: $email');
     print('Password: $password');
     print('Pass256: $pass256');
@@ -85,23 +85,22 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       wearableId: 'd9b1289a-ae98-4e86-a145-ac046a8bd5be',
     );
 
-    try {
-      final ResponseData<ResultLogin> response =
-          await _interactor.postLogin(bodyLogin);
-      print('Login Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        _route.goHome(context);
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Login Error As: ${err}');
-    }
-    status = status.copyWith(isLoading: false);
+      _interactor.postLogin(bodyLogin).then((ResponseData<ResultLogin> response) {
+        print('Login Res: ${response.statusCode} ');
+        if (response.isSuccess) {
+          _route.goHome(context);
+        } else {
+          // TODO: Mostrar alerta
+        }
+        status = status.copyWith(isLoading: false);
+      }).catchError((err) {
+        print('Login Error As: ${err}');
+        status = status.copyWith(isLoading: false);
+      });
   }
 
   Digest encrypPass(String pass) {
-    var bytes = utf8.encode(pass);
+    final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
   }
 }

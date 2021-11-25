@@ -40,9 +40,12 @@ class _RegisterMobile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 50),
-                  const QuarterCircle(
-                    circleAlignment: CircleAlignment.bottomRight,
-                    color: LdColors.grayLight,
+                  const SizedBox(
+                    height: 60,
+                    child: QuarterCircle(
+                      circleAlignment: CircleAlignment.bottomRight,
+                      color: LdColors.grayLight,
+                    ),
                   ),
                   Text(
                     'Crear mi cuenta',

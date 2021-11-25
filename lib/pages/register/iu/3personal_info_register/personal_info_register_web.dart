@@ -32,7 +32,7 @@ class _PersonalInfoRegisterWeb extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(
                     height: size.height - 100,
-                    child: CardRegister(),
+                    child: const CardRegister(),
                   ),
                   const LdFooter()
                 ],

@@ -132,7 +132,6 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                     controller: passwordCtrl,
                     textTheme: textTheme,
                     hintText: '8+ digitos',
-                    obscureText: false,
                     suffixIcon: const Icon(
                       Icons.visibility_off,
                       color: LdColors.blackBackground,
@@ -144,7 +143,6 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                     controller: confirrmPassCtrl,
                     textTheme: textTheme,
                     hintText: '8+ digitos',
-                    obscureText: false,
                     suffixIcon: const Icon(
                       Icons.visibility_off,
                       color: LdColors.blackBackground,

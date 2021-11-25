@@ -11,13 +11,13 @@ class HomeStatus extends ViewStatus {
       {required this.sellersDataHome,
       required this.buyersDataHome,
       required this.isLoading,
-      required this.isError});
+      required this.isError,});
 
   HomeStatus copyWith(
       {bool? isLoading,
       bool? isError,
       ResultHome? sellersDataHome,
-      ResultHome? buyersDataHome}) {
+      ResultHome? buyersDataHome,}) {
     return HomeStatus(
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,

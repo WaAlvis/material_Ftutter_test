@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/login/token_login.dart';
 
 part 'user_data_home.g.dart';
 

@@ -20,8 +20,7 @@ class QuarterCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80,
+    return SizedBox.expand(
       child: ClipRect(
         child: CustomPaint(
           painter: QuarterCirclePainter(

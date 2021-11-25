@@ -103,7 +103,8 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
                   ? _PersonalInfoRegisterWeb(
                       keyForm: keyForm,
                       passwordCtrl: passwordCtrl,
-                      isBuy: widget.isBuy)
+                      isBuy: widget.isBuy,
+                    )
                   : _PersonalInfoRegisterMobile(
                       keyForm: keyForm,
                       nickNameCtrl: nickNameCtrl,

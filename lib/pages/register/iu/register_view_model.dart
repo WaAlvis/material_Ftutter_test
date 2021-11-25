@@ -17,7 +17,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
-  var bytes = utf8.encode('woolha');
+  List<int> bytes = utf8.encode('woolha');
 
   RegisterViewModel({
     LdRouter? route,
@@ -114,7 +114,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     status = status.copyWith(isLoading: true);
     print('name: $firstName');
     print('Email: $email');
-    String sha256pass = encrypPass(password).toString();
+    final String sha256pass = encrypPass(password).toString();
     print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
@@ -131,23 +131,22 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isActive: true,
     );
 
-    try {
-      final ResponseData<ResultRegister> response =
-          await _interactor.postRegisterUser(bodyRegister);
-      print('Register Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        _route.goHome(context);
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Registro Error As: ${err}');
-    }
-    status = status.copyWith(isLoading: false);
+      _interactor.postRegisterUser(bodyRegister).then((ResponseData<ResultRegister> response) {
+        print('Register Res: ${response.statusCode} ');
+        if (response.isSuccess) {
+          _route.goHome(context);
+        } else {
+          // TODO: Mostrar alerta
+        }
+        status = status.copyWith(isLoading: false);
+      }).catchError((Object err) {
+        print('Registro Error As: $err');
+        status = status.copyWith(isLoading: false);
+      });
   }
 
   Digest encrypPass(String pass) {
-    var bytes = utf8.encode(pass);
+    final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
   }
 }

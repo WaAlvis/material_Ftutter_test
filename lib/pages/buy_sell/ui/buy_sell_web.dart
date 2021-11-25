@@ -6,7 +6,7 @@ class _BuySellWeb extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.passwordCtrl,
-    required this.isBuy
+    required this.isBuy,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;

@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
@@ -21,7 +21,7 @@ class AppRoutes {
   static final AppRoute rootRoute = AppRoute(
     '/',
     // Handler(handlerFunc: (BuildContext? context, parameters) => const LoginView(),)
-      Handler(handlerFunc: (BuildContext? context, parameters) => const HomeView(),)
+      Handler(handlerFunc: (BuildContext? context, Map<String, List<String>> parameters) => const HomeView(),),
   );
 
   static final AppRoute homeRoute = AppRoute(

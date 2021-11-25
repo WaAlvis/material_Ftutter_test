@@ -90,7 +90,7 @@ class LdFooter extends StatelessWidget {
                       border: Border.all(
                         color: LdColors.white,
                       ),
-                      color: LdColors.white
+                      color: LdColors.white,
                     ),
                     child: Text(
                       'Introduce tu correo electrónico',

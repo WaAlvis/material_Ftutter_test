@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/view_model.dart';
 import 'home_status.dart';
 
