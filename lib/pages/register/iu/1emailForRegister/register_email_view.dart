@@ -8,6 +8,7 @@ import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'register_email_mobile.dart';
@@ -25,22 +26,8 @@ class RegisterEmailView extends StatelessWidget {
     return ChangeNotifierProvider<RegisterViewModel>(
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: LdColors.blackBackground,
-            leading: const Icon(
-              Icons.arrow_back_ios,
-              color: LdColors.white,
-            ),
-            title: Text(
-              'Crear cuenta',
-              style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
-            ),
-            elevation: 0, // 2
-          ),
-          backgroundColor: LdColors.white,
-          body: _RegisterBody(isBuy: isBuy),
-        );
+        return _RegisterBody(isBuy: isBuy);
+
       },
     );
   }
@@ -86,7 +73,6 @@ class _RegisterBodyState extends State<_RegisterBody> {
                     )
                   : _RegisterMobile(
                       keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
                     ),
             )
           ],
