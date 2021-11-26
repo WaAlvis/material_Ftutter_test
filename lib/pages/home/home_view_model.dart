@@ -12,19 +12,37 @@ import 'home_status.dart';
 
 class HomeViewModel extends ViewModel<HomeStatus> {
   final LdRouter _route;
+  final int index;
   final ServiceInteractor _interactor;
 
-  HomeViewModel(this._route, this._interactor) {
+  HomeViewModel(this._route, this.index, this._interactor) {
     status = HomeStatus(
       isLoading: false,
+      hideWallet: false,
+      hideValues: false,
       isError: false,
       sellersDataHome: ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
       buyersDataHome: ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
+      indexTab: index,
     );
   }
 
-  Future<void> onInit(BuildContext context,
-      {bool validateNotification = false,}) async {
+
+
+  void changeHideWallet() {
+    final bool value = status.hideWallet;
+    status = status.copyWith(hideWallet: !value);
+  }
+
+  void changeHideValues() {
+    final bool value = status.hideValues;
+    status = status.copyWith(hideValues: !value);
+  }
+
+  Future<void> onInit(
+    BuildContext context, {
+    bool validateNotification = false,
+  }) async {
     dataHome(context);
   }
 
@@ -68,10 +86,9 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       print('HomeData Res: ${response.statusCode} ');
       if (response.isSuccess) {
         print('Exito obteniendo la data de Buyers en Home');
-        if (type == 0){
+        if (type == 0) {
           status.buyersDataHome = response.result!;
-        }
-        else{
+        } else {
           status.sellersDataHome = response.result!;
         }
       } else {
@@ -82,5 +99,45 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       print('Get DataHome Error As: $err');
     }
     status = status.copyWith(isLoading: false);
+  }
+
+  void onTapTab(int index) {
+    switch (index) {
+      case 0:
+        status = status.copyWith(
+          indexTab: index,
+          // homeColor: DlyColors.yellow,
+          // walletColor: DlyColors.gray,
+          // historicalColor: DlyColors.gray,
+          // profileColor: DlyColors.gray,
+        );
+        break;
+      /*case 1:
+        status = status.copyWith(
+            indexTab: index,
+            homeColor: DlyColors.gray,
+            walletColor: DlyColors.yellow,
+            historicalColor: DlyColors.gray,
+            profileColor: DlyColors.gray);
+        break;*/
+      case 1:
+        status = status.copyWith(
+          indexTab: index,
+          // homeColor: DlyColors.gray,
+          // walletColor: DlyColors.gray,
+          // historicalColor: DlyColors.yellow,
+          // profileColor: DlyColors.gray,
+        );
+        break;
+      case 2:
+        status = status.copyWith(
+          indexTab: index,
+          // homeColor: DlyColors.gray,
+          // walletColor: DlyColors.gray,
+          // historicalColor: DlyColors.gray,
+          // profileColor: DlyColors.yellow,
+        );
+        break;
+    }
   }
 }

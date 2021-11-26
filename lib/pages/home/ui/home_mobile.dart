@@ -1,208 +1,159 @@
 part of 'home_view.dart';
 
-class _HomeMobile extends StatelessWidget {
-  const _HomeMobile({
-    Key? key,
-    required this.keyForm,
-    required this.passwordCtrl,
-  }) : super(key: key);
+class _HomeMobile extends StatefulWidget {
+  @override
+  State<_HomeMobile> createState() => _HomeMobileState();
+}
 
-  final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
+class _HomeMobileState extends State<_HomeMobile>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  final GlobalKey<FormState> keyFormReqDetail = GlobalKey<FormState>();
+
+  // late StreamSubscription<HomeEffect> _effectSubscription;
+
+  @override
+  void initState() {
+    final HomeViewModel viewModel = context.read<HomeViewModel>();
+
+    tabController =
+        TabController(length: 4, initialIndex: viewModel.index, vsync: this);
+    tabController.addListener(() {
+      context.read<HomeViewModel>().onTapTab(tabController.index);
+    });
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
     final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
 
-
-    return Container(
-      color: LdColors.black,
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                color: LdColors.blackBackground,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SvgPicture.asset(LdAssets.logo, width: 150,),
-                      IconButton(
-                        onPressed: () => viewModel.goLogin(context),
-                        icon: const Icon(
-                          Icons.account_circle,
-                          color: LdColors.white,
-                          size: 32,
-                        ),
+    return DoubleBackToCloseApp(
+      snackBar: const SnackBar(
+        content: Text('Tap back again to leave'),
+      ),
+      child: DefaultTabController(
+        
+        length: 4,
+        child: Scaffold(
+          bottomNavigationBar: Stack(
+            children: <Widget>[
+              BottomAppBar(
+                color: Colors.grey,
+                elevation: 0,
+                child: TabBar(
+                  controller: tabController,
+                  onTap: viewModel.onTapTab,
+                  indicatorColor: LdColors.green,
+                  tabs: <Widget>[
+                    Tab(
+                      icon: Icon(
+                        Icons.home,
+                        size: viewModel.status.indexTab == 0 ? 45 : 22,
+                        color: viewModel.status.indexTab == 0
+                            ? Colors.yellow
+                            : Colors.white,
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 8,
-              child: DefaultTabController(
-                length: 2,
-                child: Scaffold(
-                  // backgroundColor: Colors.blueAccent,
-                  appBar: PreferredSize(
-                    preferredSize:
-                        const Size.fromHeight(kMinInteractiveDimension + 1),
-                    child: Container(
-                      color: LdColors.blackBackground,
-                      child: Column(
-                        children: <Widget>[
-                          TabBar(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            indicatorColor: LdColors.orangePrimary,
-                            indicatorWeight: 3,
-                            labelColor: Colors.grey,
-                            unselectedLabelColor: Colors.red,
-                            tabs: <Widget>[
-                              Tab(
-                                child: Text(
-                                  'Comprar',
-                                  style: textTheme.textYellow
-                                      .copyWith(fontWeight: FontWeight.w400, color: LdColors.orangePrimary),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  'Vender',
-                                  style: textTheme.textYellow
-                                      .copyWith(fontWeight: FontWeight.w400, color: LdColors.orangePrimary),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+                      child: viewModel.status.indexTab != 0
+                          ? Text(
+                              'i18n.home',
+                              style: textTheme.textSmallWhite,
+                            )
+                          : const SizedBox.shrink(),
                     ),
-                  ),
-                  body: TabBarView(
-                    children: <Widget>[
-                      RefreshIndicator(
-                        onRefresh: () async {
-                          // keyRefresh.currentState?.show(atTop: false);
-                          await Future<Duration>.delayed(
-                              const Duration(seconds: 1),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 2,),
-                              const Divider(
-                                height: 8,
-                                color: LdColors.gray,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  'Ofertas para comprar',
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.textBlack
-                                      .copyWith(fontWeight: FontWeight.w500, color: LdColors.orangePrimary),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView.separated(
-
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return const SizedBox(
-                                      height: 8,
-                                    );
-                                  },
-                                  // controller: _scrollController,
-                                  itemCount: itemsBuyers.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return CardBuyAndSell(
-                                        index: index,
-                                        items: itemsBuyers,
-                                        textTheme: textTheme,
-                                      viewModel: viewModel, //Pase bien el VM
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                    Tab(
+                      icon: Icon(
+                        Icons.crop,
+                        size: viewModel.status.indexTab == 1 ? 45 : 22,
+                        color: viewModel.status.indexTab == 1
+                            ? Colors.yellow
+                            : Colors.white,
                       ),
-                      RefreshIndicator(
-                        onRefresh: () async {
-                          // keyRefresh.currentState?.show(atTop: false);
-                          await Future<Duration>.delayed(
-                            const Duration(seconds: 1),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 3),
-                              const Divider(
-                                height: 8,
-                                color: LdColors.gray,
-                              ),
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  'Ofertas para vender',
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.textBlack
-                                      .copyWith(fontWeight: FontWeight.w500, color: LdColors.orangePrimary),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView.separated(
-
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return const SizedBox(
-                                      height: 8,
-                                    );
-                                  },
-                                  // controller: _scrollController,
-                                  itemCount: itemsSellers.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return CardBuyAndSell(
-                                      index: index,
-                                      items: itemsSellers,
-                                      textTheme: textTheme,
-                                      viewModel: viewModel,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),                    ],
-                  ),
+                      child: viewModel.status.indexTab != 1
+                          ? Text(
+                              'billetera',
+                              style: textTheme.textSmallWhite,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        Icons.restore,
+                        size: viewModel.status.indexTab == 2 ? 45 : 22,
+                        color: viewModel.status.indexTab == 2
+                            ? Colors.yellow
+                            : Colors.white,
+                      ),
+                      child: viewModel.status.indexTab != 2
+                          ? Text(
+                              'Historial',
+                              style: textTheme.textSmallWhite,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        Icons.person,
+                        size: viewModel.status.indexTab == 3 ? 45 : 22,
+                        color: viewModel.status.indexTab == 3
+                            ? Colors.yellow
+                            : Colors.white,
+                      ),
+                      child: viewModel.status.indexTab != 3
+                          ? Text(
+                              'Perfil',
+                              style: textTheme.textSmallWhite,
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
+          body: _buildReqDetail(viewModel, textTheme),
         ),
       ),
+    );
+  }
+
+  Widget _buildReqDetail(HomeViewModel viewModel, TextTheme textTheme) {
+    final Size size = MediaQuery.of(context).size;
+
+    return Stack(
+      children: <Widget>[
+        TabBarView(
+          controller: tabController,
+          children: <Widget>[
+            HomeScreen(
+              viewModel.changeHideWallet,
+              viewModel.changeHideValues,
+              hideWallet: viewModel.status.hideWallet,
+              hideValues: viewModel.status.hideValues,
+            ),
+            HistoricalScreen(),
+            ProfileScreen(),
+            ProfileScreen()
+          ],
+        ),
+        // Positioned(
+        //   bottom: -12,
+        //   width: size.width,
+        //   child: SvgPicture.asset(
+        //     DlyAssets.tabBar,
+        //     alignment: Alignment.bottomCenter,
+        //     width: size.width,
+        //   ),
+        // )
+      ],
     );
   }
 }
@@ -219,7 +170,6 @@ class OptionsFilterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: const EdgeInsets.only(bottom: 10, top: 18),
       child: Row(
@@ -230,15 +180,13 @@ class OptionsFilterRow extends StatelessWidget {
           const Icon(Icons.filter_alt_outlined),
           Text(
             'Filtros ($quantityFilter)',
-            style:
-                textTheme.textSmallBlack,
+            style: textTheme.textSmallBlack,
           )
         ],
       ),
     );
   }
 }
-
 
 class InfoValueCard extends StatelessWidget {
   const InfoValueCard({
@@ -273,7 +221,7 @@ class InfoValueCard extends StatelessWidget {
             Text(
               'COP/DLY',
               style: textTheme.textSmallWhite
-                  .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                  .copyWith(fontWeight: FontWeight.w600, fontSize: 12),
             ),
           ],
         )
@@ -281,7 +229,6 @@ class InfoValueCard extends StatelessWidget {
     );
   }
 }
-
 
 // final List<Map<String, String>> items = <Map<String, String>>[
 //   <String, String>{  1111111

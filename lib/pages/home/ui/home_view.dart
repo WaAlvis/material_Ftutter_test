@@ -12,6 +12,11 @@ import 'package:localdaily/services/models/home/reponse/data.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+
+import 'screens/historical_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/profile_screen.dart';
 
 // Components web
 part 'components_web/information_home.dart';
@@ -32,6 +37,7 @@ class HomeView extends StatelessWidget {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (_) => HomeViewModel(
           locator<LdRouter>(),
+          1,
           locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
@@ -90,8 +96,7 @@ class _HomeBodyState extends State<_HomeBody> {
                 )
               :
             _HomeMobile(
-                  keyForm: keyForm,
-                  passwordCtrl: passwordCtrl,
+
                 ),
           )
         ],
