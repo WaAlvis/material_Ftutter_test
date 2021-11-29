@@ -12,10 +12,9 @@ import 'home_status.dart';
 
 class HomeViewModel extends ViewModel<HomeStatus> {
   final LdRouter _route;
-  final int index;
   final ServiceInteractor _interactor;
 
-  HomeViewModel(this._route, this.index, this._interactor) {
+  HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
       isLoading: false,
       hideWallet: false,
@@ -23,11 +22,15 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       isError: false,
       sellersDataHome: ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
       buyersDataHome: ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
-      indexTab: index,
+      indexTab: 0,
     );
   }
 
+  void onItemTapped(int index) {
 
+    status  = status.copyWith(indexTab: index);
+
+  }
 
   void changeHideWallet() {
     final bool value = status.hideWallet;
@@ -101,43 +104,4 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     status = status.copyWith(isLoading: false);
   }
 
-  void onTapTab(int index) {
-    switch (index) {
-      case 0:
-        status = status.copyWith(
-          indexTab: index,
-          // homeColor: DlyColors.yellow,
-          // walletColor: DlyColors.gray,
-          // historicalColor: DlyColors.gray,
-          // profileColor: DlyColors.gray,
-        );
-        break;
-      /*case 1:
-        status = status.copyWith(
-            indexTab: index,
-            homeColor: DlyColors.gray,
-            walletColor: DlyColors.yellow,
-            historicalColor: DlyColors.gray,
-            profileColor: DlyColors.gray);
-        break;*/
-      case 1:
-        status = status.copyWith(
-          indexTab: index,
-          // homeColor: DlyColors.gray,
-          // walletColor: DlyColors.gray,
-          // historicalColor: DlyColors.yellow,
-          // profileColor: DlyColors.gray,
-        );
-        break;
-      case 2:
-        status = status.copyWith(
-          indexTab: index,
-          // homeColor: DlyColors.gray,
-          // walletColor: DlyColors.gray,
-          // historicalColor: DlyColors.gray,
-          // profileColor: DlyColors.yellow,
-        );
-        break;
-    }
-  }
 }
