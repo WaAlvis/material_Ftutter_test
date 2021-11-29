@@ -18,7 +18,6 @@ class HomeView extends StatelessWidget {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (_) => HomeViewModel(
           locator<LdRouter>(),
-          1,
           locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {

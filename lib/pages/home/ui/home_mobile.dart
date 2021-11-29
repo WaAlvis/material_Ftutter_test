@@ -17,31 +17,34 @@ class _HomeMobile extends StatelessWidget {
     final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
     final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
 
-    const TextStyle optionStyle =
-        TextStyle(fontSize: 80, fontWeight: FontWeight.bold);
-    const List<Widget> _widgetOptions = <Widget>[
-      Text(
-        'Index 0: Inicio',
-        style: optionStyle,
+    List<Widget> _pages = <Widget>[
+      HomeMainOfferts(
+          viewModel: viewModel,
+          textTheme: textTheme,
+          itemsBuyers: itemsBuyers,
+          itemsSellers: itemsSellers),
+      const Center(
+        child: Text(
+      'Operaciones',
+        ),
       ),
-      Text(
-        'Index 1: Operaciones',
-        style: optionStyle,
+      const Center(
+        child: Text(
+      'Mis ofertas',
+        ),
       ),
-      Text(
-        'Index 2: Mis ofertas',
-        style: optionStyle,
+      const Center(
+        child: Text(
+      'Perfil',
+        ),
       ),
-      Text(
-        'Index 3: Settings',
-        style: optionStyle,
-      ),
+      // Camera page
+      // Chats page
     ];
 
     return Scaffold(
       bottomNavigationBar: Container(
-
-        decoration:const BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
           boxShadow: <BoxShadow>[
             BoxShadow(
@@ -96,202 +99,7 @@ class _HomeMobile extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        color: LdColors.black,
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  color: LdColors.blackBackground,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          LdAssets.logo,
-                          width: 150,
-                        ),
-                        IconButton(
-                          onPressed: () => viewModel.goLogin(context),
-                          icon: const Icon(
-                            Icons.account_circle,
-                            color: LdColors.white,
-                            size: 32,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 8,
-                child: DefaultTabController(
-                  length: 2,
-                  child: Scaffold(
-                    // backgroundColor: Colors.blueAccent,
-                    appBar: PreferredSize(
-                      preferredSize:
-                          const Size.fromHeight(kMinInteractiveDimension + 1),
-                      child: Container(
-                        color: LdColors.blackBackground,
-                        child: Column(
-                          children: <Widget>[
-                            TabBar(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              indicatorColor: LdColors.orangePrimary,
-                              indicatorWeight: 3,
-                              labelColor: Colors.grey,
-                              unselectedLabelColor: Colors.red,
-                              tabs: <Widget>[
-                                Tab(
-                                  child: Text(
-                                    'Comprar',
-                                    style: textTheme.textYellow.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: LdColors.orangePrimary),
-                                  ),
-                                ),
-                                Tab(
-                                  child: Text(
-                                    'Vender',
-                                    style: textTheme.textYellow.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: LdColors.orangePrimary),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    body: TabBarView(
-                      children: <Widget>[
-                        RefreshIndicator(
-                          onRefresh: () async {
-                            // keyRefresh.currentState?.show(atTop: false);
-                            await Future<Duration>.delayed(
-                              const Duration(seconds: 1),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                OptionsFilterRow(
-                                  textTheme: textTheme,
-                                  quantityFilter: 2,
-                                ),
-                                const Divider(
-                                  height: 8,
-                                  color: LdColors.gray,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    'Ofertas para comprar',
-                                    textAlign: TextAlign.center,
-                                    style: textTheme.textBlack.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: LdColors.orangePrimary),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListView.separated(
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        height: 8,
-                                      );
-                                    },
-                                    // controller: _scrollController,
-                                    itemCount: itemsBuyers.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return CardBuyAndSell(
-                                        index: index,
-                                        items: itemsBuyers,
-                                        textTheme: textTheme,
-                                        viewModel: viewModel, //Pase bien el VM
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        RefreshIndicator(
-                          onRefresh: () async {
-                            // keyRefresh.currentState?.show(atTop: false);
-                            await Future<Duration>.delayed(
-                              const Duration(seconds: 1),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                OptionsFilterRow(
-                                    textTheme: textTheme, quantityFilter: 3),
-                                const Divider(
-                                  height: 8,
-                                  color: LdColors.gray,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    'Ofertas para vender',
-                                    textAlign: TextAlign.center,
-                                    style: textTheme.textBlack.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: LdColors.orangePrimary),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListView.separated(
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        height: 8,
-                                      );
-                                    },
-                                    // controller: _scrollController,
-                                    itemCount: itemsSellers.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return CardBuyAndSell(
-                                        index: index,
-                                        items: itemsSellers,
-                                        textTheme: textTheme,
-                                        viewModel: viewModel,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      body: _pages.elementAt(viewModel.status.indexTab),
     );
   }
 }
