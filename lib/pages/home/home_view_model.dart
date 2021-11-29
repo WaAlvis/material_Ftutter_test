@@ -49,6 +49,16 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     dataHome(context);
   }
 
+  void goCreateOffertSale(BuildContext context) {
+    LdConnection.validateConnection().then((bool value) {
+      if (value) {
+        _route.goCreateOffertSale(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
   void goLogin(BuildContext context) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {

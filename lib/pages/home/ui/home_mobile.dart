@@ -18,7 +18,7 @@ class _HomeMobile extends StatelessWidget {
     final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
 
     List<Widget> _pages = <Widget>[
-      HomeMainOfferts(
+      MainOffertsHome(
           viewModel: viewModel,
           textTheme: textTheme,
           itemsBuyers: itemsBuyers,
@@ -28,11 +28,10 @@ class _HomeMobile extends StatelessWidget {
       'Operaciones',
         ),
       ),
-      const Center(
-        child: Text(
-      'Mis ofertas',
-        ),
-      ),
+MyOfferts(viewModel: viewModel,
+    textTheme: textTheme,
+    itemsBuyers: itemsBuyers,
+    itemsSellers: itemsSellers),
       const Center(
         child: Text(
       'Perfil',

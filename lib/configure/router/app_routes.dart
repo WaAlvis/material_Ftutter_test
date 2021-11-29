@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/pages/offert_sale/ui/offert_sale_view.dart';
 import 'package:localdaily/pages/register/iu/1emailForRegister/register_email_view.dart';
 import 'package:localdaily/pages/register/iu/2validate_email/validate_email_view.dart';
 import 'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
@@ -43,6 +44,10 @@ class AppRoutes {
     '/login',
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
+  static final AppRoute createOffertSaleRoute = AppRoute(
+    '/create_offert_sale',
+    Handler(handlerFunc: (_, __) => const OffertSaleView()),
+  );
 
   static final AppRoute registerEmailRoute = AppRoute(
     '/register_email',
@@ -64,6 +69,7 @@ class AppRoutes {
     buyRoute,
     sellRoute,
     loginRoute,
+    createOffertSaleRoute,
     registerEmailRoute,
     registerValidateEmailRoute,
     personalInfoRegisterRoute,

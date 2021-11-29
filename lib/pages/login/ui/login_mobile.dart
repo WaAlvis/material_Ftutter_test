@@ -57,14 +57,14 @@ class _LoginMobile extends StatelessWidget {
                   InputTextCustom(
                     'Nombre de usuario *',
                     controller: userCtrl,
-                    textTheme: textTheme,
+                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu usuario',
                   ),
                   const SizedBox(height: 20),
                   InputTextCustom(
                     'Contraseña *',
                     controller: passwordCtrl,
-                    textTheme: textTheme,
+                    style: textTheme.textSmallBlack,
                     hintText: '8+ digitos',
                     obscureText: false,
                     suffixIcon: const Icon(

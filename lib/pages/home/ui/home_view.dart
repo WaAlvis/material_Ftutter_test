@@ -7,7 +7,8 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
-import 'package:localdaily/pages/home/ui/pages_mobile/home_main_offerts.dart';
+import 'package:localdaily/pages/home/ui/pages_home_mobile/main_offerts_home.dart';
+import 'package:localdaily/pages/home/ui/pages_home_mobile/my_offerts_home.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/reponse/data.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
@@ -16,13 +17,20 @@ import 'package:provider/provider.dart';
 
 // Components Mobile
 part 'components/card_buy_and_sell.dart';
+
 // Components web
 part 'components_web/information_home.dart';
+
 part 'components_web/product_home.dart';
+
 part 'components_web/security_home.dart';
+
 part 'components_web/start_home.dart';
+
 part 'components_web/table_home.dart';
+
 part 'home_mobile.dart';
+
 part 'home_web.dart';
 
 class HomeView extends StatelessWidget {
@@ -32,14 +40,15 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (_) => HomeViewModel(
-          locator<LdRouter>(),
-          locator<ServiceInteractor>(),
+        locator<LdRouter>(),
+        locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return const Scaffold(
-          backgroundColor: LdColors.white,
-          body:
-          _HomeBody(),
+        return const SafeArea(
+          child: Scaffold(
+            backgroundColor: LdColors.white,
+            body: _HomeBody(),
+          ),
         );
       },
     );
@@ -73,27 +82,26 @@ class _HomeBodyState extends State<_HomeBody> {
 
   @override
   Widget build(BuildContext context) {
-
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
 
-    return LayoutBuilder(builder: (_, BoxConstraints constraints) {
-      final double maxWidth = constraints.maxWidth;
+    return LayoutBuilder(
+      builder: (_, BoxConstraints constraints) {
+        final double maxWidth = constraints.maxWidth;
 
-      return CustomScrollView(
-        slivers: <Widget>[
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child:
-            maxWidth > 1024
-              ? _HomeWeb(
-                  keyForm: keyForm,
-                  passwordCtrl: passwordCtrl,
-                )
-              :
-            _HomeMobile(),
-          )
-        ],
-      );
-    },);
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: maxWidth > 1024
+                  ? _HomeWeb(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                    )
+                  : _HomeMobile(),
+            )
+          ],
+        );
+      },
+    );
   }
 }

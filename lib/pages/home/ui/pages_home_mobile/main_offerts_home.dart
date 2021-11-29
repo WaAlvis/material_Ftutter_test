@@ -7,8 +7,8 @@ import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/reponse/data.dart';
 
-class HomeMainOfferts extends StatelessWidget {
-  const HomeMainOfferts({
+class MainOffertsHome extends StatelessWidget {
+  const MainOffertsHome({
     required this.viewModel,
     required this.textTheme,
     required this.itemsBuyers,

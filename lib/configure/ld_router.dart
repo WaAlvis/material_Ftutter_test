@@ -61,6 +61,15 @@ class LdRouter {
     );
   }
 
+  void goCreateOffertSale(BuildContext context) {
+
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.createOffertSaleRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
   void goEmailRegister(BuildContext context) {
 
     AppRouter.router.navigateTo(

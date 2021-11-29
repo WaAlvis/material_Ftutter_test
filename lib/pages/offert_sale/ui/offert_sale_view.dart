@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/login/login_view_model.dart';
+import 'package:localdaily/pages/offert_sale/offert_sale_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -10,12 +12,12 @@ import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
 
-part 'login_mobile.dart';
+part 'offert_sale_mobile.dart';
 
-part 'login_web.dart';
+part 'offert_sale_web.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({Key? key, this.isBuy = false}) : super(key: key);
+class OffertSaleView extends StatelessWidget {
+  const OffertSaleView({Key? key, this.isBuy = false}) : super(key: key);
 
   final bool isBuy;
 
@@ -23,38 +25,37 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<LoginViewModel>(
-      create: (_) => LoginViewModel(),
+    return ChangeNotifierProvider<OffertSaleViewModel>(
+      create: (_) => OffertSaleViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: LdColors.blackBackground,
 
             title: Text(
-              'Iniciar sesión',
+              'Crear Oferta',
               style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
             ),
             elevation: 0, // 2
           ),
-          backgroundColor: LdColors.white,
-          body: _LoginBody(isBuy: isBuy),
+          backgroundColor: LdColors.blackBackground,
+          body: _OffertSaleBody(isBuy: isBuy),
         );
       },
     );
   }
 }
 
-class _LoginBody extends StatefulWidget {
-  const _LoginBody({Key? key, required this.isBuy}) : super(key: key);
+class _OffertSaleBody extends StatefulWidget {
+  const _OffertSaleBody({Key? key, required this.isBuy}) : super(key: key);
 
   final bool isBuy;
 
   @override
-  _LoginBodyState createState() => _LoginBodyState();
-
+  _OffertSaleBodyState createState() => _OffertSaleBodyState();
 }
 
-class _LoginBodyState extends State<_LoginBody> {
+class _OffertSaleBodyState extends State<_OffertSaleBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController usuarioCtrl = TextEditingController();
@@ -68,7 +69,7 @@ class _LoginBodyState extends State<_LoginBody> {
 
   @override
   Widget build(BuildContext context) {
-    final LoginViewModel viewModel = context.watch<LoginViewModel>();
+    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
@@ -79,16 +80,16 @@ class _LoginBodyState extends State<_LoginBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                ? _LoginWeb(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    isBuy: widget.isBuy,
-                  )
-                : _LoginMobile(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    userCtrl: usuarioCtrl,
-                  ),
+                  ? _OffertSaleWeb(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      isBuy: widget.isBuy,
+                    )
+                  : _OffertSaleMobile(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      userCtrl: usuarioCtrl,
+                    ),
             )
           ],
         );

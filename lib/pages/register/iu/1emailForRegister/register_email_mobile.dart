@@ -71,7 +71,7 @@ class _RegisterMobile extends StatelessWidget {
                 children: <Widget>[
                   InputTextCustom(
                     'Correo electronico',
-                    textTheme: textTheme,
+                    style: textTheme.textSmallBlack,
                     hintText: 'ejemplo@correo.com',
                   ),
                   const Spacer(),
