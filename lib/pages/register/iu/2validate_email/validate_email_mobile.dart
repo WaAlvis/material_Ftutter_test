@@ -57,7 +57,7 @@ class _ValidateEmailMobile extends StatelessWidget {
               ],
             ),
           ),
-          PrimaryButton(
+          PrimaryButtonCustom(
             'Abrir correo',
             onPressed: () => viewModel.goRegisterPersonalData(context),
           ),

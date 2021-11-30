@@ -71,11 +71,10 @@ class _RegisterMobile extends StatelessWidget {
                 children: <Widget>[
                   InputTextCustom(
                     'Correo electronico',
-                    style: textTheme.textSmallBlack,
                     hintText: 'ejemplo@correo.com',
                   ),
                   const Spacer(),
-                  PrimaryButton(
+                  PrimaryButtonCustom(
                     'Ingresar',
                     onPressed: () => viewModel.goValidateEmail(context),
                   ),

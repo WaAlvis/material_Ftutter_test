@@ -7,10 +7,12 @@ import 'package:localdaily/commons/ld_colors.dart';
 class OrangeTableSummary extends StatelessWidget {
   const OrangeTableSummary({
     Key? key,
-    required this.textTheme,
+    required this.textTheme,this.dlyCopValue='0',
   }) : super(key: key);
 
   final TextTheme textTheme;
+  final String dlyCopValue;
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class OrangeTableSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                '0',
+                dlyCopValue,
                 style: textTheme.subtitleWhite,
               ),
               SvgPicture.asset(LdAssets.dlycop_icon),

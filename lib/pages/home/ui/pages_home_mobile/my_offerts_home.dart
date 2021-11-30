@@ -69,7 +69,7 @@ class MyOfferts extends StatelessWidget {
                   'Crea tu primera oferta y vuelve aqui para hacerle seguimineto',
                   textAlign: TextAlign.center,
                 ),
-                PrimaryButton(
+                PrimaryButtonCustom(
                   'Crear oferta de venta',
                   onPressed: () => viewModel.goCreateOffertSale(context),
                 ),

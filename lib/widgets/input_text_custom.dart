@@ -6,14 +6,16 @@ class InputTextCustom extends StatelessWidget {
   const InputTextCustom(
     this.data, {
     Key? key,
-    required this.style,
+    this.styleLabel,
+    this.styleHint,
     required this.hintText,
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
   }) : super(key: key);
 
-  final TextStyle style;
+  final TextStyle? styleLabel;
+  final TextStyle? styleHint;
   final String data;
   final bool obscureText;
   final String hintText;
@@ -29,7 +31,7 @@ class InputTextCustom extends StatelessWidget {
       children: <Widget>[
         Text(
           data,
-          style: style,
+          style: styleLabel ?? textTheme.textBigBlack,
         ),
         const SizedBox(height: 5),
         TextFormField(
@@ -42,8 +44,7 @@ class InputTextCustom extends StatelessWidget {
             return null;
           },
           decoration: InputDecoration(
-            hintStyle:
-                style.copyWith(color: LdColors.grayLight),
+            hintStyle: styleHint ?? textTheme.textGray,
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),

@@ -4,6 +4,7 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/offert_sale/offert_sale_view_model.dart';
+import 'package:localdaily/pages/offert_sale/ui/components/orange_table_summary.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -29,6 +30,7 @@ class OffertSaleView extends StatelessWidget {
       create: (_) => OffertSaleViewModel(),
       builder: (BuildContext context, _) {
         return Scaffold(
+
           appBar: AppBar(
             backgroundColor: LdColors.blackBackground,
 
@@ -75,23 +77,16 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: maxWidth > 1024
-                  ? _OffertSaleWeb(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                      isBuy: widget.isBuy,
-                    )
-                  : _OffertSaleMobile(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                      userCtrl: usuarioCtrl,
-                    ),
-            )
-          ],
+        return maxWidth > 1024
+            ? _OffertSaleWeb(
+          keyForm: keyForm,
+          passwordCtrl: passwordCtrl,
+          isBuy: widget.isBuy,
+        )
+            : _OffertSaleMobile(
+          keyForm: keyForm,
+          passwordCtrl: passwordCtrl,
+          userCtrl: usuarioCtrl,
         );
       },
     );

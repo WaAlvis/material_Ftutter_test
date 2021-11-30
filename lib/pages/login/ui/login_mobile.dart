@@ -57,14 +57,12 @@ class _LoginMobile extends StatelessWidget {
                   InputTextCustom(
                     'Nombre de usuario *',
                     controller: userCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu usuario',
                   ),
                   const SizedBox(height: 20),
                   InputTextCustom(
                     'Contraseña *',
                     controller: passwordCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: '8+ digitos',
                     obscureText: false,
                     suffixIcon: const Icon(
@@ -110,7 +108,7 @@ class _LoginMobile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  PrimaryButton(
+                  PrimaryButtonCustom(
                     'Ingresar',
                     onPressed: () {
                       if (keyForm.currentState!.validate()) {

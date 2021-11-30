@@ -74,63 +74,54 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   InputTextCustom(
                     'Primer nombre  *',
                     controller: firstNameCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu primer nombre',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Segundo nombre  *',
                     controller: secondNameCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu segundo nombre',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Primer apellido  *',
                     controller: firstLastNameCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu primer apellido',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Segundo apellido  *',
                     controller: secondLastNameCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu segundo apellido',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Nombre de usuario  *',
                     controller: nickNameCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu Nickname ',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Celular  *',
                     controller: phoneCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu celular',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Correo electronico  *',
                     controller: emailCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu Email',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Fecha de nacimiento  *',
                     controller: dateBirthCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: 'Ingresa tu fecha de nacimiento',
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Contraseña *',
                     controller: passwordCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: '8+ digitos',
                     suffixIcon: const Icon(
                       Icons.visibility_off,
@@ -141,7 +132,6 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   InputTextCustom(
                     'Confirmar contraseña *',
                     controller: confirrmPassCtrl,
-                    style: textTheme.textSmallBlack,
                     hintText: '8+ digitos',
                     suffixIcon: const Icon(
                       Icons.visibility_off,
@@ -186,23 +176,23 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  PrimaryButton(
+                  PrimaryButtonCustom(
                     'Registrar',
                     onPressed: () {
                       // if (keyForm.currentState!.validate()) {
-                        viewModel.registerUser(
-                          context,
-                          nickNameCtrl: nickNameCtrl,
-                          firstNameCtrl: firstNameCtrl,
-                          firstLastNameCtrl: firstLastNameCtrl,
-                          secondNameCtrl: secondNameCtrl,
-                          secondLastNameCtrl: secondLastNameCtrl,
-                          phoneCtrl: phoneCtrl,
-                          emailCtrl: emailCtrl,
-                          dateBirthCtrl: dateBirthCtrl,
-                          passwordCtrl: passwordCtrl,
-                          confirrmPassCtrl: confirrmPassCtrl,
-                        );
+                      viewModel.registerUser(
+                        context,
+                        nickNameCtrl: nickNameCtrl,
+                        firstNameCtrl: firstNameCtrl,
+                        firstLastNameCtrl: firstLastNameCtrl,
+                        secondNameCtrl: secondNameCtrl,
+                        secondLastNameCtrl: secondLastNameCtrl,
+                        phoneCtrl: phoneCtrl,
+                        emailCtrl: emailCtrl,
+                        dateBirthCtrl: dateBirthCtrl,
+                        passwordCtrl: passwordCtrl,
+                        confirrmPassCtrl: confirrmPassCtrl,
+                      );
                       // }
                     },
                   ),

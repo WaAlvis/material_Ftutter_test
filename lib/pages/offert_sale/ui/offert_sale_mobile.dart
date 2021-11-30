@@ -44,8 +44,10 @@ class _OffertSaleMobile extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              InputTextCustom('Valor de los DLYCOP',
-                  style: textTheme.textBigBlack, hintText: '0'),
+              const InputTextCustom(
+                'Valor de los DLYCOP',
+                hintText: '0',
+              ),
               const SizedBox(
                 height: 24,
               ),
@@ -56,92 +58,58 @@ class _OffertSaleMobile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              OrangeTableSummary(textTheme: textTheme),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class OrangeTableSummary extends StatelessWidget {
-  const OrangeTableSummary({
-    Key? key,
-    required this.textTheme,
-  }) : super(key: key);
-
-  final TextTheme textTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-          color: LdColors.orangePrimary),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                '0',
-                style: textTheme.subtitleWhite,
+              OrangeTableSummary(
+                textTheme: textTheme,
               ),
-              SvgPicture.asset(LdAssets.dlycop_icon),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Bancos para resivir el pago',
+                style: textTheme.textBigBlack,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                'Esta imformacion solo se mostrar al usuario que comfirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
+                style: textTheme.textGray,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const InputTextCustom('Banco *', hintText: 'Seleciona tu banco'),
+              const SizedBox(
+                height: 20,
+              ),
+              PrimaryButtonCustom(
+                'Agregar Banco',
+                icon: Icons.add_circle_outline_outlined,
+                colorButton: LdColors.white,
+                colorTextBorder: LdColors.orangePrimary,
+                onPressed: () {},
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text('Informacion adicional (opcional)'),
+              const SizedBox(height: 8),
+              const TextField(
+
+                keyboardType: TextInputType.multiline,
+                minLines: 5, //Normal textInputField will be displayed
+                maxLines: 5, // when user presses enter it will adapt to it
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                )),
+              ),
             ],
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Divider(
-            thickness: 1,
-            color: LdColors.whiteDark,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          rowOrangeTable(
-            firstText: 'Valor',
-            secondText: '1 DLY ≈ 1 COP',
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          rowOrangeTable(
-            firstText: 'Fee(1%)',
-            secondText: '0 DLYCOP',
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          rowOrangeTable(
-            firstText: 'Total',
-            secondText: '0 DLYCOP',
-          ),
-        ],
+        ),
       ),
-    );
-  }
-
-  Row rowOrangeTable({required String firstText, required String secondText}) {
-    TextStyle style = textTheme.textWhite.copyWith(
-        color: LdColors.grayBg.withOpacity(0.6), fontWeight: FontWeight.w100);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          firstText,
-          style: style,
-        ),
-        Text(
-          secondText,
-          style: style,
-        ),
-      ],
     );
   }
 }
