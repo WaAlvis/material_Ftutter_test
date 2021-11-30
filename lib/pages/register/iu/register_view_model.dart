@@ -118,16 +118,16 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
-      userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       nickName: nickName,
       firstName: firstName,
-      firstLastName: firstLastName,
       secondName: secondName,
+      firstLastName: firstLastName,
       secondLastName: secondLastName,
-      password: sha256pass,
-      phone: phone,
-      email: email,
       dateBirth: '1985/10/25',
+      email: email,
+      phone: phone,
+      userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
+      password: sha256pass,
       isActive: true,
     );
 
