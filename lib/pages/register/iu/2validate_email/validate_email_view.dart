@@ -10,12 +10,15 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'validate_email_mobile.dart';
+
 part 'validate_email_web.dart';
 
 class ValidateEmailView extends StatelessWidget {
-  const ValidateEmailView({Key? key, this.isBuy = false}) : super(key: key);
+  const ValidateEmailView({Key? key, this.isBuy = false, this.email})
+      : super(key: key);
 
   final bool isBuy;
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,10 @@ class ValidateEmailView extends StatelessWidget {
             elevation: 0, // 2
           ),
           backgroundColor: LdColors.white,
-          body: _ValidateEmailBody(isBuy: isBuy),
+          body: _ValidateEmailBody(
+            isBuy: isBuy,
+
+          ),
         );
       },
     );
@@ -46,7 +52,10 @@ class ValidateEmailView extends StatelessWidget {
 }
 
 class _ValidateEmailBody extends StatefulWidget {
-  const _ValidateEmailBody({Key? key, required this.isBuy}) : super(key: key);
+  const _ValidateEmailBody({
+    Key? key,
+    required this.isBuy,
+  }) : super(key: key);
 
   final bool isBuy;
 

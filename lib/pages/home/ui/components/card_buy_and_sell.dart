@@ -29,8 +29,8 @@ class CardBuyAndSell extends StatelessWidget {
             children: <Widget>[
               TitleBarCard(
                 name: items[index].user.nickName,
-                stars: '+${items[index].user.rateBuyer}',
-                time: '5D!',
+                stars: '+${items[index].user.rateSeller}',
+                time: items[index].advertisement.expiredDate,
                 textTheme: textTheme,
               ),
               const Padding(
@@ -81,7 +81,7 @@ class CardBuyAndSell extends StatelessWidget {
               SizedBox(
                 width: double.maxFinite,
                 child: Text(
-                  'Transferencia bancaria nacional. ${items[index].advertisement.idStatus}.',
+                  'Transferencia bancaria nacional.',
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
                   maxLines: 3,

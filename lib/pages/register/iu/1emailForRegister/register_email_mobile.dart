@@ -4,9 +4,12 @@ class _RegisterMobile extends StatelessWidget {
   const _RegisterMobile({
     Key? key,
     required this.keyForm,
+    required this.emailCtrl,
+
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
+  final TextEditingController emailCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +71,15 @@ class _RegisterMobile extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
               child: Column(
                 children: <Widget>[
-                  InputTextCustom(
+                   InputTextCustom(
                     'Correo electronico',
+                    controller: emailCtrl,
                     hintText: 'ejemplo@correo.com',
                   ),
                   const Spacer(),
                   PrimaryButtonCustom(
                     'Ingresar',
-                    onPressed: () => viewModel.goValidateEmail(context),
+                    onPressed: () => viewModel.goValidateEmail(context, emailCtrl.text),
                   ),
                 ],
               ),

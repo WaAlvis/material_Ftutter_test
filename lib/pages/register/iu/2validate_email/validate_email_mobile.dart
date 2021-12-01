@@ -42,7 +42,7 @@ class _ValidateEmailMobile extends StatelessWidget {
                   height: 28,
                 ),
                 Text(
-                  'juan.vega@gmail.com',
+                  'w.finex@gmail.com',
                   style:
                       textTheme.textBlack.copyWith(fontWeight: FontWeight.w500),
                 ),

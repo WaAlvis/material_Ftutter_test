@@ -41,7 +41,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   //   });
   // }
 
-  void goValidateEmail(BuildContext context) {
+  void goValidateEmail(BuildContext context, String email) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
         _route.goValidateEmail(context);

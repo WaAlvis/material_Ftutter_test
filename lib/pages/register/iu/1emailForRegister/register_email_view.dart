@@ -12,6 +12,7 @@ import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'register_email_mobile.dart';
+
 part 'register_email_web.dart';
 
 class RegisterEmailView extends StatelessWidget {
@@ -27,7 +28,6 @@ class RegisterEmailView extends StatelessWidget {
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
         return _RegisterBody(isBuy: isBuy);
-
       },
     );
   }
@@ -45,17 +45,18 @@ class _RegisterBody extends StatefulWidget {
 class _RegisterBodyState extends State<_RegisterBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController emailCtrl = TextEditingController();
 
   @override
   void dispose() {
+    passwordCtrl.dispose();
     passwordCtrl.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final RegisterViewModel viewModel =
-        context.watch<RegisterViewModel>();
+    final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
@@ -73,6 +74,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                     )
                   : _RegisterMobile(
                       keyForm: keyForm,
+                      emailCtrl: emailCtrl,
                     ),
             )
           ],
