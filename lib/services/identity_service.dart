@@ -11,7 +11,7 @@ class UrlsApi {
 }
 
 @RestApi(baseUrl: 'http://18.117.71.211:9000/Identity')
-abstract class IdentityService {
+abstract class IdentityService {//LOGIN
 
   factory IdentityService(Dio dio, {String baseUrl}) = _IdentityService;
 

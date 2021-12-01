@@ -127,7 +127,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       email: email,
       phone: phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
-      password: sha256pass,
+      password: password,
       isActive: true,
     );
 
