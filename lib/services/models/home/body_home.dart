@@ -8,17 +8,13 @@ class BodyHome {
   BodyHome({
     required this.type,
     required this.pagination,
-
-
-      });
+  });
 
   factory BodyHome.fromJson(Map<String, dynamic> json) =>
       _$BodyHomeFromJson(json);
 
   int type;
   Pagination pagination;
-
-
 
   Map<String, dynamic> toJson() => _$BodyHomeToJson(this);
 }

@@ -69,34 +69,39 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   }
 
   Future<void> login(
-      BuildContext context, String email, String password,) async {
+    BuildContext context,
+    String email,
+    String password,
+  ) async {
     status = status.copyWith(isLoading: true);
     final String pass256 = encrypPass(password).toString();
     print('Email: $email');
     print('Password: $password');
     print('Pass256: $pass256');
 
-
     final BodyLogin bodyLogin = BodyLogin(
       identity: email,
-      password: pass256,
+      password: password,
       signature:
-      'abKOWolU4vV/9URccer1B2V6WogwH2shwyN9k8x5BYqfrf76guQZqkfozlxXaEDrxUORoE/aL82mhvYPWBf4CqtKOLeO4nza/CuR0s7M3qYa1WlubBikJVmaY+GO3WWPxfnX2EZ8VT9cktKjTX+yQS8D0iHFrUfu8NQZjdCBmeHPoWBb5esYovvqseSZcnX4K0vBUlYvRvqBcvw0UF2NcB2wjR7wmohTdWeY+l99MT3JpVradzMPjGEpTRII1Sf7N41FiKawGStWmuBL5zzIVD+JjDzN7PlGeGPUuoXJ2zlX+swp26/LKkPfrqK21UemZmxPE7oYkb+gb9SDbYJpsQ==',
+          'T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
       wearableId: 'd9b1289a-ae98-4e86-a145-ac046a8bd5be',
     );
 
-      _interactor.postLogin(bodyLogin).then((ResponseData<ResultLogin> response) {
-        print('Login Res: ${response.statusCode} ');
-        if (response.isSuccess) {
-          _route.goHome(context);
-        } else {
-          // TODO: Mostrar alerta
-        }
-        status = status.copyWith(isLoading: false);
-      }).catchError((err) {
-        print('Login Error As: ${err}');
-        status = status.copyWith(isLoading: false);
-      });
+    _interactor.postLogin(bodyLogin).then((ResponseData<ResultLogin> response) {
+      print('Login Res: ${response.statusCode} ');
+      if (response.isSuccess) {
+        print('Login EXITOSO!!');
+
+        _route.goHome(context);
+      } else {
+
+        // TODO: Mostrar alerta
+      }
+      status = status.copyWith(isLoading: false);
+    }).catchError((err) {
+      print('Login Error As: ${err}');
+      status = status.copyWith(isLoading: false);
+    });
   }
 
   Digest encrypPass(String pass) {

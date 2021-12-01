@@ -81,7 +81,7 @@ class CardBuyAndSell extends StatelessWidget {
               SizedBox(
                 width: double.maxFinite,
                 child: Text(
-                  'Transferencia bancaria nacional. ${items[index].advertisement.bankName}.',
+                  'Transferencia bancaria nacional. ${items[index].advertisement.idStatus}.',
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
                   maxLines: 3,

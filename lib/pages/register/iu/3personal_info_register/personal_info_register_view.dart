@@ -125,3 +125,28 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
     );
   }
 }
+
+//return LayoutBuilder(
+//           builder: (_, BoxConstraints constraints) {
+//             final double maxWidth = constraints.maxWidth;
+//
+//             return maxWidth > 1024
+//                 ? _PersonalInfoRegisterWeb(
+//                     keyForm: keyForm,
+//                     passwordCtrl: passwordCtrl,
+//                     isBuy: widget.isBuy,
+//                   )
+//                 : _PersonalInfoRegisterMobile(
+//                     keyForm: keyForm,
+//                     nickNameCtrl: nickNameCtrl,
+//                     firstNameCtrl: firstNameCtrl,
+//                     firstLastNameCtrl: firstLastNameCtrl,
+//                     secondNameCtrl: secondNameCtrl,
+//                     secondLastNameCtrl: secondLastNameCtrl,
+//                     phoneCtrl: phoneCtrl,
+//                     emailCtrl: emailCtrl,
+//                     dateBirthCtrl: dateBirthCtrl,
+//                     passwordCtrl: passwordCtrl,
+//                     confirrmPassCtrl: confirrmPassCtrl,
+//                   );
+//           },

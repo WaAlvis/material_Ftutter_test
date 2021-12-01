@@ -24,42 +24,41 @@ class _RegisterMobile extends StatelessWidget {
         centerTitle: true,
         elevation: 0, // 2
       ),
-      backgroundColor: LdColors.green,
+      backgroundColor: LdColors.white,
       extendBodyBehindAppBar: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              color: LdColors.blue,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 50),
-                  const SizedBox(
-                    height: 60,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight,
-                    ),
+          Container(
+            height: 200,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            color: LdColors.blackBackground,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 20),
+                const SizedBox(
+                  height: 60,
+                  child: QuarterCircle(
+                    circleAlignment: CircleAlignment.bottomRight,
+                    color: LdColors.grayLight,
                   ),
-                  Text(
-                    'Crear mi cuenta',
-                    style: textTheme.textBigWhite,
+                ),
+                Text(
+                  'Crear mi cuenta',
+                  style: textTheme.textBigWhite,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Para continuar ingresa tu correo electronico.',
+                  style: textTheme.textSmallWhite.copyWith(
+                    color: LdColors.grayBg,
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Para continuar ingresa tu correo electronico.',
-                    style: textTheme.textSmallWhite.copyWith(
-                      color: LdColors.grayBg,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Flexible(

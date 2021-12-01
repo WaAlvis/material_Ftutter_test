@@ -1,4 +1,4 @@
-import 'package:localdaily/view_model.dart';
+ import 'package:localdaily/view_model.dart';
 
 class RegisterStatus extends ViewStatus {
   final bool isLoading;
