@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/identity_service.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 
 GetIt locator = GetIt.instance;
@@ -14,8 +13,11 @@ class LdLocator {
     locator.registerSingleton<LdRouter>(LdRouter());
     locator.registerSingleton<ServiceInteractor>(ServiceInteractor());
     locator.registerSingleton<LocalDailyGatewayService>(
-        LocalDailyGatewayService(dio));
-    locator.registerSingleton<IdentityService>(IdentityService(dio));
+      LocalDailyGatewayService(dio),
+    );
+    locator.registerSingleton<LocalDailyGatewayService>(
+      LocalDailyGatewayService(dio),
+    );
   }
 
   static Dio _getDioApiService() {

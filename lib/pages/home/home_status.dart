@@ -1,4 +1,4 @@
-import 'package:localdaily/services/models/home/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/view_model.dart';
 
 class HomeStatus extends ViewStatus {
@@ -7,7 +7,6 @@ class HomeStatus extends ViewStatus {
   final int indexTab;
   final bool hideWallet;
   final bool hideValues;
-
   late ResultHome sellersDataHome;
   late ResultHome buyersDataHome;
 

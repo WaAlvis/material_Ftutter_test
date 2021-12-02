@@ -5,7 +5,7 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/home/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 
 class MainOffertsHome extends StatelessWidget {
   const MainOffertsHome({

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/home/pagination.dart';
+import 'package:localdaily/services/models/pagination.dart';
 
 part 'body_home.g.dart';
 

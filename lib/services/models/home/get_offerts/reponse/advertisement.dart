@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/home/reponse/advertisement_pay_account.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/advertisement_pay_account.dart';
 
 part 'advertisement.g.dart';
 

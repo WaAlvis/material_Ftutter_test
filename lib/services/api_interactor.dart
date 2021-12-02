@@ -1,19 +1,27 @@
 import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/services/identity_service.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
-import 'package:localdaily/services/models/home/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 
-
 class ServiceInteractor {
+  Future<ResponseData<ResultGetBanks>> getBanks(
+      Pagination bodyGetBanks) async {
+    final ResponseData<ResultGetBanks> response =
+        await locator<LocalDailyGatewayService>().getBanks(bodyGetBanks);
+
+    return response;
+  }
+
   Future<ResponseData<ResultLogin>> postLogin(BodyLogin bodyLogin) async {
-    final  ResponseData<ResultLogin> response =
-      await locator<IdentityService>().login(bodyLogin);
+    final ResponseData<ResultLogin> response =
+        await locator<LocalDailyGatewayService>().loginUser(bodyLogin);
 
     return response;
   }
@@ -29,7 +37,8 @@ class ServiceInteractor {
   Future<ResponseData<ResultRegister>> postRegisterUser(
       BodyRegisterDataUser bodyRegisterUser) async {
     final ResponseData<ResultRegister> response =
-        await locator<LocalDailyGatewayService>().registerUser(bodyRegisterUser);
+        await locator<LocalDailyGatewayService>()
+            .registerUser(bodyRegisterUser);
 
     return response;
   }

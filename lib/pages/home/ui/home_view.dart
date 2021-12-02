@@ -10,7 +10,7 @@ import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/pages_home_mobile/main_offerts_home.dart';
 import 'package:localdaily/pages/home/ui/pages_home_mobile/my_offerts_home.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/home/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:provider/provider.dart';

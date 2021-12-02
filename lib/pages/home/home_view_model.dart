@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
-import 'package:localdaily/services/models/home/pagination.dart';
-import 'package:localdaily/services/models/home/reponse/data.dart';
-import 'package:localdaily/services/models/home/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
+import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'home_status.dart';
@@ -20,16 +21,15 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       hideWallet: false,
       hideValues: false,
       isError: false,
-      sellersDataHome: ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
+      sellersDataHome:
+          ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
       buyersDataHome: ResultHome(data: <Data>[], totalItems: 10, totalPages: 1),
       indexTab: 0,
     );
   }
 
   void onItemTapped(int index) {
-
-    status  = status.copyWith(indexTab: index);
-
+    status = status.copyWith(indexTab: index);
   }
 
   void changeHideWallet() {
@@ -47,6 +47,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     bool validateNotification = false,
   }) async {
     dataHome(context);
+    getBanks(context);
   }
 
   void goCreateOffertSale(BuildContext context) {
@@ -85,6 +86,37 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     );
   }
 
+  Future<void> getBanks(BuildContext context) async {
+    status = status.copyWith(isLoading: true);
+
+    final Pagination pagination = Pagination(
+      isPaginable: true,
+      currentPage: 1,
+      itemsPerPage: 10,
+    );
+
+    try {
+      final ResponseData<ResultGetBanks> response =
+          await _interactor.getBanks(pagination);
+      print('HomeData Res: ${response.statusCode} ');
+      if (response.isSuccess) {
+        print('Exito obteniendo la data Los BANCOS!!');
+
+        // if (type == 0) {
+        //   status.buyersDataHome = response.result!;
+        // } else {
+        //   status.sellersDataHome = response.result!;
+        // }
+      } else {
+        print('ERROR obteniendo la data de Home');
+        // TODO: Mostrar alerta
+      }
+    } catch (err) {
+      print('Get DataHome Error As: $err');
+    }
+    status = status.copyWith(isLoading: false);
+  }
+
   Future<void> getDataHome(BuildContext context, int type) async {
     status = status.copyWith(isLoading: true);
 
@@ -113,5 +145,4 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     }
     status = status.copyWith(isLoading: false);
   }
-
 }

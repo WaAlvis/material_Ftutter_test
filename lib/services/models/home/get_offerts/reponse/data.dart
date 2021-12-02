@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/home/reponse/advertisement.dart';
-import 'package:localdaily/services/models/home/reponse/user_data_home.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/advertisement.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/user_data_home.dart';
 
 part 'data.g.dart';
 
