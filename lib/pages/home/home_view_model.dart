@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/bank.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+
+
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
@@ -36,11 +36,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
         totalPages: 1,
       ),
       indexTab: 0,
-      listBanks: ResultGetBanks(
-        data: <Bank>[],
-        totalItems: 10,
-        totalPages: 1,
-      ),
     );
   }
 
@@ -63,7 +58,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     bool validateNotification = false,
   }) async {
     dataHome(context);
-    getBanks(context);
   }
 
   void goCreateOffertSale(BuildContext context) {
@@ -141,31 +135,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     });
   }
 
-  Future<void> getBanks(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: true,
-      currentPage: 1,
-      itemsPerPage: 10,
-    );
-
-    try {
-      final ResponseData<ResultGetBanks> response =
-          await _interactor.getBanks(pagination);
-      print('HomeData Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        print('Exito obteniendo la data Los BANCOS!!');
-        status.listBanks = response.result!;
-      } else {
-        print('ERROR obteniendo la data de Home');
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get DataHome Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
-  }
 
   Future<void> getDataHome(BuildContext context, int type) async {
     status = status.copyWith(isLoading: true);

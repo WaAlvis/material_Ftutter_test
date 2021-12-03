@@ -1,10 +1,5 @@
+part of '../offert_sale_view.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:localdaily/commons/ld_assets.dart';
-import 'package:localdaily/commons/ld_colors.dart';
-
-import '../../../../app_theme.dart';
 
 class OrangeTableSummary extends StatelessWidget {
   const OrangeTableSummary({

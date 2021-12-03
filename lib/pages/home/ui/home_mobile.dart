@@ -16,7 +16,6 @@ class _HomeMobile extends StatelessWidget {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
     final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
-    final List<Bank> listBanks = viewModel.status.listBanks.data;
 
     List<Widget> _pages = <Widget>[
       MainOffertsTab(

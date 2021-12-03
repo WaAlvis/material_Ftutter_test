@@ -1,21 +1,22 @@
-part of '../../../home_view.dart';
+part of 'offert_sale_view.dart';
 
-class OffertSaleMobile extends StatelessWidget {
-  const OffertSaleMobile({
+
+class _OffertSaleMobile extends StatelessWidget {
+  const _OffertSaleMobile({
     Key? key,
-    // required this.keyForm,
-    // required this.passwordCtrl,
-    // required this.userCtrl,
+    required this.keyForm,
+    required this.passwordCtrl,
+    required this.userCtrl,
   }) : super(key: key);
 
-  // final GlobalKey<FormState> keyForm;
-  // final TextEditingController passwordCtrl;
-  // final TextEditingController userCtrl;
+  final GlobalKey<FormState> keyForm;
+  final TextEditingController passwordCtrl;
+  final TextEditingController userCtrl;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -58,7 +59,9 @@ class OffertSaleMobile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-
+              OrangeTableSummary(
+                textTheme: textTheme,
+              ),
               const SizedBox(
                 height: 20,
               ),

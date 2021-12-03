@@ -10,7 +10,6 @@ class HomeStatus extends ViewStatus {
   final bool hideValues;
   late ResultHome sellersDataHome;
   late ResultHome buyersDataHome;
-  late ResultGetBanks listBanks;
 
   HomeStatus({
     required this.sellersDataHome,
@@ -20,7 +19,6 @@ class HomeStatus extends ViewStatus {
     required this.indexTab,
     required this.isLoading,
     required this.isError,
-    required this.listBanks,
   });
 
   HomeStatus copyWith({
@@ -31,7 +29,6 @@ class HomeStatus extends ViewStatus {
     ResultHome? sellersDataHome,
     int? indexTab,
     ResultHome? buyersDataHome,
-    ResultGetBanks? listBanks,
   }) {
     return HomeStatus(
       hideWallet: hideWallet ?? this.hideWallet,
@@ -41,7 +38,6 @@ class HomeStatus extends ViewStatus {
       isError: isError ?? this.isError,
       sellersDataHome: sellersDataHome ?? this.sellersDataHome,
       buyersDataHome: buyersDataHome ?? this.buyersDataHome,
-      listBanks: listBanks ?? this.listBanks,
     );
   }
 }

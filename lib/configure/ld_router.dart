@@ -27,16 +27,15 @@ class LdRouter {
     /*return navigatorKey.currentState!
         .push(MaterialPageRoute<HomePage>(builder: (_) => const HomePage()));*/
     AppRouter.router.navigateTo(
-       context,
-       AppRoutes.homeRoute.route,
-       replace: true,
-       clearStack: true,
-       transition: TransitionType.none,
+      context,
+      AppRoutes.homeRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
     );
   }
 
   void goBuy(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.buyRoute.route,
@@ -53,7 +52,6 @@ class LdRouter {
   }
 
   void goLogin(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.loginRoute.route,
@@ -62,7 +60,6 @@ class LdRouter {
   }
 
   void goCreateOffertSale(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.createOffertSaleRoute.route,
@@ -71,23 +68,22 @@ class LdRouter {
   }
 
   void goEmailRegister(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.registerEmailRoute.route,
       transition: TransitionType.none,
     );
   }
-  void goValidateEmail(BuildContext context) {
 
+  void goValidateEmail(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.registerValidateEmailRoute.route,
       transition: TransitionType.none,
     );
   }
-  void goPersonalInfoRegister(BuildContext context) {
 
+  void goPersonalInfoRegister(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.personalInfoRegisterRoute.route,
