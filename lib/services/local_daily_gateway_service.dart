@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
+import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -10,7 +12,6 @@ import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
-
 part 'local_daily_gateway_service.g.dart';
 
 class UrlsApi {
@@ -18,6 +19,7 @@ class UrlsApi {
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
   static const String getBanks = '/Configuration/​ConfigurationBank​/GetData';
+  static const String createOffert = '/WebAdmin/Advertisement';
 }
 
 ///WebAdmin/Advertisement create offert sell buy
@@ -47,6 +49,11 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getBanks)
   Future<ResponseData<ResultGetBanks>> getBanks(
     @Body() Pagination bodyGetBanks,
+  );
+
+  @POST(UrlsApi.createOffert)
+  Future<ResponseData<ResultCreateOffert>> createOffert(
+    @Body() BodyOffert bodyGetBanks,
   );
 
 // @POST(UrlsApi.login)

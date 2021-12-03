@@ -68,12 +68,6 @@ class _HomeWeb extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const _TableHome(isBuy: true),
-                  const _TableHome(),
-                  const _ProductHome(),
-                  const _StartHome(),
-                  const _SecurityHome(),
-                  const _InformationHome(),
                   Container(
                     color: LdColors.black,
                     padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),

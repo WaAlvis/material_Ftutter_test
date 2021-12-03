@@ -1,6 +1,8 @@
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
+import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -11,11 +13,17 @@ import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 
 class ServiceInteractor {
-  Future<ResponseData<ResultGetBanks>> getBanks(
-      Pagination bodyGetBanks) async {
+  Future<ResponseData<ResultGetBanks>> getBanks(Pagination bodyGetBanks) async {
     final ResponseData<ResultGetBanks> response =
         await locator<LocalDailyGatewayService>().getBanks(bodyGetBanks);
 
+    return response;
+  }
+
+  Future<ResponseData<ResultCreateOffert>> createOffert(
+      BodyOffert bodyOffert) async {
+    final ResponseData<ResultCreateOffert> response =
+        await locator<LocalDailyGatewayService>().createOffert(bodyOffert);
     return response;
   }
 

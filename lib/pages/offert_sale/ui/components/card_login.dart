@@ -7,7 +7,6 @@ class _CardLogin extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     Widget _columnData(String title){

@@ -16,25 +16,27 @@ class _HomeMobile extends StatelessWidget {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
     final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
+    final List<Bank> listBanks = viewModel.status.listBanks.data;
 
     List<Widget> _pages = <Widget>[
-      MainOffertsHome(
+      MainOffertsTab(
           viewModel: viewModel,
           textTheme: textTheme,
           itemsBuyers: itemsBuyers,
           itemsSellers: itemsSellers),
       const Center(
         child: Text(
-      'Operaciones',
+          'Operaciones',
         ),
       ),
-MyOfferts(viewModel: viewModel,
-    textTheme: textTheme,
-    itemsBuyers: itemsBuyers,
-    itemsSellers: itemsSellers),
+      MyOffertsTab(
+        viewModel: viewModel,
+        textTheme: textTheme,
+        listBanks: [],
+      ),
       const Center(
         child: Text(
-      'Perfil',
+          'Perfil',
         ),
       ),
       // Camera page

@@ -1,25 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_assets.dart';
-import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/home/home_view_model.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
-import 'package:localdaily/widgets/primary_button.dart';
+part of '../../../home_view.dart';
 
-class MyOfferts extends StatelessWidget {
-  const MyOfferts({
+class MyOffertsTab extends StatelessWidget {
+  const MyOffertsTab({
     required this.viewModel,
     required this.textTheme,
-    required this.itemsBuyers,
-    required this.itemsSellers,
+    required this.listBanks,
   });
 
   final HomeViewModel viewModel;
   final TextTheme textTheme;
-  final List<Data> itemsBuyers;
-  final List<Data> itemsSellers;
+  final List<Bank> listBanks;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +63,7 @@ class MyOfferts extends StatelessWidget {
                   'Crear oferta de venta',
                   onPressed: () => viewModel.goCreateOffertSale(context),
                 ),
+
                 const SizedBox(
                   height: 12,
                 ),

@@ -1,14 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_assets.dart';
-import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/home/home_view_model.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
+part of '../../../home_view.dart';
 
-class MainOffertsHome extends StatelessWidget {
-  const MainOffertsHome({
+class MainOffertsTab extends StatelessWidget {
+  const MainOffertsTab({
     required this.viewModel,
     required this.textTheme,
     required this.itemsBuyers,

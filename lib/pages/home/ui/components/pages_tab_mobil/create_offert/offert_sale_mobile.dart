@@ -1,21 +1,21 @@
-part of 'offert_sale_view.dart';
+part of '../../../home_view.dart';
 
-class _OffertSaleMobile extends StatelessWidget {
-  const _OffertSaleMobile({
+class OffertSaleMobile extends StatelessWidget {
+  const OffertSaleMobile({
     Key? key,
-    required this.keyForm,
-    required this.passwordCtrl,
-    required this.userCtrl,
+    // required this.keyForm,
+    // required this.passwordCtrl,
+    // required this.userCtrl,
   }) : super(key: key);
 
-  final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
-  final TextEditingController userCtrl;
+  // final GlobalKey<FormState> keyForm;
+  // final TextEditingController passwordCtrl;
+  // final TextEditingController userCtrl;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -58,9 +58,7 @@ class _OffertSaleMobile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              OrangeTableSummary(
-                textTheme: textTheme,
-              ),
+
               const SizedBox(
                 height: 20,
               ),
@@ -87,7 +85,7 @@ class _OffertSaleMobile extends StatelessWidget {
                 icon: Icons.add_circle_outline_outlined,
                 colorButton: LdColors.white,
                 colorTextBorder: LdColors.orangePrimary,
-                onPressed: () {},
+                onPressed: () => viewModel,
               ),
               const SizedBox(
                 height: 20,
@@ -95,7 +93,6 @@ class _OffertSaleMobile extends StatelessWidget {
               const Text('Informacion adicional (opcional)'),
               const SizedBox(height: 8),
               const TextField(
-
                 keyboardType: TextInputType.multiline,
                 minLines: 5, //Normal textInputField will be displayed
                 maxLines: 5, // when user presses enter it will adapt to it

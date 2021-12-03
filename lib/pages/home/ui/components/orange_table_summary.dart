@@ -1,18 +1,20 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+
+import '../../../../app_theme.dart';
 
 class OrangeTableSummary extends StatelessWidget {
   const OrangeTableSummary({
     Key? key,
-    required this.textTheme,this.dlyCopValue='0',
+    required this.textTheme,
+    this.dlyCopValue = '0',
   }) : super(key: key);
 
   final TextTheme textTheme;
   final String dlyCopValue;
-
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ part 'result_get_banks.g.dart';
 @JsonSerializable()
 class ResultGetBanks {
   ResultGetBanks({
-    this.data,
+    required this.data,
     required this.totalItems,
     required this.totalPages,
   });
@@ -16,7 +16,7 @@ class ResultGetBanks {
 
   // TokenLogin tokenData;
   // String? user;
-  List<Bank>? data;
+  List<Bank> data;
   int totalItems;
   int totalPages;
 

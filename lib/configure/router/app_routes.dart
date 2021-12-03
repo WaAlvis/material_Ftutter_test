@@ -46,7 +46,7 @@ class AppRoutes {
   );
   static final AppRoute createOffertSaleRoute = AppRoute(
     '/create_offert_sale',
-    Handler(handlerFunc: (_, __) => const OffertSaleView()),
+    Handler(handlerFunc: (_, __) => const OffertSaleMobile()),
   );
 
   static final AppRoute registerEmailRoute = AppRoute(
