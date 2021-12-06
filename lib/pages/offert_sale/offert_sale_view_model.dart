@@ -107,6 +107,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       print('Create Offert Res: ${response.statusCode} ');
       if (response.isSuccess) {
         print('Exito creando las offertas de venta');
+        _route.goHome(context);
       } else {
         print('ERROR Creando la offerta');
         // TODO: Mostrar alerta

@@ -19,7 +19,7 @@ class ResultCreateOffert {
     required this.idUserPublish,
     required this.idStatus,
     required this.expiredDate,
-    required this.advertisementPayAccount,
+     this.advertisementPayAccount,
 });
 
   factory ResultCreateOffert.fromJson(Map<String, dynamic> json) =>
@@ -34,7 +34,7 @@ class ResultCreateOffert {
   String idUserPublish;
   String idStatus;
   String expiredDate;
-  List<AdvertisementPayAccount> advertisementPayAccount;
+  List<AdvertisementPayAccount>? advertisementPayAccount;
 
 
   Map<String, dynamic> toJson() => _$ResultCreateOffertToJson(this);

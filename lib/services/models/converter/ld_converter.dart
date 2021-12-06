@@ -25,7 +25,7 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultGetBanks.fromJson(json) as T;
       }
       if ('$T' == '$ResultCreateOffert?' || T == ResultCreateOffert) {
-        return ResultGetBanks.fromJson(json) as T;
+        return ResultCreateOffert.fromJson(json) as T;
       }
     }
     return json as T;
