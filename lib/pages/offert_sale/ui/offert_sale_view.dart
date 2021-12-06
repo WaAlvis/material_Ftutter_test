@@ -5,6 +5,7 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offert_sale/offert_sale_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';

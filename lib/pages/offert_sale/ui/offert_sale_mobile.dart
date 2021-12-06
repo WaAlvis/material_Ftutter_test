@@ -106,6 +106,8 @@ class _OffertSaleMobile extends StatelessWidget {
                   ),
                 )),
               ),
+              const Text('Tiempo estiamdo en una cart gris'),
+              PrimaryButtonCustom('Crear oferta de venta', onPressed: ()=>viewModel.postCreateOffert(context))
             ],
           ),
         ),

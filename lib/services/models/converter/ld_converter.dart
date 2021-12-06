@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
@@ -21,6 +22,9 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultHome.fromJson(json) as T;
       }
       if ('$T' == '$ResultGetBanks?' || T == ResultGetBanks) {
+        return ResultGetBanks.fromJson(json) as T;
+      }
+      if ('$T' == '$ResultCreateOffert?' || T == ResultCreateOffert) {
         return ResultGetBanks.fromJson(json) as T;
       }
     }
