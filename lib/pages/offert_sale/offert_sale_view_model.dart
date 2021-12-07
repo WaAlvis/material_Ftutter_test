@@ -79,12 +79,11 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     }
     status = status.copyWith(isLoading: false);
   }
-
   Future<void> postCreateOffert(
-    BuildContext context,
-    // String email,
-    // String password,
-  ) async {
+      BuildContext context,
+      // String email,
+      // String password,
+      ) async {
     status = status.copyWith(isLoading: true);
 
     final Entity entity = Entity(
@@ -99,24 +98,28 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
         entity: entity,
         daysOfExpired: 7,
         strJsonAdvertisementBanks:
-            '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
+        '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
 
-    try {
-      final ResponseData<ResultCreateOffert> response =
-          await _interactor.createOffert(bodyOffert);
+
+    _interactor
+        .createOffert(bodyOffert)
+        .then((ResponseData<ResultCreateOffert> response) {
       print('Create Offert Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Exito creando las offertas de venta');
+        print('Oferta de venta creada EXITOSO!!');
+
         _route.goHome(context);
       } else {
-        print('ERROR Creando la offerta');
         // TODO: Mostrar alerta
+        print('no se pudo realizar la oferta!');
       }
-    } catch (err) {
-      print('create offert sell Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
+      status = status.copyWith(isLoading: false);
+    }).catchError((err) {
+      print('Offerta Error As: ${err}');
+      status = status.copyWith(isLoading: false);
+    });
   }
+
 
   void goRecoverPassword(BuildContext context) {
     print('Implementar vista de recuperar contrasenia');

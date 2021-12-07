@@ -69,9 +69,10 @@ abstract class LocalDailyGatewayService {
 // "wearableId": "d9b1289a-ae98-4e86-a145-ac046a8bd5be"
 // }
 
-// {* Create offert buy seller
+// {* Create offert buy seller and buyer
 //   "entity": {
 //     "idTypeAdvertisement": "138412e9-4907-4d18-b432-70bdec7940c4",
+// 809b4025-bf15-43f8-9995-68e3b7c53be6 buyer
 //     "idCountry": "138412e9-4907-4d18-b432-70bdec7940c4",
 //     "valueToSell": "5000",
 //     "margin": "1",
