@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
 
 enum CircleAlignment {
   topLeft,
@@ -20,7 +20,7 @@ class QuarterCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
+    return SizedBox(
       child: ClipRect(
         child: CustomPaint(
           painter: QuarterCirclePainter(
@@ -41,9 +41,10 @@ class QuarterCirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final radius = math.min(size.height, size.width);
-    final offset = circleAlignment == CircleAlignment.topLeft
-        ? Offset(.0, .0)
+    final double radius = math.min(size.height, size.width);
+
+    final Offset offset = circleAlignment == CircleAlignment.topLeft
+        ? Offset.zero
         : circleAlignment == CircleAlignment.topRight
         ? Offset(size.width, .0)
         : circleAlignment == CircleAlignment.bottomLeft
