@@ -18,6 +18,8 @@ class _RegisterMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: LdColors.white,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         //toolbarHeight: size.height * 0.13,
         backgroundColor: Colors.transparent,
@@ -28,8 +30,7 @@ class _RegisterMobile extends StatelessWidget {
         centerTitle: true,
         elevation: 0, // 2
       ),
-      backgroundColor: LdColors.white,
-      extendBodyBehindAppBar: true,
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -12,6 +12,7 @@ class _HomeMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
@@ -43,6 +44,34 @@ class _HomeMobile extends StatelessWidget {
     ];
 
     return Scaffold(
+      backgroundColor: LdColors.white,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0, // 2
+        //toolbarHeight: size.height * 0.13,
+        backgroundColor: Colors.transparent,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SvgPicture.asset(
+                LdAssets.logo,
+                height: 20,
+              ),
+              PrimaryButtonCustom(
+                'Iniciar sesión',
+                colorText: LdColors.white,
+                colorButton: LdColors.whiteGray.withOpacity(0.5),
+                width: size.width / 4,
+                height: 35,
+                onPressed: () => viewModel.goLogin(context),
+              ),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
@@ -105,6 +134,7 @@ class _HomeMobile extends StatelessWidget {
 }
 
 class OptionsFilterRow extends StatelessWidget {
+  //mover a mainoffert Home
   const OptionsFilterRow({
     Key? key,
     required this.textTheme,

@@ -17,31 +17,7 @@ class MyOffertsTab extends StatelessWidget {
       color: LdColors.white,
       child: Column(
         children: <Widget>[
-          Expanded(
-            child: Container(
-              color: LdColors.blackBackground,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SvgPicture.asset(
-                      LdAssets.logo,
-                      width: 150,
-                    ),
-                    IconButton(
-                      onPressed: () => viewModel.goLogin(context),
-                      icon: const Icon(
-                        Icons.account_circle,
-                        color: LdColors.white,
-                        size: 32,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+
           Expanded(
             flex: 8,
             child: Column(

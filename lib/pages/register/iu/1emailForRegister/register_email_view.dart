@@ -54,6 +54,14 @@ class _RegisterBodyState extends State<_RegisterBody> {
     super.dispose();
   }
 
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance!.addPostFrameCallback((_) {
+  //     context.read<HomeViewregisterModel>().onInit(context);
+  //   });
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();

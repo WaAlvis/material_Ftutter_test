@@ -8,6 +8,7 @@ import 'package:localdaily/pages/buy_sell/buy_sell_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'buy_sell_mobile.dart';

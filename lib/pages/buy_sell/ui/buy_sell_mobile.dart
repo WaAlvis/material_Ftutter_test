@@ -12,6 +12,8 @@ class _BuySellMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final Size size = MediaQuery.of(context).size;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

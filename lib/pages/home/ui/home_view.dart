@@ -7,12 +7,14 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/getBanks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'home_mobile.dart';
@@ -23,7 +25,7 @@ part 'home_web.dart';
 part 'components/card_buy_and_sell.dart';
 // part 'components/orange_table_summary.dart';
 part 'components/pages_tab_mobil/create_offert/my_offerts_home.dart';
-part 'components/pages_tab_mobil/main_offerts/main_offerts_home.dart';
+part 'components/pages_tab_mobil/main_offerts/main_offerts_tab.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -36,12 +38,8 @@ class HomeView extends StatelessWidget {
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return const SafeArea(
-          child: Scaffold(
-            backgroundColor: LdColors.white,
-            body: _HomeBody(),
-          ),
-        );
+        return const  _HomeBody();
+
       },
     );
   }

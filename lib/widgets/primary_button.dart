@@ -6,17 +6,22 @@ class PrimaryButtonCustom extends StatelessWidget {
   const PrimaryButtonCustom(
     this.data, {
     Key? key,
+    this.width = double.infinity,
+    this.height = 60,
     this.colorButton = LdColors.orangePrimary,
     required this.onPressed,
     this.colorTextBorder,
-    this.icon,
+    this.icon, this.colorText,
   }) : super(key: key);
 
   final String data;
   final IconData? icon;
   final Color? colorTextBorder;
   final Color colorButton;
+  final Color? colorText;
   final Function()? onPressed;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class PrimaryButtonCustom extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         primary: colorButton,
-        minimumSize: const Size(double.infinity, 60),
+        minimumSize: Size(width, height),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
           side: colorTextBorder == null
@@ -37,22 +42,24 @@ class PrimaryButtonCustom extends StatelessWidget {
       child: icon == null
           ? Text(
               data,
-              style: textTheme.textWhite
-                  .copyWith(color: colorTextBorder ?? LdColors.black),
+              style:
+              textTheme.textWhite
+                  .copyWith(color: colorText ??  colorTextBorder ?? LdColors.black),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Icon(
                   icon,
-                  color: colorTextBorder ?? LdColors.black ,
+                  color: colorTextBorder ?? LdColors.black,
                 ),
                 const SizedBox(
                   width: 8,
                 ),
                 Text(
                   data,
-                  style: textTheme.textWhite.copyWith(color: colorTextBorder ?? LdColors.black),
+                  style: textTheme.textWhite
+                      .copyWith(color: colorTextBorder ?? LdColors.black),
                 ),
               ],
             ),
