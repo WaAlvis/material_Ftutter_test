@@ -64,14 +64,11 @@ class MainOffertsTab extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16, top: size.height * 0.15),
-                  child: Row(
-                    children: [Text('data')],
-                  ),
+                  padding: EdgeInsets.only(left: 16, top: size.height * 0.18),
+                   //hijos del contenedor inferior aqui
                 ),
                 Column(
                   children: [
-
                     TabBar(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       indicatorColor: LdColors.orangePrimary,
@@ -95,7 +92,6 @@ class MainOffertsTab extends StatelessWidget {
                                 color: LdColors.orangePrimary),
                           ),
                         ),
-
                       ],
                     ),
                   ],
@@ -104,7 +100,7 @@ class MainOffertsTab extends StatelessWidget {
             ),
           ),
           Container(
-            height: size.height*0.75,
+            height: size.height * 0.72,
             child: TabBarView(
               children: <Widget>[
                 RefreshIndicator(
@@ -129,8 +125,7 @@ class MainOffertsTab extends StatelessWidget {
                           color: LdColors.gray,
                         ),
                         Padding(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Text(
                             'Ofertas para comprar',
                             textAlign: TextAlign.center,
@@ -149,8 +144,7 @@ class MainOffertsTab extends StatelessWidget {
                             },
                             // controller: _scrollController,
                             itemCount: itemsBuyers.length,
-                            itemBuilder:
-                                (BuildContext context, int index) {
+                            itemBuilder: (BuildContext context, int index) {
                               return CardBuyAndSell(
                                 index: index,
                                 items: itemsBuyers,
@@ -184,8 +178,7 @@ class MainOffertsTab extends StatelessWidget {
                           color: LdColors.gray,
                         ),
                         Padding(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Text(
                             'Ofertas para vender',
                             textAlign: TextAlign.center,
@@ -204,8 +197,7 @@ class MainOffertsTab extends StatelessWidget {
                             },
                             // controller: _scrollController,
                             itemCount: itemsSellers.length,
-                            itemBuilder:
-                                (BuildContext context, int index) {
+                            itemBuilder: (BuildContext context, int index) {
                               return CardBuyAndSell(
                                 index: index,
                                 items: itemsSellers,
