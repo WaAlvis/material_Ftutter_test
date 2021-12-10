@@ -1,15 +1,15 @@
 part of '../offert_sale_view.dart';
 
-
 class OrangeTableSummary extends StatelessWidget {
   const OrangeTableSummary({
     Key? key,
     required this.textTheme,
-    this.dlyCopValue = '0',
+    // this.dlyCopValue = '0',
   }) : super(key: key);
 
   final TextTheme textTheme;
-  final String dlyCopValue;
+
+  // final String dlyCopValue;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class OrangeTableSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                dlyCopValue,
+                '0',
                 style: textTheme.subtitleWhite,
               ),
               SvgPicture.asset(LdAssets.dlycop_icon),

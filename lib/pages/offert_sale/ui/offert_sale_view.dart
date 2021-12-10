@@ -63,13 +63,15 @@ class _OffertSaleBody extends StatefulWidget {
 
 class _OffertSaleBodyState extends State<_OffertSaleBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController passwordCtrl = TextEditingController();
-  final TextEditingController usuarioCtrl = TextEditingController();
+  final TextEditingController valueDLYCOP = TextEditingController();
+  final TextEditingController plusInfoCtrl = TextEditingController();
+
+  //final TextEditingController usuarioCtrl = TextEditingController();
 
   @override
   void dispose() {
-    passwordCtrl.dispose();
-    usuarioCtrl.dispose();
+    valueDLYCOP.dispose();
+    //usuarioCtrl.dispose();
     super.dispose();
   }
 
@@ -78,6 +80,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<OffertSaleViewModel>().onInit(context);
     });
+    valueDLYCOP.addListener(_printLatestValue);
     super.initState();
   }
 
@@ -88,19 +91,22 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
-
         return maxWidth > 1024
             ? _OffertSaleWeb(
                 keyForm: keyForm,
-                passwordCtrl: passwordCtrl,
+                valueDLYCOP: valueDLYCOP,
                 isBuy: widget.isBuy,
               )
             : _OffertSaleMobile(
                 keyForm: keyForm,
-                passwordCtrl: passwordCtrl,
-                userCtrl: usuarioCtrl,
+                valueDLYCOP: valueDLYCOP,
+                plusInfoCtrl: plusInfoCtrl,
               );
       },
     );
   }
+  void _printLatestValue() {
+    print('Second text field: ${valueDLYCOP.text}');
+  }
+
 }

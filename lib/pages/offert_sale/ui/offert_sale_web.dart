@@ -5,12 +5,12 @@ class _OffertSaleWeb extends StatelessWidget {
   const _OffertSaleWeb({
     Key? key,
     required this.keyForm,
-    required this.passwordCtrl,
+    required this.valueDLYCOP,
     required this.isBuy,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
+  final TextEditingController valueDLYCOP;
   final bool isBuy;
 
   @override

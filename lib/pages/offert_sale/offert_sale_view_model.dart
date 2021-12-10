@@ -81,17 +81,23 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
   }
   Future<void> postCreateOffert(
       BuildContext context,
+      TextEditingController valueDLYCOPCtrl,
+      TextEditingController plusInfoCtrl,
+
       // String email,
       // String password,
       ) async {
     status = status.copyWith(isLoading: true);
 
     final Entity entity = Entity(
-      idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
+      idTypeAdvertisement:
+      '809b4025-bf15-43f8-9995-68e3b7c53be6', //venta
+      //'138412e9-4907-4d18-b432-70bdec7940c4', //compra
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
-      valueToSell: '5000',
+      valueToSell: valueDLYCOPCtrl.text,
       margin: '1',
-      termsOfTrade: 'solo pagos en la noche',
+      termsOfTrade: plusInfoCtrl.text,
+      //todo obtener idUsuario y remplazarlops
       idUserPublish: 'ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2',
     );
     final BodyOffert bodyOffert = BodyOffert(

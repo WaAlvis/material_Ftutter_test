@@ -12,6 +12,7 @@ class InputTextCustom extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
+    this.keyboardType,
   }) : super(key: key);
 
   final TextStyle? styleLabel;
@@ -21,6 +22,7 @@ class InputTextCustom extends StatelessWidget {
   final String hintText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +33,11 @@ class InputTextCustom extends StatelessWidget {
       children: <Widget>[
         Text(
           data,
-          style: styleLabel ?? textTheme.textBigBlack,
+          style: styleLabel ?? textTheme.textBlack,
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 5,),
         TextFormField(
+          keyboardType: keyboardType,
           obscureText: obscureText,
           controller: controller,
           validator: (String? value) {

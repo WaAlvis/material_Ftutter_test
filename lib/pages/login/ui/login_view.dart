@@ -6,6 +6,7 @@ import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_app_bar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
@@ -26,19 +27,7 @@ class LoginView extends StatelessWidget {
     return ChangeNotifierProvider<LoginViewModel>(
       create: (_) => LoginViewModel(),
       builder: (BuildContext context, _) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: LdColors.blackBackground,
-
-            title: Text(
-              'Iniciar sesión',
-              style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
-            ),
-            elevation: 0, // 2
-          ),
-          backgroundColor: LdColors.white,
-          body: _LoginBody(isBuy: isBuy),
-        );
+        return _LoginBody(isBuy: isBuy);
       },
     );
   }
@@ -51,7 +40,6 @@ class _LoginBody extends StatefulWidget {
 
   @override
   _LoginBodyState createState() => _LoginBodyState();
-
 }
 
 class _LoginBodyState extends State<_LoginBody> {
@@ -79,16 +67,16 @@ class _LoginBodyState extends State<_LoginBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                ? _LoginWeb(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    isBuy: widget.isBuy,
-                  )
-                : _LoginMobile(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    userCtrl: usuarioCtrl,
-                  ),
+                  ? _LoginWeb(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      isBuy: widget.isBuy,
+                    )
+                  : _LoginMobile(
+                      keyForm: keyForm,
+                      passwordCtrl: passwordCtrl,
+                      userCtrl: usuarioCtrl,
+                    ),
             )
           ],
         );
