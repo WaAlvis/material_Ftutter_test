@@ -70,7 +70,6 @@ class MyOffertsTab extends StatelessWidget {
                     indicatorColor: LdColors.orangePrimary,
                     indicatorWeight: 3,
                     labelColor: Colors.grey,
-                    unselectedLabelColor: Colors.red,
                     tabs: <Widget>[
                       Tab(
                         child: Text(

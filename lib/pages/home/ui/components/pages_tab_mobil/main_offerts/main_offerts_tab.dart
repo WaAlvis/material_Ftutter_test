@@ -142,12 +142,11 @@ class MainOffertsTab extends StatelessWidget {
                                 height: 8,
                               );
                             },
-                            // controller: _scrollController,
+                            padding: EdgeInsets.zero,
                             itemCount: itemsBuyers.length,
                             itemBuilder: (BuildContext context, int index) {
                               return CardBuyAndSell(
-                                index: index,
-                                items: itemsBuyers,
+                                item: itemsBuyers[index],
                                 textTheme: textTheme,
                                 viewModel: viewModel, //Pase bien el VM
                               );
@@ -158,6 +157,31 @@ class MainOffertsTab extends StatelessWidget {
                     ),
                   ),
                 ),
+                /*
+                CardBuyAndSell(
+                                    item: item,
+                                    textTheme: textTheme,
+                                    viewModel: viewModel, //Pase bien el VM
+                                  )
+                ListView.separated(
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const SizedBox(
+                                  height: 8,
+                                );
+                              },
+                              // controller: _scrollController,
+                              itemCount: itemsBuyers.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return CardBuyAndSell(
+                                  index: index,
+                                  items: itemsBuyers,
+                                  textTheme: textTheme,
+                                  viewModel: viewModel, //Pase bien el VM
+                                );
+                              },
+                            ),
+                * */
                 RefreshIndicator(
                   onRefresh: () async {
                     // keyRefresh.currentState?.show(atTop: false);
@@ -199,8 +223,7 @@ class MainOffertsTab extends StatelessWidget {
                             itemCount: itemsSellers.length,
                             itemBuilder: (BuildContext context, int index) {
                               return CardBuyAndSell(
-                                index: index,
-                                items: itemsSellers,
+                                item: itemsSellers[index],
                                 textTheme: textTheme,
                                 viewModel: viewModel,
                               );

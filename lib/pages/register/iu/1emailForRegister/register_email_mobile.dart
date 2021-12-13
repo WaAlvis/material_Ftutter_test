@@ -23,12 +23,12 @@ class _RegisterMobile extends StatelessWidget {
       appBar: AppBar(
         //toolbarHeight: size.height * 0.13,
         backgroundColor: Colors.transparent,
+        centerTitle: true,
+        elevation: 0, // 2
         title: Text(
           'Crear cuenta',
           style: textTheme.textWhite,
         ),
-        centerTitle: true,
-        elevation: 0, // 2
       ),
 
       body: Column(

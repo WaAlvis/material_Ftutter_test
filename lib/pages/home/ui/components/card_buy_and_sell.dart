@@ -3,34 +3,41 @@ part of '../home_view.dart';
 class CardBuyAndSell extends StatelessWidget {
   const CardBuyAndSell({
     Key? key,
-    required this.items,
+    required this.item,
     required this.textTheme,
-    required this.index,
     required this.viewModel,
   }) : super(key: key);
 
-  final List<Data> items;
+  final Data item;
   final TextTheme textTheme;
-  final int index;
   final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => viewModel.goLogin(context), //asi pase bien la navegacion?
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: LdColors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: LdColors.blackDark.withOpacity(0.3),
+              blurRadius: 10.0,
+              spreadRadius: 0.2,
+              offset: const Offset(0, 0.5),
+            )
+          ],
         ),
-        elevation: 7,
+        margin: const EdgeInsets.all(10),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
           child: Column(
             children: <Widget>[
               TitleBarCard(
-                name: items[index].user.nickName,
-                stars: '+${items[index].user.rateSeller}',
-                time: items[index].advertisement.expiredDate,
+                name: item.user.nickName,
+                stars: '+${item.user.rateSeller}',
+                time: item.advertisement.expiredDate,
                 textTheme: textTheme,
               ),
               const Padding(
@@ -47,7 +54,7 @@ class CardBuyAndSell extends StatelessWidget {
                     children: <Widget>[
                       InfoValueCard(
                         title: 'Cantidad',
-                        valueMoney: items[index].advertisement.valueToSell,
+                        valueMoney: item.advertisement.valueToSell,
                         textTheme: textTheme,
                       ),
                       const SizedBox(height: 8),
@@ -58,7 +65,7 @@ class CardBuyAndSell extends StatelessWidget {
                               .copyWith(color: LdColors.grayText, fontSize: 14),
                           children: <TextSpan>[
                             TextSpan(
-                              text: items[index].advertisement.margin,
+                              text: item.advertisement.margin,
                               style: textTheme.textGray,
                             ),
                             const TextSpan(text: ' COP/DLY'),

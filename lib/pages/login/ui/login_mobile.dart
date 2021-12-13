@@ -18,44 +18,89 @@ class _LoginMobile extends StatelessWidget {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
     final Size size = MediaQuery.of(context).size;
 
+    final hAppBar = size.height * 0.25;
+    final hBody = size.height - hAppBar;
+
     return Scaffold(
       backgroundColor: LdColors.white,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        //toolbarHeight: size.height * 0.13,
+        // toolbarHeight: size.height * 0.13,
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Crear cuenta',
-          style: textTheme.textWhite,
-        ),
         centerTitle: true,
         elevation: 0, // 2
+        title: Text(
+          'Iniciar Sesion',
+          style: textTheme.textWhite,
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-             ),
-              color: LdColors.blackBackground,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '¡Bienvenido!',
-                    style: textTheme.textBigWhite,
+          Container(
+            width: size.width,
+            color: LdColors.blackBackground,
+            child: Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: <Widget>[
+                Positioned(
+                  right: 0,
+                  child: SizedBox(
+                    // El tamaño depende del tamaño de la pantalla
+                    width: (size.width) / 4,
+                    height: (size.width) / 4,
+                    child: QuarterCircle(
+                      circleAlignment: CircleAlignment.bottomRight,
+                      color: LdColors.grayLight.withOpacity(0.05),
+                    ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Inicia sesión en LocalDaily',
-                    style: textTheme.textSmallWhite
-                        .copyWith(color: LdColors.grayBg),
+                ),
+                Positioned(
+                  right: 0,
+                  child: SizedBox(
+                    width: (size.width) * 2 / 4,
+                    height: (size.width) * 2 / 4,
+                    child: QuarterCircle(
+                      circleAlignment: CircleAlignment.bottomRight,
+                      color: LdColors.grayLight.withOpacity(0.05),
+                    ),
                   ),
-                ],
-              ),
+                ),
+                Positioned(
+                  right: 0,
+                  child: SizedBox(
+                    width: (size.width) * 3 / 4,
+                    height: (size.width) * 3 / 4,
+                    child: QuarterCircle(
+                      circleAlignment: CircleAlignment.bottomRight,
+                      color: LdColors.grayLight.withOpacity(0.05),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16, top: 100),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Crear mi cuenta',
+                        style: textTheme.textBigWhite,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Para continuar ingresa tu correo electronico.',
+                        style: textTheme.textSmallWhite.copyWith(
+                          color: LdColors.grayBg,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           Flexible(
