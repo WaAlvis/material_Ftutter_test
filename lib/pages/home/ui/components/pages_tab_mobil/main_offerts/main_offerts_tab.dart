@@ -19,7 +19,7 @@ class MainOffertsTab extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     //Alturas de el APpbar y el body
-    final double hAppbar = size.height *  0.18;
+    final double hAppbar = size.height * 0.18;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(
@@ -74,7 +74,8 @@ class MainOffertsTab extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, top: hAppbar), //altura del appbar
+                    padding: EdgeInsets.only(
+                        left: 16, top: hAppbar), //altura del appbar
                     //hijos del contenedor inferior aqui
                   ),
                   Column(
@@ -112,137 +113,14 @@ class MainOffertsTab extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  RefreshIndicator(
-                    onRefresh: () async {
-                      // keyRefresh.currentState?.show(atTop: false);
-                      await Future<Duration>.delayed(
-                        const Duration(seconds: 1),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          OptionsFilterRow(
-                            textTheme: textTheme,
-                            quantityFilter: 2,
-                          ),
-                          const Divider(
-                            height: 8,
-                            color: LdColors.gray,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              'Ofertas para comprar',
-                              textAlign: TextAlign.center,
-                              style: textTheme.textBlack.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: LdColors.orangePrimary),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  height: 8,
-                                );
-                              },
-                              padding: EdgeInsets.zero,
-                              itemCount: itemsBuyers.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return CardBuyAndSell(
-                                  item: itemsBuyers[index],
-                                  textTheme: textTheme,
-                                  viewModel: viewModel, //Pase bien el VM
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  /*
-                  CardBuyAndSell(
-                                      item: item,
-                                      textTheme: textTheme,
-                                      viewModel: viewModel, //Pase bien el VM
-                                    )
-                  ListView.separated(
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return const SizedBox(
-                                    height: 8,
-                                  );
-                                },
-                                // controller: _scrollController,
-                                itemCount: itemsBuyers.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return CardBuyAndSell(
-                                    index: index,
-                                    items: itemsBuyers,
-                                    textTheme: textTheme,
-                                    viewModel: viewModel, //Pase bien el VM
-                                  );
-                                },
-                              ),
-                  * */
-                  RefreshIndicator(
-                    onRefresh: () async {
-                      // keyRefresh.currentState?.show(atTop: false);
-                      await Future<Duration>.delayed(
-                        const Duration(seconds: 1),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          OptionsFilterRow(
-                              textTheme: textTheme, quantityFilter: 3),
-                          const Divider(
-                            height: 8,
-                            color: LdColors.gray,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              'Ofertas para vender',
-                              textAlign: TextAlign.center,
-                              style: textTheme.textBlack.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: LdColors.orangePrimary),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  height: 8,
-                                );
-                              },
-                              // controller: _scrollController,
-                              itemCount: itemsSellers.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return CardBuyAndSell(
-                                  item: itemsSellers[index],
-                                  textTheme: textTheme,
-                                  viewModel: viewModel,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  ListOffertsMainCards('Ofertas para comprar',
+                      textTheme: textTheme,
+                      items: itemsBuyers,
+                      viewModel: viewModel),
+                  ListOffertsMainCards('Ofertas para vender',
+                      textTheme: textTheme,
+                      items: itemsSellers,
+                      viewModel: viewModel),
                 ],
               ),
             ),
@@ -252,6 +130,7 @@ class MainOffertsTab extends StatelessWidget {
     );
   }
 }
+
 //TabBarView(
 //                 children: <Widget>[
 //                   RefreshIndicator(
