@@ -18,7 +18,7 @@ class _RegisterWeb extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const LdAppbar('Test'),
+      appBar: const LdAppbar(title:'Test'),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverFillRemaining(

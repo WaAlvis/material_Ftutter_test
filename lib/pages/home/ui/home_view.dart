@@ -11,7 +11,7 @@ import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/getBanks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
-import 'package:localdaily/widgets/ld_app_bar.dart';
+import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';

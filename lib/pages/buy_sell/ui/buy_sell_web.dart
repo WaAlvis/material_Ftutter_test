@@ -21,7 +21,7 @@ class _BuySellWeb extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const LdAppbar('Test'),
+      appBar: const LdAppbar(),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverFillRemaining(
