@@ -33,21 +33,12 @@ class OffertSaleView extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return ChangeNotifierProvider<OffertSaleViewModel>(
-      create: (_) => OffertSaleViewModel(),
+      create: (_) => OffertSaleViewModel(
+        locator<LdRouter>(),
+        locator<ServiceInteractor>(),
+      ),
       builder: (BuildContext context, _) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: LdColors.blackBackground,
-
-            title: Text(
-              'Crear Oferta',
-              style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
-            ),
-            elevation: 0, // 2
-          ),
-          backgroundColor: LdColors.blackBackground,
-          body: _OffertSaleBody(isBuy: isBuy),
-        );
+        return _OffertSaleBody(isBuy: isBuy);
       },
     );
   }
@@ -92,22 +83,25 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
-        return maxWidth > 1024
-            ? _OffertSaleWeb(
-                keyForm: keyForm,
-                valueDLYCOP: valueDLYCOP,
-                isBuy: widget.isBuy,
-              )
-            : _OffertSaleMobile(
-                keyForm: keyForm,
-                valueDLYCOP: valueDLYCOP,
-                plusInfoCtrl: plusInfoCtrl,
-              );
+        return SliverFillRemaining(
+          hasScrollBody: false,
+          child: maxWidth > 1024
+              ? _OffertSaleWeb(
+                  keyForm: keyForm,
+                  valueDLYCOP: valueDLYCOP,
+                  isBuy: widget.isBuy,
+                )
+              : _OffertSaleMobile(
+                  keyForm: keyForm,
+                  valueDLYCOP: valueDLYCOP,
+                  plusInfoCtrl: plusInfoCtrl,
+                ),
+        );
       },
     );
   }
+
   void _printLatestValue() {
     print('Second text field: ${valueDLYCOP.text}');
   }
-
 }

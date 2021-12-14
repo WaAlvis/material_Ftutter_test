@@ -19,8 +19,8 @@ class _OffertSaleMobile extends StatelessWidget {
     final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Container(
+    return Scaffold(
+      body: Container(
         decoration: const BoxDecoration(
             color: LdColors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(25))),

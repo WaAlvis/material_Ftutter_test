@@ -14,6 +14,9 @@ class MyOffertsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    //Alturas de el APpbar y el body
+    final double hAppbar = size.height *  0.18;
+    final double hBody = size.height - hAppbar;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -68,7 +71,7 @@ class MyOffertsTab extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, top: size.height * 0.18),
+                    padding: EdgeInsets.only(left: 16, top: hAppbar),
                   ),
                   DefaultTabController(
                     length: 2,

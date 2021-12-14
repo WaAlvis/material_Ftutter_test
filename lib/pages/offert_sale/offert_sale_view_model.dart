@@ -18,12 +18,11 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
-  OffertSaleViewModel({
-    LdRouter? route,
-    ServiceInteractor? interactor,
-  }) {
-    _route = route ?? locator<LdRouter>();
-    _interactor = interactor ?? locator<ServiceInteractor>();
+  OffertSaleViewModel(
+    this._route,
+    this._interactor,
+  ) {
+
 
     status = OffertSaleStatus(
       isLoading: false,
@@ -79,19 +78,20 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     }
     status = status.copyWith(isLoading: false);
   }
-  Future<void> postCreateOffert(
-      BuildContext context,
-      TextEditingController valueDLYCOPCtrl,
-      TextEditingController plusInfoCtrl,
 
-      // String email,
-      // String password,
-      ) async {
+  Future<void> postCreateOffert(
+    BuildContext context,
+    TextEditingController valueDLYCOPCtrl,
+    TextEditingController plusInfoCtrl,
+
+    // String email,
+    // String password,
+  ) async {
     status = status.copyWith(isLoading: true);
 
     final Entity entity = Entity(
-      idTypeAdvertisement:
-      '809b4025-bf15-43f8-9995-68e3b7c53be6', //venta
+      idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
+      //venta
       //'138412e9-4907-4d18-b432-70bdec7940c4', //compra
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: valueDLYCOPCtrl.text,
@@ -104,8 +104,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
         entity: entity,
         daysOfExpired: 7,
         strJsonAdvertisementBanks:
-        '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
-
+            '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
 
     _interactor
         .createOffert(bodyOffert)
@@ -125,7 +124,6 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       status = status.copyWith(isLoading: false);
     });
   }
-
 
   void goRecoverPassword(BuildContext context) {
     print('Implementar vista de recuperar contrasenia');
