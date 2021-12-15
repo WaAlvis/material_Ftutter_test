@@ -86,7 +86,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
         return CustomScrollView(
-          slivers: [
+          slivers: <Widget>[
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024

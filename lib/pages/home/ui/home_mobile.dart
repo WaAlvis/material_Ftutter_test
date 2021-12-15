@@ -45,7 +45,6 @@ class _HomeMobile extends StatelessWidget {
 
     return Scaffold(
       // backgroundColor: LdColors.white,
-      // extendBodyBehindAppBar: true,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
