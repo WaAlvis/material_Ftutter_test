@@ -18,8 +18,8 @@ class _LoginMobile extends StatelessWidget {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    final hAppBar = size.height * 0.25;
-    final hBody = size.height - hAppBar;
+    final double hAppbar = size.height * 0.18;
+    final double hBody = size.height - hAppbar;
 
     return Scaffold(
       backgroundColor: LdColors.white,
