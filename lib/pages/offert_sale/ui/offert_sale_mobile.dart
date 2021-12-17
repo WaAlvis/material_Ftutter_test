@@ -30,7 +30,8 @@ class _OffertSaleMobile extends StatelessWidget {
         withBackIcon: false,
         withButton: true,
       ),
-      body: Column(children: [
+      body: Column(
+          children: <Widget>[
         Container(
           width: size.width,
           color: LdColors.blackBackground,
@@ -85,168 +86,164 @@ class _OffertSaleMobile extends StatelessWidget {
                   color: LdColors.white,
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(25))),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Form(
-                      key: keyForm,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Oferta de venta',
-                            style: textTheme.subtitleBlack.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            'Ingresa la informacion de la publicacion.',
-                            style: textTheme.textBlack,
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          InputTextCustom(
-                            'Valor de los DLYCOP*',
-                            controller: valueDLYCOP,
-                            hintText: '0',
-                            keyboardType: TextInputType.numberWithOptions(),
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Text(
-                            '¿Cuantos DLYCOP vas a vender?*',
-                            style: textTheme.textBlack,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          OrangeTableSale(
-                            textTheme: textTheme,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Bancos para recibir el pago',
-                            style: textTheme.textBigBlack,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            'Esta imformacion solo se mostrar al usuario que comfirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
-                            style: textTheme.textGray,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const InputTextCustom(
-                            'Banco *',
-                            hintText: 'Seleciona tu banco',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          PrimaryButtonCustom(
-                            'Agregar Banco',
-                            icon: Icons.add_circle_outline_outlined,
-                            colorButton: LdColors.white,
-                            colorTextBorder: LdColors.orangePrimary,
-                            onPressed: () => viewModel,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text('Informacion adicional (opcional)'),
-                          const SizedBox(height: 8),
-                          TextField(
-                            keyboardType: TextInputType.multiline,
-                            controller: plusInfoCtrl,
-                            minLines: 5,
-                            //Normal textInputField will be displayed
-                            maxLines: 5,
-                            // when user presses enter it will adapt to it
-                            decoration: const InputDecoration(
-                                hintText:
-                                    'Ingresa informacion adicional para los compradores...',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                )),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: 150,
-                            padding: const EdgeInsets.only(
-                              top: 15,
-                              bottom: 15,
-                              right: 25,
-                              left: 20,
-                            ),
-                            decoration: const BoxDecoration(
-                              color: LdColors.grayBorder,
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Form(
+                  key: keyForm,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Oferta de venta',
+                        style: textTheme.subtitleBlack.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Ingresa la informacion de la publicacion.',
+                        style: textTheme.textBlack,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      InputTextCustom(
+                        'Valor de los DLYCOP*',
+                        controller: valueDLYCOP,
+                        hintText: '0',
+                        keyboardType: TextInputType.numberWithOptions(),
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        '¿Cuantos DLYCOP vas a vender?*',
+                        style: textTheme.textBlack,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      OrangeTableSale(
+                        textTheme: textTheme,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Bancos para recibir el pago',
+                        style: textTheme.textBigBlack,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Esta imformacion solo se mostrar al usuario que comfirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
+                        style: textTheme.textGray,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const InputTextCustom(
+                        'Banco *',
+                        hintText: 'Seleciona tu banco',
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      PrimaryButtonCustom(
+                        'Agregar Banco',
+                        icon: Icons.add_circle_outline_outlined,
+                        colorButton: LdColors.white,
+                        colorTextBorder: LdColors.orangePrimary,
+                        onPressed: () => viewModel,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text('Informacion adicional (opcional)'),
+                      const SizedBox(height: 8),
+                      TextField(
+                        keyboardType: TextInputType.multiline,
+                        controller: plusInfoCtrl,
+                        minLines: 5,
+                        //Normal textInputField will be displayed
+                        maxLines: 5,
+                        // when user presses enter it will adapt to it
+                        decoration: const InputDecoration(
+                            hintText:
+                                'Ingresa informacion adicional para los compradores...',
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(20),
+                                Radius.circular(8),
+                              ),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 150,
+                        padding: const EdgeInsets.only(
+                          top: 15,
+                          bottom: 15,
+                          right: 25,
+                          left: 20,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: LdColors.grayBorder,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.timer,
+                              size: 70,
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'La oferta Expirará en  ',
+                                  style: textTheme.textBlack,
+                                  children: const <TextSpan>[
+                                    TextSpan(
+                                      text: '7 dias ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                        text:
+                                            'desde el momento de la publicación.'),
+                                  ],
+                                ),
                               ),
                             ),
-                            child: Row(
-                              children: <Widget>[
-                                const Icon(
-                                  Icons.timer,
-                                  size: 70,
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: 'La oferta Expirará en  ',
-                                      style: textTheme.textBlack,
-                                      children: const <TextSpan>[
-                                        TextSpan(
-                                          text: '7 dias ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        TextSpan(
-                                            text:
-                                                'desde el momento de la publicación.'),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          PrimaryButtonCustom('Crear oferta de venta',
-                              onPressed: () {
-                            if (keyForm.currentState!.validate()) {
-                              viewModel.postCreateOffert(
-                                context,
-                                valueDLYCOP,
-                                plusInfoCtrl,
-                                userProvider.getUserLogged!.id,
-                              );
-                            }
-                          }),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      PrimaryButtonCustom('Crear oferta de venta',
+                          onPressed: () {
+                        if (keyForm.currentState!.validate()) {
+                          viewModel.postCreateOffert(
+                            context,
+                            valueDLYCOP,
+                            plusInfoCtrl,
+                            userProvider.getUserLogged!.id,
+                          );
+                        }
+                      }),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

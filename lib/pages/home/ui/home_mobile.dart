@@ -29,11 +29,13 @@ class _HomeMobile extends StatelessWidget {
           'Operaciones',
         ),
       ),
+
       MyOffertsTab(
         viewModel: viewModel,
         textTheme: textTheme,
         listBanks: [],
       ),
+
       const Center(
         child: Text(
           'Perfil',

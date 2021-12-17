@@ -154,7 +154,7 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   PrimaryButtonCustom(
                     'Registrar',
                     onPressed: () {
-                      // if (keyForm.currentState!.validate()) {
+                      if (keyForm.currentState!.validate()) {
                       viewModel.registerUser(
                         context,
                         nickNameCtrl: nickNameCtrl,
@@ -168,7 +168,7 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                         passwordCtrl: passwordCtrl,
                         confirrmPassCtrl: confirrmPassCtrl,
                       );
-                      // }
+                      }
                     },
                   ),
                 ],

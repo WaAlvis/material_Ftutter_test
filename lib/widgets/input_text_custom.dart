@@ -31,9 +31,12 @@ class InputTextCustom extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          data,
-          style: styleLabel ?? textTheme.textBlack,
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            data,
+            style: styleLabel ?? textTheme.textBlack,
+          ),
         ),
         const SizedBox(height: 5,),
         TextFormField(

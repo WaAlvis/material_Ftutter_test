@@ -19,24 +19,18 @@ class _LoginMobile extends StatelessWidget {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    final double hAppbar = size.height * 0.18;
+    final double hAppbar = size.height * 0.26;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(
-      backgroundColor: LdColors.white,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        // toolbarHeight: size.height * 0.13,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        elevation: 0, // 2
-        title: Text(
-          'Iniciar Sesion',
-          style: textTheme.textWhite,
-        ),
+      backgroundColor: LdColors.blackBackground,
+      appBar: const LdAppbar(
+        title: 'Iniciar sesión',
+        withBackIcon: false,
+        withButton: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             width: size.width,
@@ -44,6 +38,7 @@ class _LoginMobile extends StatelessWidget {
             child: Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: <Widget>[
+                // Esto es el circulo, ideal volverlo widget
                 Positioned(
                   right: 0,
                   child: SizedBox(
@@ -78,11 +73,11 @@ class _LoginMobile extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16, top: 100),
+                SizedBox(
+                  height: hAppbar,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
                         'Crear mi cuenta',
@@ -104,87 +99,106 @@ class _LoginMobile extends StatelessWidget {
               ],
             ),
           ),
-          Flexible(
-            flex: 4,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-              child: Form(
-                key: keyForm,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    InputTextCustom(
-                      'Nombre de usuario *',
-                      controller: userCtrl,
-                      hintText: 'Ingresa tu usuario',
-                    ),
-                    const SizedBox(height: 20),
-                    InputTextCustom(
-                      'Contraseña *',
-                      controller: passwordCtrl,
-                      hintText: '8+ digitos',
-                      obscureText: false,
-                      suffixIcon: const Icon(
-                        Icons.visibility_off,
-                        color: LdColors.blackBackground,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                constraints: BoxConstraints(minHeight: hBody),
+                padding: EdgeInsets.only(top: 60, left: 16, right: 16,bottom: 20),
+                decoration: const BoxDecoration(
+                  color: LdColors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25),
+                  ),
+                ),
+                child: Form(
+                  key: keyForm,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          InputTextCustom(
+                            'Nombre de usuario *',
+                            controller: userCtrl,
+                            hintText: 'Ingresa tu usuario',
+                          ),
+                          const SizedBox(height: 20),
+                          InputTextCustom(
+                            'Contraseña *',
+                            controller: passwordCtrl,
+                            hintText: '8+ digitos',
+                            obscureText: false,
+                            suffixIcon: const Icon(
+                              Icons.visibility_off,
+                              color: LdColors.blackBackground,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            onPressed: () =>
+                                viewModel.goRecoverPassword(context),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: const Size(50, 30),
+                              alignment: Alignment.centerLeft,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Text(
+                                'Olvidé mi contraseña',
+                                style: textTheme.textSmallBlack.copyWith(
+                                  color: LdColors.orangePrimary,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 3),
-                    TextButton(
-                      onPressed: () => viewModel.goRecoverPassword(context),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(50, 30),
-                        alignment: Alignment.centerLeft,
-                      ),
-                      child: Text(
-                        'Olvidé mi contraseña',
-                        style: textTheme.textSmallBlack.copyWith(
-                          color: LdColors.orangePrimary,
-                          decoration: TextDecoration.underline,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text(
+                              '¿No tienes cuenta en LocalDaily?',
+                              style: textTheme.textSmallBlack,
+                            ),
+                            TextButton(
+                              onPressed: () => viewModel.goRegister(context),
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: const Size(50, 30),
+                                alignment: Alignment.centerLeft,
+                              ),
+                              child: Text(
+                                'Crear cuenta',
+                                style: textTheme.textSmallBlack.copyWith(
+                                  color: LdColors.orangePrimary,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                    Text(
-                      '¿No tienes cuenta en LocalDaily?',
-                      style: textTheme.textSmallBlack,
-                    ),
-                    const SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () => viewModel.goRegister(context),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(50, 30),
-                        alignment: Alignment.centerLeft,
+                      PrimaryButtonCustom(
+                        'Ingresar',
+                        onPressed: () {
+                          if (keyForm.currentState!.validate()) {
+                            viewModel.goHome(
+                                context, userCtrl, passwordCtrl, userProvider);
+                          }
+                        },
                       ),
-                      child: Text(
-                        'Crear cuenta',
-                        style: textTheme.textSmallBlack.copyWith(
-                          color: LdColors.orangePrimary,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    PrimaryButtonCustom(
-                      'Ingresar',
-                      onPressed: () {
-                        if (keyForm.currentState!.validate()) {
-                          viewModel.goHome(
-                            context,
-                            userCtrl,
-                            passwordCtrl,
-                            userProvider
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
