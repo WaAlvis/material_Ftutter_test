@@ -8,17 +8,19 @@ import '../app_theme.dart';
 
 class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final Function()? onBackSignup;
+
+  // final Function()? onBackSignup;
   final Function(BuildContext)? goLogin;
-  final bool withBackIcon;
+
+  // final bool withBackIcon;
   final bool withText;
   final bool withButton;
   final Color? color;
 
   const LdAppbar({
     this.title,
-    this.onBackSignup,
-    this.withBackIcon = true,
+    // this.onBackSignup,
+    // this.withBackIcon = true,
     this.withText = false,
     this.withButton = false,
     this.color,
@@ -36,6 +38,10 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.infinite,
       child: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -65,16 +71,6 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ],
                 ),
         ),
-        leading: withBackIcon
-            ? IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: LdColors.white,
-                  size: 32,
-                ),
-                onPressed: onBackSignup,
-              )
-            : null,
       ),
     );
   }

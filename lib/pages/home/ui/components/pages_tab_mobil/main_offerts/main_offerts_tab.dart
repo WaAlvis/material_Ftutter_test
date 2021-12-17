@@ -25,7 +25,7 @@ class MainOffertsTab extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const LdAppbar(
-        withBackIcon: false,
+        // withBackIcon: false,
         withButton: true,
       ),
       body: DefaultTabController(

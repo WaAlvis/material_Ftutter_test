@@ -27,7 +27,7 @@ class _OffertSaleMobile extends StatelessWidget {
       backgroundColor: LdColors.blackBackground,
       appBar: const LdAppbar(
         title: 'Crear oferta',
-        withBackIcon: false,
+        // withBackIcon: false,
         withButton: true,
       ),
       body: Column(

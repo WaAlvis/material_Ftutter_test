@@ -24,7 +24,7 @@ class MyOffertsTab extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: const LdAppbar(
         title: 'Mis ofertas',
-        withBackIcon: false,
+        // withBackIcon: false,
         withButton: true,
       ),
       body: DefaultTabController(

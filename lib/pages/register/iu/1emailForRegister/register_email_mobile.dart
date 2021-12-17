@@ -22,7 +22,7 @@ class _RegisterMobile extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar:const LdAppbar(
         title: 'Crear cuenta',
-        withBackIcon: false,
+        // withBackIcon: false,
         withButton: true,
       ),
 
