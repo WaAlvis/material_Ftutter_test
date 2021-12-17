@@ -14,6 +14,7 @@ class _LoginMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = context.read<UserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -174,6 +175,7 @@ class _LoginMobile extends StatelessWidget {
                             context,
                             userCtrl,
                             passwordCtrl,
+                            userProvider
                           );
                         }
                       },

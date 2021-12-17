@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/pages/home/ui/home_view.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -59,10 +60,12 @@ class LdRouter {
     );
   }
 
-  void goCreateOffertSale(BuildContext context) {
+  void goCreateOffert(BuildContext context, TypeOffert type) {
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.createOffertSaleRoute.route,
+      type == TypeOffert.buy
+          ? AppRoutes.createOffertBuyRoute.route
+          : AppRoutes.createOffertSaleRoute.route,
       transition: TransitionType.none,
     );
   }

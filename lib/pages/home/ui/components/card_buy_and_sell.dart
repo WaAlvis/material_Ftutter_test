@@ -35,6 +35,7 @@ class CardBuyAndSell extends StatelessWidget {
           child: Column(
             children: <Widget>[
               TitleBarCard(
+                // name: item.user.nickName,
                 name: item.user.nickName,
                 stars: '+${item.user.rateSeller}',
                 time: item.advertisement.expiredDate,

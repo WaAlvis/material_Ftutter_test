@@ -1,7 +1,7 @@
 part of '../offert_sale_view.dart';
 
-class OrangeTableSummary extends StatelessWidget {
-  const OrangeTableSummary({
+class OrangeTableSale extends StatelessWidget {
+  const OrangeTableSale({
     Key? key,
     required this.textTheme,
     // this.dlyCopValue = '0',

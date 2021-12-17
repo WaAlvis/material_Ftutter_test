@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/login/options_matrix.dart';
-import 'package:localdaily/services/models/login/permissions_matrix.dart';
 
 part 'matrix_user_result_login.g.dart';
 
@@ -13,7 +11,8 @@ class MatrixUserResultLogin {
     required this.moduleName,
     required this.roleId,
     required this.roleName,
-    this.permissions,
+    required this.permissionId,
+    required this.permission,
     this.options,
   });
 
@@ -26,8 +25,9 @@ class MatrixUserResultLogin {
   String moduleName;
   String roleId;
   String roleName;
-  List<PermissionsMatrix>? permissions;
-  List<OptionsMatrix>? options;
+  String permissionId;
+  String permission;
+  List<String>? options;
 
   Map<String, dynamic> toJson() => _$MatrixUserResultLoginToJson(this);
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
+import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/_app_bar_others.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -48,6 +49,7 @@ class _LoginBodyState extends State<_LoginBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController usuarioCtrl = TextEditingController();
+
 
   @override
   void dispose() {

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
-
 
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
@@ -36,6 +37,10 @@ class HomeViewModel extends ViewModel<HomeStatus> {
         totalPages: 1,
       ),
       indexTab: 0,
+      typeOffert: TypeOffert.sell,
+      image: LdAssets.buyNoOffert,
+      titleText: 'Aún no tienes ofertas de compra',
+      buttonText: 'Crear oferta de compra',
     );
   }
 
@@ -60,10 +65,29 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     dataHome(context);
   }
 
-  void goCreateOffertSale(BuildContext context) {
+  void swapType(TypeOffert type) {
+    switch (type) {
+      case TypeOffert.sell:
+        status = status.copyWith(
+          image: LdAssets.saleNoOffert,
+          titleText: 'Aun no tienes ofertas de venta',
+          buttonText: 'Crear oferta de venta',
+        );
+        break;
+      case TypeOffert.buy:
+        status = status.copyWith(
+          image: LdAssets.buyNoOffert,
+          titleText: 'Aun no tienes ofertas de compra',
+          buttonText: 'Crear oferta de compra',
+        );
+        break;
+    }
+  }
+
+  void goCreateOffert(BuildContext context, TypeOffert type) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        _route.goCreateOffertSale(context);
+        _route.goCreateOffert(context, type);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -95,8 +119,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       },
     );
   }
-
-
 
   Future<void> getDataHome(BuildContext context, int type) async {
     status = status.copyWith(isLoading: true);

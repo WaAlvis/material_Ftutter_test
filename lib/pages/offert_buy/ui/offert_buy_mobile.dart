@@ -1,7 +1,7 @@
-part of 'offert_sale_view.dart';
+part of 'offert_buy_view.dart';
 
-class _OffertSaleMobile extends StatelessWidget {
-  const _OffertSaleMobile(
+class _OffertBuyMobile extends StatelessWidget {
+  const _OffertBuyMobile(
       {Key? key,
       required this.keyForm,
       required this.valueDLYCOP,
@@ -17,7 +17,7 @@ class _OffertSaleMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserProvider userProvider = context.read<UserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
     final Size size = MediaQuery.of(context).size;
     final double hAppbar = size.height * 0.14;
     final double hBody = size.height - hAppbar;
@@ -95,7 +95,7 @@ class _OffertSaleMobile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Oferta de venta',
+                            'Oferta de compra',
                             style: textTheme.subtitleBlack.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -120,13 +120,13 @@ class _OffertSaleMobile extends StatelessWidget {
                             height: 24,
                           ),
                           Text(
-                            '¿Cuantos DLYCOP vas a vender?*',
+                            '¿Cuantos DLYCOP vas a comprar?*',
                             style: textTheme.textBlack,
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          OrangeTableSale(
+                          OrangeTableBuy(
                             textTheme: textTheme,
                           ),
                           const SizedBox(

@@ -22,8 +22,5 @@ class UserDataHome{
 
 
 
-
-
-
   Map<String, dynamic> toJson() => _$UserDataHomeToJson(this);
 }

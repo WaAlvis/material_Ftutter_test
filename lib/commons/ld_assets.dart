@@ -7,6 +7,7 @@ class LdAssets {
 
   //static const String logo = '$path/logo.svg';
   static const String logo = '$path_images/logo.svg';
-  static const String noOffertForSale = '$path_images/no_offert_for_sale.svg';
+  static const String saleNoOffert = '$path_images/sale_no_offert.svg';
+  static const String buyNoOffert = '$path_images/buy_no_offert.svg';
   static const String dlycop_icon = '$path_icons/DLYcop.svg';
 }

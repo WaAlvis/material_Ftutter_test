@@ -5,29 +5,22 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/ui/components/list_offerts_main_cards.dart';
-import 'package:localdaily/pages/login/ui/login_view.dart';
-import 'package:localdaily/pages/offert_sale/offert_sale_view_model.dart';
+import 'package:localdaily/pages/offert_buy/offert_buy_view_model.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
-import 'package:localdaily/widgets/_app_bar_others.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part 'components/card_login.dart';
+part 'components/orange_table_buy.dart';
+part 'offert_buy_mobile.dart';
+part 'offert_buy_web.dart';
 
-part 'components/orange_table_sale.dart';
-
-part 'offert_sale_mobile.dart';
-
-part 'offert_sale_web.dart';
-
-class OffertSaleView extends StatelessWidget {
-  const OffertSaleView({Key? key, this.isBuy = false}) : super(key: key);
+class OffertBuyView extends StatelessWidget {
+  const OffertBuyView({Key? key, this.isBuy = false}) : super(key: key);
 
   final bool isBuy;
 
@@ -35,28 +28,28 @@ class OffertSaleView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<OffertSaleViewModel>(
-      create: (_) => OffertSaleViewModel(
+    return ChangeNotifierProvider<OffertBuyViewModel>(
+      create: (_) => OffertBuyViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return _OffertSaleBody(isBuy: isBuy);
+        return _OffertBuyBody(isBuy: isBuy);
       },
     );
   }
 }
 
-class _OffertSaleBody extends StatefulWidget {
-  const _OffertSaleBody({Key? key, required this.isBuy}) : super(key: key);
+class _OffertBuyBody extends StatefulWidget {
+  const _OffertBuyBody({Key? key, required this.isBuy}) : super(key: key);
 
   final bool isBuy;
 
   @override
-  _OffertSaleBodyState createState() => _OffertSaleBodyState();
+  _OffertBuyBodyState createState() => _OffertBuyBodyState();
 }
 
-class _OffertSaleBodyState extends State<_OffertSaleBody> {
+class _OffertBuyBodyState extends State<_OffertBuyBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController valueDLYCOP = TextEditingController();
   final TextEditingController plusInfoCtrl = TextEditingController();
@@ -73,7 +66,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<OffertSaleViewModel>().onInit(context);
+      context.read<OffertBuyViewModel>().onInit(context);
     });
     valueDLYCOP.addListener(_printLatestValue);
     super.initState();
@@ -81,7 +74,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
 
   @override
   Widget build(BuildContext context) {
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
@@ -91,16 +84,16 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                  ? _OffertSaleWeb(
-                keyForm: keyForm,
-                valueDLYCOP: valueDLYCOP,
-                isBuy: widget.isBuy,
-              )
-                  : _OffertSaleMobile(
-                keyForm: keyForm,
-                valueDLYCOP: valueDLYCOP,
-                plusInfoCtrl: plusInfoCtrl,
-              ),
+                  ? _OffertBuyWeb(
+                      keyForm: keyForm,
+                      valueDLYCOP: valueDLYCOP,
+                      isBuy: widget.isBuy,
+                    )
+                  : _OffertBuyMobile(
+                      keyForm: keyForm,
+                      valueDLYCOP: valueDLYCOP,
+                      plusInfoCtrl: plusInfoCtrl,
+                    ),
             ),
           ],
         );

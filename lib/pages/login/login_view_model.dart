@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -29,16 +30,24 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     );
   }
 
-  Future<void> onInit({bool validateNotification = false}) async {}
+  Future<void> onInit({
+    bool validateNotification = false,
+  }) async {}
 
   void goHome(
     BuildContext context,
     TextEditingController userCtrl,
     TextEditingController passwordCtrl,
+    UserProvider userProvider,
   ) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        login(context, userCtrl.text, passwordCtrl.text);
+        login(
+          context,
+          userCtrl.text,
+          passwordCtrl.text,
+          userProvider,
+        );
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -72,6 +81,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     BuildContext context,
     String email,
     String password,
+    UserProvider userProvider,
   ) async {
     status = status.copyWith(isLoading: true);
     final String pass256 = encrypPass(password).toString();
@@ -91,10 +101,11 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       print('Login Res: ${response.statusCode} ');
       if (response.isSuccess) {
         print('Login EXITOSO!!');
-
+        userProvider.setUserLogged(
+          response.result!.user,
+        );
         _route.goHome(context);
       } else {
-
         // TODO: Mostrar alerta
       }
       status = status.copyWith(isLoading: false);

@@ -25,8 +25,7 @@ part 'home_web.dart';
 // Components Mobile
 part 'components/card_buy_and_sell.dart';
 
-// part 'components/orange_table_summary.dart';
-part 'components/pages_tab_mobil/create_offert/my_offerts_home.dart';
+part 'components/pages_tab_mobil/create_offert/my_offerts_tab.dart';
 
 part 'components/pages_tab_mobil/main_offerts/main_offerts_tab.dart';
 
