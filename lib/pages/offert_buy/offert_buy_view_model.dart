@@ -70,12 +70,12 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
   //       // TODO: Mostrar alerta
   //     }
   //   } catch (err) {
-  //     print('Get Banks Error As: $err');
+  //     print('Get Banks Error As: $err');W
   //   }
   //   status = status.copyWith(isLoading: false);
   // }
 
-  Future<void> postCreateOffert(
+  Future<void> buyCreateOffert(
     BuildContext context,
     TextEditingController valueDLYCOPCtrl,
     TextEditingController plusInfoCtrl,
@@ -87,9 +87,7 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     status = status.copyWith(isLoading: true);
 
     final Entity entity = Entity(
-      idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
-      //venta
-      //'138412e9-4907-4d18-b432-70bdec7940c4', //compra
+      idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: valueDLYCOPCtrl.text,
       margin: '1',
@@ -109,12 +107,12 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
         .then((ResponseData<ResultCreateOffert> response) {
       print('Create Offert Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Oferta de venta creada EXITOSO!!');
+        print('Oferta de Compra creada EXITOSO!!');
 
         _route.goHome(context);
       } else {
         // TODO: Mostrar alerta
-        print('no se pudo realizar la oferta!');
+        print('no se pudo realizar la oferta de Compra!');
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {

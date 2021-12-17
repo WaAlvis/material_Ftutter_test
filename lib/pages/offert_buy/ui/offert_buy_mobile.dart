@@ -234,7 +234,7 @@ class _OffertBuyMobile extends StatelessWidget {
                           PrimaryButtonCustom('Crear oferta de venta',
                               onPressed: () {
                             if (keyForm.currentState!.validate()) {
-                              viewModel.postCreateOffert(
+                              viewModel.buyCreateOffert(
                                 context,
                                 valueDLYCOP,
                                 plusInfoCtrl,

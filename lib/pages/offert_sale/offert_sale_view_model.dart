@@ -92,8 +92,6 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
 
     final Entity entity = Entity(
       idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
-      //venta
-      //'138412e9-4907-4d18-b432-70bdec7940c4', //compra
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: valueDLYCOPCtrl.text,
       margin: '1',
@@ -118,7 +116,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
         _route.goHome(context);
       } else {
         // TODO: Mostrar alerta
-        print('no se pudo realizar la oferta!');
+        print('no se pudo realizar la oferta ve venta!');
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {

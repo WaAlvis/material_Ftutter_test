@@ -53,7 +53,7 @@ abstract class LocalDailyGatewayService {
 
   @POST(UrlsApi.createOffert)
   Future<ResponseData<ResultCreateOffert>> createOffert(
-    @Body() BodyOffert bodyGetBanks,
+    @Body() BodyOffert bodyOffert,
   );
 
 // @POST(UrlsApi.login)
@@ -96,5 +96,13 @@ abstract class LocalDailyGatewayService {
 // "userTypeId": "9c2f4526-5933-4404-96fc-784a87a7b674",
 // "password": "1234",
 // "isActive": true
+// }
+
+// user/userInfoAditional/RateUser
+// {*Calificacion Usuario
+// "isSeller": true,
+// "userId": "96a6a171-641e-4103-8909-77ccd92d41eb",
+// "rate": "5",
+// "advertisementID": "c2dedafc-7114-49f2-ae60-710724dffd4e"
 // }
 
