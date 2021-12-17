@@ -42,16 +42,9 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: title != null
-              ? Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      title!,
-                      style: textTheme.textBigWhite,
-                    ),
-                  ],
+              ? Text(
+                  title!,
+                  style: textTheme.textBigWhite,
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -20,16 +20,12 @@ class _RegisterMobile extends StatelessWidget {
     return Scaffold(
       backgroundColor: LdColors.white,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        //toolbarHeight: size.height * 0.13,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        elevation: 0, // 2
-        title: Text(
-          'Crear cuenta',
-          style: textTheme.textWhite,
-        ),
+      appBar:const LdAppbar(
+        title: 'Crear cuenta',
+        withBackIcon: false,
+        withButton: true,
       ),
+
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +116,6 @@ class _RegisterMobile extends StatelessWidget {
                     controller: emailCtrl,
                     hintText: 'ejemplo@correo.com',
                   ),
-                  const Spacer(),
                   PrimaryButtonCustom(
                     'Ingresar',
                     onPressed: () => viewModel.goValidateEmail(context, emailCtrl.text),
