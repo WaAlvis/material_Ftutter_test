@@ -10,20 +10,15 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
 
   // final Function()? onBackSignup;
-  final Function(BuildContext)? goLogin;
-
-  // final bool withBackIcon;
+  final void Function(BuildContext)? goLogin;
+  final bool withBackIcon;
   final bool withText;
-  final bool withButton;
-  final Color? color;
 
   const LdAppbar({
     this.title,
     // this.onBackSignup,
-    // this.withBackIcon = true,
+    this.withBackIcon = false,
     this.withText = false,
-    this.withButton = false,
-    this.color,
     this.goLogin,
   });
 
@@ -36,15 +31,18 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     final Size size = MediaQuery.of(context).size;
 
     return PreferredSize(
+
       preferredSize: Size.infinite,
       child: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
+        leading: withBackIcon
+            ? IconButton(
+                icon: Icon(Icons.arrow_back_ios_new_outlined),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : null,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: title != null
@@ -59,7 +57,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                       LdAssets.logo,
                       height: 30,
                     ),
-                    if (withButton)
+                    if (goLogin != null)
                       PrimaryButtonCustom(
                         'Iniciar sesión',
                         colorText: LdColors.white,

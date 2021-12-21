@@ -22,10 +22,10 @@ class MyOffertsTab extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const LdAppbar(
+      appBar:  LdAppbar(
         title: 'Mis ofertas',
+        goLogin:(context) => viewModel.goLogin(context),
         // withBackIcon: false,
-        withButton: true,
       ),
       body: DefaultTabController(
         length: 2,

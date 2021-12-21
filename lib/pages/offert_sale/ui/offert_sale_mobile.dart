@@ -28,7 +28,6 @@ class _OffertSaleMobile extends StatelessWidget {
       appBar: const LdAppbar(
         title: 'Crear oferta',
         // withBackIcon: false,
-        withButton: true,
       ),
       body: Column(
           children: <Widget>[

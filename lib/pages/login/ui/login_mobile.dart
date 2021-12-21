@@ -27,7 +27,6 @@ class _LoginMobile extends StatelessWidget {
       backgroundColor: LdColors.blackBackground,
       appBar: const LdAppbar(
         title: 'Iniciar sesión',
-        withButton: true,
       ),
       body: Column(
         children: <Widget>[

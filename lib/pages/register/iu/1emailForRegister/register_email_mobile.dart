@@ -5,7 +5,6 @@ class _RegisterMobile extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.emailCtrl,
-
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -20,13 +19,10 @@ class _RegisterMobile extends StatelessWidget {
     return Scaffold(
       backgroundColor: LdColors.white,
       extendBodyBehindAppBar: true,
-      appBar:const LdAppbar(
+      appBar: const LdAppbar(
         title: 'Crear cuenta',
         // withBackIcon: false,
-        withButton: true,
       ),
-
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -41,8 +37,8 @@ class _RegisterMobile extends StatelessWidget {
                   right: 0,
                   child: SizedBox(
                     // El tamaño depende del tamaño de la pantalla
-                    width: (size.width)/4,
-                    height: (size.width)/4,
+                    width: (size.width) / 4,
+                    height: (size.width) / 4,
                     child: QuarterCircle(
                       circleAlignment: CircleAlignment.bottomRight,
                       color: LdColors.grayLight.withOpacity(0.05),
@@ -52,8 +48,8 @@ class _RegisterMobile extends StatelessWidget {
                 Positioned(
                   right: 0,
                   child: SizedBox(
-                    width: (size.width)*2/4,
-                    height: (size.width)*2/4,
+                    width: (size.width) * 2 / 4,
+                    height: (size.width) * 2 / 4,
                     child: QuarterCircle(
                       circleAlignment: CircleAlignment.bottomRight,
                       color: LdColors.grayLight.withOpacity(0.05),
@@ -63,8 +59,8 @@ class _RegisterMobile extends StatelessWidget {
                 Positioned(
                   right: 0,
                   child: SizedBox(
-                    width: (size.width)*3/4,
-                    height: (size.width)*3/4,
+                    width: (size.width) * 3 / 4,
+                    height: (size.width) * 3 / 4,
                     child: QuarterCircle(
                       circleAlignment: CircleAlignment.bottomRight,
                       color: LdColors.grayLight.withOpacity(0.05),
@@ -90,7 +86,7 @@ class _RegisterMobile extends StatelessWidget {
                       ),
                       const SizedBox(height: 15),
                       Container(
-                        width: (size.width - 32)*1/3,
+                        width: (size.width - 32) * 1 / 3,
                         height: 5,
                         decoration: const BoxDecoration(
                           color: LdColors.orangePrimary,
@@ -107,18 +103,18 @@ class _RegisterMobile extends StatelessWidget {
           Flexible(
             flex: 4,
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
               child: Column(
                 children: <Widget>[
-                   InputTextCustom(
+                  InputTextCustom(
                     'Correo electronico',
                     controller: emailCtrl,
                     hintText: 'ejemplo@correo.com',
                   ),
                   PrimaryButtonCustom(
                     'Ingresar',
-                    onPressed: () => viewModel.goValidateEmail(context, emailCtrl.text),
+                    onPressed: () =>
+                        viewModel.goValidateEmail(context, emailCtrl.text),
                   ),
                 ],
               ),

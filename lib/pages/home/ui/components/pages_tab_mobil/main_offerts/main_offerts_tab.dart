@@ -24,9 +24,9 @@ class MainOffertsTab extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const LdAppbar(
+      appBar:  LdAppbar(
+        goLogin:(context) => viewModel.goLogin(context),
         // withBackIcon: false,
-        withButton: true,
       ),
       body: DefaultTabController(
         length: 2,
