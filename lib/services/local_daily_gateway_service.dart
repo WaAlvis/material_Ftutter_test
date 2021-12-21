@@ -18,7 +18,7 @@ class UrlsApi {
   static const String getDataHome = '/WebAdmin/Advertisement/GetData';
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
-  static const String getBanks = '/Configuration/​ConfigurationBank​/GetData';
+  static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String createOffert = '/WebAdmin/Advertisement';
 }
 

@@ -22,6 +22,8 @@ class _OffertSaleMobile extends StatelessWidget {
     final double hAppbar = size.height * 0.14;
     final double hBody = size.height - hAppbar;
 
+    print(viewModel.status.listBanks.data);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
@@ -29,8 +31,7 @@ class _OffertSaleMobile extends StatelessWidget {
         title: 'Crear oferta',
         // withBackIcon: false,
       ),
-      body: Column(
-          children: <Widget>[
+      body: Column(children: <Widget>[
         Container(
           width: size.width,
           color: LdColors.blackBackground,
@@ -90,7 +91,7 @@ class _OffertSaleMobile extends StatelessWidget {
                 child: Form(
                   key: keyForm,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Text(
                         'Oferta de venta',
@@ -147,6 +148,15 @@ class _OffertSaleMobile extends StatelessWidget {
                       const InputTextCustom(
                         'Banco *',
                         hintText: 'Seleciona tu banco',
+                      ),
+                      DropdownButton<String>(
+                        items: viewModel.status.listBanks.data.map((Bank item) {
+                          return DropdownMenuItem(
+                            child: Text(item.description),
+                            value: item.id,
+                          );
+                        }).toList(),
+                        onChanged: (_) {},
                       ),
                       const SizedBox(
                         height: 20,

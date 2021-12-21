@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -22,8 +21,6 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     this._route,
     this._interactor,
   ) {
-
-
     status = OffertSaleStatus(
       isLoading: false,
       isError: true,
@@ -123,17 +120,5 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       print('Offerta Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });
-  }
-
-  void goRecoverPassword(BuildContext context) {
-    print('Implementar vista de recuperar contrasenia');
-    // _route.goEmailRegister(context);
-    // LdConnection.validateConnection().then((bool value) {
-    //   if (value) {
-    //     _route.goEmailRegister(context);
-    //   } else {
-    //     // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-    //   }
-    // });
   }
 }
