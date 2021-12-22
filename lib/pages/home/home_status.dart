@@ -1,5 +1,5 @@
 import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/view_model.dart';
 

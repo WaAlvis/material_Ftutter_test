@@ -1,25 +1,24 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
-import 'package:localdaily/services/models/create_offerts/get_doc_type/response/type_doc.dart';
+import 'package:localdaily/services/models/create_offerts/get_doc_type/response/doc_type.dart';
 
-part 'result_get_banks.g.dart';
+part 'result_get_docs_type.g.dart';
 
 @JsonSerializable()
-class ResultGetBanks {
-  ResultGetBanks({
+class ResultGetDocsType {
+  ResultGetDocsType({
     required this.data,
     required this.totalItems,
     required this.totalPages,
   });
 
-  factory ResultGetBanks.fromJson(Map<String, dynamic> json) =>
-      _$ResultGetBanksFromJson(json);
+  factory ResultGetDocsType.fromJson(Map<String, dynamic> json) =>
+      _$ResultGetDocsTypeFromJson(json);
 
   // TokenLogin tokenData;
   // String? user;
-  List<TypeDoc> data;
+  List<DocType> data;
   int totalItems;
   int totalPages;
 
-  Map<String, dynamic> toJson() => _$ResultGetBanksToJson(this);
+  Map<String, dynamic> toJson() => _$ResultGetDocsTypeToJson(this);
 }

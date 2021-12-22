@@ -8,6 +8,8 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offert_buy/offert_buy_view_model.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
+import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';

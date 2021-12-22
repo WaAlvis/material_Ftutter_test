@@ -1,21 +1,22 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part '../type_doc.g.dart';
+part 'doc_type.g.dart';
+
 
 @JsonSerializable()
-class TypeDoc {
-  TypeDoc(
+class DocType {
+  DocType(
       {required this.id,
         required this.countryId,
         required this.description,
         required this.isActive});
 
-  factory TypeDoc.fromJson(Map<String, dynamic> json) => _$TypeDocFromJson(json);
+  factory DocType.fromJson(Map<String, dynamic> json) => _$DocTypeFromJson(json);
 
   String id;
   String countryId;
   String description;
   bool isActive;
 
-  Map<String, dynamic> toJson() => _$TypeDocToJson(this);
+  Map<String, dynamic> toJson() => _$DocTypeToJson(this);
 }

@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/bank.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
+import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -35,45 +36,47 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     BuildContext context, {
     bool validateNotification = false,
   }) async {
-    // getBanks(context);
+    getBank(context);
+  }
+
+  Future<void> getBank(BuildContext context) async {
+    status = status.copyWith(isLoading: true);
+
+    final Pagination pagination = Pagination(
+      isPaginable: true,
+      currentPage: 1,
+      itemsPerPage: 25,
+    );
+
+    try {
+      final ResponseData<ResultGetBanks> response =
+          await _interactor.getBanks(pagination);
+      print('Baks list Res: ${response.statusCode} ');
+      if (response.isSuccess) {
+        print('Exito obteniendo la data Los BANCOS!!');
+        status.listBanks = response.result!;
+      } else {
+        print('ERROR obteniendo la data de Baks');
+        // TODO: Mostrar alerta
+      }
+    } catch (err) {
+      print('Get Banks Error As: $err');
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   void goRegister(BuildContext context) {
     _route.goEmailRegister(context);
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
-        _route.goEmailRegister(context);
-      } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-      }
-    });
+    LdConnection.validateConnection().then(
+      (bool value) {
+        if (value) {
+          _route.goEmailRegister(context);
+        } else {
+          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        }
+      },
+    );
   }
-
-  // Future<void> getBanks(BuildContext context) async {
-  //   status = status.copyWith(isLoading: true);
-  //
-  //   final Pagination pagination = Pagination(
-  //     isPaginable: true,
-  //     currentPage: 1,
-  //     itemsPerPage: 10,
-  //   );
-  //
-  //   try {
-  //     final ResponseData<ResultGetBanks> response =
-  //         await _interactor.getBanks(pagination);
-  //     print('Baks list Res: ${response.statusCode} ');
-  //     if (response.isSuccess) {
-  //       print('Exito obteniendo la data Los BANCOS!!');
-  //       status.listBanks = response.result!;
-  //     } else {
-  //       print('ERROR obteniendo la data de Baks');
-  //       // TODO: Mostrar alerta
-  //     }
-  //   } catch (err) {
-  //     print('Get Banks Error As: $err');W
-  //   }
-  //   status = status.copyWith(isLoading: false);
-  // }
 
   Future<void> buyCreateOffert(
     BuildContext context,

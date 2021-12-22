@@ -1,4 +1,4 @@
-import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/view_model.dart';
 
 class OffertBuyStatus extends ViewStatus {

@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/bank.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_doc_type/response/doc_type.dart';
+import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
@@ -22,11 +25,34 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     this._interactor,
   ) {
     status = OffertSaleStatus(
+      selectedDocType: null,
+      selectedAccountType: null,
       selectedBank: null,
       isLoading: false,
       isError: true,
       listBanks: ResultGetBanks(
         data: <Bank>[],
+        totalItems: 10,
+        totalPages: 1,
+      ),
+      listDocsType: ResultGetDocsType(
+        data: <DocType>[],
+        totalItems: 10,
+        totalPages: 1,
+      ),
+      listAccountType: ResultGetDocsType(
+        data: <DocType>[
+          DocType(
+              id: 'd307fd7e-c76f-44b6-a8ff-768ad6421616',
+              countryId: '17cccd6d-1675-485b-806b-5297063e6826',
+              description: 'Corriente',
+              isActive: true),
+          DocType(
+              id: 'c047a07c-2daf-48a7-ad49-ec447a93485b',
+              countryId: '17cccd6d-1675-485b-806b-5297063e6826',
+              description: 'Ahorros',
+              isActive: true),
+        ],
         totalItems: 10,
         totalPages: 1,
       ),
@@ -38,6 +64,9 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     bool validateNotification = false,
   }) async {
     getBanks(context);
+    getDocumentType(context);
+    // getAccountsType(context);
+
   }
 
   void goRegister(BuildContext context) {
@@ -58,8 +87,80 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     );
     if (index != -1) {
       status = status.copyWith(selectedBank: status.listBanks.data[index]);
-      print(status.selectedBank!.description);
     }
+  }
+
+  void docTypeSelected(String id) {
+    final int index = status.listDocsType.data.indexWhere(
+      // (Bank bank) => bank.id == id,
+      (DocType docType) => docType.id == id,
+    );
+    if (index != -1) {
+      status =
+          status.copyWith(selectedDocType: status.listDocsType.data[index]);
+    }
+  }
+
+  void accountTypeSelected(String id) {
+    final int index = status.listAccountType.data.indexWhere(
+      // (Bank bank) => bank.id == id,
+      (DocType docType) => docType.id == id,
+    );
+    if (index != -1) {
+      status = status.copyWith(
+          selectedAccountType: status.listAccountType.data[index]);
+    }
+  }
+  // Future<void> getAccountsType(BuildContext context) async {
+  //   // status = status.copyWith(isLoading: true);
+  //
+  //   final Pagination pagination = Pagination(
+  //     isPaginable: true,
+  //     currentPage: 1,
+  //     itemsPerPage: 25,
+  //   );
+  //
+  //   try {
+  //     final ResponseData<ResultGetDocsType> response =
+  //     await _interactor.getDocumentType(pagination);
+  //     print('Type Docs list Res: ${response.statusCode} ');
+  //     if (response.isSuccess) {
+  //       print('Exito obteniendo la data de Tipos de DOCS!!');
+  //       status.listDocsType = response.result!;
+  //     } else {
+  //       print('ERROR obteniendo la data de Tipos de DOCS');
+  //       // TODO: Mostrar alerta
+  //     }
+  //   } catch (err) {
+  //     print('Get Type Docs Error As: $err');
+  //   }
+  //   status = status.copyWith(isLoading: false);
+  // }
+
+  Future<void> getDocumentType(BuildContext context) async {
+    // status = status.copyWith(isLoading: true);
+
+    final Pagination pagination = Pagination(
+      isPaginable: true,
+      currentPage: 1,
+      itemsPerPage: 25,
+    );
+
+    try {
+      final ResponseData<ResultGetDocsType> response =
+          await _interactor.getDocumentType(pagination);
+      print('Type Docs list Res: ${response.statusCode} ');
+      if (response.isSuccess) {
+        print('Exito obteniendo la data de Tipos de DOCS!!');
+        status.listDocsType = response.result!;
+      } else {
+        print('ERROR obteniendo la data de Tipos de DOCS');
+        // TODO: Mostrar alerta
+      }
+    } catch (err) {
+      print('Get Type Docs Error As: $err');
+    }
+    status = status.copyWith(isLoading: false);
   }
 
   Future<void> getBanks(BuildContext context) async {
@@ -68,7 +169,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     final Pagination pagination = Pagination(
       isPaginable: true,
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 25,
     );
 
     try {

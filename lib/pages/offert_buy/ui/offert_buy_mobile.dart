@@ -145,6 +145,17 @@ class _OffertBuyMobile extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
+                          // DropdownCustom(
+                          //   'Banco *',
+                          //   hintText: 'Seleciona tu banco',
+                          //   optionItems: viewModel.status.listBanks.data
+                          //       .map((Bank item) {
+                          //     return DropdownMenuItem<String>(
+                          //       value: item.id,
+                          //       child: Text(item.description),
+                          //     );
+                          //   }).toList(),
+                          // ),
                           const InputTextCustom(
                             'Banco *',
                             hintText: 'Seleciona tu banco',
@@ -254,3 +265,58 @@ class _OffertBuyMobile extends StatelessWidget {
     );
   }
 }
+
+// class DropdownCustom extends StatelessWidget {
+//   const DropdownCustom(
+//     this.data, {
+//     Key? key,
+//     required this.hintText,
+//     required this.optionItems,
+//     // this.styleLabel,
+//     // this.styleHint,
+//     // this.suffixIcon,
+//   }) : super(key: key);
+//
+//   final String data;
+//   final String hintText;
+//   final List<DropdownMenuItem<String>>? optionItems;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
+//
+//     final TextTheme textTheme = Theme.of(context).textTheme;
+//
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: <Widget>[
+//         Padding(
+//           padding: const EdgeInsets.only(left: 12),
+//           child: Text(
+//             data,
+//             style: textTheme.textBlack,
+//           ),
+//         ),
+//         const SizedBox(
+//           height: 12,
+//         ),
+//         DropdownButtonFormField<String>(
+//           value: viewModel.status.selectedBank?.id,
+//           // hint: const Text('Seleciona tu banco'),
+//           decoration: InputDecoration(
+//             border: const OutlineInputBorder(
+//               borderRadius: BorderRadius.all(
+//                 Radius.circular(12.0),
+//               ),
+//             ),
+//             filled: viewModel.status.selectedBank != null,
+//             hintText: hintText,
+//             fillColor: LdColors.whiteDark,
+//           ),
+//           items: optionItems,
+//           onChanged: (String? idBank) => viewModel.bankSelected(idBank!),
+//         ),
+//       ],
+//     );
+//   }
+// }

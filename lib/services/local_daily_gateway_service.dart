@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
@@ -19,6 +20,7 @@ class UrlsApi {
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
+  static const String getDocsType = '/Configuration/ConfigurationDocumentType/GetData';
   static const String createOffert = '/WebAdmin/Advertisement';
 }
 
@@ -50,6 +52,11 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultGetBanks>> getBanks(
     @Body() Pagination bodyGetBanks,
   );
+
+  @POST(UrlsApi.getDocsType)
+  Future<ResponseData<ResultGetDocsType>> getDocsType(
+      @Body() Pagination bodyGetDocsType,
+      );
 
   @POST(UrlsApi.createOffert)
   Future<ResponseData<ResultCreateOffert>> createOffert(

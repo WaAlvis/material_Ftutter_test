@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/create_offerts/getBanks/response/bank.dart';
+import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
 
 part 'result_get_banks.g.dart';
 
