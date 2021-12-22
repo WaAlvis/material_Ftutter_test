@@ -152,9 +152,22 @@ class _OffertSaleMobile extends StatelessWidget {
                           style: textTheme.textBlack,
                         ),
                       ),
-                      DropdownButton<String>(
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      DropdownButtonFormField<String>(
                         value: viewModel.status.selectedBank?.id,
-                        hint: const Text('Seleciona tu banco'),
+                        // hint: const Text('Seleciona tu banco'),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12.0),
+                            ),
+                          ),
+                          filled: viewModel.status.selectedBank != null,
+                          hintText: 'Seleciona tu banco',
+                          fillColor: LdColors.grayBg,
+                        ),
                         items: viewModel.status.listBanks.data.map((Bank item) {
                           return DropdownMenuItem<String>(
                             value: item.id,
