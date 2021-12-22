@@ -22,6 +22,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     this._interactor,
   ) {
     status = OffertSaleStatus(
+      selectedBank: null,
       isLoading: false,
       isError: true,
       listBanks: ResultGetBanks(
@@ -48,6 +49,17 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
+  }
+
+  void bankSelected(String id) {
+    final int index = status.listBanks.data.indexWhere(
+      // (Bank bank) => bank.id == id,
+      (Bank bank) => bank.id == id,
+    );
+    if (index != -1) {
+      status = status.copyWith(selectedBank: status.listBanks.data[index]);
+      print(status.selectedBank!.description);
+    }
   }
 
   Future<void> getBanks(BuildContext context) async {

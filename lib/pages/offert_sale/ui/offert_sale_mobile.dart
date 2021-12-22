@@ -150,13 +150,16 @@ class _OffertSaleMobile extends StatelessWidget {
                         hintText: 'Seleciona tu banco',
                       ),
                       DropdownButton<String>(
+                        value: viewModel.status.selectedBank?.id ,
+                        hint: Text("Seleciona tu banco"),
                         items: viewModel.status.listBanks.data.map((Bank item) {
-                          return DropdownMenuItem(
-                            child: Text(item.description),
+                          return DropdownMenuItem<String>(
                             value: item.id,
+                            child: Text(item.description),
                           );
                         }).toList(),
-                        onChanged: (_) {},
+                        onChanged: (String? idBank) =>
+                            viewModel.bankSelected(idBank!),
                       ),
                       const SizedBox(
                         height: 20,
@@ -212,7 +215,7 @@ class _OffertSaleMobile extends StatelessWidget {
                               Icons.timer,
                               size: 70,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 16,
                             ),
                             Expanded(

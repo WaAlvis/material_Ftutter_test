@@ -6,22 +6,26 @@ class OffertSaleStatus extends ViewStatus {
   final bool isLoading;
   final bool isError;
   ResultGetBanks listBanks;
+  final Bank? selectedBank;
 
   OffertSaleStatus({
     required this.isLoading,
     required this.isError,
     required this.listBanks,
+    required this.selectedBank,
   });
 
   OffertSaleStatus copyWith({
     bool? isLoading,
     bool? isError,
     ResultGetBanks? listBanks,
+    Bank? selectedBank,
   }) {
     return OffertSaleStatus(
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
       listBanks: listBanks ?? this.listBanks,
+      selectedBank: selectedBank ?? this.selectedBank,
     );
   }
 }
