@@ -103,7 +103,7 @@ class _OffertSaleMobile extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        'Ingresa la informacion de la publicacion.',
+                        'Ingresa la informacion de la publicación.',
                         style: textTheme.textBlack,
                       ),
                       const SizedBox(
@@ -145,13 +145,16 @@ class _OffertSaleMobile extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      const InputTextCustom(
-                        'Banco *',
-                        hintText: 'Seleciona tu banco',
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Text(
+                          'Banco *',
+                          style: textTheme.textBlack,
+                        ),
                       ),
                       DropdownButton<String>(
-                        value: viewModel.status.selectedBank?.id ,
-                        hint: Text("Seleciona tu banco"),
+                        value: viewModel.status.selectedBank?.id,
+                        hint: const Text('Seleciona tu banco'),
                         items: viewModel.status.listBanks.data.map((Bank item) {
                           return DropdownMenuItem<String>(
                             value: item.id,
