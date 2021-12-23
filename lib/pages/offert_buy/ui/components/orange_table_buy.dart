@@ -1,20 +1,27 @@
 part of '../offert_buy_view.dart';
 
-class OrangeTableBuy extends StatelessWidget {
-  const OrangeTableBuy({
+class AmountOrangeTableBuy extends StatelessWidget {
+  const AmountOrangeTableBuy({
     Key? key,
     required this.textTheme,
+    this.controller,
+    this.onlyIntNum = false,
+
     // this.dlyCopValue = '0',
   }) : super(key: key);
 
   final TextTheme textTheme;
+  final bool onlyIntNum;
+  final TextEditingController? controller;
 
   // final String dlyCopValue;
 
   @override
   Widget build(BuildContext context) {
+    final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
+
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(10),
@@ -26,9 +33,20 @@ class OrangeTableBuy extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                '0',
-                style: textTheme.subtitleWhite,
+              Expanded(
+                child: TextFormField(
+                  controller: controller,
+                  inputFormatters: onlyIntNum
+                      ? [FilteringTextInputFormatter.digitsOnly]
+                      : null,
+                  keyboardType: TextInputType.number,
+                  style: textTheme.subtitleWhite,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '0',
+                    hintStyle: textTheme.subtitleWhite,
+                  ),
+                ),
               ),
               SvgPicture.asset(LdAssets.dlycop_icon),
             ],
@@ -36,27 +54,14 @@ class OrangeTableBuy extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          Text('≈ 1.000.000 COP')
+          Text(
+            '≈ ${viewModel.status.valueCalculate} COP',
+            style: textTheme.textWhite.copyWith(
+              fontSize: 14,
+            ),
+          )
         ],
       ),
     );
   }
-
-// Row rowOrangeTable({required String firstText, required String secondText}) {
-//   final TextStyle style = textTheme.textWhite.copyWith(
-//       color: LdColors.grayBg.withOpacity(0.6), fontWeight: FontWeight.w100);
-//   return Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     children: <Widget>[
-//       Text(
-//         firstText,
-//         style: style,
-//       ),
-//       Text(
-//         secondText,
-//         style: style,
-//       ),
-//     ],
-//   );
-// }
 }

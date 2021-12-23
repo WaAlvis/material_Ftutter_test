@@ -24,6 +24,7 @@ dependencies:
   json_annotation: ^4.3.0
   retrofit: ^2.0.1
   dio: ^4.0.1
+  intl: ^0.17.0
 
   #Assets
   cupertino_icons: ^1.0.3

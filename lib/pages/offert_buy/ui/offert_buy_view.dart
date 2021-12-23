@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -9,7 +10,6 @@ import 'package:localdaily/pages/offert_buy/offert_buy_view_model.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
-import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -53,14 +53,18 @@ class _OffertBuyBody extends StatefulWidget {
 
 class _OffertBuyBodyState extends State<_OffertBuyBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController valueDLYCOP = TextEditingController();
+  final TextEditingController marginCtrl = TextEditingController();
+  final TextEditingController amountDLYCtrl = TextEditingController();
+
   final TextEditingController infoPlusOffertCtrl = TextEditingController();
 
   //final TextEditingController usuarioCtrl = TextEditingController();
 
   @override
   void dispose() {
-    valueDLYCOP.dispose();
+    marginCtrl.dispose();
+    amountDLYCtrl.dispose();
+    infoPlusOffertCtrl.dispose();
     //usuarioCtrl.dispose();
     super.dispose();
   }
@@ -70,7 +74,7 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<OffertBuyViewModel>().onInit(context);
     });
-    valueDLYCOP.addListener(_printLatestValue);
+    marginCtrl.addListener(_printLatestValue);
     super.initState();
   }
 
@@ -88,13 +92,14 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
               child: maxWidth > 1024
                   ? _OffertBuyWeb(
                       keyForm: keyForm,
-                      valueDLYCOP: valueDLYCOP,
+                      valueDLYCOP: marginCtrl,
                       isBuy: widget.isBuy,
                     )
                   : _OffertBuyMobile(
                       keyForm: keyForm,
-                      valueDLYCOP: valueDLYCOP,
+                      marginCtrl: marginCtrl,
                       infoPlusOffertCtrl: infoPlusOffertCtrl,
+                      amountDLYCtrl: amountDLYCtrl,
                     ),
             ),
           ],
@@ -104,6 +109,6 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
   }
 
   void _printLatestValue() {
-    print('Second text field: ${valueDLYCOP.text}');
+    print('Second text field: ${marginCtrl.text}');
   }
 }

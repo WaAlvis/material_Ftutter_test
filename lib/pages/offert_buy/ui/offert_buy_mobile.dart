@@ -4,13 +4,15 @@ class _OffertBuyMobile extends StatelessWidget {
   const _OffertBuyMobile(
       {Key? key,
       required this.keyForm,
-      required this.valueDLYCOP,
+      required this.marginCtrl,
+      required this.amountDLYCtrl,
       required this.infoPlusOffertCtrl,
       vo})
       : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController valueDLYCOP;
+  final TextEditingController marginCtrl;
+  final TextEditingController amountDLYCtrl;
   final TextEditingController infoPlusOffertCtrl;
 
   @override
@@ -111,7 +113,7 @@ class _OffertBuyMobile extends StatelessWidget {
                           ),
                           InputTextCustom(
                             'Valor de los DLYCOP*',
-                            controller: valueDLYCOP,
+                            controller: marginCtrl,
                             hintText: '0',
                             keyboardType: TextInputType.numberWithOptions(),
                           ),
@@ -125,8 +127,9 @@ class _OffertBuyMobile extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          OrangeTableBuy(
+                          AmountOrangeTableBuy(
                             textTheme: textTheme,
+                            controller: amountDLYCtrl,
                           ),
                           const SizedBox(
                             height: 20,
@@ -145,20 +148,21 @@ class _OffertBuyMobile extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          // DropdownCustom(
-                          //   'Banco *',
-                          //   hintText: 'Seleciona tu banco',
-                          //   optionItems: viewModel.status.listBanks.data
-                          //       .map((Bank item) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: item.id,
-                          //       child: Text(item.description),
-                          //     );
-                          //   }).toList(),
-                          // ),
-                          const InputTextCustom(
+                          DropdownCustom(
                             'Banco *',
                             hintText: 'Seleciona tu banco',
+                            changeFillWith:
+                                viewModel.status.selectedBank != null,
+                            optionItems: viewModel.status.listBanks.data
+                                .map((Bank item) {
+                              return DropdownMenuItem<String>(
+                                value: item.id,
+                                child: Text(item.description),
+                              );
+                            }).toList(),
+                            onChanged: (String? idBank) =>
+                                viewModel.bankSelected(idBank!),
+                            value: viewModel.status.selectedBank?.id,
                           ),
                           const SizedBox(
                             height: 20,
@@ -214,7 +218,7 @@ class _OffertBuyMobile extends StatelessWidget {
                                   Icons.timer,
                                   size: 70,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 16,
                                 ),
                                 Expanded(
@@ -246,9 +250,11 @@ class _OffertBuyMobile extends StatelessWidget {
                             if (keyForm.currentState!.validate()) {
                               viewModel.buyCreateOffert(
                                 context,
-                                valueDLYCOP,
-                                infoPlusOffertCtrl,
-                                userProvider.getUserLogged!.id,
+                                marginCtrl: marginCtrl,
+                                bankId: viewModel.status.selectedBank!.id,
+                                amountDLYCtrl: amountDLYCtrl,
+                                infoPlusOffertCtrl: infoPlusOffertCtrl,
+                                userId: userProvider.getUserLogged!.id,
                               );
                             }
                           }),
@@ -266,57 +272,64 @@ class _OffertBuyMobile extends StatelessWidget {
   }
 }
 
-// class DropdownCustom extends StatelessWidget {
-//   const DropdownCustom(
-//     this.data, {
-//     Key? key,
-//     required this.hintText,
-//     required this.optionItems,
-//     // this.styleLabel,
-//     // this.styleHint,
-//     // this.suffixIcon,
-//   }) : super(key: key);
-//
-//   final String data;
-//   final String hintText;
-//   final List<DropdownMenuItem<String>>? optionItems;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
-//
-//     final TextTheme textTheme = Theme.of(context).textTheme;
-//
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.stretch,
-//       children: <Widget>[
-//         Padding(
-//           padding: const EdgeInsets.only(left: 12),
-//           child: Text(
-//             data,
-//             style: textTheme.textBlack,
-//           ),
-//         ),
-//         const SizedBox(
-//           height: 12,
-//         ),
-//         DropdownButtonFormField<String>(
-//           value: viewModel.status.selectedBank?.id,
-//           // hint: const Text('Seleciona tu banco'),
-//           decoration: InputDecoration(
-//             border: const OutlineInputBorder(
-//               borderRadius: BorderRadius.all(
-//                 Radius.circular(12.0),
-//               ),
-//             ),
-//             filled: viewModel.status.selectedBank != null,
-//             hintText: hintText,
-//             fillColor: LdColors.whiteDark,
-//           ),
-//           items: optionItems,
-//           onChanged: (String? idBank) => viewModel.bankSelected(idBank!),
-//         ),
-//       ],
-//     );
-//   }
-// }
+class DropdownCustom extends StatelessWidget {
+  DropdownCustom(
+    this.data, {
+    Key? key,
+    required this.hintText,
+    required this.optionItems,
+    required this.onChanged,
+    required this.value,
+    this.changeFillWith,
+    // this.styleLabel,
+    // this.styleHint,
+    // this.suffixIcon,
+  }) : super(key: key);
+
+  final String data;
+  final String hintText;
+  final List<DropdownMenuItem<String>>? optionItems;
+  final void Function(String?)? onChanged;
+  final String? value;
+  bool? changeFillWith = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            data,
+            style: textTheme.textBlack,
+          ),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        DropdownButtonFormField<String>(
+          value: value,
+
+          // hint: const Text('Seleciona tu banco'),
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+            ),
+            filled: changeFillWith,
+            // filled: changeFillWith != null ,
+            hintText: hintText,
+            fillColor: LdColors.grayBorder,
+          ),
+          items: optionItems,
+          onChanged: onChanged,
+        ),
+      ],
+    );
+  }
+}

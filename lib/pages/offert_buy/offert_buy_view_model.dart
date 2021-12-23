@@ -22,8 +22,10 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     this._interactor,
   ) {
     status = OffertBuyStatus(
+      selectedBank: null,
       isLoading: false,
       isError: true,
+      valueCalculate: '0',
       listBanks: ResultGetBanks(
         data: <Bank>[],
         totalItems: 10,
@@ -37,6 +39,16 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     bool validateNotification = false,
   }) async {
     getBank(context);
+  }
+
+  void bankSelected(String id) {
+    final int index = status.listBanks.data.indexWhere(
+      // (Bank bank) => bank.id == id,
+      (Bank bank) => bank.id == id,
+    );
+    if (index != -1) {
+      status = status.copyWith(selectedBank: status.listBanks.data[index]);
+    }
   }
 
   Future<void> getBank(BuildContext context) async {
@@ -79,31 +91,33 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
   }
 
   Future<void> buyCreateOffert(
-    BuildContext context,
-    TextEditingController amountDLYCtrl,
-    TextEditingController infoPlusOffertCtrl,
-    String userId,
+    BuildContext context, {
+    required TextEditingController marginCtrl,
+    required TextEditingController amountDLYCtrl,
+    required String bankId,
+    required TextEditingController infoPlusOffertCtrl,
+    required String userId,
+  }
 
-    // String email,
-    // String password,
-  ) async {
+      // String email,
+      // String password,
+      ) async {
     status = status.copyWith(isLoading: true);
 
     final Entity entity = Entity(
       idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: amountDLYCtrl.text,
-      margin: '1',
+      margin: marginCtrl.text,
       termsOfTrade: infoPlusOffertCtrl.text,
-      //todo obtener idUsuario y remplazarlops
-      // idUserPublish: 'ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2',
       idUserPublish: userId,
     );
     final BodyOffert bodyOffert = BodyOffert(
         entity: entity,
         daysOfExpired: 7,
         strJsonAdvertisementBanks:
-            '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
+            //TODO, deberia ser diferente, ya que no se ingresan todos esos datos.
+            '[{\"bankId\": \"${bankId}\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
 
     _interactor
         .createOffert(bodyOffert)
