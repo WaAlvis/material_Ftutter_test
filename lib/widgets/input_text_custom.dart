@@ -51,7 +51,7 @@ class InputTextCustom extends StatelessWidget {
               onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
           validator: (String? value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return '* Este campo es obligatorio';
             }
             return null;
           },

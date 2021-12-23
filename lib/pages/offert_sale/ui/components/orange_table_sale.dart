@@ -4,10 +4,14 @@ class OrangeTableSale extends StatelessWidget {
   const OrangeTableSale({
     Key? key,
     required this.textTheme,
+    this.onlyIntNum = false,
+    this.controller,
     // this.dlyCopValue = '0',
   }) : super(key: key);
 
   final TextTheme textTheme;
+  final bool onlyIntNum;
+  final TextEditingController? controller;
 
   // final String dlyCopValue;
 
@@ -27,7 +31,10 @@ class OrangeTableSale extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: TextFormField(
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  controller: controller,
+                  inputFormatters: onlyIntNum
+                      ? [FilteringTextInputFormatter.digitsOnly]
+                      : null,
                   keyboardType: TextInputType.number,
                   style: textTheme.subtitleWhite,
                   decoration: InputDecoration(

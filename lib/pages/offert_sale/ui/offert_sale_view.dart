@@ -59,14 +59,23 @@ class _OffertSaleBody extends StatefulWidget {
 
 class _OffertSaleBodyState extends State<_OffertSaleBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController valueDLYCOP = TextEditingController();
-  final TextEditingController plusInfoCtrl = TextEditingController();
+  final TextEditingController marginCtrl = TextEditingController();
+  final TextEditingController amountDLYCtrl = TextEditingController();
+  final TextEditingController accountNumCtrl = TextEditingController();
+  final TextEditingController docNumCtrl = TextEditingController();
+  final TextEditingController nameTitularAccountCtrl = TextEditingController();
+  final TextEditingController infoPlusOffertCtrl = TextEditingController();
 
   //final TextEditingController usuarioCtrl = TextEditingController();
 
   @override
   void dispose() {
-    valueDLYCOP.dispose();
+    marginCtrl.dispose();
+    amountDLYCtrl.dispose();
+    accountNumCtrl.dispose();
+    docNumCtrl.dispose();
+    nameTitularAccountCtrl.dispose();
+    infoPlusOffertCtrl.dispose();
     //usuarioCtrl.dispose();
     super.dispose();
   }
@@ -76,7 +85,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<OffertSaleViewModel>().onInit(context);
     });
-    valueDLYCOP.addListener(_printLatestValue);
+    amountDLYCtrl.addListener(_printLatestValue);
     super.initState();
   }
 
@@ -94,13 +103,17 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
               child: maxWidth > 1024
                   ? _OffertSaleWeb(
                       keyForm: keyForm,
-                      valueDLYCOP: valueDLYCOP,
+                      valueDLYCOP: amountDLYCtrl,
                       isBuy: widget.isBuy,
                     )
                   : _OffertSaleMobile(
                       keyForm: keyForm,
-                      valueDLYCOP: valueDLYCOP,
-                      plusInfoCtrl: plusInfoCtrl,
+                      docNumCtrl: docNumCtrl,
+                      marginCtrl: marginCtrl,
+                      accountNumCtrl: accountNumCtrl,
+                      nameTitularAccountCtrl: nameTitularAccountCtrl,
+                      amountDLYCtrl: amountDLYCtrl,
+                      infoPlusOffertCtrl: infoPlusOffertCtrl,
                     ),
             ),
           ],
@@ -110,6 +123,6 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   }
 
   void _printLatestValue() {
-    print('Second text field: ${valueDLYCOP.text}');
+    print('Second text field: ${amountDLYCtrl.text}');
   }
 }

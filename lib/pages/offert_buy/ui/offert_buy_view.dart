@@ -54,7 +54,7 @@ class _OffertBuyBody extends StatefulWidget {
 class _OffertBuyBodyState extends State<_OffertBuyBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController valueDLYCOP = TextEditingController();
-  final TextEditingController plusInfoCtrl = TextEditingController();
+  final TextEditingController infoPlusOffertCtrl = TextEditingController();
 
   //final TextEditingController usuarioCtrl = TextEditingController();
 
@@ -94,7 +94,7 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
                   : _OffertBuyMobile(
                       keyForm: keyForm,
                       valueDLYCOP: valueDLYCOP,
-                      plusInfoCtrl: plusInfoCtrl,
+                      infoPlusOffertCtrl: infoPlusOffertCtrl,
                     ),
             ),
           ],

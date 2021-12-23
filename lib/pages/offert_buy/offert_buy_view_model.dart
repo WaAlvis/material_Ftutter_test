@@ -80,8 +80,8 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
 
   Future<void> buyCreateOffert(
     BuildContext context,
-    TextEditingController valueDLYCOPCtrl,
-    TextEditingController plusInfoCtrl,
+    TextEditingController amountDLYCtrl,
+    TextEditingController infoPlusOffertCtrl,
     String userId,
 
     // String email,
@@ -92,9 +92,9 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     final Entity entity = Entity(
       idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
-      valueToSell: valueDLYCOPCtrl.text,
+      valueToSell: amountDLYCtrl.text,
       margin: '1',
-      termsOfTrade: plusInfoCtrl.text,
+      termsOfTrade: infoPlusOffertCtrl.text,
       //todo obtener idUsuario y remplazarlops
       // idUserPublish: 'ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2',
       idUserPublish: userId,

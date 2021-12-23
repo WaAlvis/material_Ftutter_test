@@ -5,13 +5,13 @@ class _OffertBuyMobile extends StatelessWidget {
       {Key? key,
       required this.keyForm,
       required this.valueDLYCOP,
-      required this.plusInfoCtrl,
+      required this.infoPlusOffertCtrl,
       vo})
       : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final TextEditingController valueDLYCOP;
-  final TextEditingController plusInfoCtrl;
+  final TextEditingController infoPlusOffertCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +177,7 @@ class _OffertBuyMobile extends StatelessWidget {
                           const SizedBox(height: 8),
                           TextField(
                             keyboardType: TextInputType.multiline,
-                            controller: plusInfoCtrl,
+                            controller: infoPlusOffertCtrl,
                             minLines: 5,
                             //Normal textInputField will be displayed
                             maxLines: 5,
@@ -247,7 +247,7 @@ class _OffertBuyMobile extends StatelessWidget {
                               viewModel.buyCreateOffert(
                                 context,
                                 valueDLYCOP,
-                                plusInfoCtrl,
+                                infoPlusOffertCtrl,
                                 userProvider.getUserLogged!.id,
                               );
                             }

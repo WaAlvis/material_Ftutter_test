@@ -66,7 +66,6 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     getBanks(context);
     getDocumentType(context);
     // getAccountsType(context);
-
   }
 
   void goRegister(BuildContext context) {
@@ -111,31 +110,6 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
           selectedAccountType: status.listAccountType.data[index]);
     }
   }
-  // Future<void> getAccountsType(BuildContext context) async {
-  //   // status = status.copyWith(isLoading: true);
-  //
-  //   final Pagination pagination = Pagination(
-  //     isPaginable: true,
-  //     currentPage: 1,
-  //     itemsPerPage: 25,
-  //   );
-  //
-  //   try {
-  //     final ResponseData<ResultGetDocsType> response =
-  //     await _interactor.getDocumentType(pagination);
-  //     print('Type Docs list Res: ${response.statusCode} ');
-  //     if (response.isSuccess) {
-  //       print('Exito obteniendo la data de Tipos de DOCS!!');
-  //       status.listDocsType = response.result!;
-  //     } else {
-  //       print('ERROR obteniendo la data de Tipos de DOCS');
-  //       // TODO: Mostrar alerta
-  //     }
-  //   } catch (err) {
-  //     print('Get Type Docs Error As: $err');
-  //   }
-  //   status = status.copyWith(isLoading: false);
-  // }
 
   Future<void> getDocumentType(BuildContext context) async {
     // status = status.copyWith(isLoading: true);
@@ -190,22 +164,32 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
   }
 
   Future<void> postCreateOffert(
-    BuildContext context,
-    TextEditingController valueDLYCOPCtrl,
-    TextEditingController plusInfoCtrl,
-    String userId,
+    BuildContext context, {
+    required String userId,
+    required TextEditingController marginCtrl,
+    required TextEditingController amountDLYCtrl,
+    required String bankId,
+    required String accountTypeId,
+    required TextEditingController accountNumCtrl,
+        //TODO falta el campo de tipo  de Documento en json
+        required String docType,
 
-    // String email,
-    // String password,
-  ) async {
+        required TextEditingController docNumCtrl,
+    required TextEditingController nameTitularAccountCtrl,
+    required TextEditingController infoPlusOffertCtrl,
+  }
+
+      // String email,
+      // String password,
+      ) async {
     status = status.copyWith(isLoading: true);
 
     final Entity entity = Entity(
       idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
-      valueToSell: valueDLYCOPCtrl.text,
-      margin: '1',
-      termsOfTrade: plusInfoCtrl.text,
+      valueToSell: amountDLYCtrl.text,
+      margin: marginCtrl.text,
+      termsOfTrade: infoPlusOffertCtrl.text,
       //todo obtener idUsuario y remplazarlops
       // idUserPublish: 'ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2',
       idUserPublish: userId,
@@ -214,7 +198,8 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
         entity: entity,
         daysOfExpired: 7,
         strJsonAdvertisementBanks:
-            '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
+            '[{\"bankId\": \"${bankId}\",\"accountNumber\": \"${accountNumCtrl.text}\",\"accountTypeId\": \"${accountTypeId}\",\"documentNumber\": \"${docNumCtrl.text}\",\"titularUserName\": \"${nameTitularAccountCtrl.text}\"},]');
+    // '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]');
 
     _interactor
         .createOffert(bodyOffert)
@@ -235,3 +220,28 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     });
   }
 }
+// Future<void> getAccountsType(BuildContext context) async {
+//   // status = status.copyWith(isLoading: true);
+//
+//   final Pagination pagination = Pagination(
+//     isPaginable: true,
+//     currentPage: 1,
+//     itemsPerPage: 25,
+//   );
+//
+//   try {
+//     final ResponseData<ResultGetDocsType> response =
+//     await _interactor.getDocumentType(pagination);
+//     print('Type Docs list Res: ${response.statusCode} ');
+//     if (response.isSuccess) {
+//       print('Exito obteniendo la data de Tipos de DOCS!!');
+//       status.listDocsType = response.result!;
+//     } else {
+//       print('ERROR obteniendo la data de Tipos de DOCS');
+//       // TODO: Mostrar alerta
+//     }
+//   } catch (err) {
+//     print('Get Type Docs Error As: $err');
+//   }
+//   status = status.copyWith(isLoading: false);
+// }

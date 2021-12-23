@@ -4,14 +4,21 @@ class _OffertSaleMobile extends StatelessWidget {
   const _OffertSaleMobile(
       {Key? key,
       required this.keyForm,
-      required this.valueDLYCOP,
-      required this.plusInfoCtrl,
-      vo})
+      required this.amountDLYCtrl,
+      required this.marginCtrl,
+      required this.infoPlusOffertCtrl,
+      required this.accountNumCtrl,
+      required this.docNumCtrl,
+      required this.nameTitularAccountCtrl})
       : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController valueDLYCOP;
-  final TextEditingController plusInfoCtrl;
+  final TextEditingController amountDLYCtrl;
+  final TextEditingController marginCtrl;
+  final TextEditingController infoPlusOffertCtrl;
+  final TextEditingController accountNumCtrl;
+  final TextEditingController docNumCtrl;
+  final TextEditingController nameTitularAccountCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -109,10 +116,9 @@ class _OffertSaleMobile extends StatelessWidget {
                       ),
                       InputTextCustom(
                         'Valor de los DLYCOP*',
-                        controller: valueDLYCOP,
+                        controller: marginCtrl,
                         hintText: '0',
                         keyboardType: TextInputType.number,
-                        onlyIntNum: true,
                       ),
                       const SizedBox(
                         height: 24,
@@ -126,6 +132,7 @@ class _OffertSaleMobile extends StatelessWidget {
                       ),
                       OrangeTableSale(
                         textTheme: textTheme,
+                        controller: amountDLYCtrl,
                       ),
                       const SizedBox(
                         height: 20,
@@ -251,7 +258,7 @@ class _OffertSaleMobile extends StatelessWidget {
                       const SizedBox(height: 8),
                       TextField(
                         keyboardType: TextInputType.multiline,
-                        controller: plusInfoCtrl,
+                        controller: infoPlusOffertCtrl,
                         minLines: 5,
                         //Normal textInputField will be displayed
                         maxLines: 5,
@@ -320,9 +327,17 @@ class _OffertSaleMobile extends StatelessWidget {
                         if (keyForm.currentState!.validate()) {
                           viewModel.postCreateOffert(
                             context,
-                            valueDLYCOP,
-                            plusInfoCtrl,
-                            userProvider.getUserLogged!.id,
+                            userId: userProvider.getUserLogged!.id,
+                            docNumCtrl: docNumCtrl,
+                            marginCtrl: marginCtrl,
+                            accountTypeId:
+                                viewModel.status.selectedAccountType!.id,
+                            accountNumCtrl: accountNumCtrl,
+                            nameTitularAccountCtrl: nameTitularAccountCtrl,
+                            bankId: viewModel.status.selectedBank!.id,
+                            amountDLYCtrl: amountDLYCtrl,
+                            infoPlusOffertCtrl: infoPlusOffertCtrl,
+                            docType: viewModel.status.selectedDocType!.id,
                           );
                         }
                       }),
@@ -379,6 +394,7 @@ class DropdownCustom extends StatelessWidget {
         ),
         DropdownButtonFormField<String>(
           value: value,
+
           // hint: const Text('Seleciona tu banco'),
           decoration: InputDecoration(
             border: const OutlineInputBorder(
