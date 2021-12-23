@@ -146,6 +146,7 @@ class _OffertSaleMobile extends StatelessWidget {
                       DropdownCustom(
                         'Banco *',
                         hintText: 'Seleciona tu banco',
+                        changeFillWith: viewModel.status.selectedBank != null,
                         value: viewModel.status.selectedBank?.id,
                         onChanged: (String? idBank) =>
                             viewModel.bankSelected(idBank!),
@@ -177,6 +178,7 @@ class _OffertSaleMobile extends StatelessWidget {
                               'Tipo de cuenta',
                               hintText: 'seleciona el tipo',
                               value: viewModel.status.selectedAccountType?.id,
+                              changeFillWith: viewModel.status.selectedAccountType != null,
                               onChanged: (String? idDocType) =>
                                   viewModel.accountTypeSelected(idDocType!),
                               optionItems: viewModel.status.listAccountType.data
@@ -201,7 +203,7 @@ class _OffertSaleMobile extends StatelessWidget {
                               'Tipo de documento',
                               hintText: 'Seleciona el tipo',
                               value: viewModel.status.selectedDocType?.id,
-
+                              changeFillWith: viewModel.status.selectedBank != null,
                               onChanged: (String? idTypeDoc) =>
                                   viewModel.docTypeSelected(idTypeDoc!),
                               optionItems: viewModel.status.listDocsType.data
@@ -335,13 +337,14 @@ class _OffertSaleMobile extends StatelessWidget {
 }
 
 class DropdownCustom extends StatelessWidget {
-  const DropdownCustom(
+  DropdownCustom(
     this.data, {
     Key? key,
     required this.hintText,
     required this.optionItems,
     required this.onChanged,
     required this.value,
+    this.changeFillWith,
     // this.styleLabel,
     // this.styleHint,
     // this.suffixIcon,
@@ -352,6 +355,7 @@ class DropdownCustom extends StatelessWidget {
   final List<DropdownMenuItem<String>>? optionItems;
   final void Function(String?)? onChanged;
   final String? value;
+  bool? changeFillWith = false;
 
   @override
   Widget build(BuildContext context) {
@@ -380,9 +384,10 @@ class DropdownCustom extends StatelessWidget {
                 Radius.circular(12.0),
               ),
             ),
-            filled: viewModel.status.selectedBank != null,
+            filled: changeFillWith,
+            // filled: changeFillWith != null ,
             hintText: hintText,
-            fillColor: LdColors.whiteDark,
+            fillColor: LdColors.grayBorder,
           ),
           items: optionItems,
           onChanged: onChanged,
