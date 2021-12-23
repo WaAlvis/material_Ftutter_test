@@ -25,15 +25,20 @@ class OrangeTableSale extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                '0',
-                style: textTheme.subtitleWhite,
+              Expanded(
+                child: TextFormField(
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
+                  style: textTheme.subtitleWhite,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '0',
+                    hintStyle: textTheme.subtitleWhite,
+                  ),
+                ),
               ),
               SvgPicture.asset(LdAssets.dlycop_icon),
             ],
-          ),
-          const SizedBox(
-            height: 5,
           ),
           const Divider(
             thickness: 1,

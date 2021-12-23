@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
   const InputTextCustom(
@@ -13,6 +13,7 @@ class InputTextCustom extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.keyboardType,
+    this.onlyIntNum = false,
   }) : super(key: key);
 
   final TextStyle? styleLabel;
@@ -23,6 +24,7 @@ class InputTextCustom extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
+  final bool onlyIntNum;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +40,15 @@ class InputTextCustom extends StatelessWidget {
             style: styleLabel ?? textTheme.textBlack,
           ),
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         TextFormField(
           keyboardType: keyboardType,
           obscureText: obscureText,
           controller: controller,
+          inputFormatters:
+              onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
           validator: (String? value) {
             if (value == null || value.isEmpty) {
               return 'Please enter some text';

@@ -111,7 +111,8 @@ class _OffertSaleMobile extends StatelessWidget {
                         'Valor de los DLYCOP*',
                         controller: valueDLYCOP,
                         hintText: '0',
-                        keyboardType: TextInputType.numberWithOptions(),
+                        keyboardType: TextInputType.number,
+                        onlyIntNum: true,
                       ),
                       const SizedBox(
                         height: 24,
@@ -158,80 +159,81 @@ class _OffertSaleMobile extends StatelessWidget {
                           );
                         }).toList(),
                       ),
-
                       const SizedBox(
                         height: 12,
                       ),
-                      // viewModel.status.selectedBank != null?
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 32,
+                      if (viewModel.status.selectedBank != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 32,
+                          ),
+                          decoration: BoxDecoration(
+                            color: LdColors.whiteDark,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              DropdownCustom(
+                                'Tipo de cuenta',
+                                hintText: 'seleciona el tipo',
+                                value: viewModel.status.selectedAccountType?.id,
+                                changeFillWith:
+                                    viewModel.status.selectedAccountType !=
+                                        null,
+                                onChanged: (String? idDocType) =>
+                                    viewModel.accountTypeSelected(idDocType!),
+                                optionItems: viewModel
+                                    .status.listAccountType.data
+                                    .map((DocType item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item.id,
+                                    child: Text(item.description),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              const InputTextCustom(
+                                '# cuenta',
+                                hintText: 'Escribe el número',
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              DropdownCustom(
+                                'Tipo de documento',
+                                hintText: 'Seleciona el tipo',
+                                value: viewModel.status.selectedDocType?.id,
+                                changeFillWith:
+                                    viewModel.status.selectedDocType != null,
+                                onChanged: (String? idTypeDoc) =>
+                                    viewModel.docTypeSelected(idTypeDoc!),
+                                optionItems: viewModel.status.listDocsType.data
+                                    .map((DocType item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item.id,
+                                    child: Text(item.description),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              const InputTextCustom(
+                                '# documento',
+                                hintText: 'Escribe el número',
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              const InputTextCustom(
+                                  'Nombre del titular de la cuenta',
+                                  hintText: 'Escribe el nombre'),
+                            ],
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          color: LdColors.whiteDark,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            DropdownCustom(
-                              'Tipo de cuenta',
-                              hintText: 'seleciona el tipo',
-                              value: viewModel.status.selectedAccountType?.id,
-                              changeFillWith: viewModel.status.selectedAccountType != null,
-                              onChanged: (String? idDocType) =>
-                                  viewModel.accountTypeSelected(idDocType!),
-                              optionItems: viewModel.status.listAccountType.data
-                                  .map((DocType item) {
-                                return DropdownMenuItem<String>(
-                                  value: item.id,
-                                  child: Text(item.description),
-                                );
-                              }).toList(),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const InputTextCustom(
-                              '# cuenta',
-                              hintText: 'Escribe el número',
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            DropdownCustom(
-                              'Tipo de documento',
-                              hintText: 'Seleciona el tipo',
-                              value: viewModel.status.selectedDocType?.id,
-                              changeFillWith: viewModel.status.selectedBank != null,
-                              onChanged: (String? idTypeDoc) =>
-                                  viewModel.docTypeSelected(idTypeDoc!),
-                              optionItems: viewModel.status.listDocsType.data
-                                  .map((DocType item) {
-                                return DropdownMenuItem<String>(
-                                  value: item.id,
-                                  child: Text(item.description),
-                                );
-                              }).toList(),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const InputTextCustom(
-                              '# documento',
-                              hintText: 'Escribe el número',
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const InputTextCustom(
-                                'Nombre del titular de la cuenta',
-                                hintText: 'Escribe el nombre'),
-                          ],
-                        ),
-                      )
-                      // : SizedBox.shrink(),
-                      ,
                       const SizedBox(
                         height: 20,
                       ),
