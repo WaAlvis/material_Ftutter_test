@@ -23,7 +23,7 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
   ) {
     status = OffertBuyStatus(
       selectedBank: null,
-      isLoading: false,
+      isLoading: true,
       isError: true,
       valueCalculate: '0',
       listBanks: ResultGetBanks(

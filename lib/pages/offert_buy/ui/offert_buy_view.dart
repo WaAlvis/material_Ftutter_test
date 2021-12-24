@@ -13,6 +13,7 @@ import 'package:localdaily/services/models/create_offerts/get_banks/response/ban
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/local_progress_indicator.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
@@ -81,27 +82,33 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
   @override
   Widget build(BuildContext context) {
     final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
+    final Widget loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: maxWidth > 1024
-                  ? _OffertBuyWeb(
-                      keyForm: keyForm,
-                      valueDLYCOP: marginCtrl,
-                      isBuy: widget.isBuy,
-                    )
-                  : _OffertBuyMobile(
-                      keyForm: keyForm,
-                      marginCtrl: marginCtrl,
-                      infoPlusOffertCtrl: infoPlusOffertCtrl,
-                      amountDLYCtrl: amountDLYCtrl,
-                    ),
+        return Stack(
+          children: [
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: maxWidth > 1024
+                      ? _OffertBuyWeb(
+                          keyForm: keyForm,
+                          valueDLYCOP: marginCtrl,
+                          isBuy: widget.isBuy,
+                        )
+                      : _OffertBuyMobile(
+                          keyForm: keyForm,
+                          marginCtrl: marginCtrl,
+                          infoPlusOffertCtrl: infoPlusOffertCtrl,
+                          amountDLYCtrl: amountDLYCtrl,
+                        ),
+                ),
+              ],
             ),
+            loading,
           ],
         );
       },

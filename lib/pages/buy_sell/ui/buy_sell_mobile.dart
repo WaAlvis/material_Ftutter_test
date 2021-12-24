@@ -26,7 +26,7 @@ class _BuySellMobile extends StatelessWidget {
               image: DecorationImage(
                 alignment: Alignment.topCenter,
                 fit: BoxFit.fill,
-                image: AssetImage(LdAssets.logo),
+                image: AssetImage(LdAssets.logoWhiteOrange),
               ),
             ),
             child: const Text('Es una prueba mobile', style: TextStyle(color: LdColors.black),),

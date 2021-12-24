@@ -111,6 +111,8 @@ class _RegisterMobile extends StatelessWidget {
                     controller: emailCtrl,
                     hintText: 'ejemplo@correo.com',
                   ),
+                  SizedBox(height: 20,),
+                  Spacer(),
                   PrimaryButtonCustom(
                     'Ingresar',
                     onPressed: () =>

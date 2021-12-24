@@ -14,6 +14,7 @@ class HomeStatus extends ViewStatus {
   final TypeOffert typeOffert;
   final String image;
   final String titleText;
+
   // final String detailText;
   final String buttonText;
 
@@ -23,7 +24,7 @@ class HomeStatus extends ViewStatus {
     required this.hideValues,
     required this.buyersDataHome,
     required this.indexTab,
-    required this.isLoading,
+    this.isLoading = true,
     required this.isError,
     required this.typeOffert,
     required this.image,
@@ -58,7 +59,7 @@ class HomeStatus extends ViewStatus {
       image: image ?? this.image,
       titleText: titleText ?? this.titleText,
       // detailText: detailText ?? this.detailText,
-      buttonText: buttonText?? this.buttonText,
+      buttonText: buttonText ?? this.buttonText,
     );
   }
 }

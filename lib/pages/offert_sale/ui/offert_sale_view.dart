@@ -11,10 +11,10 @@ import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offerts/get_doc_type/response/doc_type.dart';
-import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/local_progress_indicator.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
@@ -92,30 +92,37 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   @override
   Widget build(BuildContext context) {
     final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final Widget loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: maxWidth > 1024
-                  ? _OffertSaleWeb(
-                      keyForm: keyForm,
-                      valueDLYCOP: amountDLYCtrl,
-                      isBuy: widget.isBuy,
-                    )
-                  : _OffertSaleMobile(
-                      keyForm: keyForm,
-                      docNumCtrl: docNumCtrl,
-                      marginCtrl: marginCtrl,
-                      accountNumCtrl: accountNumCtrl,
-                      nameTitularAccountCtrl: nameTitularAccountCtrl,
-                      amountDLYCtrl: amountDLYCtrl,
-                      infoPlusOffertCtrl: infoPlusOffertCtrl,
-                    ),
+        return Stack(
+          children: [
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: maxWidth > 1024
+                      ? _OffertSaleWeb(
+                          keyForm: keyForm,
+                          valueDLYCOP: amountDLYCtrl,
+                          isBuy: widget.isBuy,
+                        )
+                      : _OffertSaleMobile(
+                          keyForm: keyForm,
+                          docNumCtrl: docNumCtrl,
+                          marginCtrl: marginCtrl,
+                          accountNumCtrl: accountNumCtrl,
+                          nameTitularAccountCtrl: nameTitularAccountCtrl,
+                          amountDLYCtrl: amountDLYCtrl,
+                          infoPlusOffertCtrl: infoPlusOffertCtrl,
+                        ),
+                ),
+              ],
             ),
+            loading,
           ],
         );
       },

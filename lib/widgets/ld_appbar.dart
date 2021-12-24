@@ -54,7 +54,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SvgPicture.asset(
-                      LdAssets.logo,
+                      LdAssets.logoWhiteOrange,
                       height: 30,
                     ),
                     if (goLogin != null)
