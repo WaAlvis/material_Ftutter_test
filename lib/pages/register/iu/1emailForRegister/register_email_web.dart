@@ -4,12 +4,10 @@ class _RegisterWeb extends StatelessWidget {
   const _RegisterWeb({
     Key? key,
     required this.keyForm,
-    required this.passwordCtrl,
     required this.isBuy,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
   final bool isBuy;
 
   @override

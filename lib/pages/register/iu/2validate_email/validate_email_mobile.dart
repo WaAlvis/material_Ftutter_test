@@ -4,11 +4,9 @@ class _ValidateEmailMobile extends StatelessWidget {
   const _ValidateEmailMobile({
     Key? key,
     required this.keyForm,
-    required this.passwordCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,11 @@ class _ValidateEmailMobile extends StatelessWidget {
                   height: 28,
                 ),
                 Text(
-                  'w.finex@gmail.com',
+                  viewModel.status.emailRegister,
+                  style:
+                      textTheme.textBlack.copyWith(fontWeight: FontWeight.w500),
+                ),  Text(
+                  'viewModel.status.emailRegister',
                   style:
                       textTheme.textBlack.copyWith(fontWeight: FontWeight.w500),
                 ),

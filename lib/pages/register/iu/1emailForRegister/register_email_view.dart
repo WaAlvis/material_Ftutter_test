@@ -45,13 +45,11 @@ class _RegisterBody extends StatefulWidget {
 
 class _RegisterBodyState extends State<_RegisterBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController emailCtrl = TextEditingController();
 
   @override
   void dispose() {
-    passwordCtrl.dispose();
-    passwordCtrl.dispose();
+    emailCtrl.dispose();
     super.dispose();
   }
 
@@ -78,7 +76,6 @@ class _RegisterBodyState extends State<_RegisterBody> {
               child: maxWidth > 1024
                   ? _RegisterWeb(
                       keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
                       isBuy: widget.isBuy,
                     )
                   : _RegisterMobile(

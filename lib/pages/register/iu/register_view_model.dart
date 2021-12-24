@@ -26,7 +26,11 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     _route = route ?? locator<LdRouter>();
     _interactor = interactor ?? locator<ServiceInteractor>();
 
-    status = RegisterStatus(isLoading: false, isError: false);
+    status = RegisterStatus(
+      isLoading: false,
+      isError: false,
+      emailRegister: '',
+    );
   }
 
   Future<void> onInit({bool validateNotification = false}) async {}
@@ -44,6 +48,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void goValidateEmail(BuildContext context, String email) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
+        status = status.copyWith(emailRegister: email);
         _route.goValidateEmail(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -69,7 +74,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required TextEditingController secondNameCtrl,
     required TextEditingController secondLastNameCtrl,
     required TextEditingController phoneCtrl,
-    required TextEditingController emailCtrl,
+    required String emailRegister,
     required TextEditingController dateBirthCtrl,
     required TextEditingController passwordCtrl,
     required TextEditingController confirrmPassCtrl,
@@ -88,7 +93,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             secondLastName: secondLastNameCtrl.text,
             password: passwordCtrl.text,
             phone: phoneCtrl.text,
-            email: emailCtrl.text,
+            email: emailRegister,
             dateBirth: dateBirthCtrl.text,
           );
         } else {
@@ -110,7 +115,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required String email,
     required String dateBirth,
   }) async {
-
     status = status.copyWith(isLoading: true);
     print('name: $firstName');
     print('Email: $email');
@@ -131,18 +135,20 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isActive: true,
     );
 
-      _interactor.postRegisterUser(bodyRegister).then((ResponseData<ResultRegister> response) {
-        print('Register Res: ${response.statusCode} ');
-        if (response.isSuccess) {
-          _route.goHome(context);
-        } else {
-          // TODO: Mostrar alerta
-        }
-        status = status.copyWith(isLoading: false);
-      }).catchError((Object err) {
-        print('Registro Error As: $err');
-        status = status.copyWith(isLoading: false);
-      });
+    _interactor
+        .postRegisterUser(bodyRegister)
+        .then((ResponseData<ResultRegister> response) {
+      print('Register Res: ${response.statusCode} ');
+      if (response.isSuccess) {
+        _route.goHome(context);
+      } else {
+        // TODO: Mostrar alerta
+      }
+      status = status.copyWith(isLoading: false);
+    }).catchError((Object err) {
+      print('Registro Error As: $err');
+      status = status.copyWith(isLoading: false);
+    });
   }
 
   Digest encrypPass(String pass) {

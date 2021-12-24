@@ -7,6 +7,7 @@ import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/_app_bar_others.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/local_progress_indicator.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,6 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
   final TextEditingController secondNameCtrl = TextEditingController();
   final TextEditingController secondLastNameCtrl = TextEditingController();
   final TextEditingController phoneCtrl = TextEditingController();
-  final TextEditingController emailCtrl = TextEditingController();
   final TextEditingController dateBirthCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController confirrmPassCtrl = TextEditingController();
@@ -81,7 +81,6 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
     secondNameCtrl.dispose();
     secondLastNameCtrl.dispose();
     phoneCtrl.dispose();
-    emailCtrl.dispose();
     dateBirthCtrl.dispose();
     passwordCtrl.dispose();
     confirrmPassCtrl.dispose();
@@ -91,35 +90,41 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
   @override
   Widget build(BuildContext context) {
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
+    final Widget loading =
+        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: maxWidth > 1024
-                  ? _PersonalInfoRegisterWeb(
-                      keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
-                      isBuy: widget.isBuy,
-                    )
-                  : _PersonalInfoRegisterMobile(
-                      keyForm: keyForm,
-                      nickNameCtrl: nickNameCtrl,
-                      firstNameCtrl: firstNameCtrl,
-                      firstLastNameCtrl: firstLastNameCtrl,
-                      secondNameCtrl: secondNameCtrl,
-                      secondLastNameCtrl: secondLastNameCtrl,
-                      phoneCtrl: phoneCtrl,
-                      emailCtrl: emailCtrl,
-                      dateBirthCtrl: dateBirthCtrl,
-                      passwordCtrl: passwordCtrl,
-                      confirrmPassCtrl: confirrmPassCtrl,
-                    ),
-            )
+        return Stack(
+          children: [
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: maxWidth > 1024
+                      ? _PersonalInfoRegisterWeb(
+                          keyForm: keyForm,
+                          passwordCtrl: passwordCtrl,
+                          isBuy: widget.isBuy,
+                        )
+                      : _PersonalInfoRegisterMobile(
+                          keyForm: keyForm,
+                          nickNameCtrl: nickNameCtrl,
+                          firstNameCtrl: firstNameCtrl,
+                          firstLastNameCtrl: firstLastNameCtrl,
+                          secondNameCtrl: secondNameCtrl,
+                          secondLastNameCtrl: secondLastNameCtrl,
+                          phoneCtrl: phoneCtrl,
+                          dateBirthCtrl: dateBirthCtrl,
+                          passwordCtrl: passwordCtrl,
+                          confirmPassCtrl: confirrmPassCtrl,
+                        ),
+                )
+              ],
+            ),
+            loading,
           ],
         );
       },

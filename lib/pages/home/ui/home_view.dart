@@ -76,7 +76,7 @@ class _HomeBodyState extends State<_HomeBody> {
   @override
   Widget build(BuildContext context) {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final Widget loading = !viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final Widget loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {

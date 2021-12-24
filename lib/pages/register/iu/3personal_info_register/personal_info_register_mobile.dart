@@ -10,10 +10,10 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
     required this.secondNameCtrl,
     required this.secondLastNameCtrl,
     required this.phoneCtrl,
-    required this.emailCtrl,
+    // required this.emailCtrl,
     required this.dateBirthCtrl,
     required this.passwordCtrl,
-    required this.confirrmPassCtrl,
+    required this.confirmPassCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -23,10 +23,10 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
   final TextEditingController secondNameCtrl;
   final TextEditingController secondLastNameCtrl;
   final TextEditingController phoneCtrl;
-  final TextEditingController emailCtrl;
+  // final TextEditingController emailCtrl;
   final TextEditingController dateBirthCtrl;
   final TextEditingController passwordCtrl;
-  final TextEditingController confirrmPassCtrl;
+  final TextEditingController confirmPassCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +83,6 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   InputTextCustom(
-                    'Correo electronico  *',
-                    controller: emailCtrl,
-                    hintText: 'Ingresa tu Email',
-                  ),
-                  const SizedBox(height: 16),
-                  InputTextCustom(
                     'Fecha de nacimiento  *',
                     controller: dateBirthCtrl,
                     hintText: 'Ingresa tu fecha de nacimiento',
@@ -106,7 +100,7 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                   const SizedBox(height: 16),
                   InputTextCustom(
                     'Confirmar contraseña *',
-                    controller: confirrmPassCtrl,
+                    controller: confirmPassCtrl,
                     hintText: '8+ digitos',
                     suffixIcon: const Icon(
                       Icons.visibility_off,
@@ -163,10 +157,10 @@ class _PersonalInfoRegisterMobile extends StatelessWidget {
                         secondNameCtrl: secondNameCtrl,
                         secondLastNameCtrl: secondLastNameCtrl,
                         phoneCtrl: phoneCtrl,
-                        emailCtrl: emailCtrl,
+                        emailRegister: viewModel.status.emailRegister,
                         dateBirthCtrl: dateBirthCtrl,
                         passwordCtrl: passwordCtrl,
-                        confirrmPassCtrl: confirrmPassCtrl,
+                        confirrmPassCtrl: confirmPassCtrl,
                       );
                       }
                     },

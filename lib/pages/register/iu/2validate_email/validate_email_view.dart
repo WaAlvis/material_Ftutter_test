@@ -44,7 +44,6 @@ class ValidateEmailView extends StatelessWidget {
           backgroundColor: LdColors.white,
           body: _ValidateEmailBody(
             isBuy: isBuy,
-
           ),
         );
       },
@@ -66,11 +65,9 @@ class _ValidateEmailBody extends StatefulWidget {
 
 class _ValidateEmailBodyState extends State<_ValidateEmailBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController passwordCtrl = TextEditingController();
 
   @override
   void dispose() {
-    passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -89,12 +86,10 @@ class _ValidateEmailBodyState extends State<_ValidateEmailBody> {
               child: maxWidth > 1024
                   ? _ValidateEmailWeb(
                       keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
                       isBuy: widget.isBuy,
                     )
                   : _ValidateEmailMobile(
                       keyForm: keyForm,
-                      passwordCtrl: passwordCtrl,
                     ),
             )
           ],
