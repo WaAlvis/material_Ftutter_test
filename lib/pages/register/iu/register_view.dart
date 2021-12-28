@@ -43,7 +43,7 @@ class _RegisterBody extends StatefulWidget {
 }
 
 class _RegisterBodyState extends State<_RegisterBody> {
-  final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
+  final GlobalKey<FormState> keyFirstForm = GlobalKey<FormState>();
   final TextEditingController emailCtrl = TextEditingController();
 
   final TextEditingController nickNameCtrl = TextEditingController();
@@ -94,10 +94,10 @@ class _RegisterBodyState extends State<_RegisterBody> {
               hasScrollBody: false,
               child: maxWidth > 1024
                   ? _RegisterWeb(
-                      keyForm: keyForm,
+                      keyForm: keyFirstForm,
                     )
                   : _RegisterMobile(
-                      keyForm: keyForm,
+                      keyForm: keyFirstForm,
                       emailCtrl: emailCtrl,
                       nickNameCtrl: nickNameCtrl,
                       firstNameCtrl: firstNameCtrl,

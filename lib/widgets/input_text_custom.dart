@@ -14,6 +14,7 @@ class InputTextCustom extends StatelessWidget {
     this.controller,
     this.keyboardType,
     this.onlyIntNum = false,
+    this.validator,
   }) : super(key: key);
 
   final TextStyle? styleLabel;
@@ -25,6 +26,7 @@ class InputTextCustom extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool onlyIntNum;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +51,13 @@ class InputTextCustom extends StatelessWidget {
           controller: controller,
           inputFormatters:
               onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
-          validator:
-              (String? value) {
-            if (value == null || value.isEmpty) {
-              return '* Este campo es obligatorio';
-            }
-            return null;
-          },
+          validator: validator,
+          //     (String? value) {
+          //   if (value == null || value.isEmpty) {
+          //     return '* Este campo es obligatorio';
+          //   }
+          //   return null;
+          // },
           decoration: InputDecoration(
             hintStyle: styleHint ?? textTheme.textGray,
             border: const OutlineInputBorder(

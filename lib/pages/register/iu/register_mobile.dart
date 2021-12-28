@@ -103,6 +103,7 @@ class _RegisterMobile extends StatelessWidget {
             ),
           if (viewModel.status.indexStep == 1)
             FirstStepRegister(
+              keyFirstForm: keyForm,
               emailCtrl: emailCtrl,
               viewModel: viewModel,
             )

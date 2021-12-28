@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
@@ -32,6 +33,17 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isError: false,
       emailRegister: '',
     );
+  }
+
+  String? validatorEmail(BuildContext context, String? email) {
+    {
+      if (email == null || email.isEmpty) {
+        return '* Campo obligatorio';
+      } else if (!isEmail(email)){
+        return '* Debe ser un correo';
+      }
+        return null;
+    }
   }
 
   Future<void> onInit({bool validateNotification = false}) async {}
