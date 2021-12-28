@@ -4,7 +4,7 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 
-class IdtProgressIndicator extends StatelessWidget {
+class ProgressIndicatorLocalD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

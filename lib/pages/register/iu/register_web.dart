@@ -1,14 +1,12 @@
-part of 'register_email_view.dart';
+part of 'register_view.dart';
 
 class _RegisterWeb extends StatelessWidget {
   const _RegisterWeb({
     Key? key,
     required this.keyForm,
-    required this.isBuy,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final bool isBuy;
 
   @override
   Widget build(BuildContext context) {

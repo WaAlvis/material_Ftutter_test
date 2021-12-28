@@ -13,7 +13,7 @@ import 'package:localdaily/services/models/create_offerts/get_banks/response/ban
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/local_progress_indicator.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +82,7 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
   @override
   Widget build(BuildContext context) {
     final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
-    final Widget loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final Widget loading = viewModel.status.isLoading ? ProgressIndicatorLocalD() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {

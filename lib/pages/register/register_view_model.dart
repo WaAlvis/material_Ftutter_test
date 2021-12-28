@@ -27,6 +27,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     _interactor = interactor ?? locator<ServiceInteractor>();
 
     status = RegisterStatus(
+      indexStep: 1,
       isLoading: false,
       isError: false,
       emailRegister: '',
@@ -48,8 +49,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void goValidateEmail(BuildContext context, String email) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        status = status.copyWith(emailRegister: email);
-        _route.goValidateEmail(context);
+        status = status.copyWith(emailRegister: email, indexStep: 2);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -59,7 +59,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void goRegisterPersonalData(BuildContext context) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        _route.goPersonalInfoRegister(context);
+        status = status.copyWith(indexStep: 3);
+
+        // _route.goPersonalInfoRegister(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }

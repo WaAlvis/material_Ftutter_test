@@ -15,7 +15,7 @@ import 'package:localdaily/services/models/create_offerts/get_banks/response/ban
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/local_progress_indicator.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
@@ -76,7 +76,7 @@ class _HomeBodyState extends State<_HomeBody> {
   @override
   Widget build(BuildContext context) {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final Widget loading = viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+    final Widget loading = viewModel.status.isLoading ? ProgressIndicatorLocalD() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {

@@ -5,7 +5,7 @@ import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offert_buy/ui/offert_buy_view.dart';
 import 'package:localdaily/pages/offert_sale/ui/offert_sale_view.dart';
-import 'package:localdaily/pages/register/iu/1emailForRegister/register_email_view.dart';
+import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/register/iu/2validate_email/validate_email_view.dart';
 import 'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
 
@@ -62,7 +62,7 @@ class AppRoutes {
 
   static final AppRoute registerEmailRoute = AppRoute(
     '/register_email',
-    Handler(handlerFunc: (_, __) => const RegisterEmailView()),
+    Handler(handlerFunc: (_, __) => const RegisterView()),
   );
 
   static final AppRoute registerValidateEmailRoute = AppRoute(

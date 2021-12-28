@@ -49,7 +49,8 @@ class InputTextCustom extends StatelessWidget {
           controller: controller,
           inputFormatters:
               onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
-          validator: (String? value) {
+          validator:
+              (String? value) {
             if (value == null || value.isEmpty) {
               return '* Este campo es obligatorio';
             }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
-import 'package:localdaily/pages/register/iu/register_view_model.dart';
+import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/_app_bar_others.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/local_progress_indicator.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
@@ -91,7 +91,7 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
   Widget build(BuildContext context) {
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Widget loading =
-        viewModel.status.isLoading ? IdtProgressIndicator() : SizedBox.shrink();
+        viewModel.status.isLoading ? ProgressIndicatorLocalD() : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
@@ -132,7 +132,7 @@ class _PersonalInfoRegisterBodyState extends State<_PersonalInfoRegisterBody> {
   }
 }
 
-//return LayoutBuilder(
+//return LayoutBuilder(6
 //           builder: (_, BoxConstraints constraints) {
 //             final double maxWidth = constraints.maxWidth;
 //

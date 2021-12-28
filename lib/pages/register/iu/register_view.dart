@@ -3,23 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
-import 'package:localdaily/pages/register/iu/register_view_model.dart';
-import 'package:localdaily/widgets/input_text_custom.dart';
-import 'package:localdaily/widgets/_app_bar_others.dart';
+import 'package:localdaily/pages/register/iu/components/first_step_register.dart';
+import 'package:localdaily/pages/register/iu/components/second_step_register.dart';
+import 'package:localdaily/pages/register/iu/components/third_step_register.dart';
+import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part 'register_email_mobile.dart';
+part 'register_mobile.dart';
+part 'register_web.dart';
 
-part 'register_email_web.dart';
-
-class RegisterEmailView extends StatelessWidget {
-  const RegisterEmailView({Key? key, this.isBuy = false}) : super(key: key);
-
-  final bool isBuy;
+class RegisterView extends StatelessWidget {
+  const RegisterView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +27,16 @@ class RegisterEmailView extends StatelessWidget {
     return ChangeNotifierProvider<RegisterViewModel>(
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
-        return _RegisterBody(isBuy: isBuy);
+        return _RegisterBody();
       },
     );
   }
 }
 
 class _RegisterBody extends StatefulWidget {
-  const _RegisterBody({Key? key, required this.isBuy}) : super(key: key);
-
-  final bool isBuy;
+  const _RegisterBody({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _RegisterBodyState createState() => _RegisterBodyState();
@@ -47,9 +46,29 @@ class _RegisterBodyState extends State<_RegisterBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController emailCtrl = TextEditingController();
 
+  final TextEditingController nickNameCtrl = TextEditingController();
+  final TextEditingController firstNameCtrl = TextEditingController();
+  final TextEditingController firstLastNameCtrl = TextEditingController();
+  final TextEditingController secondNameCtrl = TextEditingController();
+  final TextEditingController secondLastNameCtrl = TextEditingController();
+  final TextEditingController phoneCtrl = TextEditingController();
+  final TextEditingController dateBirthCtrl = TextEditingController();
+  final TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController confirrmPassCtrl = TextEditingController();
+
   @override
   void dispose() {
     emailCtrl.dispose();
+
+    nickNameCtrl.dispose();
+    firstNameCtrl.dispose();
+    firstLastNameCtrl.dispose();
+    secondNameCtrl.dispose();
+    secondLastNameCtrl.dispose();
+    phoneCtrl.dispose();
+    dateBirthCtrl.dispose();
+    passwordCtrl.dispose();
+    confirrmPassCtrl.dispose();
     super.dispose();
   }
 
@@ -76,11 +95,19 @@ class _RegisterBodyState extends State<_RegisterBody> {
               child: maxWidth > 1024
                   ? _RegisterWeb(
                       keyForm: keyForm,
-                      isBuy: widget.isBuy,
                     )
                   : _RegisterMobile(
                       keyForm: keyForm,
                       emailCtrl: emailCtrl,
+                      nickNameCtrl: nickNameCtrl,
+                      firstNameCtrl: firstNameCtrl,
+                      firstLastNameCtrl: firstLastNameCtrl,
+                      secondNameCtrl: secondNameCtrl,
+                      secondLastNameCtrl: secondLastNameCtrl,
+                      phoneCtrl: phoneCtrl,
+                      dateBirthCtrl: dateBirthCtrl,
+                      passwordCtrl: passwordCtrl,
+                      confirmPassCtrl: confirrmPassCtrl,
                     ),
             )
           ],
