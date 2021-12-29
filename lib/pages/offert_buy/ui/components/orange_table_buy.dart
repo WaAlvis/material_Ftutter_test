@@ -6,10 +6,12 @@ class AmountOrangeTableBuy extends StatelessWidget {
     required this.textTheme,
     this.controller,
     this.onlyIntNum = false,
+    this.onChange,
 
     // this.dlyCopValue = '0',
   }) : super(key: key);
 
+  final void Function(String)? onChange;
   final TextTheme textTheme;
   final bool onlyIntNum;
   final TextEditingController? controller;
@@ -35,6 +37,7 @@ class AmountOrangeTableBuy extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: TextFormField(
+                  onChanged: onChange,
                   controller: controller,
                   inputFormatters: onlyIntNum
                       ? [FilteringTextInputFormatter.digitsOnly]
@@ -55,7 +58,7 @@ class AmountOrangeTableBuy extends StatelessWidget {
             height: 5,
           ),
           Text(
-            '≈ ${viewModel.status.valueCalculate} COP',
+            '≈ ${viewModel.status.totalMoney} COP',
             style: textTheme.textWhite.copyWith(
               fontSize: 14,
             ),

@@ -22,10 +22,10 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     this._interactor,
   ) {
     status = OffertBuyStatus(
+      totalMoney: 0,
       selectedBank: null,
       isLoading: true,
       isError: true,
-      valueCalculate: '0',
       listBanks: ResultGetBanks(
         data: <Bank>[],
         totalItems: 10,
@@ -39,6 +39,11 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     bool validateNotification = false,
   }) async {
     getBank(context);
+  }
+
+  void calculateTotalMoney(double margin, double amountDLY) {
+    final double total = margin * amountDLY;
+    status = status.copyWith(totalMoney: total);
   }
 
   void bankSelected(String id) {

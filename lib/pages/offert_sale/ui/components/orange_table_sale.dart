@@ -6,17 +6,21 @@ class OrangeTableSale extends StatelessWidget {
     required this.textTheme,
     this.onlyIntNum = false,
     this.controller,
+    this.onChange,
     // this.dlyCopValue = '0',
   }) : super(key: key);
 
   final TextTheme textTheme;
   final bool onlyIntNum;
   final TextEditingController? controller;
+  final void Function(String)? onChange;
 
   // final String dlyCopValue;
 
   @override
   Widget build(BuildContext context) {
+    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+
     return Container(
       padding: EdgeInsets.all(20),
       decoration: const BoxDecoration(
@@ -31,6 +35,7 @@ class OrangeTableSale extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: TextFormField(
+                  onChanged: onChange,
                   controller: controller,
                   inputFormatters: onlyIntNum
                       ? [FilteringTextInputFormatter.digitsOnly]
@@ -56,7 +61,7 @@ class OrangeTableSale extends StatelessWidget {
           ),
           rowOrangeTable(
             firstText: 'Valor',
-            secondText: '1 DLY ≈ 1 COP',
+            secondText: '1 DLY ≈ ${viewModel.status.costDLYtoCOP} COP',
           ),
           const SizedBox(
             height: 5,
@@ -70,7 +75,7 @@ class OrangeTableSale extends StatelessWidget {
           ),
           rowOrangeTable(
             firstText: 'Total',
-            secondText: '0 DLYCOP',
+            secondText: '${viewModel.status.totalMoney} DLYCOP',
           ),
         ],
       ),

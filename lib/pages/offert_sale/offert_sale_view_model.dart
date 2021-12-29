@@ -25,6 +25,9 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     this._interactor,
   ) {
     status = OffertSaleStatus(
+      costDLYtoCOP: 1,
+      feeMoney: 0,
+      totalMoney: 0,
       selectedDocType: null,
       selectedAccountType: null,
       selectedBank: null,
@@ -219,7 +222,16 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       status = status.copyWith(isLoading: false);
     });
   }
+  void calculateTotalMoney(double margin , double amountDLY) {
+    final double total = margin * amountDLY;
+    final double fee = total* 0.01;
+    final totalPLUSfee = total+fee;
+
+    status = status.copyWith(totalMoney: totalPLUSfee, costDLYtoCOP:  margin,feeMoney: fee );
+  }
+
 }
+
 // Future<void> getAccountsType(BuildContext context) async {
 //   // status = status.copyWith(isLoading: true);
 //

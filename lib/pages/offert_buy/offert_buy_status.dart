@@ -7,30 +7,33 @@ class OffertBuyStatus extends ViewStatus {
   final bool isError;
   ResultGetBanks listBanks;
   final Bank? selectedBank;
-
-  final String valueCalculate;
+  final double totalMoney;
+  // final String valueCalculate;
 
   OffertBuyStatus({
+    required this.totalMoney,
     required this.selectedBank,
-    required this.valueCalculate,
+    // required this.valueCalculate,
     required this.isLoading,
     required this.isError,
     required this.listBanks,
   });
 
   OffertBuyStatus copyWith({
+    double? totalMoney,
     bool? isLoading,
     bool? isError,
     ResultGetBanks? listBanks,
-    String? valueCalculate,
+    // String? valueCalculate,
     Bank? selectedBank,
   }) {
     return OffertBuyStatus(
+      totalMoney: totalMoney ?? this.totalMoney,
       selectedBank: selectedBank ?? this.selectedBank,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
       listBanks: listBanks ?? this.listBanks,
-      valueCalculate: valueCalculate ?? this.valueCalculate,
+      // valueCalculate: valueCalculate ?? this.valueCalculate,
     );
   }
 }

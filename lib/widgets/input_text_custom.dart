@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 
 class InputTextCustom extends StatelessWidget {
-  const InputTextCustom(
-    this.data, {
+  const InputTextCustom(this.data, {
     Key? key,
     this.styleLabel,
     this.styleHint,
@@ -15,8 +14,10 @@ class InputTextCustom extends StatelessWidget {
     this.keyboardType,
     this.onlyIntNum = false,
     this.validator,
+    this.onChange,
   }) : super(key: key);
 
+  final void Function(String)? onChange;
   final TextStyle? styleLabel;
   final TextStyle? styleHint;
   final String data;
@@ -30,7 +31,9 @@ class InputTextCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextTheme textTheme = Theme
+        .of(context)
+        .textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,11 +49,12 @@ class InputTextCustom extends StatelessWidget {
           height: 5,
         ),
         TextFormField(
+          onChanged:onChange,
           keyboardType: keyboardType,
           obscureText: obscureText,
           controller: controller,
           inputFormatters:
-              onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
+          onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
           validator: validator,
           //     (String? value) {
           //   if (value == null || value.isEmpty) {

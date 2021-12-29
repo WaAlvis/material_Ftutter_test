@@ -5,6 +5,9 @@ import 'package:localdaily/services/models/create_offerts/get_doc_type/response/
 import 'package:localdaily/view_model.dart';
 
 class OffertSaleStatus extends ViewStatus {
+  final double costDLYtoCOP;
+  final double feeMoney;
+  final double totalMoney;
   final bool isLoading;
   final bool isError;
   ResultGetBanks listBanks;
@@ -17,6 +20,9 @@ class OffertSaleStatus extends ViewStatus {
       selectedAccountType; //cambiar el tipo cuando se consuma el servicio
 
   OffertSaleStatus({
+    required this.costDLYtoCOP,
+    required this.feeMoney,
+    required this.totalMoney,
     required this.isLoading,
     required this.isError,
     required this.listBanks,
@@ -28,6 +34,9 @@ class OffertSaleStatus extends ViewStatus {
   });
 
   OffertSaleStatus copyWith({
+    double? costDLYtoCOP,
+    double? feeMoney,
+    double? totalMoney,
     bool? isLoading,
     bool? isError,
     ResultGetBanks? listBanks,
@@ -36,8 +45,12 @@ class OffertSaleStatus extends ViewStatus {
     Bank? selectedBank,
     DocType? selectedDocType,
     DocType? selectedAccountType,
+
   }) {
     return OffertSaleStatus(
+      costDLYtoCOP: costDLYtoCOP ?? this.costDLYtoCOP,
+      feeMoney: feeMoney ?? this.feeMoney,
+      totalMoney: totalMoney ?? this.totalMoney,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
       listBanks: listBanks ?? this.listBanks,
