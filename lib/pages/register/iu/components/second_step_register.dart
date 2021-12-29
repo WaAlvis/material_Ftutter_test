@@ -71,30 +71,22 @@ class SecondStepRegister extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        const SizedBox(
-                          height: 30,
-                        ),
+                        const SizedBox(height: 30),
                         SvgPicture.asset('lib/assets/images/mail.svg'),
-                        const SizedBox(
-                          height: 30,
-                        ),
+                        const SizedBox(height: 30),
                         Text(
                           'Verifica tu correo',
                           style: textTheme.textBigWhite
                               .copyWith(color: LdColors.orangePrimary),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
+                        const SizedBox(height: 30),
                         Text(
                           'Confirma tu dirección de correo electrónico haciendo clic en el enlace que hemos enviado a:',
                           textAlign: TextAlign.center,
                           style:
                               textTheme.textSmallWhite.copyWith(fontSize: 18),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
+                        const SizedBox(height: 30),
                         Text(
                           viewModel.status.emailRegister,
                           style: textTheme.textWhite
@@ -108,9 +100,7 @@ class SecondStepRegister extends StatelessWidget {
                     style: textTheme.textSmallWhite
                         .copyWith(decoration: TextDecoration.underline),
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  const SizedBox(height: 50),
                   PrimaryButtonCustom(
                     'Abrir correo',
                     onPressed: () => viewModel.goRegisterPersonalData(context),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
-
-import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 
 class FirstStepRegister extends StatelessWidget {
   const FirstStepRegister({
@@ -22,12 +21,8 @@ class FirstStepRegister extends StatelessWidget {
   Widget build(BuildContext context) {
     // final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
 
-    final TextTheme textTheme = Theme
-        .of(context)
-        .textTheme;
-    final Size size = MediaQuery
-        .of(context)
-        .size;
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final Size size = MediaQuery.of(context).size;
 
     return Flexible(
       child: Padding(
@@ -37,21 +32,13 @@ class FirstStepRegister extends StatelessWidget {
           child: Column(
             children: <Widget>[
               InputTextCustom(
-                  'Correo electronico',
-                  controller: emailCtrl,
-                  hintText: 'ejemplo@correo.com',
-                  validator: (String? email) => viewModel.validatorEmail(context, email)
-                  //     (String? value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return '* Campo obligatorio';
-                  //   }
-                  //   return null;
-                  // }
-                  // ,
+                'Correo electronico',
+                controller: emailCtrl,
+                hintText: 'ejemplo@correo.com',
+                validator: (String? email) =>
+                    viewModel.validatorEmail(context, email),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               const Spacer(),
               PrimaryButtonCustom(
                 'Ingresar',
@@ -61,8 +48,7 @@ class FirstStepRegister extends StatelessWidget {
                     // desea llamar a un servidor o guardar la información en una base de datos
                     viewModel.goValidateEmail(context, emailCtrl.text);
                   }
-                }
-
+                },
               ),
             ],
           ),
