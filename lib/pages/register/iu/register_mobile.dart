@@ -89,12 +89,14 @@ class _RegisterMobile extends StatelessWidget {
                     ),
                   ),
                   if (viewModel.status.indexStep == 1)
-                    SectionTitleAppbar(context,step: 1,
+                    SectionTitleAppbar(context,
+                        step: 1,
                         title: 'Crear mi cuenta',
                         description:
                             'Para continuar ingresa tu correo electronico.')
                   else if (viewModel.status.indexStep == 3)
-                    SectionTitleAppbar(context,step: 3,
+                    SectionTitleAppbar(context,
+                        step: 3,
                         title: 'Informacion de la cuenta',
                         description:
                             'Escribe la informacion de ingreso a tu cuenta.'),
@@ -113,17 +115,17 @@ class _RegisterMobile extends StatelessWidget {
             )
           else if (viewModel.status.indexStep == 3)
             ThirdStepRegister(
-                viewModel: viewModel,
-                keyForm: keyForm,
-                nickNameCtrl: nickNameCtrl,
-                firstNameCtrl: firstNameCtrl,
-                firstLastNameCtrl: firstLastNameCtrl,
-                secondNameCtrl: secondNameCtrl,
-                secondLastNameCtrl: secondLastNameCtrl,
-                phoneCtrl: phoneCtrl,
-                dateBirthCtrl: dateBirthCtrl,
-                passwordCtrl: passwordCtrl,
-                confirmPassCtrl: confirmPassCtrl,
+              viewModel: viewModel,
+              keyForm: keyForm,
+              nickNameCtrl: nickNameCtrl,
+              firstNameCtrl: firstNameCtrl,
+              firstLastNameCtrl: firstLastNameCtrl,
+              secondNameCtrl: secondNameCtrl,
+              secondLastNameCtrl: secondLastNameCtrl,
+              phoneCtrl: phoneCtrl,
+              dateBirthCtrl: dateBirthCtrl,
+              passwordCtrl: passwordCtrl,
+              confirmPassCtrl: confirmPassCtrl,
             ),
         ],
       ),
@@ -155,7 +157,7 @@ Widget SectionTitleAppbar(BuildContext context,
         ),
         const SizedBox(height: 15),
         Container(
-          width: (size.width - 32) * step / 3 -50,
+          width: (size.width - 32) * step / 3 - 50,
           height: 5,
           decoration: const BoxDecoration(
             color: LdColors.orangePrimary,
