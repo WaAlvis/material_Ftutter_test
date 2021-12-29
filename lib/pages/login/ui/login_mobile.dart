@@ -22,6 +22,7 @@ class _LoginMobile extends StatelessWidget {
     final double hAppbar = size.height * 0.26;
     final double hBody = size.height - hAppbar;
 
+    final bool hidePass = true;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
@@ -81,8 +82,7 @@ class _LoginMobile extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           '¡Bienvenido!',
-                          style: textTheme.textBigWhite.copyWith(fontSize:30),
-
+                          style: textTheme.textBigWhite.copyWith(fontSize: 30),
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -105,7 +105,8 @@ class _LoginMobile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 constraints: BoxConstraints(minHeight: hBody),
-                padding: EdgeInsets.only(top: 60, left: 16, right: 16,bottom: 20),
+                padding:
+                    EdgeInsets.only(top: 60, left: 16, right: 16, bottom: 20),
                 decoration: const BoxDecoration(
                   color: LdColors.white,
                   borderRadius: BorderRadius.vertical(
@@ -125,16 +126,23 @@ class _LoginMobile extends StatelessWidget {
                             'Nombre de usuario *',
                             controller: userCtrl,
                             hintText: 'Ingresa tu usuario',
+                            validator: (String? email) =>
+                                viewModel.validatorEmail(email),
                           ),
                           const SizedBox(height: 20),
                           InputTextCustom(
                             'Contraseña *',
                             controller: passwordCtrl,
                             hintText: '8+ digitos',
-                            obscureText: false,
-                            suffixIcon: const Icon(
-                              Icons.visibility_off,
-                              color: LdColors.blackBackground,
+                            obscureText: viewModel.status.hidePass,
+                            validator: (String? pass) =>
+                                viewModel.validatorPass(pass),
+                            suffixIcon: GestureDetector(
+                              onTap: () => viewModel.hidePassword(),
+                              child: const Icon(
+                                Icons.visibility_off,
+                                color: LdColors.blackBackground,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),

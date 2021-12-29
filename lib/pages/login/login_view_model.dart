@@ -11,6 +11,7 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:string_validator/string_validator.dart';
 import 'login_status.dart';
 
 class LoginViewModel extends ViewModel<LoginStatus> {
@@ -27,7 +28,12 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     status = LoginStatus(
       isLoading: false,
       isError: true,
+      hidePass: false,
     );
+  }
+
+  void hidePassword(){
+    status = status.copyWith( hidePass: !status.hidePass);
   }
 
   Future<void> onInit({
@@ -118,5 +124,28 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   Digest encrypPass(String pass) {
     final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
+  }
+
+
+  String? validatorEmail( String? email) {
+    {
+      if (email == null || email.isEmpty) {
+        return '* Campo obligatorio';
+      } else if (!isEmail(email)){
+        return '* Debe ser un correo';
+      }
+      return null;
+    }
+  }
+
+  String? validatorPass( String? pass) {
+    {
+      if (pass == null || pass.isEmpty) {
+        return '* Campo obligatorio';
+      } else if (pass.length< 8){
+        return '* Contraseña incompleta';
+      }
+      return null;
+    }
   }
 }
