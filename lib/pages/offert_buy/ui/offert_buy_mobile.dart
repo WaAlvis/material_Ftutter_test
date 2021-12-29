@@ -113,6 +113,10 @@ class _OffertBuyMobile extends StatelessWidget {
                           ),
                           InputTextCustom(
                             'Valor de los DLYCOP*',
+                            onChange: (_) => viewModel.calculateTotalMoney(
+                              double.parse(marginCtrl.text),
+                              double.parse(amountDLYCtrl.text),
+                            ),
                             controller: marginCtrl,
                             hintText: '0',
                             keyboardType: TextInputType.numberWithOptions(),
@@ -129,6 +133,10 @@ class _OffertBuyMobile extends StatelessWidget {
                           ),
                           AmountOrangeTableBuy(
                             textTheme: textTheme,
+                            onChange: (_) => viewModel.calculateTotalMoney(
+                                double.parse(marginCtrl.text),
+                                double.parse(amountDLYCtrl.text),
+                            ),
                             controller: amountDLYCtrl,
                           ),
                           const SizedBox(
