@@ -88,10 +88,9 @@ abstract class LocalDailyGatewayService {
 //     "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2"
 //   },
 //   "daysOfExpired": 7,
-//   "strJsonAdvertisementBanks": "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]"
-//   "strJsonAdvertisementBanks": "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},]"
+//   "strJsonAdvertisementBanks":
+// "strJsonAdvertisementBanks": "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentTypeID\" : \"eb2e8229-13ee-4282-b053-32e7b444ea10\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]"
 // }
-
 
 // { *Create User
 // "nickName": "n",
