@@ -22,7 +22,6 @@ class _LoginMobile extends StatelessWidget {
     final double hAppbar = size.height * 0.26;
     final double hBody = size.height - hAppbar;
 
-    final bool hidePass = true;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
@@ -105,8 +104,8 @@ class _LoginMobile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 constraints: BoxConstraints(minHeight: hBody),
-                padding:
-                    EdgeInsets.only(top: 60, left: 16, right: 16, bottom: 20),
+                padding: const EdgeInsets.only(
+                    top: 10, left: 16, right: 16, bottom: 20),
                 decoration: const BoxDecoration(
                   color: LdColors.white,
                   borderRadius: BorderRadius.vertical(
@@ -122,6 +121,15 @@ class _LoginMobile extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          if (viewModel.status.errorLogin)
+                            WarningContainer(textTheme: textTheme, viewModel: viewModel,)
+                          else
+                            const SizedBox(
+                              height: 30,
+                            ),
+                          const SizedBox(
+                            height: 22,
+                          ),
                           InputTextCustom(
                             'Nombre de usuario *',
                             controller: userCtrl,
@@ -141,7 +149,7 @@ class _LoginMobile extends StatelessWidget {
                               onTap: () => viewModel.hidePassword(),
                               child: Icon(
                                 viewModel.status.hidePass
-                                    ?Icons.visibility_off
+                                    ? Icons.visibility_off
                                     : Icons.visibility,
                                 color: LdColors.blackBackground,
                               ),
@@ -209,6 +217,61 @@ class _LoginMobile extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class WarningContainer extends StatelessWidget {
+  const WarningContainer({
+    Key? key,
+    required this.textTheme,
+    required this.viewModel
+  }) : super(key: key);
+
+  final TextTheme textTheme;
+  final LoginViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 18,
+        horizontal: 12,
+      ),
+      decoration: const BoxDecoration(
+        color: LdColors.orangeWarning,
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+      ),
+      child: Row(
+        children: <Widget>[
+          const Icon(
+            Icons.report_problem_outlined,
+            color: LdColors.white,
+            size: 35,
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Text(
+            'Usuario o contraseña inválidos',
+            style: textTheme.textGray.copyWith(
+              color: LdColors.white,
+            ),
+          ),
+          const Spacer(),
+          GestureDetector(
+                onTap:  () => viewModel.closeErrMsg(),
+            child: const Icon(
+
+              Icons.close,
+              color: LdColors.white,
+              size: 30,
             ),
           ),
         ],

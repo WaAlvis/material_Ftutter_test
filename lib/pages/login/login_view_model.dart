@@ -28,8 +28,9 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
     status = LoginStatus(
       isLoading: false,
-      isError: true,
+      // isError: true,
       hidePass: true,
+      errorLogin: false,
     );
   }
 
@@ -86,6 +87,10 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     // });
   }
 
+  void closeErrMsg(){
+    status = status.copyWith(errorLogin: false);
+  }
+
   Future<void> login(
     BuildContext context,
     String email,
@@ -115,10 +120,17 @@ class LoginViewModel extends ViewModel<LoginStatus> {
         );
         _route.goHome(context);
       } else {
+        status = status.copyWith(
+          errorLogin: true,
+        );
         // TODO: Mostrar alerta
+
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {
+      status = status.copyWith(
+        errorLogin: true,
+      );
       print('Login Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });
