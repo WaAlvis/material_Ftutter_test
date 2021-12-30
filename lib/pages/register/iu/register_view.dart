@@ -5,6 +5,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
 import 'package:localdaily/pages/register/iu/components/first_step_register.dart';
 import 'package:localdaily/pages/register/iu/components/second_step_register.dart';
+import 'package:localdaily/pages/register/iu/components/fourth_step_register.dart';
 import 'package:localdaily/pages/register/iu/components/third_step_register.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';

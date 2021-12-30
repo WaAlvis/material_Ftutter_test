@@ -5,6 +5,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 
 class SecondStepRegister extends StatelessWidget {
   const SecondStepRegister({
@@ -101,8 +102,34 @@ class SecondStepRegister extends StatelessWidget {
                         .copyWith(decoration: TextDecoration.underline),
                   ),
                   const SizedBox(height: 50),
+                  PrimaryButtonCustom('Abrir correo',
+                      // onPressed: () => viewModel.goRegisterPersonalData(context),
+                      onPressed: () async {
+                    // Android: Will open mail app or show native picker.
+                    // iOS: Will open mail app if single mail app found.
+                    var result = await OpenMailApp.openMailApp();
+
+                    // If no mail apps found, show error
+                    if (!result.didOpen && !result.canOpen) {
+                      showNoMailAppsDialog(context);
+
+                      // iOS: if multiple mail apps found, show dialog to select.
+                      // There is no native intent/default app system in iOS so
+                      // you have to do it yourself.
+                    } else if (!result.didOpen && result.canOpen) {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return MailAppPickerDialog(
+                            mailApps: result.options,
+                          );
+                        },
+                      );
+                    }
+                  },),const SizedBox(height: 20,),
                   PrimaryButtonCustom(
-                    'Abrir correo',
+                    'Continuar',
+                    colorButton: LdColors.whiteGray,
                     onPressed: () => viewModel.goRegisterPersonalData(context),
                   ),
                 ],
@@ -111,6 +138,26 @@ class SecondStepRegister extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Open Mail App"),
+          content: Text("No mail apps installed"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }

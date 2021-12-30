@@ -30,7 +30,6 @@ class _RegisterMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -98,9 +97,15 @@ class _RegisterMobile extends StatelessWidget {
                   else if (viewModel.status.indexStep == 3)
                     SectionTitleAppbar(context,
                         step: 3,
+                        title: 'Validacion del correo',
+                        description:
+                            'Ingresa el codigo enviado al Email de registro.')
+                  else if (viewModel.status.indexStep == 4)
+                    SectionTitleAppbar(context,
+                        step: 4,
                         title: 'Informacion de la cuenta',
                         description:
-                            'Escribe la informacion de ingreso a tu cuenta.'),
+                            'Escribe la informacion de registro de tu cuenta.'),
                 ],
               ),
             ),
@@ -116,6 +121,10 @@ class _RegisterMobile extends StatelessWidget {
             )
           else if (viewModel.status.indexStep == 3)
             ThirdStepRegister(
+              viewModel: viewModel,
+            )
+          else if (viewModel.status.indexStep == 4)
+            FourthStepRegister(
               viewModel: viewModel,
               keyForm: keyForm,
               nickNameCtrl: nickNameCtrl,
@@ -158,7 +167,7 @@ Widget SectionTitleAppbar(BuildContext context,
         ),
         const SizedBox(height: 15),
         Container(
-          width: (size.width - 32) * step / 3 - 50,
+          width: (size.width - 32) * step / 4 - 50,
           height: 5,
           decoration: const BoxDecoration(
             color: LdColors.orangePrimary,

@@ -1,46 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
-
-import 'package:flutter/material.dart';
-import 'package:localdaily/pages/register/register_view_model.dart';
-
-import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/input_text_custom.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 
 class ThirdStepRegister extends StatelessWidget {
   const ThirdStepRegister({
-    Key? key,
-    required this.keyForm,
-    required this.nickNameCtrl,
-    required this.firstNameCtrl,
-    required this.firstLastNameCtrl,
-    required this.secondNameCtrl,
-    required this.secondLastNameCtrl,
-    required this.phoneCtrl,
-    required this.dateBirthCtrl,
-    required this.passwordCtrl,
-    required this.confirmPassCtrl,
     required this.viewModel,
+    //required this.textTheme,
+    Key? key,
   }) : super(key: key);
   final RegisterViewModel viewModel;
-  final GlobalKey<FormState> keyForm;
-  final TextEditingController nickNameCtrl;
-  final TextEditingController firstNameCtrl;
-  final TextEditingController firstLastNameCtrl;
-  final TextEditingController secondNameCtrl;
-  final TextEditingController secondLastNameCtrl;
-  final TextEditingController phoneCtrl;
-  final TextEditingController dateBirthCtrl;
-  final TextEditingController passwordCtrl;
-  final TextEditingController confirmPassCtrl;
+
+  //final TextTheme textTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -49,157 +24,136 @@ class ThirdStepRegister extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-          child: Column(
-            children: <Widget>[
-              InputTextCustom(
-                'Primer nombre  *',
-                controller: firstNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu primer nombre',
+    return Flexible(
+      child: Container(
+        color: LdColors.blackBackground,
+        child: Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            Positioned(
+              right: 0,
+              child: SizedBox(
+                // El tamaño depende del tamaño de la pantalla
+                width: (size.width) / 4,
+                height: (size.width) / 4,
+                child: QuarterCircle(
+                  circleAlignment: CircleAlignment.bottomRight,
+                  color: LdColors.grayLight.withOpacity(0.05),
+                ),
               ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Segundo nombre  *',
-                controller: secondNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu segundo nombre',
+            ),
+            Positioned(
+              right: 0,
+              child: SizedBox(
+                width: (size.width) * 2 / 4,
+                height: (size.width) * 2 / 4,
+                child: QuarterCircle(
+                  circleAlignment: CircleAlignment.bottomRight,
+                  color: LdColors.grayLight.withOpacity(0.05),
+                ),
               ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Primer apellido  *',
-                controller: firstLastNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu primer apellido',
+            ),
+            Positioned(
+              right: 0,
+              child: SizedBox(
+                width: (size.width) * 3 / 4,
+                height: (size.width) * 3 / 4,
+                child: QuarterCircle(
+                  circleAlignment: CircleAlignment.bottomRight,
+                  color: LdColors.grayLight.withOpacity(0.05),
+                ),
               ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Segundo apellido  *',
-                controller: secondLastNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu segundo apellido',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Nombre de usuario  *',
-                controller: nickNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
-                ],
-                hintText: 'Ingresa tu Nickname ',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Celular  *',
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                keyboardType: TextInputType.number,
-                controller: phoneCtrl,
-                hintText: 'Ingresa tu celular',
-              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const SizedBox(height: 30),
+                        SvgPicture.asset('lib/assets/images/mail.svg'),
+                        const SizedBox(height: 30),
+                        Text(
+                          'Verifica tu correo',
+                          style: textTheme.textBigWhite
+                              .copyWith(color: LdColors.orangePrimary),
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          'Confirma tu dirección de correo electrónico haciendo clic en el enlace que hemos enviado a:',
+                          textAlign: TextAlign.center,
+                          style:
+                              textTheme.textSmallWhite.copyWith(fontSize: 18),
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          viewModel.status.emailRegister,
+                          style: textTheme.textWhite
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'Reenviar link de correo',
+                    style: textTheme.textSmallWhite
+                        .copyWith(decoration: TextDecoration.underline),
+                  ),
+                  const SizedBox(height: 50),
+                  PrimaryButtonCustom('Abrir correo',
+                      // onPressed: () => viewModel.goRegisterPersonalData(context),
+                      onPressed: () async {
+                    // Android: Will open mail app or show native picker.
+                    // iOS: Will open mail app if single mail app found.
+                    var result = await OpenMailApp.openMailApp();
 
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Fecha de nacimiento  *',
-                keyboardType: TextInputType.none,
-                controller: viewModel.status.dateBirthCtrl,
-                hintText: 'Ingresa tu fecha de nacimiento',
-                onTap: () => viewModel.setDateBirth(context)
+                    // If no mail apps found, show error
+                    if (!result.didOpen && !result.canOpen) {
+                      showNoMailAppsDialog(context);
+
+                      // iOS: if multiple mail apps found, show dialog to select.
+                      // There is no native intent/default app system in iOS so
+                      // you have to do it yourself.
+                    } else if (!result.didOpen && result.canOpen) {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return MailAppPickerDialog(
+                            mailApps: result.options,
+                          );
+                        },
+                      );
+                    }
+                  },),
+
+                ],
               ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Contraseña *',
-                controller: passwordCtrl,
-                hintText: '8+ digitos',
-                suffixIcon: const Icon(
-                  Icons.visibility_off,
-                  color: LdColors.blackBackground,
-                ),
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Confirmar contraseña *',
-                controller: confirmPassCtrl,
-                hintText: '8+ digitos',
-                suffixIcon: const Icon(
-                  Icons.visibility_off,
-                  color: LdColors.blackBackground,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Requeriminetos minimos de la contraseña:',
-                style: textTheme.textSmallBlack,
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 200,
-                child: Column(
-                  children: <Widget>[
-                    CheckTileBoxCustom(
-                      '8+ caracteres',
-                      textTheme: textTheme,
-                      value: true,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 Numero',
-                      textTheme: textTheme,
-                      value: true,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 Mayuscula',
-                      textTheme: textTheme,
-                      value: true,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 Minuscula',
-                      textTheme: textTheme,
-                      value: false,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 caracter especial',
-                      textTheme: textTheme,
-                      value: false,
-                    ),
-                  ],
-                ),
-              ),
-              PrimaryButtonCustom(
-                'Registrar',
-                onPressed: () {
-                  // if (keyForm.currentState!.validate()) {
-                  viewModel.registerUser(
-                    context,
-                    nickNameCtrl: nickNameCtrl,
-                    firstNameCtrl: firstNameCtrl,
-                    firstLastNameCtrl: firstLastNameCtrl,
-                    secondNameCtrl: secondNameCtrl,
-                    secondLastNameCtrl: secondLastNameCtrl,
-                    phoneCtrl: phoneCtrl,
-                    emailRegister: viewModel.status.emailRegister,
-                    dateBirthCtrl: viewModel.status.dateBirthCtrl,
-                    passwordCtrl: passwordCtrl,
-                    confirrmPassCtrl: confirmPassCtrl,
-                  );
-                  // }
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Open Mail App"),
+          content: Text("No mail apps installed"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }
