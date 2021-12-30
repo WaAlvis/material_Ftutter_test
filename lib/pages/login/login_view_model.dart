@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -28,12 +29,14 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     status = LoginStatus(
       isLoading: false,
       isError: true,
-      hidePass: false,
+      hidePass: true,
     );
   }
 
-  void hidePassword(){
-    status = status.copyWith( hidePass: !status.hidePass);
+  void hidePassword() {
+    status = status.copyWith(
+      hidePass: !status.hidePass,
+    );
   }
 
   Future<void> onInit({
@@ -126,23 +129,22 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     return sha256.convert(bytes);
   }
 
-
-  String? validatorEmail( String? email) {
+  String? validatorEmail(String? email) {
     {
       if (email == null || email.isEmpty) {
         return '* Campo obligatorio';
-      } else if (!isEmail(email)){
+      } else if (!isEmail(email)) {
         return '* Debe ser un correo';
       }
       return null;
     }
   }
 
-  String? validatorPass( String? pass) {
+  String? validatorPass(String? pass) {
     {
       if (pass == null || pass.isEmpty) {
         return '* Campo obligatorio';
-      } else if (pass.length< 8){
+      } else if (pass.length < 8) {
         return '* Contraseña incompleta';
       }
       return null;

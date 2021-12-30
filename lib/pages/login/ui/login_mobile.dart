@@ -139,8 +139,10 @@ class _LoginMobile extends StatelessWidget {
                                 viewModel.validatorPass(pass),
                             suffixIcon: GestureDetector(
                               onTap: () => viewModel.hidePassword(),
-                              child: const Icon(
-                                Icons.visibility_off,
+                              child: Icon(
+                                viewModel.status.hidePass
+                                    ?Icons.visibility_off
+                                    : Icons.visibility,
                                 color: LdColors.blackBackground,
                               ),
                             ),
