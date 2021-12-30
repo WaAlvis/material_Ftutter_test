@@ -30,6 +30,7 @@ class _RegisterMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final TextTheme textTheme = Theme.of(context).textTheme;
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;

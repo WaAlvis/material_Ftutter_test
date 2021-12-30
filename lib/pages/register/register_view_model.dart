@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
@@ -32,6 +33,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isLoading: false,
       isError: false,
       emailRegister: '',
+      dateBirthCtrl: TextEditingController(),
     );
   }
 
@@ -39,10 +41,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     {
       if (email == null || email.isEmpty) {
         return '* Campo obligatorio';
-      } else if (!isEmail(email)){
+      } else if (!isEmail(email)) {
         return '* Debe ser un correo';
       }
-        return null;
+      return null;
     }
   }
 
@@ -58,6 +60,26 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   //   });
   // }
 
+  void setDateBirth(BuildContext context){
+    DatePicker.showDatePicker(context,
+        showTitleActions: true,
+        minTime:
+        DateTime.now().subtract(const Duration(days: 36500)),
+        maxTime:
+        DateTime.now().subtract(const Duration(days: 6570)),
+        onChanged: (DateTime date) {
+          print('change $date');
+        }, onConfirm: (DateTime date) {
+          final String dateT = date.toLocal().toString().split(' ').first;
+          status.dateBirthCtrl.text = dateT;
+
+          print('confirm ${date.toUtc()}');
+          print('confirm ${status.dateBirthCtrl.text}');
+        },
+        currentTime:
+        DateTime.now().subtract(const Duration(days: 10500)),
+        locale: LocaleType.es,);
+  }
   void goValidateEmail(BuildContext context, String email) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
@@ -141,12 +163,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       secondName: secondName,
       firstLastName: firstLastName,
       secondLastName: secondLastName,
-      dateBirth: '1985/10/25',
+      dateBirth: dateBirth,
       email: email,
       phone: phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: password,
       isActive: true,
+      addressWallet: '',
     );
 
     _interactor

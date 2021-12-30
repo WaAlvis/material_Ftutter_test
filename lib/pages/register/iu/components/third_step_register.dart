@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
@@ -56,43 +58,65 @@ class ThirdStepRegister extends StatelessWidget {
               InputTextCustom(
                 'Primer nombre  *',
                 controller: firstNameCtrl,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ],
                 hintText: 'Ingresa tu primer nombre',
               ),
               const SizedBox(height: 16),
               InputTextCustom(
                 'Segundo nombre  *',
                 controller: secondNameCtrl,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ],
                 hintText: 'Ingresa tu segundo nombre',
               ),
               const SizedBox(height: 16),
               InputTextCustom(
                 'Primer apellido  *',
                 controller: firstLastNameCtrl,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ],
                 hintText: 'Ingresa tu primer apellido',
               ),
               const SizedBox(height: 16),
               InputTextCustom(
                 'Segundo apellido  *',
                 controller: secondLastNameCtrl,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ],
                 hintText: 'Ingresa tu segundo apellido',
               ),
               const SizedBox(height: 16),
               InputTextCustom(
                 'Nombre de usuario  *',
                 controller: nickNameCtrl,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
+                ],
                 hintText: 'Ingresa tu Nickname ',
               ),
               const SizedBox(height: 16),
               InputTextCustom(
                 'Celular  *',
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                keyboardType: TextInputType.number,
                 controller: phoneCtrl,
                 hintText: 'Ingresa tu celular',
               ),
+
               const SizedBox(height: 16),
               InputTextCustom(
                 'Fecha de nacimiento  *',
-                controller: dateBirthCtrl,
+                keyboardType: TextInputType.none,
+                controller: viewModel.status.dateBirthCtrl,
                 hintText: 'Ingresa tu fecha de nacimiento',
+                onTap: () => viewModel.setDateBirth(context)
               ),
               const SizedBox(height: 16),
               InputTextCustom(
@@ -155,21 +179,21 @@ class ThirdStepRegister extends StatelessWidget {
               PrimaryButtonCustom(
                 'Registrar',
                 onPressed: () {
-                  if (keyForm.currentState!.validate()) {
-                    viewModel.registerUser(
-                      context,
-                      nickNameCtrl: nickNameCtrl,
-                      firstNameCtrl: firstNameCtrl,
-                      firstLastNameCtrl: firstLastNameCtrl,
-                      secondNameCtrl: secondNameCtrl,
-                      secondLastNameCtrl: secondLastNameCtrl,
-                      phoneCtrl: phoneCtrl,
-                      emailRegister: viewModel.status.emailRegister,
-                      dateBirthCtrl: dateBirthCtrl,
-                      passwordCtrl: passwordCtrl,
-                      confirrmPassCtrl: confirmPassCtrl,
-                    );
-                  }
+                  // if (keyForm.currentState!.validate()) {
+                  viewModel.registerUser(
+                    context,
+                    nickNameCtrl: nickNameCtrl,
+                    firstNameCtrl: firstNameCtrl,
+                    firstLastNameCtrl: firstLastNameCtrl,
+                    secondNameCtrl: secondNameCtrl,
+                    secondLastNameCtrl: secondLastNameCtrl,
+                    phoneCtrl: phoneCtrl,
+                    emailRegister: viewModel.status.emailRegister,
+                    dateBirthCtrl: viewModel.status.dateBirthCtrl,
+                    passwordCtrl: passwordCtrl,
+                    confirrmPassCtrl: confirmPassCtrl,
+                  );
+                  // }
                 },
               ),
             ],

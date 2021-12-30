@@ -52,7 +52,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
   final TextEditingController secondNameCtrl = TextEditingController();
   final TextEditingController secondLastNameCtrl = TextEditingController();
   final TextEditingController phoneCtrl = TextEditingController();
-  final TextEditingController dateBirthCtrl = TextEditingController();
+  // final TextEditingController dateBirthCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController confirrmPassCtrl = TextEditingController();
 
@@ -66,7 +66,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
     secondNameCtrl.dispose();
     secondLastNameCtrl.dispose();
     phoneCtrl.dispose();
-    dateBirthCtrl.dispose();
+    // dateBirthCtrl.dispose();
     passwordCtrl.dispose();
     confirrmPassCtrl.dispose();
     super.dispose();
@@ -105,7 +105,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                       secondNameCtrl: secondNameCtrl,
                       secondLastNameCtrl: secondLastNameCtrl,
                       phoneCtrl: phoneCtrl,
-                      dateBirthCtrl: dateBirthCtrl,
+                      dateBirthCtrl: viewModel.status. dateBirthCtrl,
                       passwordCtrl: passwordCtrl,
                       confirmPassCtrl: confirrmPassCtrl,
                     ),

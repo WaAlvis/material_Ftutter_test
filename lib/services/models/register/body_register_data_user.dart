@@ -16,12 +16,14 @@ class BodyRegisterDataUser {
     required this.userTypeId,
     required this.password,
     required this.isActive,
+    required this.addressWallet,
 
       });
 
   factory BodyRegisterDataUser.fromJson(Map<String, dynamic> json) =>
       _$BodyRegisterDataUserFromJson(json);
 
+  String addressWallet;
   String nickName;
   String firstName;
   String secondName;

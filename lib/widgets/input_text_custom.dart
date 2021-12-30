@@ -12,9 +12,11 @@ class InputTextCustom extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.keyboardType,
-    this.onlyIntNum = false,
+    // this.onlyIntNum = false,
     this.validator,
     this.onChange,
+    this.inputFormatters,
+    this.onTap,
   }) : super(key: key);
 
   final void Function(String)? onChange;
@@ -26,8 +28,10 @@ class InputTextCustom extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-  final bool onlyIntNum;
+  // final bool onlyIntNum;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +53,13 @@ class InputTextCustom extends StatelessWidget {
           height: 5,
         ),
         TextFormField(
+          onTap: onTap,
           onChanged:onChange,
           keyboardType: keyboardType,
           obscureText: obscureText,
           controller: controller,
-          inputFormatters:
-          onlyIntNum ? [FilteringTextInputFormatter.digitsOnly] : null,
+          inputFormatters: inputFormatters,
           validator: validator,
-          //     (String? value) {
-          //   if (value == null || value.isEmpty) {
-          //     return '* Este campo es obligatorio';
-          //   }
-          //   return null;
-          // },
           decoration: InputDecoration(
             hintStyle: styleHint ?? textTheme.textGray,
             border: const OutlineInputBorder(
