@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -33,6 +34,9 @@ class FirstStepRegister extends StatelessWidget {
             children: <Widget>[
               InputTextCustom(
                 'Correo electronico',
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.deny(RegExp(r'[ ]'),),
+                ],
                 controller: emailCtrl,
                 hintText: 'ejemplo@correo.com',
                 validator: (String? email) =>

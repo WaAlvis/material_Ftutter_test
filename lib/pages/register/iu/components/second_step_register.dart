@@ -127,6 +127,7 @@ class SecondStepRegister extends StatelessWidget {
                       );
                     }
                   },),const SizedBox(height: 20,),
+
                   PrimaryButtonCustom(
                     'Continuar',
                     colorButton: LdColors.whiteGray,

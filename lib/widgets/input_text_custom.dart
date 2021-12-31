@@ -33,6 +33,13 @@ class InputTextCustom extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function()? onTap;
 
+
+  /**
+   * <TextInputFormatter> sin escpacios [inputFormatters] * tipo de entrada
+   * FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+   *   ],
+   */
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme
