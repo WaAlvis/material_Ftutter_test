@@ -60,26 +60,27 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   //   });
   // }
 
-  void setDateBirth(BuildContext context){
-    DatePicker.showDatePicker(context,
-        showTitleActions: true,
-        minTime:
-        DateTime.now().subtract(const Duration(days: 36500)),
-        maxTime:
-        DateTime.now().subtract(const Duration(days: 6570)),
-        onChanged: (DateTime date) {
-          print('change $date');
-        }, onConfirm: (DateTime date) {
-          final String dateT = date.toLocal().toString().split(' ').first;
-          status.dateBirthCtrl.text = dateT;
+  void setDateBirth(BuildContext context) {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime.now().subtract(const Duration(days: 36500)),
+      maxTime: DateTime.now().subtract(const Duration(days: 6570)),
+      onChanged: (DateTime date) {
+        print('change $date');
+      },
+      onConfirm: (DateTime date) {
+        final String dateT = date.toLocal().toString().split(' ').first;
+        status.dateBirthCtrl.text = dateT;
 
-          print('confirm ${date.toUtc()}');
-          print('confirm ${status.dateBirthCtrl.text}');
-        },
-        currentTime:
-        DateTime.now().subtract(const Duration(days: 10500)),
-        locale: LocaleType.es,);
+        print('confirm ${date.toUtc()}');
+        print('confirm ${status.dateBirthCtrl.text}');
+      },
+      currentTime: DateTime.now().subtract(const Duration(days: 10500)),
+      locale: LocaleType.es,
+    );
   }
+
   void goValidateEmail(BuildContext context, String email) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
@@ -90,10 +91,23 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  void goRegisterPersonalData(BuildContext context) {
+  void goNextStep(
+    BuildContext context, {
+    required int currentStep,
+    String? email,
+  }) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        status = status.copyWith(indexStep: 3);
+        if (status.indexStep == 1) {
+          status = status.copyWith(
+            emailRegister: email,
+            indexStep: status.indexStep + 1,
+          );
+        } else {
+          status = status.copyWith(
+            indexStep: status.indexStep + 1,
+          );
+        }
 
         // _route.goPersonalInfoRegister(context);
       } else {

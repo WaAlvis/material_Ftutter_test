@@ -46,7 +46,7 @@ class FirstStepRegister extends StatelessWidget {
                   if (keyFirstForm.currentState!.validate()) {
                     // Si el formulario es válido, muestre un snackbar. En el mundo real, a menudo
                     // desea llamar a un servidor o guardar la información en una base de datos
-                    viewModel.goValidateEmail(context, emailCtrl.text);
+                    viewModel.goNextStep(context,email: emailCtrl.text, currentStep: 1);
                   }
                 },
               ),

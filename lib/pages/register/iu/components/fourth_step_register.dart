@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
+//  'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
-import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
-
-import 'package:flutter/material.dart';
-import 'package:localdaily/pages/register/register_view_model.dart';
-
-import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 
 class FourthStepRegister extends StatelessWidget {
   const FourthStepRegister({
@@ -144,38 +136,38 @@ class FourthStepRegister extends StatelessWidget {
                 style: textTheme.textSmallBlack,
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                height: 200,
-                child: Column(
-                  children: <Widget>[
-                    CheckTileBoxCustom(
-                      '8+ caracteres',
-                      textTheme: textTheme,
-                      value: true,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 Numero',
-                      textTheme: textTheme,
-                      value: true,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 Mayuscula',
-                      textTheme: textTheme,
-                      value: true,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 Minuscula',
-                      textTheme: textTheme,
-                      value: false,
-                    ),
-                    CheckTileBoxCustom(
-                      '1 caracter especial',
-                      textTheme: textTheme,
-                      value: false,
-                    ),
-                  ],
-                ),
-              ),
+              // SizedBox(
+              //   height: 200,
+              //   child: Column(
+              //     children: <Widget>[
+              //       CheckTileBoxCustom(
+              //         '8+ caracteres',
+              //         textTheme: textTheme,
+              //         value: true,
+              //       ),
+              //       CheckTileBoxCustom(
+              //         '1 Numero',
+              //         textTheme: textTheme,
+              //         value: true,
+              //       ),
+              //       CheckTileBoxCustom(
+              //         '1 Mayuscula',
+              //         textTheme: textTheme,
+              //         value: true,
+              //       ),
+              //       CheckTileBoxCustom(
+              //         '1 Minuscula',
+              //         textTheme: textTheme,
+              //         value: false,
+              //       ),
+              //       CheckTileBoxCustom(
+              //         '1 caracter especial',
+              //         textTheme: textTheme,
+              //         value: false,
+              //       ),
+              //     ],
+              //   ),
+              // ),
               PrimaryButtonCustom(
                 'Registrar',
                 onPressed: () {

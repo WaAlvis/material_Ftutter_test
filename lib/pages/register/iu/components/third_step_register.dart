@@ -6,6 +6,7 @@ import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ThirdStepRegister extends StatelessWidget {
   const ThirdStepRegister({
@@ -26,112 +27,38 @@ class ThirdStepRegister extends StatelessWidget {
 
     return Flexible(
       child: Container(
-        color: LdColors.blackBackground,
-        child: Stack(
-          alignment: AlignmentDirectional.bottomStart,
-          children: [
-            Positioned(
-              right: 0,
-              child: SizedBox(
-                // El tamaño depende del tamaño de la pantalla
-                width: (size.width) / 4,
-                height: (size.width) / 4,
-                child: QuarterCircle(
-                  circleAlignment: CircleAlignment.bottomRight,
-                  color: LdColors.grayLight.withOpacity(0.05),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              child: SizedBox(
-                width: (size.width) * 2 / 4,
-                height: (size.width) * 2 / 4,
-                child: QuarterCircle(
-                  circleAlignment: CircleAlignment.bottomRight,
-                  color: LdColors.grayLight.withOpacity(0.05),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              child: SizedBox(
-                width: (size.width) * 3 / 4,
-                height: (size.width) * 3 / 4,
-                child: QuarterCircle(
-                  circleAlignment: CircleAlignment.bottomRight,
-                  color: LdColors.grayLight.withOpacity(0.05),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const SizedBox(height: 30),
-                        SvgPicture.asset('lib/assets/images/mail.svg'),
-                        const SizedBox(height: 30),
-                        Text(
-                          'Verifica tu correo',
-                          style: textTheme.textBigWhite
-                              .copyWith(color: LdColors.orangePrimary),
-                        ),
-                        const SizedBox(height: 30),
-                        Text(
-                          'Confirma tu dirección de correo electrónico haciendo clic en el enlace que hemos enviado a:',
-                          textAlign: TextAlign.center,
-                          style:
-                              textTheme.textSmallWhite.copyWith(fontSize: 18),
-                        ),
-                        const SizedBox(height: 30),
-                        Text(
-                          viewModel.status.emailRegister,
-                          style: textTheme.textWhite
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ],
+        color: LdColors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children:  <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.only(left: 12,),
+                        child: Text('Ingresa el codigo de verificacion.', style: textTheme.textBlack,)),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  Text(
-                    'Reenviar link de correo',
-                    style: textTheme.textSmallWhite
-                        .copyWith(decoration: TextDecoration.underline),
-                  ),
-                  const SizedBox(height: 50),
-                  PrimaryButtonCustom('Abrir correo',
-                      // onPressed: () => viewModel.goRegisterPersonalData(context),
-                      onPressed: () async {
-                    // Android: Will open mail app or show native picker.
-                    // iOS: Will open mail app if single mail app found.
-                    var result = await OpenMailApp.openMailApp();
-
-                    // If no mail apps found, show error
-                    if (!result.didOpen && !result.canOpen) {
-                      showNoMailAppsDialog(context);
-
-                      // iOS: if multiple mail apps found, show dialog to select.
-                      // There is no native intent/default app system in iOS so
-                      // you have to do it yourself.
-                    } else if (!result.didOpen && result.canOpen) {
-                      showDialog(
-                        context: context,
-                        builder: (_) {
-                          return MailAppPickerDialog(
-                            mailApps: result.options,
-                          );
-                        },
-                      );
-                    }
-                  },),
-
-                ],
+                    const PinCodeWidget(),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Text(
+                'Reenviar link de correo',
+                style: textTheme.textSmallWhite
+                    .copyWith(decoration: TextDecoration.underline),
+              ),
+              const SizedBox(height: 50),
+              PrimaryButtonCustom(
+                'Continuar',
+                onPressed: () => viewModel.goNextStep(context, currentStep: 3),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -154,6 +81,49 @@ class ThirdStepRegister extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class PinCodeWidget extends StatelessWidget {
+  const PinCodeWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PinCodeTextField(
+      length: 6,
+      obscureText: false,
+      animationType: AnimationType.fade,
+      // pinTheme: PinTheme(
+      //   shape: PinCodeFieldShape.box,
+      //   borderRadius: BorderRadius.circular(5),
+      //   fieldHeight: 50,
+      //   fieldWidth: 40,
+      //   activeFillColor: Colors.white,
+      // ),
+      animationDuration: Duration(milliseconds: 300),
+      // backgroundColor: LdColors.whiteGray,
+      // enableActiveFill: true,
+      // errorAnimationController: errorController,
+      // controller: textEditingController,
+      onCompleted: (v) {
+        print("Completed");
+      },
+      onChanged: (value) {
+        print(value);
+        // setState(() {
+        //   currentText = value;
+        // });
+      },
+      beforeTextPaste: (text) {
+        print("Allowing to paste $text");
+        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+        //but you can show anything you want here, like your pop up saying wrong paste format or etc
+        return true;
+      },
+      appContext: context,
     );
   }
 }

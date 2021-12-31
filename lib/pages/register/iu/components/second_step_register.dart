@@ -130,7 +130,7 @@ class SecondStepRegister extends StatelessWidget {
                   PrimaryButtonCustom(
                     'Continuar',
                     colorButton: LdColors.whiteGray,
-                    onPressed: () => viewModel.goRegisterPersonalData(context),
+                    onPressed: () => viewModel.goNextStep(context, currentStep: 2, ),
                   ),
                 ],
               ),

@@ -78,19 +78,19 @@ class LdRouter {
     );
   }
 
-  void goValidateEmail(BuildContext context) {
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.registerValidateEmailRoute.route,
-      transition: TransitionType.none,
-    );
-  }
-
-  void goPersonalInfoRegister(BuildContext context) {
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.personalInfoRegisterRoute.route,
-      transition: TransitionType.none,
-    );
-  }
+  // void goValidateEmail(BuildContext context) {
+  //   AppRouter.router.navigateTo(
+  //     context,
+  //     AppRoutes.registerValidateEmailRoute.route,
+  //     transition: TransitionType.none,
+  //   );
+  // }
+  //
+  // void goPersonalInfoRegister(BuildContext context) {
+  //   AppRouter.router.navigateTo(
+  //     context,
+  //     AppRoutes.personalInfoRegisterRoute.route,
+  //     transition: TransitionType.none,
+  //   );
+  // }
 }
