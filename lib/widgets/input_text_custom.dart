@@ -4,7 +4,7 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
-  const InputTextCustom(
+  InputTextCustom(
     this.data, {
     Key? key,
     this.textInputAction,
@@ -20,7 +20,9 @@ class InputTextCustom extends StatelessWidget {
     this.inputFormatters,
     this.onTap,
     this.autocorrect = false,
-  }) : super(key: key);
+        this.changeFillWith,
+
+      }) : super(key: key);
 
   final void Function(String)? onChange;
   final TextStyle? styleLabel;
@@ -37,6 +39,7 @@ class InputTextCustom extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool autocorrect;
 
+  bool? changeFillWith = false;
   static const BorderRadius radioBorderConst = BorderRadius.all(
     Radius.circular(12),
   );
@@ -77,12 +80,13 @@ class InputTextCustom extends StatelessWidget {
           inputFormatters: inputFormatters,
           validator: validator,
           decoration: InputDecoration(
+            fillColor: LdColors.grayBorder,
+            filled: changeFillWith,
             border: const OutlineInputBorder(
               borderRadius: radioBorderConst,
             ),
             enabledBorder: const OutlineInputBorder(
               borderRadius: radioBorderConst,
-
             ),
             focusedBorder: const OutlineInputBorder(
               borderRadius: radioBorderConst,

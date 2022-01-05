@@ -210,7 +210,7 @@ class _OffertSaleMobile extends StatelessWidget {
                               const SizedBox(
                                 height: 12,
                               ),
-                              const InputTextCustom(
+                               InputTextCustom(
                                 '# cuenta',
                                 hintText: 'Escribe el número',
                               ),
@@ -236,14 +236,14 @@ class _OffertSaleMobile extends StatelessWidget {
                               const SizedBox(
                                 height: 12,
                               ),
-                              const InputTextCustom(
+                               InputTextCustom(
                                 '# documento',
                                 hintText: 'Escribe el número',
                               ),
                               const SizedBox(
                                 height: 12,
                               ),
-                              const InputTextCustom(
+                               InputTextCustom(
                                   'Nombre del titular de la cuenta',
                                   hintText: 'Escribe el nombre'),
                             ],
@@ -402,18 +402,16 @@ class DropdownCustom extends StatelessWidget {
         ),
         DropdownButtonFormField<String>(
           value: value,
-
-          // hint: const Text('Seleciona tu banco'),
           decoration: InputDecoration(
+            filled: changeFillWith,
+            fillColor: LdColors.grayBorder,
+            hintText: hintText,
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(12.0),
               ),
             ),
-            filled: changeFillWith,
             // filled: changeFillWith != null ,
-            hintText: hintText,
-            fillColor: LdColors.grayBorder,
           ),
           items: optionItems,
           onChanged: onChanged,

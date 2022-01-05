@@ -122,20 +122,22 @@ class _LoginMobile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           if (viewModel.status.errorLogin)
-                            WarningContainer(textTheme: textTheme, viewModel: viewModel,)
+                            WarningContainer(
+                              textTheme: textTheme,
+                              viewModel: viewModel,
+                            )
                           else
                             const SizedBox(
                               height: 30,
                             ),
                           const SizedBox(
                             height: 22,
-
-
                           ),
                           InputTextCustom(
                             'Correo electronio *',
-                            controller: userCtrl,
                             hintText: 'Ingresa correo del usuario',
+                            controller: userCtrl,
+                            changeFillWith: userCtrl.text != '',
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             validator: (String? email) =>
@@ -144,8 +146,9 @@ class _LoginMobile extends StatelessWidget {
                           const SizedBox(height: 20),
                           InputTextCustom(
                             'Contraseña *',
-                            controller: passwordCtrl,
                             hintText: '8+ digitos',
+                            controller: passwordCtrl,
+                            changeFillWith: passwordCtrl.text != '',
                             textInputAction: TextInputAction.send,
                             obscureText: viewModel.status.hidePass,
                             validator: (String? pass) =>
@@ -231,11 +234,9 @@ class _LoginMobile extends StatelessWidget {
 }
 
 class WarningContainer extends StatelessWidget {
-  const WarningContainer({
-    Key? key,
-    required this.textTheme,
-    required this.viewModel
-  }) : super(key: key);
+  const WarningContainer(
+      {Key? key, required this.textTheme, required this.viewModel})
+      : super(key: key);
 
   final TextTheme textTheme;
   final LoginViewModel viewModel;
@@ -271,9 +272,8 @@ class WarningContainer extends StatelessWidget {
           ),
           const Spacer(),
           GestureDetector(
-                onTap:  () => viewModel.closeErrMsg(),
+            onTap: () => viewModel.closeErrMsg(),
             child: const Icon(
-
               Icons.close,
               color: LdColors.white,
               size: 30,
