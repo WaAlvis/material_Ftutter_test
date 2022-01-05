@@ -129,11 +129,15 @@ class _LoginMobile extends StatelessWidget {
                             ),
                           const SizedBox(
                             height: 22,
+
+
                           ),
                           InputTextCustom(
-                            'Nombre de usuario *',
+                            'Correo electronio *',
                             controller: userCtrl,
-                            hintText: 'Ingresa tu usuario',
+                            hintText: 'Ingresa correo del usuario',
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.emailAddress,
                             validator: (String? email) =>
                                 viewModel.validatorEmail(email),
                           ),
@@ -142,6 +146,7 @@ class _LoginMobile extends StatelessWidget {
                             'Contraseña *',
                             controller: passwordCtrl,
                             hintText: '8+ digitos',
+                            textInputAction: TextInputAction.send,
                             obscureText: viewModel.status.hidePass,
                             validator: (String? pass) =>
                                 viewModel.validatorPass(pass),

@@ -1,23 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
-import 'package:localdaily/widgets/_app_bar_others.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
-
 part 'login_mobile.dart';
-
 part 'login_web.dart';
 
 class LoginView extends StatelessWidget {

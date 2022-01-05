@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
-  const InputTextCustom(this.data, {
+  const InputTextCustom(
+    this.data, {
     Key? key,
+    this.textInputAction,
     this.styleLabel,
     this.styleHint,
     required this.hintText,
@@ -12,11 +15,11 @@ class InputTextCustom extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.keyboardType,
-    // this.onlyIntNum = false,
     this.validator,
     this.onChange,
     this.inputFormatters,
     this.onTap,
+    this.autocorrect = false,
   }) : super(key: key);
 
   final void Function(String)? onChange;
@@ -28,11 +31,15 @@ class InputTextCustom extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-  // final bool onlyIntNum;
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
   final void Function()? onTap;
+  final TextInputAction? textInputAction;
+  final bool autocorrect;
 
+  static const BorderRadius radioBorderConst = BorderRadius.all(
+    Radius.circular(12),
+  );
 
   /**
    * <TextInputFormatter> sin escpacios [inputFormatters] * tipo de entrada
@@ -42,9 +49,7 @@ class InputTextCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme
-        .of(context)
-        .textTheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,17 +66,32 @@ class InputTextCustom extends StatelessWidget {
         ),
         TextFormField(
           onTap: onTap,
-          onChanged:onChange,
+          onChanged: onChange,
+          cursorColor: LdColors.orangePrimary,
+          cursorHeight: 24,
+          textInputAction: textInputAction,
           keyboardType: keyboardType,
           obscureText: obscureText,
           controller: controller,
+          autocorrect: autocorrect,
           inputFormatters: inputFormatters,
           validator: validator,
           decoration: InputDecoration(
-            hintStyle: styleHint ?? textTheme.textGray,
             border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: radioBorderConst,
             ),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: radioBorderConst,
+
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: radioBorderConst,
+              borderSide: BorderSide(
+                color: LdColors.orangePrimary,
+                width: 1.5,
+              ),
+            ),
+            hintStyle: styleHint ?? textTheme.textGray,
             hintText: hintText,
             suffixIcon: suffixIcon,
           ),
