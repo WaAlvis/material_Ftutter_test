@@ -31,6 +31,8 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       // isError: true,
       hidePass: true,
       errorLogin: false,
+      isEmailFieldEmpty: true,
+      isPswFieldEmpty: true,
     );
   }
 
@@ -44,20 +46,35 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     bool validateNotification = false,
   }) async {}
 
-  void goHome(
+  void changeEmail(String email) {
+    status = status.copyWith(
+      isEmailFieldEmpty: email.isEmpty,
+    );
+  }
+
+  void changePsw(String psw) {
+    status = status.copyWith(
+      isPswFieldEmpty: psw.isEmpty,
+    );
+  }
+
+  void goHomeForLogin(
     BuildContext context,
     TextEditingController userCtrl,
     TextEditingController passwordCtrl,
     UserProvider userProvider,
+    GlobalKey<FormState> keyForm,
   ) {
     LdConnection.validateConnection().then((bool value) {
       if (value) {
-        login(
-          context,
-          userCtrl.text,
-          passwordCtrl.text,
-          userProvider,
-        );
+        if (keyForm.currentState!.validate()) {
+          login(
+            context,
+            userCtrl.text,
+            passwordCtrl.text,
+            userProvider,
+          );
+        }
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -87,7 +104,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     // });
   }
 
-  void closeErrMsg(){
+  void closeErrMsg() {
     status = status.copyWith(errorLogin: false);
   }
 

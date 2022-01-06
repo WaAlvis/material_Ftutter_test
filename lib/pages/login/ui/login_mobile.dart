@@ -137,9 +137,11 @@ class _LoginMobile extends StatelessWidget {
                             'Correo electronio *',
                             hintText: 'Ingresa correo del usuario',
                             controller: userCtrl,
-                            changeFillWith: userCtrl.text != '',
-                            textInputAction: TextInputAction.done,
+                            onChange: (String value) => viewModel.changeEmail(value),
+                            changeFillWith:
+                                !viewModel.status.isEmailFieldEmpty,
                             keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
                             validator: (String? email) =>
                                 viewModel.validatorEmail(email),
                           ),
@@ -148,9 +150,18 @@ class _LoginMobile extends StatelessWidget {
                             'Contraseña *',
                             hintText: '8+ digitos',
                             controller: passwordCtrl,
-                            changeFillWith: passwordCtrl.text != '',
+                            changeFillWith:
+                                !viewModel.status.isPswFieldEmpty,
                             textInputAction: TextInputAction.send,
                             obscureText: viewModel.status.hidePass,
+                            onChange: (String value) => viewModel.changePsw(value),
+                            onFieldSubmitted: (_) => viewModel.goHomeForLogin(
+                              context,
+                              userCtrl,
+                              passwordCtrl,
+                              userProvider,
+                              keyForm,
+                            ),
                             validator: (String? pass) =>
                                 viewModel.validatorPass(pass),
                             suffixIcon: GestureDetector(
@@ -214,12 +225,19 @@ class _LoginMobile extends StatelessWidget {
                       ),
                       PrimaryButtonCustom(
                         'Ingresar',
-                        onPressed: () {
-                          if (keyForm.currentState!.validate()) {
-                            viewModel.goHome(
-                                context, userCtrl, passwordCtrl, userProvider);
-                          }
-                        },
+                        onPressed: () => viewModel.goHomeForLogin(
+                          context,
+                          userCtrl,
+                          passwordCtrl,
+                          userProvider,
+                          keyForm,
+                        ),
+                        // onPressed: () {
+                        //   if (keyForm.currentState!.validate()) {
+                        //     viewModel.goHome(
+                        //         context, userCtrl, passwordCtrl, userProvider);
+                        //   }
+                        // },
                       ),
                     ],
                   ),

@@ -20,9 +20,10 @@ class InputTextCustom extends StatelessWidget {
     this.inputFormatters,
     this.onTap,
     this.autocorrect = false,
-        this.changeFillWith,
-
-      }) : super(key: key);
+    this.onFieldSubmitted,
+    this.changeFillWith,
+    this.onEditingComplete,
+  }) : super(key: key);
 
   final void Function(String)? onChange;
   final TextStyle? styleLabel;
@@ -37,7 +38,9 @@ class InputTextCustom extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final void Function()? onTap;
   final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
   final bool autocorrect;
+  final void Function()? onEditingComplete;
 
   bool? changeFillWith = false;
   static const BorderRadius radioBorderConst = BorderRadius.all(
@@ -69,6 +72,8 @@ class InputTextCustom extends StatelessWidget {
         ),
         TextFormField(
           onTap: onTap,
+          onEditingComplete: onEditingComplete,
+          onFieldSubmitted: onFieldSubmitted,
           onChanged: onChange,
           cursorColor: LdColors.orangePrimary,
           cursorHeight: 24,
