@@ -7,6 +7,7 @@ class RegisterStatus extends ViewStatus {
   final String emailRegister;
   final int indexStep;
   final TextEditingController dateBirthCtrl;
+  final bool isEmailFieldEmpty;
 
   RegisterStatus({
     required this.dateBirthCtrl,
@@ -14,6 +15,7 @@ class RegisterStatus extends ViewStatus {
     required this.isError,
     required this.emailRegister,
     required this.indexStep,
+    required this.isEmailFieldEmpty,
   });
 
   RegisterStatus copyWith({
@@ -22,9 +24,11 @@ class RegisterStatus extends ViewStatus {
     bool? isError,
     String? emailRegister,
     int? indexStep,
+    bool? isEmailFieldEmpty,
   }) {
     return RegisterStatus(
-      dateBirthCtrl: dateBirthCtrl??this.dateBirthCtrl,
+      isEmailFieldEmpty: isEmailFieldEmpty ?? this.isEmailFieldEmpty,
+      dateBirthCtrl: dateBirthCtrl ?? this.dateBirthCtrl,
       indexStep: indexStep ?? this.indexStep,
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,

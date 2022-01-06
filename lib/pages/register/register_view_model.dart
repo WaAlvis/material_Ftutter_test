@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:string_validator/string_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -12,6 +11,7 @@ import 'package:localdaily/services/models/register/body_register_data_user.dart
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:string_validator/string_validator.dart';
 
 import 'register_status.dart';
 
@@ -34,13 +34,14 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isError: false,
       emailRegister: '',
       dateBirthCtrl: TextEditingController(),
+      isEmailFieldEmpty: true,
     );
   }
 
   String? validatorEmail(BuildContext context, String? email) {
     {
       if (email == null || email.isEmpty) {
-        return '* Campo obligatorio';
+        return '* Campo necesario';
       } else if (!isEmail(email)) {
         return '* Debe ser un correo';
       }
@@ -48,10 +49,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     }
   }
 
+  void changeEmail(String email) =>
+      status = status.copyWith(isEmailFieldEmpty: email.isEmpty);
+
   Future<void> onInit({bool validateNotification = false}) async {}
 
   // void goHome(BuildContext context) {
-  //   LdConnection.validateConnection().then((bool value) {
+  //   LdConnection.validateConnection().then((bool isConnectionValidvalue) {
   //     if (value) {
   //       _route.goHome(context);
   //     } else {
@@ -82,8 +86,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   void goValidateEmail(BuildContext context, String email) {
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
         status = status.copyWith(emailRegister: email, indexStep: 2);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -96,13 +100,14 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required int currentStep,
     String? email,
   }) {
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
         if (status.indexStep == 1) {
           status = status.copyWith(
             emailRegister: email,
             indexStep: status.indexStep + 1,
           );
+
         } else {
           status = status.copyWith(
             indexStep: status.indexStep + 1,

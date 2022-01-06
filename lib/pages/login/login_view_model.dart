@@ -13,6 +13,7 @@ import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:string_validator/string_validator.dart';
+
 import 'login_status.dart';
 
 class LoginViewModel extends ViewModel<LoginStatus> {
@@ -46,17 +47,14 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     bool validateNotification = false,
   }) async {}
 
-  void changeEmail(String email) {
-    status = status.copyWith(
-      isEmailFieldEmpty: email.isEmpty,
-    );
-  }
+  //Login
+  void changeEmail(String email) =>
+      status = status.copyWith(isEmailFieldEmpty: email.isEmpty);
 
-  void changePsw(String psw) {
-    status = status.copyWith(
-      isPswFieldEmpty: psw.isEmpty,
-    );
-  }
+  void changePsw(String psw) =>
+      status = status.copyWith(isPswFieldEmpty: psw.isEmpty);
+
+  //Register
 
   void goHomeForLogin(
     BuildContext context,
@@ -65,8 +63,8 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     UserProvider userProvider,
     GlobalKey<FormState> keyForm,
   ) {
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
         if (keyForm.currentState!.validate()) {
           login(
             context,
@@ -83,8 +81,8 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
   void goRegister(BuildContext context) {
     _route.goEmailRegister(context);
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
         _route.goEmailRegister(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -95,7 +93,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   void goRecoverPassword(BuildContext context) {
     print('Implementar vista de recuperar contrasenia');
     // _route.goEmailRegister(context);
-    // LdConnection.validateConnection().then((bool value) {
+    // LdConnection.validateConnection().then((bool isConnectionValidvalue) {
     //   if (value) {
     //     _route.goEmailRegister(context);
     //   } else {
@@ -161,7 +159,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   String? validatorEmail(String? email) {
     {
       if (email == null || email.isEmpty) {
-        return '* Campo obligatorio';
+        return '* Campo necesario';
       } else if (!isEmail(email)) {
         return '* Debe ser un correo';
       }
@@ -172,7 +170,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   String? validatorPass(String? pass) {
     {
       if (pass == null || pass.isEmpty) {
-        return '* Campo obligatorio';
+        return '* Campo necesario';
       } else if (pass.length < 8) {
         return '* Contraseña incompleta';
       }

@@ -142,6 +142,9 @@ class _LoginMobile extends StatelessWidget {
                                 !viewModel.status.isEmailFieldEmpty,
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.deny(RegExp(r'[ ]'),),
+                            ],
                             validator: (String? email) =>
                                 viewModel.validatorEmail(email),
                           ),

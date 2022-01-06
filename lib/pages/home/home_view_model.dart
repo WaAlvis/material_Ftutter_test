@@ -4,16 +4,13 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
-
-import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
-import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
-import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+
 import 'home_status.dart';
 
 class HomeViewModel extends ViewModel<HomeStatus> {
@@ -85,8 +82,8 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   }
 
   void goCreateOffert(BuildContext context, TypeOffert type) {
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
         _route.goCreateOffert(context, type);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -95,8 +92,8 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   }
 
   void goLogin(BuildContext context) {
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
         _route.goLogin(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));

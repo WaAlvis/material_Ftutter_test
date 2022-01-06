@@ -74,8 +74,8 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
 
   void goRegister(BuildContext context) {
     _route.goEmailRegister(context);
-    LdConnection.validateConnection().then((bool value) {
-      if (value) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
         _route.goEmailRegister(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
