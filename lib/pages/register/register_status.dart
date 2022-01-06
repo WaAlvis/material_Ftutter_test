@@ -8,8 +8,10 @@ class RegisterStatus extends ViewStatus {
   final int indexStep;
   final TextEditingController dateBirthCtrl;
   final bool isEmailFieldEmpty;
+  final bool isPossibleOpenEmail; //Verificar uso necesario?
 
   RegisterStatus({
+    required this.isPossibleOpenEmail,
     required this.dateBirthCtrl,
     required this.isLoading,
     required this.isError,
@@ -25,8 +27,10 @@ class RegisterStatus extends ViewStatus {
     String? emailRegister,
     int? indexStep,
     bool? isEmailFieldEmpty,
+    bool? isPossibleOpenEmail,
   }) {
     return RegisterStatus(
+      isPossibleOpenEmail:isPossibleOpenEmail??this.isPossibleOpenEmail,
       isEmailFieldEmpty: isEmailFieldEmpty ?? this.isEmailFieldEmpty,
       dateBirthCtrl: dateBirthCtrl ?? this.dateBirthCtrl,
       indexStep: indexStep ?? this.indexStep,

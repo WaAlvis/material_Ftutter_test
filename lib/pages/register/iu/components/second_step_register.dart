@@ -76,13 +76,13 @@ class SecondStepRegister extends StatelessWidget {
                         SvgPicture.asset('lib/assets/images/mail.svg'),
                         const SizedBox(height: 30),
                         Text(
-                          'Verifica tu correo',
+                          'Verificación de correo',
                           style: textTheme.textBigWhite
                               .copyWith(color: LdColors.orangePrimary),
                         ),
                         const SizedBox(height: 30),
                         Text(
-                          'Confirma tu dirección de correo electrónico haciendo clic en el enlace que hemos enviado a:',
+                          'Para verificar este correo, debes ingrear el codigo enviado a:',
                           textAlign: TextAlign.center,
                           style:
                               textTheme.textSmallWhite.copyWith(fontSize: 18),
@@ -96,43 +96,25 @@ class SecondStepRegister extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text(
-                    'Reenviar link de correo',
-                    style: textTheme.textSmallWhite
-                        .copyWith(decoration: TextDecoration.underline),
-                  ),
                   const SizedBox(height: 50),
-                  PrimaryButtonCustom('Abrir correo',
-                      // onPressed: () => viewModel.goRegisterPersonalData(context),
-                      onPressed: () async {
-                    // Android: Will open mail app or show native picker.
-                    // iOS: Will open mail app if single mail app found.
-                    var result = await OpenMailApp.openMailApp();
-
-                    // If no mail apps found, show error
-                    if (!result.didOpen && !result.canOpen) {
-                      showNoMailAppsDialog(context);
-
-                      // iOS: if multiple mail apps found, show dialog to select.
-                      // There is no native intent/default app system in iOS so
-                      // you have to do it yourself.
-                    } else if (!result.didOpen && result.canOpen) {
-                      showDialog(
-                        context: context,
-                        builder: (_) {
-                          return MailAppPickerDialog(
-                            mailApps: result.options,
-                          );
-                        },
-                      );
-                    }
-                  },),const SizedBox(height: 20,),
-
-                  PrimaryButtonCustom(
-                    'Continuar',
-                    colorButton: LdColors.whiteGray,
-                    onPressed: () => viewModel.goNextStep(context, currentStep: 2, ),
+                  TextButton(
+                    onPressed: () => viewModel.goNextStep(
+                      context,
+                      currentStep: 2,
+                    ),
+                    child: Text(
+                      'Continuar',
+                      style: textTheme.textSmallWhite.copyWith(
+                          decoration: TextDecoration.underline,
+                          color: LdColors.white),
+                    ),
                   ),
+                  const SizedBox(height:20,),
+                  // PrimaryButtonCustom(
+                  //   'Continuar',
+                  //   colorButton: LdColors.whiteGray,
+                  //
+                  // ),
                 ],
               ),
             ),
@@ -147,8 +129,8 @@ class SecondStepRegister extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Open Mail App"),
-          content: Text("No mail apps installed"),
+          title: Text("Abrir aplicación de correo"),
+          content: Text("No hay aplicaciones de correo instaladas"),
           actions: <Widget>[
             TextButton(
               child: Text("OK"),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
@@ -11,6 +12,7 @@ import 'package:localdaily/services/models/register/body_register_data_user.dart
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'register_status.dart';
@@ -35,6 +37,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       emailRegister: '',
       dateBirthCtrl: TextEditingController(),
       isEmailFieldEmpty: true,
+      isPossibleOpenEmail: true,
     );
   }
 
@@ -107,7 +110,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             emailRegister: email,
             indexStep: status.indexStep + 1,
           );
-
         } else {
           status = status.copyWith(
             indexStep: status.indexStep + 1,
@@ -211,4 +213,14 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
   }
+
+  // Future<void> openEmail(BuildContext context) async {
+  //   final OpenMailAppResult result = await OpenMailApp.openMailApp();
+  //   if (!result.didOpen && !result.canOpen) {
+  //     // showNoMailAppsDialog(context);
+  //   } else if (!result.didOpen && result.canOpen) {
+  //     status = status.copyWith(isPossibleOpenEmail: true);
+  //   }
+  // }
+
 }
