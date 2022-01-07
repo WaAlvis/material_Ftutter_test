@@ -5,7 +5,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
-import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
+import 'package:localdaily/services/models/create_offerts/offert/entity_offer.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
@@ -109,7 +109,7 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
       ) async {
     status = status.copyWith(isLoading: true);
 
-    final Entity entity = Entity(
+    final EntityOffer entity = EntityOffer(
       idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: amountDLYCtrl.text,

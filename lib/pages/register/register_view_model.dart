@@ -8,7 +8,11 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
+import 'package:localdaily/services/models/register/pin_validate/body_pin_email.dart';
+import 'package:localdaily/services/models/register/pin_validate/entity_pin_email.dart';
+import 'package:localdaily/services/models/register/pin_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
@@ -98,24 +102,43 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  void goNextStep(
-    BuildContext context, {
+  Future<void> requestPinEmail(
+    String email,
+  ) async {
+    status = status.copyWith(isLoading: true, emailRegister: email,);
+
+    final EntityPinEmail entityPin = EntityPinEmail(
+      clientId: '2955cb39-61da-46ea-b503-42cb33831c8a',
+      numberOrEmail: email,
+      codevia: '2955cb39-61da-46ea-b503-42cb33831c8a',
+      accountSid: 'AC9b9a39dbfa35ec8d06c6779ae463673c',
+      authToken: '207f158a1ebcdd065e7195e49a7c4542',
+    );
+    final BodyPinEmail bodyPin = BodyPinEmail(
+      entity: entityPin,
+    );
+
+    _interactor.sendPinValidateEmail(bodyPin).then((
+      ResponseData<ResultPinEmail> response,
+    ) {
+      if (response.isSuccess) {
+        print('pin email EXITOSO!!');
+        goNextStep(currentStep: 1);
+      } else {
+        status = status.copyWith();
+      }
+      status = status.copyWith(isLoading: false);
+    });
+  }
+
+  void goNextStep({
     required int currentStep,
-    String? email,
   }) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        if (status.indexStep == 1) {
-          status = status.copyWith(
-            emailRegister: email,
-            indexStep: status.indexStep + 1,
-          );
-        } else {
-          status = status.copyWith(
-            indexStep: status.indexStep + 1,
-          );
-        }
-
+        status = status.copyWith(
+          indexStep: status.indexStep + 1,
+        );
         // _route.goPersonalInfoRegister(context);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -214,13 +237,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     return sha256.convert(bytes);
   }
 
-  // Future<void> openEmail(BuildContext context) async {
-  //   final OpenMailAppResult result = await OpenMailApp.openMailApp();
-  //   if (!result.didOpen && !result.canOpen) {
-  //     // showNoMailAppsDialog(context);
-  //   } else if (!result.didOpen && result.canOpen) {
-  //     status = status.copyWith(isPossibleOpenEmail: true);
-  //   }
-  // }
+// Future<void> openEmail(BuildContext context) async {
+//   final OpenMailAppResult result = await OpenMailApp.openMailApp();
+//   if (!result.didOpen && !result.canOpen) {
+//     // showNoMailAppsDialog(context);
+//   } else if (!result.didOpen && result.canOpen) {
+//     status = status.copyWith(isPossibleOpenEmail: true);
+//   }
+// }
 
 }

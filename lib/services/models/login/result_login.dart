@@ -7,8 +7,11 @@ part 'result_login.g.dart';
 
 @JsonSerializable()
 class ResultLogin {
-  ResultLogin(
-      {required this.tokenData, required this.user, this.matrix});
+  ResultLogin({
+    required this.tokenData,
+    required this.user,
+    this.matrix,
+  });
 
   factory ResultLogin.fromJson(Map<String, dynamic> json) =>
       _$ResultLoginFromJson(json);

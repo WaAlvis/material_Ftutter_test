@@ -125,8 +125,7 @@ class ThirdStepRegister extends StatelessWidget {
                 const SizedBox(height: 50),
                 PrimaryButtonCustom(
                   'Continuar',
-                  onPressed: () =>
-                      viewModel.goNextStep(context, currentStep: 3),
+                  onPressed: () => viewModel.goNextStep(currentStep: 3),
                 ),
               ],
             ),
@@ -173,14 +172,13 @@ class PinCodeWidget extends StatelessWidget {
       obscureText: false,
       animationType: AnimationType.fade,
       pinTheme: PinTheme(
-        selectedColor: LdColors.orangePrimary,
-          activeColor: LdColors.grayText
-        // shape: PinCodeFieldShape.box,
-        // borderRadius: BorderRadius.circular(5),
-        // fieldHeight: 50,
-        // fieldWidth: 40,
-        // activeFillColor: Colors.white,
-      ),
+          selectedColor: LdColors.orangePrimary, activeColor: LdColors.grayText
+          // shape: PinCodeFieldShape.box,
+          // borderRadius: BorderRadius.circular(5),
+          // fieldHeight: 50,
+          // fieldWidth: 40,
+          // activeFillColor: Colors.white,
+          ),
       animationDuration: Duration(milliseconds: 300),
       // backgroundColor: LdColors.whiteGray,
       // enableActiveFill: true,

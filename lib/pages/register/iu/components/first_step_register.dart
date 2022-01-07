@@ -47,11 +47,7 @@ class FirstStepRegister extends StatelessWidget {
                 ],
                 onFieldSubmitted: (_) {
                   if (keyFirstForm.currentState!.validate()) {
-                    viewModel.goNextStep(
-                      context,
-                      email: emailCtrl.text,
-                      currentStep: 1,
-                    );
+                    viewModel.requestPinEmail(emailCtrl.text);
                   }
                 },
                 validator: (String? email) =>
@@ -63,11 +59,7 @@ class FirstStepRegister extends StatelessWidget {
                 'Ingresar',
                 onPressed: () {
                   if (keyFirstForm.currentState!.validate()) {
-                    viewModel.goNextStep(
-                      context,
-                      email: emailCtrl.text,
-                      currentStep: 1,
-                    );
+                    viewModel.requestPinEmail(emailCtrl.text);
                   }
                 },
               ),

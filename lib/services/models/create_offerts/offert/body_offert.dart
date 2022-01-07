@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
+import 'package:localdaily/services/models/create_offerts/offert/entity_offer.dart';
 
 part 'body_offert.g.dart';
 
@@ -15,7 +15,7 @@ class BodyOffert {
   factory BodyOffert.fromJson(Map<String, dynamic> json) =>
       _$BodyOffertFromJson(json);
 
-  Entity entity;
+  EntityOffer entity;
   int daysOfExpired;
   String strJsonAdvertisementBanks;
 

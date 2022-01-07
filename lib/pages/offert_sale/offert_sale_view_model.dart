@@ -8,7 +8,7 @@ import 'package:localdaily/services/models/create_offerts/get_banks/response/res
 import 'package:localdaily/services/models/create_offerts/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
-import 'package:localdaily/services/models/create_offerts/offert/entity.dart';
+import 'package:localdaily/services/models/create_offerts/offert/entity_offer.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/services/models/pagination.dart';
@@ -188,7 +188,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       ) async {
     status = status.copyWith(isLoading: true);
 
-    final Entity entity = Entity(
+    final EntityOffer entity = EntityOffer(
       idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: amountDLYCtrl.text,

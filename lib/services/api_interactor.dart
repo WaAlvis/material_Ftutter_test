@@ -10,13 +10,17 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
+import 'package:localdaily/services/models/register/pin_validate/body_pin_email.dart';
+import 'package:localdaily/services/models/register/pin_validate/entity_pin_email.dart';
+import 'package:localdaily/services/models/register/pin_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/response_data.dart';
 
 class ServiceInteractor {
-  Future<ResponseData<ResultGetDocsType>> getDocumentType(Pagination bodyGetDocuments) async {
+  Future<ResponseData<ResultGetDocsType>> getDocumentType(
+      Pagination bodyGetDocuments) async {
     final ResponseData<ResultGetDocsType> response =
-    await locator<LocalDailyGatewayService>().getDocsType(bodyGetDocuments);
+        await locator<LocalDailyGatewayService>().getDocsType(bodyGetDocuments);
 
     return response;
   }
@@ -39,6 +43,14 @@ class ServiceInteractor {
     final ResponseData<ResultLogin> response =
         await locator<LocalDailyGatewayService>().loginUser(bodyLogin);
 
+    return response;
+  }
+
+  Future<ResponseData<ResultPinEmail>> sendPinValidateEmail(
+      BodyPinEmail bodyPin,
+  ) async {
+    final ResponseData<ResultPinEmail> response =
+        await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
     return response;
   }
 

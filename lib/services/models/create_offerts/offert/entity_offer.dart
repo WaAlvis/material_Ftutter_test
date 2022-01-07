@@ -1,22 +1,20 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'entity.g.dart';
+part 'entity_offer.g.dart';
 
 @JsonSerializable()
-class Entity {
-  Entity({
+class EntityOffer {
+  EntityOffer({
     required this.idTypeAdvertisement,
     required this.idCountry,
     required this.valueToSell,
     required this.margin,
     required this.termsOfTrade,
     required this.idUserPublish,
-
-
   });
 
-  factory Entity.fromJson(Map<String, dynamic> json) =>
-      _$EntityFromJson(json);
+  factory EntityOffer.fromJson(Map<String, dynamic> json) =>
+      _$EntityOfferFromJson(json);
 
   String idTypeAdvertisement;
   String idCountry;
@@ -26,5 +24,5 @@ class Entity {
   String idUserPublish;
 
 
-  Map<String, dynamic> toJson() => _$EntityToJson(this);
+  Map<String, dynamic> toJson() => _$EntityOfferToJson(this);
 }
