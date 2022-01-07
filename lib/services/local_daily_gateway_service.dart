@@ -41,53 +41,54 @@ abstract class LocalDailyGatewayService {
   //LOGIN
 
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
-      _LocalDailyGatewayService;
+  _LocalDailyGatewayService;
 
   @POST(UrlsApi.getDataHome)
   Future<ResponseData<ResultHome>> getAdvertismentHome(
-    @Body() BodyHome bodyHome,
-  );
+      @Body() BodyHome bodyHome,);
 
   @POST(UrlsApi.createUser)
   Future<ResponseData<ResultRegister>> registerUser(
-    @Body() BodyRegisterDataUser bodyRegisterDataUser,
-  );
+      @Body() BodyRegisterDataUser bodyRegisterDataUser,);
 
   @POST(UrlsApi.login)
-  Future<ResponseData<ResultLogin>> loginUser(
-    @Body() BodyLogin bodyLogin,
-  );
+  Future<ResponseData<ResultLogin>> loginUser(@Body() BodyLogin bodyLogin,);
 
   @POST(UrlsApi.getBanks)
   Future<ResponseData<ResultGetBanks>> getBanks(
-    @Body() Pagination bodyGetBanks,
-  );
+      @Body() Pagination bodyGetBanks,);
 
   @POST(UrlsApi.getDocsType)
   Future<ResponseData<ResultGetDocsType>> getDocsType(
-    @Body() Pagination bodyGetDocsType,
-  );
+      @Body() Pagination bodyGetDocsType,);
 
   @POST(UrlsApi.createOffert)
   Future<ResponseData<ResultCreateOffert>> createOffert(
-    @Body() BodyOffert bodyOffert,
-  );
+      @Body() BodyOffert bodyOffert,);
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
-    @Body() BodyPinEmail bodyPin,
-  );
+      @Body() BodyPinEmail bodyPin,);
 
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
-    @Body() BodyValidatePin bodyValidatePin,
-  );
+      @Body() BodyValidatePin bodyValidatePin,);
 
 // @POST(UrlsApi.login)
 // Future<ResponseData<ResultLogin>> login(
 //     @Body() BodyLogin bodyLogin,
 //     );
 }
+
+// { solicitar codigo pin al correo
+//   "entity": {
+//   "clientId": "2955cb39-61da-46ea-b503-42cb33831c8a",
+//   "numberOrEmail": "alvis.wap@gmail.com",
+//   "codevia": "2955cb39-61da-46ea-b503-42cb33831c8a",
+//   "accountSid": "AC9b9a39dbfa35ec8d06c6779ae463673c",
+//   "authToken": "207f158a1ebcdd065e7195e49a7c4542"
+//   }
+// }
 
 // { *loginUser
 //    "identity": "w@w.com",

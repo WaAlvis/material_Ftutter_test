@@ -129,6 +129,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         hidePass: !status.hidePass,
       );
 
+
   void setDateBirth(BuildContext context) {
     DatePicker.showDatePicker(
       context,

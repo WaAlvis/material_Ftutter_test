@@ -137,13 +137,15 @@ class _LoginMobile extends StatelessWidget {
                             'Correo electronio *',
                             hintText: 'Ingresa correo del usuario',
                             controller: userCtrl,
-                            onChange: (String value) => viewModel.changeEmail(value),
-                            changeFillWith:
-                                !viewModel.status.isEmailFieldEmpty,
+                            onChange: (String value) =>
+                                viewModel.changeEmail(value),
+                            changeFillWith: !viewModel.status.isEmailFieldEmpty,
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.deny(RegExp(r'[ ]'),),
+                              FilteringTextInputFormatter.deny(
+                                RegExp(r'[ ]'),
+                              ),
                             ],
                             validator: (String? email) =>
                                 viewModel.validatorEmail(email),
@@ -153,11 +155,11 @@ class _LoginMobile extends StatelessWidget {
                             'Contraseña *',
                             hintText: '8+ digitos',
                             controller: passwordCtrl,
-                            changeFillWith:
-                                !viewModel.status.isPswFieldEmpty,
+                            changeFillWith: !viewModel.status.isPswFieldEmpty,
                             textInputAction: TextInputAction.send,
                             obscureText: viewModel.status.hidePass,
-                            onChange: (String value) => viewModel.changePsw(value),
+                            onChange: (String value) =>
+                                viewModel.changePsw(value),
                             onFieldSubmitted: (_) => viewModel.goHomeForLogin(
                               context,
                               userCtrl,
@@ -264,6 +266,8 @@ class WarningContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 18,
@@ -276,22 +280,35 @@ class WarningContainer extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: <Widget>[
-          const Icon(
-            Icons.report_problem_outlined,
-            color: LdColors.white,
-            size: 35,
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Text(
-            'Usuario o contraseña inválidos',
-            style: textTheme.textGray.copyWith(
-              color: LdColors.white,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: size.width*0.78,
+            child: Row(
+              children: <Widget>[
+                const Icon(
+                  Icons.report_problem_outlined,
+                  color: LdColors.white,
+                  size: 35,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Flexible(
+                  child: AutoSizeText(
+                    'Usuario o contraseña inválidos',
+                    minFontSize: 10,
+                    maxLines: 1,
+                    style: textTheme.textGray.copyWith(
+                      color: LdColors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 6,),
+
+              ],
             ),
           ),
-          const Spacer(),
           GestureDetector(
             onTap: () => viewModel.closeErrMsg(),
             child: const Icon(
@@ -299,7 +316,7 @@ class WarningContainer extends StatelessWidget {
               color: LdColors.white,
               size: 30,
             ),
-          ),
+          )
         ],
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
+
 
 part 'components/card_login.dart';
 part 'login_mobile.dart';
