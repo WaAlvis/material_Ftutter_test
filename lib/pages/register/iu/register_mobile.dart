@@ -133,6 +133,7 @@ class _RegisterMobile extends StatelessWidget {
           else if (viewModel.status.indexStep == 3)
             ThirdStepRegister(
               viewModel: viewModel,
+              heightBody: hBody,
             )
           else if (viewModel.status.indexStep == 4)
             FourthStepRegister(

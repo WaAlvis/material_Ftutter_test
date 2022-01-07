@@ -11,10 +11,12 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class ThirdStepRegister extends StatelessWidget {
   const ThirdStepRegister({
     required this.viewModel,
+    required this.heightBody,
     //required this.textTheme,
     Key? key,
   }) : super(key: key);
   final RegisterViewModel viewModel;
+  final double heightBody;
 
   //final TextTheme textTheme;
 
@@ -24,34 +26,44 @@ class ThirdStepRegister extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
-    final double hAppbar = size.height * 0.26;
-    final double hBody = size.height - hAppbar;
 
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
           color: LdColors.white,
+          constraints: BoxConstraints(minHeight: heightBody),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 26,
                   ),
                   child: Column(
-
                     children: <Widget>[
+                      const SizedBox(
+                        height: 30,
+                      ),
                       Text(
-                        'Ingresa el codigo de verificacion.',
+                        'Ingresa el codigo de verificacion enviado\na:',
                         style: textTheme.textBlack,
                         textAlign: TextAlign.center,
                       ),
+                      const SizedBox(height: 30),
+                      Text(
+                        viewModel.status.emailRegister,
+                        style: textTheme.textBlack
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       const PinCodeWidget(),
+                      const SizedBox(
+                        height: 90,
+                      ),
                       TextButton(
                         onPressed: () async {
                           final OpenMailAppResult result =
@@ -72,17 +84,40 @@ class ThirdStepRegister extends StatelessWidget {
                         },
                         child: Text(
                           'Abrir correo',
-                          style: textTheme.textSmallWhite
-                              .copyWith(decoration: TextDecoration.underline),
+                          style: textTheme.textSmallWhite.copyWith(
+                              decoration: TextDecoration.underline,
+                              color: LdColors.gray),
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
-                      Text(
-                        'Reenviar link de correo',
-                        style: textTheme.textSmallWhite
-                            .copyWith(decoration: TextDecoration.underline),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Deseas ',
+                            style:
+                                textTheme.textSmallWhite.copyWith(fontSize: 12),
+                          ),
+                          InkWell(
+                            child: Text(
+                              'Reenviar',
+                              style: textTheme.textSmallWhite.copyWith(
+                                  decoration: TextDecoration.underline,
+                                  color: LdColors.orangePrimary,
+                                  fontSize: 11),
+                            ),
+                            onTap: () {
+                              print('Solicitando de nuevo el codigo');
+                            },
+                          ),
+                          Text(
+                            ' el codigo ?',
+                            style:
+                                textTheme.textSmallWhite.copyWith(fontSize: 12),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -106,11 +141,15 @@ class ThirdStepRegister extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Open Mail App"),
-          content: Text("No mail apps installed"),
+          title: const Text(
+            'Abrir App de email',
+          ),
+          content: const Text(
+            'No se encontraron Aplicaciones instaladas',
+          ),
           actions: <Widget>[
-            FlatButton(
-              child: Text("OK"),
+            TextButton(
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -133,13 +172,15 @@ class PinCodeWidget extends StatelessWidget {
       length: 6,
       obscureText: false,
       animationType: AnimationType.fade,
-      // pinTheme: PinTheme(
-      //   shape: PinCodeFieldShape.box,
-      //   borderRadius: BorderRadius.circular(5),
-      //   fieldHeight: 50,
-      //   fieldWidth: 40,
-      //   activeFillColor: Colors.white,
-      // ),
+      pinTheme: PinTheme(
+        selectedColor: LdColors.orangePrimary,
+          activeColor: LdColors.grayText
+        // shape: PinCodeFieldShape.box,
+        // borderRadius: BorderRadius.circular(5),
+        // fieldHeight: 50,
+        // fieldWidth: 40,
+        // activeFillColor: Colors.white,
+      ),
       animationDuration: Duration(milliseconds: 300),
       // backgroundColor: LdColors.whiteGray,
       // enableActiveFill: true,
