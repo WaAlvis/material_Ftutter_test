@@ -124,23 +124,4 @@ class SecondStepRegister extends StatelessWidget {
     );
   }
 
-  void showNoMailAppsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Abrir aplicación de correo"),
-          content: Text("No hay aplicaciones de correo instaladas"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
 }

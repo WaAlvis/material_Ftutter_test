@@ -24,72 +24,77 @@ class ThirdStepRegister extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
+    final double hAppbar = size.height * 0.26;
+    final double hBody = size.height - hAppbar;
 
-    return Flexible(
-      child: Container(
-        color: LdColors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children:  <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 12,),
-                        child: Text('Ingresa el codigo de verificacion.', style: textTheme.textBlack,)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const PinCodeWidget(),
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Container(
+          color: LdColors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 26,
+                  ),
+                  child: Column(
 
-                    PrimaryButtonCustom('Abrir correo',
-                      // onPressed: () => viewModel.goRegisterPersonalData(context),
-                      onPressed: () async {
-                        // Android: Will open mail app or show native picker.
-                        // iOS: Will open mail app if single mail app found.
-                        var result = await OpenMailApp.openMailApp();
+                    children: <Widget>[
+                      Text(
+                        'Ingresa el codigo de verificacion.',
+                        style: textTheme.textBlack,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const PinCodeWidget(),
+                      TextButton(
+                        onPressed: () async {
+                          final OpenMailAppResult result =
+                              await OpenMailApp.openMailApp();
 
-                        // If no mail apps found, show error
-                        if (!result.didOpen && !result.canOpen) {
-                          showNoMailAppsDialog(context);
-
-                          // iOS: if multiple mail apps found, show dialog to select.
-                          // There is no native intent/default app system in iOS so
-                          // you have to do it yourself.
-                        } else if (!result.didOpen && result.canOpen) {
-                          showDialog(
-                            context: context,
-                            builder: (_) {
-                              return MailAppPickerDialog(
-                                mailApps: result.options,
-                              );
-                            },
-                          );
-                        }
-                      },),const SizedBox(height: 20,),
-
-                    PrimaryButtonCustom(
-                      'Continuar',
-                      colorButton: LdColors.whiteGray,
-                      onPressed: () => viewModel.goNextStep(context, currentStep: 2, ),
-                    ),
-                  ],
+                          if (!result.didOpen && !result.canOpen) {
+                            showNoMailAppsDialog(context);
+                          } else if (!result.didOpen && result.canOpen) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MailAppPickerDialog(
+                                  mailApps: result.options,
+                                );
+                              },
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Abrir correo',
+                          style: textTheme.textSmallWhite
+                              .copyWith(decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Reenviar link de correo',
+                        style: textTheme.textSmallWhite
+                            .copyWith(decoration: TextDecoration.underline),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Text(
-                'Reenviar link de correo',
-                style: textTheme.textSmallWhite
-                    .copyWith(decoration: TextDecoration.underline),
-              ),
-              const SizedBox(height: 50),
-              PrimaryButtonCustom(
-                'Continuar',
-                onPressed: () => viewModel.goNextStep(context, currentStep: 3),
-              ),
-            ],
+                const SizedBox(height: 50),
+                PrimaryButtonCustom(
+                  'Continuar',
+                  onPressed: () =>
+                      viewModel.goNextStep(context, currentStep: 3),
+                ),
+              ],
+            ),
           ),
         ),
       ),

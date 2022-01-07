@@ -33,6 +33,8 @@ class _RegisterMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;
+    final double hAppbar = size.height * 0.26;
+    final double hBody = size.height - hAppbar;
 
     return Scaffold(
       backgroundColor: LdColors.white,
@@ -89,23 +91,32 @@ class _RegisterMobile extends StatelessWidget {
                     ),
                   ),
                   if (viewModel.status.indexStep == 1)
-                    SectionTitleAppbar(context,
-                        step: 1,
-                        title: 'Crear mi cuenta',
-                        description:
-                            'Para continuar ingresa tu correo electronico.')
+                    sectionTitleAppbar(
+                      context,
+                      step: 1,
+                      title: 'Crear mi cuenta',
+                      description:
+                          'Para continuar ingresa tu correo electronico.',
+                      heightAppbar: hAppbar,
+                    )
                   else if (viewModel.status.indexStep == 3)
-                    SectionTitleAppbar(context,
-                        step: 3,
-                        title: 'Validacion del correo',
-                        description:
-                            'Ingresa el codigo enviado al Email de registro.')
+                    sectionTitleAppbar(
+                      context,
+                      step: 3,
+                      title: 'Validacion del correo',
+                      description:
+                          'Ingresa el codigo enviado al Email de registro.',
+                      heightAppbar: hAppbar,
+                    )
                   else if (viewModel.status.indexStep == 4)
-                    SectionTitleAppbar(context,
-                        step: 4,
-                        title: 'Informacion de la cuenta',
-                        description:
-                            'Escribe la informacion de registro de tu cuenta.'),
+                    sectionTitleAppbar(
+                      context,
+                      step: 4,
+                      title: 'Informacion de la cuenta',
+                      description:
+                          'Escribe la informacion de registro de tu cuenta.',
+                      heightAppbar: hAppbar,
+                    ),
                 ],
               ),
             ),
@@ -143,39 +154,44 @@ class _RegisterMobile extends StatelessWidget {
   }
 }
 
-Widget SectionTitleAppbar(BuildContext context,
-    {required int step, required String title, required String description}) {
+Widget sectionTitleAppbar(BuildContext context,
+    {required int step,
+    required String title,
+    required String description,
+    required double heightAppbar}) {
   final TextTheme textTheme = Theme.of(context).textTheme;
   final Size size = MediaQuery.of(context).size;
 
-  return Padding(
-    padding: EdgeInsets.only(left: 16, top: size.height * 0.15),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          title,
-          style: textTheme.textBigWhite,
-        ),
-        const SizedBox(height: 10),
-        Text(
-          description,
-          style: textTheme.textSmallWhite.copyWith(
-            color: LdColors.grayBg,
+  return SizedBox(
+    height: heightAppbar,
+    child: Padding(
+      padding: EdgeInsets.only(left: 16, top: size.height * 0.13),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: textTheme.textBigWhite,
           ),
-        ),
-        const SizedBox(height: 15),
-        Container(
-          width: (size.width - 32) * step / 4 - 50,
-          height: 5,
-          decoration: const BoxDecoration(
-            color: LdColors.orangePrimary,
-            borderRadius: BorderRadius.all(Radius.circular(3)),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: textTheme.textSmallWhite.copyWith(
+              color: LdColors.grayBg,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-      ],
+          const Spacer(),
+          Container(
+            width: (size.width - 32) * step / 4 - 50,
+            height: 5,
+            decoration: const BoxDecoration(
+              color: LdColors.orangePrimary,
+              borderRadius: BorderRadius.all(Radius.circular(3)),
+            ),
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
     ),
   ); //   InkWell(
 }
