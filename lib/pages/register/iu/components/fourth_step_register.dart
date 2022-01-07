@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-//  'package:localdaily/pages/register/iu/3personal_info_register/personal_info_register_view.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -45,150 +44,160 @@ class FourthStepRegister extends StatelessWidget {
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-          child: Column(
-            children: <Widget>[
-              InputTextCustom(
-                'Primer nombre  *',
-                controller: firstNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu primer nombre',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Segundo nombre  *',
-                controller: secondNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu segundo nombre',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Primer apellido  *',
-                controller: firstLastNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu primer apellido',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Segundo apellido  *',
-                controller: secondLastNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                ],
-                hintText: 'Ingresa tu segundo apellido',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Nombre de usuario  *',
-                controller: nickNameCtrl,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
-                ],
-                hintText: 'Ingresa tu Nickname ',
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Celular  *',
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                keyboardType: TextInputType.number,
-                controller: phoneCtrl,
-                hintText: 'Ingresa tu celular',
-              ),
-
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Fecha de nacimiento  *',
-                keyboardType: TextInputType.none,
-                controller: viewModel.status.dateBirthCtrl,
-                hintText: 'Ingresa tu fecha de nacimiento',
-                onTap: () => viewModel.setDateBirth(context)
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Contraseña *',
-                controller: passwordCtrl,
-                hintText: '8+ digitos',
-                suffixIcon: const Icon(
-                  Icons.visibility_off,
-                  color: LdColors.blackBackground,
+          child: Form(
+            key: keyForm,
+            child: Column(
+              children: <Widget>[
+                InputTextCustom(
+                  'Primer nombre  *',
+                  hintText: 'Ingresa tu primer nombre',
+                  controller: firstNameCtrl,
+                  onChange: (String value) => viewModel.changeFirstName(value),
+                  changeFillWith: !viewModel.status.isFirstNameFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  validator: (String? firstName) =>
+                      viewModel.validatorNotEmpty(firstName),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 16),
-              InputTextCustom(
-                'Confirmar contraseña *',
-                controller: confirmPassCtrl,
-                hintText: '8+ digitos',
-                suffixIcon: const Icon(
-                  Icons.visibility_off,
-                  color: LdColors.blackBackground,
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Segundo nombre  *',
+                  hintText: 'Ingresa tu segundo nombre',
+                  onChange: (String value) => viewModel.changeSecondName(value),
+                  changeFillWith: !viewModel.status.isSecondNameFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  validator: (String? secondName) =>
+                      viewModel.validatorNotEmpty(secondName),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Requeriminetos minimos de la contraseña:',
-                style: textTheme.textSmallBlack,
-              ),
-              const SizedBox(height: 10),
-              // SizedBox(
-              //   height: 200,
-              //   child: Column(
-              //     children: <Widget>[
-              //       CheckTileBoxCustom(
-              //         '8+ caracteres',
-              //         textTheme: textTheme,
-              //         value: true,
-              //       ),
-              //       CheckTileBoxCustom(
-              //         '1 Numero',
-              //         textTheme: textTheme,
-              //         value: true,
-              //       ),
-              //       CheckTileBoxCustom(
-              //         '1 Mayuscula',
-              //         textTheme: textTheme,
-              //         value: true,
-              //       ),
-              //       CheckTileBoxCustom(
-              //         '1 Minuscula',
-              //         textTheme: textTheme,
-              //         value: false,
-              //       ),
-              //       CheckTileBoxCustom(
-              //         '1 caracter especial',
-              //         textTheme: textTheme,
-              //         value: false,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              PrimaryButtonCustom(
-                'Registrar',
-                onPressed: () {
-                  // if (keyForm.currentState!.validate()) {
-                  viewModel.registerUser(
-                    context,
-                    nickNameCtrl: nickNameCtrl,
-                    firstNameCtrl: firstNameCtrl,
-                    firstLastNameCtrl: firstLastNameCtrl,
-                    secondNameCtrl: secondNameCtrl,
-                    secondLastNameCtrl: secondLastNameCtrl,
-                    phoneCtrl: phoneCtrl,
-                    emailRegister: viewModel.status.emailRegister,
-                    dateBirthCtrl: viewModel.status.dateBirthCtrl,
-                    passwordCtrl: passwordCtrl,
-                    confirrmPassCtrl: confirmPassCtrl,
-                  );
-                  // }
-                },
-              ),
-            ],
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Primer apellido  *',
+                  hintText: 'Ingresa tu primer apellido',
+                  controller: firstLastNameCtrl,
+                  onChange: (String value) =>
+                      viewModel.changeFirstLastName(value),
+                  changeFillWith: !viewModel.status.isFirstLastNameFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  validator: (String? str) => viewModel.validatorNotEmpty(str),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Segundo apellido  *',
+                  hintText: 'Ingresa tu segundo apellido',
+                  controller: secondLastNameCtrl,
+                  onChange: (String value) =>
+                      viewModel.changeSecondLastName(value),
+                  changeFillWith: !viewModel.status.isSecondLastNameFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  validator: (String? str) => viewModel.validatorNotEmpty(str),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Nombre de usuario  *',
+                  hintText: 'Ingresa tu Nickname ',
+                  controller: nickNameCtrl,
+                  onChange: (String value) => viewModel.changeNickName(value),
+                  changeFillWith: !viewModel.status.isNickNameFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  validator: (String? str) => viewModel.validatorNotEmpty(str),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Celular  *',
+                  hintText: 'Ingresa tu celular',
+                  controller: phoneCtrl,
+                  onChange: (String value) => viewModel.changePhone(value),
+                  changeFillWith: !viewModel.status.isPhoneFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  validator: (String? str) => viewModel.validatorNotEmpty(str),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 16),
+                InputTextCustom('Fecha de nacimiento  *',
+                    keyboardType: TextInputType.none,
+                    hintText: 'Ingresa tu fecha de nacimiento',
+                    controller: viewModel.status.dateBirthCtrl,
+                    changeFillWith: !viewModel.status.isDateBirthFieldEmpty,
+                    onTap: () => viewModel.setDateBirth(context)),
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Contraseña *',
+                  hintText: '8+ digitos',
+                  controller: passwordCtrl,
+                  onChange: (String value) => viewModel.changePassword(value),
+                  changeFillWith: !viewModel.status.isPasswordFieldEmpty,
+                  textInputAction: TextInputAction.next,
+                  obscureText: viewModel.status.hidePass,
+                  validator: (_) => viewModel.validatorPasswords(
+                    passwordCtrl.text,
+                    confirmPassCtrl.text,
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () => viewModel.hidePassword(),
+                    child: Icon(
+                      viewModel.status.hidePass
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: LdColors.blackBackground,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                InputTextCustom(
+                  'Confirmar contraseña *',
+                  hintText: '8+ digitos',
+                  controller: confirmPassCtrl,
+                  obscureText: viewModel.status.hidePass,
+                  onChange: (String value) =>
+                      viewModel.changeConfirmPass(value),
+                  changeFillWith: !viewModel.status.isConfirmPassFieldEmpty,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Requeriminetos minimos de la contraseña:',
+                  style: textTheme.textSmallBlack,
+                ),
+                const SizedBox(height: 10),
+                PrimaryButtonCustom(
+                  'Registrar',
+                  onPressed: () {
+                    if (keyForm.currentState!.validate()) {
+                      viewModel.registerUser(
+                        context,
+                        nickNameCtrl: nickNameCtrl,
+                        firstNameCtrl: firstNameCtrl,
+                        firstLastNameCtrl: firstLastNameCtrl,
+                        secondNameCtrl: secondNameCtrl,
+                        secondLastNameCtrl: secondLastNameCtrl,
+                        phoneCtrl: phoneCtrl,
+                        emailRegister: viewModel.status.emailRegister,
+                        dateBirthCtrl: viewModel.status.dateBirthCtrl,
+                        passwordCtrl: passwordCtrl,
+                        confirrmPassCtrl: confirmPassCtrl,
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

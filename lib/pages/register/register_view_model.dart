@@ -8,15 +8,16 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
-import 'package:localdaily/services/models/register/pin_validate/body_pin_email.dart';
-import 'package:localdaily/services/models/register/pin_validate/entity_pin_email.dart';
-import 'package:localdaily/services/models/register/pin_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
+import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
+import 'package:localdaily/services/models/register/send_validate/entity_pin_email.dart';
+import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
+import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
+import 'package:localdaily/services/models/register/validate_pin/entity_validate_pin.dart';
+import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'register_status.dart';
@@ -42,8 +43,38 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       dateBirthCtrl: TextEditingController(),
       isEmailFieldEmpty: true,
       isPossibleOpenEmail: true,
+      isNickNameFieldEmpty: true,
+      isFirstNameFieldEmpty: true,
+      isFirstLastNameFieldEmpty: true,
+      isSecondNameFieldEmpty: true,
+      isSecondLastNameFieldEmpty: true,
+      isPhoneFieldEmpty: true,
+      isDateBirthFieldEmpty: true,
+      isPasswordFieldEmpty: true,
+      isConfirmPassFieldEmpty: true,
+      hidePass: true,
     );
   }
+
+  String? validatorNotEmpty(String? email) {
+    {
+      if (email == null || email.isEmpty) {
+        return '* Campo necesario';
+      }
+      return null;
+    }
+  }
+  String? validatorPasswords(String? psw,String? confirmPsw) {
+    if (psw == null || psw.isEmpty) {
+      return '* la contraseña es necesaria';
+    } else if (psw != confirmPsw) {
+      return 'Las contraseñas no coinciden';
+    }if (psw.length < 8 || confirmPsw!.length < 8) {
+      return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
+    }
+    return null;
+  }
+
 
   String? validatorEmail(BuildContext context, String? email) {
     {
@@ -59,6 +90,30 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void changeEmail(String email) =>
       status = status.copyWith(isEmailFieldEmpty: email.isEmpty);
 
+  void changeNickName(String nickName) =>
+      status = status.copyWith(isNickNameFieldEmpty: nickName.isEmpty);
+
+  void changeFirstName(String firstName) =>
+      status = status.copyWith(isFirstNameFieldEmpty: firstName.isEmpty);
+
+  void changeFirstLastName(String firstLastName) => status =
+      status.copyWith(isFirstLastNameFieldEmpty: firstLastName.isEmpty);
+
+  void changeSecondName(String secondName) =>
+      status = status.copyWith(isSecondNameFieldEmpty: secondName.isEmpty);
+
+  void changeSecondLastName(String secondLastName) => status =
+      status.copyWith(isSecondLastNameFieldEmpty: secondLastName.isEmpty);
+
+  void changePhone(String phone) =>
+      status = status.copyWith(isPhoneFieldEmpty: phone.isEmpty);
+
+  void changePassword(String password) =>
+      status = status.copyWith(isPasswordFieldEmpty: password.isEmpty);
+
+  void changeConfirmPass(String confirmPass) =>
+      status = status.copyWith(isConfirmPassFieldEmpty: confirmPass.isEmpty);
+
   Future<void> onInit({bool validateNotification = false}) async {}
 
   // void goHome(BuildContext context) {
@@ -70,6 +125,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   //     }
   //   });
   // }
+  void hidePassword() => status = status.copyWith(
+        hidePass: !status.hidePass,
+      );
 
   void setDateBirth(BuildContext context) {
     DatePicker.showDatePicker(
@@ -82,6 +140,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       },
       onConfirm: (DateTime date) {
         final String dateT = date.toLocal().toString().split(' ').first;
+        status =
+            status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty);
         status.dateBirthCtrl.text = dateT;
 
         print('confirm ${date.toUtc()}');
@@ -103,17 +163,50 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   void goDescValidate(String email) {
-    status = status.copyWith(isLoading: true,);
+    status = status.copyWith(
+      isLoading: true,
+    );
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        status = status.copyWith(emailRegister: email,);
+        status = status.copyWith(
+          emailRegister: email,
+        );
         sendPinEmail(email);
         goNextStep(currentStep: 1);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
-      status = status.copyWith(isLoading: false,);
+      status = status.copyWith(
+        isLoading: false,
+      );
+    });
+  }
 
+  Future<void> validateCodePin(
+    String codePin,
+  ) async {
+    status = status.copyWith(
+      isLoading: true,
+    );
+
+    final EntityValidatePin entityValidatePin = EntityValidatePin(
+      numberOrEmail: status.emailRegister,
+      otp: codePin,
+    );
+    final BodyValidatePin bodyValidatePin = BodyValidatePin(
+      entity: entityValidatePin,
+    );
+
+    _interactor.validatePin(bodyValidatePin).then((
+      ResponseData<ResultValidatePin> response,
+    ) {
+      if (response.isSuccess) {
+        print('CodigoPin Validado con EXITOSO!!');
+        goNextStep(currentStep: 4);
+      } else {
+        status = status.copyWith();
+      }
+      status = status.copyWith(isLoading: false);
     });
   }
 

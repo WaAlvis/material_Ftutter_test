@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/create_offerts/offert/entity_offer.dart';
-import 'package:localdaily/services/models/register/pin_validate/entity_pin_email.dart';
+import 'package:localdaily/services/models/register/send_validate/entity_pin_email.dart';
 
 part 'body_pin_email.g.dart';
 

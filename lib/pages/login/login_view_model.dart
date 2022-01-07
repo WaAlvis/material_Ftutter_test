@@ -37,11 +37,9 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     );
   }
 
-  void hidePassword() {
-    status = status.copyWith(
-      hidePass: !status.hidePass,
-    );
-  }
+  void hidePassword() => status = status.copyWith(
+        hidePass: !status.hidePass,
+      );
 
   Future<void> onInit({
     bool validateNotification = false,

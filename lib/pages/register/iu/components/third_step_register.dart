@@ -11,12 +11,14 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class ThirdStepRegister extends StatelessWidget {
   const ThirdStepRegister({
     required this.viewModel,
+    required this.codePinCtrl,
     required this.heightBody,
     //required this.textTheme,
     Key? key,
   }) : super(key: key);
   final RegisterViewModel viewModel;
   final double heightBody;
+  final TextEditingController codePinCtrl;
 
   //final TextTheme textTheme;
 
@@ -60,7 +62,10 @@ class ThirdStepRegister extends StatelessWidget {
                       const SizedBox(
                         height: 40,
                       ),
-                      const PinCodeWidget(),
+                      PinCodeWidget(
+                        viewModel,
+                        codePinCtrl: codePinCtrl,
+                      ),
                       const SizedBox(
                         height: 90,
                       ),
@@ -109,7 +114,8 @@ class ThirdStepRegister extends StatelessWidget {
                                   fontSize: 11),
                             ),
                             onTap: () {
-                              viewModel.sendPinEmail(viewModel.status.emailRegister);
+                              viewModel
+                                  .sendPinEmail(viewModel.status.emailRegister);
                             },
                           ),
                           Text(
@@ -125,6 +131,10 @@ class ThirdStepRegister extends StatelessWidget {
                 const SizedBox(height: 50),
                 PrimaryButtonCustom(
                   'Continuar',
+                  onPressed: () => viewModel.validateCodePin(codePinCtrl.text),
+                ),
+                PrimaryButtonCustom(
+                  'pasar sin servicio',
                   onPressed: () => viewModel.goNextStep(currentStep: 3),
                 ),
               ],
@@ -161,16 +171,22 @@ class ThirdStepRegister extends StatelessWidget {
 }
 
 class PinCodeWidget extends StatelessWidget {
-  const PinCodeWidget({
+  const PinCodeWidget(
+    this.viewModel, {
     Key? key,
+    required this.codePinCtrl,
   }) : super(key: key);
+  final RegisterViewModel viewModel;
+  final TextEditingController codePinCtrl;
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
+      controller: codePinCtrl,
       length: 6,
       obscureText: false,
       animationType: AnimationType.fade,
+      keyboardType: TextInputType.number,
       pinTheme: PinTheme(
           selectedColor: LdColors.orangePrimary, activeColor: LdColors.grayText
           // shape: PinCodeFieldShape.box,
@@ -179,14 +195,15 @@ class PinCodeWidget extends StatelessWidget {
           // fieldWidth: 40,
           // activeFillColor: Colors.white,
           ),
-      animationDuration: Duration(milliseconds: 300),
+      animationDuration: Duration(milliseconds: 400),
       // backgroundColor: LdColors.whiteGray,
       // enableActiveFill: true,
       // errorAnimationController: errorController,
       // controller: textEditingController,
-      onCompleted: (v) {
-        print("Completed");
-      },
+      // onCompleted: (String pinCode) {
+      //   print("Completed");
+      //   viewModel.validateCodePin(pinCode);
+      // },
       onChanged: (value) {
         print(value);
         // setState(() {

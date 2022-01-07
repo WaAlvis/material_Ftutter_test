@@ -9,13 +9,14 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
-import 'package:localdaily/services/models/register/pin_validate/entity_pin_email.dart';
-import 'package:localdaily/services/models/register/pin_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
+import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
+import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
+import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
+import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
-import 'models/register/pin_validate/body_pin_email.dart';
 
 part 'local_daily_gateway_service.g.dart';
 
@@ -29,6 +30,8 @@ class UrlsApi {
   static const String createOffert = '/WebAdmin/Advertisement';
   static const String sendPinEmail =
       '/NotificationCenter/SendMessageEvent/SendNotificationOtp';
+  static const String validateToken =
+      '/NotificationCenter/SendMessageEvent/ValidationToken';
 }
 
 ///WebAdmin/Advertisement create offert sell buy
@@ -73,6 +76,11 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
     @Body() BodyPinEmail bodyPin,
+  );
+
+  @POST(UrlsApi.validateToken)
+  Future<ResponseData<ResultValidatePin>> validatePin(
+    @Body() BodyValidatePin bodyValidatePin,
   );
 
 // @POST(UrlsApi.login)

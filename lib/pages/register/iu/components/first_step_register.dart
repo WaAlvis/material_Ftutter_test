@@ -63,6 +63,12 @@ class FirstStepRegister extends StatelessWidget {
                   }
                 },
               ),
+              PrimaryButtonCustom(
+                'pasar sin servicio',
+                onPressed: () {
+                    viewModel.goNextStep(currentStep: 1);
+                },
+              ),
             ],
           ),
         ),

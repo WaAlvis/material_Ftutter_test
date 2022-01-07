@@ -14,6 +14,7 @@ class _RegisterMobile extends StatelessWidget {
     required this.dateBirthCtrl,
     required this.passwordCtrl,
     required this.confirmPassCtrl,
+    required this.codePinCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -27,6 +28,7 @@ class _RegisterMobile extends StatelessWidget {
   final TextEditingController dateBirthCtrl;
   final TextEditingController passwordCtrl;
   final TextEditingController confirmPassCtrl;
+  final TextEditingController codePinCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +136,7 @@ class _RegisterMobile extends StatelessWidget {
             ThirdStepRegister(
               viewModel: viewModel,
               heightBody: hBody,
+              codePinCtrl: codePinCtrl,
             )
           else if (viewModel.status.indexStep == 4)
             FourthStepRegister(

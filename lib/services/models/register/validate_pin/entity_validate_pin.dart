@@ -1,24 +1,20 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'entity_pin_email.g.dart';
+part 'entity_validate_pin.g.dart';
 
 @JsonSerializable()
-class EntityPinEmail {
-  EntityPinEmail({
-    required this.clientId,
+class EntityValidatePin {
+  EntityValidatePin({
     required this.numberOrEmail,
-    required this.codevia,
-    required this.accountSid,
-    required this.authToken,
+    required this.otp,
+
   });
 
-  factory EntityPinEmail.fromJson(Map<String, dynamic> json) => _$EntityPinEmailFromJson(json);
+  factory EntityValidatePin.fromJson(Map<String, dynamic> json) => _$EntityValidatePinFromJson(json);
 
-  String clientId;
   String numberOrEmail;
-  String codevia;
-  String accountSid;
-  String authToken;
+  String otp;
 
-  Map<String, dynamic> toJson() => _$EntityPinEmailToJson(this);
+
+  Map<String, dynamic> toJson() => _$EntityValidatePinToJson(this);
 }

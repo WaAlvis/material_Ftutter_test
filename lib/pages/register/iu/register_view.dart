@@ -14,6 +14,7 @@ import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'register_mobile.dart';
+
 part 'register_web.dart';
 
 class RegisterView extends StatelessWidget {
@@ -53,23 +54,24 @@ class _RegisterBodyState extends State<_RegisterBody> {
   final TextEditingController secondNameCtrl = TextEditingController();
   final TextEditingController secondLastNameCtrl = TextEditingController();
   final TextEditingController phoneCtrl = TextEditingController();
+
   // final TextEditingController dateBirthCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController confirrmPassCtrl = TextEditingController();
+  final TextEditingController codePinCtrl = TextEditingController();
 
   @override
   void dispose() {
     emailCtrl.dispose();
-
     nickNameCtrl.dispose();
     firstNameCtrl.dispose();
     firstLastNameCtrl.dispose();
     secondNameCtrl.dispose();
     secondLastNameCtrl.dispose();
     phoneCtrl.dispose();
-    // dateBirthCtrl.dispose();
     passwordCtrl.dispose();
     confirrmPassCtrl.dispose();
+    codePinCtrl.dispose();
     super.dispose();
   }
 
@@ -106,9 +108,10 @@ class _RegisterBodyState extends State<_RegisterBody> {
                       secondNameCtrl: secondNameCtrl,
                       secondLastNameCtrl: secondLastNameCtrl,
                       phoneCtrl: phoneCtrl,
-                      dateBirthCtrl: viewModel.status. dateBirthCtrl,
+                      dateBirthCtrl: viewModel.status.dateBirthCtrl,
                       passwordCtrl: passwordCtrl,
                       confirmPassCtrl: confirrmPassCtrl,
+                      codePinCtrl: codePinCtrl,
                     ),
             )
           ],

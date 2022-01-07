@@ -1,18 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:localdaily/services/models/register/send_validate/entity_pin_email.dart';
+import 'package:localdaily/services/models/register/validate_pin/entity_validate_pin.dart';
 
-part 'body_pin_email.g.dart';
+part 'body_validate_pin.g.dart';
 
 @JsonSerializable()
-class BodyPinEmail {
-  BodyPinEmail({
+class BodyValidatePin {
+  BodyValidatePin({
     required this.entity,
   });
 
-  factory BodyPinEmail.fromJson(Map<String, dynamic> json) =>
-      _$BodyPinEmailFromJson(json);
+  factory BodyValidatePin.fromJson(Map<String, dynamic> json) =>
+      _$BodyValidatePinFromJson(json);
 
-  EntityPinEmail entity;
+  EntityValidatePin entity;
 
-  Map<String, dynamic> toJson() => _$BodyPinEmailToJson(this);
+  Map<String, dynamic> toJson() => _$BodyValidatePinToJson(this);
 }
