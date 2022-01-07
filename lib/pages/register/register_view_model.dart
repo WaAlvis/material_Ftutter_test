@@ -92,7 +92,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
   }
 
-  void goValidateEmail(BuildContext context, String email) {
+  void goEnterPin(BuildContext context, String email) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         status = status.copyWith(emailRegister: email, indexStep: 2);
@@ -102,10 +102,28 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> requestPinEmail(
+  void goDescValidate(String email) {
+    status = status.copyWith(isLoading: true,);
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        status = status.copyWith(emailRegister: email,);
+        sendPinEmail(email);
+        goNextStep(currentStep: 1);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+      status = status.copyWith(isLoading: false,);
+
+    });
+  }
+
+  Future<void> sendPinEmail(
     String email,
   ) async {
-    status = status.copyWith(isLoading: true, emailRegister: email,);
+    status = status.copyWith(
+      isLoading: true,
+      emailRegister: email,
+    );
 
     final EntityPinEmail entityPin = EntityPinEmail(
       clientId: '2955cb39-61da-46ea-b503-42cb33831c8a',
@@ -123,7 +141,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     ) {
       if (response.isSuccess) {
         print('pin email EXITOSO!!');
-        goNextStep(currentStep: 1);
+        // goNextStep(currentStep: 1);
       } else {
         status = status.copyWith();
       }

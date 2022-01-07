@@ -109,7 +109,7 @@ class ThirdStepRegister extends StatelessWidget {
                                   fontSize: 11),
                             ),
                             onTap: () {
-                              print('Solicitando de nuevo el codigo');
+                              viewModel.sendPinEmail(viewModel.status.emailRegister);
                             },
                           ),
                           Text(
