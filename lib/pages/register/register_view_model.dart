@@ -89,6 +89,15 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     }
   }
 
+  String? validatorCheckBox({bool? valueCheck}) {
+    if (valueCheck!) {
+      return null;
+    } else {
+      return '* Debes aceptar T&C!';
+    }
+  }
+
+
   void changeAcceptTermConditions({required bool newValue}) =>
       status = status.copyWith(acceptTermCoditions: newValue);
 
