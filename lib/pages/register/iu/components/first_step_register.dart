@@ -53,13 +53,16 @@ class FirstStepRegister extends StatelessWidget {
                     viewModel.validatorEmail(context, email),
               ),
               const SizedBox(height: 20),
+
               const Spacer(),
               Row(
                 children: [
+
                   Checkbox(
-                      value: false,
+                      value: viewModel.status.acceptTermCoditions,
                       // onChanged: (bool? value) {},
-                      onChanged: (bool? value) {},
+                      onChanged: (bool? newValue) => viewModel
+                          .changeAcceptTermConditions(newValue: newValue!),
                       activeColor: LdColors.orangePrimary),
                   Flexible(
                     child: RichText(
@@ -99,16 +102,39 @@ class FirstStepRegister extends StatelessWidget {
                   }
                 },
               ),
-              PrimaryButtonCustom(
-                'pasar sin servicio',
-                onPressed: () {
-                  viewModel.goNextStep(currentStep: 1);
-                },
-              ),
+
             ],
           ),
         ),
       ),
     );
   }
+}
+
+class CheckboxFormField extends FormField<bool> {
+  CheckboxFormField({
+    required Widget title,
+    FormFieldValidator<bool>? validator,
+    bool initialValue = false,
+    bool autovalidate = false,
+  }) : super(
+            validator: validator,
+            initialValue: initialValue,
+            builder: (FormFieldState<bool> state) {
+              return CheckboxListTile(
+                dense: state.hasError,
+                title: title,
+                value: state.value,
+                onChanged: state.didChange,
+                subtitle: state.hasError
+                    ? Builder(
+                        builder: (BuildContext context) => Text(
+                          'Debe aceptar terminos y condiciones',
+                          style: TextStyle(color: Theme.of(context).errorColor),
+                        ),
+                      )
+                    : null,
+                controlAffinity: ListTileControlAffinity.leading,
+              );
+            });
 }

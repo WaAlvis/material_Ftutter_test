@@ -52,9 +52,11 @@ class FourthStepRegister extends StatelessWidget {
                   'Primer nombre  *',
                   hintText: 'Ingresa tu primer nombre',
                   controller: firstNameCtrl,
+
                   onChange: (String value) => viewModel.changeFirstName(value),
                   changeFillWith: !viewModel.status.isFirstNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
                   validator: (String? firstName) =>
                       viewModel.validatorNotEmpty(firstName),
                   inputFormatters: <TextInputFormatter>[
@@ -68,6 +70,8 @@ class FourthStepRegister extends StatelessWidget {
                   onChange: (String value) => viewModel.changeSecondName(value),
                   changeFillWith: !viewModel.status.isSecondNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
+
                   validator: (String? secondName) =>
                       viewModel.validatorNotEmpty(secondName),
                   inputFormatters: <TextInputFormatter>[
@@ -83,6 +87,8 @@ class FourthStepRegister extends StatelessWidget {
                       viewModel.changeFirstLastName(value),
                   changeFillWith: !viewModel.status.isFirstLastNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
+
                   validator: (String? str) => viewModel.validatorNotEmpty(str),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -97,6 +103,8 @@ class FourthStepRegister extends StatelessWidget {
                       viewModel.changeSecondLastName(value),
                   changeFillWith: !viewModel.status.isSecondLastNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
+
                   validator: (String? str) => viewModel.validatorNotEmpty(str),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),

@@ -21,6 +21,7 @@ class InputTextCustom extends StatelessWidget {
     this.onTap,
     this.autocorrect = false,
     this.onFieldSubmitted,
+    this.textCapitalization = TextCapitalization.none,
     this.changeFillWith,
     this.onEditingComplete,
   }) : super(key: key);
@@ -41,6 +42,7 @@ class InputTextCustom extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final bool autocorrect;
   final void Function()? onEditingComplete;
+  final TextCapitalization textCapitalization;
 
   bool? changeFillWith = false;
   static const BorderRadius radioBorderConst = BorderRadius.all(
@@ -84,6 +86,7 @@ class InputTextCustom extends StatelessWidget {
           autocorrect: autocorrect,
           inputFormatters: inputFormatters,
           validator: validator,
+          textCapitalization: textCapitalization,
           decoration: InputDecoration(
             fillColor: LdColors.grayBorder,
             filled: changeFillWith,

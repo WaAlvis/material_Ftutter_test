@@ -5,6 +5,7 @@ class RegisterStatus extends ViewStatus {
   final bool isLoading;
   final bool hidePass;
   final bool isError;
+  final bool acceptTermCoditions;
   final String emailRegister;
   final int indexStep;
   final TextEditingController dateBirthCtrl;
@@ -22,6 +23,7 @@ class RegisterStatus extends ViewStatus {
 
   RegisterStatus({
     required this.isPossibleOpenEmail,
+    required this.acceptTermCoditions,
     required this.dateBirthCtrl,
     required this.isLoading,
     required this.isError,
@@ -46,6 +48,7 @@ class RegisterStatus extends ViewStatus {
     bool? isError,
     String? emailRegister,
     int? indexStep,
+    bool? acceptTermCoditions,
     bool? isEmailFieldEmpty,
     bool? isNickNameFieldEmpty,
     bool? isFirstNameFieldEmpty,
@@ -60,6 +63,7 @@ class RegisterStatus extends ViewStatus {
     bool? hidePass,
   }) {
     return RegisterStatus(
+      acceptTermCoditions: acceptTermCoditions??this.acceptTermCoditions,
       hidePass: hidePass ?? this.hidePass,
       isNickNameFieldEmpty: isNickNameFieldEmpty ?? this.isNickNameFieldEmpty,
       isFirstNameFieldEmpty:

@@ -114,6 +114,17 @@ class ThirdStepRegister extends StatelessWidget {
                                   fontSize: 11),
                             ),
                             onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text('Codigo Reenviado!'),
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    onPressed: () {
+                                      // Code to execute.
+                                    },
+                                  ),
+                                ),
+                              );
                               viewModel
                                   .sendPinEmail(viewModel.status.emailRegister);
                             },
@@ -132,10 +143,6 @@ class ThirdStepRegister extends StatelessWidget {
                 PrimaryButtonCustom(
                   'Continuar',
                   onPressed: () => viewModel.validateCodePin(codePinCtrl.text),
-                ),
-                PrimaryButtonCustom(
-                  'pasar sin servicio',
-                  onPressed: () => viewModel.goNextStep(currentStep: 3),
                 ),
               ],
             ),

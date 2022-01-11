@@ -11,7 +11,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   final ServiceInteractor _interactor;
 
   HomeViewModel(this._route, this._interactor) {
-    status = HomeStatus(isLoading: false, isError: false);
+    status = HomeStatus(isLoading: true, isError: false);
   }
 
   Future<void> onInit({bool validateNotification = false}) async {}

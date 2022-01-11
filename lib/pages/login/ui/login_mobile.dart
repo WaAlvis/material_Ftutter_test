@@ -156,17 +156,17 @@ class _LoginMobile extends StatelessWidget {
                             hintText: '8+ digitos',
                             controller: passwordCtrl,
                             changeFillWith: !viewModel.status.isPswFieldEmpty,
-                            textInputAction: TextInputAction.send,
+                            textInputAction: TextInputAction.done,
                             obscureText: viewModel.status.hidePass,
                             onChange: (String value) =>
                                 viewModel.changePsw(value),
-                            onFieldSubmitted: (_) => viewModel.goHomeForLogin(
-                              context,
-                              userCtrl,
-                              passwordCtrl,
-                              userProvider,
-                              keyForm,
-                            ),
+                            // onFieldSubmitted: (_) => viewModel.goHomeForLogin(
+                            //   context,
+                            //   userCtrl,
+                            //   passwordCtrl,
+                            //   userProvider,
+                            //   keyForm,
+                            // ),
                             validator: (String? pass) =>
                                 viewModel.validatorPass(pass),
                             suffixIcon: GestureDetector(
@@ -289,7 +289,7 @@ class WarningContainer extends StatelessWidget {
                 const Icon(
                   Icons.report_problem_outlined,
                   color: LdColors.white,
-                  size: 35,
+                  size: 30,
                 ),
                 const SizedBox(
                   width: 8,

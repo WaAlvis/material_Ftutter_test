@@ -53,6 +53,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isPasswordFieldEmpty: true,
       isConfirmPassFieldEmpty: true,
       hidePass: true,
+      acceptTermCoditions: false,
     );
   }
 
@@ -64,17 +65,18 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       return null;
     }
   }
-  String? validatorPasswords(String? psw,String? confirmPsw) {
+
+  String? validatorPasswords(String? psw, String? confirmPsw) {
     if (psw == null || psw.isEmpty) {
       return '* la contraseña es necesaria';
     } else if (psw != confirmPsw) {
       return 'Las contraseñas no coinciden';
-    }if (psw.length < 8 || confirmPsw!.length < 8) {
+    }
+    if (psw.length < 8 || confirmPsw!.length < 8) {
       return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
     }
     return null;
   }
-
 
   String? validatorEmail(BuildContext context, String? email) {
     {
@@ -86,6 +88,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       return null;
     }
   }
+
+  void changeAcceptTermConditions({required bool newValue}) =>
+      status = status.copyWith(acceptTermCoditions: newValue);
 
   void changeEmail(String email) =>
       status = status.copyWith(isEmailFieldEmpty: email.isEmpty);
@@ -128,7 +133,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void hidePassword() => status = status.copyWith(
         hidePass: !status.hidePass,
       );
-
 
   void setDateBirth(BuildContext context) {
     DatePicker.showDatePicker(
@@ -205,8 +209,11 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         print('CodigoPin Validado con EXITOSO!!');
         goNextStep(currentStep: 4);
       } else {
-        status = status.copyWith();
+        // TODO: Mostrar alerta
       }
+      status = status.copyWith(isLoading: false);
+    }).catchError((Object err) {
+      print('Validate codePIn Error As: $err');
       status = status.copyWith(isLoading: false);
     });
   }
@@ -237,8 +244,11 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         print('pin email EXITOSO!!');
         // goNextStep(currentStep: 1);
       } else {
-        status = status.copyWith();
+        // TODO: Mostrar alerta
       }
+      status = status.copyWith(isLoading: false);
+    }).catchError((Object err) {
+      print('Envio de Codigo Error As: $err');
       status = status.copyWith(isLoading: false);
     });
   }
