@@ -53,7 +53,7 @@ class FirstStepRegister extends StatelessWidget {
               const Spacer(),
               CheckboxTyC(textTheme: textTheme, viewModel: viewModel),
               PrimaryButtonCustom(
-                'Ingresar',
+                'Enviar codigo de verificacion',
                 onPressed: () {
                   if (keyFirstForm.currentState!.validate()) {
                     viewModel.goDescValidate(emailCtrl.text);

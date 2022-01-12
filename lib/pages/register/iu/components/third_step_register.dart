@@ -165,7 +165,7 @@ class ThirdStepRegister extends StatelessWidget {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('OK'),
+              child: const Text('Entendido'),
               onPressed: () {
                 Navigator.pop(context);
               },

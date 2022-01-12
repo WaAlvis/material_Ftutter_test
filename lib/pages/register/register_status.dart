@@ -6,6 +6,11 @@ class RegisterStatus extends ViewStatus {
   final bool hidePass;
   final bool isError;
   final bool acceptTermCoditions;
+  final bool hasMore8Chars;
+  final bool hasUpperLetter;
+  final bool hasSpecialChar;
+  final bool hasLowerLetter;
+  final bool hasNumberChar;
   final String emailRegister;
   final int indexStep;
   final TextEditingController dateBirthCtrl;
@@ -40,6 +45,11 @@ class RegisterStatus extends ViewStatus {
     required this.isPasswordFieldEmpty,
     required this.isConfirmPassFieldEmpty,
     required this.hidePass,
+    required this.hasSpecialChar,
+    required this.hasMore8Chars,
+    required this.hasUpperLetter,
+    required this.hasLowerLetter,
+    required this.hasNumberChar,
   });
 
   RegisterStatus copyWith({
@@ -61,9 +71,13 @@ class RegisterStatus extends ViewStatus {
     bool? isConfirmPassFieldEmpty,
     bool? isPossibleOpenEmail,
     bool? hidePass,
+    bool? hasSpecialChar,
+    bool? hasUpperLetter,
+    bool? hasMore8Chars,
+    bool? hasLowerLetter,
+    bool? hasNumberChar,
   }) {
     return RegisterStatus(
-      acceptTermCoditions: acceptTermCoditions??this.acceptTermCoditions,
       hidePass: hidePass ?? this.hidePass,
       isNickNameFieldEmpty: isNickNameFieldEmpty ?? this.isNickNameFieldEmpty,
       isFirstNameFieldEmpty:
@@ -87,6 +101,12 @@ class RegisterStatus extends ViewStatus {
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,
       isError: isError ?? this.isError,
+      hasMore8Chars: hasMore8Chars ?? this.hasMore8Chars,
+      hasUpperLetter: hasUpperLetter ?? this.hasUpperLetter,
+      hasSpecialChar: hasSpecialChar ?? this.hasSpecialChar,
+      acceptTermCoditions: acceptTermCoditions ?? this.acceptTermCoditions,
+      hasLowerLetter: hasLowerLetter ?? this.hasLowerLetter,
+      hasNumberChar: hasNumberChar ?? this.hasNumberChar,
     );
   }
 }

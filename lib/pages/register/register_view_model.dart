@@ -54,6 +54,11 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isConfirmPassFieldEmpty: true,
       hidePass: true,
       acceptTermCoditions: false,
+      hasUpperLetter: false,
+      hasMore8Chars: false,
+      hasSpecialChar: false,
+      hasLowerLetter: false,
+      hasNumberChar: false,
     );
   }
 
@@ -74,6 +79,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     }
     if (psw.length < 8 || confirmPsw!.length < 8) {
       return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
+    }
+    if (!isPasswordValid(psw)) {
+      return 'La contraseña no cumple los requerimientos';
     }
     return null;
   }
@@ -96,7 +104,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       return '* Debes aceptar T&C!';
     }
   }
-
 
   void changeAcceptTermConditions({required bool newValue}) =>
       status = status.copyWith(acceptTermCoditions: newValue);
@@ -127,6 +134,32 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
 
   void changeConfirmPass(String confirmPass) =>
       status = status.copyWith(isConfirmPassFieldEmpty: confirmPass.isEmpty);
+
+  bool isPasswordValid(String password, [int minLength = 7]) {
+    final bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+    final bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+    final bool hasSpecialCharacters =
+        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final bool hasMinLength = password.length > minLength;
+    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+
+    status = status.copyWith(
+      hasMore8Chars: hasMinLength,
+      hasUpperLetter: hasUppercase,
+      hasSpecialChar: hasSpecialCharacters,
+      hasLowerLetter: hasLowercase,
+      hasNumberChar: hasDigits,
+    );
+    return hasMinLength &
+        hasUppercase &
+        hasSpecialCharacters &
+        hasLowercase &
+        hasDigits;
+  }
+
+  // void hasMore8Chars({String psw = ''}) {
+  //   status = status.copyWith(hasMore8Chars: psw.length >7 );
+  // }
 
   Future<void> onInit({bool validateNotification = false}) async {}
 
@@ -204,6 +237,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
 
     final EntityValidatePin entityValidatePin = EntityValidatePin(
+      // "id": "string",  FALTAN ESTOS CAMPOS
+      // "clientId": "string",
       numberOrEmail: status.emailRegister,
       otp: codePin,
     );

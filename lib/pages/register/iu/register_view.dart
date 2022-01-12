@@ -10,6 +10,7 @@ import 'package:localdaily/pages/register/iu/components/third_step_register.dart
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
@@ -86,34 +87,42 @@ class _RegisterBodyState extends State<_RegisterBody> {
   @override
   Widget build(BuildContext context) {
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
+    final Widget loading = viewModel.status.isLoading
+        ? ProgressIndicatorLocalD()
+        : const SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: maxWidth > 1024
-                  ? _RegisterWeb(
-                      keyForm: keyFirstForm,
-                    )
-                  : _RegisterMobile(
-                      keyForm: keyFirstForm,
-                      emailCtrl: emailCtrl,
-                      nickNameCtrl: nickNameCtrl,
-                      firstNameCtrl: firstNameCtrl,
-                      firstLastNameCtrl: firstLastNameCtrl,
-                      secondNameCtrl: secondNameCtrl,
-                      secondLastNameCtrl: secondLastNameCtrl,
-                      phoneCtrl: phoneCtrl,
-                      dateBirthCtrl: viewModel.status.dateBirthCtrl,
-                      passwordCtrl: passwordCtrl,
-                      confirmPassCtrl: confirrmPassCtrl,
-                      codePinCtrl: codePinCtrl,
-                    ),
-            )
+        return Stack(
+          children: <Widget>[
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: maxWidth > 1024
+                      ? _RegisterWeb(
+                          keyForm: keyFirstForm,
+                        )
+                      : _RegisterMobile(
+                          keyForm: keyFirstForm,
+                          emailCtrl: emailCtrl,
+                          nickNameCtrl: nickNameCtrl,
+                          firstNameCtrl: firstNameCtrl,
+                          firstLastNameCtrl: firstLastNameCtrl,
+                          secondNameCtrl: secondNameCtrl,
+                          secondLastNameCtrl: secondLastNameCtrl,
+                          phoneCtrl: phoneCtrl,
+                          dateBirthCtrl: viewModel.status.dateBirthCtrl,
+                          passwordCtrl: passwordCtrl,
+                          confirmPassCtrl: confirrmPassCtrl,
+                          codePinCtrl: codePinCtrl,
+                        ),
+                )
+              ],
+            ),
+            loading,
           ],
         );
       },

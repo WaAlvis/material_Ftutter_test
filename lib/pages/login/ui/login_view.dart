@@ -63,14 +63,14 @@ class _LoginBodyState extends State<_LoginBody> {
   @override
   Widget build(BuildContext context) {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
-    final Widget loading = viewModel.status.isLoading ? ProgressIndicatorLocalD() : SizedBox.shrink();
+    final Widget loading = viewModel.status.isLoading ? ProgressIndicatorLocalD() :const SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
 
         return Stack(
-          children: [
+          children: <Widget>[
             CustomScrollView(
               slivers: <Widget>[
                 SliverFillRemaining(

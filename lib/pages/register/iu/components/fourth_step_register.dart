@@ -47,12 +47,12 @@ class FourthStepRegister extends StatelessWidget {
           child: Form(
             key: keyForm,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 InputTextCustom(
                   'Primer nombre  *',
                   hintText: 'Ingresa tu primer nombre',
                   controller: firstNameCtrl,
-
                   onChange: (String value) => viewModel.changeFirstName(value),
                   changeFillWith: !viewModel.status.isFirstNameFieldEmpty,
                   textInputAction: TextInputAction.next,
@@ -71,7 +71,6 @@ class FourthStepRegister extends StatelessWidget {
                   changeFillWith: !viewModel.status.isSecondNameFieldEmpty,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-
                   validator: (String? secondName) =>
                       viewModel.validatorNotEmpty(secondName),
                   inputFormatters: <TextInputFormatter>[
@@ -88,7 +87,6 @@ class FourthStepRegister extends StatelessWidget {
                   changeFillWith: !viewModel.status.isFirstLastNameFieldEmpty,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-
                   validator: (String? str) => viewModel.validatorNotEmpty(str),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -104,7 +102,6 @@ class FourthStepRegister extends StatelessWidget {
                   changeFillWith: !viewModel.status.isSecondLastNameFieldEmpty,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-
                   validator: (String? str) => viewModel.validatorNotEmpty(str),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
@@ -149,7 +146,10 @@ class FourthStepRegister extends StatelessWidget {
                   'Contraseña *',
                   hintText: '8+ digitos',
                   controller: passwordCtrl,
-                  onChange: (String value) => viewModel.changePassword(value),
+                  onChange: (String psw) {
+                    viewModel.changePassword(psw);
+                    viewModel.isPasswordValid(psw);
+                  },
                   changeFillWith: !viewModel.status.isPasswordFieldEmpty,
                   textInputAction: TextInputAction.next,
                   obscureText: viewModel.status.hidePass,
@@ -178,10 +178,34 @@ class FourthStepRegister extends StatelessWidget {
                   changeFillWith: !viewModel.status.isConfirmPassFieldEmpty,
                   textInputAction: TextInputAction.done,
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Requeriminetos minimos de la contraseña:',
-                  style: textTheme.textSmallBlack,
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Text(
+                    'Requeriminetos minimos de la contraseña:',
+                    style: textTheme.textSmallBlack,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                checkRowValidation(
+                  '8+ Caracteres',
+                  value: viewModel.status.hasMore8Chars,
+                ),
+                checkRowValidation(
+                  '1 Mayúscula',
+                  value: viewModel.status.hasUpperLetter,
+                ),
+                checkRowValidation(
+                  '1 Minúscula',
+                  value: viewModel.status.hasLowerLetter,
+                ),
+                checkRowValidation(
+                  '1 Número',
+                  value: viewModel.status.hasNumberChar,
+                ),
+                checkRowValidation(
+                  '1 Caracter especial',
+                  value: viewModel.status.hasSpecialChar,
                 ),
                 const SizedBox(height: 10),
                 PrimaryButtonCustom(
@@ -209,6 +233,24 @@ class FourthStepRegister extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Row checkRowValidation(String title, {required bool? value}) {
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          height: 24,
+          child: Checkbox(
+            activeColor: LdColors.orangePrimary,
+            value: value,
+            onChanged: (_) {},
+          ),
+        ),
+        Flexible(
+          child: Text(title),
+        ),
+      ],
     );
   }
 }

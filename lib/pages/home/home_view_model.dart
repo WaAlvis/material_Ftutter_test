@@ -19,7 +19,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
 
   HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
-      isLoading: false,
       hideWallet: false,
       hideValues: false,
       isError: false,
