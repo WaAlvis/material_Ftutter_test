@@ -169,9 +169,10 @@ Widget sectionTitleAppbar(BuildContext context,
   return SizedBox(
     height: heightAppbar,
     child: Padding(
-      padding: EdgeInsets.only(left: 16, top: size.height * 0.13),
+      padding: EdgeInsets.only(left: 16,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Text(
             title,
@@ -184,7 +185,8 @@ Widget sectionTitleAppbar(BuildContext context,
               color: LdColors.grayBg,
             ),
           ),
-          const Spacer(),
+          const SizedBox(height: 15),
+
           Container(
             width: (size.width - 32) * step / 4 - 50,
             height: 5,

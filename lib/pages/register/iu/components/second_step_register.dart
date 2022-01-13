@@ -99,7 +99,7 @@ class SecondStepRegister extends StatelessWidget {
                   const SizedBox(height: 50),
                   TextButton(
                     onPressed: () => viewModel.goNextStep(
-                      currentStep: 2,
+                      currentStep: 3,
                     ),
                     child: Text(
                       'Continuar',

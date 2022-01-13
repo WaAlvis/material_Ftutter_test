@@ -9,7 +9,7 @@ class InputTextCustom extends StatelessWidget {
     Key? key,
     this.textInputAction,
     this.styleLabel,
-    this.styleHint,
+    this.hintStyle,
     required this.hintText,
     this.obscureText = false,
     this.suffixIcon,
@@ -24,11 +24,12 @@ class InputTextCustom extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.changeFillWith,
     this.onEditingComplete,
+    this.style,
   }) : super(key: key);
 
   final void Function(String)? onChange;
   final TextStyle? styleLabel;
-  final TextStyle? styleHint;
+  final TextStyle? hintStyle;
   final String data;
   final bool obscureText;
   final String hintText;
@@ -43,6 +44,7 @@ class InputTextCustom extends StatelessWidget {
   final bool autocorrect;
   final void Function()? onEditingComplete;
   final TextCapitalization textCapitalization;
+  final TextStyle? style;
 
   bool? changeFillWith = false;
   static const BorderRadius radioBorderConst = BorderRadius.all(
@@ -74,6 +76,7 @@ class InputTextCustom extends StatelessWidget {
         ),
         TextFormField(
           onTap: onTap,
+          style: style,
           onEditingComplete: onEditingComplete,
           onFieldSubmitted: onFieldSubmitted,
           onChanged: onChange,
@@ -87,9 +90,11 @@ class InputTextCustom extends StatelessWidget {
           inputFormatters: inputFormatters,
           validator: validator,
           textCapitalization: textCapitalization,
+
           decoration: InputDecoration(
             fillColor: LdColors.grayBorder,
             filled: changeFillWith,
+
             border: const OutlineInputBorder(
               borderRadius: radioBorderConst,
             ),
@@ -103,7 +108,7 @@ class InputTextCustom extends StatelessWidget {
                 width: 1.5,
               ),
             ),
-            hintStyle: styleHint ?? textTheme.textGray,
+            hintStyle: hintStyle ?? textTheme.textGray,
             hintText: hintText,
             suffixIcon: suffixIcon,
           ),

@@ -79,7 +79,7 @@ class _OffertSaleMobile extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: hAppbar,
+                height: hAppbar + 30,
               ),
             ],
           ),
@@ -121,7 +121,13 @@ class _OffertSaleMobile extends StatelessWidget {
                           double.parse(amountDLYCtrl.text),
                         ),
                         controller: marginCtrl,
+                        style: TextStyle(
+                          color: LdColors.orangePrimary,fontSize: 18,fontWeight: FontWeight.w500
+                        ),
                         hintText: '0',
+                        hintStyle: TextStyle(
+                          color: LdColors.orangePrimary.withOpacity(0.7), fontSize:18
+                        ),
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(
@@ -210,7 +216,7 @@ class _OffertSaleMobile extends StatelessWidget {
                               const SizedBox(
                                 height: 12,
                               ),
-                               InputTextCustom(
+                              InputTextCustom(
                                 '# cuenta',
                                 hintText: 'Escribe el número',
                               ),
@@ -236,15 +242,14 @@ class _OffertSaleMobile extends StatelessWidget {
                               const SizedBox(
                                 height: 12,
                               ),
-                               InputTextCustom(
+                              InputTextCustom(
                                 '# documento',
                                 hintText: 'Escribe el número',
                               ),
                               const SizedBox(
                                 height: 12,
                               ),
-                               InputTextCustom(
-                                  'Nombre del titular de la cuenta',
+                              InputTextCustom('Nombre del titular de la cuenta',
                                   hintText: 'Escribe el nombre'),
                             ],
                           ),
