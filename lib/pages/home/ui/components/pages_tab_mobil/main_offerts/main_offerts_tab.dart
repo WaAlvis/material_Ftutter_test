@@ -6,12 +6,16 @@ class MainOffertsTab extends StatelessWidget {
     required this.textTheme,
     required this.itemsBuyers,
     required this.itemsSellers,
+    required this.hAppbar,
+    required this.hBody,
   });
 
   final HomeViewModel viewModel;
   final TextTheme textTheme;
   final List<Data> itemsBuyers;
   final List<Data> itemsSellers;
+  final double hAppbar;
+  final double hBody;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +23,11 @@ class MainOffertsTab extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     //Alturas de el APpbar y el body
-    final double hAppbar = size.height * 0.18;
-    final double hBody = size.height - hAppbar;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar:  LdAppbar(
-        goLogin:(context) => viewModel.goLogin(context),
+      appBar: LdAppbar(
+        goLogin: (context) => viewModel.goLogin(context),
         // withBackIcon: false,
       ),
       body: DefaultTabController(

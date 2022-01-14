@@ -7,24 +7,27 @@ class MyOffertsTab extends StatelessWidget {
     required this.viewModel,
     required this.textTheme,
     required this.listBanks,
+    required this.hAppbar,
+    required this.hBody,
   });
 
   final HomeViewModel viewModel;
   final TextTheme textTheme;
   final List<Bank> listBanks;
+  final double hAppbar;
+  final double hBody;
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     //Alturas de el APpbar y el body
-    final double hAppbar = size.height * 0.18;
-    final double hBody = size.height - hAppbar;
+
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar:  LdAppbar(
+      appBar: LdAppbar(
         title: 'Mis ofertas',
-        goLogin:(context) => viewModel.goLogin(context),
+        goLogin: (context) => viewModel.goLogin(context),
         // withBackIcon: false,
       ),
       body: DefaultTabController(

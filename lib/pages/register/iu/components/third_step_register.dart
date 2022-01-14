@@ -144,6 +144,10 @@ class ThirdStepRegister extends StatelessWidget {
                   'Continuar',
                   onPressed: () => viewModel.validateCodePin(codePinCtrl.text),
                 ),
+                PrimaryButtonCustom(
+                  'pasar sin validar',
+                  onPressed: () => viewModel.goNextStep(currentStep: 3),
+                ),
               ],
             ),
           ),

@@ -19,7 +19,7 @@ class _LoginMobile extends StatelessWidget {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    final double hAppbar = size.height * 0.26;
+    const double hAppbar = 190;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(

@@ -7,7 +7,7 @@ class _OffertBuyMobile extends StatelessWidget {
       required this.marginCtrl,
       required this.amountDLYCtrl,
       required this.infoPlusOffertCtrl,
-      vo})
+      })
       : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -21,7 +21,7 @@ class _OffertBuyMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OffertBuyViewModel viewModel = context.watch<OffertBuyViewModel>();
     final Size size = MediaQuery.of(context).size;
-    final double hAppbar = size.height * 0.14;
+    const double hAppbar = 100;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(

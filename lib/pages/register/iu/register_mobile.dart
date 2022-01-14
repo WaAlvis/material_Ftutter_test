@@ -35,7 +35,7 @@ class _RegisterMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final Size size = MediaQuery.of(context).size;
-    final double hAppbar = size.height * 0.26;
+    const double hAppbar = 190;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(

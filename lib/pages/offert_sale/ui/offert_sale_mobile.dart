@@ -1,16 +1,17 @@
 part of 'offert_sale_view.dart';
 
 class _OffertSaleMobile extends StatelessWidget {
-  const _OffertSaleMobile(
-      {Key? key,
-      required this.keyForm,
-      required this.amountDLYCtrl,
-      required this.marginCtrl,
-      required this.infoPlusOffertCtrl,
-      required this.accountNumCtrl,
-      required this.docNumCtrl,
-      required this.nameTitularAccountCtrl})
-      : super(key: key);
+  const _OffertSaleMobile({
+    Key? key,
+    required this.keyForm,
+    required this.amountDLYCtrl,
+    required this.marginCtrl,
+    required this.infoPlusOffertCtrl,
+    required this.accountNumCtrl,
+    required this.docNumCtrl,
+    required this.nameTitularAccountCtrl,
+
+  }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final TextEditingController amountDLYCtrl;
@@ -20,13 +21,15 @@ class _OffertSaleMobile extends StatelessWidget {
   final TextEditingController docNumCtrl;
   final TextEditingController nameTitularAccountCtrl;
 
+
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = context.read<UserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
-    final double hAppbar = size.height * 0.14;
+    //Alturas de el APpbar y el body
+    const double hAppbar = 100;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(
@@ -79,7 +82,7 @@ class _OffertSaleMobile extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: hAppbar + 30,
+                height: hAppbar,
               ),
             ],
           ),
@@ -114,22 +117,25 @@ class _OffertSaleMobile extends StatelessWidget {
                       const SizedBox(
                         height: 24,
                       ),
-                      InputTextCustom(
-                        'Valor de los DLYCOP*',
-                        onChange: (_) => viewModel.calculateTotalMoney(
-                          double.parse(marginCtrl.text),
-                          double.parse(amountDLYCtrl.text),
-                        ),
-                        controller: marginCtrl,
-                        style: TextStyle(
-                          color: LdColors.orangePrimary,fontSize: 18,fontWeight: FontWeight.w500
-                        ),
-                        hintText: '0',
-                        hintStyle: TextStyle(
-                          color: LdColors.orangePrimary.withOpacity(0.7), fontSize:18
-                        ),
-                        keyboardType: TextInputType.number,
-                      ),
+                      InputTextCustom('Valor de los DLYCOP*',
+                          onChange: (_) => viewModel.calculateTotalMoney(
+                                double.parse(marginCtrl.text),
+                                double.parse(amountDLYCtrl.text),
+                              ),
+                          controller: marginCtrl,
+                          style: TextStyle(
+                              color: LdColors.orangePrimary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                          hintText: '0',
+                          hintStyle: TextStyle(
+                              color: LdColors.orangePrimary.withOpacity(0.7),
+                              fontSize: 18),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.deny(RegExp(r'[. -]')),
+                          ],
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true)),
                       const SizedBox(
                         height: 24,
                       ),

@@ -13,17 +13,23 @@ class _HomeMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    const double hAppbar = 150;
+    final double hBody = size.height - hAppbar;
+
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
     final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
 
-    List<Widget> _pages = <Widget>[
+    final List<Widget> _pages = <Widget>[
       MainOffertsTab(
-          viewModel: viewModel,
-          textTheme: textTheme,
-          itemsBuyers: itemsBuyers,
-          itemsSellers: itemsSellers),
+        viewModel: viewModel,
+        textTheme: textTheme,
+        itemsBuyers: itemsBuyers,
+        itemsSellers: itemsSellers,
+        hAppbar: hAppbar,
+        hBody: hBody,
+      ),
       const Center(
         child: Text(
           'Operaciones',
@@ -34,6 +40,8 @@ class _HomeMobile extends StatelessWidget {
         viewModel: viewModel,
         textTheme: textTheme,
         listBanks: [],
+        hAppbar: hAppbar,
+        hBody: hBody,
       ),
 
       const Center(
