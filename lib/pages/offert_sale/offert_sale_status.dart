@@ -8,6 +8,9 @@ class OffertSaleStatus extends ViewStatus {
   final String costDLYtoCOP;
   final String feeMoney;
   final String totalMoney;
+  final bool isAccountNumEmpty;
+  final bool isDocNumUserEmpty;
+  final bool isNameTitularAccountEmpty;
   final bool isLoading;
   final bool isError;
   final bool isMarginEmpty;
@@ -21,6 +24,9 @@ class OffertSaleStatus extends ViewStatus {
       selectedAccountType; //cambiar el tipo cuando se consuma el servicio
 
   OffertSaleStatus({
+    required this.isAccountNumEmpty,
+    required this.isNameTitularAccountEmpty,
+    required this.isDocNumUserEmpty,
     required this.costDLYtoCOP,
     required this.isMarginEmpty,
     required this.feeMoney,
@@ -41,6 +47,9 @@ class OffertSaleStatus extends ViewStatus {
     String? feeMoney,
     String? totalMoney,
     bool? isLoading,
+    bool? isAccountNumEmpty,
+    bool? isNameTitularAccountEmpty,
+    bool? isDocNumUserEmpty,
     bool? isError,
     ResultGetBanks? listBanks,
     ResultGetDocsType? listDocsType,
@@ -50,6 +59,10 @@ class OffertSaleStatus extends ViewStatus {
     DocType? selectedAccountType,
   }) {
     return OffertSaleStatus(
+      isNameTitularAccountEmpty:
+          isNameTitularAccountEmpty ?? this.isNameTitularAccountEmpty,
+      isDocNumUserEmpty: isDocNumUserEmpty ?? this.isDocNumUserEmpty,
+      isAccountNumEmpty: isAccountNumEmpty ?? this.isAccountNumEmpty,
       isMarginEmpty: isMarginEmpty ?? this.isMarginEmpty,
       costDLYtoCOP: costDLYtoCOP ?? this.costDLYtoCOP,
       feeMoney: feeMoney ?? this.feeMoney,

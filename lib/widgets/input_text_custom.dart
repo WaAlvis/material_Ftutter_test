@@ -8,6 +8,7 @@ class InputTextCustom extends StatelessWidget {
     this.data, {
     Key? key,
     this.textInputAction,
+    this.maxLength,
     this.styleLabel,
     this.hintStyle,
     required this.hintText,
@@ -31,6 +32,7 @@ class InputTextCustom extends StatelessWidget {
   final TextStyle? styleLabel;
   final TextStyle? hintStyle;
   final String data;
+  final int? maxLength;
   final bool obscureText;
   final String hintText;
   final Widget? suffixIcon;
@@ -77,7 +79,7 @@ class InputTextCustom extends StatelessWidget {
         TextFormField(
           onTap: onTap,
           style: style,
-
+          maxLength: maxLength,
           onEditingComplete: onEditingComplete,
           onFieldSubmitted: onFieldSubmitted,
           onChanged: onChange,
@@ -91,11 +93,9 @@ class InputTextCustom extends StatelessWidget {
           inputFormatters: inputFormatters,
           validator: validator,
           textCapitalization: textCapitalization,
-
           decoration: InputDecoration(
             fillColor: LdColors.grayBorder,
             filled: changeFillWith,
-
             border: const OutlineInputBorder(
               borderRadius: radioBorderConst,
             ),
@@ -119,19 +119,19 @@ class InputTextCustom extends StatelessWidget {
   }
 }
 
-
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
-
   static const String separator = '.'; // Change this to '.' for other locales
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue,) {
-
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     // En caso de que se eliminen los separadores de miles, se retorna el valor anterior.
-    if(oldValue.text.contains(separator) &&
+    if (oldValue.text.contains(separator) &&
         !newValue.text.contains(separator) &&
-        oldValue.text.replaceAll(separator, '').length == newValue.text.length){
+        oldValue.text.replaceAll(separator, '').length ==
+            newValue.text.length) {
       return oldValue;
     }
 

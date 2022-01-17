@@ -60,6 +60,9 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
         totalItems: 10,
         totalPages: 1,
       ),
+      isAccountNumEmpty: true,
+      isDocNumUserEmpty: true,
+      isNameTitularAccountEmpty: true,
     );
   }
 
@@ -92,6 +95,31 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       status = status.copyWith(selectedBank: status.listBanks.data[index]);
     }
   }
+
+  void changeNameTitularAccount(String name) =>
+      status = status.copyWith(isNameTitularAccountEmpty: name.isEmpty);
+
+  String? validatorNotEmpty(String? valueText) {
+    if ( valueText!.isEmpty || valueText == '0'|| valueText =='0 COP') {
+      return '* Campo necesario';
+    }
+    return null;
+  }
+
+  // {
+  //   {
+  //     if (valueText == null || valueText.isEmpty) {
+  //       return '* Campo necesario';
+  //     }
+  //     return null;
+  //   }
+  // }
+
+  void changeDocNumUser(String docNum) =>
+      status = status.copyWith(isDocNumUserEmpty: docNum.isEmpty);
+
+  void changeAccountNumInput(String accountNum) =>
+      status = status.copyWith(isAccountNumEmpty: accountNum.isEmpty);
 
   void docTypeSelected(String id) {
     final int index = status.listDocsType.data.indexWhere(

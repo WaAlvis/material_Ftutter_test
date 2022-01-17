@@ -6,12 +6,14 @@ class OrangeTableSale extends StatelessWidget {
     required this.textTheme,
     this.onlyIntNum = false,
     this.controller,
+    this.validator,
     this.onChange,
     // this.dlyCopValue = '0',
   }) : super(key: key);
 
   final TextTheme textTheme;
   final bool onlyIntNum;
+  final String? Function(String?)?  validator;
   final TextEditingController? controller;
   final void Function(String)? onChange;
 
@@ -37,6 +39,7 @@ class OrangeTableSale extends StatelessWidget {
                 child: TextFormField(
                   onChanged: onChange,
                   controller: controller,
+                  validator: validator,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                     ThousandsSeparatorInputFormatter()

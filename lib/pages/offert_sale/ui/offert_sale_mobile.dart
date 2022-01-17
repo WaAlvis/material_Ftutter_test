@@ -122,8 +122,7 @@ class _OffertSaleMobile extends StatelessWidget {
                         const SizedBox(
                           height: 24,
                         ),
-                        InputTextCustom(
-                            'Valor de los DLYCOP*',
+                        InputTextCustom('Valor de los DLYCOP*',
                             onChange: (_) => viewModel.calculateTotalMoney(
                                   marginCtrl.text,
                                   amountDLYCtrl.text,
@@ -132,6 +131,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                 viewModel.resetValueMargin(marginCtrl.text),
                             onEditingComplete: () => marginCtrl.text =
                                 viewModel.completeEditMargin(marginCtrl.text),
+                            validator: (String? value) =>
+                                viewModel.validatorNotEmpty(value),
                             controller: marginCtrl,
                             changeFillWith: !viewModel.status.isMarginEmpty,
                             style: const TextStyle(
@@ -141,14 +142,16 @@ class _OffertSaleMobile extends StatelessWidget {
                             ),
                             hintText: '0 COP',
                             hintStyle: TextStyle(
-                                color: LdColors.orangePrimary.withOpacity(0.7),
-                                fontSize: 18,),
+                              color: LdColors.orangePrimary.withOpacity(0.7),
+                              fontSize: 18,
+                            ),
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\,?\d{0,2}')),
                               // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
                             ],
-                            keyboardType:
-                                const TextInputType.numberWithOptions(decimal: true)),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true)),
                         const SizedBox(
                           height: 24,
                         ),
@@ -166,6 +169,8 @@ class _OffertSaleMobile extends StatelessWidget {
                               amountDLYCtrl.text,
                             );
                           },
+                          validator: (String? value) =>
+                              viewModel.validatorNotEmpty(value),
                           textTheme: textTheme,
                           controller: amountDLYCtrl,
                         ),
@@ -219,7 +224,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                 DropdownCustom(
                                   'Tipo de cuenta',
                                   hintText: 'seleciona el tipo',
-                                  value: viewModel.status.selectedAccountType?.id,
+                                  value:
+                                      viewModel.status.selectedAccountType?.id,
                                   changeFillWith:
                                       viewModel.status.selectedAccountType !=
                                           null,
@@ -240,6 +246,17 @@ class _OffertSaleMobile extends StatelessWidget {
                                 InputTextCustom(
                                   '# cuenta',
                                   hintText: 'Escribe el número',
+                                  maxLength: 20,
+                                  onChange: (String accountNum) => viewModel
+                                      .changeAccountNumInput(accountNum),
+                                  controller: accountNumCtrl,
+                                  changeFillWith:
+                                      !viewModel.status.isAccountNumEmpty,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9]')),
+                                  ],
+                                  keyboardType: TextInputType.number,
                                 ),
                                 const SizedBox(
                                   height: 12,
@@ -252,7 +269,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                       viewModel.status.selectedDocType != null,
                                   onChanged: (String? idTypeDoc) =>
                                       viewModel.docTypeSelected(idTypeDoc!),
-                                  optionItems: viewModel.status.listDocsType.data
+                                  optionItems: viewModel
+                                      .status.listDocsType.data
                                       .map((DocType item) {
                                     return DropdownMenuItem<String>(
                                       value: item.id,
@@ -266,12 +284,34 @@ class _OffertSaleMobile extends StatelessWidget {
                                 InputTextCustom(
                                   '# documento',
                                   hintText: 'Escribe el número',
+                                  controller: docNumCtrl,
+                                  onChange: (String numberDoc) =>
+                                      viewModel.changeDocNumUser(numberDoc),
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  changeFillWith:
+                                      !viewModel.status.isDocNumUserEmpty,
                                 ),
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                InputTextCustom('Nombre del titular de la cuenta',
-                                    hintText: 'Escribe el nombre'),
+                                InputTextCustom(
+                                  'Nombre del titular de la cuenta',
+                                  hintText: 'Escribe el nombre',
+                                  keyboardType: TextInputType.name,
+                                  textCapitalization: TextCapitalization.words,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[a-zA-Z ]')),
+                                  ],
+                                  onChange: (String name) =>
+                                      viewModel.changeNameTitularAccount(name),
+                                  changeFillWith: !viewModel
+                                      .status.isNameTitularAccountEmpty,
+                                  controller: nameTitularAccountCtrl,
+                                ),
                               ],
                             ),
                           ),
@@ -293,6 +333,7 @@ class _OffertSaleMobile extends StatelessWidget {
                         TextField(
                           keyboardType: TextInputType.multiline,
                           controller: infoPlusOffertCtrl,
+                          maxLength: 250,
                           minLines: 5,
                           //Normal textInputField will be displayed
                           maxLines: 5,
@@ -427,21 +468,27 @@ class DropdownCustom extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        DropdownButtonFormField<String>(
-          value: value,
-          decoration: InputDecoration(
-            filled: changeFillWith,
-            fillColor: LdColors.grayBorder,
-            hintText: hintText,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(12.0),
-              ),
-            ),
-            // filled: changeFillWith != null ,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(width: 0.6),
           ),
-          items: optionItems,
-          onChanged: onChanged,
+          child: DropdownButtonFormField<String>(
+            value: value,
+            decoration: InputDecoration(
+              filled: changeFillWith,
+              fillColor: LdColors.grayBorder,
+              hintText: hintText,
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12.0),
+                ),
+              ),
+              // filled: changeFillWith != null ,
+            ),
+            items: optionItems,
+            onChanged: onChanged,
+          ),
         ),
       ],
     );

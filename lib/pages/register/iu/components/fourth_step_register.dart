@@ -60,7 +60,7 @@ class FourthStepRegister extends StatelessWidget {
                   validator: (String? firstName) =>
                       viewModel.validatorNotEmpty(firstName),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
                   ],
                 ),
                 const SizedBox(height: 16),
