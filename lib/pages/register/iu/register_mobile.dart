@@ -38,121 +38,129 @@ class _RegisterMobile extends StatelessWidget {
     const double hAppbar = 190;
     final double hBody = size.height - hAppbar;
 
-    return Scaffold(
-      backgroundColor: LdColors.white,
-      extendBodyBehindAppBar: true,
-      appBar: const LdAppbar(
-        title: 'Crear cuenta',
-        // withBackIcon: false,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (viewModel.status.indexStep == 2)
-            const SizedBox.shrink()
-          else
-            Container(
-              width: size.width,
-              color: LdColors.blackBackground,
-              child: Stack(
-                alignment: AlignmentDirectional.bottomStart,
-                children: <Widget>[
-                  // Esto es el circulo, ideal volverlo widget
-                  Positioned(
-                    right: 0,
-                    child: SizedBox(
-                      // El tamaño depende del tamaño de la pantalla
-                      width: (size.width) / 4,
-                      height: (size.width) / 4,
-                      child: QuarterCircle(
-                        circleAlignment: CircleAlignment.bottomRight,
-                        color: LdColors.grayLight.withOpacity(0.05),
+    return GestureDetector(
+      onTap: () {
+        final FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: LdColors.white,
+        extendBodyBehindAppBar: true,
+        appBar: const LdAppbar(
+          title: 'Crear cuenta',
+          // withBackIcon: false,
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (viewModel.status.indexStep == 2)
+              const SizedBox.shrink()
+            else
+              Container(
+                width: size.width,
+                color: LdColors.blackBackground,
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomStart,
+                  children: <Widget>[
+                    // Esto es el circulo, ideal volverlo widget
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        // El tamaño depende del tamaño de la pantalla
+                        width: (size.width) / 4,
+                        height: (size.width) / 4,
+                        child: QuarterCircle(
+                          circleAlignment: CircleAlignment.bottomRight,
+                          color: LdColors.grayLight.withOpacity(0.05),
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: SizedBox(
-                      width: (size.width) * 2 / 4,
-                      height: (size.width) * 2 / 4,
-                      child: QuarterCircle(
-                        circleAlignment: CircleAlignment.bottomRight,
-                        color: LdColors.grayLight.withOpacity(0.05),
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        width: (size.width) * 2 / 4,
+                        height: (size.width) * 2 / 4,
+                        child: QuarterCircle(
+                          circleAlignment: CircleAlignment.bottomRight,
+                          color: LdColors.grayLight.withOpacity(0.05),
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: SizedBox(
-                      width: (size.width) * 3 / 4,
-                      height: (size.width) * 3 / 4,
-                      child: QuarterCircle(
-                        circleAlignment: CircleAlignment.bottomRight,
-                        color: LdColors.grayLight.withOpacity(0.05),
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        width: (size.width) * 3 / 4,
+                        height: (size.width) * 3 / 4,
+                        child: QuarterCircle(
+                          circleAlignment: CircleAlignment.bottomRight,
+                          color: LdColors.grayLight.withOpacity(0.05),
+                        ),
                       ),
                     ),
-                  ),
-                  if (viewModel.status.indexStep == 1)
-                    sectionTitleAppbar(
-                      context,
-                      step: 1,
-                      title: 'Crear mi cuenta',
-                      description:
-                          'Para continuar ingresa tu correo electronico.',
-                      heightAppbar: hAppbar,
-                    )
-                  else if (viewModel.status.indexStep == 3)
-                    sectionTitleAppbar(
-                      context,
-                      step: 3,
-                      title: 'Validacion del correo',
-                      description:
-                          'Ingresa el codigo enviado al Email de registro.',
-                      heightAppbar: hAppbar,
-                    )
-                  else if (viewModel.status.indexStep == 4)
-                    sectionTitleAppbar(
-                      context,
-                      step: 4,
-                      title: 'Informacion de la cuenta',
-                      description:
-                          'Escribe la informacion de registro de tu cuenta.',
-                      heightAppbar: hAppbar,
-                    ),
-                ],
+                    if (viewModel.status.indexStep == 1)
+                      sectionTitleAppbar(
+                        context,
+                        step: 1,
+                        title: 'Crear mi cuenta',
+                        description:
+                            'Para continuar ingresa tu correo electronico.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.indexStep == 3)
+                      sectionTitleAppbar(
+                        context,
+                        step: 3,
+                        title: 'Validacion del correo',
+                        description:
+                            'Ingresa el codigo enviado al Email de registro.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.indexStep == 4)
+                      sectionTitleAppbar(
+                        context,
+                        step: 4,
+                        title: 'Informacion de la cuenta',
+                        description:
+                            'Escribe la informacion de registro de tu cuenta.',
+                        heightAppbar: hAppbar,
+                      ),
+                  ],
+                ),
               ),
-            ),
-          if (viewModel.status.indexStep == 1)
-            FirstStepRegister(
-              keyFirstForm: keyForm,
-              emailCtrl: emailCtrl,
-              viewModel: viewModel,
-            )
-          else if (viewModel.status.indexStep == 2)
-            SecondStepRegister(
-              viewModel: viewModel,
-            )
-          else if (viewModel.status.indexStep == 3)
-            ThirdStepRegister(
-              viewModel: viewModel,
-              heightBody: hBody,
-              codePinCtrl: codePinCtrl,
-            )
-          else if (viewModel.status.indexStep == 4)
-            FourthStepRegister(
-              viewModel: viewModel,
-              keyForm: keyForm,
-              nickNameCtrl: nickNameCtrl,
-              firstNameCtrl: firstNameCtrl,
-              firstLastNameCtrl: firstLastNameCtrl,
-              secondNameCtrl: secondNameCtrl,
-              secondLastNameCtrl: secondLastNameCtrl,
-              phoneCtrl: phoneCtrl,
-              dateBirthCtrl: dateBirthCtrl,
-              passwordCtrl: passwordCtrl,
-              confirmPassCtrl: confirmPassCtrl,
-            ),
-        ],
+            if (viewModel.status.indexStep == 1)
+              FirstStepRegister(
+                keyFirstForm: keyForm,
+                emailCtrl: emailCtrl,
+                viewModel: viewModel,
+              )
+            else if (viewModel.status.indexStep == 2)
+              SecondStepRegister(
+                viewModel: viewModel,
+              )
+            else if (viewModel.status.indexStep == 3)
+              ThirdStepRegister(
+                viewModel: viewModel,
+                heightBody: hBody,
+                codePinCtrl: codePinCtrl,
+              )
+            else if (viewModel.status.indexStep == 4)
+              FourthStepRegister(
+                viewModel: viewModel,
+                keyForm: keyForm,
+                nickNameCtrl: nickNameCtrl,
+                firstNameCtrl: firstNameCtrl,
+                firstLastNameCtrl: firstLastNameCtrl,
+                secondNameCtrl: secondNameCtrl,
+                secondLastNameCtrl: secondLastNameCtrl,
+                phoneCtrl: phoneCtrl,
+                dateBirthCtrl: dateBirthCtrl,
+                passwordCtrl: passwordCtrl,
+                confirmPassCtrl: confirmPassCtrl,
+              ),
+          ],
+        ),
       ),
     );
   }

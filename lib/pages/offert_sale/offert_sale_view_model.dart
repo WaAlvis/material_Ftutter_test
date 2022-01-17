@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -10,7 +9,6 @@ import 'package:localdaily/services/models/create_offerts/get_doc_type/response/
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/entity_offer.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
@@ -26,6 +24,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     this._interactor,
   ) {
     status = OffertSaleStatus(
+      isMarginEmpty: true,
       costDLYtoCOP: 1,
       feeMoney: 0,
       totalMoney: 0,
@@ -175,10 +174,9 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     required String bankId,
     required String accountTypeId,
     required TextEditingController accountNumCtrl,
-        //TODO falta el campo de tipo  de Documento en json
-        required String docType,
-
-        required TextEditingController docNumCtrl,
+    //TODO falta el campo de tipo  de Documento en json
+    required String docType,
+    required TextEditingController docNumCtrl,
     required TextEditingController nameTitularAccountCtrl,
     required TextEditingController infoPlusOffertCtrl,
   }
@@ -223,14 +221,39 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       status = status.copyWith(isLoading: false);
     });
   }
-  void calculateTotalMoney(double margin , double amountDLY) {
-    final double total = margin * amountDLY;
-    final double fee = total* 0.01;
-    final totalPLUSfee = total+fee;
 
-    status = status.copyWith(totalMoney: totalPLUSfee, costDLYtoCOP:  margin,feeMoney: fee );
+  String resetValueMargin(String margin) {
+    final String marginText =
+        margin != '0 COP' ? margin.substring(0, margin.indexOf(' ')) : '';
+    return marginText;
   }
 
+  String completeEditMargin(String margin) {
+    final String marginText = margin == '' ? '0 COP' : '$margin COP';
+    FocusManager.instance.primaryFocus?.unfocus();
+    return marginText;
+  }
+
+  void calculateTotalMoney(String marginText, String amountDLYText) {
+    final String amountDLYWithoutDot = amountDLYText.replaceAll('.', '');
+    final String marginWitoitString = marginText.split(' ').first.replaceAll(',', '.');
+
+
+    final double margin =
+        marginText != '' ? double.parse(marginWitoitString) : 0;
+    final double amountDLY =
+        amountDLYText != '' ? double.parse(amountDLYWithoutDot) : 0;
+    final double total = margin * amountDLY;
+    final double fee = total * 0.01;
+    final double totalPLUSfee = total + fee;
+
+    status = status.copyWith(
+      totalMoney: totalPLUSfee,
+      costDLYtoCOP: margin,
+      feeMoney: fee,
+      isMarginEmpty: marginText.isEmpty,
+    );
+  }
 }
 
 // Future<void> getAccountsType(BuildContext context) async {

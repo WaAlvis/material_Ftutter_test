@@ -39,7 +39,7 @@ class CardBuyAndSell extends StatelessWidget {
                 name: item.user.nickName,
                 stars: '+${item.user.rateSeller}',
                 // time: item.advertisement.expiredDate,
-                time:'7d',
+                time: '7d',
                 textTheme: textTheme,
               ),
               const Padding(
@@ -56,8 +56,9 @@ class CardBuyAndSell extends StatelessWidget {
                     children: <Widget>[
                       InfoValueCard(
                         title: 'Cantidad',
-                        valueMoney: NumberFormat.decimalPattern()
-                            .format(double.parse(item.advertisement.valueToSell)),
+                        valueMoney: NumberFormat.decimalPattern().format(
+                          double.parse(item.advertisement.valueToSell),
+                        ),
                         textTheme: textTheme,
                       ),
                       const SizedBox(height: 8),

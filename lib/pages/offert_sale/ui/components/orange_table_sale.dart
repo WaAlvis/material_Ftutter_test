@@ -37,9 +37,10 @@ class OrangeTableSale extends StatelessWidget {
                 child: TextFormField(
                   onChanged: onChange,
                   controller: controller,
-                  inputFormatters: onlyIntNum
-                      ? [FilteringTextInputFormatter.digitsOnly]
-                      : null,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    ThousandsSeparatorInputFormatter()
+                  ],
                   keyboardType: TextInputType.number,
                   style: textTheme.subtitleWhite,
                   decoration: InputDecoration(
@@ -68,23 +69,26 @@ class OrangeTableSale extends StatelessWidget {
           ),
           rowOrangeTable(
             firstText: 'Fee(1%)',
-            secondText: '0 DLYCOP',
+            secondText: '${viewModel.status.feeMoney} DLYCOP',
           ),
           const SizedBox(
             height: 5,
           ),
           rowOrangeTable(
             firstText: 'Total',
-            secondText: '${viewModel.status.totalMoney} DLYCOP',
+            secondText: '${NumberFormat().format(viewModel.status.totalMoney).toString().replaceAll(',', '.')} DLYCOP',
           ),
         ],
       ),
     );
   }
 
-  Row rowOrangeTable({required String firstText, required String secondText}) {
+  Widget rowOrangeTable(
+      {required String firstText, required String secondText}) {
     final TextStyle style = textTheme.textWhite.copyWith(
-        color: LdColors.grayBg.withOpacity(0.6), fontWeight: FontWeight.w100);
+        color: LdColors.grayBg.withOpacity(0.6),
+        fontWeight: FontWeight.w100,
+        overflow: TextOverflow.ellipsis);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -92,9 +96,16 @@ class OrangeTableSale extends StatelessWidget {
           firstText,
           style: style,
         ),
-        Text(
-          secondText,
-          style: style,
+        const SizedBox(
+          width: 5,
+        ),
+        Flexible(
+          child: Container(
+            child: Text(
+              secondText,
+              style: style,
+            ),
+          ),
         ),
       ],
     );

@@ -14,9 +14,10 @@ import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-
 part 'components/card_login.dart';
+
 part 'login_mobile.dart';
+
 part 'login_web.dart';
 
 class LoginView extends StatelessWidget {
@@ -51,8 +52,6 @@ class _LoginBodyState extends State<_LoginBody> {
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController usuarioCtrl = TextEditingController();
 
-
-
   @override
   void dispose() {
     passwordCtrl.dispose();
@@ -63,7 +62,9 @@ class _LoginBodyState extends State<_LoginBody> {
   @override
   Widget build(BuildContext context) {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
-    final Widget loading = viewModel.status.isLoading ? ProgressIndicatorLocalD() :const SizedBox.shrink();
+    final Widget loading = viewModel.status.isLoading
+        ? ProgressIndicatorLocalD()
+        : const SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {

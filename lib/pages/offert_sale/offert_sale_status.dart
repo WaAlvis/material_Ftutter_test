@@ -10,6 +10,7 @@ class OffertSaleStatus extends ViewStatus {
   final double totalMoney;
   final bool isLoading;
   final bool isError;
+  final bool isMarginEmpty;
   ResultGetBanks listBanks;
   ResultGetDocsType listDocsType;
   ResultGetDocsType
@@ -21,6 +22,7 @@ class OffertSaleStatus extends ViewStatus {
 
   OffertSaleStatus({
     required this.costDLYtoCOP,
+    required this.isMarginEmpty,
     required this.feeMoney,
     required this.totalMoney,
     required this.isLoading,
@@ -34,6 +36,7 @@ class OffertSaleStatus extends ViewStatus {
   });
 
   OffertSaleStatus copyWith({
+    bool? isMarginEmpty,
     double? costDLYtoCOP,
     double? feeMoney,
     double? totalMoney,
@@ -45,9 +48,9 @@ class OffertSaleStatus extends ViewStatus {
     Bank? selectedBank,
     DocType? selectedDocType,
     DocType? selectedAccountType,
-
   }) {
     return OffertSaleStatus(
+      isMarginEmpty: isMarginEmpty ?? this.isMarginEmpty,
       costDLYtoCOP: costDLYtoCOP ?? this.costDLYtoCOP,
       feeMoney: feeMoney ?? this.feeMoney,
       totalMoney: totalMoney ?? this.totalMoney,
