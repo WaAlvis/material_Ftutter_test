@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -25,9 +26,9 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
   ) {
     status = OffertSaleStatus(
       isMarginEmpty: true,
-      costDLYtoCOP: 1,
-      feeMoney: 0,
-      totalMoney: 0,
+      costDLYtoCOP: '1',
+      feeMoney: '0',
+      totalMoney: '',
       selectedDocType: null,
       selectedAccountType: null,
       selectedBank: null,
@@ -234,23 +235,31 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     return marginText;
   }
 
+  String changeSeparatorGroup(String value) {
+    if (value.contains('.')) {
+      return value.replaceAll('.', ',');
+    } else {
+      return value.replaceAll(',', '.');
+    }
+  }
+
   void calculateTotalMoney(String marginText, String amountDLYText) {
     final String amountDLYWithoutDot = amountDLYText.replaceAll('.', '');
-    final String marginWitoitString = marginText.split(' ').first.replaceAll(',', '.');
-
+    final String marginWithoutString =
+        marginText.split(' ').first.replaceAll(',', '.');
 
     final double margin =
-        marginText != '' ? double.parse(marginWitoitString) : 0;
+        marginText != '' ? double.parse(marginWithoutString) : 0;
     final double amountDLY =
         amountDLYText != '' ? double.parse(amountDLYWithoutDot) : 0;
     final double total = margin * amountDLY;
-    final double fee = total * 0.01;
+    final int fee = (total * 0.01).toInt();
     final double totalPLUSfee = total + fee;
 
     status = status.copyWith(
-      totalMoney: totalPLUSfee,
-      costDLYtoCOP: margin,
-      feeMoney: fee,
+      totalMoney: changeSeparatorGroup(NumberFormat().format(totalPLUSfee)),
+      costDLYtoCOP: changeSeparatorGroup(NumberFormat().format(margin)),
+      feeMoney: changeSeparatorGroup(NumberFormat().format(fee)),
       isMarginEmpty: marginText.isEmpty,
     );
   }

@@ -76,7 +76,7 @@ class OrangeTableSale extends StatelessWidget {
           ),
           rowOrangeTable(
             firstText: 'Total',
-            secondText: '${NumberFormat().format(viewModel.status.totalMoney).toString().replaceAll(',', '.')} DLYCOP',
+            secondText: '${viewModel.status.totalMoney} DLYCOP',
           ),
         ],
       ),
@@ -86,7 +86,7 @@ class OrangeTableSale extends StatelessWidget {
   Widget rowOrangeTable(
       {required String firstText, required String secondText}) {
     final TextStyle style = textTheme.textWhite.copyWith(
-        color: LdColors.grayBg.withOpacity(0.6),
+        color: LdColors.grayBg,
         fontWeight: FontWeight.w100,
         overflow: TextOverflow.ellipsis);
     return Row(

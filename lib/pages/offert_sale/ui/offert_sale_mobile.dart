@@ -122,7 +122,8 @@ class _OffertSaleMobile extends StatelessWidget {
                         const SizedBox(
                           height: 24,
                         ),
-                        InputTextCustom('Valor de los DLYCOP*',
+                        InputTextCustom(
+                            'Valor de los DLYCOP*',
                             onChange: (_) => viewModel.calculateTotalMoney(
                                   marginCtrl.text,
                                   amountDLYCtrl.text,
@@ -141,12 +142,13 @@ class _OffertSaleMobile extends StatelessWidget {
                             hintText: '0 COP',
                             hintStyle: TextStyle(
                                 color: LdColors.orangePrimary.withOpacity(0.7),
-                                fontSize: 18),
+                                fontSize: 18,),
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.deny(RegExp(r'[. -]')),
+                              FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}')),
+                              // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
                             ],
                             keyboardType:
-                                TextInputType.numberWithOptions(decimal: true)),
+                                const TextInputType.numberWithOptions(decimal: true)),
                         const SizedBox(
                           height: 24,
                         ),

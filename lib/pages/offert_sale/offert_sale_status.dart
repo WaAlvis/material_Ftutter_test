@@ -5,9 +5,9 @@ import 'package:localdaily/services/models/create_offerts/get_doc_type/response/
 import 'package:localdaily/view_model.dart';
 
 class OffertSaleStatus extends ViewStatus {
-  final double costDLYtoCOP;
-  final double feeMoney;
-  final double totalMoney;
+  final String costDLYtoCOP;
+  final String feeMoney;
+  final String totalMoney;
   final bool isLoading;
   final bool isError;
   final bool isMarginEmpty;
@@ -37,9 +37,9 @@ class OffertSaleStatus extends ViewStatus {
 
   OffertSaleStatus copyWith({
     bool? isMarginEmpty,
-    double? costDLYtoCOP,
-    double? feeMoney,
-    double? totalMoney,
+    String? costDLYtoCOP,
+    String? feeMoney,
+    String? totalMoney,
     bool? isLoading,
     bool? isError,
     ResultGetBanks? listBanks,
