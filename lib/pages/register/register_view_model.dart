@@ -209,7 +209,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  void goDescValidate(String email) {
+  void requiredPinForEmailValidation(String email) {
     status = status.copyWith(
       isLoading: true,
     );

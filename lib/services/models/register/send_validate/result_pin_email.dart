@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:localdaily/services/models/register/send_validate/entity_pin_email.dart';
+import 'package:localdaily/services/models/register/send_validate/result_entity_pin.dart';
+import 'package:localdaily/services/models/register/validate_pin/entity_response_validate_pin.dart';
 
 part 'result_pin_email.g.dart';
 
@@ -13,7 +15,7 @@ class ResultPinEmail {
   factory ResultPinEmail.fromJson(Map<String, dynamic> json) =>
       _$ResultPinEmailFromJson(json);
 
-  EntityPinEmail entity;
+  ResultEntityPin entity;
 
 
 

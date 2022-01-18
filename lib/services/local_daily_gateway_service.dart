@@ -67,7 +67,7 @@ abstract class LocalDailyGatewayService {
       @Body() BodyOffert bodyOffert,);
 
   @POST(UrlsApi.sendPinEmail)
-  Future<ResponseData<ResultPinEmail>> sendPinEmail(
+  Future<ResponseData<ResultPinEmail>>    sendPinEmail(
       @Body() BodyPinEmail bodyPin,);
 
   @POST(UrlsApi.validateToken)
@@ -79,7 +79,7 @@ abstract class LocalDailyGatewayService {
 //     @Body() BodyLogin bodyLogin,
 //     );
 }
-
+//
 // { solicitar codigo pin al correo
 //   "entity": {
 //   "clientId": "2955cb39-61da-46ea-b503-42cb33831c8a",

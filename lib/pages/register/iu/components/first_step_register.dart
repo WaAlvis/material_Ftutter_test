@@ -56,7 +56,7 @@ class FirstStepRegister extends StatelessWidget {
                 'Enviar codigo de verificacion',
                 onPressed: () {
                   if (keyFirstForm.currentState!.validate()) {
-                    viewModel.goDescValidate(emailCtrl.text);
+                    viewModel.requiredPinForEmailValidation(emailCtrl.text);
                   }
                 },
               ),
