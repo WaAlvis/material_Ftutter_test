@@ -360,8 +360,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required String dateBirth,
   }) async {
     status = status.copyWith(isLoading: true);
-    print('name: $firstName');
-    print('Email: $email');
+
     final String sha256pass = encrypPass(password).toString();
     print('pass256 $sha256pass');
 
@@ -379,6 +378,20 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isActive: true,
       addressWallet: '',
     );
+    // final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
+    //   nickName: 'nickName',
+    //   firstName: 'firstName',
+    //   secondName: 'secondName',
+    //   firstLastName: 'firstLastName',
+    //   secondLastName: 'secondLastName',
+    //   dateBirth: '12/12/1992',
+    //   email: 'email',
+    //   phone: '123',
+    //   userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
+    //   password: 'Aa12345678*',
+    //   isActive: true,
+    //   addressWallet: '',
+    // );
 
     _interactor
         .postRegisterUser(bodyRegister)

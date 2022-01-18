@@ -67,6 +67,7 @@ class FourthStepRegister extends StatelessWidget {
                 InputTextCustom(
                   'Segundo nombre  *',
                   hintText: 'Ingresa tu segundo nombre',
+                  controller: secondNameCtrl,
                   onChange: (String value) => viewModel.changeSecondName(value),
                   changeFillWith: !viewModel.status.isSecondNameFieldEmpty,
                   textInputAction: TextInputAction.next,
@@ -226,6 +227,26 @@ class FourthStepRegister extends StatelessWidget {
                         confirrmPassCtrl: confirmPassCtrl,
                       );
                     }
+                  },
+                ),
+                PrimaryButtonCustom(
+                  'Registrar',
+                  onPressed: () {
+
+                      viewModel.registerUser(
+                        context,
+                        nickNameCtrl: nickNameCtrl,
+                        firstNameCtrl: firstNameCtrl,
+                        firstLastNameCtrl: firstLastNameCtrl,
+                        secondNameCtrl: secondNameCtrl,
+                        secondLastNameCtrl: secondLastNameCtrl,
+                        phoneCtrl: phoneCtrl,
+                        emailRegister: viewModel.status.emailRegister,
+                        dateBirthCtrl: viewModel.status.dateBirthCtrl,
+                        passwordCtrl: passwordCtrl,
+                        confirrmPassCtrl: confirmPassCtrl,
+                      );
+
                   },
                 ),
               ],

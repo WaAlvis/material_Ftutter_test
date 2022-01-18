@@ -18,6 +18,7 @@ class ResultRegister{
     required this.userTypeId,
     required this.password,
     required this.isActive,
+    required this.addressWallet,
   });
   factory ResultRegister.fromJson(Map<String, dynamic> json) =>
       _$ResultRegisterFromJson(json);
@@ -36,6 +37,7 @@ class ResultRegister{
   String userTypeId;
   String password;
   bool isActive;
+  String addressWallet;
 
   Map<String, dynamic> toJson() => _$ResultRegisterToJson(this);
 }

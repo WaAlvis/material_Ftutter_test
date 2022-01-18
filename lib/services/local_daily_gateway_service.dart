@@ -17,7 +17,6 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:retrofit/http.dart';
 
-
 part 'local_daily_gateway_service.g.dart';
 
 class UrlsApi {
@@ -41,38 +40,47 @@ abstract class LocalDailyGatewayService {
   //LOGIN
 
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
-  _LocalDailyGatewayService;
+      _LocalDailyGatewayService;
 
   @POST(UrlsApi.getDataHome)
   Future<ResponseData<ResultHome>> getAdvertismentHome(
-      @Body() BodyHome bodyHome,);
+    @Body() BodyHome bodyHome,
+  );
 
   @POST(UrlsApi.createUser)
   Future<ResponseData<ResultRegister>> registerUser(
-      @Body() BodyRegisterDataUser bodyRegisterDataUser,);
+    @Body() BodyRegisterDataUser bodyRegisterDataUser,
+  );
 
   @POST(UrlsApi.login)
-  Future<ResponseData<ResultLogin>> loginUser(@Body() BodyLogin bodyLogin,);
+  Future<ResponseData<ResultLogin>> loginUser(
+    @Body() BodyLogin bodyLogin,
+  );
 
   @POST(UrlsApi.getBanks)
   Future<ResponseData<ResultGetBanks>> getBanks(
-      @Body() Pagination bodyGetBanks,);
+    @Body() Pagination bodyGetBanks,
+  );
 
   @POST(UrlsApi.getDocsType)
   Future<ResponseData<ResultGetDocsType>> getDocsType(
-      @Body() Pagination bodyGetDocsType,);
+    @Body() Pagination bodyGetDocsType,
+  );
 
   @POST(UrlsApi.createOffert)
   Future<ResponseData<ResultCreateOffert>> createOffert(
-      @Body() BodyOffert bodyOffert,);
+    @Body() BodyOffert bodyOffert,
+  );
 
   @POST(UrlsApi.sendPinEmail)
-  Future<ResponseData<ResultPinEmail>>    sendPinEmail(
-      @Body() BodyPinEmail bodyPin,);
+  Future<ResponseData<ResultPinEmail>> sendPinEmail(
+    @Body() BodyPinEmail bodyPin,
+  );
 
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
-      @Body() BodyValidatePin bodyValidatePin,);
+    @Body() BodyValidatePin bodyValidatePin,
+  );
 
 // @POST(UrlsApi.login)
 // Future<ResponseData<ResultLogin>> login(
@@ -113,16 +121,16 @@ abstract class LocalDailyGatewayService {
 // }
 
 // { *Create User
-// "nickName": "n",
-// "firstName": "b",
-// "secondName": "v",
-// "firstLastName": "v",
-// "secondLastName": "c",
-// "dateBirth": "12/12/1221",
+// "nickName": "nick",
+// "firstName": "nick",
+// "secondName": "nick",
+// "firstLastName": "nick",
+// "secondLastName": "nick",
+// "dateBirth": "12/12/1921",
 // "email": "test@g.com",
 // "phone": "123",
 // "userTypeId": "9c2f4526-5933-4404-96fc-784a87a7b674",
-// "password": "1234",
+// "password": "Aa12345678*",
 // "isActive": true
 // }
 
