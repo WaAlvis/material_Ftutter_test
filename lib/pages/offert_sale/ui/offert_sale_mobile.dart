@@ -194,6 +194,8 @@ class _OffertSaleMobile extends StatelessWidget {
                         DropdownCustom(
                           'Banco *',
                           hintText: 'Seleciona tu banco',
+                          validator: (String? value) =>
+                              viewModel.validatorNotEmpty(value),
                           changeFillWith: viewModel.status.selectedBank != null,
                           value: viewModel.status.selectedBank?.id,
                           onChanged: (String? idBank) =>
@@ -224,6 +226,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                 DropdownCustom(
                                   'Tipo de cuenta',
                                   hintText: 'seleciona el tipo',
+                                  validator: (String? value) =>
+                                      viewModel.validatorNotEmpty(value),
                                   value:
                                       viewModel.status.selectedAccountType?.id,
                                   changeFillWith:
@@ -247,6 +251,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                   '# cuenta',
                                   hintText: 'Escribe el número',
                                   maxLength: 20,
+                                  validator: (String? value) =>
+                                      viewModel.validatorNotEmpty(value),
                                   onChange: (String accountNum) => viewModel
                                       .changeAccountNumInput(accountNum),
                                   controller: accountNumCtrl,
@@ -265,6 +271,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                   'Tipo de documento',
                                   hintText: 'Seleciona el tipo',
                                   value: viewModel.status.selectedDocType?.id,
+                                  validator: (String? value) =>
+                                      viewModel.validatorNotEmpty(value),
                                   changeFillWith:
                                       viewModel.status.selectedDocType != null,
                                   onChanged: (String? idTypeDoc) =>
@@ -285,6 +293,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                   '# documento',
                                   hintText: 'Escribe el número',
                                   controller: docNumCtrl,
+                                  validator: (String? value) =>
+                                      viewModel.validatorNotEmpty(value),
                                   onChange: (String numberDoc) =>
                                       viewModel.changeDocNumUser(numberDoc),
                                   keyboardType: TextInputType.number,
@@ -300,6 +310,8 @@ class _OffertSaleMobile extends StatelessWidget {
                                 InputTextCustom(
                                   'Nombre del titular de la cuenta',
                                   hintText: 'Escribe el nombre',
+                                  validator: (String? value) =>
+                                      viewModel.validatorNotEmpty(value),
                                   keyboardType: TextInputType.name,
                                   textCapitalization: TextCapitalization.words,
                                   inputFormatters: [
@@ -438,6 +450,7 @@ class DropdownCustom extends StatelessWidget {
     required this.onChanged,
     required this.value,
     this.changeFillWith,
+    this.validator,
     // this.styleLabel,
     // this.styleHint,
     // this.suffixIcon,
@@ -448,6 +461,7 @@ class DropdownCustom extends StatelessWidget {
   final List<DropdownMenuItem<String>>? optionItems;
   final void Function(String?)? onChanged;
   final String? value;
+  final String? Function(String?)? validator;
   bool? changeFillWith = false;
 
   @override
@@ -468,27 +482,23 @@ class DropdownCustom extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(width: 0.6),
-          ),
-          child: DropdownButtonFormField<String>(
-            value: value,
-            decoration: InputDecoration(
-              filled: changeFillWith,
-              fillColor: LdColors.grayBorder,
-              hintText: hintText,
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
+        DropdownButtonFormField<String>(
+          validator: validator,
+          value: value,
+          decoration: InputDecoration(
+            filled: changeFillWith,
+            fillColor: LdColors.grayBorder,
+            hintText: hintText,
+            border: const OutlineInputBorder(
+              borderSide: BorderSide(color: LdColors.orangePrimary),
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
               ),
-              // filled: changeFillWith != null ,
             ),
-            items: optionItems,
-            onChanged: onChanged,
+            // filled: changeFillWith != null ,
           ),
+          items: optionItems,
+          onChanged: onChanged,
         ),
       ],
     );

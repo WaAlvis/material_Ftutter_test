@@ -100,7 +100,10 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       status = status.copyWith(isNameTitularAccountEmpty: name.isEmpty);
 
   String? validatorNotEmpty(String? valueText) {
-    if ( valueText!.isEmpty || valueText == '0'|| valueText =='0 COP') {
+    if (valueText == null ||
+        valueText.isEmpty ||
+        valueText == '0' ||
+        valueText == '0 COP') {
       return '* Campo necesario';
     }
     return null;
