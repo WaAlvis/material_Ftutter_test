@@ -7,9 +7,11 @@ class _OffertBuyMobile extends StatelessWidget {
     required this.marginCtrl,
     required this.amountDLYCtrl,
     required this.infoPlusOffertCtrl,
+    required this.focusDLYCOP,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
+  final FocusNode focusDLYCOP;
   final TextEditingController marginCtrl;
   final TextEditingController amountDLYCtrl;
   final TextEditingController infoPlusOffertCtrl;
@@ -28,6 +30,7 @@ class _OffertBuyMobile extends StatelessWidget {
         final FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
+          marginCtrl.text = viewModel.completeEditMargin(marginCtrl.text);
         }
       },
       child: Scaffold(
@@ -79,7 +82,7 @@ class _OffertBuyMobile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: hAppbar,
                 ),
               ],
@@ -123,13 +126,14 @@ class _OffertBuyMobile extends StatelessWidget {
                                 marginCtrl.text,
                                 amountDLYCtrl.text,
                               ),
+                              onEditingComplete: () => marginCtrl.text =
+                                  viewModel.completeEditMargin(marginCtrl.text),
                               style: const TextStyle(
                                 color: LdColors.orangePrimary,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                               ),
                               controller: marginCtrl,
-
                               validator: (String? value) =>
                                   viewModel.validatorNotEmpty(value),
                               changeFillWith: !viewModel.status.isMarginEmpty,
