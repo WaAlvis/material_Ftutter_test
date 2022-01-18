@@ -1,14 +1,13 @@
 part of 'offert_buy_view.dart';
 
 class _OffertBuyMobile extends StatelessWidget {
-  const _OffertBuyMobile(
-      {Key? key,
-      required this.keyForm,
-      required this.marginCtrl,
-      required this.amountDLYCtrl,
-      required this.infoPlusOffertCtrl,
-      })
-      : super(key: key);
+  const _OffertBuyMobile({
+    Key? key,
+    required this.keyForm,
+    required this.marginCtrl,
+    required this.amountDLYCtrl,
+    required this.infoPlusOffertCtrl,
+  }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final TextEditingController marginCtrl;
@@ -31,7 +30,6 @@ class _OffertBuyMobile extends StatelessWidget {
           currentFocus.unfocus();
         }
       },
-
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: LdColors.blackBackground,
@@ -122,12 +120,34 @@ class _OffertBuyMobile extends StatelessWidget {
                             InputTextCustom(
                               'Valor de los DLYCOP*',
                               onChange: (_) => viewModel.calculateTotalMoney(
-                                double.parse(marginCtrl.text),
-                                double.parse(amountDLYCtrl.text),
+                                marginCtrl.text,
+                                amountDLYCtrl.text,
+                              ),
+                              style: const TextStyle(
+                                color: LdColors.orangePrimary,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
                               ),
                               controller: marginCtrl,
-                              hintText: '0',
-                              keyboardType: TextInputType.numberWithOptions(),
+
+                              validator: (String? value) =>
+                                  viewModel.validatorNotEmpty(value),
+                              changeFillWith: !viewModel.status.isMarginEmpty,
+                              hintText: '0 COP',
+                              hintStyle: TextStyle(
+                                color: LdColors.orangePrimary.withOpacity(0.7),
+                                fontSize: 18,
+                              ),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\,?\d{0,2}'),
+                                ),
+                                // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
+                              ],
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
                             ),
                             const SizedBox(
                               height: 24,
@@ -142,8 +162,8 @@ class _OffertBuyMobile extends StatelessWidget {
                             AmountOrangeTableBuy(
                               textTheme: textTheme,
                               onChange: (_) => viewModel.calculateTotalMoney(
-                                  double.parse(marginCtrl.text),
-                                  double.parse(amountDLYCtrl.text),
+                                marginCtrl.text,
+                                amountDLYCtrl.text,
                               ),
                               controller: amountDLYCtrl,
                             ),
@@ -151,7 +171,7 @@ class _OffertBuyMobile extends StatelessWidget {
                               height: 20,
                             ),
                             Text(
-                              'Bancos para recibir el pago',
+                              'Bancos para realizar el pago',
                               style: textTheme.textBigBlack,
                             ),
                             const SizedBox(

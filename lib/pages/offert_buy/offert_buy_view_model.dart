@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -22,7 +23,8 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     this._interactor,
   ) {
     status = OffertBuyStatus(
-      totalMoney: 0,
+      isMarginEmpty: true,
+      totalMoney: '0',
       selectedBank: null,
       isLoading: true,
       isError: true,
@@ -41,9 +43,25 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     getBank(context);
   }
 
-  void calculateTotalMoney(double margin, double amountDLY) {
-    final double total = margin * amountDLY;
-    status = status.copyWith(totalMoney: total);
+  String changeSeparatorGroup(String value) {
+    if (value.contains('.')) {
+      return value.replaceAll('.', ',');
+    } else {
+      return value.replaceAll(',', '.');
+    }
+  }
+
+  void calculateTotalMoney(String margin, String amountDLY) {
+    final double marginDouble =
+        margin != '' ? double.parse(changeSeparatorGroup(margin)) : 0;
+    final double amountDLYDouble =
+        amountDLY != '' ? double.parse(amountDLY.replaceAll('.', '')) : 0;
+
+    final double total = marginDouble * amountDLYDouble;
+    status = status.copyWith(
+      totalMoney: changeSeparatorGroup(NumberFormat().format(total)),
+      isMarginEmpty: margin.toString().isEmpty,
+    );
   }
 
   void bankSelected(String id) {
@@ -54,6 +72,16 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     if (index != -1) {
       status = status.copyWith(selectedBank: status.listBanks.data[index]);
     }
+  }
+
+  String? validatorNotEmpty(String? valueText) {
+    if (valueText == null ||
+        valueText.isEmpty ||
+        valueText == '0' ||
+        valueText == '0 COP') {
+      return '* Campo necesario';
+    }
+    return null;
   }
 
   Future<void> getBank(BuildContext context) async {

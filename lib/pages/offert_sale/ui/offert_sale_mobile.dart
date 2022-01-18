@@ -151,7 +151,7 @@ class _OffertSaleMobile extends StatelessWidget {
                               // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
                             ],
                             keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true)),
+                                decimal: true,),),
                         const SizedBox(
                           height: 24,
                         ),

@@ -39,9 +39,10 @@ class AmountOrangeTableBuy extends StatelessWidget {
                 child: TextFormField(
                   onChanged: onChange,
                   controller: controller,
-                  inputFormatters: onlyIntNum
-                      ? [FilteringTextInputFormatter.digitsOnly]
-                      : null,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    ThousandsSeparatorInputFormatter()
+                  ],
                   keyboardType: TextInputType.number,
                   style: textTheme.subtitleWhite,
                   decoration: InputDecoration(
