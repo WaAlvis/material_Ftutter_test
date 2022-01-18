@@ -218,7 +218,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         status = status.copyWith(
           emailRegister: email,
         );
-        sendPinEmail(email);
+        sendPinToEmail(email);
         goNextStep(currentStep: 1);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -262,7 +262,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> sendPinEmail(
+  Future<void> sendPinToEmail(
     String email,
   ) async {
     status = status.copyWith(
@@ -274,14 +274,12 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       clientId: '2955cb39-61da-46ea-b503-42cb33831c8a',
       numberOrEmail: email,
       codevia: '2955cb39-61da-46ea-b503-42cb33831c8a',
-      accountSid: 'AC9b9a39dbfa35ec8d06c6779ae463673c',
-      authToken: '207f158a1ebcdd065e7195e49a7c4542',
     );
     final BodyPinEmail bodyPin = BodyPinEmail(
       entity: entityPin,
     );
 
-    _interactor.sendPinValidateEmail(bodyPin).then((
+    _interactor.requestPinValidateEmail(bodyPin).then((
       ResponseData<ResultPinEmail> response,
     ) {
       if (response.isSuccess) {

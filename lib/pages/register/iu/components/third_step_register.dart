@@ -126,7 +126,7 @@ class ThirdStepRegister extends StatelessWidget {
                                 ),
                               );
                               viewModel
-                                  .sendPinEmail(viewModel.status.emailRegister);
+                                  .sendPinToEmail(viewModel.status.emailRegister);
                             },
                           ),
                           Text(

@@ -47,19 +47,21 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultPinEmail>> sendPinValidateEmail(
-      BodyPinEmail bodyPin,
+  Future<ResponseData<ResultPinEmail>> requestPinValidateEmail(
+    BodyPinEmail bodyPin,
   ) async {
     final ResponseData<ResultPinEmail> response =
         await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
     print(response.statusCode);
     return response;
   }
+
   Future<ResponseData<ResultValidatePin>> validatePin(
-      BodyValidatePin bodyValidatePin,
-      ) async {
+    BodyValidatePin bodyValidatePin,
+  ) async {
     final ResponseData<ResultValidatePin> response =
-    await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
+        await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
+    print(response.result);
     return response;
   }
 

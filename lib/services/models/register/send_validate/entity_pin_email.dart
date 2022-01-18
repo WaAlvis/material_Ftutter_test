@@ -8,8 +8,7 @@ class EntityPinEmail {
     required this.clientId,
     required this.numberOrEmail,
     required this.codevia,
-    required this.accountSid,
-    required this.authToken,
+
   });
 
   factory EntityPinEmail.fromJson(Map<String, dynamic> json) => _$EntityPinEmailFromJson(json);
@@ -17,8 +16,6 @@ class EntityPinEmail {
   String clientId;
   String numberOrEmail;
   String codevia;
-  String accountSid;
-  String authToken;
 
   Map<String, dynamic> toJson() => _$EntityPinEmailToJson(this);
 }

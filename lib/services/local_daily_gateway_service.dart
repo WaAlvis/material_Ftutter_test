@@ -85,8 +85,7 @@ abstract class LocalDailyGatewayService {
 //   "clientId": "2955cb39-61da-46ea-b503-42cb33831c8a",
 //   "numberOrEmail": "alvis.wap@gmail.com",
 //   "codevia": "2955cb39-61da-46ea-b503-42cb33831c8a",
-//   "accountSid": "AC9b9a39dbfa35ec8d06c6779ae463673c",
-//   "authToken": "207f158a1ebcdd065e7195e49a7c4542"
+//   &
 //   }
 // }
 
