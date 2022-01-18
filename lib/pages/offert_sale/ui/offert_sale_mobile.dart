@@ -122,36 +122,39 @@ class _OffertSaleMobile extends StatelessWidget {
                         const SizedBox(
                           height: 24,
                         ),
-                        InputTextCustom('Valor de los DLYCOP*',
-                            onChange: (_) => viewModel.calculateTotalMoney(
-                                  marginCtrl.text,
-                                  amountDLYCtrl.text,
-                                ),
-                            onTap: () => marginCtrl.text =
-                                viewModel.resetValueMargin(marginCtrl.text),
-                            onEditingComplete: () => marginCtrl.text =
-                                viewModel.completeEditMargin(marginCtrl.text),
-                            validator: (String? value) =>
-                                viewModel.validatorNotEmpty(value),
-                            controller: marginCtrl,
-                            changeFillWith: !viewModel.status.isMarginEmpty,
-                            style: const TextStyle(
-                              color: LdColors.orangePrimary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            hintText: '0 COP',
-                            hintStyle: TextStyle(
-                              color: LdColors.orangePrimary.withOpacity(0.7),
-                              fontSize: 18,
-                            ),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+\,?\d{0,2}')),
-                              // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
-                            ],
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true,),),
+                        InputTextCustom(
+                          'Valor de los DLYCOP*',
+                          onChange: (_) => viewModel.calculateTotalMoney(
+                            marginCtrl.text,
+                            amountDLYCtrl.text,
+                          ),
+                          onTap: () => marginCtrl.text =
+                              viewModel.resetValueMargin(marginCtrl.text),
+                          onEditingComplete: () => marginCtrl.text =
+                              viewModel.completeEditMargin(marginCtrl.text),
+                          validator: (String? value) =>
+                              viewModel.validatorNotEmpty(value),
+                          controller: marginCtrl,
+                          changeFillWith: !viewModel.status.isMarginEmpty,
+                          style: const TextStyle(
+                            color: LdColors.orangePrimary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          hintText: '0 COP',
+                          hintStyle: TextStyle(
+                            color: LdColors.orangePrimary.withOpacity(0.7),
+                            fontSize: 18,
+                          ),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d+\,?\d{0,2}')),
+                            // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
+                          ],
+                          keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                        ),
                         const SizedBox(
                           height: 24,
                         ),
@@ -409,25 +412,27 @@ class _OffertSaleMobile extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        PrimaryButtonCustom('Crear oferta de venta',
-                            onPressed: () {
-                          if (keyForm.currentState!.validate()) {
-                            viewModel.postCreateOffert(
-                              context,
-                              userId: userProvider.getUserLogged!.id,
-                              docNumCtrl: docNumCtrl,
-                              marginCtrl: marginCtrl,
-                              accountTypeId:
-                                  viewModel.status.selectedAccountType!.id,
-                              accountNumCtrl: accountNumCtrl,
-                              nameTitularAccountCtrl: nameTitularAccountCtrl,
-                              bankId: viewModel.status.selectedBank!.id,
-                              amountDLYCtrl: amountDLYCtrl,
-                              infoPlusOffertCtrl: infoPlusOffertCtrl,
-                              docType: viewModel.status.selectedDocType!.id,
-                            );
-                          }
-                        }),
+                        PrimaryButtonCustom(
+                          'Crear oferta de venta',
+                          onPressed: () {
+                            if (keyForm.currentState!.validate()) {
+                              viewModel.postCreateOffert(
+                                context,
+                                userId: userProvider.getUserLogged!.id,
+                                docNumCtrl: docNumCtrl,
+                                marginCtrl: marginCtrl,
+                                accountTypeId:
+                                    viewModel.status.selectedAccountType!.id,
+                                accountNumCtrl: accountNumCtrl,
+                                nameTitularAccountCtrl: nameTitularAccountCtrl,
+                                bankId: viewModel.status.selectedBank!.id,
+                                amountDLYCtrl: amountDLYCtrl,
+                                infoPlusOffertCtrl: infoPlusOffertCtrl,
+                                docType: viewModel.status.selectedDocType!.id,
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),
