@@ -31,7 +31,9 @@ class _OffertBuyMobile extends StatelessWidget {
 
         if (!currentFocus.hasPrimaryFocus || !currentFocus.hasFocus) {
           currentFocus.unfocus();
-          marginCtrl.text = viewModel.completeEditMargin(marginCtrl.text, );
+          marginCtrl.text = viewModel.completeEditMargin(
+            marginCtrl.text,
+          );
         }
       },
       child: Scaffold(
@@ -93,9 +95,9 @@ class _OffertBuyMobile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 decoration: const BoxDecoration(
-                    color: LdColors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25)),),
+                  color: LdColors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                ),
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -127,8 +129,12 @@ class _OffertBuyMobile extends StatelessWidget {
                                 marginCtrl.text,
                                 amountDLYCtrl.text,
                               ),
+                              onTap: () => marginCtrl.text =
+                                  viewModel.resetValueMargin(marginCtrl.text),
                               onEditingComplete: () => marginCtrl.text =
-                                  viewModel.completeEditMargin(marginCtrl.text, ),
+                                  viewModel.completeEditMargin(
+                                marginCtrl.text,
+                              ),
                               style: const TextStyle(
                                 color: LdColors.orangePrimary,
                                 fontSize: 18,
@@ -166,6 +172,8 @@ class _OffertBuyMobile extends StatelessWidget {
                             ),
                             AmountOrangeTableBuy(
                               textTheme: textTheme,
+                              validator: (String? value) =>
+                                  viewModel.validatorNotEmpty(value),
                               onChange: (_) => viewModel.calculateTotalMoney(
                                 marginCtrl.text,
                                 amountDLYCtrl.text,
@@ -192,6 +200,8 @@ class _OffertBuyMobile extends StatelessWidget {
                             DropdownCustom(
                               'Banco *',
                               hintText: 'Seleciona tu banco',
+                              validator: (String? value) =>
+                                  viewModel.validatorNotEmpty(value),
                               changeFillWith:
                                   viewModel.status.selectedBank != null,
                               optionItems: viewModel.status.listBanks.data
@@ -226,6 +236,7 @@ class _OffertBuyMobile extends StatelessWidget {
                               minLines: 5,
                               //Normal textInputField will be displayed
                               maxLines: 5,
+                              maxLength: 250,
                               // when user presses enter it will adapt to it
                               decoration: const InputDecoration(
                                   hintText:
@@ -234,7 +245,7 @@ class _OffertBuyMobile extends StatelessWidget {
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8),
                                     ),
-                                  )),
+                                  ),),
                             ),
                             const SizedBox(
                               height: 20,
@@ -286,19 +297,21 @@ class _OffertBuyMobile extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            PrimaryButtonCustom('Crear oferta de venta',
-                                onPressed: () {
-                              if (keyForm.currentState!.validate()) {
-                                viewModel.buyCreateOffert(
-                                  context,
-                                  marginCtrl: marginCtrl,
-                                  bankId: viewModel.status.selectedBank!.id,
-                                  amountDLYCtrl: amountDLYCtrl,
-                                  infoPlusOffertCtrl: infoPlusOffertCtrl,
-                                  userId: userProvider.getUserLogged!.id,
-                                );
-                              }
-                            }),
+                            PrimaryButtonCustom(
+                              'Crear oferta de venta',
+                              onPressed: () {
+                                if (keyForm.currentState!.validate()) {
+                                  viewModel.buyCreateOffert(
+                                    context,
+                                    marginCtrl: marginCtrl,
+                                    bankId: viewModel.status.selectedBank!.id,
+                                    amountDLYCtrl: amountDLYCtrl,
+                                    infoPlusOffertCtrl: infoPlusOffertCtrl,
+                                    userId: userProvider.getUserLogged!.id,
+                                  );
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -323,6 +336,7 @@ class DropdownCustom extends StatelessWidget {
     required this.onChanged,
     required this.value,
     this.changeFillWith,
+    this.validator,
     // this.styleLabel,
     // this.styleHint,
     // this.suffixIcon,
@@ -332,6 +346,7 @@ class DropdownCustom extends StatelessWidget {
   final String hintText;
   final List<DropdownMenuItem<String>>? optionItems;
   final void Function(String?)? onChanged;
+  final String? Function(String?)? validator;
   final String? value;
   bool? changeFillWith = false;
 
@@ -355,8 +370,6 @@ class DropdownCustom extends StatelessWidget {
         ),
         DropdownButtonFormField<String>(
           value: value,
-
-          // hint: const Text('Seleciona tu banco'),
           decoration: InputDecoration(
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
@@ -364,10 +377,12 @@ class DropdownCustom extends StatelessWidget {
               ),
             ),
             filled: changeFillWith,
+
             // filled: changeFillWith != null ,
             hintText: hintText,
             fillColor: LdColors.grayBorder,
           ),
+          validator: validator,
           items: optionItems,
           onChanged: onChanged,
         ),

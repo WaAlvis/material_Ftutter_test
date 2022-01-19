@@ -43,7 +43,17 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
     getBank(context);
   }
 
-  String changeSeparatorGroup(String value) {
+  String resetValueMargin(String margin) {
+    final String marginText = margin != '0 COP'
+        ? margin.substring(
+            0,
+            margin.indexOf(' '),
+          )
+        : '';
+    return marginText;
+  }
+
+  String _changeSeparatorGroup(String value) {
     if (value.contains('.')) {
       return value.replaceAll('.', ',');
     } else {
@@ -63,14 +73,14 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
 
   void calculateTotalMoney(String margin, String amountDLY) {
     final double marginDouble = margin != ''
-        ? double.parse(changeSeparatorGroup(margin.split(' ').first))
+        ? double.parse(_changeSeparatorGroup(margin.split(' ').first))
         : 0;
     final double amountDLYDouble =
         amountDLY != '' ? double.parse(amountDLY.replaceAll('.', '')) : 0;
 
     final double total = marginDouble * amountDLYDouble;
     status = status.copyWith(
-      totalMoney: changeSeparatorGroup(NumberFormat().format(total)),
+      totalMoney: _changeSeparatorGroup(NumberFormat().format(total)),
       isMarginEmpty: margin.toString().isEmpty,
     );
   }
