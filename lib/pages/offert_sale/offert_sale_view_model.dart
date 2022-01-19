@@ -261,8 +261,12 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
   }
 
   String completeEditMargin(String margin) {
-    final String marginText = margin == '' ? '0 COP' : '$margin COP';
     FocusManager.instance.primaryFocus?.unfocus();
+    final String marginText = margin == ''
+        ? ''
+        : !margin.contains(' ')
+        ? '$margin COP'
+        : margin;
     return marginText;
   }
 

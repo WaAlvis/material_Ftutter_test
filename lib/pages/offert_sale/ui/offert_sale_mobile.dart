@@ -33,8 +33,12 @@ class _OffertSaleMobile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
+
+        if (!currentFocus.hasPrimaryFocus || !currentFocus.hasFocus) {
           currentFocus.unfocus();
+          marginCtrl.text = viewModel.completeEditMargin(
+            marginCtrl.text,
+          );
         }
       },
       child: Scaffold(
@@ -147,6 +151,7 @@ class _OffertSaleMobile extends StatelessWidget {
                             fontSize: 18,
                           ),
                           inputFormatters: <TextInputFormatter>[
+                            NumericalRangeFormatter(max: 3, min: 0),
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'^\d+\,?\d{0,2}')),
                             // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
