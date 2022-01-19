@@ -145,13 +145,16 @@ class _OffertBuyMobile extends StatelessWidget {
                                   viewModel.validatorNotEmpty(value),
                               changeFillWith: !viewModel.status.isMarginEmpty,
                               hintText: '0 COP',
+
                               hintStyle: TextStyle(
                                 color: LdColors.orangePrimary.withOpacity(0.7),
                                 fontSize: 18,
                               ),
                               inputFormatters: <TextInputFormatter>[
+                                NumericalRangeFormatter(max: 3,min: 0),
                                 FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+\,?\d{0,2}'),
+                                RegExp(r'^\d+\,?\d{0,2}'),
+
                                 ),
                                 // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
                               ],

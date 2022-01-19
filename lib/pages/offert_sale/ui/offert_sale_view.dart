@@ -12,6 +12,7 @@ import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offerts/get_doc_type/response/doc_type.dart';
+import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
