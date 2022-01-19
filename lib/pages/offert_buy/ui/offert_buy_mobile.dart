@@ -28,9 +28,10 @@ class _OffertBuyMobile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
+
+        if (!currentFocus.hasPrimaryFocus || !currentFocus.hasFocus) {
           currentFocus.unfocus();
-          marginCtrl.text = viewModel.completeEditMargin(marginCtrl.text);
+          marginCtrl.text = viewModel.completeEditMargin(marginCtrl.text, );
         }
       },
       child: Scaffold(
@@ -94,7 +95,7 @@ class _OffertBuyMobile extends StatelessWidget {
                 decoration: const BoxDecoration(
                     color: LdColors.white,
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25))),
+                        BorderRadius.vertical(top: Radius.circular(25)),),
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -127,7 +128,7 @@ class _OffertBuyMobile extends StatelessWidget {
                                 amountDLYCtrl.text,
                               ),
                               onEditingComplete: () => marginCtrl.text =
-                                  viewModel.completeEditMargin(marginCtrl.text),
+                                  viewModel.completeEditMargin(marginCtrl.text, ),
                               style: const TextStyle(
                                 color: LdColors.orangePrimary,
                                 fontSize: 18,

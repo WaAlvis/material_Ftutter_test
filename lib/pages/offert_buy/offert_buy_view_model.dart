@@ -54,18 +54,17 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
   String completeEditMargin(String margin) {
     FocusManager.instance.primaryFocus?.unfocus();
     final String marginText = margin == ''
-        ? '0 COP'
+        ? ''
         : !margin.contains(' ')
             ? '$margin COP'
-            : '';
-    // '$margin COP';
-    // FocusManager.instance.primaryFocus?.unfocus();
+            : margin;
     return marginText;
   }
 
   void calculateTotalMoney(String margin, String amountDLY) {
-    final double marginDouble =
-        margin != '' ? double.parse(changeSeparatorGroup(margin)) : 0;
+    final double marginDouble = margin != ''
+        ? double.parse(changeSeparatorGroup(margin.split(' ').first))
+        : 0;
     final double amountDLYDouble =
         amountDLY != '' ? double.parse(amountDLY.replaceAll('.', '')) : 0;
 
@@ -78,7 +77,6 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
 
   void bankSelected(String id) {
     final int index = status.listBanks.data.indexWhere(
-      // (Bank bank) => bank.id == id,
       (Bank bank) => bank.id == id,
     );
     if (index != -1) {
