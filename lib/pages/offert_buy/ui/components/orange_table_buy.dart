@@ -55,7 +55,7 @@ class AmountOrangeTableBuy extends StatelessWidget {
                   ),
                 ),
               ),
-              SvgPicture.asset(LdAssets.dlycopIcon),
+              SvgPicture.asset(LdAssets.dlycopIconWhite),
             ],
           ),
           const SizedBox(

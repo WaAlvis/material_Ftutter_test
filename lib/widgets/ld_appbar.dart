@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/providers/user_provider.dart';
+import 'package:localdaily/services/models/login/user_login.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 import '../app_theme.dart';
@@ -13,8 +15,10 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final void Function(BuildContext)? goLogin;
   final bool withBackIcon;
   final bool withText;
+  final UserLogin? userProvider;
 
   const LdAppbar({
+    this.userProvider,
     this.title,
     // this.onBackSignup,
     this.withBackIcon = false,
@@ -31,7 +35,6 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     final Size size = MediaQuery.of(context).size;
 
     return PreferredSize(
-
       preferredSize: Size.infinite,
       child: AppBar(
         centerTitle: true,
@@ -44,7 +47,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
               )
             : null,
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.only(left: 16.0),
           child: title != null
               ? Text(
                   title!,
@@ -57,15 +60,22 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                       LdAssets.logoWhiteOrange,
                       height: 30,
                     ),
-                    if (goLogin != null)
-                      PrimaryButtonCustom(
-                        'Iniciar sesión',
-                        colorText: LdColors.white,
-                        colorButton: LdColors.whiteGray.withOpacity(0.5),
-                        width: size.width / 4,
-                        height: 35,
-                        onPressed: () => goLogin!(context),
-                      ),
+                    if (userProvider != null) IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.notifications_none,
+                            ),
+                          ) else Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: PrimaryButtonCustom(
+                              'Iniciar sesión',
+                              colorText: LdColors.white,
+                              colorButton: LdColors.whiteGray.withOpacity(0.5),
+                              width: size.width / 4,
+                              height: 35,
+                              onPressed: () => goLogin!(context),
+                            ),
+                          ),
                   ],
                 ),
         ),

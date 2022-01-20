@@ -168,6 +168,9 @@ class InfoValueCard extends StatelessWidget {
           title,
           style: textTheme.textSmallWhite.copyWith(fontSize: 13),
         ),
+        const SizedBox(
+          height: 5,
+        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
@@ -176,11 +179,11 @@ class InfoValueCard extends StatelessWidget {
               style:
                   textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
             ),
-            const SizedBox(width: 8),
-            Text(
-              'COP/DLY',
-              style: textTheme.textSmallWhite
-                  .copyWith(fontWeight: FontWeight.w600, fontSize: 12),
+            SizedBox(
+              height: 25,
+              child: SvgPicture.asset(
+                LdAssets.dlycopIconBlack,
+              ),
             ),
           ],
         )

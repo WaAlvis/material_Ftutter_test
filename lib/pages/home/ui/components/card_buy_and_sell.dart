@@ -14,6 +14,11 @@ class CardBuyAndSell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String totalValueCalculate(String margin, String amount) {
+      final double totalCost = double.parse(margin) * int.parse(amount);
+      return totalCost.toString();
+    }
+
     return GestureDetector(
       onTap: () => viewModel.goLogin(context), //asi pase bien la navegacion?
       child: Container(
@@ -33,6 +38,7 @@ class CardBuyAndSell extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TitleBarCard(
                 // name: item.user.nickName,
@@ -43,7 +49,7 @@ class CardBuyAndSell extends StatelessWidget {
                 textTheme: textTheme,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 2),
+                padding: EdgeInsets.symmetric(vertical: 0),
                 child: Divider(
                   color: LdColors.gray,
                 ),
@@ -56,25 +62,20 @@ class CardBuyAndSell extends StatelessWidget {
                     children: <Widget>[
                       InfoValueCard(
                         title: 'Cantidad',
-                        valueMoney: NumberFormat.decimalPattern().format(
+                        valueMoney: NumberFormat.simpleCurrency(
+                          decimalDigits: 0,
+                          name: '',
+                          locale: 'IT',
+                        ).format(
                           double.parse(item.advertisement.valueToSell),
                         ),
                         textTheme: textTheme,
                       ),
-                      const SizedBox(height: 8),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Valor ',
-                          style: textTheme.textSmallBlack
-                              .copyWith(color: LdColors.grayText, fontSize: 14),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: item.advertisement.margin,
-                              style: textTheme.textGray,
-                            ),
-                            const TextSpan(text: ' COP/DLY'),
-                          ],
-                        ),
+                      const SizedBox(height: 5),
+                      Text(
+                        '${item.advertisement.margin} DLYCOP ≈ 1 COP',
+                        style: textTheme.textSmallBlack
+                            .copyWith(color: LdColors.grayText, fontSize: 14),
                       ),
                     ],
                   ),
@@ -83,24 +84,27 @@ class CardBuyAndSell extends StatelessWidget {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 2),
-                child: Divider(
-                  color: LdColors.gray,
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                decoration: BoxDecoration(
+                  color: LdColors.orangePrimary.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  //Todo DA
+                  '= ${NumberFormat.simpleCurrency(
+                    decimalDigits: 0,
+                    name: '',
+                    locale: 'IT',
+                  ).format(double.parse(
+                    totalValueCalculate(item.advertisement.margin,
+                        item.advertisement.valueToSell),
+                  ))} COP',
+                  style: textTheme.textSmallBlack
+                      .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),
               ),
-              SizedBox(
-                width: double.maxFinite,
-                child: Text(
-                  'Transferencia bancaria nacional.',
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  maxLines: 3,
-                  style: textTheme.textSmallBlack.copyWith(
-                    fontSize: 12,
-                  ),
-                ),
-              )
             ],
           ),
         ),

@@ -10,6 +10,7 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/list_offerts_main_cards.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
@@ -58,20 +59,45 @@ class _HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<_HomeBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
+  // late StreamSubscription<RecoverPasswordEffect> _effectSubscription;
+
 
   @override
   void dispose() {
     passwordCtrl.dispose();
     super.dispose();
   }
-
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<HomeViewModel>().onInit(context);
     });
+
+    // final HomeViewModel viewModel = context.read<HomeViewModel>();
+    //
+    // _effectSubscription = viewModel.effects.listen((RecoverPasswordEffect event) {
+    //   if(event is ShowDialogRecoverPasswordEffect){
+    //     DlyDialog.buildSmsDialog(
+    //       context,
+    //       message: event.message,
+    //       title: 'Observación',
+    //       onTapSend: ()=> viewModel.goPassword(context),
+    //       onTapClose: viewModel.onTapClose,
+    //     );
+    //   }
+    //   else if(event is ShowSnackbarConnectivityEffect){
+    //     DlySnackbar.buildConnectivitySnackbar(context, event.message);
+    //   }
+    //   else if(event is FormValidateRecoverPasswordEffect) {
+    //     if(keyForm.currentState!.validate()){
+    //       viewModel.showDialogConfirmation(phoneCtrl.text);
+    //     }
+    //   }
+    // });
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {

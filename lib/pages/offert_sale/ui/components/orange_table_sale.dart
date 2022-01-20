@@ -53,7 +53,7 @@ class OrangeTableSale extends StatelessWidget {
                   ),
                 ),
               ),
-              SvgPicture.asset(LdAssets.dlycopIcon),
+              SvgPicture.asset(LdAssets.dlycopIconWhite),
             ],
           ),
           const Divider(
