@@ -8,8 +8,9 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
-import 'package:localdaily/pages/home/ui/components/list_offerts_main_cards.dart';
+import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/main_offerts/list_offerts_main_cards.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/create_offert/list_my_offer_sale.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
@@ -26,7 +27,7 @@ part 'home_mobile.dart';
 part 'home_web.dart';
 
 // Components Mobile
-part 'components/card_buy_and_sell.dart';
+part 'components/pages_tab_mobil/main_offerts/card_buy_and_sell.dart';
 
 part 'components/pages_tab_mobil/create_offert/my_offerts_tab.dart';
 

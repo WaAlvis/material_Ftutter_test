@@ -7,6 +7,8 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/offert_sale/offert_sale_view_model.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -25,6 +27,8 @@ import 'package:intl/intl.dart';
 part 'components/card_login.dart';
 
 part 'components/orange_table_sale.dart';
+
+part '../../home/ui/components/pages_tab_mobil/create_offert/my_offer_card.dart';
 
 part 'offert_sale_mobile.dart';
 

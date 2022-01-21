@@ -1,26 +1,28 @@
-part of '../home_view.dart';
+part of '../../../../../offert_sale/ui/offert_sale_view.dart';
 
-class CardBuyAndSell extends StatelessWidget {
-  const CardBuyAndSell({
+class MyOfferCard extends StatelessWidget {
+  const MyOfferCard({
     Key? key,
-    required this.item,
+    // required this.item,
     required this.textTheme,
     required this.viewModel,
   }) : super(key: key);
 
-  final Data item;
+  // final Data item;
   final TextTheme textTheme;
   final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = context.read<UserProvider>();
+
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);
       return totalCost.toString();
     }
 
     return GestureDetector(
-      onTap: () => viewModel.goLogin(context), //asi pase bien la navegacion?
+      onTap: () => {}, //asi pase bien la navegacion?
       child: Container(
         decoration: BoxDecoration(
           color: LdColors.white,
@@ -42,8 +44,8 @@ class CardBuyAndSell extends StatelessWidget {
             children: <Widget>[
               TitleBarCard(
                 // name: item.user.nickName,
-                name: item.user.nickName,
-                stars: '+${item.user.rateSeller}',
+                name: 'nickName03',
+                stars: '+3}',
                 // time: item.advertisement.expiredDate,
                 time: '7d',
                 textTheme: textTheme,
@@ -62,18 +64,12 @@ class CardBuyAndSell extends StatelessWidget {
                     children: <Widget>[
                       InfoValueCard(
                         title: 'Cantidad',
-                        valueMoney: NumberFormat.simpleCurrency(
-                          decimalDigits: 0,
-                          name: '',
-                          locale: 'IT',
-                        ).format(
-                          double.parse(item.advertisement.valueToSell),
-                        ),
+                        valueMoney: '10.000.000',
                         textTheme: textTheme,
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        '${item.advertisement.margin} DLYCOP ≈ 1 COP',
+                        '1.2 DLYCOP ≈ 1 COP',
                         style: textTheme.textSmallBlack
                             .copyWith(color: LdColors.grayText, fontSize: 14),
                       ),
@@ -93,14 +89,7 @@ class CardBuyAndSell extends StatelessWidget {
                 ),
                 child: Text(
                   //Todo DA
-                  '= ${NumberFormat.simpleCurrency(
-                    decimalDigits: 0,
-                    name: '',
-                    locale: 'IT',
-                  ).format(double.parse(
-                    totalValueCalculate(item.advertisement.margin,
-                        item.advertisement.valueToSell),
-                  ))} COP',
+                  '= 12.000.000 COP',
                   style: textTheme.textSmallBlack
                       .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),

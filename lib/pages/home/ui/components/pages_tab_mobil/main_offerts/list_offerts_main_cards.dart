@@ -5,8 +5,8 @@ import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 
-class ListOffertsMainCards extends StatelessWidget {
-  const ListOffertsMainCards(
+class ListOffertsMainSwitch extends StatelessWidget {
+  const ListOffertsMainSwitch(
     this.data, {
     Key? key,
     required this.textTheme,

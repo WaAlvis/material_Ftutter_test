@@ -147,51 +147,6 @@ class OptionsFilterRow extends StatelessWidget {
   }
 }
 
-class InfoValueCard extends StatelessWidget {
-  const InfoValueCard({
-    Key? key,
-    required this.textTheme,
-    required this.title,
-    required this.valueMoney,
-  }) : super(key: key);
-
-  final TextTheme textTheme;
-  final String title;
-  final String valueMoney;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: textTheme.textSmallWhite.copyWith(fontSize: 13),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Text(
-              valueMoney,
-              style:
-                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 25,
-              child: SvgPicture.asset(
-                LdAssets.dlycopIconBlack,
-              ),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
-
 // final List<Map<String, String>> items = <Map<String, String>>[
 //   <String, String>{  1111111
 //     'nickname': 'Bayron',

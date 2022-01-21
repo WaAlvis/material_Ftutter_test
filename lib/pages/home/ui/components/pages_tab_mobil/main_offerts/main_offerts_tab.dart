@@ -117,14 +117,14 @@ class MainOffertsTab extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  ListOffertsMainCards('Ofertas para comprar',
+                  ListOffertsMainSwitch('Ofertas para comprar',
                       textTheme: textTheme,
                       items: itemsBuyers,
-                      viewModel: viewModel),
-                  ListOffertsMainCards('Ofertas para vender',
+                      viewModel: viewModel,),
+                  ListOffertsMainSwitch('Ofertas para vender',
                       textTheme: textTheme,
                       items: itemsSellers,
-                      viewModel: viewModel),
+                      viewModel: viewModel,),
                 ],
               ),
             ),
