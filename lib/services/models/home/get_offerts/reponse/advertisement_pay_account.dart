@@ -10,6 +10,7 @@ class AdvertisementPayAccount {
     required this.advertisementId,
     required this.accountNumber,
     required this.accountTypeId,
+    required this.documentTypeID,
     required this.documentNumber,
     required this.titularUserName,
   });
@@ -22,6 +23,7 @@ class AdvertisementPayAccount {
   String advertisementId;
   String accountNumber;
   String accountTypeId;
+  String documentTypeID;
   String documentNumber;
   String titularUserName;
 

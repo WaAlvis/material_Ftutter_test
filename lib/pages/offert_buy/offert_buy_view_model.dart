@@ -164,6 +164,7 @@ class OffertBuyViewModel extends ViewModel<OffertBuyStatus> {
       margin: marginCtrl.text,
       termsOfTrade: infoPlusOffertCtrl.text,
       idUserPublish: userId,
+      secretSellerKey: 'secreto1encryptado,secreto2encryptado'
     );
     final BodyOffert bodyOffert = BodyOffert(
       entity: entity,

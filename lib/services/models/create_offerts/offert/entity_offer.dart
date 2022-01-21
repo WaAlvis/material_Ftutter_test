@@ -11,6 +11,7 @@ class EntityOffer {
     required this.margin,
     required this.termsOfTrade,
     required this.idUserPublish,
+    required this.secretSellerKey,
   });
 
   factory EntityOffer.fromJson(Map<String, dynamic> json) =>
@@ -22,6 +23,7 @@ class EntityOffer {
   String margin;
   String termsOfTrade;
   String idUserPublish;
+  String secretSellerKey;
 
 
   Map<String, dynamic> toJson() => _$EntityOfferToJson(this);
