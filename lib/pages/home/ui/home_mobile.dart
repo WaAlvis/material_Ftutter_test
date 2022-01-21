@@ -15,6 +15,9 @@ class _HomeMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double hAppbar = 150;
     final double hBody = size.height - hAppbar;
+    final UserProvider userProvider = context.read<UserProvider>();
+
+    // UserProvider userProvider;
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
@@ -44,10 +47,25 @@ class _HomeMobile extends StatelessWidget {
         hBody: hBody,
       ),
 
-      const Center(
-        child: Text(
-          'Perfil',
-        ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(
+            child: Text(
+              'Perfil',
+            ),
+          ),
+          PrimaryButtonCustom(
+            'Cerrar Sesion de Usuario',
+            onPressed: () {
+              viewModel.goLogin(context);
+              userProvider.setUserLogged(
+                null,
+              );
+
+            },
+          )
+        ],
       ),
       // Camera page
       // Chats page

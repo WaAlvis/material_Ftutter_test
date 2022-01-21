@@ -160,7 +160,7 @@ class ListCreateOffertSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: true
+      child: false
           ? ListMyOffersSale('data', textTheme: textTheme,viewModel: viewModel,)
           : NotOffersYet(
               viewModel: viewModel,
