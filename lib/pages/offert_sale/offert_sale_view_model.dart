@@ -224,7 +224,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       valueToSell: amountDLYCtrl.text,
       margin: marginCtrl.text,
       termsOfTrade: infoPlusOffertCtrl.text,
-      //todo obtener idUsuario y remplazarlops
+
       // idUserPublish: 'ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2',
       idUserPublish: userId,
     );

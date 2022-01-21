@@ -73,6 +73,9 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   final TextEditingController nameTitularAccountCtrl = TextEditingController();
   final TextEditingController infoPlusOffertCtrl = TextEditingController();
 
+  final TextEditingController cancelSecretCtrl = TextEditingController();
+  final TextEditingController liberationSecretCtrl = TextEditingController();
+
   //final TextEditingController usuarioCtrl = TextEditingController();
 
   @override
@@ -83,6 +86,9 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
     docNumCtrl.dispose();
     nameTitularAccountCtrl.dispose();
     infoPlusOffertCtrl.dispose();
+
+    cancelSecretCtrl.dispose();
+    liberationSecretCtrl.dispose();
     //usuarioCtrl.dispose();
     super.dispose();
   }
@@ -99,8 +105,9 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   @override
   Widget build(BuildContext context) {
     final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
-    final Widget loading =
-        viewModel.status.isLoading ? ProgressIndicatorLocalD() : SizedBox.shrink();
+    final Widget loading = viewModel.status.isLoading
+        ? ProgressIndicatorLocalD()
+        : SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
@@ -125,6 +132,8 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
                           nameTitularAccountCtrl: nameTitularAccountCtrl,
                           amountDLYCtrl: amountDLYCtrl,
                           infoPlusOffertCtrl: infoPlusOffertCtrl,
+                          liberationSecretCtrl: liberationSecretCtrl,
+                          cancelSecretCtrl: cancelSecretCtrl,
                         ),
                 ),
               ],
