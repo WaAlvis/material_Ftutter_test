@@ -10,6 +10,8 @@ class _OffertSaleMobile extends StatelessWidget {
     required this.accountNumCtrl,
     required this.docNumCtrl,
     required this.nameTitularAccountCtrl,
+    required this.cancelSecretCtrl,
+    required this.liberationSecretCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -19,6 +21,13 @@ class _OffertSaleMobile extends StatelessWidget {
   final TextEditingController accountNumCtrl;
   final TextEditingController docNumCtrl;
   final TextEditingController nameTitularAccountCtrl;
+
+
+
+  final TextEditingController cancelSecretCtrl;
+  final TextEditingController liberationSecretCtrl;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -338,6 +347,35 @@ class _OffertSaleMobile extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
+
+                        InputTextCustom(
+                          'Digite secreto de CANCELACION',
+                          hintText: 'secret*',
+                          validator: (String? value) =>
+                              viewModel.validatorNotEmpty(value),
+                          keyboardType: TextInputType.name,
+
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp('[a-zA-Z]'),),
+                          ],
+                          controller: cancelSecretCtrl,
+                        ),                        InputTextCustom(
+                          'Digite secreto de LIBERACION',
+                          hintText: 'secret*',
+                          validator: (String? value) =>
+                              viewModel.validatorNotEmpty(value),
+                          keyboardType: TextInputType.name,
+
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp('[a-zA-Z]'),),
+                          ],
+                          controller: liberationSecretCtrl,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         PrimaryButtonCustom(
                           'Agregar Banco',
                           icon: Icons.add_circle_outline_outlined,
@@ -423,6 +461,7 @@ class _OffertSaleMobile extends StatelessWidget {
                             if (keyForm.currentState!.validate()) {
                               viewModel.postCreateOffert(
                                 context,
+                                // userId: 'af3b8c1d-597a-4889-8980-8b6af8886de1',
                                 userId: userProvider.getUserLogged!.id,
                                 docNumCtrl: docNumCtrl,
                                 marginCtrl: marginCtrl,
