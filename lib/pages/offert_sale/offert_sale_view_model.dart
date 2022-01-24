@@ -16,7 +16,8 @@ import 'package:localdaily/services/models/create_offerts/offert/result_create_o
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
-import 'package:pointycastle/export.dart';
+import 'package:hex/hex.dart';
+import 'package:sha3/sha3.dart';
 
 import 'offert_sale_status.dart';
 
@@ -225,10 +226,14 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       ) async {
     status = status.copyWith(isLoading: true);
 
-    Uint8List convertWorkKeccak(String word){
-      final KeccakDigest digest = KeccakDigest(256);
-      final Uint8List hash = digest.process(ascii.encode(word));
-      return hash;
+    String  convertWorkKeccak(String word){
+
+      var k = SHA3(256, KECCAK_PADDING, 256);
+      k.update(utf8.encode('Hello'));
+      var hash = k.digest();
+
+      return HEX.encode(
+          hash;
   }
     final EntityOffer entity = EntityOffer(
         idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',

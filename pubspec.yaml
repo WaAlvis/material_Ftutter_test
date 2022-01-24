@@ -37,7 +37,7 @@ dependencies:
   open_mail_app: ^0.4.1
   pin_code_fields: ^7.3.0
   checkbox_formfield: ^0.2.0
-  pointycastle: ^3.5.0
+  sha3: ^0.2.0
 
   #Widgets
 
