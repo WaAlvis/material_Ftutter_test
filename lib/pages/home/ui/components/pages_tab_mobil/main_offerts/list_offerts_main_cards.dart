@@ -12,8 +12,10 @@ class ListOffertsMainSwitch extends StatelessWidget {
     required this.textTheme,
     required this.items,
     required this.viewModel,
+    required this.userIsLogged,
   }) : super(key: key);
 
+  final bool? userIsLogged;
   final String data;
   final TextTheme textTheme;
   final List<Data> items;
@@ -21,6 +23,32 @@ class ListOffertsMainSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _showMaterialDialog() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Material Dialog'),
+            content: Text('Hey! I am Coflutter!'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    print('SEND');
+                  },
+                  child: Text('Close')),
+              TextButton(
+                onPressed: () {
+                  print('HelloWorld!');
+                  print('SEND');
+                },
+                child: Text('HelloWorld!'),
+              )
+            ],
+          );
+        },
+      );
+    }
+
     return RefreshIndicator(
       onRefresh: () async {
         // keyRefresh.currentState?.show(atTop: false);
@@ -62,6 +90,12 @@ class ListOffertsMainSwitch extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CardBuyAndSell(
+                    onTap: userIsLogged != null
+                        ? () {
+                          print('procediendo a la compra');
+                          _showMaterialDialog;
+                    }
+                        : () => viewModel.goLogin(context),
                     item: items[index],
                     textTheme: textTheme,
                     viewModel: viewModel, //Pase bien el VM

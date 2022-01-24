@@ -6,11 +6,13 @@ class CardBuyAndSell extends StatelessWidget {
     required this.item,
     required this.textTheme,
     required this.viewModel,
+    required this.onTap,
   }) : super(key: key);
 
   final Data item;
   final TextTheme textTheme;
   final HomeViewModel viewModel;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class CardBuyAndSell extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () => viewModel.goLogin(context), //asi pase bien la navegacion?
+      onTap: onTap, //asi pase bien la navegacion?
       child: Container(
         decoration: BoxDecoration(
           color: LdColors.white,

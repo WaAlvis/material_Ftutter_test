@@ -120,19 +120,27 @@ class MainOffertsTab extends StatelessWidget {
                   ListOffertsMainSwitch('Ofertas para comprar',
                       textTheme: textTheme,
                       items: itemsBuyers,
-                      viewModel: viewModel,),
+                      viewModel: viewModel,
+                      userIsLogged: userProvider.getUserLogged?.id.isNotEmpty,
+                  ),
                   ListOffertsMainSwitch('Ofertas para vender',
                       textTheme: textTheme,
                       items: itemsSellers,
-                      viewModel: viewModel,),
+                      viewModel: viewModel,
+                      userIsLogged: userProvider.getUserLogged?.id.isNotEmpty,
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+
     );
+
   }
+
+
 }
 
 //TabBarView(
