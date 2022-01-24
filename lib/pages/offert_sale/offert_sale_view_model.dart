@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
@@ -13,6 +16,7 @@ import 'package:localdaily/services/models/create_offerts/offert/result_create_o
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:pointycastle/export.dart';
 
 import 'offert_sale_status.dart';
 
@@ -200,17 +204,20 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
 
   Future<void> postCreateOffert(
     BuildContext context, {
-    required String userId,
-    required TextEditingController marginCtrl,
-    required TextEditingController amountDLYCtrl,
-    required String bankId,
-    required String accountTypeId,
-    required TextEditingController accountNumCtrl,
-    //TODO falta el campo de tipo  de Documento en json
-    required String docType,
-    required TextEditingController docNumCtrl,
-    required TextEditingController nameTitularAccountCtrl,
-    required TextEditingController infoPlusOffertCtrl,
+    // required String userId,
+    // required TextEditingController marginCtrl,
+    // required TextEditingController amountDLYCtrl,
+    // required String bankId,
+    // required String accountTypeId,
+    // required TextEditingController accountNumCtrl,
+    // //TODO falta el campo de tipo  de Documento en json
+    // required String docType,
+    // required TextEditingController docNumCtrl,
+    // required TextEditingController nameTitularAccountCtrl,
+    // required TextEditingController infoPlusOffertCtrl,
+
+    required TextEditingController liberationSecretCtrl,
+    required TextEditingController cancelSecretCtrl,
   }
 
       // String email,
@@ -218,22 +225,27 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
       ) async {
     status = status.copyWith(isLoading: true);
 
+    Uint8List convertWorkKeccak(String word){
+      final KeccakDigest digest = KeccakDigest(256);
+      final Uint8List hash = digest.process(ascii.encode(word));
+      return hash;
+  }
     final EntityOffer entity = EntityOffer(
         idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
         idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
-        valueToSell: amountDLYCtrl.text,
-        margin: marginCtrl.text,
-        termsOfTrade: infoPlusOffertCtrl.text,
+        valueToSell: '1000',
+        margin: '1',
+        termsOfTrade: 'infoPlusOffertCtrl.text',
 
-        // idUserPublish: 'ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2',
-        idUserPublish: userId,
-        secretSellerKey: 'secreto1encryptado,secreto2encryptado');
+        // idUserPublish: '96a6a171-641e-4103-8909-77ccd92d41eb',//juanP@
+        idUserPublish: '96a6a171-641e-4103-8909-77ccd92d41eb',
+        secretSellerKey: '${convertWorkKeccak(cancelSecretCtrl.text)},${convertWorkKeccak(liberationSecretCtrl.text)}',);
 
     final BodyOffert bodyOffert = BodyOffert(
         entity: entity,
         daysOfExpired: 7,
         strJsonAdvertisementBanks:
-            '[{\"bankId\": \"${bankId}\",\"accountNumber\": \"${accountNumCtrl.text}\",\"accountTypeId\": \"${accountTypeId}\",\"documentNumber\": \"${docNumCtrl.text}\",\"documentTypeID\" : \"${docType}\",\"titularUserName\": \"${nameTitularAccountCtrl.text}\"},]');
+            '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"123\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Dalan Local\"},]');
 // "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentTypeID\" : \"eb2e8229-13ee-4282-b053-32e7b444ea10\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]"
 
     _interactor
