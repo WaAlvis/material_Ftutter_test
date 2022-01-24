@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -18,17 +17,16 @@ import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+
+part '../../home/ui/components/pages_tab_mobil/create_offert/my_offer_card.dart';
 
 part 'components/card_login.dart';
 
 part 'components/orange_table_sale.dart';
-
-part '../../home/ui/components/pages_tab_mobil/create_offert/my_offer_card.dart';
 
 part 'offert_sale_mobile.dart';
 
@@ -74,7 +72,6 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   final TextEditingController infoPlusOffertCtrl = TextEditingController();
 
   final TextEditingController cancelSecretCtrl = TextEditingController();
-  final TextEditingController liberationSecretCtrl = TextEditingController();
 
   //final TextEditingController usuarioCtrl = TextEditingController();
 
@@ -88,7 +85,6 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
     infoPlusOffertCtrl.dispose();
 
     cancelSecretCtrl.dispose();
-    liberationSecretCtrl.dispose();
     //usuarioCtrl.dispose();
     super.dispose();
   }
@@ -132,7 +128,6 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
                           nameTitularAccountCtrl: nameTitularAccountCtrl,
                           amountDLYCtrl: amountDLYCtrl,
                           infoPlusOffertCtrl: infoPlusOffertCtrl,
-                          liberationSecretCtrl: liberationSecretCtrl,
                           cancelSecretCtrl: cancelSecretCtrl,
                         ),
                 ),

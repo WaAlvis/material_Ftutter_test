@@ -11,7 +11,6 @@ class _OffertSaleMobile extends StatelessWidget {
     required this.docNumCtrl,
     required this.nameTitularAccountCtrl,
     required this.cancelSecretCtrl,
-    required this.liberationSecretCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -25,7 +24,6 @@ class _OffertSaleMobile extends StatelessWidget {
 
 
   final TextEditingController cancelSecretCtrl;
-  final TextEditingController liberationSecretCtrl;
 
 
 
@@ -360,18 +358,6 @@ class _OffertSaleMobile extends StatelessWidget {
                               RegExp('[0-9a-zA-Z.]'),),
                           ],
                           controller: cancelSecretCtrl,
-                        ),                        InputTextCustom(
-                          'Digite secreto de LIBERACION',
-                          hintText: 'secret*',
-                          validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
-                          keyboardType: TextInputType.name,
-
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp('[0-9a-zA-Z.]'),),
-                          ],
-                          controller: liberationSecretCtrl,
                         ),
                         const SizedBox(
                           height: 20,
@@ -473,8 +459,7 @@ class _OffertSaleMobile extends StatelessWidget {
                                  amountDLYCtrl: amountDLYCtrl,
                                 infoPlusOffertCtrl: infoPlusOffertCtrl,
                                 docType: viewModel.status.selectedDocType!.id,
-                                  liberationSecretCtrl: liberationSecretCtrl,
-                                cancelSecretCtrl: cancelSecretCtrl
+                                wordSecretCtrl: cancelSecretCtrl
                               );
                             }
                           },

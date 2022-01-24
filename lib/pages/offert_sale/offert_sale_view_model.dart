@@ -217,8 +217,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     required TextEditingController nameTitularAccountCtrl,
     required TextEditingController infoPlusOffertCtrl,
 
-    required TextEditingController liberationSecretCtrl,
-    required TextEditingController cancelSecretCtrl,
+    required TextEditingController wordSecretCtrl,
   }
 
       // String email,
@@ -244,7 +243,7 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
 
         // idUserPublish: '96a6a171-641e-4103-8909-77ccd92d41eb',//juanP@
         idUserPublish: userId,
-        secretSellerKey: '${convertWorkKeccak(cancelSecretCtrl.text)},${convertWorkKeccak(liberationSecretCtrl.text)}',);
+        secretSellerKey: '${convertWorkKeccak('${wordSecretCtrl.text}sellercancel')},${convertWorkKeccak('${wordSecretCtrl.text}selleraprove')}',);
 
     final BodyOffert bodyOffert = BodyOffert(
         entity: entity,
