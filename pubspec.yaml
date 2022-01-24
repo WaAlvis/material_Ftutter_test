@@ -38,6 +38,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   checkbox_formfield: ^0.2.0
   sha3: ^0.2.0
+  hex: ^0.2.0
 
   #Widgets
 

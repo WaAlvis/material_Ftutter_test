@@ -357,7 +357,7 @@ class _OffertSaleMobile extends StatelessWidget {
 
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp('[a-zA-Z]'),),
+                              RegExp('[0-9a-zA-Z.]'),),
                           ],
                           controller: cancelSecretCtrl,
                         ),                        InputTextCustom(
@@ -369,7 +369,7 @@ class _OffertSaleMobile extends StatelessWidget {
 
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp('[a-zA-Z]'),),
+                              RegExp('[0-9a-zA-Z.]'),),
                           ],
                           controller: liberationSecretCtrl,
                         ),
@@ -458,25 +458,25 @@ class _OffertSaleMobile extends StatelessWidget {
                         PrimaryButtonCustom(
                           'Crear oferta de venta',
                           onPressed: () {
-                            // if (keyForm.currentState!.validate()) {
+                            if (keyForm.currentState!.validate()) {
                               viewModel.postCreateOffert(
                                 context,
                                 // userId: '96a6a171-641e-4103-8909-77ccd92d41eb',// juanP@
-                                // // userId: userProvider.getUserLogged!.id,
-                                // docNumCtrl: docNumCtrl,
-                                // marginCtrl: marginCtrl,
-                                // accountTypeId:
-                                //     viewModel.status.selectedAccountType!.id,
-                                // accountNumCtrl: accountNumCtrl,
-                                // nameTitularAccountCtrl: nameTitularAccountCtrl,
-                                // bankId: viewModel.status.selectedBank!.id,
-                                // amountDLYCtrl: amountDLYCtrl,
-                                // infoPlusOffertCtrl: infoPlusOffertCtrl,
-                                // docType: viewModel.status.selectedDocType!.id,
+                                userId: userProvider.getUserLogged!.id,
+                                docNumCtrl: docNumCtrl,
+                                marginCtrl: marginCtrl,
+                                accountTypeId:
+                                 viewModel.status.selectedAccountType!.id,
+                                accountNumCtrl: accountNumCtrl,
+                                 nameTitularAccountCtrl: nameTitularAccountCtrl,
+                                 bankId: viewModel.status.selectedBank!.id,
+                                 amountDLYCtrl: amountDLYCtrl,
+                                infoPlusOffertCtrl: infoPlusOffertCtrl,
+                                docType: viewModel.status.selectedDocType!.id,
                                   liberationSecretCtrl: liberationSecretCtrl,
                                 cancelSecretCtrl: cancelSecretCtrl
                               );
-                            // }
+                            }
                           },
                         ),
                       ],

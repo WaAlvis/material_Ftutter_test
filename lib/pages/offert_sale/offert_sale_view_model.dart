@@ -205,17 +205,17 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
 
   Future<void> postCreateOffert(
     BuildContext context, {
-    // required String userId,
-    // required TextEditingController marginCtrl,
-    // required TextEditingController amountDLYCtrl,
-    // required String bankId,
-    // required String accountTypeId,
-    // required TextEditingController accountNumCtrl,
-    // //TODO falta el campo de tipo  de Documento en json
-    // required String docType,
-    // required TextEditingController docNumCtrl,
-    // required TextEditingController nameTitularAccountCtrl,
-    // required TextEditingController infoPlusOffertCtrl,
+    required String userId,
+    required TextEditingController marginCtrl,
+    required TextEditingController amountDLYCtrl,
+    required String bankId,
+    required String accountTypeId,
+    required TextEditingController accountNumCtrl,
+    //TODO falta el campo de tipo  de Documento en json
+    required String docType,
+    required TextEditingController docNumCtrl,
+    required TextEditingController nameTitularAccountCtrl,
+    required TextEditingController infoPlusOffertCtrl,
 
     required TextEditingController liberationSecretCtrl,
     required TextEditingController cancelSecretCtrl,
@@ -227,30 +227,30 @@ class OffertSaleViewModel extends ViewModel<OffertSaleStatus> {
     status = status.copyWith(isLoading: true);
 
     String  convertWorkKeccak(String word){
-
-      var k = SHA3(256, KECCAK_PADDING, 256);
-      k.update(utf8.encode('Hello'));
-      var hash = k.digest();
-
-      return HEX.encode(
-          hash;
+      final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
+      final SHA3 k2 = SHA3(256, KECCAK_PADDING, 256);
+      k1.update(utf8.encode(word));
+      final List<int> hash1 = k1.digest();
+      k2.update(hash1);
+      final List<int> hash2 = k2.digest();
+      return HEX.encode(hash2);
   }
     final EntityOffer entity = EntityOffer(
         idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
         idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
-        valueToSell: '1000',
-        margin: '1',
-        termsOfTrade: 'infoPlusOffertCtrl.text',
+        valueToSell: amountDLYCtrl.text,
+        margin: marginCtrl.text,
+        termsOfTrade: infoPlusOffertCtrl.text,
 
         // idUserPublish: '96a6a171-641e-4103-8909-77ccd92d41eb',//juanP@
-        idUserPublish: '96a6a171-641e-4103-8909-77ccd92d41eb',
+        idUserPublish: userId,
         secretSellerKey: '${convertWorkKeccak(cancelSecretCtrl.text)},${convertWorkKeccak(liberationSecretCtrl.text)}',);
 
     final BodyOffert bodyOffert = BodyOffert(
         entity: entity,
         daysOfExpired: 7,
         strJsonAdvertisementBanks:
-            '[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"123\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Dalan Local\"},]');
+            '[{\"bankId\": \"${bankId}\",\"accountNumber\": \"${accountNumCtrl.text}\",\"accountTypeId\": \"${accountTypeId}\",\"documentNumber\": \"${docNumCtrl.text}\",\"documentTypeID\" : \"${docType}\",\"titularUserName\": \"${nameTitularAccountCtrl.text}\"},]');
 // "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentTypeID\" : \"eb2e8229-13ee-4282-b053-32e7b444ea10\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]"
 
     _interactor
