@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
+import 'package:localdaily/pages/detail_offert_buy/ui/detail_offer_buy_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offert_buy/ui/offert_buy_view.dart';
@@ -47,6 +48,11 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
 
+  static final AppRoute detailOffer = AppRoute(
+    '/detail_offer',
+    Handler(handlerFunc: (_, __) => const DetailOfferBuyView()),
+  );
+
   static final AppRoute createOffertBuyRoute = AppRoute(
     '/create_offert_buy',
     Handler(handlerFunc: (_, __) => const OffertBuyView()),
@@ -80,6 +86,7 @@ class AppRoutes {
     createOffertSaleRoute,
     createOffertBuyRoute,
     registerEmailRoute,
+    detailOffer,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
   ];

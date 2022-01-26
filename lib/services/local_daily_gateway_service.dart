@@ -113,7 +113,7 @@ abstract class LocalDailyGatewayService {
 // "valueToSell": "5000",
 // "margin": "1",
 // "termsOfTrade": "temas blck w",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "secretSellerKey": "secreto1encryptado,secreto2encryptado"
 // },
 // "daysOfExpired": 7,

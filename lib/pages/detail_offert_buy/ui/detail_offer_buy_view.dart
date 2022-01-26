@@ -6,13 +6,9 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/home_view_model.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/pages/offert_sale/offert_sale_view_model.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
-import 'package:localdaily/services/models/create_offerts/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -22,18 +18,18 @@ import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part '../../home/ui/components/pages_tab_mobil/create_offert/my_offer_card.dart';
+import '../detail_offer_buy_view_model.dart';
 
-part 'components/card_login.dart';
+
 
 part 'components/orange_table_sale.dart';
 
-part 'offert_sale_mobile.dart';
+part 'detail_offert_buy_mobile.dart';
 
-part 'offert_sale_web.dart';
+part 'detail_offert_buy_web.dart';
 
-class OffertSaleView extends StatelessWidget {
-  const OffertSaleView({Key? key, this.isBuy = false}) : super(key: key);
+class DetailOfferBuyView extends StatelessWidget {
+  const DetailOfferBuyView({Key? key, this.isBuy = false}) : super(key: key);
 
   final bool isBuy;
 
@@ -41,28 +37,28 @@ class OffertSaleView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<OffertSaleViewModel>(
-      create: (_) => OffertSaleViewModel(
+    return ChangeNotifierProvider<DetailOfferBuyViewModel>(
+      create: (_) => DetailOfferBuyViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return _OffertSaleBody(isBuy: isBuy);
+        return _DetailOfferBuyBody(isBuy: isBuy);
       },
     );
   }
 }
 
-class _OffertSaleBody extends StatefulWidget {
-  const _OffertSaleBody({Key? key, required this.isBuy}) : super(key: key);
+class _DetailOfferBuyBody extends StatefulWidget {
+  const _DetailOfferBuyBody({Key? key, required this.isBuy}) : super(key: key);
 
   final bool isBuy;
 
   @override
-  _OffertSaleBodyState createState() => _OffertSaleBodyState();
+  _DetailOfferBuyBodyState createState() => _DetailOfferBuyBodyState();
 }
 
-class _OffertSaleBodyState extends State<_OffertSaleBody> {
+class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController marginCtrl = TextEditingController();
   final TextEditingController amountDLYCtrl = TextEditingController();
@@ -92,7 +88,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<OffertSaleViewModel>().onInit(context);
+      context.read<DetailOfferBuyViewModel>().onInit(context);
     });
     amountDLYCtrl.addListener(_printLatestValue);
     super.initState();
@@ -100,7 +96,7 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
 
   @override
   Widget build(BuildContext context) {
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final DetailOfferBuyViewModel viewModel = context.watch<DetailOfferBuyViewModel>();
     final Widget loading = viewModel.status.isLoading
         ? ProgressIndicatorLocalD()
         : SizedBox.shrink();
@@ -115,12 +111,12 @@ class _OffertSaleBodyState extends State<_OffertSaleBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? _OffertSaleWeb(
+                      ? _DetailOffertBuyWeb(
                           keyForm: keyForm,
                           valueDLYCOP: amountDLYCtrl,
                           isBuy: widget.isBuy,
                         )
-                      : _OffertSaleMobile(
+                      : _DetailOfferBuyMobile(
                           keyForm: keyForm,
                           docNumCtrl: docNumCtrl,
                           marginCtrl: marginCtrl,

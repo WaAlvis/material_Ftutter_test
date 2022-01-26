@@ -51,7 +51,7 @@ class CardBuyAndSell extends StatelessWidget {
                 textTheme: textTheme,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 0),
+                padding: const EdgeInsets.symmetric(vertical: 0),
                 child: Divider(
                   color: LdColors.gray,
                 ),

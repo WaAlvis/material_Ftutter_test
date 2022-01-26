@@ -42,7 +42,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         leading: withBackIcon
             ? IconButton(
-                icon: Icon(Icons.arrow_back_ios_new_outlined),
+                icon: const Icon(Icons.arrow_back_ios_new_outlined),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,

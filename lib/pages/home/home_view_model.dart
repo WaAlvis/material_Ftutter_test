@@ -100,6 +100,16 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     });
   }
 
+  void goDetailOffer(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goDetailOffer(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
   Future<void> dataHome(
     BuildContext context,
   ) async {

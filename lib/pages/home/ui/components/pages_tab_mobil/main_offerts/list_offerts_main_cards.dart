@@ -3,6 +3,7 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 
 class ListOffertsMainSwitch extends StatelessWidget {
@@ -90,15 +91,14 @@ class ListOffertsMainSwitch extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CardBuyAndSell(
-                    onTap: userIsLogged != null
-                        ? () {
-                          print('procediendo a la compra');
-                          _showMaterialDialog;
-                    }
-                        : () => viewModel.goLogin(context),
+                    onTap: () {
+                      userIsLogged == null
+                          ? viewModel.goLogin(context)
+                          : viewModel.goDetailOffer(context);
+                    },
                     item: items[index],
                     textTheme: textTheme,
-                    viewModel: viewModel, //Pase bien el VM
+                    viewModel: viewModel,
                   );
                 },
               ),
