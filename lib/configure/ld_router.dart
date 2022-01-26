@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -59,11 +60,13 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
-  void goDetailOffer(BuildContext context) {
+  void goDetailOffer(BuildContext context, Data item) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailOffer.route,
       transition: TransitionType.none,
+      routeSettings: RouteSettings(
+      arguments: <String, Data>{ 'item' : item }, ),
     );
   }
 

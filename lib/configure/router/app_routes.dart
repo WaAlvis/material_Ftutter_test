@@ -7,6 +7,7 @@ import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offert_buy/ui/offert_buy_view.dart';
 import 'package:localdaily/pages/offert_sale/ui/offert_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
+import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
 class AppRoutes {
   /*static final loginRoute = AppRoute(
     '/login',
@@ -50,7 +51,10 @@ class AppRoutes {
 
   static final AppRoute detailOffer = AppRoute(
     '/detail_offer',
-    Handler(handlerFunc: (_, __) => const DetailOfferBuyView()),
+    Handler(handlerFunc: (BuildContext? context, __) =>
+    DetailOfferBuyView(
+      item: (context!.settings!.arguments! as Map<String, Data>)['item'],
+    ),),
   );
 
   static final AppRoute createOffertBuyRoute = AppRoute(

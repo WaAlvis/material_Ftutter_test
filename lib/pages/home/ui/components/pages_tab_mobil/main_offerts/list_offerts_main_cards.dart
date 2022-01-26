@@ -94,7 +94,7 @@ class ListOffertsMainSwitch extends StatelessWidget {
                     onTap: () {
                       userIsLogged == null
                           ? viewModel.goLogin(context)
-                          : viewModel.goDetailOffer(context);
+                          : viewModel.goDetailOffer(context, item:items[index]);
                     },
                     item: items[index],
                     textTheme: textTheme,

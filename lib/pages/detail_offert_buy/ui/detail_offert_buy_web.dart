@@ -4,14 +4,10 @@ class _DetailOffertBuyWeb extends StatelessWidget {
 
   const _DetailOffertBuyWeb({
     Key? key,
-    required this.keyForm,
-    required this.valueDLYCOP,
-    required this.isBuy,
+
   }) : super(key: key);
 
-  final GlobalKey<FormState> keyForm;
-  final TextEditingController valueDLYCOP;
-  final bool isBuy;
+
 
   @override
   Widget build(BuildContext context) {
