@@ -1,7 +1,7 @@
-part of 'offert_sale_view.dart';
+part of 'detail_offer_buy_view.dart';
 
-class _OffertSaleMobile extends StatelessWidget {
-  const _OffertSaleMobile({
+class _DetailOfferBuyMobile extends StatelessWidget {
+  const _DetailOfferBuyMobile({
     Key? key,
     required this.keyForm,
     required this.amountDLYCtrl,
@@ -31,7 +31,7 @@ class _OffertSaleMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserProvider userProvider = context.read<UserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final DetailOfferBuyViewModel viewModel = context.watch<DetailOfferBuyViewModel>();
     final Size size = MediaQuery.of(context).size;
     //Alturas de el APpbar y el body
     const double hAppbar = 100;
@@ -238,111 +238,43 @@ class _OffertSaleMobile extends StatelessWidget {
                             ),
                             child: Column(
                               children: <Widget>[
-                                DropdownCustom(
-                                  'Tipo de cuenta',
-                                  hintText: 'seleciona el tipo',
-                                  validator: (String? value) =>
-                                      viewModel.validatorNotEmpty(value),
-                                  value:
-                                      viewModel.status.selectedAccountType?.id,
-                                  changeFillWith:
-                                      viewModel.status.selectedAccountType !=
-                                          null,
-                                  onChanged: (String? idDocType) =>
-                                      viewModel.accountTypeSelected(idDocType!),
-                                  optionItems: viewModel
-                                      .status.listAccountType.data
-                                      .map((DocType item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item.id,
-                                      child: Text(item.description),
-                                    );
-                                  }).toList(),
-                                ),
+
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                InputTextCustom(
-                                  '# cuenta',
-                                  hintText: 'Escribe el número',
-                                  maxLength: 20,
-                                  validator: (String? value) =>
-                                      viewModel.validatorNotEmpty(value),
-                                  onChange: (String accountNum) => viewModel
-                                      .changeAccountNumInput(accountNum),
-                                  controller: accountNumCtrl,
-                                  changeFillWith:
-                                      !viewModel.status.isAccountNumEmpty,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[0-9]')),
-                                  ],
-                                  keyboardType: TextInputType.number,
-                                ),
+
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                DropdownCustom(
-                                  'Tipo de documento',
-                                  hintText: 'Seleciona el tipo',
-                                  value: viewModel.status.selectedDocType?.id,
-                                  validator: (String? value) =>
-                                      viewModel.validatorNotEmpty(value),
-                                  changeFillWith:
-                                      viewModel.status.selectedDocType != null,
-                                  onChanged: (String? idTypeDoc) =>
-                                      viewModel.docTypeSelected(idTypeDoc!),
-                                  optionItems: viewModel
-                                      .status.listDocsType.data
-                                      .map((DocType item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item.id,
-                                      child: Text(item.description),
-                                    );
-                                  }).toList(),
-                                ),
+
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                InputTextCustom(
-                                  '# documento',
-                                  hintText: 'Escribe el número',
-                                  controller: docNumCtrl,
-                                  validator: (String? value) =>
-                                      viewModel.validatorNotEmpty(value),
-                                  onChange: (String numberDoc) =>
-                                      viewModel.changeDocNumUser(numberDoc),
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  changeFillWith:
-                                      !viewModel.status.isDocNumUserEmpty,
-                                ),
+
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                InputTextCustom(
-                                  'Nombre del titular de la cuenta',
-                                  hintText: 'Escribe el nombre',
-                                  validator: (String? value) =>
-                                      viewModel.validatorNotEmpty(value),
-                                  keyboardType: TextInputType.name,
-                                  textCapitalization: TextCapitalization.words,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[a-zA-Z ]')),
-                                  ],
-                                  onChange: (String name) =>
-                                      viewModel.changeNameTitularAccount(name),
-                                  changeFillWith: !viewModel
-                                      .status.isNameTitularAccountEmpty,
-                                  controller: nameTitularAccountCtrl,
-                                ),
+
                               ],
                             ),
                           ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
+                        InputTextCustom(
+                          'Digite secreto de CANCELACION',
+                          hintText: 'secret*',
+                          validator: (String? value) =>
+                              viewModel.validatorNotEmpty(value),
+                          keyboardType: TextInputType.name,
+
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp('[0-9a-zA-Z.]'),),
+                          ],
+                          controller: cancelSecretCtrl,
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -377,22 +309,6 @@ class _OffertSaleMobile extends StatelessWidget {
                         ),
                         const SizedBox(
                           height: 20,
-                        ),
-                        InputTextCustom(
-                          'Establece una palabra clave para asegurar tus recursos',
-                          hintText: 'secret*',
-                          validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
-                          keyboardType: TextInputType.name,
-
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp('[0-9a-zA-Z.]'),),
-                          ],
-                          controller: cancelSecretCtrl,
-                        ),
-                        const SizedBox(
-                          height: 40,
                         ),
                         Container(
                           height: 150,
@@ -444,24 +360,6 @@ class _OffertSaleMobile extends StatelessWidget {
                         PrimaryButtonCustom(
                           'Crear oferta de venta',
                           onPressed: () {
-                            if (keyForm.currentState!.validate()) {
-                              viewModel.postCreateOffert(
-                                context,
-                                // userId: '96a6a171-641e-4103-8909-77ccd92d41eb',// juanP@
-                                userId: userProvider.getUserLogged!.id,
-                                docNumCtrl: docNumCtrl,
-                                marginCtrl: marginCtrl,
-                                accountTypeId:
-                                 viewModel.status.selectedAccountType!.id,
-                                accountNumCtrl: accountNumCtrl,
-                                 nameTitularAccountCtrl: nameTitularAccountCtrl,
-                                 bankId: viewModel.status.selectedBank!.id,
-                                 amountDLYCtrl: amountDLYCtrl,
-                                infoPlusOffertCtrl: infoPlusOffertCtrl,
-                                docType: viewModel.status.selectedDocType!.id,
-                                wordSecretCtrl: cancelSecretCtrl
-                              );
-                            }
                           },
                         ),
                       ],
@@ -502,7 +400,7 @@ class DropdownCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final OffertSaleViewModel viewModel = context.watch<OffertSaleViewModel>();
+    final DetailOfferBuyViewModel viewModel = context.watch<DetailOfferBuyViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Column(

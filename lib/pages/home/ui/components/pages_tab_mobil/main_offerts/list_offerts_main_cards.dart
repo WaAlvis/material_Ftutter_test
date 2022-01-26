@@ -64,7 +64,7 @@ class ListOffertsMainSwitch extends StatelessWidget {
                   return CardBuyAndSell(
                     item: items[index],
                     textTheme: textTheme,
-                    viewModel: viewModel, //Pase bien el VM
+                    viewModel: viewModel,
                   );
                 },
               ),

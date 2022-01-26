@@ -14,13 +14,28 @@ class CardBuyAndSell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = context.read<UserProvider>();
+
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);
       return totalCost.toString();
     }
 
     return GestureDetector(
-      onTap: () => viewModel.goLogin(context), //asi pase bien la navegacion?
+      onTap: () {
+        if(userProvider.getUserLogged == null){
+          viewModel.goLogin(context);
+        }else {
+          viewModel.goDetailOffer(context);
+        }
+      }
+    //     if (userProvider != null) IconButton(
+    //   onPressed: () {},
+    //   icon: const Icon(
+    //     Icons.notifications_none,
+    //   ),
+    // ) else
+      , //asi pase bien la navegacion?
       child: Container(
         decoration: BoxDecoration(
           color: LdColors.white,
@@ -49,7 +64,7 @@ class CardBuyAndSell extends StatelessWidget {
                 textTheme: textTheme,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 0),
+                padding: const EdgeInsets.symmetric(vertical: 0),
                 child: Divider(
                   color: LdColors.gray,
                 ),
@@ -100,7 +115,7 @@ class CardBuyAndSell extends StatelessWidget {
                   ).format(double.parse(
                     totalValueCalculate(item.advertisement.margin,
                         item.advertisement.valueToSell),
-                  ))} COP',
+                  ),)} COP',
                   style: textTheme.textSmallBlack
                       .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),

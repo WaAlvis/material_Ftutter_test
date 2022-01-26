@@ -80,7 +80,7 @@ class MyOffertsTab extends StatelessWidget {
                       padding: EdgeInsets.only(left: 16, top: hAppbar),
                     ),
                     Column(
-                      children: [
+                      children: <TabBar>[
                         TabBar(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           indicatorColor: LdColors.orangePrimary,
@@ -158,6 +158,8 @@ class ListCreateOffertSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = context.read<UserProvider>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: false
@@ -188,6 +190,8 @@ class NotOffersYet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = context.read<UserProvider>();
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -224,7 +228,12 @@ class NotOffersYet extends StatelessWidget {
         ),
         PrimaryButtonCustom(
           viewModel.status.buttonText,
-          onPressed: () => viewModel.goCreateOffert(context, type),
+          onPressed: () {
+            userProvider.getUserLogged!=null
+                ? viewModel.goCreateOffert(context, type)
+                :  viewModel.goLogin(context);
+          }
+                              ,
         ),
         const SizedBox(
           height: 24,
@@ -390,7 +399,7 @@ class NotOffersYet extends StatelessWidget {
 // "valueToSell": "5050000",
 // "margin": "1",
 // "termsOfTrade": "solo pagos en la noche",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "idStatus": "4a25d12a-7bc7-454a-82b6-ff64e7d5e60e",
 // "expiredDate": "1/5/2022 6:10:39 PM",
 // "contract": "",
@@ -423,7 +432,7 @@ class NotOffersYet extends StatelessWidget {
 // "valueToSell": "5000",
 // "margin": "1",
 // "termsOfTrade": "solo pagos en la noche",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "idStatus": "4a25d12a-7bc7-454a-82b6-ff64e7d5e60e",
 // "expiredDate": "1/5/2022 5:10:20 PM",
 // "contract": "",
@@ -456,7 +465,7 @@ class NotOffersYet extends StatelessWidget {
 // "valueToSell": "5000",
 // "margin": "1",
 // "termsOfTrade": "solo pagos en la noche",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "idStatus": "4a25d12a-7bc7-454a-82b6-ff64e7d5e60e",
 // "expiredDate": "1/5/2022 5:09:15 PM",
 // "contract": "",
@@ -499,7 +508,7 @@ class NotOffersYet extends StatelessWidget {
 // "valueToSell": "5000",
 // "margin": "1",
 // "termsOfTrade": "solo pagos en la noche",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "idStatus": "4a25d12a-7bc7-454a-82b6-ff64e7d5e60e",
 // "expiredDate": "1/5/2022 5:04:01 PM",
 // "contract": "",
@@ -542,7 +551,7 @@ class NotOffersYet extends StatelessWidget {
 // "valueToSell": "5000",
 // "margin": "1",
 // "termsOfTrade": "solo pagos en la noche",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "idStatus": "4a25d12a-7bc7-454a-82b6-ff64e7d5e60e",
 // "expiredDate": "12/31/2021 4:10:12 PM",
 // "contract": "",
@@ -585,7 +594,7 @@ class NotOffersYet extends StatelessWidget {
 // "valueToSell": "5000",
 // "margin": "1",
 // "termsOfTrade": "solo pagos en la noche",
-// "idUserPublish": "ac8c8d30-391e-457a-8c1d-2f3a7d4e81d2",
+// "idUserPublish": "96a6a171-641e-4103-8909-77ccd92d41eb",
 // "idStatus": "4a25d12a-7bc7-454a-82b6-ff64e7d5e60e",
 // "expiredDate": "12/31/2021 9:52:38 AM",
 // "contract": "",

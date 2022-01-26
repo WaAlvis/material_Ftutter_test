@@ -59,6 +59,13 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+  void goDetailOffer(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailOffer.route,
+      transition: TransitionType.none,
+    );
+  }
 
   void goCreateOffert(BuildContext context, TypeOffert type) {
     AppRouter.router.navigateTo(
