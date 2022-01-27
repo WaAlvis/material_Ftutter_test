@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offerts/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
-import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -21,14 +19,18 @@ import 'package:provider/provider.dart';
 
 import '../detail_offer_buy_view_model.dart';
 
-part 'components/orange_table_sale.dart';
+part 'components/card_detail_offer.dart';
 
 part 'detail_offer_buy_mobile.dart';
 
 part 'detail_offert_buy_web.dart';
 
 class DetailOfferBuyView extends StatelessWidget {
-  const DetailOfferBuyView({Key? key, this.isBuy = false, this.item}) : super(key: key);
+  const DetailOfferBuyView({
+    Key? key,
+    this.isBuy = false,
+    this.item,
+  }) : super(key: key);
 
   final bool isBuy;
   final Data? item;
@@ -43,14 +45,21 @@ class DetailOfferBuyView extends StatelessWidget {
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return _DetailOfferBuyBody(isBuy: isBuy, item: item!,);
+        return _DetailOfferBuyBody(
+          isBuy: isBuy,
+          item: item!,
+        );
       },
     );
   }
 }
 
 class _DetailOfferBuyBody extends StatefulWidget {
-  const _DetailOfferBuyBody({Key? key, required this.isBuy,required this.item}) : super(key: key);
+  const _DetailOfferBuyBody({
+    Key? key,
+    required this.isBuy,
+    required this.item,
+  }) : super(key: key);
 
   final bool isBuy;
   final Data item;
@@ -60,12 +69,22 @@ class _DetailOfferBuyBody extends StatefulWidget {
 }
 
 class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
+  final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
+  final TextEditingController secretWordCtrl = TextEditingController();
+
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<DetailOfferBuyViewModel>().onInit(context);
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    secretWordCtrl.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -87,7 +106,11 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
                   hasScrollBody: false,
                   child: maxWidth > 1024
                       ? const _DetailOffertBuyWeb()
-                      :  _DetailOfferBuyMobile(item: widget.item),
+                      : _DetailOfferBuyMobile(
+                          item: widget.item,
+                          keyForm: keyForm,
+                          secretWordCtrl: secretWordCtrl,
+                        ),
                 ),
               ],
             ),

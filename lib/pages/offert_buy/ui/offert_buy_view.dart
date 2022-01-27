@@ -80,7 +80,6 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<OffertBuyViewModel>().onInit(context);
     });
-    marginCtrl.addListener(_printLatestValue);
     super.initState();
   }
 
@@ -123,7 +122,4 @@ class _OffertBuyBodyState extends State<_OffertBuyBody> {
     );
   }
 
-  void _printLatestValue() {
-    print('Second text field: ${marginCtrl.text}');
-  }
 }
