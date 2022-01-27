@@ -167,15 +167,11 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                         ),
                         PrimaryButtonCustom(
                           'Separar oferta de compra DLYCOP',
-                          onPressed: () {
-                            print(
-                                'Separando oferta por parte de un comprador...');
-                            // if (keyForm.currentState!.validate()) {
-                            //   viewModel.buyCreateOffert(
-                            //     context,
-                            //   );
-                            // }
-                          },
+                          onPressed: () => viewModel.reservationPaymentForDly(
+                            context,
+                            wordSecretBuyer: secretWordCtrl.text,
+                            item: item
+                          ),
                         ),
                       ],
                     ),
