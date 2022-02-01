@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/user_login.dart';
 
-class UserProvider with ChangeNotifier {
+class DataUserProvider with ChangeNotifier  {
 
-  UserLogin? _user;
-  UserLogin? get getUserLogged => _user;
-  void setUserLogged(UserLogin? user) {
-    _user = user;
+  ResultDataUser? _DataUser;
+  ResultDataUser? get getDataUserLogged => _DataUser;
+  void setDataUserLogged(ResultDataUser? user) {
+    _DataUser = user;
     notifyListeners();
   }
+
   // late TokenLogin _tokenLogin;
   // TokenLogin get getTokenLogin => _tokenLogin;
   // void setTokenLogin(TokenLogin tokenLogin) {
   //   _tokenLogin = tokenLogin;
   //   notifyListeners();
   // }
+
 }

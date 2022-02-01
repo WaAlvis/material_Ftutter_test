@@ -10,7 +10,7 @@ class SmartContract {
       required this.addressSeller,
       required this.addressBuyer,
       required this.doubleHashedSecretsOfSeller,
-      required this.doubleHashedSecretsOfBuyer,
+      required  this.doubleHashedSecretsOfBuyer,
       required this.doubleHashedSecretsOfArbitrator,
       required this.salt,
       });

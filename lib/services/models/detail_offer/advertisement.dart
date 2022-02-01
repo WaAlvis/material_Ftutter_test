@@ -18,11 +18,11 @@ class Advertisement {
 
   String idAdvertisement;
   String idUserInteraction;
-  String statusOrigin;
-  String statusDestiny;
-  String successfulTransaction;
+  int statusOrigin;
+  int statusDestiny;
+  bool successfulTransaction;
 
 
 
-  Map<String, dynamic> toJson() => _$AdvertisementtToJson(this);
+  Map<String, dynamic> toJson() => _$AdvertisementToJson(this);
 }

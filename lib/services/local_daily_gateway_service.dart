@@ -6,6 +6,7 @@ import 'package:localdaily/services/models/create_offerts/offert/result_create_o
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
@@ -23,6 +24,7 @@ class UrlsApi {
   static const String getDataHome = '/WebAdmin/Advertisement/GetData';
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
+  static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
@@ -56,6 +58,16 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultLogin>> loginUser(
     @Body() BodyLogin bodyLogin,
   );
+
+  // @GET('/Wallet/GetByUserId')
+  // Future<ResponseData<ResponseWalletByuser>> getByUserId(
+  //     @Query('id') String id,
+  //     );
+
+  @GET(UrlsApi.dataUser)
+  Future<ResponseData<ResultDataUser>> getUserId(
+      @Query('id') String id,
+      );
 
   @POST(UrlsApi.getBanks)
   Future<ResponseData<ResultGetBanks>> getBanks(
@@ -97,9 +109,13 @@ abstract class LocalDailyGatewayService {
 //   }
 // }
 
+// C - localTest122@gmail.com - f1010389-817c-4416-9841-21cd5373adbf
+// -A 0xF92a1eA328D39d3525751E7D5e23009B1e94e8Ea
+// V - juanP@gmail.com - 96a6a171-641e-4103-8909-77ccd92d41eb
+// -A 0x4Cc8eE3f9874D270CA3130f694c5Be873bBF3A07
 // { *loginUser
-//    "identity": "w@w.com",
-//   "password": "1234",
+//    "identity": "juanP@gmail.com",
+//   "password": "12345678",
 // "signature":"T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==",
 // "wearableId": "d9b1289a-ae98-4e86-a145-ac046a8bd5be"
 // }

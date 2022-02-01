@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
@@ -56,10 +58,11 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
   void goHomeForLogin(
     BuildContext context,
+    GlobalKey<FormState> keyForm,
     TextEditingController userCtrl,
     TextEditingController passwordCtrl,
     UserProvider userProvider,
-    GlobalKey<FormState> keyForm,
+    DataUserProvider dataUserProvider,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
@@ -69,6 +72,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
             userCtrl.text,
             passwordCtrl.text,
             userProvider,
+            dataUserProvider,
           );
         }
       } else {
@@ -109,6 +113,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     String email,
     String password,
     UserProvider userProvider,
+    DataUserProvider dataUserProvider,
   ) async {
     status = status.copyWith(isLoading: true);
     final String pass256 = encrypPass(password).toString();
@@ -128,10 +133,28 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       print('Login Res: ${response.statusCode} ');
       if (response.isSuccess) {
         print('Login EXITOSO!!');
+        final String idUser = response.result!.user.id;
         userProvider.setUserLogged(
+          //Datos basicos de User
           response.result!.user,
         );
-        _route.goHome(context);
+        _interactor
+            .getUserById(idUser)
+            .then((ResponseData<ResultDataUser> response) {
+          if (response.isSuccess) {
+            print('Login EXITOSO + Datos user completps!!');
+            dataUserProvider.setDataUserLogged(
+              response.result,
+            );
+            _route.goHome(context);
+          }
+        }).catchError((err) {
+          status = status.copyWith(
+            errorLogin: true,
+          );
+          print('Login DataFull Error As: ${err}');
+          status = status.copyWith(isLoading: false);
+        });
       } else {
         status = status.copyWith(
           errorLogin: true,
@@ -144,7 +167,7 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       status = status.copyWith(
         errorLogin: true,
       );
-      print('Login Error As: ${err}');
+      print('Login BasicData Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });
   }

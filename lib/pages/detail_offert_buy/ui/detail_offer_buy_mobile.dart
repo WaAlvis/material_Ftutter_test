@@ -14,6 +14,7 @@ class _DetailOfferBuyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final DetailOfferBuyViewModel viewModel =
         context.watch<DetailOfferBuyViewModel>();
@@ -145,7 +146,7 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                           viewModel: viewModel,
                         ),
                         Text(item
-                            .advertisement.advertisementPayAccount[1].bankId),
+                            .advertisement.advertisementPayAccount[0].bankId),
                         SizedBox(
                           height: 20,
                         ),
@@ -167,10 +168,13 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                         ),
                         PrimaryButtonCustom(
                           'Separar oferta de compra DLYCOP',
-                          onPressed: () => viewModel.reservationPaymentForDly(
+                          onPressed: () =>
+                              viewModel.reservationPaymentForDly(
                             context,
                             wordSecretBuyer: secretWordCtrl.text,
-                            item: item
+                            item: item,
+                                user: dataUserProvider.getDataUserLogged!
+
                           ),
                         ),
                       ],

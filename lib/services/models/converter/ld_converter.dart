@@ -3,6 +3,7 @@ import 'package:localdaily/services/models/create_offerts/get_banks/response/res
 import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
@@ -38,6 +39,9 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
       }
       if ('$T' == '$ResultValidatePin?' || T == ResultValidatePin) {
         return ResultValidatePin.fromJson(json) as T;
+      }
+      if ('$T' == '$ResultDataUser?' || T == ResultDataUser) {
+        return ResultDataUser.fromJson(json) as T;
       }
     }
     return json as T;

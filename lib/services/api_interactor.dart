@@ -4,9 +4,12 @@ import 'package:localdaily/services/models/create_offerts/get_banks/response/res
 import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
 import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
+import 'package:localdaily/services/models/detail_offer/advertisement.dart';
+import 'package:localdaily/services/models/detail_offer/advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
@@ -40,9 +43,24 @@ class ServiceInteractor {
     return response;
   }
 
+  // Future<ResponseData<ResultCreateOffert>> createSmartContract(
+  //     SmartContract smartContract, Advertisement advertisement,) async {
+  //   final ResponseData<ResultCreateOffert> response =
+  //   await locator<LocalDailyGatewayService>().createOffert(bodyOffert);
+  //   return response;
+  // }
+
+
   Future<ResponseData<ResultLogin>> postLogin(BodyLogin bodyLogin) async {
     final ResponseData<ResultLogin> response =
         await locator<LocalDailyGatewayService>().loginUser(bodyLogin);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultDataUser>> getUserById(String id) async {
+    final ResponseData<ResultDataUser> response =
+    await locator<LocalDailyGatewayService>().getUserId(id);
 
     return response;
   }
