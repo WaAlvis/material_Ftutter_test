@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -70,12 +70,12 @@ class LdRouter {
     );
   }
 
-  void goCreateOffert(BuildContext context, TypeOffert type) {
+  void goCreateOffer(BuildContext context, TypeOffer type) {
     AppRouter.router.navigateTo(
       context,
-      type == TypeOffert.buy
-          ? AppRoutes.createOffertBuyRoute.route
-          : AppRoutes.createOffertSaleRoute.route,
+      type == TypeOffer.buy
+          ? AppRoutes.createOfferBuyRoute.route
+          : AppRoutes.createOfferSaleRoute.route,
       transition: TransitionType.none,
     );
   }

@@ -5,8 +5,8 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
@@ -22,19 +22,19 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       hideWallet: false,
       hideValues: false,
       isError: false,
-      sellersDataHome: ResultHome(
+      offersBuyDataHome: ResultHome(
         data: <Data>[],
         totalItems: 10,
         totalPages: 1,
       ),
-      buyersDataHome: ResultHome(
+      offersSaleDataHome: ResultHome(
         data: <Data>[],
         totalItems: 10,
         totalPages: 1,
       ),
       indexTab: 0,
-      typeOffert: TypeOffert.sell,
-      image: LdAssets.buyNoOffert,
+      typeOffer: TypeOffer.sell,
+      image: LdAssets.buyNoOffer,
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
     );
@@ -61,18 +61,18 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     dataHome(context);
   }
 
-  void swapType(TypeOffert type) {
+  void swapType(TypeOffer type) {
     switch (type) {
-      case TypeOffert.sell:
+      case TypeOffer.sell:
         status = status.copyWith(
-          image: LdAssets.saleNoOffert,
+          image: LdAssets.saleNoOffer,
           titleText: 'Aun no tienes ofertas de venta',
           buttonText: 'Crear oferta de venta',
         );
         break;
-      case TypeOffert.buy:
+      case TypeOffer.buy:
         status = status.copyWith(
-          image: LdAssets.buyNoOffert,
+          image: LdAssets.buyNoOffer,
           titleText: 'Aun no tienes ofertas de compra',
           buttonText: 'Crear oferta de compra',
         );
@@ -80,10 +80,10 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     }
   }
 
-  void goCreateOffert(BuildContext context, TypeOffert type) {
+  void goCreateOffer(BuildContext context, TypeOffer type) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        _route.goCreateOffert(context, type);
+        _route.goCreateOffer(context, type);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -117,8 +117,8 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     LdConnection.validateConnection().then(
       (bool value) {
         if (value) {
-          getDataHome(context, 1);
-          getDataHome(context, 0);
+          getDataHome(context, TypeOffer.buy);
+          getDataHome(context, TypeOffer.sell);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
         }
@@ -126,24 +126,26 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     );
   }
 
-  Future<void> getDataHome(BuildContext context, int type) async {
+  Future<void> getDataHome(BuildContext context, TypeOffer type) async {
     status = status.copyWith(isLoading: true);
 
     final Pagination pagination =
         Pagination(isPaginable: true, currentPage: 1, itemsPerPage: 10);
-    final BodyHome bodyBuyersHome =
-        BodyHome(type: type, pagination: pagination);
+    final BodyHome bodyBuyersHome = BodyHome(
+      type: type == TypeOffer.buy ? 1 : 0,
+      pagination: pagination,
+    );
 
     try {
       final ResponseData<ResultHome> response =
           await _interactor.postGetHomeBuyerSellers(bodyBuyersHome);
       print('HomeData Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Exito obteniendo la data de Buyers en Home');
-        if (type == 0) {
-          status.buyersDataHome = response.result!;
+        print('Exito obteniendo la data de venta en Home');
+        if (type == TypeOffer.buy) {
+          status.offersSaleDataHome = response.result!;
         } else {
-          status.sellersDataHome = response.result!;
+          status.offersBuyDataHome = response.result!;
         }
       } else {
         print('ERROR obteniendo la data de Home');

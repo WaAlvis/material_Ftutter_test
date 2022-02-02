@@ -21,15 +21,15 @@ class _HomeMobile extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final List<Data> itemsSellers = viewModel.status.sellersDataHome.data;
-    final List<Data> itemsBuyers = viewModel.status.buyersDataHome.data;
+    final List<Data> itemsForBuy = viewModel.status.offersBuyDataHome.data;
+    final List<Data> itemsForSell = viewModel.status.offersSaleDataHome.data;
 
     final List<Widget> _pages = <Widget>[
-      MainOffertsTab(
+      MainOffersTab(
         viewModel: viewModel,
         textTheme: textTheme,
-        itemsBuyers: itemsBuyers,
-        itemsSellers: itemsSellers,
+        itemsForBuy: itemsForSell,
+        itemsForSell: itemsForBuy,
         hAppbar: hAppbar,
         hBody: hBody,
       ),
@@ -39,7 +39,7 @@ class _HomeMobile extends StatelessWidget {
         ),
       ),
 
-      MyOffertsTab(
+      MyOffersTab(
         viewModel: viewModel,
         textTheme: textTheme,
         listBanks: [],
@@ -135,7 +135,7 @@ class _HomeMobile extends StatelessWidget {
 }
 
 class OptionsFilterRow extends StatelessWidget {
-  //mover a mainoffert Home
+  //mover a mainoffer Home
   const OptionsFilterRow({
     Key? key,
     required this.textTheme,

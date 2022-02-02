@@ -1,6 +1,6 @@
 import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
+import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/view_model.dart';
 
 class HomeStatus extends ViewStatus {
@@ -9,9 +9,9 @@ class HomeStatus extends ViewStatus {
   final int indexTab;
   final bool hideWallet;
   final bool hideValues;
-  late ResultHome sellersDataHome;
-  late ResultHome buyersDataHome;
-  final TypeOffert typeOffert;
+  late ResultHome offersBuyDataHome;
+  late ResultHome offersSaleDataHome;
+  final TypeOffer typeOffer;
   final String image;
   final String titleText;
 
@@ -19,14 +19,14 @@ class HomeStatus extends ViewStatus {
   final String buttonText;
 
   HomeStatus({
-    required this.sellersDataHome,
+    required this.offersBuyDataHome,
     required this.hideWallet,
     required this.hideValues,
-    required this.buyersDataHome,
+    required this.offersSaleDataHome,
     required this.indexTab,
     this.isLoading = true,
     required this.isError,
-    required this.typeOffert,
+    required this.typeOffer,
     required this.image,
     required this.titleText,
     // required this.detailText,
@@ -41,7 +41,7 @@ class HomeStatus extends ViewStatus {
     ResultHome? sellersDataHome,
     int? indexTab,
     ResultHome? buyersDataHome,
-    TypeOffert? typeOffert,
+    TypeOffer? typeOffer,
     String? image,
     String? titleText,
     // String? detailText,
@@ -53,9 +53,9 @@ class HomeStatus extends ViewStatus {
       indexTab: indexTab ?? this.indexTab,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
-      sellersDataHome: sellersDataHome ?? this.sellersDataHome,
-      buyersDataHome: buyersDataHome ?? this.buyersDataHome,
-      typeOffert: typeOffert ?? this.typeOffert,
+      offersBuyDataHome: sellersDataHome ?? this.offersBuyDataHome,
+      offersSaleDataHome: buyersDataHome ?? this.offersSaleDataHome,
+      typeOffer: typeOffer ?? this.typeOffer,
       image: image ?? this.image,
       titleText: titleText ?? this.titleText,
       // detailText: detailText ?? this.detailText,

@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
-import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
-import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
-import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
+import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
+import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
+import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -28,14 +28,14 @@ class UrlsApi {
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
-  static const String createOffert = '/WebAdmin/Advertisement';
+  static const String createOffer = '/WebAdmin/Advertisement';
   static const String sendPinEmail =
       '/NotificationCenter/SendMessageEvent/SendNotificationOtp';
   static const String validateToken =
       '/NotificationCenter/SendMessageEvent/ValidationToken';
 }
 
-///WebAdmin/Advertisement create offert sell buy
+///WebAdmin/Advertisement create offer sell buy
 
 @RestApi(baseUrl: 'http://3.135.189.138:4000')
 abstract class LocalDailyGatewayService {
@@ -66,8 +66,8 @@ abstract class LocalDailyGatewayService {
 
   @GET(UrlsApi.dataUser)
   Future<ResponseData<ResultDataUser>> getUserId(
-      @Query('id') String id,
-      );
+    @Query('id') String id,
+  );
 
   @POST(UrlsApi.getBanks)
   Future<ResponseData<ResultGetBanks>> getBanks(
@@ -79,9 +79,9 @@ abstract class LocalDailyGatewayService {
     @Body() Pagination bodyGetDocsType,
   );
 
-  @POST(UrlsApi.createOffert)
-  Future<ResponseData<ResultCreateOffert>> createOffert(
-    @Body() BodyOffert bodyOffert,
+  @POST(UrlsApi.createOffer)
+  Future<ResponseData<ResultCreateOffer>> createOffer(
+    @Body() BodyOffer bodyOffer,
   );
 
   @POST(UrlsApi.sendPinEmail)
@@ -120,7 +120,25 @@ abstract class LocalDailyGatewayService {
 // "wearableId": "d9b1289a-ae98-4e86-a145-ac046a8bd5be"
 // }
 
-// {* Create offert buy seller and buyer (0) Compra ,(1) Venta)
+// { **respuesta create contract
+// "isSuccess": true,
+// "statusCode": 200,
+// "result": {
+// "id": "fa14b027-eebe-4c10-bd55-6e8469eb0da3",
+// "date": "2/1/2022 9:55:31 PM",
+// "transactionStatusId": "c57131ce-f78d-4a61-bf94-ce3c2601dc76",
+// "hash": "0x84bdfc0160781eefe4a0a5202dab557ff3334acf768c4517c82627a0869b6d3d",
+// "advertisementId": "62559e93-3c10-4b9a-811d-a0ccf9087fe0",
+// "contractAddress": "0xe4917fAc19BE56E2f1Cb317B35F271acd9D6d4aF",
+// "addressSeller": "0x4Cc8eE3f9874D270CA3130f694c5Be873bBF3A07",
+// "addressBuyer": "0xF92a1eA328D39d3525751E7D5e23009B1e94e8Ea",
+// "code": "14",
+// "message": ""
+// },
+// "error": null
+// }
+
+// {* Create offer buy seller and buyer (0) Compra ,(1) Venta)
 // "entity": {
 // "idTypeAdvertisement":
 //     "138412e9-4907-4d18-b432-70bdec7940c4", Compra

@@ -1,13 +1,13 @@
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
-import 'package:localdaily/services/models/create_offerts/get_banks/response/result_get_banks.dart';
-import 'package:localdaily/services/models/create_offerts/get_doc_type/response/result_get_docs_type.dart';
-import 'package:localdaily/services/models/create_offerts/offert/body_offert.dart';
-import 'package:localdaily/services/models/create_offerts/offert/result_create_offert.dart';
+import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
+import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
+import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
+import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/detail_offer/advertisement.dart';
 import 'package:localdaily/services/models/detail_offer/advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/result_home.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -36,17 +36,17 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultCreateOffert>> createOffert(
-      BodyOffert bodyOffert) async {
-    final ResponseData<ResultCreateOffert> response =
-        await locator<LocalDailyGatewayService>().createOffert(bodyOffert);
+  Future<ResponseData<ResultCreateOffer>> createOffer(
+      BodyOffer bodyOffer) async {
+    final ResponseData<ResultCreateOffer> response =
+        await locator<LocalDailyGatewayService>().createOffer(bodyOffer);
     return response;
   }
 
-  // Future<ResponseData<ResultCreateOffert>> createSmartContract(
+  // Future<ResponseData<ResultCreateOffer>> createSmartContract(
   //     SmartContract smartContract, Advertisement advertisement,) async {
-  //   final ResponseData<ResultCreateOffert> response =
-  //   await locator<LocalDailyGatewayService>().createOffert(bodyOffert);
+  //   final ResponseData<ResultCreateOffer> response =
+  //   await locator<LocalDailyGatewayService>().createOffer(bodyOffer);
   //   return response;
   // }
 

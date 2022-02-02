@@ -1,13 +1,13 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
-import 'package:localdaily/pages/detail_offert_buy/ui/detail_offer_buy_view.dart';
+import 'package:localdaily/pages/detail_offer_buy/ui/detail_offer_buy_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
-import 'package:localdaily/pages/offert_buy/ui/offert_buy_view.dart';
-import 'package:localdaily/pages/offert_sale/ui/offert_sale_view.dart';
+import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
+import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
-import 'package:localdaily/services/models/home/get_offerts/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 class AppRoutes {
   /*static final loginRoute = AppRoute(
     '/login',
@@ -57,14 +57,14 @@ class AppRoutes {
     ),),
   );
 
-  static final AppRoute createOffertBuyRoute = AppRoute(
-    '/create_offert_buy',
-    Handler(handlerFunc: (_, __) => const OffertBuyView()),
+  static final AppRoute createOfferBuyRoute = AppRoute(
+    '/create_offer_buy',
+    Handler(handlerFunc: (_, __) => const OfferBuyView()),
   );
 
-  static final AppRoute createOffertSaleRoute = AppRoute(
-    '/create_offert_sale',
-    Handler(handlerFunc: (_, __) => const OffertSaleView()),
+  static final AppRoute createOfferSaleRoute = AppRoute(
+    '/create_offer_sale',
+    Handler(handlerFunc: (_, __) => const OfferSaleView()),
   );
 
   static final AppRoute registerEmailRoute = AppRoute(
@@ -87,8 +87,8 @@ class AppRoutes {
     buyRoute,
     sellRoute,
     loginRoute,
-    createOffertSaleRoute,
-    createOffertBuyRoute,
+    createOfferSaleRoute,
+    createOfferBuyRoute,
     registerEmailRoute,
     detailOffer,
     // registerValidateEmailRoute,
