@@ -3,6 +3,8 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
+import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -26,6 +28,7 @@ class UrlsApi {
   static const String login = '/Identity/Authentication';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
+  static const String createSmartContract = '/Transaction/SmartContract/CreateSmartContract';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
   static const String createOffer = '/WebAdmin/Advertisement';
@@ -83,6 +86,11 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultCreateOffer>> createOffer(
     @Body() BodyOffer bodyOffer,
   );
+
+  @POST(UrlsApi.createSmartContract)
+  Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
+      @Body() BodyCreateSmartContract bodyCreateSmartContract,
+      );
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(

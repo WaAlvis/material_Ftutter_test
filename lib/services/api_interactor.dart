@@ -5,7 +5,9 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/detail_offer/advertisement.dart';
-import 'package:localdaily/services/models/detail_offer/advertisement.dart';
+import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
+import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
+import 'package:localdaily/services/models/detail_offer/smart_contract.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -22,7 +24,8 @@ import 'package:localdaily/services/models/response_data.dart';
 
 class ServiceInteractor {
   Future<ResponseData<ResultGetDocsType>> getDocumentType(
-      Pagination bodyGetDocuments) async {
+    Pagination bodyGetDocuments,
+  ) async {
     final ResponseData<ResultGetDocsType> response =
         await locator<LocalDailyGatewayService>().getDocsType(bodyGetDocuments);
 
@@ -37,19 +40,21 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultCreateOffer>> createOffer(
-      BodyOffer bodyOffer) async {
+    BodyOffer bodyOffer,
+  ) async {
     final ResponseData<ResultCreateOffer> response =
         await locator<LocalDailyGatewayService>().createOffer(bodyOffer);
     return response;
   }
 
-  // Future<ResponseData<ResultCreateOffer>> createSmartContract(
-  //     SmartContract smartContract, Advertisement advertisement,) async {
-  //   final ResponseData<ResultCreateOffer> response =
-  //   await locator<LocalDailyGatewayService>().createOffer(bodyOffer);
-  //   return response;
-  // }
-
+  Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
+    BodyCreateSmartContract bodyCreateSmartContract,
+  ) async {
+    final ResponseData<ResultCreateSmartContract> response =
+        await locator<LocalDailyGatewayService>()
+            .createSmartContract(bodyCreateSmartContract);
+    return response;
+  }
 
   Future<ResponseData<ResultLogin>> postLogin(BodyLogin bodyLogin) async {
     final ResponseData<ResultLogin> response =
@@ -60,7 +65,7 @@ class ServiceInteractor {
 
   Future<ResponseData<ResultDataUser>> getUserById(String id) async {
     final ResponseData<ResultDataUser> response =
-    await locator<LocalDailyGatewayService>().getUserId(id);
+        await locator<LocalDailyGatewayService>().getUserId(id);
 
     return response;
   }
@@ -84,7 +89,8 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultHome>> postGetHomeBuyerSellers(
-      BodyHome bodyHome) async {
+    BodyHome bodyHome,
+  ) async {
     final ResponseData<ResultHome> response =
         await locator<LocalDailyGatewayService>().getAdvertismentHome(bodyHome);
 
@@ -92,7 +98,8 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultRegister>> postRegisterUser(
-      BodyRegisterDataUser bodyRegisterUser) async {
+    BodyRegisterDataUser bodyRegisterUser,
+  ) async {
     final ResponseData<ResultRegister> response =
         await locator<LocalDailyGatewayService>()
             .registerUser(bodyRegisterUser);

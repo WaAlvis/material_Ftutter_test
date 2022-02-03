@@ -324,10 +324,10 @@ class _OfferBuyMobile extends StatelessWidget {
                                 if (keyForm.currentState!.validate()) {
                                   viewModel.createOfferBuy(
                                     context,
-                                    marginCtrl: marginCtrl,
+                                    margin: marginCtrl.text,
                                     bankId: viewModel.status.selectedBank!.id,
-                                    amountDLYCtrl: amountDLYCtrl,
-                                    infoPlusOfferCtrl: infoPlusOfferCtrl,
+                                    amountDLY: amountDLYCtrl.text,
+                                    infoPlusOffer: infoPlusOfferCtrl.text,
                                     userId: userProvider.getUserLogged!.id,
                                       wordSecret: cancelSecretCtrl.text
                                   );

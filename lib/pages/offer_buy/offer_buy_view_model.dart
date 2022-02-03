@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:hex/hex.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -11,6 +14,7 @@ import 'package:localdaily/services/models/create_offers/offer/result_create_off
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:sha3/sha3.dart';
 
 import 'offer_buy_status.dart';
 
@@ -145,25 +149,34 @@ class OfferBuyViewModel extends ViewModel<OfferBuyStatus> {
 
   Future<void> createOfferBuy(
     BuildContext context, {
-    required TextEditingController marginCtrl,
-    required TextEditingController amountDLYCtrl,
+    required String margin,
+    required String amountDLY,
     required String bankId,
-    required TextEditingController infoPlusOfferCtrl,
+    required String infoPlusOffer,
     required String userId,
     required String wordSecret,
-  }
-
-      ) async {
+  }) async {
     status = status.copyWith(isLoading: true);
+
+    String convertWorkKeccak(String word) {
+      final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
+      final SHA3 k2 = SHA3(256, KECCAK_PADDING, 256);
+      k1.update(utf8.encode(word));
+      final List<int> hash1 = k1.digest();
+      k2.update(hash1);
+      final List<int> hash2 = k2.digest();
+      return HEX.encode(hash2);
+    }
 
     final EntityOffer entity = EntityOffer(
       idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
-      valueToSell: amountDLYCtrl.text,
-      margin: marginCtrl.text,
-      termsOfTrade: infoPlusOfferCtrl.text,
+      valueToSell: amountDLY.replaceAll('.', ''),
+      margin: margin.split(' ').first,
+      termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
-      secretSellerKey: 'secreto1encryptado,secreto2encryptado'
+      secretSellerKey:
+          '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
     );
     final BodyOffer bodyOffer = BodyOffer(
       entity: entity,
@@ -171,10 +184,10 @@ class OfferBuyViewModel extends ViewModel<OfferBuyStatus> {
       strJsonAdvertisementBanks:
           //TODO, deberia ser diferente, ya que no se ingresan todos esos datos.
 //        ,\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",
-          '[{\"bankId\": \"${bankId}\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},]',
+          '[{\"bankId\": \"$bankId\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},]',
     );
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         _interactor
+    _interactor
         .createOffer(bodyOffer)
         .then((ResponseData<ResultCreateOffer> response) {
       print('Create offer Res: ${response.statusCode} ');

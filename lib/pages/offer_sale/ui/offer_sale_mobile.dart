@@ -443,16 +443,16 @@ class _OfferSaleMobile extends StatelessWidget {
                               viewModel.createOfferSale(context,
                                   // userId: '96a6a171-641e-4103-8909-77ccd92d41eb',// juanP@
                                   userId: userProvider.getUserLogged!.id,
-                                  docNumCtrl: docNumCtrl.text,
-                                  marginCtrl: marginCtrl.text,
+                                  docNum: docNumCtrl.text,
+                                  margin: marginCtrl.text,
                                   accountTypeId:
                                       viewModel.status.selectedAccountType!.id,
-                                  accountNumCtrl: accountNumCtrl.text,
-                                  nameTitularAccountCtrl:
+                                  accountNum: accountNumCtrl.text,
+                                  nameTitularAccount:
                                       nameTitularAccountCtrl.text,
                                   bankId: viewModel.status.selectedBank!.id,
-                                  amountDLYCtrl: amountDLYCtrl.text,
-                                  infoPlusOfferCtrl: infoPlusOfferCtrl.text,
+                                  amountDLY: amountDLYCtrl.text,
+                                  infoPlusOffer: infoPlusOfferCtrl.text,
                                   docType: viewModel.status.selectedDocType!.id,
                                   wordSecret: cancelSecretCtrl.text);
                             }
