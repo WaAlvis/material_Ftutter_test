@@ -19,7 +19,7 @@ class MainOffersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
@@ -28,7 +28,7 @@ class MainOffersTab extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: LdAppbar(
-        userProvider: userProvider.getUserLogged,
+        dataUserProvider: dataUserProvider.getDataUserLogged,
         goLogin: (BuildContext context) => viewModel.goLogin(context),
         // withBackIcon: false,
       ),
@@ -121,13 +121,13 @@ class MainOffersTab extends StatelessWidget {
                       textTheme: textTheme,
                       items: itemsForBuy,
                       viewModel: viewModel,
-                      userIsLogged: userProvider.getUserLogged?.id.isNotEmpty,
+                      userIsLogged: dataUserProvider.getDataUserLogged?.id.isNotEmpty,
                   ),
                   ListOffersMainSwitch('Ofertas para vender',
                       textTheme: textTheme,
                       items: itemsForSell,
                       viewModel: viewModel,
-                      userIsLogged: userProvider.getUserLogged?.id.isNotEmpty,
+                      userIsLogged: dataUserProvider.getDataUserLogged?.id.isNotEmpty,
                   ),
                 ],
               ),

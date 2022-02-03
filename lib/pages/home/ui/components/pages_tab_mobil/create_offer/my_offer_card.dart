@@ -15,7 +15,7 @@ class MyOfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
 
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);

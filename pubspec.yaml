@@ -21,7 +21,7 @@ dependencies:
   lint: ^1.7.2
   rxdart: ^0.27.2
   provider: ^6.0.1
-  json_annotation: ^4.3.0
+  json_annotation: ^4.4.0
   retrofit: ^2.0.1
   dio: ^4.0.1
 

@@ -7,7 +7,9 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
@@ -273,7 +275,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     final EntityPinEmail entityPin = EntityPinEmail(
       clientId: '2955cb39-61da-46ea-b503-42cb33831c8a',
       numberOrEmail: email,
-      codevia: '2955cb39-61da-46ea-b503-42cb33831c8a',
+      codevia: '66470b53-2a5d-4ecf-a767-ab62ff3b72e5',
     );
     final BodyPinEmail bodyPin = BodyPinEmail(
       entity: entityPin,
@@ -322,7 +324,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required TextEditingController dateBirthCtrl,
     required TextEditingController passwordCtrl,
     required TextEditingController confirrmPassCtrl,
-    // String email, String password,
+        required     DataUserProvider dataUserProvider,
+
+        // String email, String password,
   }) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
@@ -339,6 +343,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             phone: phoneCtrl.text,
             email: emailRegister,
             dateBirth: dateBirthCtrl.text,
+            dataUserProvider: dataUserProvider,
+
           );
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -358,10 +364,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required String phone,
     required String email,
     required String dateBirth,
-  }) async {
+        required     DataUserProvider dataUserProvider,
+
+      }) async {
     status = status.copyWith(isLoading: true);
 
     final String sha256pass = encrypPass(password).toString();
+
     print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
@@ -378,27 +387,30 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isActive: true,
       addressWallet: '',
     );
-    // final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
-    //   nickName: 'nickName',
-    //   firstName: 'firstName',
-    //   secondName: 'secondName',
-    //   firstLastName: 'firstLastName',
-    //   secondLastName: 'secondLastName',
-    //   dateBirth: '12/12/1992',
-    //   email: 'email',
-    //   phone: '123',
-    //   userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
-    //   password: 'Aa12345678*',
-    //   isActive: true,
-    //   addressWallet: '',
-    // );
 
     _interactor
         .postRegisterUser(bodyRegister)
         .then((ResponseData<ResultRegister> response) {
       print('Register Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        _route.goHome(context);
+        final String idUser = response.result!.id;
+        _interactor
+            .getUserById(idUser)
+            .then((ResponseData<ResultDataUser> response) {
+          if (response.isSuccess) {
+            print('Registro EXITOSO + Datos User completps!!');
+            dataUserProvider.setDataUserLogged(
+              response.result,
+            );
+            _route.goHome(context);
+          }
+        }).catchError((err) {
+          status = status.copyWith(
+            isError: true,
+          );
+          print('Login DataFull Error As: ${err}');
+          status = status.copyWith(isLoading: false);
+        });
       } else {
         // TODO: Mostrar alerta
       }

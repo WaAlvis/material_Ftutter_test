@@ -10,7 +10,7 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/create_offer/list_my_offer_sale.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/main_offers/list_offers_main_cards.dart';
-import 'package:localdaily/providers/user_provider.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';

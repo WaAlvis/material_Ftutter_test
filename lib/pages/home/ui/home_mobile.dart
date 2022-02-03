@@ -15,9 +15,9 @@ class _HomeMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double hAppbar = 150;
     final double hBody = size.height - hAppbar;
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
 
-    // UserProvider userProvider;
+    // DataUserProvider dataUserProvider;
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
@@ -59,7 +59,7 @@ class _HomeMobile extends StatelessWidget {
             'Cerrar Sesion de Usuario',
             onPressed: () {
               viewModel.goLogin(context);
-              userProvider.setUserLogged(
+              dataUserProvider.setDataUserLogged(
                 null,
               );
 

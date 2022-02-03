@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/providers/user_provider.dart';
-import 'package:localdaily/services/models/login/user_login.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 import '../app_theme.dart';
@@ -15,10 +14,10 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final void Function(BuildContext)? goLogin;
   final bool withBackIcon;
   final bool withText;
-  final UserLogin? userProvider;
+  final ResultDataUser? dataUserProvider;
 
   const LdAppbar({
-    this.userProvider,
+    this.dataUserProvider,
     this.title,
     // this.onBackSignup,
     this.withBackIcon = false,
@@ -60,7 +59,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                       LdAssets.logoWhiteOrange,
                       height: 30,
                     ),
-                    if (userProvider != null) IconButton(
+                    if (dataUserProvider != null) IconButton(
                             onPressed: () {},
                             icon: const Icon(
                               Icons.notifications_none,

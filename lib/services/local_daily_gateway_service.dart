@@ -110,9 +110,9 @@ abstract class LocalDailyGatewayService {
 //
 // { solicitar codigo pin al correo
 //   "entity": {
-//   "clientId": "2955cb39-61da-46ea-b503-42cb33831c8a",
+//   "clientId": "",
 //   "numberOrEmail": "alvis.wap@gmail.com",
-//   "codevia": "2955cb39-61da-46ea-b503-42cb33831c8a",
+//   "codevia": "66470b53-2a5d-4ecf-a767-ab62ff3b72e5"",
 //   &
 //   }
 // }
@@ -121,6 +121,7 @@ abstract class LocalDailyGatewayService {
 // -A 0xF92a1eA328D39d3525751E7D5e23009B1e94e8Ea
 // V - juanP@gmail.com - 96a6a171-641e-4103-8909-77ccd92d41eb
 // -A 0x4Cc8eE3f9874D270CA3130f694c5Be873bBF3A07
+
 // { *loginUser
 //    "identity": "juanP@gmail.com",
 //   "password": "12345678",

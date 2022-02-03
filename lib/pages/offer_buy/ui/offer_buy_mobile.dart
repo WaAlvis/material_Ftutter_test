@@ -20,7 +20,7 @@ class _OfferBuyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OfferBuyViewModel viewModel = context.watch<OfferBuyViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -328,7 +328,7 @@ class _OfferBuyMobile extends StatelessWidget {
                                     bankId: viewModel.status.selectedBank!.id,
                                     amountDLY: amountDLYCtrl.text,
                                     infoPlusOffer: infoPlusOfferCtrl.text,
-                                    userId: userProvider.getUserLogged!.id,
+                                    userId: dataUserProvider.getDataUserLogged!.id,
                                       wordSecret: cancelSecretCtrl.text
                                   );
                                 }

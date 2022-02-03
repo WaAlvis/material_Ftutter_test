@@ -157,7 +157,7 @@ class ListCreateOfferSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -189,7 +189,7 @@ class NotOffersYet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -228,7 +228,7 @@ class NotOffersYet extends StatelessWidget {
         PrimaryButtonCustom(
           viewModel.status.buttonText,
           onPressed: () {
-            userProvider.getUserLogged!=null
+            dataUserProvider.getDataUserLogged!=null
                 ? viewModel.goCreateOffer(context, type)
                 :  viewModel.goLogin(context);
           }

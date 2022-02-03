@@ -64,7 +64,7 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
   Future<void> reservationPaymentForDly(BuildContext context, {
     required String wordSecretBuyer,
     required Data item,
-    required ResultDataUser user,
+    required ResultDataUser userCurrent,
   }) async {
     status = status.copyWith(isLoading: true);
 
@@ -82,7 +82,7 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
       token: 'token',
       amount: item.advertisement.valueToSell,
       addressSeller: userOfPost!.addressWallet,
-      addressBuyer: user.addressWallet,
+      addressBuyer: userCurrent.addressWallet,
       // doubleHashedSecretsOfSeller: '',//adquiriendo oferta de venta
       doubleHashedSecretsOfBuyer:
       '${convertWorkKeccak(
@@ -96,7 +96,7 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
     );
     final Advertisement advertisement = Advertisement(
       idAdvertisement: item.advertisement.id,
-      idUserInteraction: user.id,
+      idUserInteraction: userCurrent.id,
       statusOrigin: 0,
       statusDestiny: 1,
       successfulTransaction: true,

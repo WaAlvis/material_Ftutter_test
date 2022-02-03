@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
@@ -20,6 +21,7 @@ class FourthStepRegister extends StatelessWidget {
     required this.passwordCtrl,
     required this.confirmPassCtrl,
     required this.viewModel,
+    required this.dataUserProvider
   }) : super(key: key);
   final RegisterViewModel viewModel;
   final GlobalKey<FormState> keyForm;
@@ -32,10 +34,12 @@ class FourthStepRegister extends StatelessWidget {
   final TextEditingController dateBirthCtrl;
   final TextEditingController passwordCtrl;
   final TextEditingController confirmPassCtrl;
+  final DataUserProvider dataUserProvider;
 
   @override
   Widget build(BuildContext context) {
-    // final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
+
+
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
@@ -225,30 +229,12 @@ class FourthStepRegister extends StatelessWidget {
                         dateBirthCtrl: viewModel.status.dateBirthCtrl,
                         passwordCtrl: passwordCtrl,
                         confirrmPassCtrl: confirmPassCtrl,
+                        dataUserProvider: dataUserProvider
                       );
                     }
                   },
                 ),
-                PrimaryButtonCustom(
-                  'Registrar',
-                  onPressed: () {
 
-                      viewModel.registerUser(
-                        context,
-                        nickNameCtrl: nickNameCtrl,
-                        firstNameCtrl: firstNameCtrl,
-                        firstLastNameCtrl: firstLastNameCtrl,
-                        secondNameCtrl: secondNameCtrl,
-                        secondLastNameCtrl: secondLastNameCtrl,
-                        phoneCtrl: phoneCtrl,
-                        emailRegister: viewModel.status.emailRegister,
-                        dateBirthCtrl: viewModel.status.dateBirthCtrl,
-                        passwordCtrl: passwordCtrl,
-                        confirrmPassCtrl: confirmPassCtrl,
-                      );
-
-                  },
-                ),
               ],
             ),
           ),

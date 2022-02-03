@@ -7,7 +7,6 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
@@ -61,7 +60,6 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     GlobalKey<FormState> keyForm,
     TextEditingController userCtrl,
     TextEditingController passwordCtrl,
-    UserProvider userProvider,
     DataUserProvider dataUserProvider,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
@@ -71,7 +69,6 @@ class LoginViewModel extends ViewModel<LoginStatus> {
             context,
             userCtrl.text,
             passwordCtrl.text,
-            userProvider,
             dataUserProvider,
           );
         }
@@ -112,7 +109,6 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     BuildContext context,
     String email,
     String password,
-    UserProvider userProvider,
     DataUserProvider dataUserProvider,
   ) async {
     status = status.copyWith(isLoading: true);
@@ -134,10 +130,6 @@ class LoginViewModel extends ViewModel<LoginStatus> {
       if (response.isSuccess) {
         print('Login EXITOSO!!');
         final String idUser = response.result!.user.id;
-        userProvider.setUserLogged(
-          //Datos basicos de User
-          response.result!.user,
-        );
         _interactor
             .getUserById(idUser)
             .then((ResponseData<ResultDataUser> response) {

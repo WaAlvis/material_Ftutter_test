@@ -173,7 +173,7 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                             context,
                             wordSecretBuyer: secretWordCtrl.text,
                             item: item,
-                                user: dataUserProvider.getDataUserLogged!
+                                userCurrent: dataUserProvider.getDataUserLogged!
 
                           ),
                         ),

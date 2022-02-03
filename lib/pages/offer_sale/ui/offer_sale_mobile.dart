@@ -25,7 +25,7 @@ class _OfferSaleMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OfferSaleViewModel viewModel = context.watch<OfferSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -442,7 +442,7 @@ class _OfferSaleMobile extends StatelessWidget {
                             if (keyForm.currentState!.validate()) {
                               viewModel.createOfferSale(context,
                                   // userId: '96a6a171-641e-4103-8909-77ccd92d41eb',// juanP@
-                                  userId: userProvider.getUserLogged!.id,
+                                  userId: dataUserProvider.getDataUserLogged!.id,
                                   docNum: docNumCtrl.text,
                                   margin: marginCtrl.text,
                                   accountTypeId:

@@ -7,7 +7,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_view_model.dart';
-import 'package:localdaily/providers/user_provider.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';

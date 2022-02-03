@@ -6,7 +6,6 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/providers/user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';

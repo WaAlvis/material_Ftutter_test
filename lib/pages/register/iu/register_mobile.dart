@@ -37,6 +37,8 @@ class _RegisterMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double hAppbar = 190;
     final double hBody = size.height - hAppbar;
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
 
     return GestureDetector(
       onTap: () {
@@ -158,6 +160,7 @@ class _RegisterMobile extends StatelessWidget {
                 dateBirthCtrl: dateBirthCtrl,
                 passwordCtrl: passwordCtrl,
                 confirmPassCtrl: confirmPassCtrl,
+                dataUserProvider: dataUserProvider,
               ),
           ],
         ),

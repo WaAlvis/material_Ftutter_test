@@ -14,7 +14,6 @@ class _LoginMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = context.read<UserProvider>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
@@ -172,7 +171,7 @@ class _LoginMobile extends StatelessWidget {
                               //   context,
                               //   userCtrl,
                               //   passwordCtrl,
-                              //   userProvider,
+                              //   dataUserProvider,
                               //   keyForm,
                               // ),
                               validator: (String? pass) =>
@@ -243,13 +242,12 @@ class _LoginMobile extends StatelessWidget {
                             keyForm,
                             userCtrl,
                             passwordCtrl,
-                            userProvider,
                             dataUserProvider,
                           ),
                           // onPressed: () {
                           //   if (keyForm.currentState!.validate()) {
                           //     viewModel.goHome(
-                          //         context, userCtrl, passwordCtrl, userProvider);
+                          //         context, userCtrl, passwordCtrl, dataUserProvider);
                           //   }
                           // },
                         ),
