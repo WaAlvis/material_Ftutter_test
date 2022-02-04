@@ -21,17 +21,27 @@ import 'detail_offer_buy_status.dart';
 class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
+  late Data item;
 
-  DetailOfferBuyViewModel(this._route,
-      this._interactor,) {
+  DetailOfferBuyViewModel(this._route, this._interactor, this.item) {
     status = DetailOfferBuyStatus(
       isLoading: false,
       isError: true,
+      item: item,
+      dateOfExpire: '',
     );
   }
 
   Future<void> onInit(BuildContext context) async {
-    // getBank(context);
+    status = status.copyWith(item: item);
+    daysForExpire(item.advertisement.expiredDate as DateTime);
+  }
+
+  void daysForExpire(DateTime date) {
+    final DateTime birthday = DateTime(date.year, date.month, date.day);
+    final DateTime date2 = DateTime.now();
+    final int difference = date2.difference(birthday).inDays;
+    status = status.copyWith( dateOfExpire: difference.toString());
   }
 
 //Validacion de campos validator
@@ -60,8 +70,8 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
     });
   }
 
-
-  Future<void> reservationPaymentForDly(BuildContext context, {
+  Future<void> reservationPaymentForDly(
+    BuildContext context, {
     required String wordSecretBuyer,
     required Data item,
     required ResultDataUser userCurrent,
@@ -77,7 +87,8 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
 
     // '${convertWorkKeccak('${wordSecretBuyer}buyercancel')},${convertWorkKeccak('${wordSecretBuyer}buyercancel')}'
     final ResultDataUser? userOfPost = await getUserOfPost(
-        item.advertisement.idUserPublish,);
+      item.advertisement.idUserPublish,
+    );
     final SmartContract smartContract = SmartContract(
       token: 'token',
       amount: item.advertisement.valueToSell,
@@ -85,11 +96,9 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
       addressBuyer: userCurrent.addressWallet,
       // doubleHashedSecretsOfSeller: '',//adquiriendo oferta de venta
       doubleHashedSecretsOfBuyer:
-      '${convertWorkKeccak(
-          '${wordSecretBuyer}buyercancel')},${convertWorkKeccak(
-          '${wordSecretBuyer}buyeraprove')}',
+          '${convertWorkKeccak('${wordSecretBuyer}buyercancel')},${convertWorkKeccak('${wordSecretBuyer}buyeraprove')}',
       doubleHashedSecretsOfArbitrator:
-      '3b00ba3bf87f129f4e62ec8ccc90f5fcd123d3b23e9925d1ce50b39e8ff71696,ac94cc5b67ad5826db279477174d683d15633819a4047611645356b6210cc716',
+          '3b00ba3bf87f129f4e62ec8ccc90f5fcd123d3b23e9925d1ce50b39e8ff71696,ac94cc5b67ad5826db279477174d683d15633819a4047611645356b6210cc716',
       doubleHashedSecretsOfSeller: '',
       // mandar Vacio el de seller
       salt: '',
@@ -101,8 +110,10 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
       statusDestiny: 1,
       successfulTransaction: true,
     );
-    final BodyCreateSmartContract bodyCreateSmartContract = BodyCreateSmartContract(
-        smartContract: smartContract, advertisement: advertisement,
+    final BodyCreateSmartContract bodyCreateSmartContract =
+        BodyCreateSmartContract(
+      smartContract: smartContract,
+      advertisement: advertisement,
     );
 
     print('Listo para el smart contrat');

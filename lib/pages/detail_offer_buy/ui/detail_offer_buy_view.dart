@@ -45,6 +45,7 @@ class DetailOfferBuyView extends StatelessWidget {
       create: (_) => DetailOfferBuyViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
+        item!
       ),
       builder: (BuildContext context, _) {
         return _DetailOfferBuyBody(

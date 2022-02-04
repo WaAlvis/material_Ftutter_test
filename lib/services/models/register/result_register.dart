@@ -22,9 +22,6 @@ class ResultRegister{
   });
   factory ResultRegister.fromJson(Map<String, dynamic> json) =>
       _$ResultRegisterFromJson(json);
-
-  // TokenLogin tokenData;
-  // String? user;
   String id;
   String nickName;
   String firstName;

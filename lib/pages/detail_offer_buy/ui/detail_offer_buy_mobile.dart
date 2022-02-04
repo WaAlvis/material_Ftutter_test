@@ -90,9 +90,9 @@ class _DetailOfferBuyMobile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 decoration: const BoxDecoration(
-                    color: LdColors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25))),
+                  color: LdColors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Form(
@@ -109,37 +109,98 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        Text(
-                          '# de referencia ${item.advertisement.id}',
-                          style: textTheme.textBlack,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Codigo referencia: ${item.advertisement.id.substring(0, 5)}',
+                              style: textTheme.textBlack,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 6,
+                                horizontal: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: LdColors.orangePrimary,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  const Icon(
+                                    Icons.event,
+                                    color: LdColors.white,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Text(
+                                    item.advertisement.expiredDate.length > 2
+                                        ? '7 d'
+                                        : item.advertisement.expiredDate,
+                                    style:
+                                        const TextStyle(color: LdColors.white),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text('dias ${item.advertisement.expiredDate}'),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(Icons.person_pin),
-                            Divider(
-                              indent: 10,
-                              color: LdColors.blackDark,
-                              height: 10,
-                            ),
-                            Text(item.user.nickName),
-                            Icon(Icons.star_half),
-                            Text(item.user.rateBuyer),
-                            Text(
-                              'Ver perfil',
-                              style: TextStyle(
-                                  color: LdColors.orangePrimary,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              const Icon(
+                                Icons.account_circle,
+                                size: 40,
+                                color: LdColors.orangePrimary,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(item.user.nickName),
+                              const Spacer(),
+                              const SizedBox(
+                                height: 25,
+                                child:
+                                    VerticalDivider(color: LdColors.blackText),
+                              ),
+                              const Spacer(),
+                              const Icon(
+                                Icons.star,
+                                color: LdColors.orangePrimary,
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text(item.user.rateBuyer != '0'
+                                  ? item.user.rateBuyer
+                                  : '1.0',),
+                              const Spacer(),
+                              const SizedBox(
+                                  height: 35,
+                                  child: VerticalDivider(
+                                      color: LdColors.blackText,)),
+                              const Spacer(),
+                              const Text(
+                                'Ver perfil',
+                                style: TextStyle(
+                                    color: LdColors.orangePrimary,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ],
+                          ),
                         ),
+                        SizedBox(height: 6,),
                         CardDetailOffer(
                           item: item,
                           textTheme: textTheme,
@@ -168,14 +229,11 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                         ),
                         PrimaryButtonCustom(
                           'Separar oferta de compra DLYCOP',
-                          onPressed: () =>
-                              viewModel.reservationPaymentForDly(
-                            context,
-                            wordSecretBuyer: secretWordCtrl.text,
-                            item: item,
-                                userCurrent: dataUserProvider.getDataUserLogged!
-
-                          ),
+                          onPressed: () => viewModel.reservationPaymentForDly(
+                              context,
+                              wordSecretBuyer: secretWordCtrl.text,
+                              item: item,
+                              userCurrent: dataUserProvider.getDataUserLogged!),
                         ),
                       ],
                     ),
