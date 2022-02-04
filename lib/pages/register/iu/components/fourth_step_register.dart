@@ -8,21 +8,21 @@ import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 class FourthStepRegister extends StatelessWidget {
-  const FourthStepRegister({
-    Key? key,
-    required this.keyForm,
-    required this.nickNameCtrl,
-    required this.firstNameCtrl,
-    required this.firstLastNameCtrl,
-    required this.secondNameCtrl,
-    required this.secondLastNameCtrl,
-    required this.phoneCtrl,
-    required this.dateBirthCtrl,
-    required this.passwordCtrl,
-    required this.confirmPassCtrl,
-    required this.viewModel,
-    required this.dataUserProvider
-  }) : super(key: key);
+  const FourthStepRegister(
+      {Key? key,
+      required this.keyForm,
+      required this.nickNameCtrl,
+      required this.firstNameCtrl,
+      required this.firstLastNameCtrl,
+      required this.secondNameCtrl,
+      required this.secondLastNameCtrl,
+      required this.phoneCtrl,
+      required this.dateBirthCtrl,
+      required this.passwordCtrl,
+      required this.confirmPassCtrl,
+      required this.viewModel,
+      required this.dataUserProvider})
+      : super(key: key);
   final RegisterViewModel viewModel;
   final GlobalKey<FormState> keyForm;
   final TextEditingController nickNameCtrl;
@@ -38,9 +38,6 @@ class FourthStepRegister extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
@@ -192,6 +189,7 @@ class FourthStepRegister extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
+
                 checkRowValidation(
                   '8+ Caracteres',
                   value: viewModel.status.hasMore8Chars,
@@ -213,28 +211,53 @@ class FourthStepRegister extends StatelessWidget {
                   value: viewModel.status.hasSpecialChar,
                 ),
                 const SizedBox(height: 10),
+                Row(
+                    children: <Widget>[
+                          SizedBox(width: 20,),
+                      Expanded(
+
+                          child: Divider()
+                      ),
+SizedBox(width: 20,),
+                      Text("OPCIONAL"),
+SizedBox(width: 20,),
+
+                      Expanded(
+                          child: Divider()
+                      ),
+                      SizedBox(width: 20,),
+
+                    ]
+                ),
+                InputTextCustom(
+                  'Agregar walle yu controlador y enviar *',
+                  hintText: '8+ digitos',
+                  controller: confirmPassCtrl,
+                  obscureText: viewModel.status.hidePass,
+                  onChange: (String value) =>
+                      viewModel.changeConfirmPass(value),
+                  changeFillWith: !viewModel.status.isConfirmPassFieldEmpty,
+                  textInputAction: TextInputAction.done,
+                ),
                 PrimaryButtonCustom(
                   'Registrar',
                   onPressed: () {
                     if (keyForm.currentState!.validate()) {
-                      viewModel.registerUser(
-                        context,
-                        nickNameCtrl: nickNameCtrl,
-                        firstNameCtrl: firstNameCtrl,
-                        firstLastNameCtrl: firstLastNameCtrl,
-                        secondNameCtrl: secondNameCtrl,
-                        secondLastNameCtrl: secondLastNameCtrl,
-                        phoneCtrl: phoneCtrl,
-                        emailRegister: viewModel.status.emailRegister,
-                        dateBirthCtrl: viewModel.status.dateBirthCtrl,
-                        passwordCtrl: passwordCtrl,
-                        confirrmPassCtrl: confirmPassCtrl,
-                        dataUserProvider: dataUserProvider
-                      );
+                      viewModel.registerUser(context,
+                          nickNameCtrl: nickNameCtrl,
+                          firstNameCtrl: firstNameCtrl,
+                          firstLastNameCtrl: firstLastNameCtrl,
+                          secondNameCtrl: secondNameCtrl,
+                          secondLastNameCtrl: secondLastNameCtrl,
+                          phoneCtrl: phoneCtrl,
+                          emailRegister: viewModel.status.emailRegister,
+                          dateBirthCtrl: viewModel.status.dateBirthCtrl,
+                          passwordCtrl: passwordCtrl,
+                          confirrmPassCtrl: confirmPassCtrl,
+                          dataUserProvider: dataUserProvider);
                     }
                   },
                 ),
-
               ],
             ),
           ),
