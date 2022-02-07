@@ -50,6 +50,14 @@ class _HomeMobile extends StatelessWidget {
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+           Text(
+
+            dataUserProvider.getDataUserLogged?.email ?? 'No hay Usuario',
+             style:const TextStyle(fontSize: 25),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
           const Center(
             child: Text(
               'Perfil',

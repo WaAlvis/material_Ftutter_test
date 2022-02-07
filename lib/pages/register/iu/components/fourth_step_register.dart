@@ -189,7 +189,6 @@ class FourthStepRegister extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-
                 checkRowValidation(
                   '8+ Caracteres',
                   value: viewModel.status.hasMore8Chars,
@@ -211,24 +210,23 @@ class FourthStepRegister extends StatelessWidget {
                   value: viewModel.status.hasSpecialChar,
                 ),
                 const SizedBox(height: 10),
-                Row(
-                    children: <Widget>[
-                          SizedBox(width: 20,),
-                      Expanded(
-
-                          child: Divider()
-                      ),
-SizedBox(width: 20,),
-                      Text("OPCIONAL"),
-SizedBox(width: 20,),
-
-                      Expanded(
-                          child: Divider()
-                      ),
-                      SizedBox(width: 20,),
-
-                    ]
-                ),
+                Row(children: const <Widget>[
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(child: Divider()),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text("OPCIONAL"),
+                  SizedBox(
+                    width: 20,
+                  ),
+                 Expanded(child: Divider()),
+                  SizedBox(
+                    width: 20,
+                  ),
+                ]),
                 InputTextCustom(
                   'Agregar walle yu controlador y enviar *',
                   hintText: '8+ digitos',
