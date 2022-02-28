@@ -251,7 +251,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     _interactor.validatePin(bodyValidatePin).then((
       ResponseData<ResultValidatePin> response,
     ) {
-      if (response.isSuccess) {
+      if (response.isSuccess && response.result!.valid) {
         print('CodigoPin Validado con EXITOSO!!');
         goNextStep(currentStep: 4);
       } else {
@@ -273,9 +273,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
 
     final EntityPinEmail entityPin = EntityPinEmail(
-      clientId: '2955cb39-61da-46ea-b503-42cb33831c8a',
       numberOrEmail: email,
-      codevia: '66470b53-2a5d-4ecf-a767-ab62ff3b72e5',
+      codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a',
     );
     final BodyPinEmail bodyPin = BodyPinEmail(
       entity: entityPin,
@@ -324,9 +323,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required TextEditingController dateBirthCtrl,
     required TextEditingController passwordCtrl,
     required TextEditingController confirrmPassCtrl,
-        required     DataUserProvider dataUserProvider,
+    required DataUserProvider dataUserProvider,
 
-        // String email, String password,
+    // String email, String password,
   }) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
@@ -344,7 +343,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             email: emailRegister,
             dateBirth: dateBirthCtrl.text,
             dataUserProvider: dataUserProvider,
-
           );
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -364,9 +362,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required String phone,
     required String email,
     required String dateBirth,
-        required     DataUserProvider dataUserProvider,
-
-      }) async {
+    required DataUserProvider dataUserProvider,
+  }) async {
     status = status.copyWith(isLoading: true);
 
     final String sha256pass = encrypPass(password).toString();

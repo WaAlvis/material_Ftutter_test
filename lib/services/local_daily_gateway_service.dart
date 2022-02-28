@@ -45,22 +45,18 @@ abstract class LocalDailyGatewayService {
   //LOGIN
 
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
-      _LocalDailyGatewayService;
+  _LocalDailyGatewayService;
 
   @POST(UrlsApi.getDataHome)
   Future<ResponseData<ResultHome>> getAdvertismentHome(
-    @Body() BodyHome bodyHome,
-  );
+      @Body() BodyHome bodyHome,);
 
   @POST(UrlsApi.createUser)
   Future<ResponseData<ResultRegister>> registerUser(
-    @Body() BodyRegisterDataUser bodyRegisterDataUser,
-  );
+      @Body() BodyRegisterDataUser bodyRegisterDataUser,);
 
   @POST(UrlsApi.login)
-  Future<ResponseData<ResultLogin>> loginUser(
-    @Body() BodyLogin bodyLogin,
-  );
+  Future<ResponseData<ResultLogin>> loginUser(@Body() BodyLogin bodyLogin,);
 
   // @GET('/Wallet/GetByUserId')
   // Future<ResponseData<ResponseWalletByuser>> getByUserId(
@@ -68,54 +64,48 @@ abstract class LocalDailyGatewayService {
   //     );
 
   @GET(UrlsApi.dataUser)
-  Future<ResponseData<ResultDataUser>> getUserId(
-    @Query('id') String id,
-  );
+  Future<ResponseData<ResultDataUser>> getUserId(@Query('id') String id,);
 
   @POST(UrlsApi.getBanks)
   Future<ResponseData<ResultGetBanks>> getBanks(
-    @Body() Pagination bodyGetBanks,
-  );
+      @Body() Pagination bodyGetBanks,);
 
   @POST(UrlsApi.getDocsType)
   Future<ResponseData<ResultGetDocsType>> getDocsType(
-    @Body() Pagination bodyGetDocsType,
-  );
+      @Body() Pagination bodyGetDocsType,);
 
   @POST(UrlsApi.createOffer)
   Future<ResponseData<ResultCreateOffer>> createOffer(
-    @Body() BodyOffer bodyOffer,
-  );
+      @Body() BodyOffer bodyOffer,);
 
   @POST(UrlsApi.createSmartContract)
   Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
-      @Body() BodyCreateSmartContract bodyCreateSmartContract,
-      );
+      @Body() BodyCreateSmartContract bodyCreateSmartContract,);
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
-    @Body() BodyPinEmail bodyPin,
-  );
+      @Body() BodyPinEmail bodyPin,);
 
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
-    @Body() BodyValidatePin bodyValidatePin,
-  );
+      @Body() BodyValidatePin bodyValidatePin,);
 
-// @POST(UrlsApi.login)
-// Future<ResponseData<ResultLogin>> login(
-//     @Body() BodyLogin bodyLogin,
-//     );
 }
-//
-// { solicitar codigo pin al correo
-//   "entity": {
-//   "clientId": "",
-//   "numberOrEmail": "alvis.wap@gmail.com",
-//   "codevia": "66470b53-2a5d-4ecf-a767-ab62ff3b72e5"",
-//   &
+
+// }
+//   {
+//   "entity": {   Solicitar codigo PIN con CORREO
+//   "numberOrEmail": "+573173564052",
+//   "codevia": "cf1c420a-38bd-44b0-8187-fbf1e91ad21a"
 //   }
 // }
+// {
+//   "entity": {  Solicitar codigo PIN con CELULAR
+//   "numberOrEmail": "andres.polo.ortega@gmail.com",
+//   "codevia": "8a6d80af-c982-4648-86aa-f643981b6301"
+//   }
+// }
+
 
 // C - localTest122@gmail.com - f1010389-817c-4416-9841-21cd5373adbf
 // -A 0xF92a1eA328D39d3525751E7D5e23009B1e94e8Ea

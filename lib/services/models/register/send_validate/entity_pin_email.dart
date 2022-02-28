@@ -5,7 +5,6 @@ part 'entity_pin_email.g.dart';
 @JsonSerializable()
 class EntityPinEmail {
   EntityPinEmail({
-    required this.clientId,
     required this.numberOrEmail,
     required this.codevia,
 
@@ -13,7 +12,6 @@ class EntityPinEmail {
 
   factory EntityPinEmail.fromJson(Map<String, dynamic> json) => _$EntityPinEmailFromJson(json);
 
-  String clientId;
   String numberOrEmail;
   String codevia;
 
