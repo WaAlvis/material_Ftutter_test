@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
-import 'package:localdaily/pages/register/iu/components/first_step_register.dart';
-import 'package:localdaily/pages/register/iu/components/second_step_register.dart';
-import 'package:localdaily/pages/register/iu/components/fourth_step_register.dart';
-import 'package:localdaily/pages/register/iu/components/third_step_register.dart';
+import 'package:localdaily/pages/register/iu/components/step_1_email_register.dart';
+import 'package:localdaily/pages/register/iu/components/step_2_msj_email.dart';
+import 'package:localdaily/pages/register/iu/components/step_3_validate_pin.dart';
+import 'package:localdaily/pages/register/iu/components/step_4_account_data.dart';
+import 'package:localdaily/pages/register/iu/components/step_5_ personal_data.dart';
+import 'package:localdaily/pages/register/iu/components/step_6_%20restore_wallet.dart';
+import 'package:localdaily/pages/register/register_status.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -16,7 +19,6 @@ import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'register_mobile.dart';
-
 part 'register_web.dart';
 
 class RegisterView extends StatelessWidget {
@@ -47,43 +49,35 @@ class _RegisterBody extends StatefulWidget {
 }
 
 class _RegisterBodyState extends State<_RegisterBody> {
-  final GlobalKey<FormState> keyFirstForm = GlobalKey<FormState>();
+  // final GlobalKey<FormState> keyFirstForm = GlobalKey<FormState>();
+  final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController emailCtrl = TextEditingController();
 
   final TextEditingController nickNameCtrl = TextEditingController();
-  final TextEditingController firstNameCtrl = TextEditingController();
-  final TextEditingController firstLastNameCtrl = TextEditingController();
-  final TextEditingController secondNameCtrl = TextEditingController();
-  final TextEditingController secondLastNameCtrl = TextEditingController();
+  final TextEditingController phraseCtrl = TextEditingController();
+  final TextEditingController namesCtrl = TextEditingController();
+  final TextEditingController surnamesCtrl = TextEditingController();
   final TextEditingController phoneCtrl = TextEditingController();
 
-  // final TextEditingController dateBirthCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
-  final TextEditingController confirrmPassCtrl = TextEditingController();
+  final TextEditingController confirmPassCtrl = TextEditingController();
   final TextEditingController codePinCtrl = TextEditingController();
+  final TextEditingController addressWallet = TextEditingController();
 
   @override
   void dispose() {
     emailCtrl.dispose();
     nickNameCtrl.dispose();
-    firstNameCtrl.dispose();
-    firstLastNameCtrl.dispose();
-    secondNameCtrl.dispose();
-    secondLastNameCtrl.dispose();
+    namesCtrl.dispose();
+    surnamesCtrl.dispose();
     phoneCtrl.dispose();
+    phraseCtrl.dispose();
     passwordCtrl.dispose();
-    confirrmPassCtrl.dispose();
+    confirmPassCtrl.dispose();
     codePinCtrl.dispose();
+    addressWallet.dispose();
     super.dispose();
   }
-
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance!.addPostFrameCallback((_) {
-  //     context.read<HomeViewregisterModel>().onInit(context);
-  //   });
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,21 +98,20 @@ class _RegisterBodyState extends State<_RegisterBody> {
                   hasScrollBody: false,
                   child: maxWidth > 1024
                       ? _RegisterWeb(
-                          keyForm: keyFirstForm,
+                          keyForm: keyForm,
                         )
                       : _RegisterMobile(
-                          keyForm: keyFirstForm,
+                          keyForm: keyForm,
                           emailCtrl: emailCtrl,
                           nickNameCtrl: nickNameCtrl,
-                          firstNameCtrl: firstNameCtrl,
-                          firstLastNameCtrl: firstLastNameCtrl,
-                          secondNameCtrl: secondNameCtrl,
-                          secondLastNameCtrl: secondLastNameCtrl,
+                          namesCtrl: namesCtrl,
+                          surnamesCtrl: surnamesCtrl,
                           phoneCtrl: phoneCtrl,
                           dateBirthCtrl: viewModel.status.dateBirthCtrl,
                           passwordCtrl: passwordCtrl,
-                          confirmPassCtrl: confirrmPassCtrl,
+                          confirmPassCtrl: confirmPassCtrl,
                           codePinCtrl: codePinCtrl,
+                          addressWalletCtrl: addressWallet, phraseCtrl: phraseCtrl,
                         ),
                 )
               ],

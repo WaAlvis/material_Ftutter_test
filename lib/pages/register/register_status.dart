@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/view_model.dart';
 
+enum RegisterStep {
+  emailStep_1,
+  msjEmailStep_2,
+  validatePinStep_3,
+  accountDataStep_4,
+  personalDataStep_5,
+  dataWalletStep_6
+}
+
 class RegisterStatus extends ViewStatus {
   final bool isLoading;
   final bool hidePass;
@@ -12,7 +21,10 @@ class RegisterStatus extends ViewStatus {
   final bool hasLowerLetter;
   final bool hasNumberChar;
   final String emailRegister;
-  final int indexStep;
+  final String addressWallet;
+  final String nickName;
+  late String password;
+  final RegisterStep registerStep;
   final TextEditingController dateBirthCtrl;
   final bool isEmailFieldEmpty;
   final bool isNickNameFieldEmpty;
@@ -24,16 +36,25 @@ class RegisterStatus extends ViewStatus {
   final bool isDateBirthFieldEmpty;
   final bool isPasswordFieldEmpty;
   final bool isConfirmPassFieldEmpty;
+  final String phrase;
+  final String surnames;
+  final String names;
+  final String dateBirth;
+  final String phone;
   final bool isPossibleOpenEmail; //Verificar uso necesario?
 
   RegisterStatus({
+    required this.phrase,
     required this.isPossibleOpenEmail,
+    required this.addressWallet,
+    required this.nickName,
+    required this.password,
     required this.acceptTermCoditions,
     required this.dateBirthCtrl,
     required this.isLoading,
     required this.isError,
     required this.emailRegister,
-    required this.indexStep,
+    required this.registerStep,
     required this.isEmailFieldEmpty,
     required this.isNickNameFieldEmpty,
     required this.isFirstNameFieldEmpty,
@@ -50,6 +71,10 @@ class RegisterStatus extends ViewStatus {
     required this.hasUpperLetter,
     required this.hasLowerLetter,
     required this.hasNumberChar,
+    required this.surnames,
+    required this.names,
+    required this.dateBirth,
+    required this.phone,
   });
 
   RegisterStatus copyWith({
@@ -57,7 +82,14 @@ class RegisterStatus extends ViewStatus {
     bool? isLoading,
     bool? isError,
     String? emailRegister,
-    int? indexStep,
+    String? addressWallet,
+    String? nickName,
+    String? names,
+    String? surnames,
+    String? password,
+    String? dateBirth,
+    String? phone,
+    RegisterStep? registerStep,
     bool? acceptTermCoditions,
     bool? isEmailFieldEmpty,
     bool? isNickNameFieldEmpty,
@@ -76,8 +108,17 @@ class RegisterStatus extends ViewStatus {
     bool? hasMore8Chars,
     bool? hasLowerLetter,
     bool? hasNumberChar,
+    String? phrase,
   }) {
     return RegisterStatus(
+      phone: phone ?? this.phone,
+      addressWallet: addressWallet ?? this.addressWallet,
+      dateBirth: dateBirth ?? this.dateBirth,
+      names: names ?? this.names,
+      surnames: surnames ?? this.surnames,
+      phrase: phrase ?? this.phrase,
+      nickName: nickName ?? this.nickName,
+      password: password ?? this.password,
       hidePass: hidePass ?? this.hidePass,
       isNickNameFieldEmpty: isNickNameFieldEmpty ?? this.isNickNameFieldEmpty,
       isFirstNameFieldEmpty:
@@ -97,7 +138,7 @@ class RegisterStatus extends ViewStatus {
       isPossibleOpenEmail: isPossibleOpenEmail ?? this.isPossibleOpenEmail,
       isEmailFieldEmpty: isEmailFieldEmpty ?? this.isEmailFieldEmpty,
       dateBirthCtrl: dateBirthCtrl ?? this.dateBirthCtrl,
-      indexStep: indexStep ?? this.indexStep,
+      registerStep: registerStep ?? this.registerStep,
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,
       isError: isError ?? this.isError,

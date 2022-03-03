@@ -7,14 +7,16 @@ import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
-class FirstStepRegister extends StatelessWidget {
-  const FirstStepRegister({
-    required this.keyFirstForm,
+class Step1EmailRegister extends StatelessWidget {
+  const Step1EmailRegister({
+    // required this.keyFirstForm,
+     required this.keyForm,
     required this.emailCtrl,
     required this.viewModel,
     Key? key,
   }) : super(key: key);
-  final GlobalKey<FormState> keyFirstForm;
+  // final GlobalKey<FormState> keyFirstForm;
+  final GlobalKey<FormState> keyForm;
   final TextEditingController emailCtrl;
   final RegisterViewModel viewModel;
 
@@ -30,7 +32,7 @@ class FirstStepRegister extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Form(
-          key: keyFirstForm,
+          key: keyForm,
           child: Column(
             children: <Widget>[
               InputTextCustom(
@@ -55,8 +57,8 @@ class FirstStepRegister extends StatelessWidget {
               PrimaryButtonCustom(
                 'Enviar codigo de verificacion',
                 onPressed: () {
-                  if (keyFirstForm.currentState!.validate()) {
-                    viewModel.requiredPinForEmailValidation(emailCtrl.text);
+                  if (keyForm.currentState!.validate()) {
+                    viewModel.continueStep_2MsjEmail  (emailCtrl.text);
                   }
                 },
               ),
@@ -148,3 +150,4 @@ class CheckboxFormField extends FormField<bool> {
           },
         );
 }
+

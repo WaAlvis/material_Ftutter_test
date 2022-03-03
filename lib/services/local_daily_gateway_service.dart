@@ -28,7 +28,8 @@ class UrlsApi {
   static const String login = '/Identity/Authentication';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
-  static const String createSmartContract = '/Transaction/SmartContract/CreateSmartContract';
+  static const String createSmartContract =
+      '/Transaction/SmartContract/CreateSmartContract';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
   static const String createOffer = '/WebAdmin/Advertisement';
@@ -42,54 +43,62 @@ class UrlsApi {
 
 @RestApi(baseUrl: 'http://3.135.189.138:4000')
 abstract class LocalDailyGatewayService {
-  //LOGIN
-
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
-  _LocalDailyGatewayService;
+      _LocalDailyGatewayService;
 
-  @POST(UrlsApi.getDataHome)
-  Future<ResponseData<ResultHome>> getAdvertismentHome(
-      @Body() BodyHome bodyHome,);
-
-  @POST(UrlsApi.createUser)
-  Future<ResponseData<ResultRegister>> registerUser(
-      @Body() BodyRegisterDataUser bodyRegisterDataUser,);
-
+  //Login & Register
   @POST(UrlsApi.login)
-  Future<ResponseData<ResultLogin>> loginUser(@Body() BodyLogin bodyLogin,);
-
-  // @GET('/Wallet/GetByUserId')
-  // Future<ResponseData<ResponseWalletByuser>> getByUserId(
-  //     @Query('id') String id,
-  //     );
-
-  @GET(UrlsApi.dataUser)
-  Future<ResponseData<ResultDataUser>> getUserId(@Query('id') String id,);
-
-  @POST(UrlsApi.getBanks)
-  Future<ResponseData<ResultGetBanks>> getBanks(
-      @Body() Pagination bodyGetBanks,);
-
-  @POST(UrlsApi.getDocsType)
-  Future<ResponseData<ResultGetDocsType>> getDocsType(
-      @Body() Pagination bodyGetDocsType,);
-
-  @POST(UrlsApi.createOffer)
-  Future<ResponseData<ResultCreateOffer>> createOffer(
-      @Body() BodyOffer bodyOffer,);
-
-  @POST(UrlsApi.createSmartContract)
-  Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
-      @Body() BodyCreateSmartContract bodyCreateSmartContract,);
+  Future<ResponseData<ResultLogin>> loginUser(
+    @Body() BodyLogin bodyLogin,
+  );
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
-      @Body() BodyPinEmail bodyPin,);
+    @Body() BodyPinEmail bodyPin,
+  );
 
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
-      @Body() BodyValidatePin bodyValidatePin,);
+    @Body() BodyValidatePin bodyValidatePin,
+  );
 
+  @POST(UrlsApi.createUser)
+  Future<ResponseData<ResultRegister>> registerUser(
+    @Body() BodyRegisterDataUser bodyRegisterDataUser,
+  );
+
+  //HOME
+  @POST(UrlsApi.getDataHome)
+  Future<ResponseData<ResultHome>> getAdvertismentHome(
+    @Body() BodyHome bodyHome,
+  );
+
+//Data User, Bank, Doc
+  @GET(UrlsApi.dataUser)
+  Future<ResponseData<ResultDataUser>> getUserId(
+    @Query('id') String id,
+  );
+
+  @POST(UrlsApi.getBanks)
+  Future<ResponseData<ResultGetBanks>> getBanks(
+    @Body() Pagination bodyGetBanks,
+  );
+
+  @POST(UrlsApi.getDocsType)
+  Future<ResponseData<ResultGetDocsType>> getDocsType(
+    @Body() Pagination bodyGetDocsType,
+  );
+
+  //Offer
+  @POST(UrlsApi.createOffer)
+  Future<ResponseData<ResultCreateOffer>> createOffer(
+    @Body() BodyOffer bodyOffer,
+  );
+
+  @POST(UrlsApi.createSmartContract)
+  Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
+    @Body() BodyCreateSmartContract bodyCreateSmartContract,
+  );
 }
 
 // }
@@ -105,7 +114,6 @@ abstract class LocalDailyGatewayService {
 //   "codevia": "8a6d80af-c982-4648-86aa-f643981b6301"
 //   }
 // }
-
 
 // C - localTest122@gmail.com - f1010389-817c-4416-9841-21cd5373adbf
 // -A 0xF92a1eA328D39d3525751E7D5e23009B1e94e8Ea
@@ -174,3 +182,8 @@ abstract class LocalDailyGatewayService {
 // "rate": "5",
 // "advertisementID": "c2dedafc-7114-49f2-ae60-710724dffd4e"
 // }
+
+// air seed wrist canoe erosion gorilla achieve funny door client wheat purpose
+// Wallet 1 Pruebas
+// topple divide donate learn easily season permit asthma bacon syrup gesture pigeon
+// wallet 2  Pruebas

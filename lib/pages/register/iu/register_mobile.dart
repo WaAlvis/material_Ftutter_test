@@ -5,30 +5,31 @@ class _RegisterMobile extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.emailCtrl,
+    required this.namesCtrl,
+    required this.surnamesCtrl,
     required this.nickNameCtrl,
-    required this.firstNameCtrl,
-    required this.firstLastNameCtrl,
-    required this.secondNameCtrl,
-    required this.secondLastNameCtrl,
+    required this.phraseCtrl,
+
     required this.phoneCtrl,
     required this.dateBirthCtrl,
     required this.passwordCtrl,
     required this.confirmPassCtrl,
     required this.codePinCtrl,
+    required this.addressWalletCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final TextEditingController emailCtrl;
+  final TextEditingController namesCtrl;
+  final TextEditingController surnamesCtrl;
+  final TextEditingController phraseCtrl;
   final TextEditingController nickNameCtrl;
-  final TextEditingController firstNameCtrl;
-  final TextEditingController firstLastNameCtrl;
-  final TextEditingController secondNameCtrl;
-  final TextEditingController secondLastNameCtrl;
   final TextEditingController phoneCtrl;
   final TextEditingController dateBirthCtrl;
   final TextEditingController passwordCtrl;
   final TextEditingController confirmPassCtrl;
   final TextEditingController codePinCtrl;
+  final TextEditingController addressWalletCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class _RegisterMobile extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            if (viewModel.status.indexStep == 2)
+            if (viewModel.status.registerStep == RegisterStep.msjEmailStep_2)
               const SizedBox.shrink()
             else
               Container(
@@ -101,7 +102,7 @@ class _RegisterMobile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (viewModel.status.indexStep == 1)
+                    if (viewModel.status.registerStep == RegisterStep.emailStep_1)
                       sectionTitleAppbar(
                         context,
                         step: 1,
@@ -110,7 +111,7 @@ class _RegisterMobile extends StatelessWidget {
                             'Para continuar ingresa tu correo electronico.',
                         heightAppbar: hAppbar,
                       )
-                    else if (viewModel.status.indexStep == 3)
+                    else if (viewModel.status.registerStep == RegisterStep.validatePinStep_3)
                       sectionTitleAppbar(
                         context,
                         step: 3,
@@ -119,49 +120,85 @@ class _RegisterMobile extends StatelessWidget {
                             'Ingresa el codigo enviado al Email de registro.',
                         heightAppbar: hAppbar,
                       )
-                    else if (viewModel.status.indexStep == 4)
+                    else if (viewModel.status.registerStep == RegisterStep.accountDataStep_4)
                       sectionTitleAppbar(
                         context,
                         step: 4,
-                        title: 'Informacion de la cuenta',
+                        title: 'Información de la cuenta',
                         description:
-                            'Escribe la informacion de registro de tu cuenta.',
+                            'Escribe la información de ingreso a tu cuenta.',
+                        heightAppbar: hAppbar,
+                      )
+                      else if (viewModel.status.registerStep == RegisterStep.personalDataStep_5)
+                      sectionTitleAppbar(
+                        context,
+                        step: 5,
+                        title: 'Informacion personal',
+                        description:
+                            'No sera visible para los otros usuarios.',
                         heightAppbar: hAppbar,
                       ),
                   ],
                 ),
               ),
-            if (viewModel.status.indexStep == 1)
-              FirstStepRegister(
-                keyFirstForm: keyForm,
+            if (viewModel.status.registerStep == RegisterStep.emailStep_1)
+              Step1EmailRegister(
+                keyForm: keyForm,
                 emailCtrl: emailCtrl,
                 viewModel: viewModel,
               )
-            else if (viewModel.status.indexStep == 2)
-              SecondStepRegister(
+            else if (viewModel.status.registerStep == RegisterStep.msjEmailStep_2)
+              Step2MsjEmail(
                 viewModel: viewModel,
               )
-            else if (viewModel.status.indexStep == 3)
-              ThirdStepRegister(
+            else if (viewModel.status.registerStep == RegisterStep.validatePinStep_3)
+              Step3ValidatePin(
                 viewModel: viewModel,
                 heightBody: hBody,
                 codePinCtrl: codePinCtrl,
               )
-            else if (viewModel.status.indexStep == 4)
-              FourthStepRegister(
+            else if (viewModel.status.registerStep == RegisterStep.accountDataStep_4)
+              Step4AccountData(
                 viewModel: viewModel,
                 keyForm: keyForm,
                 nickNameCtrl: nickNameCtrl,
-                firstNameCtrl: firstNameCtrl,
-                firstLastNameCtrl: firstLastNameCtrl,
-                secondNameCtrl: secondNameCtrl,
-                secondLastNameCtrl: secondLastNameCtrl,
-                phoneCtrl: phoneCtrl,
-                dateBirthCtrl: dateBirthCtrl,
                 passwordCtrl: passwordCtrl,
                 confirmPassCtrl: confirmPassCtrl,
                 dataUserProvider: dataUserProvider,
-              ),
+              )
+              else if (viewModel.status.registerStep == RegisterStep.personalDataStep_5)
+                Step5PersonalData(
+                viewModel: viewModel,
+                keyForm: keyForm,
+                namesCtrl: namesCtrl,
+                surnamesCtrl:surnamesCtrl,
+                dateBirthCtrl: dateBirthCtrl,
+                phoneCtrl: phoneCtrl,
+                )
+                  else if (viewModel.status.registerStep == RegisterStep.dataWalletStep_6)
+                      Step6RestoreWallet(
+                        viewModel: viewModel,
+                        keyForm: keyForm, phraseCtrl: phraseCtrl, dataUserProvider: dataUserProvider,
+                      )
+
+
+
+          //  if (viewModel.status.registerStep == RegisterStep.dataAccountStep_4)
+            //               FourthStepRegister(
+            //                 viewModel: viewModel,
+            //                 keyForm: keyForm,
+            //                 nickNameCtrl: nickNameCtrl,
+            //                 firstNameCtrl: firstNameCtrl,
+            //                 firstLastNameCtrl: firstLastNameCtrl,
+            //                 secondNameCtrl: secondNameCtrl,
+            //                 secondLastNameCtrl: secondLastNameCtrl,
+            //                 phoneCtrl: phoneCtrl,
+            //                 dateBirthCtrl: dateBirthCtrl,
+            //                 passwordCtrl: passwordCtrl,
+            //                 confirmPassCtrl: confirmPassCtrl,
+            //                 addressWalletCtrl: addressWalletCtrl,
+            //                 dataUserProvider: dataUserProvider,
+            //               ),
           ],
         ),
       ),
@@ -173,14 +210,14 @@ Widget sectionTitleAppbar(BuildContext context,
     {required int step,
     required String title,
     required String description,
-    required double heightAppbar}) {
+    required double heightAppbar,}) {
   final TextTheme textTheme = Theme.of(context).textTheme;
   final Size size = MediaQuery.of(context).size;
 
   return SizedBox(
     height: heightAppbar,
     child: Padding(
-      padding: EdgeInsets.only(left: 16,),
+      padding: const EdgeInsets.only(left: 16,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -199,7 +236,7 @@ Widget sectionTitleAppbar(BuildContext context,
           const SizedBox(height: 15),
 
           Container(
-            width: (size.width - 32) * step / 4 - 50,
+            width: (size.width - 32) * step / RegisterStep.values.length - 50,
             height: 5,
             decoration: const BoxDecoration(
               color: LdColors.orangePrimary,

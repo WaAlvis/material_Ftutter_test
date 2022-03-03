@@ -38,7 +38,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     _interactor = interactor ?? locator<ServiceInteractor>();
 
     status = RegisterStatus(
-      indexStep: 1,
+      registerStep: RegisterStep.emailStep_1,
       isLoading: false,
       isError: false,
       emailRegister: '',
@@ -61,51 +61,18 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       hasSpecialChar: false,
       hasLowerLetter: false,
       hasNumberChar: false,
+      password: '',
+      nickName: '',
+      surnames: '',
+      phrase: '',
+      phone: '',
+      dateBirth: '',
+      names: '',
+      addressWallet: '',
     );
   }
 
-  String? validatorNotEmpty(String? email) {
-    {
-      if (email == null || email.isEmpty) {
-        return '* Campo necesario';
-      }
-      return null;
-    }
-  }
-
-  String? validatorPasswords(String? psw, String? confirmPsw) {
-    if (psw == null || psw.isEmpty) {
-      return '* la contraseña es necesaria';
-    } else if (psw != confirmPsw) {
-      return 'Las contraseñas no coinciden';
-    }
-    if (psw.length < 8 || confirmPsw!.length < 8) {
-      return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
-    }
-    if (!isPasswordValid(psw)) {
-      return 'La contraseña no cumple los requerimientos';
-    }
-    return null;
-  }
-
-  String? validatorEmail(BuildContext context, String? email) {
-    {
-      if (email == null || email.isEmpty) {
-        return '* Campo necesario';
-      } else if (!isEmail(email)) {
-        return '* Debe ser un correo';
-      }
-      return null;
-    }
-  }
-
-  String? validatorCheckBox({bool? valueCheck}) {
-    if (valueCheck!) {
-      return null;
-    } else {
-      return '* Debes aceptar T&C!';
-    }
-  }
+  Future<void> onInit({bool validateNotification = false}) async {}
 
   void changeAcceptTermConditions({required bool newValue}) =>
       status = status.copyWith(acceptTermCoditions: newValue);
@@ -137,33 +104,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void changeConfirmPass(String confirmPass) =>
       status = status.copyWith(isConfirmPassFieldEmpty: confirmPass.isEmpty);
 
-  bool isPasswordValid(String password, [int minLength = 7]) {
-    final bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
-    final bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
-    final bool hasSpecialCharacters =
-        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    final bool hasMinLength = password.length > minLength;
-    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+  void hidePassword() => status = status.copyWith(
+        hidePass: !status.hidePass,
+      );
 
-    status = status.copyWith(
-      hasMore8Chars: hasMinLength,
-      hasUpperLetter: hasUppercase,
-      hasSpecialChar: hasSpecialCharacters,
-      hasLowerLetter: hasLowercase,
-      hasNumberChar: hasDigits,
-    );
-    return hasMinLength &
-        hasUppercase &
-        hasSpecialCharacters &
-        hasLowercase &
-        hasDigits;
+  void onChangePhrase(String value) {
+    status = status.copyWith(phrase: value);
   }
-
-  // void hasMore8Chars({String psw = ''}) {
-  //   status = status.copyWith(hasMore8Chars: psw.length >7 );
-  // }
-
-  Future<void> onInit({bool validateNotification = false}) async {}
 
   // void goHome(BuildContext context) {
   //   LdConnection.validateConnection().then((bool isConnectionValidvalue) {
@@ -174,9 +121,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   //     }
   //   });
   // }
-  void hidePassword() => status = status.copyWith(
-        hidePass: !status.hidePass,
-      );
 
   void setDateBirth(BuildContext context) {
     DatePicker.showDatePicker(
@@ -201,17 +145,42 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
   }
 
-  void goEnterPin(BuildContext context, String email) {
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      if (isConnectionValidvalue) {
-        status = status.copyWith(emailRegister: email, indexStep: 2);
-      } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-      }
-    });
-  }
+  // void goEnterPin(BuildContext context, String email) {
+  //   LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+  //     if (isConnectionValidvalue) {
+  //       status = status.copyWith(emailRegister: email, registerStep: RegisterStep.msjEmailStep_2);
+  //     } else {
+  //       // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+  //     }
+  //   });
+  // }
+// NEXT STEP////////////////////////
+  void continueStep_2MsjEmail(String email) =>
+      requiredPinForEmailValidation(email); //fin step 1
+  void continueStep_3ValidatePin() => continueValidatePin(); //fin step 2
+  void continueStep_4AccountData(
+    String codePin,
+  ) =>
+      validatedCodePin(codePin); //fin step 3
+  void continueStep_5PersonalData(String nick, String psw) =>
+      registerAccountData(
+        nick,
+        psw,
+      ); //fin step 4
+  void continueStep_6RestoreWallet(
+    String name,
+    String surname,
+    String dateBirth,
+    String phone,
+  ) =>
+      savePersonalData(name, surname, dateBirth, phone); //fin step 5
+
+  void finishRegister(
+          BuildContext context, DataUserProvider dataUserProvider) =>
+      registerUser(context, dataUserProvider: dataUserProvider); //fin step 5
 
   void requiredPinForEmailValidation(String email) {
+    //fin step 1
     status = status.copyWith(
       isLoading: true,
     );
@@ -221,7 +190,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
           emailRegister: email,
         );
         sendPinToEmail(email);
-        goNextStep(currentStep: 1);
+        goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -231,7 +200,25 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> validateCodePin(
+  void continueValidatePin() {
+    //fin step 2
+    status = status.copyWith(
+      isLoading: true,
+    );
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        goNextStep(currentStep: RegisterStep.msjEmailStep_2);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+      status = status.copyWith(
+        isLoading: false,
+      );
+    });
+  }
+
+  Future<void> validatedCodePin(
+    //fin step 3
     String codePin,
   ) async {
     status = status.copyWith(
@@ -239,8 +226,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
 
     final EntityValidatePin entityValidatePin = EntityValidatePin(
-      // "id": "string",  FALTAN ESTOS CAMPOS
-      // "clientId": "string",
       numberOrEmail: status.emailRegister,
       otp: codePin,
     );
@@ -253,9 +238,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     ) {
       if (response.isSuccess && response.result!.valid) {
         print('CodigoPin Validado con EXITOSO!!');
-        goNextStep(currentStep: 4);
+        goNextStep(currentStep: RegisterStep.validatePinStep_3);
       } else {
         // TODO: Mostrar alerta
+        // addEffect(ShowSnackbarPinInvalid);
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
@@ -263,6 +249,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       status = status.copyWith(isLoading: false);
     });
   }
+
+  Future<void> reSendPinToEmail(String email) => sendPinToEmail(email);
 
   Future<void> sendPinToEmail(
     String email,
@@ -297,12 +285,33 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   void goNextStep({
-    required int currentStep,
+    required RegisterStep currentStep,
   }) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
+        late RegisterStep nextStep;
+
+        switch (currentStep) {
+          case RegisterStep.emailStep_1:
+            nextStep = RegisterStep.msjEmailStep_2;
+            break;
+          case RegisterStep.msjEmailStep_2:
+            nextStep = RegisterStep.validatePinStep_3;
+            break;
+          case RegisterStep.validatePinStep_3:
+            nextStep = RegisterStep.accountDataStep_4;
+            break;
+          case RegisterStep.accountDataStep_4:
+            nextStep = RegisterStep.personalDataStep_5;
+            break;
+          case RegisterStep.personalDataStep_5:
+            nextStep = RegisterStep.dataWalletStep_6;
+            break;
+          default: // Without this, you see a WARNING.
+            print(currentStep);
+        }
         status = status.copyWith(
-          indexStep: status.indexStep + 1,
+          registerStep: nextStep,
         );
         // _route.goPersonalInfoRegister(context);
       } else {
@@ -311,39 +320,59 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
+  Future<void> registerAccountData(
+    String nickName,
+    String password,
+  ) async {
+    status = status.copyWith(isLoading: true);
+    LdConnection.validateConnection().then(
+      (bool value) {
+        if (value) {
+          status = status.copyWith(nickName: nickName, password: password);
+          goNextStep(currentStep: RegisterStep.accountDataStep_4);
+        } else {
+          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        }
+      },
+    ).catchError((Object err) {
+      print('Envio de Codigo Error As: $err');
+      status = status.copyWith(isLoading: false);
+    });
+    status = status.copyWith(isLoading: false);
+  }
+
+  Future<void> savePersonalData(
+      String name, String surname, String dateBirth, String phone) async {
+    status = status.copyWith(isLoading: true);
+    LdConnection.validateConnection().then(
+      (bool value) {
+        if (value) {
+          status = status.copyWith(
+              nickName: name,
+              surnames: surname,
+              dateBirth: dateBirth,
+              phone: phone);
+          goNextStep(currentStep: RegisterStep.personalDataStep_5);
+        } else {
+          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        }
+      },
+    ).catchError((Object err) {
+      print('Envio de Codigo Error As: $err');
+      status = status.copyWith(isLoading: false);
+    });
+    status = status.copyWith(isLoading: false);
+  }
+
   Future<void> registerUser(
     BuildContext context, {
-    required TextEditingController nickNameCtrl,
-    required TextEditingController firstNameCtrl,
-    required TextEditingController firstLastNameCtrl,
-    required TextEditingController secondNameCtrl,
-    required TextEditingController secondLastNameCtrl,
-    required TextEditingController phoneCtrl,
-    required String emailRegister,
-    required TextEditingController dateBirthCtrl,
-    required TextEditingController passwordCtrl,
-    required TextEditingController confirrmPassCtrl,
     required DataUserProvider dataUserProvider,
-
-    // String email, String password,
   }) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
       (bool value) {
         if (value) {
-          register(
-            context,
-            nickName: nickNameCtrl.text,
-            firstName: firstNameCtrl.text,
-            firstLastName: firstLastNameCtrl.text,
-            secondName: secondNameCtrl.text,
-            secondLastName: secondLastNameCtrl.text,
-            password: passwordCtrl.text,
-            phone: phoneCtrl.text,
-            email: emailRegister,
-            dateBirth: dateBirthCtrl.text,
-            dataUserProvider: dataUserProvider,
-          );
+          register(context, dataUserProvider);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
         }
@@ -352,37 +381,26 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   Future<void> register(
-    BuildContext context, {
-    required String nickName,
-    required String firstName,
-    required String firstLastName,
-    required String secondName,
-    required String secondLastName,
-    required String password,
-    required String phone,
-    required String email,
-    required String dateBirth,
-    required DataUserProvider dataUserProvider,
-  }) async {
+    BuildContext context,
+    DataUserProvider dataUserProvider,
+  ) async {
     status = status.copyWith(isLoading: true);
-
-    final String sha256pass = encrypPass(password).toString();
-
-    print('pass256 $sha256pass');
+    final String sha256pass = encrypPass(status.password!).toString();
+    // print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
-      nickName: nickName,
-      firstName: firstName,
-      secondName: secondName,
-      firstLastName: firstLastName,
-      secondLastName: secondLastName,
-      dateBirth: dateBirth,
-      email: email,
-      phone: phone,
+      nickName: status.nickName,
+      firstName: status.names,
+      secondName: '',
+      firstLastName: status.surnames,
+      secondLastName: '',
+      dateBirth: status.dateBirth,
+      email: status.emailRegister,
+      phone: status.phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
-      password: password,
+      password: status.password,
       isActive: true,
-      addressWallet: '',
+      addressWallet: status.addressWallet,
     );
 
     _interactor
@@ -395,7 +413,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             .getUserById(idUser)
             .then((ResponseData<ResultDataUser> response) {
           if (response.isSuccess) {
-            print('Registro EXITOSO + Datos User completps!!');
+            print('Registro EXITOSO + User guardado completps!!');
             dataUserProvider.setDataUserLogged(
               response.result,
             );
@@ -421,6 +439,72 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   Digest encrypPass(String pass) {
     final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
+  }
+
+  //   VALIDATORS    /////////////////////////
+  String? validatorCheckBox({bool? valueCheck}) {
+    if (valueCheck!) {
+      return null;
+    } else {
+      return '* Debes aceptar T&C!';
+    }
+  }
+
+  String? validatorEmail(BuildContext context, String? email) {
+    {
+      if (email == null || email.isEmpty) {
+        return '* Campo necesario';
+      } else if (!isEmail(email)) {
+        return '* Debe ser un correo';
+      }
+      return null;
+    }
+  }
+
+  String? validatorPasswords(String? psw, String? confirmPsw) {
+    if (psw == null || psw.isEmpty) {
+      return '* la contraseña es necesaria';
+    } else if (psw != confirmPsw) {
+      return 'Las contraseñas no coinciden';
+    }
+    if (psw.length < 8 || confirmPsw!.length < 8) {
+      return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
+    }
+    if (!isPasswordValid(psw)) {
+      return 'La contraseña no cumple los requerimientos';
+    }
+    return null;
+  }
+
+  String? validatorNotEmpty(String? email) {
+    {
+      if (email == null || email.isEmpty) {
+        return '* Campo necesario';
+      }
+      return null;
+    }
+  }
+
+  bool isPasswordValid(String password, [int minLength = 7]) {
+    final bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+    final bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+    final bool hasSpecialCharacters =
+        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final bool hasMinLength = password.length > minLength;
+    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+
+    status = status.copyWith(
+      hasMore8Chars: hasMinLength,
+      hasUpperLetter: hasUppercase,
+      hasSpecialChar: hasSpecialCharacters,
+      hasLowerLetter: hasLowercase,
+      hasNumberChar: hasDigits,
+    );
+    return hasMinLength &
+        hasUppercase &
+        hasSpecialCharacters &
+        hasLowercase &
+        hasDigits;
   }
 
 // Future<void> openEmail(BuildContext context) async {
