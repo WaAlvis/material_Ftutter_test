@@ -53,7 +53,7 @@ class Step5PersonalData extends StatelessWidget {
                   validator: (String? firstName) =>
                       viewModel.validatorNotEmpty(firstName),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -68,7 +68,7 @@ class Step5PersonalData extends StatelessWidget {
                   validator: (String? secondName) =>
                       viewModel.validatorNotEmpty(secondName),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -104,7 +104,7 @@ class Step5PersonalData extends StatelessWidget {
                           namesCtrl.text,
                           surnamesCtrl.text,
                           dateBirthCtrl.text,
-                          phoneCtrl.text);
+                          phoneCtrl.text,);
                     }
                   },
                 ),

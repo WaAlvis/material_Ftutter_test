@@ -20,10 +20,6 @@ class RegisterStatus extends ViewStatus {
   final bool hasSpecialChar;
   final bool hasLowerLetter;
   final bool hasNumberChar;
-  final String emailRegister;
-  final String addressWallet;
-  final String nickName;
-  late String password;
   final RegisterStep registerStep;
   final TextEditingController dateBirthCtrl;
   final bool isEmailFieldEmpty;
@@ -36,7 +32,11 @@ class RegisterStatus extends ViewStatus {
   final bool isDateBirthFieldEmpty;
   final bool isPasswordFieldEmpty;
   final bool isConfirmPassFieldEmpty;
+  final String emailRegister;
   final String phrase;
+  final String addressWallet;
+  final String nickName;
+  late String password;
   final String surnames;
   final String names;
   final String dateBirth;

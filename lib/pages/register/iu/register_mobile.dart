@@ -9,7 +9,6 @@ class _RegisterMobile extends StatelessWidget {
     required this.surnamesCtrl,
     required this.nickNameCtrl,
     required this.phraseCtrl,
-
     required this.phoneCtrl,
     required this.dateBirthCtrl,
     required this.passwordCtrl,
@@ -39,7 +38,6 @@ class _RegisterMobile extends StatelessWidget {
     const double hAppbar = 190;
     final double hBody = size.height - hAppbar;
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
-
 
     return GestureDetector(
       onTap: () {
@@ -102,16 +100,18 @@ class _RegisterMobile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (viewModel.status.registerStep == RegisterStep.emailStep_1)
+                    if (viewModel.status.registerStep ==
+                        RegisterStep.emailStep_1)
                       sectionTitleAppbar(
                         context,
-                        step: 1,
+                        step: 2,
                         title: 'Crear mi cuenta',
                         description:
                             'Para continuar ingresa tu correo electronico.',
                         heightAppbar: hAppbar,
                       )
-                    else if (viewModel.status.registerStep == RegisterStep.validatePinStep_3)
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.validatePinStep_3)
                       sectionTitleAppbar(
                         context,
                         step: 3,
@@ -120,7 +120,8 @@ class _RegisterMobile extends StatelessWidget {
                             'Ingresa el codigo enviado al Email de registro.',
                         heightAppbar: hAppbar,
                       )
-                    else if (viewModel.status.registerStep == RegisterStep.accountDataStep_4)
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.accountDataStep_4)
                       sectionTitleAppbar(
                         context,
                         step: 4,
@@ -129,13 +130,22 @@ class _RegisterMobile extends StatelessWidget {
                             'Escribe la información de ingreso a tu cuenta.',
                         heightAppbar: hAppbar,
                       )
-                      else if (viewModel.status.registerStep == RegisterStep.personalDataStep_5)
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.personalDataStep_5)
                       sectionTitleAppbar(
                         context,
                         step: 5,
                         title: 'Informacion personal',
-                        description:
-                            'No sera visible para los otros usuarios.',
+                        description: 'No sera visible para los otros usuarios.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.dataWalletStep_6)
+                      sectionTitleAppbar(
+                        context,
+                        step: 6,
+                        title: 'Direccion de tu Wallet',
+                        description: 'Escribe tus 12 palabras con las cuales podras recuperar tu direccion Wallet.',
                         heightAppbar: hAppbar,
                       ),
                   ],
@@ -147,43 +157,47 @@ class _RegisterMobile extends StatelessWidget {
                 emailCtrl: emailCtrl,
                 viewModel: viewModel,
               )
-            else if (viewModel.status.registerStep == RegisterStep.msjEmailStep_2)
+            else if (viewModel.status.registerStep ==
+                RegisterStep.msjEmailStep_2)
               Step2MsjEmail(
                 viewModel: viewModel,
               )
-            else if (viewModel.status.registerStep == RegisterStep.validatePinStep_3)
+            else if (viewModel.status.registerStep ==
+                RegisterStep.validatePinStep_3)
               Step3ValidatePin(
                 viewModel: viewModel,
                 heightBody: hBody,
                 codePinCtrl: codePinCtrl,
               )
-            else if (viewModel.status.registerStep == RegisterStep.accountDataStep_4)
+            else if (viewModel.status.registerStep ==
+                RegisterStep.accountDataStep_4)
               Step4AccountData(
                 viewModel: viewModel,
                 keyForm: keyForm,
                 nickNameCtrl: nickNameCtrl,
                 passwordCtrl: passwordCtrl,
                 confirmPassCtrl: confirmPassCtrl,
-                dataUserProvider: dataUserProvider,
               )
-              else if (viewModel.status.registerStep == RegisterStep.personalDataStep_5)
-                Step5PersonalData(
+            else if (viewModel.status.registerStep ==
+                RegisterStep.personalDataStep_5)
+              Step5PersonalData(
                 viewModel: viewModel,
                 keyForm: keyForm,
                 namesCtrl: namesCtrl,
-                surnamesCtrl:surnamesCtrl,
+                surnamesCtrl: surnamesCtrl,
                 dateBirthCtrl: dateBirthCtrl,
                 phoneCtrl: phoneCtrl,
-                )
-                  else if (viewModel.status.registerStep == RegisterStep.dataWalletStep_6)
-                      Step6RestoreWallet(
-                        viewModel: viewModel,
-                        keyForm: keyForm, phraseCtrl: phraseCtrl, dataUserProvider: dataUserProvider,
-                      )
+              )
+            else if (viewModel.status.registerStep ==
+                RegisterStep.dataWalletStep_6)
+              Step6RestoreWallet(
+                viewModel: viewModel,
+                keyForm: keyForm,
+                phraseCtrl: phraseCtrl,
+                dataUserProvider: dataUserProvider,
+              )
 
-
-
-          //  if (viewModel.status.registerStep == RegisterStep.dataAccountStep_4)
+            //  if (viewModel.status.registerStep == RegisterStep.dataAccountStep_4)
             //               FourthStepRegister(
             //                 viewModel: viewModel,
             //                 keyForm: keyForm,
@@ -206,18 +220,22 @@ class _RegisterMobile extends StatelessWidget {
   }
 }
 
-Widget sectionTitleAppbar(BuildContext context,
-    {required int step,
-    required String title,
-    required String description,
-    required double heightAppbar,}) {
+Widget sectionTitleAppbar(
+  BuildContext context, {
+  required int step,
+  required String title,
+  required String description,
+  required double heightAppbar,
+}) {
   final TextTheme textTheme = Theme.of(context).textTheme;
   final Size size = MediaQuery.of(context).size;
 
   return SizedBox(
     height: heightAppbar,
     child: Padding(
-      padding: const EdgeInsets.only(left: 16,),
+      padding: const EdgeInsets.only(
+        left: 16,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -234,7 +252,6 @@ Widget sectionTitleAppbar(BuildContext context,
             ),
           ),
           const SizedBox(height: 15),
-
           Container(
             width: (size.width - 32) * step / RegisterStep.values.length - 50,
             height: 5,

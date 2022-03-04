@@ -15,7 +15,6 @@ class Step4AccountData extends StatelessWidget {
         required this.nickNameCtrl,
         required this.passwordCtrl,
         required this.confirmPassCtrl,
-        required this.dataUserProvider,
       })
       : super(key: key);
   final GlobalKey<FormState> keyForm;
@@ -23,7 +22,6 @@ class Step4AccountData extends StatelessWidget {
   final TextEditingController nickNameCtrl;
   final TextEditingController passwordCtrl;
   final TextEditingController confirmPassCtrl;
-  final DataUserProvider dataUserProvider;
 
   @override
   Widget build(BuildContext context) {

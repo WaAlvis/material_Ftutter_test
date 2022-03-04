@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:bip32/bip32.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:hex/hex.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -21,6 +24,8 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:bip39/bip39.dart';
+import 'package:web3dart/web3dart.dart' as web3;
 
 import 'register_status.dart';
 
@@ -112,15 +117,19 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     status = status.copyWith(phrase: value);
   }
 
-  // void goHome(BuildContext context) {
-  //   LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-  //     if (value) {
-  //       _route.goHome(context);
-  //     } else {
-  //       // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-  //     }
-  //   });
-  // }
+  void getWalletAddressFromMnemonic(String mnemonic) {
+    if (!validateMnemonic(mnemonic)) throw 'Invalid mnemonic';
+
+    final Uint8List seed = mnemonicToSeed(mnemonic);
+    final BIP32 node = BIP32.fromSeed(seed);
+    final BIP32 child = node.derivePath("m/44'/60'/0'/0/0");
+
+    final web3.EthereumAddress address =
+        web3.EthPrivateKey.fromHex(HEX.encode(child.privateKey!)).address;
+
+    final String addressUser = address.hex.toLowerCase();
+    status = status.copyWith(addressWallet: addressUser);
+  }
 
   void setDateBirth(BuildContext context) {
     DatePicker.showDatePicker(
@@ -174,9 +183,12 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     String phone,
   ) =>
       savePersonalData(name, surname, dateBirth, phone); //fin step 5
+  void validateAddress(String phrase) => getWalletAddressFromMnemonic(phrase);
 
   void finishRegister(
-          BuildContext context, DataUserProvider dataUserProvider) =>
+    BuildContext context,
+    DataUserProvider dataUserProvider,
+  ) =>
       registerUser(context, dataUserProvider: dataUserProvider); //fin step 5
 
   void requiredPinForEmailValidation(String email) {
@@ -348,10 +360,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       (bool value) {
         if (value) {
           status = status.copyWith(
-              nickName: name,
+              names: name,
               surnames: surname,
               dateBirth: dateBirth,
-              phone: phone);
+              phone: phone,);
           goNextStep(currentStep: RegisterStep.personalDataStep_5);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -368,22 +380,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     BuildContext context, {
     required DataUserProvider dataUserProvider,
   }) async {
-    status = status.copyWith(isLoading: true);
-    LdConnection.validateConnection().then(
-      (bool value) {
-        if (value) {
-          register(context, dataUserProvider);
-        } else {
-          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-        }
-      },
-    );
-  }
-
-  Future<void> register(
-    BuildContext context,
-    DataUserProvider dataUserProvider,
-  ) async {
     status = status.copyWith(isLoading: true);
     final String sha256pass = encrypPass(status.password!).toString();
     // print('pass256 $sha256pass');
