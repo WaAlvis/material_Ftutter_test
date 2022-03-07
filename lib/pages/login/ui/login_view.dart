@@ -1,11 +1,17 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
-import 'package:localdaily/widgets/ld_app_bar.dart';
+import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/progress_indicator_local_d.dart';
+import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
@@ -26,22 +32,7 @@ class LoginView extends StatelessWidget {
     return ChangeNotifierProvider<LoginViewModel>(
       create: (_) => LoginViewModel(),
       builder: (BuildContext context, _) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: LdColors.blackBackground,
-            leading: const Icon(
-              Icons.arrow_back_ios,
-              color: LdColors.white,
-            ),
-            title: Text(
-              'Iniciar sesión',
-              style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
-            ),
-            elevation: 0, // 2
-          ),
-          backgroundColor: LdColors.white,
-          body: _LoginBody(isBuy: isBuy),
-        );
+        return _LoginBody(isBuy: isBuy);
       },
     );
   }
@@ -54,7 +45,6 @@ class _LoginBody extends StatefulWidget {
 
   @override
   _LoginBodyState createState() => _LoginBodyState();
-
 }
 
 class _LoginBodyState extends State<_LoginBody> {
@@ -72,27 +62,35 @@ class _LoginBodyState extends State<_LoginBody> {
   @override
   Widget build(BuildContext context) {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();
+    final Widget loading = viewModel.status.isLoading
+        ? ProgressIndicatorLocalD()
+        : const SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: maxWidth > 1024
-                ? _LoginWeb(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    isBuy: widget.isBuy,
-                  )
-                : _LoginMobile(
-                    keyForm: keyForm,
-                    passwordCtrl: passwordCtrl,
-                    userCtrl: usuarioCtrl,
-                  ),
-            )
+        return Stack(
+          children: <Widget>[
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: maxWidth > 1024
+                      ? _LoginWeb(
+                          keyForm: keyForm,
+                          passwordCtrl: passwordCtrl,
+                          isBuy: widget.isBuy,
+                        )
+                      : _LoginMobile(
+                          keyForm: keyForm,
+                          passwordCtrl: passwordCtrl,
+                          userCtrl: usuarioCtrl,
+                        ),
+                )
+              ],
+            ),
+            loading,
           ],
         );
       },

@@ -1,24 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
-  const InputTextCustom(
+
+  InputTextCustom(
     this.data, {
     Key? key,
-    required this.textTheme,
+    this.textInputAction,
+    this.maxLength,
+    this.styleLabel,
+    this.hintStyle,
     required this.hintText,
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
+    this.keyboardType,
+    this.validator,
+    this.onChange,
+    this.inputFormatters,
+    this.onTap,
+    this.autocorrect = false,
+    this.onFieldSubmitted,
+    this.textCapitalization = TextCapitalization.none,
+    this.changeFillWith,
+    this.onEditingComplete,
+    this.style,
   }) : super(key: key);
 
-  final TextTheme textTheme;
+  final void Function(String)? onChange;
+  final TextStyle? styleLabel;
+  final TextStyle? hintStyle;
   final String data;
+  final int? maxLength;
   final bool obscureText;
   final String hintText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function()? onTap;
+  final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
+  final bool autocorrect;
+  final void Function()? onEditingComplete;
+  final TextCapitalization textCapitalization;
+  final TextStyle? style;
+
+  bool? changeFillWith = false;
+  static const BorderRadius radioBorderConst = BorderRadius.all(
+    Radius.circular(12),
+  );
+
+  /**
+   * <TextInputFormatter> sin escpacios [inputFormatters] * tipo de entrada
+   * FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+   *   ],
+   */
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +67,50 @@ class InputTextCustom extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          data,
-          style: textTheme.textSmallBlack,
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            data,
+            style: styleLabel ?? textTheme.textBlack,
+          ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(
+          height: 5,
+        ),
         TextFormField(
+          onTap: onTap,
+          style: style,
+          maxLength: maxLength,
+          onEditingComplete: onEditingComplete,
+          onFieldSubmitted: onFieldSubmitted,
+          onChanged: onChange,
+          cursorColor: LdColors.orangePrimary,
+          cursorHeight: 24,
+          textInputAction: textInputAction,
+          keyboardType: keyboardType,
           obscureText: obscureText,
           controller: controller,
-          validator: (String? value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter some text';
-            }
-            return null;
-          },
+          autocorrect: autocorrect,
+          inputFormatters: inputFormatters,
+          validator: validator,
+          textCapitalization: textCapitalization,
           decoration: InputDecoration(
-            hintStyle:
-                textTheme.textSmallBlack.copyWith(color: LdColors.grayLight),
+            fillColor: LdColors.grayBorder,
+            filled: changeFillWith,
             border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: radioBorderConst,
             ),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: radioBorderConst,
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: radioBorderConst,
+              borderSide: BorderSide(
+                color: LdColors.orangePrimary,
+                width: 1.5,
+              ),
+            ),
+            hintStyle: hintStyle ?? textTheme.textGray,
             hintText: hintText,
             suffixIcon: suffixIcon,
           ),
@@ -55,3 +119,4 @@ class InputTextCustom extends StatelessWidget {
     );
   }
 }
+

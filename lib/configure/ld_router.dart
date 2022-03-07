@@ -2,6 +2,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -27,21 +29,18 @@ class LdRouter {
     /*return navigatorKey.currentState!
         .push(MaterialPageRoute<HomePage>(builder: (_) => const HomePage()));*/
     AppRouter.router.navigateTo(
-       context,
-       AppRoutes.homeRoute.route,
-       replace: true,
-       clearStack: true,
-       transition: TransitionType.none,
+      context,
+      AppRoutes.homeRoute.route,
+      replace: true,
+      clearStack: true,
+      transition: TransitionType.none,
     );
   }
 
   void goBuy(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.buyRoute.route,
-      replace: false,
-      clearStack: false,
       transition: TransitionType.none,
     );
   }
@@ -50,51 +49,58 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.sellRoute.route,
-      replace: false ,
-      clearStack: false,
       transition: TransitionType.none,
     );
   }
 
   void goLogin(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.loginRoute.route,
-      replace: false,
-      clearStack: false,
+      transition: TransitionType.none,
+    );
+  }
+  void goDetailOffer(BuildContext context, Data item) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailOffer.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+      arguments: <String, Data>{ 'item' : item }, ),
+    );
+  }
+
+  void goCreateOffer(BuildContext context, TypeOffer type) {
+    AppRouter.router.navigateTo(
+      context,
+      type == TypeOffer.buy
+          ? AppRoutes.createOfferBuyRoute.route
+          : AppRoutes.createOfferSaleRoute.route,
       transition: TransitionType.none,
     );
   }
 
   void goEmailRegister(BuildContext context) {
-
     AppRouter.router.navigateTo(
       context,
       AppRoutes.registerEmailRoute.route,
-      replace: false,
-      clearStack: false,
       transition: TransitionType.none,
     );
   }
-  void goValidateEmail(BuildContext context) {
 
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.registerValidateEmailRoute.route,
-      replace: false,
-      clearStack: false,
-      transition: TransitionType.none,
-    );
-  }
-  void goPersonalInfoRegister(BuildContext context) {
-
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.personalInfoRegisterRoute.route,
-      replace: false,
-      clearStack: false,
-      transition: TransitionType.none,
-    );
-  }
+  // void goValidateEmail(BuildContext context) {
+  //   AppRouter.router.navigateTo(
+  //     context,
+  //     AppRoutes.registerValidateEmailRoute.route,
+  //     transition: TransitionType.none,
+  //   );
+  // }
+  //
+  // void goPersonalInfoRegister(BuildContext context) {
+  //   AppRouter.router.navigateTo(
+  //     context,
+  //     AppRoutes.personalInfoRegisterRoute.route,
+  //     transition: TransitionType.none,
+  //   );
+  // }
 }

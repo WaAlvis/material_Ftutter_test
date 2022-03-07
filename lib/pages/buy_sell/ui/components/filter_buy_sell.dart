@@ -87,7 +87,7 @@ class _FilterBuySell extends StatelessWidget {
                       border: Border.all(
                         color: LdColors.whiteDark,
                       ),
-                      color: LdColors.grayBg,
+                      color: LdColors.grayBg.withOpacity(0.5),
                     ),
                     child: Text(
                       'Cantidad',
@@ -110,7 +110,7 @@ class _FilterBuySell extends StatelessWidget {
                     border: Border.all(
                       color: LdColors.whiteDark,
                     ),
-                    color: LdColors.grayBg,
+                    color: LdColors.grayBg.withOpacity(0.5),
                   ),
                   child: Text(
                     'COP',

@@ -21,13 +21,27 @@ dependencies:
   lint: ^1.7.2
   rxdart: ^0.27.2
   provider: ^6.0.1
-  json_annotation: ^4.3.0
+  json_annotation: ^4.4.0
   retrofit: ^2.0.1
   dio: ^4.0.1
 
   #Assets
+  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.3
   flutter_svg: ^0.23.0+1
+  crypto: ^3.0.1
+  double_back_to_close_app: ^2.0.1
+  flutter_toggle_tab: ^1.1.7
+  string_validator: ^0.3.0
+  flutter_datetime_picker: ^1.5.1
+  open_mail_app: ^0.4.1
+  pin_code_fields: ^7.3.0
+  checkbox_formfield: ^0.2.0
+  sha3: ^0.2.0
+  hex: ^0.2.0
+  bip32: ^2.0.0
+  web3dart: ^2.3.5
+  bip39: ^1.0.6
 
   #Widgets
 

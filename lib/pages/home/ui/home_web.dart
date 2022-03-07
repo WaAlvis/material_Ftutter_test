@@ -1,7 +1,6 @@
 part of 'home_view.dart';
 
 class _HomeWeb extends StatelessWidget {
-
   const _HomeWeb({
     Key? key,
     required this.keyForm,
@@ -13,13 +12,12 @@ class _HomeWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const LdAppbar('Test'),
+      appBar: const LdAppbar(title: 'Test'),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverFillRemaining(
@@ -33,7 +31,8 @@ class _HomeWeb extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.3, vertical: 30,
+                      horizontal: size.width * 0.3,
+                      vertical: 30,
                     ),
                     color: LdColors.black,
                     child: Column(
@@ -68,15 +67,10 @@ class _HomeWeb extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const _TableHome(isBuy: true),
-                  const _TableHome(),
-                  const _ProductHome(),
-                  const _StartHome(),
-                  const _SecurityHome(),
-                  const _InformationHome(),
                   Container(
                     color: LdColors.black,
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 20),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.1, vertical: 20),
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -87,19 +81,22 @@ class _HomeWeb extends StatelessWidget {
                                 text: TextSpan(
                                   children: <TextSpan>[
                                     TextSpan(
-                                      style: textTheme.titleMediumWhite.copyWith(
+                                      style:
+                                          textTheme.titleMediumWhite.copyWith(
                                         fontSize: 45,
                                       ),
                                       text: 'Compre y venda ',
                                     ),
                                     TextSpan(
-                                      style: textTheme.titleMediumYellow.copyWith(
+                                      style:
+                                          textTheme.titleMediumYellow.copyWith(
                                         fontSize: 45,
                                       ),
                                       text: 'DLY COP ',
                                     ),
                                     TextSpan(
-                                      style: textTheme.titleMediumWhite.copyWith(
+                                      style:
+                                          textTheme.titleMediumWhite.copyWith(
                                         fontSize: 45,
                                       ),
                                       text: 'desde cualquier lugar',

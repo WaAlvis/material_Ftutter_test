@@ -9,8 +9,8 @@ class AppTheme{
       fontFamily: 'GTWalsheimPro',
       fontStyle: FontStyle.normal,
       fontWeight: FontWeight.w500,
-      color: Color(0xff212121)
-    )
+      color: Color(0xff212121),
+    ),
   );
 
   static ThemeData build() => ThemeData(

@@ -3,259 +3,147 @@ part of 'home_view.dart';
 class _HomeMobile extends StatelessWidget {
   const _HomeMobile({
     Key? key,
-    required this.keyForm,
-    required this.passwordCtrl,
+    // required this.keyForm,
+    // required this.passwordCtrl,
   }) : super(key: key);
 
-  final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
+  // final GlobalKey<FormState> keyForm;
+  // final TextEditingController passwordCtrl;
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    const double hAppbar = 150;
+    final double hBody = size.height - hAppbar;
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
+
+    // DataUserProvider dataUserProvider;
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final List<Data> itemsForBuy = viewModel.status.offersBuyDataHome.data;
+    final List<Data> itemsForSell = viewModel.status.offersSaleDataHome.data;
 
-    final List<Map<String, String>> items = <Map<String, String>>[
-      <String, String>{
-        'nickname': 'Bayron',
-        'stars': '182',
-        'value1': '25000',
-        'value2': '1.5',
-        'banco': 'Nequi',
-        'time' : '3h'
-      },
-      <String, String>{
-        'nickname': 'San Carlos',
-        'stars': '112',
-        'value1': '11002000',
-        'value2': '1.3',
-        'banco': 'Davivienda',
-    'time' : '2d'
-      },
-      <String, String>{
-        'nickname': 'Camilos',
-        'stars': '302',
-        'value1': '124000',
-        'value2': '1.6',
-        'banco': 'PSE',
-        'time':'2h'
-      },
-      <String, String>{
-        'nickname': 'Sandra',
-        'stars': '102',
-        'value1': '1200000',
-        'value2': '2.0',
-        'banco': 'Nequi',
-        'time' : '3d'
-      },
-      <String, String>{
-        'nickname': 'Camilos',
-        'stars': '32',
-        'value1': '1204000',
-        'value2': '1.9',
-        'banco': 'Bancolombia',
-        'time' : '1h'
-      },
-      <String, String>{
-        'nickname': 'Diego',
-        'stars': '112',
-        'value1': '129400',
-        'value2': '1.5',
-        'banco': 'MercadoPago'
-        ,'time' : '3h'
-      }
-    ];
-
-    return Container(
-      color: LdColors.black,
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                color: LdColors.blackBackground,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SvgPicture.asset(LdAssets.logo, width: 150,),
-                      IconButton(
-                        onPressed: () => viewModel.goLogin(context),
-                        icon: const Icon(
-                          Icons.account_circle,
-                          color: LdColors.white,
-                          size: 32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 8,
-              child: DefaultTabController(
-                length: 2,
-                child: Scaffold(
-                  // backgroundColor: Colors.blueAccent,
-                  appBar: PreferredSize(
-                    preferredSize:
-                        const Size.fromHeight(kMinInteractiveDimension + 1),
-                    child: Container(
-                      color: LdColors.blackBackground,
-                      child: Column(
-                        children: <Widget>[
-                          TabBar(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            indicatorColor: LdColors.orangePrimary,
-                            indicatorWeight: 3,
-                            labelColor: Colors.grey,
-                            unselectedLabelColor: Colors.red,
-                            tabs: <Widget>[
-                              Tab(
-                                child: Text(
-                                  'Comprar',
-                                  style: textTheme.textYellow
-                                      .copyWith(fontWeight: FontWeight.w400, color: LdColors.orangePrimary),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  'Vender',
-                                  style: textTheme.textYellow
-                                      .copyWith(fontWeight: FontWeight.w400, color: LdColors.orangePrimary),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  body: TabBarView(
-                    children: <Widget>[
-                      RefreshIndicator(
-                        onRefresh: () async {
-                          // keyRefresh.currentState?.show(atTop: false);
-                          await Future<Duration>.delayed(
-                              const Duration(seconds: 1),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 2,),
-                              const Divider(
-                                height: 8,
-                                color: LdColors.gray,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  'Ofertas para comprar',
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.textBlack
-                                      .copyWith(fontWeight: FontWeight.w500, color: LdColors.orangePrimary),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView.separated(
-
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return const SizedBox(
-                                      height: 8,
-                                    );
-                                  },
-                                  // controller: _scrollController,
-                                  itemCount: items.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return CardBuyAndSell(
-                                        index: index,
-                                        items: items,
-                                        textTheme: textTheme,
-                                      viewModel: viewModel, //Pase bien el VM
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      RefreshIndicator(
-                        onRefresh: () async {
-                          // keyRefresh.currentState?.show(atTop: false);
-                          await Future<Duration>.delayed(
-                            const Duration(seconds: 1),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              OptionsFilterRow(textTheme: textTheme, quantityFilter: 3,),
-                              const Divider(
-                                height: 8,
-                                color: LdColors.gray,
-                              ),
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  'Ofertas para vender',
-                                  textAlign: TextAlign.center,
-                                  style: textTheme.textBlack
-                                      .copyWith(fontWeight: FontWeight.w500, color: LdColors.orangePrimary),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView.separated(
-
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return const SizedBox(
-                                      height: 8,
-                                    );
-                                  },
-                                  // controller: _scrollController,
-                                  itemCount: items.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return CardBuyAndSell(
-                                      index: index,
-                                      items: items,
-                                      textTheme: textTheme,
-                                      viewModel: viewModel,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
+    final List<Widget> _pages = <Widget>[
+      MainOffersTab(
+        viewModel: viewModel,
+        textTheme: textTheme,
+        itemsForBuy: itemsForSell,
+        itemsForSell: itemsForBuy,
+        hAppbar: hAppbar,
+        hBody: hBody,
+      ),
+      const Center(
+        child: Text(
+          'Operaciones',
         ),
       ),
+
+      MyOffersTab(
+        viewModel: viewModel,
+        textTheme: textTheme,
+        listBanks: [],
+        hAppbar: hAppbar,
+        hBody: hBody,
+      ),
+
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+           Text(
+
+            dataUserProvider.getDataUserLogged?.email ?? 'No hay Usuario',
+             style:const TextStyle(fontSize: 25),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          const Center(
+            child: Text(
+              'Perfil',
+            ),
+          ),
+          PrimaryButtonCustom(
+            'Cerrar Sesion de Usuario',
+            onPressed: () {
+              viewModel.goLogin(context);
+              dataUserProvider.setDataUserLogged(
+                null,
+              );
+
+            },
+          )
+        ],
+      ),
+      // Camera page
+      // Chats page
+    ];
+
+    return Scaffold(
+      // backgroundColor: LdColors.white,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: LdColors.grayLight,
+              blurRadius: 18,
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(40),
+            topLeft: Radius.circular(40),
+          ),
+          child: BottomNavigationBar(
+            unselectedItemColor: LdColors.blackText,
+            currentIndex: viewModel.status.indexTab,
+            selectedItemColor: LdColors.orangePrimary,
+            onTap: viewModel.onItemTapped,
+            elevation: 10,
+            iconSize: 30,
+            showUnselectedLabels: true,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_rounded,
+                ),
+                label: 'Inicio',
+                backgroundColor: LdColors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.library_add_check_outlined,
+                ),
+                label: 'operaciones',
+                backgroundColor: LdColors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.store_outlined,
+                ),
+                label: 'Mis ofertas',
+                backgroundColor: LdColors.white,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_outlined,
+                ),
+                label: 'Perfil',
+                backgroundColor: LdColors.white,
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: _pages.elementAt(viewModel.status.indexTab),
     );
   }
 }
 
 class OptionsFilterRow extends StatelessWidget {
+  //mover a mainoffer Home
   const OptionsFilterRow({
     Key? key,
     required this.textTheme,
@@ -267,7 +155,6 @@ class OptionsFilterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: const EdgeInsets.only(bottom: 10, top: 18),
       child: Row(
@@ -278,8 +165,7 @@ class OptionsFilterRow extends StatelessWidget {
           const Icon(Icons.filter_alt_outlined),
           Text(
             'Filtros ($quantityFilter)',
-            style:
-                textTheme.textSmallBlack,
+            style: textTheme.textSmallBlack,
           )
         ],
       ),
@@ -287,45 +173,53 @@ class OptionsFilterRow extends StatelessWidget {
   }
 }
 
-
-class InfoValueCard extends StatelessWidget {
-  const InfoValueCard({
-    Key? key,
-    required this.textTheme,
-    required this.title,
-    required this.valueMoney,
-  }) : super(key: key);
-
-  final TextTheme textTheme;
-  final String title;
-  final String valueMoney;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: textTheme.textSmallWhite.copyWith(fontSize: 13),
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Text(
-              valueMoney,
-              style:
-                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              'COP/DLY',
-              style: textTheme.textSmallWhite
-                  .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
+// final List<Map<String, String>> items = <Map<String, String>>[
+//   <String, String>{  1111111
+//     'nickname': 'Bayron',
+//     'stars': '182',
+//     'value1': '25000',
+//     'value2': '1.5',
+//     'banco': 'Nequi',
+//     'time' : '3h'
+//   },
+//   <String, String>{
+//     'nickname': 'San Carlos',
+//     'stars': '112',
+//     'value1': '11002000',
+//     'value2': '1.3',
+//     'banco': 'Davivienda',
+// 'time' : '2d'
+//   },
+//   <String, String>{
+//     'nickname': 'Camilos',
+//     'stars': '302',
+//     'value1': '124000',
+//     'value2': '1.6',
+//     'banco': 'PSE',
+//     'time':'2h'
+//   },
+//   <String, String>{
+//     'nickname': 'Sandra',
+//     'stars': '102',
+//     'value1': '1200000',
+//     'value2': '2.0',
+//     'banco': 'Nequi',
+//     'time' : '3d'
+//   },
+//   <String, String>{
+//     'nickname': 'Camilos',
+//     'stars': '32',
+//     'value1': '1204000',
+//     'value2': '1.9',
+//     'banco': 'Bancolombia',
+//     'time' : '1h'
+//   },
+//   <String, String>{
+//     'nickname': 'Diego',
+//     'stars': '112',
+//     'value1': '129400',
+//     'value2': '1.5',
+//     'banco': 'MercadoPago'
+//     ,'time' : '3h'
+//   }
+// ];

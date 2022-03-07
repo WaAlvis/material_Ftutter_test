@@ -7,6 +7,8 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'configure/router/app_router.dart';
 
@@ -18,7 +20,17 @@ Future<void> main() async {
   await locator.allReady();
 
   runZonedGuarded(() {
-    runApp(MyApp());
+    runApp(
+      MultiProvider(
+        providers: [
+
+          ChangeNotifierProvider<DataUserProvider>(
+            create: (_) => DataUserProvider(),
+          ),
+        ],
+        child: MyApp(),
+      ),
+    );
   }, (Object error, StackTrace stackTrace) {
     // TODO: Agregar control de errores
   });
