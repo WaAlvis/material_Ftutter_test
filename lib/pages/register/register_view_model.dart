@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bip32/bip32.dart';
+import 'package:bip39/bip39.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,6 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:bip39/bip39.dart';
 import 'package:web3dart/web3dart.dart' as web3;
 
 import 'register_status.dart';
@@ -131,38 +131,44 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     status = status.copyWith(addressWallet: addressUser);
   }
 
-  void setDateBirth(BuildContext context) {
-    DatePicker.showDatePicker(
-      context,
-      showTitleActions: true,
-      minTime: DateTime.now().subtract(const Duration(days: 36500)),
-      maxTime: DateTime.now().subtract(const Duration(days: 6570)),
-      onChanged: (DateTime date) {
-        print('change $date');
-      },
-      onConfirm: (DateTime date) {
-        final String dateT = date.toLocal().toString().split(' ').first;
-        status =
-            status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty);
-        status.dateBirthCtrl.text = dateT;
-
-        print('confirm ${date.toUtc()}');
-        print('confirm ${status.dateBirthCtrl.text}');
-      },
-      currentTime: DateTime.now().subtract(const Duration(days: 10500)),
-      locale: LocaleType.es,
-    );
+  void setDateBirth(DateTime? date){
+    final String dateT = date!.toLocal().toString().split(' ').first;
+    status =
+        status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty);
+    status.dateBirthCtrl.text = dateT;
   }
-
-  // void goEnterPin(BuildContext context, String email) {
-  //   LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-  //     if (isConnectionValidvalue) {
-  //       status = status.copyWith(emailRegister: email, registerStep: RegisterStep.msjEmailStep_2);
-  //     } else {
-  //       // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-  //     }
-  //   });
+  // void setDateBirth(BuildContext context) {
+  //   final DateTime dateNow = DateTime.now();
+  //   final DateTime dateAllowed =
+  //       DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
+  //   DatePicker.showDatePicker(
+  //     context,
+  //     showTitleActions: true,
+  //     minTime: DateTime.utc(dateNow.year - 110),
+  //     maxTime: dateAllowed,
+  //     onConfirm: (DateTime date) {
+  //       final String dateT = date.toLocal().toString().split(' ').first;
+  //       status =
+  //           status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty);
+  //       status.dateBirthCtrl.text = dateT;
+  //
+  //       print('confirm ${date.toUtc()}');
+  //       print('confirm ${status.dateBirthCtrl.text}');
+  //     },
+  //     // currentTime: dateAllowed,
+  //     locale: LocaleType.es,
+  //   );
   // }
+
+  void goEnterPin(BuildContext context, String email) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        status = status.copyWith(emailRegister: email, registerStep: RegisterStep.msjEmailStep_2);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
 // NEXT STEP////////////////////////
   void continueStep_2MsjEmail(String email) =>
       requiredPinForEmailValidation(email); //fin step 1
@@ -360,10 +366,11 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       (bool value) {
         if (value) {
           status = status.copyWith(
-              names: name,
-              surnames: surname,
-              dateBirth: dateBirth,
-              phone: phone,);
+            names: name,
+            surnames: surname,
+            dateBirth: dateBirth,
+            phone: phone,
+          );
           goNextStep(currentStep: RegisterStep.personalDataStep_5);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -478,6 +485,12 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         return '* Campo necesario';
       }
       return null;
+    }
+  }
+
+  String? validateBirthday(String? value) {
+    if (value == '') {
+      return '* Tu fecha de nacimiento es necesaria';
     }
   }
 

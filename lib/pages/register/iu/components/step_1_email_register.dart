@@ -10,11 +10,12 @@ import 'package:localdaily/widgets/primary_button.dart';
 class Step1EmailRegister extends StatelessWidget {
   const Step1EmailRegister({
     // required this.keyFirstForm,
-     required this.keyForm,
+    required this.keyForm,
     required this.emailCtrl,
     required this.viewModel,
     Key? key,
   }) : super(key: key);
+
   // final GlobalKey<FormState> keyFirstForm;
   final GlobalKey<FormState> keyForm;
   final TextEditingController emailCtrl;
@@ -150,4 +151,3 @@ class CheckboxFormField extends FormField<bool> {
           },
         );
 }
-

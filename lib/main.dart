@@ -51,12 +51,16 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Local Daily',
       theme: AppTheme.build(),
+      onGenerateRoute: AppRouter.router.generator,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      onGenerateRoute: AppRouter.router.generator,
+      // supportedLocales: const [
+      //   Locale('en'),
+      //   Locale('es')
+      // ],
       // home: SplashScreen(),
       // onGenerateRoute: locator<GfilesRoute>().initRoute
     );
