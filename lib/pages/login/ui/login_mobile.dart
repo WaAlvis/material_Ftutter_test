@@ -36,33 +36,31 @@ class _LoginMobile extends StatelessWidget {
           title: 'Iniciar sesión',
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             AppbarCircles(
               hAppbar: hAppbar,
-              content: SizedBox(
-                height: hAppbar,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        '¡Bienvenido!',
-                        style: textTheme.textBigWhite.copyWith(fontSize: 30),
+              content: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      '¡Bienvenido!',
+                      style: textTheme.textBigWhite.copyWith(fontSize: 30),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Inicia sesión en LocalDaily',
+                      style: textTheme.textSmallWhite.copyWith(
+                        color: LdColors.grayBg,
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Inicia sesión en LocalDaily',
-                        style: textTheme.textSmallWhite.copyWith(
-                          color: LdColors.grayBg,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
               ),
             ),

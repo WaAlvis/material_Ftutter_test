@@ -59,7 +59,99 @@ class _RegisterMobile extends StatelessWidget {
             if (viewModel.status.registerStep == RegisterStep.msjEmailStep_2)
               const SizedBox.shrink()
             else
-              const AppbarCircles(hAppbar: hAppbar),
+              Container(
+                width: size.width,
+                color: LdColors.blackBackground,
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomStart,
+                  children: <Widget>[
+                    // Esto es el circulo, ideal volverlo widget
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        // El tamaño depende del tamaño de la pantalla
+                        width: (size.width) / 4,
+                        height: (size.width) / 4,
+                        child: QuarterCircle(
+                          circleAlignment: CircleAlignment.bottomRight,
+                          color: LdColors.grayLight.withOpacity(0.05),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        width: (size.width) * 2 / 4,
+                        height: (size.width) * 2 / 4,
+                        child: QuarterCircle(
+                          circleAlignment: CircleAlignment.bottomRight,
+                          color: LdColors.grayLight.withOpacity(0.05),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        width: (size.width) * 3 / 4,
+                        height: (size.width) * 3 / 4,
+                        child: QuarterCircle(
+                          circleAlignment: CircleAlignment.bottomRight,
+                          color: LdColors.grayLight.withOpacity(0.05),
+                        ),
+                      ),
+                    ),
+                    if (viewModel.status.registerStep ==
+                        RegisterStep.emailStep_1)
+                      sectionTitleAppbar(
+                        context,
+                        step: 2,
+                        title: 'Crear mi cuenta',
+                        description:
+                            'Para continuar ingresa tu correo electronico.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.validatePinStep_3)
+                      sectionTitleAppbar(
+                        context,
+                        step: 3,
+                        title: 'Validacion del correo',
+                        description:
+                            'Ingresa el codigo enviado al Email de registro.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.accountDataStep_4)
+                      sectionTitleAppbar(
+                        context,
+                        step: 4,
+                        title: 'Información de la cuenta',
+                        description:
+                            'Escribe la información de ingreso a tu cuenta.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.personalDataStep_5)
+                      sectionTitleAppbar(
+                        context,
+                        step: 5,
+                        title: 'Informacion personal',
+                        description: 'No sera visible para los otros usuarios.',
+                        heightAppbar: hAppbar,
+                      )
+                    else if (viewModel.status.registerStep ==
+                        RegisterStep.dataWalletStep_6)
+                      sectionTitleAppbar(
+                        context,
+                        step: 6,
+                        title: 'Direccion de tu Wallet',
+                        description:
+                            'Escribe tus 12 palabras con las cuales podras recuperar tu direccion Wallet.',
+                        heightAppbar: hAppbar,
+                      ),
+                  ],
+                ),
+              ),
             if (viewModel.status.registerStep == RegisterStep.emailStep_1)
               Step1EmailRegister(
                 keyForm: keyForm,
