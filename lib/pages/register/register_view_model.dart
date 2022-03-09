@@ -360,10 +360,11 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       (bool value) {
         if (value) {
           status = status.copyWith(
-              names: name,
-              surnames: surname,
-              dateBirth: dateBirth,
-              phone: phone,);
+            names: name,
+            surnames: surname,
+            dateBirth: dateBirth,
+            phone: phone,
+          );
           goNextStep(currentStep: RegisterStep.personalDataStep_5);
         } else {
           // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -381,7 +382,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required DataUserProvider dataUserProvider,
   }) async {
     status = status.copyWith(isLoading: true);
-    final String sha256pass = encrypPass(status.password!).toString();
+    final String sha256pass = encrypPass(status.password).toString();
     // print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(

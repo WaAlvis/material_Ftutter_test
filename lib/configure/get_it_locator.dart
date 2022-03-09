@@ -15,9 +15,9 @@ class LdLocator {
     locator.registerSingleton<LocalDailyGatewayService>(
       LocalDailyGatewayService(dio),
     );
-    locator.registerSingleton<LocalDailyGatewayService>(
+    /* locator.registerSingleton<LocalDailyGatewayService>(
       LocalDailyGatewayService(dio),
-    );
+    ); */
   }
 
   static Dio _getDioApiService() {

@@ -14,6 +14,7 @@ import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -112,6 +113,7 @@ class _HomeBodyState extends State<_HomeBody> {
         return Stack(
           children: [
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,

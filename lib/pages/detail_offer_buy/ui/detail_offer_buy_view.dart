@@ -11,6 +11,7 @@ import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -43,10 +44,7 @@ class DetailOfferBuyView extends StatelessWidget {
 
     return ChangeNotifierProvider<DetailOfferBuyViewModel>(
       create: (_) => DetailOfferBuyViewModel(
-        locator<LdRouter>(),
-        locator<ServiceInteractor>(),
-        item!
-      ),
+          locator<LdRouter>(), locator<ServiceInteractor>(), item!),
       builder: (BuildContext context, _) {
         return _DetailOfferBuyBody(
           isBuy: isBuy,
@@ -104,6 +102,7 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
         return Stack(
           children: <Widget>[
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,

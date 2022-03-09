@@ -42,49 +42,7 @@ class _DetailOfferBuyMobile extends StatelessWidget {
           Container(
             width: size.width,
             color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: hAppbar,
-                ),
-              ],
-            ),
+            child: const AppbarCircles(hAppbar: hAppbar),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -182,14 +140,17 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                               const SizedBox(
                                 width: 6,
                               ),
-                              Text(item.user.rateBuyer != '0'
-                                  ? item.user.rateBuyer
-                                  : '1.0',),
+                              Text(
+                                item.user.rateBuyer != '0'
+                                    ? item.user.rateBuyer
+                                    : '1.0',
+                              ),
                               const Spacer(),
                               const SizedBox(
                                   height: 35,
                                   child: VerticalDivider(
-                                      color: LdColors.blackText,)),
+                                    color: LdColors.blackText,
+                                  )),
                               const Spacer(),
                               const Text(
                                 'Ver perfil',
@@ -200,7 +161,9 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 6,),
+                        SizedBox(
+                          height: 6,
+                        ),
                         CardDetailOffer(
                           item: item,
                           textTheme: textTheme,

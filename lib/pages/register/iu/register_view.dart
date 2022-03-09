@@ -12,6 +12,7 @@ import 'package:localdaily/pages/register/iu/components/step_6_%20restore_wallet
 import 'package:localdaily/pages/register/register_status.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
@@ -93,6 +94,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
         return Stack(
           children: <Widget>[
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,
@@ -111,7 +113,8 @@ class _RegisterBodyState extends State<_RegisterBody> {
                           passwordCtrl: passwordCtrl,
                           confirmPassCtrl: confirmPassCtrl,
                           codePinCtrl: codePinCtrl,
-                          addressWalletCtrl: addressWallet, phraseCtrl: phraseCtrl,
+                          addressWalletCtrl: addressWallet,
+                          phraseCtrl: phraseCtrl,
                         ),
                 )
               ],

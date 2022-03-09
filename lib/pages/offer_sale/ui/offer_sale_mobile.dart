@@ -25,7 +25,7 @@ class _OfferSaleMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OfferSaleViewModel viewModel = context.watch<OfferSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -52,53 +52,7 @@ class _OfferSaleMobile extends StatelessWidget {
           // withBackIcon: false,
         ),
         body: Column(children: <Widget>[
-          Container(
-            width: size.width,
-            color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: hAppbar,
-                ),
-              ],
-            ),
-          ),
+          const AppbarCircles(hAppbar: hAppbar),
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -374,8 +328,8 @@ class _OfferSaleMobile extends StatelessWidget {
                           height: 20,
                         ),
                         InputTextCustom(
-                          'Establece una palabra clave para asegurar tus recursos',
-                          hintText: 'secret*',
+                          'Establece una palabra secreta para asegurar tus recursos',
+                          hintText: 'Ingresa tu palabra secreta',
                           validator: (String? value) =>
                               viewModel.validatorNotEmpty(value),
                           keyboardType: TextInputType.name,
@@ -406,8 +360,8 @@ class _OfferSaleMobile extends StatelessWidget {
                           child: Row(
                             children: <Widget>[
                               const Icon(
-                                Icons.timer,
-                                size: 70,
+                                Icons.access_time_rounded,
+                                size: 60,
                               ),
                               const SizedBox(
                                 width: 16,
@@ -442,7 +396,8 @@ class _OfferSaleMobile extends StatelessWidget {
                             if (keyForm.currentState!.validate()) {
                               viewModel.createOfferSale(context,
                                   // userId: '96a6a171-641e-4103-8909-77ccd92d41eb',// juanP@
-                                  userId: dataUserProvider.getDataUserLogged!.id,
+                                  userId:
+                                      dataUserProvider.getDataUserLogged!.id,
                                   docNum: docNumCtrl.text,
                                   margin: marginCtrl.text,
                                   accountTypeId:

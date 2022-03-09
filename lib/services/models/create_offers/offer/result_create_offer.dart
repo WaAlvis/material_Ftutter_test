@@ -19,7 +19,7 @@ class ResultCreateOffer {
     required this.idStatus,
     required this.expiredDate,
     required this.contract,
-    required this.secretSellerKey,
+    required this.codeUserPublish,
     this.advertisementPayAccount,
   });
 
@@ -36,7 +36,7 @@ class ResultCreateOffer {
   String idStatus;
   String expiredDate;
   String contract;
-  String secretSellerKey;
+  String codeUserPublish;
   List<AdvertisementPayAccount>? advertisementPayAccount;
 
   Map<String, dynamic> toJson() => _$ResultCreateOfferToJson(this);

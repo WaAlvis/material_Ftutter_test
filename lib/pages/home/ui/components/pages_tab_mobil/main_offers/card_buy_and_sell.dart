@@ -145,7 +145,7 @@ class InfoValueCard extends StatelessWidget {
             Text(
               valueMoney,
               style:
-              textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
+                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 25,

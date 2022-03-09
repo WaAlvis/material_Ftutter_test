@@ -13,7 +13,7 @@ class OrangeTableSale extends StatelessWidget {
 
   final TextTheme textTheme;
   final bool onlyIntNum;
-  final String? Function(String?)?  validator;
+  final String? Function(String?)? validator;
   final TextEditingController? controller;
   final void Function(String)? onChange;
 
@@ -71,7 +71,7 @@ class OrangeTableSale extends StatelessWidget {
             height: 5,
           ),
           rowOrangeTable(
-            firstText: 'Fee(1%)',
+            firstText: 'Fee (1%)',
             secondText: '${viewModel.status.feeMoney} DLYCOP',
           ),
           const SizedBox(

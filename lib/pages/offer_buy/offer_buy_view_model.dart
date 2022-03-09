@@ -175,7 +175,7 @@ class OfferBuyViewModel extends ViewModel<OfferBuyStatus> {
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
-      secretSellerKey:
+      codeUserPublish:
           '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
     );
     final BodyOffer bodyOffer = BodyOffer(

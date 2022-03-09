@@ -4,7 +4,6 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
-
   InputTextCustom(
     this.data, {
     Key? key,
@@ -50,9 +49,6 @@ class InputTextCustom extends StatelessWidget {
   final TextStyle? style;
 
   bool? changeFillWith = false;
-  static const BorderRadius radioBorderConst = BorderRadius.all(
-    Radius.circular(12),
-  );
 
   /**
    * <TextInputFormatter> sin escpacios [inputFormatters] * tipo de entrada
@@ -63,6 +59,10 @@ class InputTextCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+
+    final OutlineInputBorder border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -97,15 +97,16 @@ class InputTextCustom extends StatelessWidget {
           decoration: InputDecoration(
             fillColor: LdColors.grayBorder,
             filled: changeFillWith,
-            border: const OutlineInputBorder(
-              borderRadius: radioBorderConst,
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: radioBorderConst,
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: radioBorderConst,
-              borderSide: BorderSide(
+            border: border,
+            enabledBorder: controller == null || changeFillWith == null
+                ? border
+                : controller!.text.isEmpty || !changeFillWith!
+                    ? border
+                    : border.copyWith(
+                        borderSide: BorderSide.none,
+                      ),
+            focusedBorder: border.copyWith(
+              borderSide: const BorderSide(
                 color: LdColors.orangePrimary,
                 width: 1.5,
               ),
@@ -119,4 +120,3 @@ class InputTextCustom extends StatelessWidget {
     );
   }
 }
-
