@@ -4,7 +4,6 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
-
   InputTextCustom(
     this.data, {
     Key? key,
@@ -16,6 +15,7 @@ class InputTextCustom extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
+    this.enableInteractiveSelection =true,
     this.keyboardType,
     this.validator,
     this.onChange,
@@ -35,6 +35,7 @@ class InputTextCustom extends StatelessWidget {
   final String data;
   final int? maxLength;
   final bool obscureText;
+  final bool enableInteractiveSelection;
   final String hintText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -78,6 +79,7 @@ class InputTextCustom extends StatelessWidget {
           height: 5,
         ),
         TextFormField(
+          enableInteractiveSelection:enableInteractiveSelection ,
           onTap: onTap,
           style: style,
           maxLength: maxLength,
@@ -119,4 +121,3 @@ class InputTextCustom extends StatelessWidget {
     );
   }
 }
-

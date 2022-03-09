@@ -29,9 +29,11 @@ class Step5PersonalData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime dateNow = DateTime.now();
+    final DateTime dateAllowed =
+        DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
-    final int phraseLength = 0;
 
     return Expanded(
       child: SingleChildScrollView(
@@ -77,8 +79,26 @@ class Step5PersonalData extends StatelessWidget {
                   keyboardType: TextInputType.none,
                   hintText: 'Ingresa tu fecha de nacimiento',
                   controller: viewModel.status.dateBirthCtrl,
+                  validator: viewModel.validateBirthday,
                   changeFillWith: !viewModel.status.isDateBirthFieldEmpty,
-                  onTap: () => viewModel.setDateBirth(context),
+                  enableInteractiveSelection: false,
+                  onTap: () async {
+                    final DateTime? newDate = await showDatePicker(
+                        locale: const Locale("es", "CO"),
+                        context: context,
+                        initialDate: dateAllowed,
+                        firstDate: DateTime(1900),
+                        lastDate: dateAllowed,
+                        builder: (BuildContext context, Widget? child) => Theme(
+                            data: ThemeData().copyWith(
+                              colorScheme: const ColorScheme.light(
+                                onPrimary: Colors.black,
+                                primary: LdColors.orangePrimary,
+                              ),
+                            ),
+                            child: child!));
+                    viewModel.setDateBirth(newDate);
+                  },
                 ),
                 const SizedBox(height: 16),
                 InputTextCustom(
@@ -101,10 +121,11 @@ class Step5PersonalData extends StatelessWidget {
                   onPressed: () {
                     if (keyForm.currentState!.validate()) {
                       viewModel.continueStep_6RestoreWallet(
-                          namesCtrl.text,
-                          surnamesCtrl.text,
-                          dateBirthCtrl.text,
-                          phoneCtrl.text,);
+                        namesCtrl.text,
+                        surnamesCtrl.text,
+                        dateBirthCtrl.text,
+                        phoneCtrl.text,
+                      );
                     }
                   },
                 ),
