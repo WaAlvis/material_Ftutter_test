@@ -208,6 +208,22 @@ class _OfferBuyMobile extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
+                            InputTextCustom(
+                              'Establece una palabra clave para asegurar tus recursos',
+                              hintText: 'Ingresa tu palabra secreta',
+                              validator: (String? value) =>
+                                  viewModel.validatorNotEmpty(value),
+                              keyboardType: TextInputType.name,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9a-zA-Z.]'),
+                                ),
+                              ],
+                              controller: cancelSecretCtrl,
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
                             Container(
                               height: 150,
                               padding: const EdgeInsets.only(
@@ -225,8 +241,8 @@ class _OfferBuyMobile extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   const Icon(
-                                    Icons.timer,
-                                    size: 70,
+                                    Icons.access_time_rounded,
+                                    size: 60,
                                   ),
                                   const SizedBox(
                                     width: 16,
@@ -255,34 +271,20 @@ class _OfferBuyMobile extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            InputTextCustom(
-                              'Establece una palabra clave para asegurar tus recursos',
-                              hintText: 'secret*',
-                              validator: (String? value) =>
-                                  viewModel.validatorNotEmpty(value),
-                              keyboardType: TextInputType.name,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp('[0-9a-zA-Z.]'),
-                                ),
-                              ],
-                              controller: cancelSecretCtrl,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
                             PrimaryButtonCustom(
                               'Crear oferta de venta',
                               onPressed: () {
                                 if (keyForm.currentState!.validate()) {
-                                  viewModel.createOfferBuy(context,
-                                      margin: marginCtrl.text,
-                                      bankId: viewModel.status.selectedBank!.id,
-                                      amountDLY: amountDLYCtrl.text,
-                                      infoPlusOffer: infoPlusOfferCtrl.text,
-                                      userId: dataUserProvider
-                                          .getDataUserLogged!.id,
-                                      wordSecret: cancelSecretCtrl.text);
+                                  viewModel.createOfferBuy(
+                                    context,
+                                    margin: marginCtrl.text,
+                                    bankId: viewModel.status.selectedBank!.id,
+                                    amountDLY: amountDLYCtrl.text,
+                                    infoPlusOffer: infoPlusOfferCtrl.text,
+                                    userId:
+                                        dataUserProvider.getDataUserLogged!.id,
+                                    wordSecret: cancelSecretCtrl.text,
+                                  );
                                 }
                               },
                             ),

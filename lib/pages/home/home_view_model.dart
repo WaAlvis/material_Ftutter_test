@@ -132,7 +132,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     final Pagination pagination =
         Pagination(isPaginable: true, currentPage: 1, itemsPerPage: 10);
     final BodyHome bodyBuyersHome = BodyHome(
-      type: type == TypeOffer.buy ? 1 : 0,
+      type: type == TypeOffer.buy ? 0 : 1,
       pagination: pagination,
     );
 

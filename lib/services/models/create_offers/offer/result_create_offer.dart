@@ -34,7 +34,7 @@ class ResultCreateOffer {
   String termsOfTrade;
   String idUserPublish;
   String idStatus;
-  String expiredDate;
+  int expiredDate;
   String contract;
   String codeUserPublish;
   List<AdvertisementPayAccount>? advertisementPayAccount;

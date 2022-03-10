@@ -5,23 +5,17 @@ import 'package:localdaily/services/models/home/get_offers/reponse/user_data_hom
 part 'data.g.dart';
 
 @JsonSerializable()
-class Data{
-
+class Data {
   Data({
     required this.user,
     required this.advertisement,
-
   });
-  factory Data.fromJson(Map<String, dynamic> json) =>
-      _$DataFromJson(json);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
   // TokenLogin tokenData;
   // String? user;
-   UserDataHome user;
+  UserDataHome user;
   Advertisement advertisement;
-
-
-
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }

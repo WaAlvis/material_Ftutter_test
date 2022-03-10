@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -20,7 +21,8 @@ import 'package:sha3/sha3.dart';
 
 import 'offer_sale_status.dart';
 
-class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
+class OfferSaleViewModel
+    extends EffectsViewModel<OfferSaleStatus, OfferSaleEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -202,6 +204,15 @@ class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
     status = status.copyWith(isLoading: false);
   }
 
+  Future<void> onClickCreateOffer() async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      addEffect(ValidateOfferEffect());
+    } else {
+      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+    }
+  }
+
   Future<void> createOfferSale(
     BuildContext context, {
     required String userId,
@@ -215,11 +226,7 @@ class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
     required String nameTitularAccount,
     required String infoPlusOffer,
     required String wordSecret,
-  }
-
-      // String email,
-      // String password,
-      ) async {
+  }) async {
     status = status.copyWith(isLoading: true);
 
     String convertWorkKeccak(String word) {
@@ -233,7 +240,7 @@ class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
     }
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
+      idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
       idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
       valueToSell: amountDLY.replaceAll('.', ''),
       margin: margin.split(' ').first,

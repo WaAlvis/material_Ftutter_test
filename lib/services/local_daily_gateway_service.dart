@@ -41,7 +41,7 @@ class UrlsApi {
 
 ///WebAdmin/Advertisement create offer sell buy
 
-@RestApi(baseUrl: 'http://3.135.189.138:4000')
+@RestApi(baseUrl: 'https://dev-local-indentity.midaily.co')
 abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
       _LocalDailyGatewayService;

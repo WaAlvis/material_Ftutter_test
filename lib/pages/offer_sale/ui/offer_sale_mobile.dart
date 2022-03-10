@@ -25,7 +25,6 @@ class _OfferSaleMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OfferSaleViewModel viewModel = context.watch<OfferSaleViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -57,9 +56,11 @@ class _OfferSaleMobile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 decoration: const BoxDecoration(
-                    color: LdColors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25))),
+                  color: LdColors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25),
+                  ),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Form(
@@ -392,26 +393,7 @@ class _OfferSaleMobile extends StatelessWidget {
                         ),
                         PrimaryButtonCustom(
                           'Crear oferta de venta',
-                          onPressed: () {
-                            if (keyForm.currentState!.validate()) {
-                              viewModel.createOfferSale(context,
-                                  // userId: '96a6a171-641e-4103-8909-77ccd92d41eb',// juanP@
-                                  userId:
-                                      dataUserProvider.getDataUserLogged!.id,
-                                  docNum: docNumCtrl.text,
-                                  margin: marginCtrl.text,
-                                  accountTypeId:
-                                      viewModel.status.selectedAccountType!.id,
-                                  accountNum: accountNumCtrl.text,
-                                  nameTitularAccount:
-                                      nameTitularAccountCtrl.text,
-                                  bankId: viewModel.status.selectedBank!.id,
-                                  amountDLY: amountDLYCtrl.text,
-                                  infoPlusOffer: infoPlusOfferCtrl.text,
-                                  docType: viewModel.status.selectedDocType!.id,
-                                  wordSecret: cancelSecretCtrl.text);
-                            }
-                          },
+                          onPressed: viewModel.onClickCreateOffer,
                         ),
                       ],
                     ),

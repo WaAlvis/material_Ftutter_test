@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 class Step6RestoreWallet extends StatelessWidget {
@@ -85,8 +83,8 @@ class Step6RestoreWallet extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(vertical: 20),
                       width: double.infinity,
                       child: TextFormField(
-                        validator: (_) =>
-                            viewModel.validatorNotEmpty(viewModel.status.addressWallet),
+                        validator: (_) => viewModel
+                            .validatorNotEmpty(viewModel.status.addressWallet),
                         controller: phraseCtrl,
                         keyboardType: TextInputType.multiline,
                         enableSuggestions: false,

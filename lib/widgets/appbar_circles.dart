@@ -13,6 +13,7 @@ class AppbarCircles extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
+      width: size.width,
       color: LdColors.blackBackground,
       child: Stack(
         alignment: AlignmentDirectional.bottomStart,

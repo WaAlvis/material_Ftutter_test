@@ -45,7 +45,7 @@ class CardBuyAndSell extends StatelessWidget {
               TitleBarCard(
                 // name: item.user.nickName,
                 name: item.user.nickName,
-                stars: '+${item.user.rateSeller}',
+                stars: '${item.user.rateSeller}',
                 // time: item.advertisement.expiredDate,
                 time: '7d',
                 textTheme: textTheme,

@@ -39,7 +39,7 @@ class Advertisement {
   String termsOfTrade;
   String idUserPublish;
   String idStatus;
-  String expiredDate;
+  int expiredDate;
   List<AdvertisementPayAccount> advertisementPayAccount;
 
   Map<String, dynamic> toJson() => _$AdvertisementToJson(this);

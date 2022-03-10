@@ -15,7 +15,7 @@ class _HomeMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double hAppbar = 150;
     final double hBody = size.height - hAppbar;
-    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     // DataUserProvider dataUserProvider;
 
@@ -50,10 +50,9 @@ class _HomeMobile extends StatelessWidget {
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           Text(
-
+          Text(
             dataUserProvider.getDataUserLogged?.email ?? 'No hay Usuario',
-             style:const TextStyle(fontSize: 25),
+            style: const TextStyle(fontSize: 25),
           ),
           const SizedBox(
             height: 50,
@@ -70,7 +69,6 @@ class _HomeMobile extends StatelessWidget {
               dataUserProvider.setDataUserLogged(
                 null,
               );
-
             },
           )
         ],
@@ -106,30 +104,26 @@ class _HomeMobile extends StatelessWidget {
             showUnselectedLabels: true,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_rounded,
-                ),
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
                 label: 'Inicio',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.library_add_check_outlined,
-                ),
+                icon: Icon(Icons.library_add_check_outlined),
+                activeIcon: Icon(Icons.library_add_check),
                 label: 'operaciones',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.store_outlined,
-                ),
+                icon: Icon(Icons.store_outlined),
+                activeIcon: Icon(Icons.store),
                 label: 'Mis ofertas',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person_outlined,
-                ),
+                icon: Icon(Icons.person_outlined),
+                activeIcon: Icon(Icons.person),
                 label: 'Perfil',
                 backgroundColor: LdColors.white,
               ),
