@@ -5,6 +5,7 @@ import 'package:hex/hex.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -18,7 +19,8 @@ import 'package:sha3/sha3.dart';
 
 import 'offer_buy_status.dart';
 
-class OfferBuyViewModel extends ViewModel<OfferBuyStatus> {
+class OfferBuyViewModel
+    extends EffectsViewModel<OfferBuyStatus, OfferBuyEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -147,6 +149,15 @@ class OfferBuyViewModel extends ViewModel<OfferBuyStatus> {
     );
   }
 
+  Future<void> onClickCreateOffer() async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      addEffect(ValidateOfferEffect());
+    } else {
+      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+    }
+  }
+
   Future<void> createOfferBuy(
     BuildContext context, {
     required String margin,
@@ -181,10 +192,16 @@ class OfferBuyViewModel extends ViewModel<OfferBuyStatus> {
     final BodyOffer bodyOffer = BodyOffer(
       entity: entity,
       daysOfExpired: 7,
-      strJsonAdvertisementBanks:
-          //TODO, deberia ser diferente, ya que no se ingresan todos esos datos.
-//        ,\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",
-          '[{\"bankId\": \"$bankId\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},]',
+      strJsonAdvertisementBanks: json.encode([
+        <String, dynamic>{
+          'bankId': bankId,
+          'accountNumber': '',
+          'accountTypeId': '',
+          'documentNumber': '',
+          'documentTypeID': '',
+          'titularUserName': '',
+        }
+      ]),
     );
 
     _interactor
