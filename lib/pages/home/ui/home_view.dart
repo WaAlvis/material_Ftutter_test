@@ -22,8 +22,8 @@ import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
+part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
 
-// Components Mobile
 part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
 
 part 'components/pages_tab_mobil/main_offers/main_offers_tab.dart';
