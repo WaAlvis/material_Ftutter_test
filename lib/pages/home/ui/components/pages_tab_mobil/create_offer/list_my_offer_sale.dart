@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/pages/offer_sale/offer_sale_view_model.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 
 class ListMyOffersSale extends StatelessWidget {
   const ListMyOffersSale(

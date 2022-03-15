@@ -21,30 +21,23 @@ class _HomeMobile extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final List<Data> itemsForBuy = viewModel.status.offersBuyDataHome.data;
-    final List<Data> itemsForSell = viewModel.status.offersSaleDataHome.data;
 
     final List<Widget> _pages = <Widget>[
       MainOffersTab(
-        viewModel: viewModel,
         textTheme: textTheme,
-        itemsForBuy: itemsForSell,
-        itemsForSell: itemsForBuy,
         hAppbar: hAppbar,
         hBody: hBody,
       ),
-      const Center(
-        child: Text(
-          'Operaciones',
-        ),
+      OperationsOffersTab(
+        viewModel: viewModel,
+        textTheme: textTheme,
+        hAppbar: hAppbar,
       ),
-
       MyOffersTab(
         viewModel: viewModel,
         textTheme: textTheme,
         listBanks: [],
         hAppbar: hAppbar,
-        hBody: hBody,
       ),
 
       Column(
@@ -77,8 +70,32 @@ class _HomeMobile extends StatelessWidget {
       // Chats page
     ];
 
+    final List<PreferredSizeWidget> _appbars = <PreferredSizeWidget>[
+      LdAppbar(
+        dataUserProvider: dataUserProvider.getDataUserLogged,
+        goLogin: (BuildContext context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      ),
+      LdAppbar(
+        title: 'Mis operaciones',
+        goLogin: (context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      ),
+      LdAppbar(
+        title: 'Mis ofertas',
+        goLogin: (context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      ),
+      LdAppbar(
+        title: 'Perfil',
+        goLogin: (context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      )
+    ];
+
     return Scaffold(
-      // backgroundColor: LdColors.white,
+      extendBodyBehindAppBar: true,
+      appBar: _appbars.elementAt(viewModel.status.indexTab),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
@@ -98,7 +115,16 @@ class _HomeMobile extends StatelessWidget {
             unselectedItemColor: LdColors.blackText,
             currentIndex: viewModel.status.indexTab,
             selectedItemColor: LdColors.orangePrimary,
-            onTap: viewModel.onItemTapped,
+            onTap: (int index) {
+              if (index != viewModel.status.indexTab) {
+                viewModel.swapType(
+                  context,
+                  TypeOffer.buy,
+                  dataUserProvider.getDataUserLogged?.id ?? '',
+                );
+              }
+              viewModel.onItemTapped(index);
+            },
             elevation: 10,
             iconSize: 30,
             showUnselectedLabels: true,
@@ -166,54 +192,3 @@ class OptionsFilterRow extends StatelessWidget {
     );
   }
 }
-
-// final List<Map<String, String>> items = <Map<String, String>>[
-//   <String, String>{  1111111
-//     'nickname': 'Bayron',
-//     'stars': '182',
-//     'value1': '25000',
-//     'value2': '1.5',
-//     'banco': 'Nequi',
-//     'time' : '3h'
-//   },
-//   <String, String>{
-//     'nickname': 'San Carlos',
-//     'stars': '112',
-//     'value1': '11002000',
-//     'value2': '1.3',
-//     'banco': 'Davivienda',
-// 'time' : '2d'
-//   },
-//   <String, String>{
-//     'nickname': 'Camilos',
-//     'stars': '302',
-//     'value1': '124000',
-//     'value2': '1.6',
-//     'banco': 'PSE',
-//     'time':'2h'
-//   },
-//   <String, String>{
-//     'nickname': 'Sandra',
-//     'stars': '102',
-//     'value1': '1200000',
-//     'value2': '2.0',
-//     'banco': 'Nequi',
-//     'time' : '3d'
-//   },
-//   <String, String>{
-//     'nickname': 'Camilos',
-//     'stars': '32',
-//     'value1': '1204000',
-//     'value2': '1.9',
-//     'banco': 'Bancolombia',
-//     'time' : '1h'
-//   },
-//   <String, String>{
-//     'nickname': 'Diego',
-//     'stars': '112',
-//     'value1': '129400',
-//     'value2': '1.5',
-//     'banco': 'MercadoPago'
-//     ,'time' : '3h'
-//   }
-// ];

@@ -1,5 +1,4 @@
 import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -11,18 +10,25 @@ class HomeStatus extends ViewStatus {
   final bool hideValues;
   late ResultHome offersBuyDataHome;
   late ResultHome offersSaleDataHome;
+  late ResultHome operationBuyData;
+  late ResultHome operationSaleData;
+  late ResultHome myOfferBuyData;
+  late ResultHome myOfferSaleData;
   final TypeOffer typeOffer;
   final String image;
   final String titleText;
-
   // final String detailText;
   final String buttonText;
 
   HomeStatus({
     required this.offersBuyDataHome,
+    required this.offersSaleDataHome,
+    required this.operationBuyData,
+    required this.operationSaleData,
+    required this.myOfferBuyData,
+    required this.myOfferSaleData,
     required this.hideWallet,
     required this.hideValues,
-    required this.offersSaleDataHome,
     required this.indexTab,
     this.isLoading = true,
     required this.isError,
@@ -38,9 +44,13 @@ class HomeStatus extends ViewStatus {
     bool? isError,
     bool? hideWallet,
     bool? hideValues,
-    ResultHome? sellersDataHome,
+    ResultHome? offersSaleDataHome,
+    ResultHome? offersBuyDataHome,
+    ResultHome? operationBuyData,
+    ResultHome? operationSaleData,
+    ResultHome? myOfferBuyData,
+    ResultHome? myOfferSaleData,
     int? indexTab,
-    ResultHome? buyersDataHome,
     TypeOffer? typeOffer,
     String? image,
     String? titleText,
@@ -53,8 +63,12 @@ class HomeStatus extends ViewStatus {
       indexTab: indexTab ?? this.indexTab,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
-      offersBuyDataHome: sellersDataHome ?? this.offersBuyDataHome,
-      offersSaleDataHome: buyersDataHome ?? this.offersSaleDataHome,
+      offersBuyDataHome: offersBuyDataHome ?? this.offersBuyDataHome,
+      offersSaleDataHome: offersSaleDataHome ?? this.offersSaleDataHome,
+      operationBuyData: operationBuyData ?? this.operationBuyData,
+      operationSaleData: operationSaleData ?? this.operationSaleData,
+      myOfferBuyData: myOfferBuyData ?? this.myOfferBuyData,
+      myOfferSaleData: myOfferSaleData ?? this.myOfferSaleData,
       typeOffer: typeOffer ?? this.typeOffer,
       image: image ?? this.image,
       titleText: titleText ?? this.titleText,

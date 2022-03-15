@@ -10,6 +10,7 @@ import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/create_offer/list_my_offer_sale.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/main_offers/list_offers_main_cards.dart';
+import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/operation_offer/list_operations_offers.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -28,6 +29,10 @@ part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
 part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
 
 part 'components/pages_tab_mobil/main_offers/main_offers_tab.dart';
+
+part 'components/pages_tab_mobil/operation_offer/operation_card.dart';
+
+part 'components/pages_tab_mobil/operation_offer/operations_offers_tab.dart';
 
 part 'home_mobile.dart';
 
@@ -71,31 +76,13 @@ class _HomeBodyState extends State<_HomeBody> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<HomeViewModel>().onInit(context);
-    });
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
-    // final HomeViewModel viewModel = context.read<HomeViewModel>();
-    //
-    // _effectSubscription = viewModel.effects.listen((RecoverPasswordEffect event) {
-    //   if(event is ShowDialogRecoverPasswordEffect){
-    //     DlyDialog.buildSmsDialog(
-    //       context,
-    //       message: event.message,
-    //       title: 'Observación',
-    //       onTapSend: ()=> viewModel.goPassword(context),
-    //       onTapClose: viewModel.onTapClose,
-    //     );
-    //   }
-    //   else if(event is ShowSnackbarConnectivityEffect){
-    //     DlySnackbar.buildConnectivitySnackbar(context, event.message);
-    //   }
-    //   else if(event is FormValidateRecoverPasswordEffect) {
-    //     if(keyForm.currentState!.validate()){
-    //       viewModel.showDialogConfirmation(phoneCtrl.text);
-    //     }
-    //   }
-    // });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context
+          .read<HomeViewModel>()
+          .onInit(context, dataUserProvider.getDataUserLogged?.id ?? '');
+    });
     super.initState();
   }
 
@@ -122,11 +109,11 @@ class _HomeBodyState extends State<_HomeBody> {
                           keyForm: keyForm,
                           passwordCtrl: passwordCtrl,
                         )
-                      : _HomeMobile(),
+                      : const _HomeMobile(),
                 )
               ],
             ),
-            loading,
+            //loading,
           ],
         );
       },

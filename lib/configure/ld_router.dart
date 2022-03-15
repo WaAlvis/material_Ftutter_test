@@ -57,16 +57,19 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.loginRoute.route,
+      clearStack: true,
       transition: TransitionType.none,
     );
   }
+
   void goDetailOffer(BuildContext context, Data item) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailOffer.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-      arguments: <String, Data>{ 'item' : item }, ),
+        arguments: <String, Data>{'item': item},
+      ),
     );
   }
 

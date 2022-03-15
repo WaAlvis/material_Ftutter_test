@@ -1,15 +1,17 @@
 part of '../../../home_view.dart';
 
-class CardBuyAndSell extends StatelessWidget {
-  const CardBuyAndSell({
+class OperationCard extends StatelessWidget {
+  const OperationCard({
     Key? key,
     required this.item,
     required this.textTheme,
+    required this.viewModel,
     required this.onTap,
   }) : super(key: key);
 
   final Data item;
   final TextTheme textTheme;
+  final HomeViewModel viewModel;
   final void Function()? onTap;
 
   @override
@@ -40,7 +42,7 @@ class CardBuyAndSell extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TitleBarCard(
+              TitleBarCard2(
                 // name: item.user.nickName,
                 name: item.user.nickName,
                 stars: '${item.user.rateSeller}',
@@ -60,7 +62,7 @@ class CardBuyAndSell extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      InfoValueCard(
+                      InfoValueCard2(
                         title: 'Cantidad',
                         valueMoney: NumberFormat.simpleCurrency(
                           decimalDigits: 0,
@@ -113,8 +115,8 @@ class CardBuyAndSell extends StatelessWidget {
   }
 }
 
-class InfoValueCard extends StatelessWidget {
-  const InfoValueCard({
+class InfoValueCard2 extends StatelessWidget {
+  const InfoValueCard2({
     Key? key,
     required this.textTheme,
     required this.title,
@@ -158,13 +160,13 @@ class InfoValueCard extends StatelessWidget {
   }
 }
 
-class TitleBarCard extends StatelessWidget {
+class TitleBarCard2 extends StatelessWidget {
   final String name;
   final String stars;
   final TextTheme textTheme;
   final String time;
 
-  const TitleBarCard({
+  const TitleBarCard2({
     Key? key,
     required this.name,
     required this.time,

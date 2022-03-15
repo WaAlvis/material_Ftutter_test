@@ -88,11 +88,11 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultHome>> postGetHomeBuyerSellers(
+  Future<ResponseData<ResultHome>> postGetAdvertisementByFilters(
     BodyHome bodyHome,
   ) async {
     final ResponseData<ResultHome> response =
-        await locator<LocalDailyGatewayService>().getAdvertismentHome(bodyHome);
+        await locator<LocalDailyGatewayService>().getAdvertisment(bodyHome);
 
     return response;
   }
