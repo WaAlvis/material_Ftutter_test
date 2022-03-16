@@ -13,31 +13,31 @@ class HistoryMobile extends StatelessWidget {
     const List<DayOperation> listOperationByDay = <DayOperation>[
       DayOperation(
         <Operation>[
-          Operation('1.000.000', '1.2'),
-          Operation('120.000', '1.0'),
+          Operation('-1.000.000', '1.2'),
+          Operation('-120.000', '1.0'),
           Operation('10.000.000', '0.8'),
           Operation('12.000.000', '1.2'),
         ],
         date: 'Noviembre 02 de 2021',
       ),
-      // DayOperation(
-      //   <Operation>[
-      //     Operation('15.000.000', '1.2'),
-      //     Operation('500.000', '1.5'),
-      //     Operation('200.000', '0.8'),
-      //     Operation('1.000.000', '1.2'),
-      //   ],
-      //   date: 'Octubre 12 de 2021',
-      // ),
-      // DayOperation(
-      //   <Operation>[
-      //     Operation('1.000.000', '0.9'),
-      //     Operation('10.500.000', '1.5'),
-      //     Operation('20.000.000', '1.1'),
-      //     Operation('12.000.000', '1.2'),
-      //   ],
-      //   date: 'Octubre 02 de 2021',
-      // )
+      DayOperation(
+        <Operation>[
+          Operation('15.000.000', '1.2'),
+          Operation('-500.000', '1.5'),
+          Operation('-200.000', '0.8'),
+          Operation('1.000.000', '1.2'),
+        ],
+        date: 'Octubre 12 de 2021',
+      ),
+      DayOperation(
+        <Operation>[
+          Operation('-1.000.000', '0.9'),
+          Operation('10.500.000', '1.5'),
+          Operation('20.000.000', '1.1'),
+          Operation('12.000.000', '1.2'),
+        ],
+        date: 'Octubre 02 de 2021',
+      )
     ];
 
     // <DayOperation>[
@@ -164,12 +164,29 @@ class HistoryMobile extends StatelessWidget {
                       quantityFilter: 5,
                       textTheme: textTheme,
                     ),
-                    ListView.builder(
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
                       itemCount: listOperationByDay.length,
+                      padding: EdgeInsets.zero,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListOperationDay(
-                          textTheme,
-                          listOperationByDay,
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            dateHeader(listOperationByDay, index, textTheme),
+                            ListOperationDay(
+                              textTheme,
+                              listOperationByDay[index],
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Divider(
+                            thickness: 2,
+                          ),
                         );
                       },
                     )
@@ -182,6 +199,20 @@ class HistoryMobile extends StatelessWidget {
       ),
     );
   }
+
+  Padding dateHeader(
+      List<DayOperation> listOperationByDay, int index, TextTheme textTheme) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 32, top: 16, right: 32),
+      child: Text(
+        listOperationByDay[index].date,
+        textAlign: TextAlign.left,
+        style: textTheme.textGray.copyWith(
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
 }
 
 class ListOperationDay extends StatelessWidget {
@@ -191,96 +222,120 @@ class ListOperationDay extends StatelessWidget {
   );
 
   final TextTheme textTheme;
-  final List<DayOperation> dayOerations;
+  final DayOperation dayOerations;
+
+  Color get orangeSlash => LdColors.orangeWarning;
+
+  Color get greenSplash => LdColors.green;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: dayOerations.length,
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      itemCount: dayOerations.operations.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
-          padding: const EdgeInsets.only(
-            left: 16,
-            right: 16,
-            bottom: 20,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                 dayOerations[index].date,
-                  textAlign: TextAlign.left,
-                  style: textTheme.textGray.copyWith(
-                    fontSize: 12,
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: LdColors.green.withOpacity(0.07),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  highlightColor:
+                      dayOerations.operations[index].amount.contains('-')
+                          ? orangeSlash.withOpacity(0.1)
+                          : greenSplash.withOpacity(0.1),
+                  splashColor:
+                      dayOerations.operations[index].amount.contains('-')
+                          ? orangeSlash.withOpacity(0.2)
+                          : greenSplash.withOpacity(0.2),
+                  focusColor: LdColors.orangePrimary.withOpacity(0.4),
+                  onTap: () {
+                    // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    //   content: Text('Tap'),
+                    // ));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      // color: LdColors.green.withOpacity(0.07),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          'DLYCOP comprados',
-                          style: textTheme.textBlack,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              dayOerations[index].operations[index].amount,
-                              style: textTheme.textBigBlack.copyWith(
-                                color: LdColors.green,
-                                fontWeight: FontWeight.w700,
+                              dayOerations.operations[index].amount
+                                      .contains('-')
+                                  ? 'DLYCOP vendidos'
+                                  : 'DLYCOP comprados',
+                              style: textTheme.textBlack,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  dayOerations.operations[index].amount,
+                                  style: textTheme.textBigBlack.copyWith(
+                                    color: dayOerations.operations[index].amount
+                                            .contains('-')
+                                        ? orangeSlash
+                                        : greenSplash,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SvgPicture.asset(
+                                  dayOerations.operations[index].amount
+                                          .contains('-')
+                                      ? LdAssets.dlycopIconRed
+                                      : LdAssets.dlycopIconGreen,
+                                  height: 30,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              '1 DLYCOP ≈ 1 COP',
+                              style: textTheme.textGray.copyWith(
+                                fontSize: 12,
                               ),
                             ),
                             const SizedBox(
-                              width: 10,
+                              height: 4,
                             ),
-                            SvgPicture.asset(
-                              LdAssets.dlycopIconGreen,
-                              height: 30,
+                            Text(
+                              '= 1.000.000 COP',
+                              style: textTheme.textSmallBlack,
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          '1 DLYCOP ≈ 1 COP',
-                          style: textTheme.textGray.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          '= 1.000.000 COP',
-                          style: textTheme.textSmallBlack,
-                        ),
+                        const Icon(Icons.arrow_forward_ios)
                       ],
                     ),
-                    const Icon(Icons.arrow_forward_ios)
-                  ],
+                  ),
                 ),
               )
             ],

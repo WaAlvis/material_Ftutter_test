@@ -59,6 +59,7 @@ class _HistoryBodyState extends State<_HistoryBody> {
       final double maxWidth = constraints.maxWidth;
 
       return CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverFillRemaining(
             hasScrollBody: false,
