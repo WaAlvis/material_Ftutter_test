@@ -77,18 +77,44 @@ class MyOffersTab extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  ListCreateOfferSwitch(
-                    type: TypeOffer.buy,
-                    textTheme: textTheme,
-                    size: size,
-                    viewModel: viewModel,
-                  ),
-                  ListCreateOfferSwitch(
-                    type: TypeOffer.sell,
-                    textTheme: textTheme,
-                    size: size,
-                    viewModel: viewModel,
-                  ),
+                  if (viewModel.status.myOfferBuyData.data.isEmpty)
+                    AdviceMessage(
+                      imageName: LdAssets.buyNoOffer,
+                      title: 'Aun no tienes ofertas de compra',
+                      description:
+                          'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
+                      btnText: 'Crear oferta de compra',
+                      onPressed: () =>
+                          dataUserProvider.getDataUserLogged != null
+                              ? viewModel.goCreateOffer(context)
+                              : viewModel.goLogin(context),
+                    )
+                  else
+                    ListCreateOfferSwitch(
+                      type: TypeOffer.buy,
+                      textTheme: textTheme,
+                      size: size,
+                      viewModel: viewModel,
+                    ),
+                  if (viewModel.status.myOfferSaleData.data.isEmpty)
+                    AdviceMessage(
+                      imageName: LdAssets.saleNoOffer,
+                      title: 'Aun no tienes ofertas de venta',
+                      description:
+                          'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
+                      btnText: 'Crear oferta de venta',
+                      onPressed: () =>
+                          dataUserProvider.getDataUserLogged != null
+                              ? viewModel.goCreateOffer(context)
+                              : viewModel.goLogin(context),
+                    )
+                  else
+                    ListCreateOfferSwitch(
+                      type: TypeOffer.sell,
+                      textTheme: textTheme,
+                      size: size,
+                      viewModel: viewModel,
+                    ),
                 ],
               ),
             )
@@ -191,7 +217,7 @@ class NotOffersYet extends StatelessWidget {
           viewModel.status.buttonText,
           onPressed: () {
             dataUserProvider.getDataUserLogged != null
-                ? viewModel.goCreateOffer(context, type)
+                ? viewModel.goCreateOffer(context)
                 : viewModel.goLogin(context);
           },
         ),

@@ -12,15 +12,11 @@ class ListOffersMainSwitch extends StatelessWidget {
     this.data, {
     Key? key,
     required this.textTheme,
-    required this.userIsLogged,
-    required this.isLoading,
     required this.userId,
   }) : super(key: key);
 
-  final bool? userIsLogged;
   final String data;
   final TextTheme textTheme;
-  final bool isLoading;
   final String userId;
 
   @override
@@ -66,9 +62,9 @@ class ListOffersMainSwitch extends StatelessWidget {
                   );
                 },
                 padding: EdgeInsets.zero,
-                itemCount: isLoading ? 3 : items.length,
+                itemCount: viewModel.status.isLoading ? 3 : items.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return isLoading
+                  return viewModel.status.isLoading
                       ? Shimmer.fromColors(
                           baseColor: LdColors.whiteDark,
                           highlightColor: LdColors.grayButton,
@@ -79,7 +75,7 @@ class ListOffersMainSwitch extends StatelessWidget {
                         )
                       : CardBuyAndSell(
                           onTap: () {
-                            userIsLogged == null
+                            userId.isEmpty
                                 ? viewModel.goLogin(context)
                                 : viewModel.goDetailOffer(
                                     context,

@@ -109,10 +109,10 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     } */
   }
 
-  void goCreateOffer(BuildContext context, TypeOffer type) {
+  void goCreateOffer(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        _route.goCreateOffer(context, type);
+        _route.goCreateOffer(context, status.typeOffer);
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
@@ -149,9 +149,9 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (status.indexTab == 0) {
         await getDataHome(context, userId, refresh: refresh);
       } else if (status.indexTab == 1) {
-        await getDataOperations(context, userId);
+        if (userId.isNotEmpty) await getDataOperations(context, userId);
       } else if (status.indexTab == 2) {
-        await getDataOffers(context, userId);
+        if (userId.isNotEmpty) await getDataOffers(context, userId);
       }
     } else {
       // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));

@@ -61,6 +61,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     if (dataUserProvider != null)
                       IconButton(
+                        splashRadius: 20,
                         onPressed: () {},
                         icon: const Icon(
                           Icons.notifications_none,

@@ -57,7 +57,6 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.loginRoute.route,
-      clearStack: true,
       transition: TransitionType.none,
     );
   }

@@ -21,6 +21,9 @@ class LdColors {
   static const Color orangePrimary = Color(0xffFC764C);
   static const Color orangeWarning = Color(0xffDE350B);
   static const Color blackBackground = Color(0xff333333);
+  static const Color blueState = Color(0xff276F8F);
+  static const Color grayState = Color(0xff707070);
+  static const Color greenState = Color(0xff00875A);
 
   static const Color redError = Color(0xffFF5959);
 }

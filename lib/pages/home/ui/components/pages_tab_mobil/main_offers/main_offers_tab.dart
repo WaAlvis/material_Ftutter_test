@@ -71,17 +71,11 @@ class MainOffersTab extends StatelessWidget {
                 ListOffersMainSwitch(
                   'Ofertas para comprar',
                   textTheme: textTheme,
-                  userIsLogged:
-                      dataUserProvider.getDataUserLogged?.id.isNotEmpty,
-                  isLoading: viewModel.status.isLoading,
                   userId: dataUserProvider.getDataUserLogged?.id ?? '',
                 ),
                 ListOffersMainSwitch(
                   'Ofertas para vender',
                   textTheme: textTheme,
-                  userIsLogged:
-                      dataUserProvider.getDataUserLogged?.id.isNotEmpty,
-                  isLoading: viewModel.status.isLoading,
                   userId: dataUserProvider.getDataUserLogged?.id ?? '',
                 ),
               ],

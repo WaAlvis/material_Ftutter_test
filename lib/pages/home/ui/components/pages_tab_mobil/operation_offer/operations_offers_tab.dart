@@ -66,18 +66,34 @@ class OperationsOffersTab extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  ListOperationsOffers(
-                    '',
-                    textTheme: textTheme,
-                    items: viewModel.status.operationBuyData.data,
-                    viewModel: viewModel,
-                  ),
-                  ListOperationsOffers(
-                    '',
-                    textTheme: textTheme,
-                    items: viewModel.status.operationSaleData.data,
-                    viewModel: viewModel,
-                  ),
+                  if (dataUserProvider.getDataUserLogged == null)
+                    AdviceMessage(
+                      imageName: LdAssets.loginIdentity,
+                      title: 'Inicia sesión para continuar',
+                      description:
+                          'Para visualizar tus operaciones de compra, es necesario que inicies sesión.',
+                      btnText: 'Iniciar sesión',
+                      onPressed: () => viewModel.goLogin(context),
+                    )
+                  else
+                    ListOperationsOffers(
+                      textTheme: textTheme,
+                      userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                    ),
+                  if (dataUserProvider.getDataUserLogged == null)
+                    AdviceMessage(
+                      imageName: LdAssets.loginIdentity,
+                      title: 'Inicia sesión para continuar',
+                      description:
+                          'Para visualizar tus operaciones de venta, es necesario que inicies sesión.',
+                      btnText: 'Iniciar sesión',
+                      onPressed: () => viewModel.goLogin(context),
+                    )
+                  else
+                    ListOperationsOffers(
+                      textTheme: textTheme,
+                      userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                    ),
                 ],
               ),
             )
