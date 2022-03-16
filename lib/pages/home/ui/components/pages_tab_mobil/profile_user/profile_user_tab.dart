@@ -12,6 +12,7 @@ class ProfileUser extends StatelessWidget {
   final TextTheme textTheme;
   final double hAppbar;
   final double hBody;
+
   //dummy data
   final List<Option> options = <Option>[
     const Option(
@@ -125,7 +126,13 @@ class ProfileUser extends StatelessWidget {
                     style: textTheme.textBlack,
                   ),
                   dense: true,
-                  onTap: () => {},
+                  onTap: () {
+                    onOptionSelected(
+                      context,
+                      NavigateOption.values[index],
+                      viewModel,
+                    );
+                  },
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
@@ -138,6 +145,24 @@ class ProfileUser extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onOptionSelected(
+      BuildContext context, NavigateOption opt, HomeViewModel viewModel) {
+    switch (opt) {
+      case NavigateOption.history:
+        viewModel.goHistoryOperations(context);
+        break;
+      case NavigateOption.support:
+        // TODO: Handle this case.
+        break;
+      case NavigateOption.settings:
+        // TODO: Handle this case.
+        break;
+      case NavigateOption.logout:
+        // TODO: Handle this case.
+        break;
+    }
   }
 
   Widget _balanceDlyAvailable() {
@@ -245,3 +270,4 @@ class Option {
     required this.icon,
   });
 }
+

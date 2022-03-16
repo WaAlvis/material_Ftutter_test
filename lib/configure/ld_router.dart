@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
@@ -14,16 +15,16 @@ class LdRouter {
 
   LdRouter._internal();
 
-  /*final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   void popT<T>(T result) {
     navigatorKey.currentState!.pop<T>(result);
   }
 
-  void pop() {
-    navigatorKey.currentState!.pop();
-    // AppRouter.router.pop(context)
-  }*/
+  void pop(BuildContext context) {
+    // navigatorKey.currentState!.pop();
+    AppRouter.router.pop(context);
+  }
 
   void goHome(BuildContext context) {
     /*return navigatorKey.currentState!
@@ -76,6 +77,14 @@ class LdRouter {
       type == TypeOffer.buy
           ? AppRoutes.createOfferBuyRoute.route
           : AppRoutes.createOfferSaleRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goHistoryOperations(BuildContext context,) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.historyOperations.route,
       transition: TransitionType.none,
     );
   }

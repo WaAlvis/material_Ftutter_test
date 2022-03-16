@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/view_model.dart';
-
-enum RegisterStep {
-  emailStep_1,
-  msjEmailStep_2,
-  validatePinStep_3,
-  accountDataStep_4,
-  personalDataStep_5,
-  dataWalletStep_6
-}
 
 class RegisterStatus extends ViewStatus {
   final bool isLoading;
