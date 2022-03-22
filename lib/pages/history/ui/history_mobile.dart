@@ -4,53 +4,14 @@ class HistoryMobile extends StatelessWidget {
   const HistoryMobile({
     Key? key,
     required this.keyForm,
+    required this.scrollCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
+  final ScrollController scrollCtrl;
 
   @override
   Widget build(BuildContext context) {
-    const List<DayOperation> listOperationByDay = <DayOperation>[
-      DayOperation(
-        <Operation>[
-          Operation('-1.000.000', '1.2'),
-          Operation('-120.000', '1.0'),
-          Operation('10.000.000', '0.8'),
-          Operation('12.000.000', '1.2'),
-        ],
-        date: 'Noviembre 02 de 2021',
-      ),
-      DayOperation(
-        <Operation>[
-          Operation('15.000.000', '1.2'),
-          Operation('-500.000', '1.5'),
-          Operation('-200.000', '0.8'),
-          Operation('1.000.000', '1.2'),
-        ],
-        date: 'Octubre 12 de 2021',
-      ),
-      DayOperation(
-        <Operation>[
-          Operation('-1.000.000', '0.9'),
-          Operation('10.500.000', '1.5'),
-          Operation('20.000.000', '1.1'),
-          Operation('12.000.000', '1.2'),
-        ],
-        date: 'Octubre 02 de 2021',
-      )
-    ];
-
-    // <DayOperation>[
-    //   (DayOperation(operations, date: date)
-    //       <Operation>[
-    //         Operation('1.000.000', '1.2'),
-    //         Operation('1.000.000', '1.2'),
-    //         Operation('1.000.000', '1.2'),
-    //         Operation('1.000.000', '1.2'),
-    //       ],
-    //       date: 'Noviembre 02 de 2021',
-    //   )
-    // ];
     final HistoryViewModel viewModel = context.watch<HistoryViewModel>();
     // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -147,36 +108,43 @@ class HistoryMobile extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                width: double.infinity,
-                constraints: BoxConstraints(minHeight: hBody),
-                decoration: const BoxDecoration(
-                  color: LdColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25),
-                  ),
+              child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              constraints: BoxConstraints(minHeight: hBody),
+              decoration: const BoxDecoration(
+                color: LdColors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(25),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    RowOptionsFilter(
-                      quantityFilter: 5,
-                      textTheme: textTheme,
-                    ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  RowOptionsFilter(
+                    quantityFilter: 5,
+                    textTheme: textTheme,
+                  ),
+                  if (viewModel.status.daysMockHistory.isEmpty)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  else
                     ListView.separated(
+                      controller: scrollCtrl ,
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: listOperationByDay.length,
+                      itemCount: viewModel.status.daysMockHistory.length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            dateHeader(listOperationByDay, index, textTheme),
+                            dateHeader(
+                                viewModel.status.daysMockHistory, index, textTheme),
                             ListOperationDay(
                               textTheme,
-                              listOperationByDay[index],
+                              viewModel.status.daysMockHistory[index],
                             ),
                           ],
                         );
@@ -190,11 +158,10 @@ class HistoryMobile extends StatelessWidget {
                         );
                       },
                     )
-                  ],
-                ),
+                ],
               ),
             ),
-          ),
+          )),
         ],
       ),
     );
