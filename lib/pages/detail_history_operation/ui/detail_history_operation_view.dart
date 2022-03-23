@@ -1,56 +1,70 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/history/history_view_model.dart';
+import 'package:localdaily/pages/detail_history_operation/detail_history_operation_view_model.dart';
+import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part 'history_mobile.dart';
+part 'detail_history_operation_mobile.dart';
 
-part 'history_web.dart';
+part 'detail_history_opertarion_web.dart';
 
-class HistoryView extends StatelessWidget {
-  const HistoryView({Key? key}) : super(key: key);
+class DetailHistoryOperationView extends StatelessWidget {
+  const DetailHistoryOperationView({
+    Key? key,
+    this.item,
+  }) : super(key: key);
+
+  final Operation? item;
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HistoryViewModel>(
-      create: (_) => HistoryViewModel(
+    return ChangeNotifierProvider<DetailHistoryOperationViewModel>(
+      create: (_) => DetailHistoryOperationViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return const Scaffold(
+        return Scaffold(
           backgroundColor: LdColors.white,
-          body: _HistoryBody(),
+          body: _DetailHistoryOperationBody(
+            item: item!,
+          ),
         );
       },
     );
   }
 }
 
-class _HistoryBody extends StatefulWidget {
-  const _HistoryBody({Key? key}) : super(key: key);
+class _DetailHistoryOperationBody extends StatefulWidget {
+  const _DetailHistoryOperationBody({Key? key, required this.item})
+      : super(key: key);
+
+  final Operation item;
 
   @override
-  _HistoryBodyState createState() => _HistoryBodyState();
+  _DetailHistoryOperationBodyState createState() =>
+      _DetailHistoryOperationBodyState();
 }
 
-class _HistoryBodyState extends State<_HistoryBody> {
+class _DetailHistoryOperationBodyState
+    extends State<_DetailHistoryOperationBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final ScrollController _scrollCtrl = ScrollController();
+
+  // final ScrollController _scrollCtrl = ScrollController();
 
   @override
   void initState() {
     // final HistoryViewModel viewModel = context.read<HistoryViewModel>();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<HistoryViewModel>().onInit(_scrollCtrl);
+      context.read<DetailHistoryOperationViewModel>().onInit();
     });
     super.initState();
     // _scrollCtrl.addListener(() {
@@ -65,7 +79,7 @@ class _HistoryBodyState extends State<_HistoryBody> {
   @override
   void dispose() {
     super.dispose();
-    _scrollCtrl.dispose();
+    // _scrollCtrl.dispose();
   }
 
   @override
@@ -80,12 +94,13 @@ class _HistoryBodyState extends State<_HistoryBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                  ? HistoryWeb(
+                  ? DetailHistoryOperationWeb(
                       keyForm: keyForm,
                     )
-                  : HistoryMobile(
+                  : DetailHistoryOperationMobile(
                       keyForm: keyForm,
-                      scrollCtrl: _scrollCtrl,
+                      item: widget.item,
+                      // scrollCtrl: _scrollCtrl,
                     ),
             )
           ],

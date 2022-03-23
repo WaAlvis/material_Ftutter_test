@@ -131,7 +131,7 @@ class HistoryMobile extends StatelessWidget {
                     )
                   else
                     ListView.separated(
-                      controller: scrollCtrl ,
+                      controller: scrollCtrl,
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: viewModel.status.daysMockHistory.length,
@@ -140,9 +140,10 @@ class HistoryMobile extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            dateHeader(
-                                viewModel.status.daysMockHistory, index, textTheme),
+                            dateHeader(viewModel.status.daysMockHistory, index,
+                                textTheme),
                             ListOperationDay(
+                              viewModel,
                               textTheme,
                               viewModel.status.daysMockHistory[index],
                             ),
@@ -184,12 +185,14 @@ class HistoryMobile extends StatelessWidget {
 
 class ListOperationDay extends StatelessWidget {
   const ListOperationDay(
+    this.viewModel,
     this.textTheme,
-    this.dayOerations,
+    this.dayOperations,
   );
 
+  final HistoryViewModel viewModel;
   final TextTheme textTheme;
-  final DayOperation dayOerations;
+  final DayOperation dayOperations;
 
   Color get orangeSlash => LdColors.orangeWarning;
 
@@ -201,7 +204,7 @@ class ListOperationDay extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
-      itemCount: dayOerations.operations.length,
+      itemCount: dayOperations.operations.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -218,19 +221,19 @@ class ListOperationDay extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
                   highlightColor:
-                      dayOerations.operations[index].amount.contains('-')
+                      dayOperations.operations[index].amount.contains('-')
                           ? orangeSlash.withOpacity(0.1)
                           : greenSplash.withOpacity(0.1),
                   splashColor:
-                      dayOerations.operations[index].amount.contains('-')
+                      dayOperations.operations[index].amount.contains('-')
                           ? orangeSlash.withOpacity(0.2)
                           : greenSplash.withOpacity(0.2),
                   focusColor: LdColors.orangePrimary.withOpacity(0.4),
-                  onTap: () {
-                    // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    //   content: Text('Tap'),
-                    // ));
-                  },
+                  onTap: () => viewModel.goDetailHistoryOperation(context,
+                      item: dayOperations.operations[index]),
+                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  //   content: Text('Tap'),
+                  // ));
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -247,7 +250,7 @@ class ListOperationDay extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              dayOerations.operations[index].amount
+                              dayOperations.operations[index].amount
                                       .contains('-')
                                   ? 'DLYCOP vendidos'
                                   : 'DLYCOP comprados',
@@ -260,9 +263,10 @@ class ListOperationDay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  dayOerations.operations[index].amount,
+                                  dayOperations.operations[index].amount,
                                   style: textTheme.textBigBlack.copyWith(
-                                    color: dayOerations.operations[index].amount
+                                    color: dayOperations
+                                            .operations[index].amount
                                             .contains('-')
                                         ? orangeSlash
                                         : greenSplash,
@@ -273,7 +277,7 @@ class ListOperationDay extends StatelessWidget {
                                   width: 10,
                                 ),
                                 SvgPicture.asset(
-                                  dayOerations.operations[index].amount
+                                  dayOperations.operations[index].amount
                                           .contains('-')
                                       ? LdAssets.dlycopIconRed
                                       : LdAssets.dlycopIconGreen,
@@ -365,6 +369,8 @@ class DayOperation {
 class Operation {
   final String amount;
   final String margin;
+  final String nickname;
+  final String rate;
 
-  const Operation(this.amount, this.margin);
+  const Operation(this.amount, this.margin, this.nickname, this.rate);
 }

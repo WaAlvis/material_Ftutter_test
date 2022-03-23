@@ -389,7 +389,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required DataUserProvider dataUserProvider,
   }) async {
     status = status.copyWith(isLoading: true);
-    final String sha256pass = encrypPass(status.password!).toString();
+    final String sha256pass = encrypPass(status.password).toString();
     // print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(

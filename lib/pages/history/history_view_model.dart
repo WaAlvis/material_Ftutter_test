@@ -3,6 +3,7 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/view_model.dart';
 import 'dart:math';
 
@@ -39,7 +40,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
         mockFetch();
       }
     });
-   }
+  }
 
   void goBack(BuildContext context) {
     _route.pop(context);
@@ -68,12 +69,12 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
             5, (int index) {
             return DayOperation(
               <Operation>[
-                Operation(
-                    '${(Random().nextInt(10) + 1).toString()}.000.000', '1.2'),
-                Operation(
-                    '-${(Random().nextInt(4) + 1).toString()}.500.000', '1.5'),
-                Operation(
-                    '${(Random().nextInt(5) + 1).toString()}.200.000', '0.8'),
+                Operation('${(Random().nextInt(10) + 1).toString()}.000.000',
+                    '1.2', 'NickUser$index', '4.5'),
+                Operation('-${(Random().nextInt(4) + 1).toString()}.500.000',
+                    '1.5', 'NickUser$index', '4.5'),
+                Operation('${(Random().nextInt(5) + 1).toString()}.200.000',
+                    '0.8', 'NickUser$index', '4.5'),
               ],
               date: 'Noviembre $dayRandom de 2021',
             );
@@ -83,5 +84,16 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     }
     status =
         status.copyWith(isLoadingOperations: false, allLoaded: newData.isEmpty);
+  }
+
+  void goDetailHistoryOperation(BuildContext context,
+      {required Operation item}) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        _route.goDetailHistoryOperation(context, item);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
   }
 }

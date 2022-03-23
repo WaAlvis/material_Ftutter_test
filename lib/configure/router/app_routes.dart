@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
+import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer_buy/ui/detail_offer_buy_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
@@ -9,6 +10,7 @@ import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+
 class AppRoutes {
   /*static final loginRoute = AppRoute(
     '/login',
@@ -52,11 +54,20 @@ class AppRoutes {
 
   static final AppRoute detailOffer = AppRoute(
     '/detail_offer',
-    Handler(handlerFunc: (BuildContext? context, __) =>
-    DetailOfferBuyView(
-      item: (context!.settings!.arguments! as Map<String, Data>)['item'],
-    ),),
+    Handler(
+      handlerFunc: (BuildContext? context, __) => DetailOfferBuyView(
+        item: (context!.settings!.arguments! as Map<String, Data>)['item'],
+      ),
+    ),
   );
+  static final AppRoute detailHistoryOperation = AppRoute(
+      '/detail_history_operation',
+      Handler(
+        handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
+          item:
+              (context!.settings!.arguments! as Map<String, Operation>)['item'],
+        ),
+      ));
 
   static final AppRoute createOfferBuyRoute = AppRoute(
     '/create_offer_buy',
@@ -98,6 +109,7 @@ class AppRoutes {
     registerEmailRoute,
     detailOffer,
     historyOperations,
+    detailHistoryOperation
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
   ];

@@ -6,6 +6,8 @@ import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
+import '../pages/history/ui/history_view.dart';
+
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
 
@@ -61,14 +63,24 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
   void goDetailOffer(BuildContext context, Data item) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailOffer.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-      arguments: <String, Data>{ 'item' : item }, ),
+        arguments: <String, Data>{'item': item},
+      ),
     );
+  }
+
+  void goDetailHistoryOperation(BuildContext context, Operation item) {
+    AppRouter.router.navigateTo(context, AppRoutes.detailHistoryOperation.route,
+        transition: TransitionType.none,
+        routeSettings: RouteSettings(
+          arguments: <String, Operation>{'item': item},
+        ));
   }
 
   void goCreateOffer(BuildContext context, TypeOffer type) {
@@ -81,7 +93,9 @@ class LdRouter {
     );
   }
 
-  void goHistoryOperations(BuildContext context,) {
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.historyOperations.route,
@@ -97,19 +111,19 @@ class LdRouter {
     );
   }
 
-  // void goValidateEmail(BuildContext context) {
-  //   AppRouter.router.navigateTo(
-  //     context,
-  //     AppRoutes.registerValidateEmailRoute.route,
-  //     transition: TransitionType.none,
-  //   );
-  // }
-  //
-  // void goPersonalInfoRegister(BuildContext context) {
-  //   AppRouter.router.navigateTo(
-  //     context,
-  //     AppRoutes.personalInfoRegisterRoute.route,
-  //     transition: TransitionType.none,
-  //   );
-  // }
+// void goValidateEmail(BuildContext context) {
+//   AppRouter.router.navigateTo(
+//     context,
+//     AppRoutes.registerValidateEmailRoute.route,
+//     transition: TransitionType.none,
+//   );
+// }
+//
+// void goPersonalInfoRegister(BuildContext context) {
+//   AppRouter.router.navigateTo(
+//     context,
+//     AppRoutes.personalInfoRegisterRoute.route,
+//     transition: TransitionType.none,
+//   );
+// }
 }
