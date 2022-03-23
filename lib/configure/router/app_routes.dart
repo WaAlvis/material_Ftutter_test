@@ -9,6 +9,7 @@ import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
+import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class AppRoutes {
@@ -52,7 +53,7 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
 
-  static final AppRoute detailOffer = AppRoute(
+  static final AppRoute detailOfferRoute = AppRoute(
     '/detail_offer',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailOfferBuyView(
@@ -60,14 +61,21 @@ class AppRoutes {
       ),
     ),
   );
-  static final AppRoute detailHistoryOperation = AppRoute(
+
+  static final AppRoute detailHistoryOperationRoute = AppRoute(
       '/detail_history_operation',
       Handler(
         handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
           item:
               (context!.settings!.arguments! as Map<String, Operation>)['item'],
         ),
-      ));
+      ),
+  );
+
+  static final AppRoute settingsRoute = AppRoute(
+    '/settings',
+    Handler(handlerFunc: (_, __) => const SettingsView()),
+  );
 
   static final AppRoute createOfferBuyRoute = AppRoute(
     '/create_offer_buy',
@@ -79,7 +87,7 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const OfferSaleView()),
   );
 
-  static final AppRoute historyOperations = AppRoute(
+  static final AppRoute historyOperationsRoute = AppRoute(
     '/history_operations',
     Handler(handlerFunc: (_, __) => const HistoryView()),
   );
@@ -107,9 +115,10 @@ class AppRoutes {
     createOfferSaleRoute,
     createOfferBuyRoute,
     registerEmailRoute,
-    detailOffer,
-    historyOperations,
-    detailHistoryOperation
+    detailOfferRoute,
+    historyOperationsRoute,
+    detailHistoryOperationRoute,
+    settingsRoute,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
   ];

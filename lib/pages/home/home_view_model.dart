@@ -91,6 +91,17 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     });
   }
 
+  void goSettings(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        _route.goSettings(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
+
   void goCreateOffer(BuildContext context, TypeOffer type) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {

@@ -14,14 +14,14 @@ class ProfileUser extends StatelessWidget {
   final double hBody;
 
   //dummy data
-  final List<Option> options = <Option>[
-    const Option(
+  final List<ProfileOption> options = <ProfileOption>[
+    const ProfileOption(
       text: 'Historial',
       icon: Icons.receipt_long_outlined,
     ),
-    const Option(text: 'Casos de soporte', icon: Icons.person),
-    const Option(text: 'Ajuste', icon: Icons.settings_outlined),
-    const Option(text: 'Salir', icon: Icons.logout),
+    const ProfileOption(text: 'Casos de soporte', icon: Icons.person),
+    const ProfileOption(text: 'Ajuste', icon: Icons.settings_outlined),
+    const ProfileOption(text: 'Salir', icon: Icons.logout),
   ];
 
   @override
@@ -148,7 +148,10 @@ class ProfileUser extends StatelessWidget {
   }
 
   void onOptionSelected(
-      BuildContext context, NavigateOption opt, HomeViewModel viewModel) {
+    BuildContext context,
+    NavigateOption opt,
+    HomeViewModel viewModel,
+  ) {
     switch (opt) {
       case NavigateOption.history:
         viewModel.goHistoryOperations(context);
@@ -157,7 +160,7 @@ class ProfileUser extends StatelessWidget {
         // TODO: Handle this case.
         break;
       case NavigateOption.settings:
-        // TODO: Handle this case.
+        viewModel.goSettings(context);
         break;
       case NavigateOption.logout:
         // TODO: Handle this case.
@@ -261,13 +264,12 @@ class ProfileUser extends StatelessWidget {
   }
 }
 
-class Option {
+class ProfileOption {
   final IconData icon;
   final String text;
 
-  const Option({
+  const ProfileOption({
     required this.text,
     required this.icon,
   });
 }
-

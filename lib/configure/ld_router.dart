@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 import '../pages/history/ui/history_view.dart';
@@ -67,7 +66,7 @@ class LdRouter {
   void goDetailOffer(BuildContext context, Data item) {
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.detailOffer.route,
+      AppRoutes.detailOfferRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
         arguments: <String, Data>{'item': item},
@@ -76,11 +75,24 @@ class LdRouter {
   }
 
   void goDetailHistoryOperation(BuildContext context, Operation item) {
-    AppRouter.router.navigateTo(context, AppRoutes.detailHistoryOperation.route,
-        transition: TransitionType.none,
-        routeSettings: RouteSettings(
-          arguments: <String, Operation>{'item': item},
-        ));
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailHistoryOperationRoute.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, Operation>{'item': item},
+      ),
+    );
+  }
+
+  void goSettings(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.settingsRoute.route,
+      transition: TransitionType.none,
+    );
   }
 
   void goCreateOffer(BuildContext context, TypeOffer type) {
@@ -98,7 +110,7 @@ class LdRouter {
   ) {
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.historyOperations.route,
+      AppRoutes.historyOperationsRoute.route,
       transition: TransitionType.none,
     );
   }
