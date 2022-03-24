@@ -6,8 +6,7 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/detail_history_operation/detail_history_operation_view_model.dart';
-import 'package:localdaily/pages/history/ui/history_view.dart';
+import 'package:localdaily/pages/settings/profile_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +22,8 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DetailHistoryOperationViewModel>(
-      create: (_) => DetailHistoryOperationViewModel(
+    return ChangeNotifierProvider<SettingsViewModel>(
+      create: (_) => SettingsViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
       ),
@@ -56,7 +55,7 @@ class _SettingsBodyState extends State<_SettingsBody> {
   void initState() {
     // final HistoryViewModel viewModel = context.read<HistoryViewModel>();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<DetailHistoryOperationViewModel>().onInit();
+      context.read<SettingsViewModel>().onInit();
     });
     super.initState();
     // _scrollCtrl.addListener(() {

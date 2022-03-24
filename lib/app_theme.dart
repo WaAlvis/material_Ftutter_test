@@ -18,6 +18,7 @@ class AppTheme{
     // primarySwatch: Colors.yellow,
     backgroundColor: LdColors.white,
     brightness: Brightness.light,
+
   );
 }
 

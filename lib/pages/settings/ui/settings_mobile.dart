@@ -13,8 +13,7 @@ class SettingsMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DetailHistoryOperationViewModel viewModel =
-        context.watch<DetailHistoryOperationViewModel>();
+    final SettingsViewModel viewModel = context.watch<SettingsViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
@@ -24,10 +23,6 @@ class SettingsMobile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      // appBar: const LdAppbar(
-      //   title: 'Historial',
-      //   withBackIcon: true,
-      // ),
       body: Column(
         children: <Widget>[
           Container(
@@ -91,7 +86,7 @@ class SettingsMobile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Detalle',
+                          'Ajustes',
                           style: textTheme.textBigWhite,
                         ),
                         IconButton(
@@ -108,24 +103,51 @@ class SettingsMobile extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 34,
+          SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 40,
+              ),
+              width: size.width,
+              constraints: BoxConstraints(minHeight: hBody),
+              decoration: const BoxDecoration(
+                color: LdColors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(25),
                 ),
-                constraints: BoxConstraints(minHeight: hBody),
-                decoration: const BoxDecoration(
-                  color: LdColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _rowOptionSetting(
+                    textTheme,
+                    viewModel,
+                    LdAssets.dlycopIconBlack,
+                    title: 'Direccion de wallet',
+                    subtitle: 'Cambia la dirección de tu wallet',
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[],
-                ),
+                  _dividerOptions(),
+                  _rowOptionSetting(
+                    textTheme,
+                    viewModel,
+                    LdAssets.pswBlack,
+                    title: 'Contraseña',
+                    subtitle: 'Cambia tu contraseña de acceso',
+                    sizeIcon: 42,
+                  ),
+                  _dividerOptions(),
+                  _rowOptionSetting(
+                    textTheme,
+                    viewModel,
+                    LdAssets.globalBlack,
+                    title: 'Idioma',
+                    subtitle: 'Escoge el idioma de preferencia',
+                    sizeIcon: 42,
+                    optionLanguage: true,
+                    arrowIcon: false,
+                  )
+                ],
               ),
             ),
           ),
@@ -133,4 +155,133 @@ class SettingsMobile extends StatelessWidget {
       ),
     );
   }
+
+  Widget _dividerOptions() {
+    return const Divider(
+      height: 80,
+      endIndent: 0,
+      thickness: 1.5,
+      // color: Colors.black,
+    );
+  }
+
+  Widget _rowOptionSetting(
+    TextTheme textTheme,
+    SettingsViewModel viewModel,
+    String iconLdAsset, {
+    required String title,
+    required String subtitle,
+    double? sizeIcon = 30,
+    bool optionLanguage = false,
+    bool arrowIcon = true,
+  }) {
+    final TextStyle styleTextLan = textTheme.textSmallBlack;
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  iconLdAsset,
+                  height: sizeIcon,
+                ),
+                const SizedBox(
+                  width: 14,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: textTheme.subtitleBlack.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      subtitle,
+                      style: textTheme.textGray.copyWith(fontSize: 12),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            if (arrowIcon)
+              SizedBox(
+                height: 40,
+                child: FloatingActionButton(
+                  elevation: 0,
+                  backgroundColor: LdColors.orangePrimary,
+                  onPressed: () {},
+                  child: const Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 20,
+                  ),
+                ),
+              )
+            else
+              const SizedBox()
+          ],
+        ),
+        if (optionLanguage)
+          Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                // direction: Axis.horizontal,
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      horizontalTitleGap: 0,
+                      title: Text(
+                        'Español',
+                        style: styleTextLan,
+                        textAlign: TextAlign.end,
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      trailing: Radio<Language>(
+                        activeColor: LdColors.orangePrimary,
+                        value: Language.spanish,
+                        groupValue: viewModel.status.currentLanguage,
+                        onChanged: (Language? value) {
+                          viewModel.changeLanguage(value);
+                        },
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.only(right: 50),
+                      horizontalTitleGap: 0,
+                      title: Text(
+                        'Inglés',
+                        style: styleTextLan,
+                        textAlign: TextAlign.end,
+                      ),
+                      trailing: Radio<Language>(
+                        activeColor: LdColors.orangePrimary,
+                        value: Language.english,
+                        groupValue: viewModel.status.currentLanguage,
+                        onChanged: (Language? value) {
+                          viewModel.changeLanguage(value);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )
+        else
+          const SizedBox(),
+      ],
+    );
+  }
 }
+
+enum Language { spanish, english }
