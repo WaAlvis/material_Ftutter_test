@@ -1,52 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
-import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/settings/settings_view_model.dart';
+import 'package:localdaily/pages/change_password/change_password_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part 'settings_mobile.dart';
+part 'change_password_mobile.dart';
 
-part 'settings_web.dart';
+part 'change_password_web.dart';
 
-class SettingsView extends StatelessWidget {
-  const SettingsView({
+class ChangePasswordView extends StatelessWidget {
+  const ChangePasswordView({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SettingsViewModel>(
-      create: (_) => SettingsViewModel(
+    return ChangeNotifierProvider<ChangePasswordViewModel>(
+      create: (_) => ChangePasswordViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
         return const Scaffold(
           backgroundColor: LdColors.white,
-          body: _SettingsBody(),
+          body: _ChangePasswordBody(),
         );
       },
     );
   }
 }
 
-class _SettingsBody extends StatefulWidget {
-  const _SettingsBody({
+class _ChangePasswordBody extends StatefulWidget {
+  const _ChangePasswordBody({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SettingsBodyState createState() => _SettingsBodyState();
+  _ChangePasswordBodyState createState() => _ChangePasswordBodyState();
 }
 
-class _SettingsBodyState extends State<_SettingsBody> {
+class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
 
   // final ScrollController _scrollCtrl = ScrollController();
@@ -55,7 +53,7 @@ class _SettingsBodyState extends State<_SettingsBody> {
   void initState() {
     // final HistoryViewModel viewModel = context.read<HistoryViewModel>();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<SettingsViewModel>().onInit();
+      context.read<ChangePasswordViewModel>().onInit();
     });
     super.initState();
     // _scrollCtrl.addListener(() {
@@ -85,10 +83,10 @@ class _SettingsBodyState extends State<_SettingsBody> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: maxWidth > 1024
-                  ? SettingsWeb(
+                  ? ChangePasswordWeb(
                       keyForm: keyForm,
                     )
-                  : SettingsMobile(
+                  : ChangePasswordMobile(
                       keyForm: keyForm,
                       // scrollCtrl: _scrollCtrl,
                     ),

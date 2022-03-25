@@ -126,12 +126,14 @@ class SettingsMobile extends StatelessWidget {
                     LdAssets.dlycopIconBlack,
                     title: 'Direccion de wallet',
                     subtitle: 'Cambia la dirección de tu wallet',
+                    onTap: (){},
                   ),
                   _dividerOptions(),
                   _rowOptionSetting(
                     textTheme,
                     viewModel,
                     LdAssets.pswBlack,
+                    onTap: ()=> viewModel.goChangePsw(context),
                     title: 'Contraseña',
                     subtitle: 'Cambia tu contraseña de acceso',
                     sizeIcon: 42,
@@ -174,6 +176,7 @@ class SettingsMobile extends StatelessWidget {
     double? sizeIcon = 30,
     bool optionLanguage = false,
     bool arrowIcon = true,
+    void Function()? onTap,
   }) {
     final TextStyle styleTextLan = textTheme.textSmallBlack;
     return Column(
@@ -214,7 +217,7 @@ class SettingsMobile extends StatelessWidget {
                 child: FloatingActionButton(
                   elevation: 0,
                   backgroundColor: LdColors.orangePrimary,
-                  onPressed: () {},
+                  onPressed: onTap,
                   child: const Icon(
                     Icons.arrow_forward_rounded,
                     size: 20,

@@ -95,6 +95,16 @@ class LdRouter {
     );
   }
 
+  void goChangePsw(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.changePswRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
   void goCreateOffer(BuildContext context, TypeOffer type) {
     AppRouter.router.navigateTo(
       context,
