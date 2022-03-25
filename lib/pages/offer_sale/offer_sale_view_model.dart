@@ -246,8 +246,9 @@ class OfferSaleViewModel
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
-      codeUserPublish:
-          '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
+      codeUserPublish: '',
+      //codeUserPublish:
+      //    '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
     );
 
     final BodyOffer bodyOffer = BodyOffer(

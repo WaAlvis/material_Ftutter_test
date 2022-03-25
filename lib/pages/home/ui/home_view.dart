@@ -25,6 +25,8 @@ import 'package:provider/provider.dart';
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
 
 // Components Mobile
+part 'components/pages_tab_mobil/main_offers/card_wallet_connect.dart';
+
 part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
 
 part 'components/pages_tab_mobil/main_offers/main_offers_tab.dart';

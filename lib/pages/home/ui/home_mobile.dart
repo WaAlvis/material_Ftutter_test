@@ -98,7 +98,7 @@ class _HomeMobile extends StatelessWidget {
       appBar: _appbars.elementAt(viewModel.status.indexTab),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: LdColors.grayLight,
@@ -108,8 +108,8 @@ class _HomeMobile extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
           ),
           child: BottomNavigationBar(
             unselectedItemColor: LdColors.blackText,

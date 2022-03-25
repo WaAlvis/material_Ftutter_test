@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/commons/ld_constans.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -29,7 +31,7 @@ class ListOffersMainSwitch extends StatelessWidget {
     return RefreshIndicator(
       color: LdColors.orangePrimary,
       onRefresh: () async {
-        await viewModel.getData(context, userId);
+        await viewModel.getData(context, userId, refresh: true);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -62,7 +64,7 @@ class ListOffersMainSwitch extends StatelessWidget {
                   );
                 },
                 padding: EdgeInsets.zero,
-                itemCount: viewModel.status.isLoading ? 3 : items.length,
+                itemCount: viewModel.status.isLoading ? 3 : items.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   return viewModel.status.isLoading
                       ? Shimmer.fromColors(
@@ -73,18 +75,28 @@ class ListOffersMainSwitch extends StatelessWidget {
                             child: SizedBox(height: 160),
                           ),
                         )
-                      : CardBuyAndSell(
-                          onTap: () {
-                            userId.isEmpty
-                                ? viewModel.goLogin(context)
-                                : viewModel.goDetailOffer(
-                                    context,
-                                    item: items[index],
-                                  );
-                          },
-                          item: items[index],
-                          textTheme: textTheme,
-                        );
+                      : index == 0
+                          ? userId.isEmpty
+                              ? const SizedBox.shrink()
+                              : CardWalletConnect(
+                                  onTap: () => MiDailyConnect.createConnection(
+                                    DailyConnectType.walletAddress,
+                                  ),
+                                  textTheme: textTheme,
+                                  connected: false,
+                                )
+                          : CardBuyAndSell(
+                              onTap: () {
+                                userId.isEmpty
+                                    ? viewModel.goLogin(context)
+                                    : viewModel.goDetailOffer(
+                                        context,
+                                        item: items[index - 1],
+                                      );
+                              },
+                              item: items[index - 1],
+                              textTheme: textTheme,
+                            );
                 },
               ),
             ),

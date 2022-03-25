@@ -149,9 +149,11 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (status.indexTab == 0) {
         await getDataHome(context, userId, refresh: refresh);
       } else if (status.indexTab == 1) {
-        if (userId.isNotEmpty) await getDataOperations(context, userId);
+        if (userId.isNotEmpty)
+          await getDataOperations(context, userId, refresh: refresh);
       } else if (status.indexTab == 2) {
-        if (userId.isNotEmpty) await getDataOffers(context, userId);
+        if (userId.isNotEmpty)
+          await getDataOffers(context, userId, refresh: refresh);
       }
     } else {
       // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
@@ -166,14 +168,16 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     bool refresh = false,
   }) async {
     // TODO: Validar esta condiciòn para cuando sea paginable
-    if (status.typeOffer == TypeOffer.buy) {
-      if (status.offersSaleDataHome.data.isNotEmpty ||
-          status.offersSaleDataHome.totalItems ==
-              status.offersSaleDataHome.data.length) return;
-    } else {
-      if (status.offersBuyDataHome.data.isNotEmpty ||
-          status.offersBuyDataHome.totalItems ==
-              status.offersBuyDataHome.data.length) return;
+    if (!refresh) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.offersSaleDataHome.data.isNotEmpty ||
+            status.offersSaleDataHome.totalItems ==
+                status.offersSaleDataHome.data.length) return;
+      } else {
+        if (status.offersBuyDataHome.data.isNotEmpty ||
+            status.offersBuyDataHome.totalItems ==
+                status.offersBuyDataHome.data.length) return;
+      }
     }
 
     status = status.copyWith(isLoading: true);
@@ -224,14 +228,16 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     String userId, {
     bool refresh = false,
   }) async {
-    if (status.typeOffer == TypeOffer.buy) {
-      if (status.operationSaleData.data.isNotEmpty ||
-          status.operationSaleData.totalItems ==
-              status.operationSaleData.data.length) return;
-    } else {
-      if (status.operationBuyData.data.isNotEmpty ||
-          status.operationBuyData.totalItems ==
-              status.operationBuyData.data.length) return;
+    if (!refresh) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.operationSaleData.data.isNotEmpty ||
+            status.operationSaleData.totalItems ==
+                status.operationSaleData.data.length) return;
+      } else {
+        if (status.operationBuyData.data.isNotEmpty ||
+            status.operationBuyData.totalItems ==
+                status.operationBuyData.data.length) return;
+      }
     }
 
     status = status.copyWith(isLoading: true);
@@ -245,11 +251,11 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     );
 
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy ? '0' : '1',
-      idUserPublish: '',
+      typeAdvertisement: '',
+      idUserPublish: status.typeOffer == TypeOffer.buy ? '' : userId,
       statusCode: '1',
-      idUserExclusion: userId,
-      idUserInteraction: userId,
+      idUserExclusion: '',
+      idUserInteraction: status.typeOffer == TypeOffer.buy ? userId : '',
     );
 
     final BodyHome body = BodyHome(

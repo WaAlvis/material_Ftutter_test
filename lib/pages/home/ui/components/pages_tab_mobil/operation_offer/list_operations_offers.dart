@@ -25,10 +25,7 @@ class ListOperationsOffers extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: () async {
-        // keyRefresh.currentState?.show(atTop: false);
-        await Future<Duration>.delayed(
-          const Duration(seconds: 1),
-        );
+        await viewModel.getData(context, userId, refresh: true);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
