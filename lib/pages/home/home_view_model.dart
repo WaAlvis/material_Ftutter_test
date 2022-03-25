@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/commons/ld_assets.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
@@ -108,6 +109,27 @@ class HomeViewModel extends ViewModel<HomeStatus> {
         break;
     } */
   }
+
+  void goHistoryOperations(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        _route.goHistoryOperations(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
+  void goSettings(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        _route.goSettings(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
 
   void goCreateOffer(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {

@@ -47,6 +47,7 @@ abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
       _LocalDailyGatewayService;
 
+
   //Login & Register
   @POST(UrlsApi.login)
   Future<ResponseData<ResultLogin>> loginUser(

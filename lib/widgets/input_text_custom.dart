@@ -15,6 +15,7 @@ class InputTextCustom extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
+    this.enableInteractiveSelection =true,
     this.keyboardType,
     this.validator,
     this.onChange,
@@ -34,6 +35,7 @@ class InputTextCustom extends StatelessWidget {
   final String data;
   final int? maxLength;
   final bool obscureText;
+  final bool enableInteractiveSelection;
   final String hintText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -78,6 +80,7 @@ class InputTextCustom extends StatelessWidget {
           height: 5,
         ),
         TextFormField(
+          enableInteractiveSelection:enableInteractiveSelection ,
           onTap: onTap,
           style: style,
           maxLength: maxLength,

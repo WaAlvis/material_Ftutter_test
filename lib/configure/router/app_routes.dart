@@ -1,13 +1,18 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
+import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
+import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer_buy/ui/detail_offer_buy_view.dart';
+import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
+import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+
 class AppRoutes {
   /*static final loginRoute = AppRoute(
     '/login',
@@ -49,12 +54,32 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
 
-  static final AppRoute detailOffer = AppRoute(
+  static final AppRoute detailOfferRoute = AppRoute(
     '/detail_offer',
-    Handler(handlerFunc: (BuildContext? context, __) =>
-    DetailOfferBuyView(
-      item: (context!.settings!.arguments! as Map<String, Data>)['item'],
-    ),),
+    Handler(
+      handlerFunc: (BuildContext? context, __) => DetailOfferBuyView(
+        item: (context!.settings!.arguments! as Map<String, Data>)['item'],
+      ),
+    ),
+  );
+
+  static final AppRoute detailHistoryOperationRoute = AppRoute(
+    '/detail_history_operation',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
+        item: (context!.settings!.arguments! as Map<String, Operation>)['item'],
+      ),
+    ),
+  );
+
+  static final AppRoute settingsRoute = AppRoute(
+    '/settings',
+    Handler(handlerFunc: (_, __) => const SettingsView()),
+  );
+
+  static final AppRoute changePswRoute = AppRoute(
+    '/change_password',
+    Handler(handlerFunc: (_, __) => const ChangePasswordView()),
   );
 
   static final AppRoute createOfferBuyRoute = AppRoute(
@@ -65,6 +90,11 @@ class AppRoutes {
   static final AppRoute createOfferSaleRoute = AppRoute(
     '/create_offer_sale',
     Handler(handlerFunc: (_, __) => const OfferSaleView()),
+  );
+
+  static final AppRoute historyOperationsRoute = AppRoute(
+    '/history_operations',
+    Handler(handlerFunc: (_, __) => const HistoryView()),
   );
 
   static final AppRoute registerEmailRoute = AppRoute(
@@ -90,7 +120,11 @@ class AppRoutes {
     createOfferSaleRoute,
     createOfferBuyRoute,
     registerEmailRoute,
-    detailOffer,
+    detailOfferRoute,
+    historyOperationsRoute,
+    detailHistoryOperationRoute,
+    settingsRoute,
+    changePswRoute,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
   ];

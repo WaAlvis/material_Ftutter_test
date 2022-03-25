@@ -1,7 +1,5 @@
 part of '../../../home_view.dart';
 
-enum TypeOffer { buy, sell }
-
 class MyOffersTab extends StatelessWidget {
   const MyOffersTab({
     required this.viewModel,

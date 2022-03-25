@@ -39,33 +39,11 @@ class _HomeMobile extends StatelessWidget {
         listBanks: [],
         hAppbar: hAppbar,
       ),
-
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            dataUserProvider.getDataUserLogged?.email ?? 'No hay Usuario',
-            style: const TextStyle(fontSize: 25),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          const Center(
-            child: Text(
-              'Perfil',
-            ),
-          ),
-          PrimaryButtonCustom(
-            'Cerrar Sesion de Usuario',
-            onPressed: () {
-              viewModel.goLogin(context);
-              dataUserProvider.setDataUserLogged(
-                null,
-              );
-            },
-          )
-        ],
-      ),
+      ProfileUser(
+          viewModel: viewModel,
+          textTheme: textTheme,
+          hAppbar: hAppbar,
+          hBody: hBody,),
       // Camera page
       // Chats page
     ];

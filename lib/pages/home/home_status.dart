@@ -1,3 +1,4 @@
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/view_model.dart';
