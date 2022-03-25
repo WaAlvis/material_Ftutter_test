@@ -59,22 +59,26 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                       LdAssets.logoWhiteOrange,
                       height: 30,
                     ),
-                    if (dataUserProvider != null) IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.notifications_none,
-                            ),
-                          ) else Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: PrimaryButtonCustom(
-                              'Iniciar sesión',
-                              colorText: LdColors.white,
-                              colorButton: LdColors.whiteGray.withOpacity(0.5),
-                              width: size.width / 4,
-                              height: 35,
-                              onPressed: () => goLogin!(context),
-                            ),
-                          ),
+                    if (dataUserProvider != null)
+                      IconButton(
+                        splashRadius: 20,
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.notifications_none,
+                        ),
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: PrimaryButtonCustom(
+                          'Iniciar sesión',
+                          colorText: LdColors.white,
+                          colorButton: LdColors.whiteGray.withOpacity(0.5),
+                          width: size.width / 4,
+                          height: 35,
+                          onPressed: () => goLogin!(context),
+                        ),
+                      ),
                   ],
                 ),
         ),

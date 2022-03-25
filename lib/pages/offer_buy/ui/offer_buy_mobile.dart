@@ -20,7 +20,6 @@ class _OfferBuyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final OfferBuyViewModel viewModel = context.watch<OfferBuyViewModel>();
     final Size size = MediaQuery.of(context).size;
@@ -46,53 +45,7 @@ class _OfferBuyMobile extends StatelessWidget {
           // withBackIcon: false,
         ),
         body: Column(children: [
-          Container(
-            width: size.width,
-            color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: hAppbar,
-                ),
-              ],
-            ),
-          ),
+          const AppbarCircles(hAppbar: hAppbar),
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -147,16 +100,14 @@ class _OfferBuyMobile extends StatelessWidget {
                                   viewModel.validatorNotEmpty(value),
                               changeFillWith: !viewModel.status.isMarginEmpty,
                               hintText: '0 COP',
-
                               hintStyle: TextStyle(
                                 color: LdColors.orangePrimary.withOpacity(0.7),
                                 fontSize: 18,
                               ),
                               inputFormatters: <TextInputFormatter>[
-                                NumericalRangeFormatter(max: 3,min: 0),
+                                NumericalRangeFormatter(max: 3, min: 0),
                                 FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d+\,?\d{0,2}'),
-
+                                  RegExp(r'^\d+\,?\d{0,2}'),
                                 ),
                                 // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
                               ],
@@ -244,16 +195,33 @@ class _OfferBuyMobile extends StatelessWidget {
                               maxLength: 250,
                               // when user presses enter it will adapt to it
                               decoration: const InputDecoration(
-                                  hintText:
-                                      'Ingresa informacion adicional para los compradores...',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                  ),),
+                                hintText:
+                                    'Ingresa informacion adicional para los compradores...',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
+                            ),
+                            InputTextCustom(
+                              'Establece una palabra clave para asegurar tus recursos',
+                              hintText: 'Ingresa tu palabra secreta',
+                              validator: (String? value) =>
+                                  viewModel.validatorNotEmpty(value),
+                              keyboardType: TextInputType.name,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9a-zA-Z.]'),
+                                ),
+                              ],
+                              controller: cancelSecretCtrl,
+                            ),
+                            const SizedBox(
+                              height: 40,
                             ),
                             Container(
                               height: 150,
@@ -272,8 +240,8 @@ class _OfferBuyMobile extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   const Icon(
-                                    Icons.timer,
-                                    size: 70,
+                                    Icons.access_time_rounded,
+                                    size: 60,
                                   ),
                                   const SizedBox(
                                     width: 16,
@@ -302,37 +270,9 @@ class _OfferBuyMobile extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            InputTextCustom(
-                              'Establece una palabra clave para asegurar tus recursos',
-                              hintText: 'secret*',
-                              validator: (String? value) =>
-                                  viewModel.validatorNotEmpty(value),
-                              keyboardType: TextInputType.name,
-
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp('[0-9a-zA-Z.]'),),
-                              ],
-                              controller: cancelSecretCtrl,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
                             PrimaryButtonCustom(
                               'Crear oferta de venta',
-                              onPressed: () {
-                                if (keyForm.currentState!.validate()) {
-                                  viewModel.createOfferBuy(
-                                    context,
-                                    margin: marginCtrl.text,
-                                    bankId: viewModel.status.selectedBank!.id,
-                                    amountDLY: amountDLYCtrl.text,
-                                    infoPlusOffer: infoPlusOfferCtrl.text,
-                                    userId: dataUserProvider.getDataUserLogged!.id,
-                                      wordSecret: cancelSecretCtrl.text
-                                  );
-                                }
-                              },
+                              onPressed: viewModel.onClickCreateOffer,
                             ),
                           ],
                         ),

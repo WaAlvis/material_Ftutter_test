@@ -36,75 +36,32 @@ class _LoginMobile extends StatelessWidget {
           title: 'Iniciar sesión',
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: size.width,
-              color: LdColors.blackBackground,
-              child: Stack(
-                alignment: AlignmentDirectional.bottomStart,
-                children: <Widget>[
-                  // Esto es el circulo, ideal volverlo widget
-                  Positioned(
-                    right: 0,
-                    child: SizedBox(
-                      // El tamaño depende del tamaño de la pantalla
-                      width: (size.width) / 4,
-                      height: (size.width) / 4,
-                      child: QuarterCircle(
-                        circleAlignment: CircleAlignment.bottomRight,
-                        color: LdColors.grayLight.withOpacity(0.05),
+            AppbarCircles(
+              hAppbar: hAppbar,
+              content: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      '¡Bienvenido!',
+                      style: textTheme.textBigWhite.copyWith(fontSize: 30),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Inicia sesión en LocalDaily',
+                      style: textTheme.textSmallWhite.copyWith(
+                        color: LdColors.grayBg,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: SizedBox(
-                      width: (size.width) * 2 / 4,
-                      height: (size.width) * 2 / 4,
-                      child: QuarterCircle(
-                        circleAlignment: CircleAlignment.bottomRight,
-                        color: LdColors.grayLight.withOpacity(0.05),
-                      ),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: SizedBox(
-                      width: (size.width) * 3 / 4,
-                      height: (size.width) * 3 / 4,
-                      child: QuarterCircle(
-                        circleAlignment: CircleAlignment.bottomRight,
-                        color: LdColors.grayLight.withOpacity(0.05),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: hAppbar,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            '¡Bienvenido!',
-                            style: textTheme.textBigWhite.copyWith(fontSize: 30),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Inicia sesión en LocalDaily',
-                            style: textTheme.textSmallWhite.copyWith(
-                              color: LdColors.grayBg,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -146,7 +103,8 @@ class _LoginMobile extends StatelessWidget {
                               controller: userCtrl,
                               onChange: (String value) =>
                                   viewModel.changeEmail(value),
-                              changeFillWith: !viewModel.status.isEmailFieldEmpty,
+                              changeFillWith:
+                                  !viewModel.status.isEmailFieldEmpty,
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
                               inputFormatters: <TextInputFormatter>[
@@ -291,13 +249,13 @@ class WarningContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: size.width*0.78,
+            width: size.width * 0.78,
             child: Row(
               children: <Widget>[
                 const Icon(
                   Icons.report_problem_outlined,
                   color: LdColors.white,
-                  size: 30,
+                  size: 25,
                 ),
                 const SizedBox(
                   width: 8,
@@ -312,8 +270,9 @@ class WarningContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 6,),
-
+                SizedBox(
+                  width: 6,
+                ),
               ],
             ),
           ),
@@ -322,7 +281,7 @@ class WarningContainer extends StatelessWidget {
             child: const Icon(
               Icons.close,
               color: LdColors.white,
-              size: 30,
+              size: 25,
             ),
           )
         ],

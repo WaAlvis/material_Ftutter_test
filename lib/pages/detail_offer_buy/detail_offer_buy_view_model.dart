@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:hex/hex.dart';
+import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/detail_offer_buy/detail_offer_buy_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
-import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/detail_offer/advertisement.dart';
 import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
 import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
@@ -18,7 +18,8 @@ import 'package:sha3/sha3.dart';
 
 import 'detail_offer_buy_status.dart';
 
-class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
+class DetailOfferBuyViewModel
+    extends EffectsViewModel<DetailOfferBuyStatus, DetailOfferBuyEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
   late Data item;
@@ -41,7 +42,7 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
     final DateTime birthday = DateTime(date.year, date.month, date.day);
     final DateTime date2 = DateTime.now();
     final int difference = date2.difference(birthday).inDays;
-    status = status.copyWith( dateOfExpire: difference.toString());
+    status = status.copyWith(dateOfExpire: difference.toString());
   }
 
 //Validacion de campos validator
@@ -52,14 +53,16 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
     return null;
   }
 
-  Future<ResultDataUser?> getUserOfPost(String idUser) async {
-    _interactor
+  /*  Future<ResultDataUser?> getUserOfPost(String idUser) async {
+    ResultDataUser? user;
+    await _interactor
         .getUserById(idUser)
         .then((ResponseData<ResultDataUser> response) {
       if (response.isSuccess) {
         print('Exito, obteniendo Usuario de Publicacion!!');
         status = status.copyWith(isLoading: false);
-        return response.result;
+        print(response.result?.toJson());
+        user = response.result;
       }
     }).catchError((err) {
       status = status.copyWith(
@@ -68,6 +71,16 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
       print('Create SmartContract, Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });
+    return user;
+  } */
+
+  Future<void> onClickReserveDly() async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      addEffect(ValidateOfferEffect());
+    } else {
+      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+    }
   }
 
   Future<void> reservationPaymentForDly(
@@ -85,22 +98,14 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
       return HEX.encode(hash1);
     }
 
-    // '${convertWorkKeccak('${wordSecretBuyer}buyercancel')},${convertWorkKeccak('${wordSecretBuyer}buyercancel')}'
-    final ResultDataUser? userOfPost = await getUserOfPost(
-      item.advertisement.idUserPublish,
-    );
     final SmartContract smartContract = SmartContract(
-      token: 'token',
       amount: item.advertisement.valueToSell,
-      addressSeller: userOfPost!.addressWallet,
+      addressSeller: item.user.address,
       addressBuyer: userCurrent.addressWallet,
-      // doubleHashedSecretsOfSeller: '',//adquiriendo oferta de venta
       doubleHashedSecretsOfBuyer:
           '${convertWorkKeccak('${wordSecretBuyer}buyercancel')},${convertWorkKeccak('${wordSecretBuyer}buyeraprove')}',
-      doubleHashedSecretsOfArbitrator:
-          '3b00ba3bf87f129f4e62ec8ccc90f5fcd123d3b23e9925d1ce50b39e8ff71696,ac94cc5b67ad5826db279477174d683d15633819a4047611645356b6210cc716',
+      doubleHashedSecretsOfArbitrator: '',
       doubleHashedSecretsOfSeller: '',
-      // mandar Vacio el de seller
       salt: '',
     );
     final Advertisement advertisement = Advertisement(
@@ -110,10 +115,13 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
       statusDestiny: 1,
       successfulTransaction: true,
     );
+
+    // Body requerido para la consulta.
     final BodyCreateSmartContract bodyCreateSmartContract =
         BodyCreateSmartContract(
       smartContract: smartContract,
       advertisement: advertisement,
+      typeAdvertisementInfo: 0,
     );
 
     print('Listo para el smart contrat');
@@ -121,11 +129,8 @@ class DetailOfferBuyViewModel extends ViewModel<DetailOfferBuyStatus> {
     _interactor
         .createSmartContract(bodyCreateSmartContract)
         .then((ResponseData<ResultCreateSmartContract> response) {
-      print('Create SmartContract Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('SmartContract Creado EXITOSAMENTE!!');
-
-        // _route.goHome(context);
+        _route.goHome(context);
       } else {
         // TODO: Mostrar alerta
         print('no se pudo realizar la oferta ve venta!');

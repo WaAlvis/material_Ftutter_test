@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,10 +9,12 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/detail_offer_buy/detail_offer_buy_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
@@ -43,10 +47,7 @@ class DetailOfferBuyView extends StatelessWidget {
 
     return ChangeNotifierProvider<DetailOfferBuyViewModel>(
       create: (_) => DetailOfferBuyViewModel(
-        locator<LdRouter>(),
-        locator<ServiceInteractor>(),
-        item!
-      ),
+          locator<LdRouter>(), locator<ServiceInteractor>(), item!),
       builder: (BuildContext context, _) {
         return _DetailOfferBuyBody(
           isBuy: isBuy,
@@ -74,18 +75,42 @@ class _DetailOfferBuyBody extends StatefulWidget {
 class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController secretWordCtrl = TextEditingController();
+  late StreamSubscription<DetailOfferBuyEffect> _effectSubscription;
 
   @override
   void initState() {
+    final DetailOfferBuyViewModel viewModel =
+        context.read<DetailOfferBuyViewModel>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<DetailOfferBuyViewModel>().onInit(context);
     });
+
+    _effectSubscription =
+        viewModel.effects.listen((DetailOfferBuyEffect event) {
+      if (event is ShowSnackbarConnectivityEffect) {
+        // TODO: retroalimentaciòn para mostrar falta de conexiòn
+        //DlySnackbar.buildConnectivitySnackbar(context, event.message);
+      } else if (event is ValidateOfferEffect) {
+        if (keyForm.currentState!.validate()) {
+          viewModel.reservationPaymentForDly(
+            context,
+            wordSecretBuyer: secretWordCtrl.text,
+            item: widget.item,
+            userCurrent: dataUserProvider.getDataUserLogged!,
+          );
+        }
+      }
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
     secretWordCtrl.dispose();
+    _effectSubscription.cancel();
     // TODO: implement dispose
     super.dispose();
   }
@@ -104,6 +129,7 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
         return Stack(
           children: <Widget>[
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -20,7 +21,8 @@ import 'package:sha3/sha3.dart';
 
 import 'offer_sale_status.dart';
 
-class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
+class OfferSaleViewModel
+    extends EffectsViewModel<OfferSaleStatus, OfferSaleEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -202,28 +204,32 @@ class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
     status = status.copyWith(isLoading: false);
   }
 
+  Future<void> onClickCreateOffer() async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      addEffect(ValidateOfferEffect());
+    } else {
+      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+    }
+  }
+
   Future<void> createOfferSale(
     BuildContext context, {
     required String userId,
-    required  String margin,
-    required  String amountDLY,
+    required String margin,
+    required String amountDLY,
     required String bankId,
     required String accountTypeId,
     required String accountNum,
     required String docType,
     required String docNum,
     required String nameTitularAccount,
-    required  String infoPlusOffer,
-
+    required String infoPlusOffer,
     required String wordSecret,
-  }
-
-      // String email,
-      // String password,
-      ) async {
+  }) async {
     status = status.copyWith(isLoading: true);
 
-    String  convertWorkKeccak(String word){
+    String convertWorkKeccak(String word) {
       final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
       final SHA3 k2 = SHA3(256, KECCAK_PADDING, 256);
       k1.update(utf8.encode(word));
@@ -231,23 +237,37 @@ class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
       k2.update(hash1);
       final List<int> hash2 = k2.digest();
       return HEX.encode(hash2);
-  }
+    }
+
     final EntityOffer entity = EntityOffer(
-        idTypeAdvertisement: '809b4025-bf15-43f8-9995-68e3b7c53be6',
-        idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
-        valueToSell: amountDLY.replaceAll('.', ''),
-        margin: margin.split(' ').first,
-        termsOfTrade: infoPlusOffer,
-        idUserPublish: userId,
-        secretSellerKey: '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',);
+      idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
+      idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
+      valueToSell: amountDLY.replaceAll('.', ''),
+      margin: margin.split(' ').first,
+      termsOfTrade: infoPlusOffer,
+      idUserPublish: userId,
+      codeUserPublish: '',
+      //codeUserPublish:
+      //    '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
+    );
 
     final BodyOffer bodyOffer = BodyOffer(
-        entity: entity,
-        daysOfExpired: 7,
-        strJsonAdvertisementBanks:
-            '[{\"bankId\": \"$bankId\",\"accountNumber\": \"$accountNum\",\"accountTypeId\": \"$accountTypeId\",\"documentNumber\": \"$docNum\",\"documentTypeID\" : \"$docType\",\"titularUserName\": \"$nameTitularAccount\"},]');
+      entity: entity,
+      daysOfExpired: 7,
+      strJsonAdvertisementBanks: json.encode([
+        <String, dynamic>{
+          'bankId': bankId,
+          'accountNumber': accountNum,
+          'accountTypeId': accountTypeId,
+          'documentNumber': docNum,
+          'documentTypeID': docType,
+          'titularUserName': nameTitularAccount,
+        }
+      ]),
+    );
+    //'[{\"bankId\": \"$bankId\",\"accountNumber\": \"$accountNum\",\"accountTypeId\": \"$accountTypeId\",\"documentNumber\": \"$docNum\",\"documentTypeID\" : \"$docType\",\"titularUserName\": \"$nameTitularAccount\"},]');
+    //'[{\"bankId\": \"$bankId\",\"accountNumber\": \"$accountNum\",\"accountTypeId\": \"$accountTypeId\",\"documentNumber\": \"$docNum\",\"documentTypeID\" : \"$docType\",\"titularUserName\": \"$nameTitularAccount\"},]');
 // "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentTypeID\" : \"eb2e8229-13ee-4282-b053-32e7b444ea10\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]"
-
     _interactor
         .createOffer(bodyOffer)
         .then((ResponseData<ResultCreateOffer> response) {
@@ -262,7 +282,7 @@ class OfferSaleViewModel extends ViewModel<OfferSaleStatus> {
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {
-      print('Offera Error As: ${err}');
+      print('Offer Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });
   }

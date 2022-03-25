@@ -5,13 +5,11 @@ class CardBuyAndSell extends StatelessWidget {
     Key? key,
     required this.item,
     required this.textTheme,
-    required this.viewModel,
     required this.onTap,
   }) : super(key: key);
 
   final Data item;
   final TextTheme textTheme;
-  final HomeViewModel viewModel;
   final void Function()? onTap;
 
   @override
@@ -45,7 +43,7 @@ class CardBuyAndSell extends StatelessWidget {
               TitleBarCard(
                 // name: item.user.nickName,
                 name: item.user.nickName,
-                stars: '+${item.user.rateSeller}',
+                stars: '${item.user.rateSeller}',
                 // time: item.advertisement.expiredDate,
                 time: '7d',
                 textTheme: textTheme,
@@ -145,7 +143,7 @@ class InfoValueCard extends StatelessWidget {
             Text(
               valueMoney,
               style:
-              textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
+                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 25,

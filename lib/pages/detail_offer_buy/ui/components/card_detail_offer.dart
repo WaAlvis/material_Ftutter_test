@@ -32,19 +32,11 @@ class CardDetailOffer extends StatelessWidget {
           )
         ],
       ),
-      margin: const EdgeInsets.all(10),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-
-            const Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0),
-              child: Divider(
-                color: LdColors.gray,
-              ),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -69,9 +61,6 @@ class CardDetailOffer extends StatelessWidget {
                           .copyWith(color: LdColors.grayText, fontSize: 14),
                     ),
                   ],
-                ),
-                const Flexible(
-                  child: Icon(Icons.arrow_forward_ios),
                 ),
               ],
             ),
@@ -133,7 +122,7 @@ class InfoValueCard extends StatelessWidget {
             Text(
               valueMoney,
               style:
-              textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
+                  textTheme.textBigBlack.copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 25,

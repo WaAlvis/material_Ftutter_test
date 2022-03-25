@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 class LdColors {
-
   LdColors._();
 
   static const Color white = Color(0xffffffff);
@@ -20,6 +19,11 @@ class LdColors {
   static const Color green = Color(0xff00875A);
   static const Color blue = Color(0xff0055ff);
   static const Color orangePrimary = Color(0xffFC764C);
-  static const Color orangeWarning= Color(0xffDE350B);
+  static const Color orangeWarning = Color(0xffDE350B);
   static const Color blackBackground = Color(0xff333333);
+  static const Color blueState = Color(0xff276F8F);
+  static const Color grayState = Color(0xff707070);
+  static const Color greenState = Color(0xff00875A);
+
+  static const Color redError = Color(0xffFF5959);
 }

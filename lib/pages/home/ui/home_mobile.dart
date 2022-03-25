@@ -21,32 +21,24 @@ class _HomeMobile extends StatelessWidget {
 
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final List<Data> itemsForBuy = viewModel.status.offersBuyDataHome.data;
-    final List<Data> itemsForSell = viewModel.status.offersSaleDataHome.data;
 
     final List<Widget> _pages = <Widget>[
       MainOffersTab(
-        viewModel: viewModel,
         textTheme: textTheme,
-        itemsForBuy: itemsForSell,
-        itemsForSell: itemsForBuy,
         hAppbar: hAppbar,
         hBody: hBody,
       ),
-      const Center(
-        child: Text(
-          'Operaciones',
-        ),
+      OperationsOffersTab(
+        viewModel: viewModel,
+        textTheme: textTheme,
+        hAppbar: hAppbar,
       ),
-
       MyOffersTab(
         viewModel: viewModel,
         textTheme: textTheme,
         listBanks: [],
         hAppbar: hAppbar,
-        hBody: hBody,
       ),
-
       ProfileUser(
           viewModel: viewModel,
           textTheme: textTheme,
@@ -56,11 +48,35 @@ class _HomeMobile extends StatelessWidget {
       // Chats page
     ];
 
+    final List<PreferredSizeWidget> _appbars = <PreferredSizeWidget>[
+      LdAppbar(
+        dataUserProvider: dataUserProvider.getDataUserLogged,
+        goLogin: (BuildContext context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      ),
+      LdAppbar(
+        title: 'Mis operaciones',
+        goLogin: (context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      ),
+      LdAppbar(
+        title: 'Mis ofertas',
+        goLogin: (context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      ),
+      LdAppbar(
+        title: 'Perfil',
+        goLogin: (context) => viewModel.goLogin(context),
+        // withBackIcon: false,
+      )
+    ];
+
     return Scaffold(
-      // backgroundColor: LdColors.white,
+      extendBodyBehindAppBar: true,
+      appBar: _appbars.elementAt(viewModel.status.indexTab),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: LdColors.grayLight,
@@ -70,43 +86,48 @@ class _HomeMobile extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
           ),
           child: BottomNavigationBar(
             unselectedItemColor: LdColors.blackText,
             currentIndex: viewModel.status.indexTab,
             selectedItemColor: LdColors.orangePrimary,
-            onTap: viewModel.onItemTapped,
+            onTap: (int index) {
+              if (index != viewModel.status.indexTab) {
+                viewModel.swapType(
+                  context,
+                  TypeOffer.buy,
+                  dataUserProvider.getDataUserLogged?.id ?? '',
+                );
+              }
+              viewModel.onItemTapped(index);
+            },
             elevation: 10,
             iconSize: 30,
             showUnselectedLabels: true,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_rounded,
-                ),
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
                 label: 'Inicio',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.library_add_check_outlined,
-                ),
+                icon: Icon(Icons.library_add_check_outlined),
+                activeIcon: Icon(Icons.library_add_check),
                 label: 'operaciones',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.store_outlined,
-                ),
+                icon: Icon(Icons.store_outlined),
+                activeIcon: Icon(Icons.store),
                 label: 'Mis ofertas',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person_outlined,
-                ),
+                icon: Icon(Icons.person_outlined),
+                activeIcon: Icon(Icons.person),
                 label: 'Perfil',
                 backgroundColor: LdColors.white,
               ),

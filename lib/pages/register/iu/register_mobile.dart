@@ -145,7 +145,8 @@ class _RegisterMobile extends StatelessWidget {
                         context,
                         step: 6,
                         title: 'Direccion de tu Wallet',
-                        description: 'Escribe tus 12 palabras con las cuales podras recuperar tu direccion Wallet.',
+                        description:
+                            'Escribe tus 12 palabras con las cuales podras recuperar tu direccion Wallet.',
                         heightAppbar: hAppbar,
                       ),
                   ],

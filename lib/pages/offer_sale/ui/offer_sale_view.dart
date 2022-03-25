@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,11 +10,13 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -73,7 +77,45 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
 
   final TextEditingController cancelSecretCtrl = TextEditingController();
 
+  late StreamSubscription<OfferSaleEffect> _effectSubscription;
+
   //final TextEditingController usuarioCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    final OfferSaleViewModel viewModel = context.read<OfferSaleViewModel>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<OfferSaleViewModel>().onInit(context);
+    });
+
+    _effectSubscription = viewModel.effects.listen((OfferSaleEffect event) {
+      if (event is ShowSnackbarConnectivityEffect) {
+        // TODO: retroalimentaciòn para mostrar falta de conexiòn
+        //DlySnackbar.buildConnectivitySnackbar(context, event.message);
+      } else if (event is ValidateOfferEffect) {
+        if (keyForm.currentState!.validate()) {
+          viewModel.createOfferSale(
+            context,
+            userId: dataUserProvider.getDataUserLogged!.id,
+            docNum: docNumCtrl.text,
+            margin: marginCtrl.text,
+            accountTypeId: viewModel.status.selectedAccountType!.id,
+            accountNum: accountNumCtrl.text,
+            nameTitularAccount: nameTitularAccountCtrl.text,
+            bankId: viewModel.status.selectedBank!.id,
+            amountDLY: amountDLYCtrl.text,
+            infoPlusOffer: infoPlusOfferCtrl.text,
+            docType: viewModel.status.selectedDocType!.id,
+            wordSecret: cancelSecretCtrl.text,
+          );
+        }
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -85,17 +127,9 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
     infoPlusOfferCtrl.dispose();
 
     cancelSecretCtrl.dispose();
+    _effectSubscription.cancel();
     //usuarioCtrl.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<OfferSaleViewModel>().onInit(context);
-    });
-    amountDLYCtrl.addListener(_printLatestValue);
-    super.initState();
   }
 
   @override
@@ -103,7 +137,7 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
     final OfferSaleViewModel viewModel = context.watch<OfferSaleViewModel>();
     final Widget loading = viewModel.status.isLoading
         ? ProgressIndicatorLocalD()
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
 
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
@@ -111,6 +145,7 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
         return Stack(
           children: [
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,
@@ -138,9 +173,5 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
         );
       },
     );
-  }
-
-  void _printLatestValue() {
-    print('Second text field: ${amountDLYCtrl.text}');
   }
 }

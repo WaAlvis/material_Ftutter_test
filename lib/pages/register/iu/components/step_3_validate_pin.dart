@@ -51,7 +51,7 @@ class Step3ValidatePin extends StatelessWidget {
                         height: 30,
                       ),
                       Text(
-                        'Ingresa el codigo de verificacion enviado\na:',
+                        'Ingresa el codigo de verificacion enviado a:',
                         style: textTheme.textBlack,
                         textAlign: TextAlign.center,
                       ),
@@ -103,7 +103,7 @@ class Step3ValidatePin extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Deseas ',
+                            '¿Deseas ',
                             style:
                                 textTheme.textSmallWhite.copyWith(fontSize: 12),
                           ),
@@ -132,7 +132,7 @@ class Step3ValidatePin extends StatelessWidget {
                             },
                           ),
                           Text(
-                            ' el codigo ?',
+                            ' el codigo?',
                             style:
                                 textTheme.textSmallWhite.copyWith(fontSize: 12),
                           )
@@ -143,12 +143,13 @@ class Step3ValidatePin extends StatelessWidget {
                 ),
                 const SizedBox(height: 50),
                 PrimaryButtonCustom(
-                  'Continuar',
+                  'Validar',
                   onPressed: () =>
                       viewModel.continueStep_4AccountData(codePinCtrl.text),
                 ),
+                const SizedBox(height: 10),
                 PrimaryButtonCustom(
-                  'pasar sin validar',
+                  'Continuar sin validar',
                   onPressed: () => viewModel.goNextStep(
                       currentStep: RegisterStep.validatePinStep_3),
                 ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,10 +8,12 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -63,6 +67,7 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
   final TextEditingController cancelSecretCtrl = TextEditingController();
 
   late FocusNode focusDLYCOP;
+  late StreamSubscription<OfferBuyEffect> _effectSubscription;
 
   //final TextEditingController usuarioCtrl = TextEditingController();
 
@@ -73,15 +78,41 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
     infoPlusOfferCtrl.dispose();
     focusDLYCOP.dispose();
     cancelSecretCtrl.dispose();
+    _effectSubscription.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
+    final OfferBuyViewModel viewModel = context.read<OfferBuyViewModel>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
     focusDLYCOP = FocusNode();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<OfferBuyViewModel>().onInit(context);
     });
+
+    _effectSubscription = viewModel.effects.listen((OfferBuyEffect event) {
+      if (event is ShowSnackbarConnectivityEffect) {
+        // TODO: retroalimentaciòn para mostrar falta de conexiòn
+        //DlySnackbar.buildConnectivitySnackbar(context, event.message);
+      } else if (event is ValidateOfferEffect) {
+        if (keyForm.currentState!.validate()) {
+          if (keyForm.currentState!.validate()) {
+            viewModel.createOfferBuy(
+              context,
+              margin: marginCtrl.text,
+              bankId: viewModel.status.selectedBank!.id,
+              amountDLY: amountDLYCtrl.text,
+              infoPlusOffer: infoPlusOfferCtrl.text,
+              userId: dataUserProvider.getDataUserLogged!.id,
+              wordSecret: cancelSecretCtrl.text,
+            );
+          }
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -98,6 +129,7 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
         return Stack(
           children: [
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,
