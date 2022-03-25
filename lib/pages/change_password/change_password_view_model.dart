@@ -18,7 +18,14 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     status = ChangePasswordStatus(
       isLoading: true,
       isError: false,
-      currentLanguage: Language.spanish,
+      isPasswordFieldEmpty: true,
+      hasUpperLetter: false,
+      hasMore8Chars: false,
+      hasSpecialChar: false,
+      hasLowerLetter: false,
+      hasNumberChar: false,
+      hidePass: true,
+
     );
   }
 
@@ -28,5 +35,50 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     _route.pop(context);
   }
 
+  void changePassword(String password) =>
+      status = status.copyWith(isPasswordFieldEmpty: password.isEmpty);
+
+  bool isPasswordValid(String password, [int minLength = 7]) {
+    final bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+    final bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+    final bool hasSpecialCharacters =
+    password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final bool hasMinLength = password.length > minLength;
+    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+
+    status = status.copyWith(
+      hasMore8Chars: hasMinLength,
+      hasUpperLetter: hasUppercase,
+      hasSpecialChar: hasSpecialCharacters,
+      hasLowerLetter: hasLowercase,
+      hasNumberChar: hasDigits,
+    );
+    return hasMinLength &
+    hasUppercase &
+    hasSpecialCharacters &
+    hasLowercase &
+    hasDigits;
+  }
+
+  void hidePassword() => status = status.copyWith(
+    hidePass: !status.hidePass,
+  );
+
+  String? validatorPasswords(String? psw, String? confirmPsw) {
+    if (psw == null || psw.isEmpty) {
+      return '* la contraseña es necesaria';
+    } else if (psw != confirmPsw) {
+      return 'Las contraseñas no coinciden';
+    }
+    if (psw.length < 8 || confirmPsw!.length < 8) {
+      return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
+    }
+    if (!isPasswordValid(psw)) {
+      return 'La contraseña no cumple los requerimientos';
+    }
+    return null;
+  }
+
 
 }
+

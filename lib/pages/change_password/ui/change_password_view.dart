@@ -6,6 +6,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/change_password/change_password_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,9 @@ class _ChangePasswordBody extends StatefulWidget {
 class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
 
-  // final ScrollController _scrollCtrl = ScrollController();
+  final TextEditingController currentPswCtrl = TextEditingController();
+  final TextEditingController newPswCtrl = TextEditingController();
+  final TextEditingController againNewPswCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -68,7 +71,9 @@ class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
   @override
   void dispose() {
     super.dispose();
-    // _scrollCtrl.dispose();
+    currentPswCtrl.dispose();
+    newPswCtrl.dispose();
+    againNewPswCtrl.dispose();
   }
 
   @override
@@ -88,6 +93,9 @@ class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
                     )
                   : ChangePasswordMobile(
                       keyForm: keyForm,
+                      currentPswCtrl: currentPswCtrl,
+                      newPswCtrl: newPswCtrl,
+                      againPswCtrl: againNewPswCtrl,
                       // scrollCtrl: _scrollCtrl,
                     ),
             )

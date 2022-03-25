@@ -4,12 +4,17 @@ class ChangePasswordMobile extends StatelessWidget {
   const ChangePasswordMobile({
     Key? key,
     required this.keyForm,
+    required this.currentPswCtrl,
+    required this.newPswCtrl,
+    required this.againPswCtrl,
 
     // required this.scrollCtrl,
   }) : super(key: key);
   final GlobalKey<FormState> keyForm;
 
-  // final ScrollController scrollCtrl;
+  final TextEditingController currentPswCtrl;
+  final TextEditingController newPswCtrl;
+  final TextEditingController againPswCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +92,7 @@ class ChangePasswordMobile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Ajustes',
+                          'Cambiar contraseña',
                           style: textTheme.textBigWhite,
                         ),
                         IconButton(
@@ -107,13 +112,13 @@ class ChangePasswordMobile extends StatelessWidget {
           SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 24,
+                horizontal: 16,
                 vertical: 40,
               ),
               width: size.width,
               constraints: BoxConstraints(minHeight: hBody),
               decoration: const BoxDecoration(
-                color: LdColors.orangePrimary,
+                color: LdColors.white,
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(25),
                 ),
@@ -121,7 +126,57 @@ class ChangePasswordMobile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('data')
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(
+                          'Cambiar Contraseña',
+                          style: textTheme.textBlack.copyWith(
+                            // color: LdColors.orangeWarning,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          'Ingresa una contraseña segura y fácil de recordar',
+                          style: textTheme.textBlack.copyWith(
+                            fontSize: 16,
+                          ),
+
+                        ),
+                          const SizedBox(height: 40,),
+                        InputTextCustom(
+                          'Contraseña *',
+                          hintText: '8+ digitos',
+                          controller: currentPswCtrl,
+                          onChange: (String psw) {
+                            viewModel.changePassword(psw);
+                            viewModel.isPasswordValid(psw);
+                          },
+                          changeFillWith: !viewModel.status.isPasswordFieldEmpty,
+                          textInputAction: TextInputAction.next,
+                          obscureText: viewModel.status.hidePass,
+                          validator: (_) => viewModel.validatorPasswords(
+                            newPswCtrl.text,
+                            againPswCtrl.text,
+                          ),
+                          suffixIcon: GestureDetector(
+                            onTap: () => viewModel.hidePassword(),
+                            child: Icon(
+                              viewModel.status.hidePass
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: LdColors.blackBackground,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

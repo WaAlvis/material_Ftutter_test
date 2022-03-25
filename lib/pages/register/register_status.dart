@@ -134,10 +134,10 @@ class RegisterStatus extends ViewStatus {
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,
       isError: isError ?? this.isError,
+      acceptTermCoditions: acceptTermCoditions ?? this.acceptTermCoditions,
       hasMore8Chars: hasMore8Chars ?? this.hasMore8Chars,
       hasUpperLetter: hasUpperLetter ?? this.hasUpperLetter,
       hasSpecialChar: hasSpecialChar ?? this.hasSpecialChar,
-      acceptTermCoditions: acceptTermCoditions ?? this.acceptTermCoditions,
       hasLowerLetter: hasLowerLetter ?? this.hasLowerLetter,
       hasNumberChar: hasNumberChar ?? this.hasNumberChar,
     );

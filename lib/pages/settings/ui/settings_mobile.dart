@@ -126,17 +126,17 @@ class SettingsMobile extends StatelessWidget {
                     LdAssets.dlycopIconBlack,
                     title: 'Direccion de wallet',
                     subtitle: 'Cambia la dirección de tu wallet',
-                    onTap: (){},
+                    onTap: () {},
                   ),
                   _dividerOptions(),
                   _rowOptionSetting(
                     textTheme,
                     viewModel,
                     LdAssets.pswBlack,
-                    onTap: ()=> viewModel.goChangePsw(context),
+                    onTap: () => viewModel.goChangePsw(context),
                     title: 'Contraseña',
                     subtitle: 'Cambia tu contraseña de acceso',
-                    sizeIcon: 42,
+                    sizeIconSvg: 42,
                   ),
                   _dividerOptions(),
                   _rowOptionSetting(
@@ -145,7 +145,7 @@ class SettingsMobile extends StatelessWidget {
                     LdAssets.globalBlack,
                     title: 'Idioma',
                     subtitle: 'Escoge el idioma de preferencia',
-                    sizeIcon: 42,
+                    sizeIconSvg: 42,
                     optionLanguage: true,
                     arrowIcon: false,
                   )
@@ -173,115 +173,99 @@ class SettingsMobile extends StatelessWidget {
     String iconLdAsset, {
     required String title,
     required String subtitle,
-    double? sizeIcon = 30,
+    double? sizeIconSvg = 30,
     bool optionLanguage = false,
     bool arrowIcon = true,
     void Function()? onTap,
   }) {
     final TextStyle styleTextLan = textTheme.textSmallBlack;
     return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                SvgPicture.asset(
-                  iconLdAsset,
-                  height: sizeIcon,
-                ),
-                const SizedBox(
-                  width: 14,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style: textTheme.subtitleBlack.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      subtitle,
-                      style: textTheme.textGray.copyWith(fontSize: 12),
-                    ),
-                  ],
-                )
-              ],
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: SizedBox(
+            height: sizeIconSvg,
+            child: SvgPicture.asset(iconLdAsset),
+          ),
+          trailing: SizedBox(
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 0,
+              backgroundColor: LdColors.orangePrimary,
+              onPressed: onTap,
+              child: const Icon(
+                Icons.arrow_forward_rounded,
+                size: 20,
+              ),
             ),
-            if (arrowIcon)
-              SizedBox(
-                height: 40,
-                child: FloatingActionButton(
-                  elevation: 0,
-                  backgroundColor: LdColors.orangePrimary,
-                  onPressed: onTap,
-                  child: const Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 20,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                style: textTheme.subtitleBlack.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Flexible(
+                  child: Text(
+                    subtitle,
+                    // style: textTheme.textGray.copyWith(fontSize: 13),
                   ),
                 ),
-              )
-            else
-              const SizedBox()
-          ],
+              ),
+            ],
+          ),
         ),
         if (optionLanguage)
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            // direction: Axis.horizontal,
             children: <Widget>[
-              const SizedBox(
-                height: 20,
+              Flexible(
+                child: ListTile(
+                  horizontalTitleGap: 0,
+                  title: Text(
+                    'Español',
+                    style: styleTextLan,
+                    textAlign: TextAlign.end,
+                  ),
+                  contentPadding: EdgeInsets.zero,
+                  trailing: Radio<Language>(
+                    activeColor: LdColors.orangePrimary,
+                    value: Language.spanish,
+                    groupValue: viewModel.status.currentLanguage,
+                    onChanged: (Language? value) {
+                      viewModel.changeLanguage(value);
+                    },
+                  ),
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                // direction: Axis.horizontal,
-                children: <Widget>[
-                  Flexible(
-                    child: ListTile(
-                      horizontalTitleGap: 0,
-                      title: Text(
-                        'Español',
-                        style: styleTextLan,
-                        textAlign: TextAlign.end,
-                      ),
-                      contentPadding: EdgeInsets.zero,
-                      trailing: Radio<Language>(
-                        activeColor: LdColors.orangePrimary,
-                        value: Language.spanish,
-                        groupValue: viewModel.status.currentLanguage,
-                        onChanged: (Language? value) {
-                          viewModel.changeLanguage(value);
-                        },
-                      ),
-                    ),
+              Flexible(
+                child: ListTile(
+                  contentPadding: const EdgeInsets.only(right: 50),
+                  horizontalTitleGap: 0,
+                  title: Text(
+                    'Inglés',
+                    style: styleTextLan,
+                    textAlign: TextAlign.end,
                   ),
-                  Flexible(
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.only(right: 50),
-                      horizontalTitleGap: 0,
-                      title: Text(
-                        'Inglés',
-                        style: styleTextLan,
-                        textAlign: TextAlign.end,
-                      ),
-                      trailing: Radio<Language>(
-                        activeColor: LdColors.orangePrimary,
-                        value: Language.english,
-                        groupValue: viewModel.status.currentLanguage,
-                        onChanged: (Language? value) {
-                          viewModel.changeLanguage(value);
-                        },
-                      ),
-                    ),
+                  trailing: Radio<Language>(
+                    activeColor: LdColors.orangePrimary,
+                    value: Language.english,
+                    groupValue: viewModel.status.currentLanguage,
+                    onChanged: (Language? value) {
+                      viewModel.changeLanguage(value);
+                    },
                   ),
-                ],
+                ),
               ),
             ],
           )
-        else
-          const SizedBox(),
       ],
     );
   }
