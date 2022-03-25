@@ -29,20 +29,18 @@ class ProfileUser extends StatelessWidget {
     // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
-    final Color colorCardWhite = LdColors.white.withOpacity(0.9);
+    final Color colorCardWhite = LdColors.white.withOpacity(0.95);
 
     return Scaffold(
       // extendBodyBehindAppBar: true,
-      appBar: LdAppbar(
-        title: 'Perfil',
-        goLogin: (BuildContext context) => viewModel.goLogin(context),
-      ),
+
       backgroundColor: LdColors.blackBackground,
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+           const  SizedBox(height: 90,),
             const SizedBox(
               height: 30,
             ),
@@ -63,7 +61,7 @@ class ProfileUser extends StatelessWidget {
           top: 50,
           child: Container(
             width: size.width,
-            height: 50.2,
+            height: 50,
             decoration: BoxDecoration(
               color: colorCardWhite,
               borderRadius: const BorderRadius.only(
@@ -87,70 +85,69 @@ class ProfileUser extends StatelessWidget {
   }
 
   Widget _bodyCardUser(Color colorCardWhite) {
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorCardWhite,
-          borderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(16),
-          ),
+    return Container(
+height: hBody-35,
+      decoration: BoxDecoration(
+        color: colorCardWhite,
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(16),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const SizedBox(
-                height: 10,
-              ),
-              _nameEditPencil(colorCardWhite),
-              const SizedBox(
-                height: 22,
-              ),
-              _balanceDlyAvailable(),
-              const SizedBox(
-                height: 30,
-              ),
-              Column(
-                children: [
-                  ListView.separated(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: options.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        leading: Icon(
-                          options[index].icon,
-                          color: LdColors.orangePrimary,
-                        ),
-                        title: Text(
-                          options[index].text,
-                          style: textTheme.textBlack,
-                        ),
-                        dense: true,
-                        onTap: () {
-                          onOptionSelected(
-                            context,
-                            NavigateOption.values[index],
-                            viewModel,
-                          );
-                        },
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        height: 20,
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const SizedBox(
+              height: 10,
+            ),
+            _nameEditPencil(colorCardWhite),
+            const SizedBox(
+              height: 22,
+            ),
+            _balanceDlyAvailable(),
+            // const SizedBox(
+            //   height: 30,
+            // ),
+            Column(
+              children:<Widget> [
+                ListView.separated(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: options.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      leading: Icon(
+                        options[index].icon,
+                        color: LdColors.orangePrimary,
+                      ),
+                      title: Text(
+                        options[index].text,
+                        style: textTheme.textBlack,
+                      ),
+                      dense: true,
+                      onTap: () {
+                        onOptionSelected(
+                          context,
+                          NavigateOption.values[index],
+                          viewModel,
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      height: 20,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -211,7 +208,7 @@ class ProfileUser extends StatelessWidget {
           ),
           Text(
             'Saldo en Dailys',
-            style: textTheme.textSmallWhite.copyWith(fontSize: 11),
+            style: textTheme.textSmallWhite.copyWith(fontSize: 14),
           )
         ],
       ),
@@ -243,7 +240,7 @@ class ProfileUser extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   child: Text(
                     'Guillovela010',
-                    style: textTheme.textBigBlack,
+                    style: textTheme.textBigBlack.copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -265,7 +262,7 @@ class ProfileUser extends StatelessWidget {
           'usuario desde el 2010',
           style: textTheme.textSmallBlack.copyWith(
             color: LdColors.gray,
-            fontSize: 11,
+            fontSize: 14,
           ),
         ),
       ],

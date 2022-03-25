@@ -180,7 +180,7 @@ class SettingsMobile extends StatelessWidget {
   }) {
     final TextStyle styleTextLan = textTheme.textSmallBlack;
     return Column(
-      children: [
+      children: <Widget>[
         ListTile(
           contentPadding: EdgeInsets.zero,
           leading: SizedBox(
@@ -191,7 +191,8 @@ class SettingsMobile extends StatelessWidget {
             height: 40,
             child: FloatingActionButton(
               elevation: 0,
-              backgroundColor: LdColors.orangePrimary,
+              backgroundColor:
+                  arrowIcon ? LdColors.orangePrimary : Colors.transparent,
               onPressed: onTap,
               child: const Icon(
                 Icons.arrow_forward_rounded,
@@ -204,7 +205,8 @@ class SettingsMobile extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: textTheme.subtitleBlack.copyWith(fontSize: 18),
+                style: textTheme.subtitleBlack
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const SizedBox(
                 height: 8,
@@ -214,7 +216,6 @@ class SettingsMobile extends StatelessWidget {
                 child: Flexible(
                   child: Text(
                     subtitle,
-                    // style: textTheme.textGray.copyWith(fontSize: 13),
                   ),
                 ),
               ),
