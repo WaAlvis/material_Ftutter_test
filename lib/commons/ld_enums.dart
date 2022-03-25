@@ -16,3 +16,4 @@ enum NavigateOption {
   logout,
 }
 
+enum DailyConnectType { walletAddress, transaction }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:localdaily/commons/ld_constans.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/local_storage_service.dart';
