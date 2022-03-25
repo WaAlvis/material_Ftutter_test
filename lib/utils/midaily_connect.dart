@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -37,9 +36,6 @@ class MiDailyConnect {
     }
 
     if (await canLaunch(_url)) {
-      Codec<String, String> stringToBase64 = utf8.fuse(base64);
-      final String encoded = stringToBase64.encode(_url);
-      print(encoded);
       await launch(_url, headers: <String, String>{});
     } else {
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
@@ -56,15 +52,27 @@ class MiDailyConnect {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     if (userProvider.getDataUserLogged == null) return;
 
-    final String host = uri.host;
-
     // Validar que el código generado sea el mismo al que recibe como respuesta
+    final String host = uri.host;
     if (userProvider.getMiDailyConnectCode == null ||
         host != userProvider.getMiDailyConnectCode) return;
 
-    switch (host) {
+    // Validar que el path o funcion no esta vacío
+    final String? path = uri.queryParameters['path'];
+    if (path == null || path.isEmpty) return;
+
+    // Validar si la operación fue exitosa o no
+    final bool? isSuccess = uri.queryParameters['isSuccess'] as bool?;
+    if (isSuccess == null || !isSuccess) {
+      // TODO: Mostrar retroalimentación del error
+      final String? errCode = uri.queryParameters['error'];
+      print(errCode);
+      return;
+    }
+
+    switch (path) {
       case 'walletaddress':
-        final String? address = uri.queryParameters['address'];
+        final String? address = uri.queryParameters['result'];
         _saveAddress(address, userProvider.getDataUserLogged!.email);
         break;
       case 'transaction':
