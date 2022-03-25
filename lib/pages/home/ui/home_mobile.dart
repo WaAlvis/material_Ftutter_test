@@ -56,17 +56,17 @@ class _HomeMobile extends StatelessWidget {
       ),
       LdAppbar(
         title: 'Mis operaciones',
-        goLogin: (context) => viewModel.goLogin(context),
+        goLogin: (BuildContext context) => viewModel.goLogin(context),
         // withBackIcon: false,
       ),
       LdAppbar(
         title: 'Mis ofertas',
-        goLogin: (context) => viewModel.goLogin(context),
+        goLogin: (BuildContext context) => viewModel.goLogin(context),
         // withBackIcon: false,
       ),
       LdAppbar(
         title: 'Perfil',
-        goLogin: (context) => viewModel.goLogin(context),
+        goLogin: (BuildContext context) => viewModel.goLogin(context),
         // withBackIcon: false,
       )
     ];

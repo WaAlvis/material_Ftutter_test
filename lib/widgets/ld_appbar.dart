@@ -45,43 +45,40 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: title != null
-              ? Text(
-                  title!,
-                  style: textTheme.textBigWhite,
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SvgPicture.asset(
-                      LdAssets.logoWhiteOrange,
-                      height: 30,
-                    ),
-                    if (dataUserProvider != null)
-                      IconButton(
-                        splashRadius: 20,
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_none,
-                        ),
-                      )
-                    else
-                      Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: PrimaryButtonCustom(
-                          'Iniciar sesión',
-                          colorText: LdColors.white,
-                          colorButton: LdColors.whiteGray.withOpacity(0.5),
-                          width: size.width / 4,
-                          height: 35,
-                          onPressed: () => goLogin!(context),
-                        ),
+        title: title != null
+            ? Text(
+                title!,
+                style: textTheme.textBigWhite,
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    LdAssets.logoWhiteOrange,
+                    height: 30,
+                  ),
+                  if (dataUserProvider != null)
+                    IconButton(
+                      splashRadius: 20,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.notifications_none,
                       ),
-                  ],
-                ),
-        ),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: PrimaryButtonCustom(
+                        'Iniciar sesión',
+                        colorText: LdColors.white,
+                        colorButton: LdColors.whiteGray.withOpacity(0.5),
+                        width: size.width / 4,
+                        height: 35,
+                        onPressed: () => goLogin!(context),
+                      ),
+                    ),
+                ],
+              ),
       ),
     );
   }
