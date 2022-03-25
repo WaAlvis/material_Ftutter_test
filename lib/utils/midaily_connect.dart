@@ -15,24 +15,30 @@ class MiDailyConnect {
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   static final Random _rnd = Random();
 
-  static Future<void> createConnection(DailyConnectType type) async {
+  static Future<void> createConnection(
+    BuildContext context,
+    DailyConnectType type,
+  ) async {
+    final DataUserProvider userProvider = context.read<DataUserProvider>();
+    final String _walletConnectCode = _getRandomString(7);
+    userProvider.setMiDailyConnectCode(_walletConnectCode);
     String _url = '';
 
     switch (type) {
       case DailyConnectType.walletAddress:
         _url =
-            'midailyapp://walletaddress?scheme=localdaily&path=${_getRandomString(5)}';
+            'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
         _url =
-            'midailyapp://transaction?scheme=localdaily&path=${_getRandomString(5)}';
+            'midailyapp://transaction?scheme=localdaily&path=$_walletConnectCode';
         break;
       default:
     }
 
     if (await canLaunch(_url)) {
       Codec<String, String> stringToBase64 = utf8.fuse(base64);
-      String encoded = stringToBase64.encode(_url);
+      final String encoded = stringToBase64.encode(_url);
       print(encoded);
       await launch(_url, headers: <String, String>{});
     } else {
@@ -51,6 +57,11 @@ class MiDailyConnect {
     if (userProvider.getDataUserLogged == null) return;
 
     final String host = uri.host;
+
+    // Validar que el código generado sea el mismo al que recibe como respuesta
+    if (userProvider.getMiDailyConnectCode == null ||
+        host != userProvider.getMiDailyConnectCode) return;
+
     switch (host) {
       case 'walletaddress':
         final String? address = uri.queryParameters['address'];
@@ -77,7 +88,7 @@ class MiDailyConnect {
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(
-        Iterable.generate(
+        Iterable<int>.generate(
           length,
           (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
         ),

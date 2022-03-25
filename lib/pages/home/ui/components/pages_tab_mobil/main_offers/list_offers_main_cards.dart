@@ -80,6 +80,7 @@ class ListOffersMainSwitch extends StatelessWidget {
                               ? const SizedBox.shrink()
                               : CardWalletConnect(
                                   onTap: () => MiDailyConnect.createConnection(
+                                    context,
                                     DailyConnectType.walletAddress,
                                   ),
                                   textTheme: textTheme,
