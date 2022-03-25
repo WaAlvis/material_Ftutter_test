@@ -149,7 +149,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   }
 
   Future<void> getDataHome(BuildContext context, TypeOffer type) async {
-    status = status.copyWith(isLoading: true);
+    status = status.copyWith(isLoading: false);
 
     final Pagination pagination =
         Pagination(isPaginable: true, currentPage: 1, itemsPerPage: 10);
