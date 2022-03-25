@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hex/hex.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -388,7 +389,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     required DataUserProvider dataUserProvider,
   }) async {
     status = status.copyWith(isLoading: true);
-    final String sha256pass = encrypPass(status.password!).toString();
+    final String sha256pass = encrypPass(status.password).toString();
     // print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(

@@ -18,6 +18,7 @@ class AppTheme{
     // primarySwatch: Colors.yellow,
     backgroundColor: LdColors.white,
     brightness: Brightness.light,
+
   );
 }
 
@@ -46,6 +47,7 @@ extension LDailyAttributes on TextTheme{
 
   TextStyle get textBigWhite => bodyText1!.copyWith(
     color: LdColors.white,
+
     fontSize: 22,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',
@@ -59,7 +61,7 @@ extension LDailyAttributes on TextTheme{
   );
 
   TextStyle get textSmallWhite => bodyText1!.copyWith(
-    color: LdColors.grayText,
+    color: LdColors.white,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     fontFamily: 'GTWalsheimPro',

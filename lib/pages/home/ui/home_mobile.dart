@@ -15,7 +15,7 @@ class _HomeMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double hAppbar = 150;
     final double hBody = size.height - hAppbar;
-    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     // DataUserProvider dataUserProvider;
 
@@ -47,34 +47,11 @@ class _HomeMobile extends StatelessWidget {
         hBody: hBody,
       ),
 
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-           Text(
-
-            dataUserProvider.getDataUserLogged?.email ?? 'No hay Usuario',
-             style:const TextStyle(fontSize: 25),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          const Center(
-            child: Text(
-              'Perfil',
-            ),
-          ),
-          PrimaryButtonCustom(
-            'Cerrar Sesion de Usuario',
-            onPressed: () {
-              viewModel.goLogin(context);
-              dataUserProvider.setDataUserLogged(
-                null,
-              );
-
-            },
-          )
-        ],
-      ),
+      ProfileUser(
+          viewModel: viewModel,
+          textTheme: textTheme,
+          hAppbar: hAppbar,
+          hBody: hBody,),
       // Camera page
       // Chats page
     ];
@@ -172,54 +149,3 @@ class OptionsFilterRow extends StatelessWidget {
     );
   }
 }
-
-// final List<Map<String, String>> items = <Map<String, String>>[
-//   <String, String>{  1111111
-//     'nickname': 'Bayron',
-//     'stars': '182',
-//     'value1': '25000',
-//     'value2': '1.5',
-//     'banco': 'Nequi',
-//     'time' : '3h'
-//   },
-//   <String, String>{
-//     'nickname': 'San Carlos',
-//     'stars': '112',
-//     'value1': '11002000',
-//     'value2': '1.3',
-//     'banco': 'Davivienda',
-// 'time' : '2d'
-//   },
-//   <String, String>{
-//     'nickname': 'Camilos',
-//     'stars': '302',
-//     'value1': '124000',
-//     'value2': '1.6',
-//     'banco': 'PSE',
-//     'time':'2h'
-//   },
-//   <String, String>{
-//     'nickname': 'Sandra',
-//     'stars': '102',
-//     'value1': '1200000',
-//     'value2': '2.0',
-//     'banco': 'Nequi',
-//     'time' : '3d'
-//   },
-//   <String, String>{
-//     'nickname': 'Camilos',
-//     'stars': '32',
-//     'value1': '1204000',
-//     'value2': '1.9',
-//     'banco': 'Bancolombia',
-//     'time' : '1h'
-//   },
-//   <String, String>{
-//     'nickname': 'Diego',
-//     'stars': '112',
-//     'value1': '129400',
-//     'value2': '1.5',
-//     'banco': 'MercadoPago'
-//     ,'time' : '3h'
-//   }
-// ];

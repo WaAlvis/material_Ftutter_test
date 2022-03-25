@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/view_model.dart';
-
-enum RegisterStep {
-  emailStep_1,
-  msjEmailStep_2,
-  validatePinStep_3,
-  accountDataStep_4,
-  personalDataStep_5,
-  dataWalletStep_6
-}
 
 class RegisterStatus extends ViewStatus {
   final bool isLoading;
@@ -142,10 +134,10 @@ class RegisterStatus extends ViewStatus {
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,
       isError: isError ?? this.isError,
+      acceptTermCoditions: acceptTermCoditions ?? this.acceptTermCoditions,
       hasMore8Chars: hasMore8Chars ?? this.hasMore8Chars,
       hasUpperLetter: hasUpperLetter ?? this.hasUpperLetter,
       hasSpecialChar: hasSpecialChar ?? this.hasSpecialChar,
-      acceptTermCoditions: acceptTermCoditions ?? this.acceptTermCoditions,
       hasLowerLetter: hasLowerLetter ?? this.hasLowerLetter,
       hasNumberChar: hasNumberChar ?? this.hasNumberChar,
     );

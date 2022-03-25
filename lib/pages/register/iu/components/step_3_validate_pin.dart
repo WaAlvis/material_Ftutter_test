@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/register/register_status.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -126,8 +127,8 @@ class Step3ValidatePin extends StatelessWidget {
                                   ),
                                 ),
                               );
-                              viewModel
-                                  .reSendPinToEmail(viewModel.status.emailRegister);
+                              viewModel.reSendPinToEmail(
+                                  viewModel.status.emailRegister);
                             },
                           ),
                           Text(
@@ -143,11 +144,13 @@ class Step3ValidatePin extends StatelessWidget {
                 const SizedBox(height: 50),
                 PrimaryButtonCustom(
                   'Continuar',
-                  onPressed: () => viewModel.continueStep_4AccountData(codePinCtrl.text),),
-
+                  onPressed: () =>
+                      viewModel.continueStep_4AccountData(codePinCtrl.text),
+                ),
                 PrimaryButtonCustom(
                   'pasar sin validar',
-                  onPressed: () => viewModel.goNextStep(currentStep: RegisterStep.validatePinStep_3),
+                  onPressed: () => viewModel.goNextStep(
+                      currentStep: RegisterStep.validatePinStep_3),
                 ),
               ],
             ),

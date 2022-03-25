@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/register/iu/components/card_register.dart';
 import 'package:localdaily/pages/register/iu/components/step_1_email_register.dart';
 import 'package:localdaily/pages/register/iu/components/step_2_msj_email.dart';

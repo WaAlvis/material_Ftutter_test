@@ -23,7 +23,6 @@ Future<void> main() async {
     runApp(
       MultiProvider(
         providers: [
-
           ChangeNotifierProvider<DataUserProvider>(
             create: (_) => DataUserProvider(),
           ),

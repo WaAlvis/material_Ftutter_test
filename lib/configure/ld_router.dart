@@ -1,9 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+
+import '../pages/history/ui/history_view.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -14,16 +16,16 @@ class LdRouter {
 
   LdRouter._internal();
 
-  /*final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   void popT<T>(T result) {
     navigatorKey.currentState!.pop<T>(result);
   }
 
-  void pop() {
-    navigatorKey.currentState!.pop();
-    // AppRouter.router.pop(context)
-  }*/
+  void pop(BuildContext context) {
+    // navigatorKey.currentState!.pop();
+    AppRouter.router.pop(context);
+  }
 
   void goHome(BuildContext context) {
     /*return navigatorKey.currentState!
@@ -60,13 +62,46 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
   void goDetailOffer(BuildContext context, Data item) {
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.detailOffer.route,
+      AppRoutes.detailOfferRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-      arguments: <String, Data>{ 'item' : item }, ),
+        arguments: <String, Data>{'item': item},
+      ),
+    );
+  }
+
+  void goDetailHistoryOperation(BuildContext context, Operation item) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailHistoryOperationRoute.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, Operation>{'item': item},
+      ),
+    );
+  }
+
+  void goSettings(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.settingsRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goChangePsw(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.changePswRoute.route,
+      transition: TransitionType.none,
     );
   }
 
@@ -80,6 +115,16 @@ class LdRouter {
     );
   }
 
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.historyOperationsRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
   void goEmailRegister(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
@@ -88,19 +133,19 @@ class LdRouter {
     );
   }
 
-  // void goValidateEmail(BuildContext context) {
-  //   AppRouter.router.navigateTo(
-  //     context,
-  //     AppRoutes.registerValidateEmailRoute.route,
-  //     transition: TransitionType.none,
-  //   );
-  // }
-  //
-  // void goPersonalInfoRegister(BuildContext context) {
-  //   AppRouter.router.navigateTo(
-  //     context,
-  //     AppRoutes.personalInfoRegisterRoute.route,
-  //     transition: TransitionType.none,
-  //   );
-  // }
+// void goValidateEmail(BuildContext context) {
+//   AppRouter.router.navigateTo(
+//     context,
+//     AppRoutes.registerValidateEmailRoute.route,
+//     transition: TransitionType.none,
+//   );
+// }
+//
+// void goPersonalInfoRegister(BuildContext context) {
+//   AppRouter.router.navigateTo(
+//     context,
+//     AppRoutes.personalInfoRegisterRoute.route,
+//     transition: TransitionType.none,
+//   );
+// }
 }

@@ -1,0 +1,111 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_assets.dart';
+import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/configure/get_it_locator.dart';
+import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/detail_history_operation/detail_history_operation_view_model.dart';
+import 'package:localdaily/pages/history/ui/history_view.dart';
+import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/widgets/quarter_circle.dart';
+import 'package:provider/provider.dart';
+
+part 'detail_history_operation_mobile.dart';
+
+part 'detail_history_opertarion_web.dart';
+
+class DetailHistoryOperationView extends StatelessWidget {
+  const DetailHistoryOperationView({
+    Key? key,
+    this.item,
+  }) : super(key: key);
+
+  final Operation? item;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<DetailHistoryOperationViewModel>(
+      create: (_) => DetailHistoryOperationViewModel(
+        locator<LdRouter>(),
+        locator<ServiceInteractor>(),
+      ),
+      builder: (BuildContext context, _) {
+        return Scaffold(
+          backgroundColor: LdColors.white,
+          body: _DetailHistoryOperationBody(
+            item: item!,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DetailHistoryOperationBody extends StatefulWidget {
+  const _DetailHistoryOperationBody({Key? key, required this.item})
+      : super(key: key);
+
+  final Operation item;
+
+  @override
+  _DetailHistoryOperationBodyState createState() =>
+      _DetailHistoryOperationBodyState();
+}
+
+class _DetailHistoryOperationBodyState
+    extends State<_DetailHistoryOperationBody> {
+  final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
+
+  // final ScrollController _scrollCtrl = ScrollController();
+
+  @override
+  void initState() {
+    // final HistoryViewModel viewModel = context.read<HistoryViewModel>();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<DetailHistoryOperationViewModel>().onInit();
+    });
+    super.initState();
+    // _scrollCtrl.addListener(() {
+    //   if (_scrollCtrl.position.pixels >= _scrollCtrl.position.maxScrollExtent &&
+    //       !viewModel.status.isLoadingHistory) {
+    //     print('Get Data Historial');
+    //     viewModel.mockFetch();
+    //   }
+    // });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // _scrollCtrl.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, BoxConstraints constraints) {
+        final double maxWidth = constraints.maxWidth;
+
+        return CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: maxWidth > 1024
+                  ? DetailHistoryOperationWeb(
+                      keyForm: keyForm,
+                    )
+                  : DetailHistoryOperationMobile(
+                      keyForm: keyForm,
+                      item: widget.item,
+                      // scrollCtrl: _scrollCtrl,
+                    ),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
