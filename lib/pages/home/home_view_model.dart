@@ -4,7 +4,9 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/local_storage_service.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -18,9 +20,14 @@ import 'home_status.dart';
 class HomeViewModel extends ViewModel<HomeStatus> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
+  late LocalStorageService _localStorage;
   final int itemsPerPage = 10;
 
-  HomeViewModel(this._route, this._interactor) {
+  HomeViewModel(
+    this._route,
+    this._interactor,
+    this._localStorage,
+  ) {
     status = HomeStatus(
       hideWallet: false,
       hideValues: false,
@@ -79,10 +86,17 @@ class HomeViewModel extends ViewModel<HomeStatus> {
 
   Future<void> onInit(
     BuildContext context,
-    String userId, {
+    DataUserProvider dataUserProvider, {
     bool validateNotification = false,
   }) async {
+    final String userId = dataUserProvider.getDataUserLogged?.id ?? '';
+    final String email = dataUserProvider.getDataUserLogged?.email ?? '';
+
     getData(context, userId);
+    if (email.isNotEmpty) {
+      dataUserProvider
+          .setAddress(_localStorage.getPreferences()?.getString(email));
+    }
   }
 
   Future<void> swapType(
@@ -129,7 +143,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       }
     });
   }
-
 
   void goCreateOffer(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {

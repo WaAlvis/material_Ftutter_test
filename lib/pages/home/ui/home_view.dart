@@ -15,6 +15,7 @@ import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/main_offers/
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/operation_offer/list_operations_offers.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/local_storage_service.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
@@ -52,6 +53,7 @@ class HomeView extends StatelessWidget {
       create: (_) => HomeViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
+        locator<LocalStorageService>(),
       ),
       builder: (BuildContext context, _) {
         return const _HomeBody();
@@ -84,9 +86,10 @@ class _HomeBodyState extends State<_HomeBody> {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context
-          .read<HomeViewModel>()
-          .onInit(context, dataUserProvider.getDataUserLogged?.id ?? '');
+      context.read<HomeViewModel>().onInit(
+            context,
+            dataUserProvider,
+          );
     });
     super.initState();
   }

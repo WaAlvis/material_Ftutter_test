@@ -140,7 +140,7 @@ class _OfferBuyMobile extends StatelessWidget {
                               height: 20,
                             ),
                             Text(
-                              'Bancos para realizar el pago',
+                              'Entidades para realizar el pago',
                               style: textTheme.textBigBlack,
                             ),
                             const SizedBox(
@@ -154,8 +154,8 @@ class _OfferBuyMobile extends StatelessWidget {
                               height: 20,
                             ),
                             DropdownCustom(
-                              'Banco *',
-                              hintText: 'Seleciona tu banco',
+                              'Entidad *',
+                              hintText: 'Seleciona tu entidad',
                               validator: (String? value) =>
                                   viewModel.validatorNotEmpty(value),
                               changeFillWith:
@@ -175,7 +175,7 @@ class _OfferBuyMobile extends StatelessWidget {
                               height: 20,
                             ),
                             PrimaryButtonCustom(
-                              'Agregar Banco',
+                              'Agregar Entidad',
                               icon: Icons.add_circle_outline_outlined,
                               colorButton: LdColors.white,
                               colorTextBorder: LdColors.orangePrimary,

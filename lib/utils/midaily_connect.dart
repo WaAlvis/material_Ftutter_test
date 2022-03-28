@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -35,10 +36,16 @@ class MiDailyConnect {
       default:
     }
 
+    print(_url);
+
     if (await canLaunch(_url)) {
+      print('Abrir');
       await launch(_url, headers: <String, String>{});
     } else {
+      print('TODO: Abrir tiendas');
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
+      if (Platform.isIOS) {
+      } else {}
     }
   }
 
@@ -87,6 +94,8 @@ class MiDailyConnect {
     if (address == null || address.isEmpty) return;
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     _localStorage.getPreferences()?.setString(email, address);
+    print('/// EMAIL GUARDADO ///');
+    print(_localStorage.getPreferences()?.getString(email));
   }
 
   // Remueve address guardada de Midaily, desconecta con dailyconnect
