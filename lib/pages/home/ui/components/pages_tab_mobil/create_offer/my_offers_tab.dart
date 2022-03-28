@@ -74,6 +74,7 @@ class MyOffersTab extends StatelessWidget {
             ),
             Expanded(
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   if (viewModel.status.myOfferBuyData.data.isEmpty)
                     AdviceMessage(
@@ -88,16 +89,14 @@ class MyOffersTab extends StatelessWidget {
                               : viewModel.goLogin(context),
                     )
                   else
-                    ListCreateOfferSwitch(
-                      type: TypeOffer.buy,
+                    ListMyOffersSale(
                       textTheme: textTheme,
-                      size: size,
-                      viewModel: viewModel,
+                      userId: dataUserProvider.getDataUserLogged?.id ?? '',
                     ),
                   if (viewModel.status.myOfferSaleData.data.isEmpty)
                     AdviceMessage(
                       imageName: LdAssets.saleNoOffer,
-                      title: 'Aun no tienes ofertas de venta',
+                      title: 'Aún no tienes ofertas de venta',
                       description:
                           'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
                       btnText: 'Crear oferta de venta',
@@ -107,11 +106,9 @@ class MyOffersTab extends StatelessWidget {
                               : viewModel.goLogin(context),
                     )
                   else
-                    ListCreateOfferSwitch(
-                      type: TypeOffer.sell,
+                    ListMyOffersSale(
                       textTheme: textTheme,
-                      size: size,
-                      viewModel: viewModel,
+                      userId: dataUserProvider.getDataUserLogged?.id ?? '',
                     ),
                 ],
               ),
@@ -143,18 +140,12 @@ class ListCreateOfferSwitch extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: false
-          ? ListMyOffersSale(
-              'data',
-              textTheme: textTheme,
-              viewModel: viewModel,
-            )
-          : NotOffersYet(
-              viewModel: viewModel,
-              textTheme: textTheme,
-              size: size,
-              type: type,
-            ),
+      child: NotOffersYet(
+        viewModel: viewModel,
+        textTheme: textTheme,
+        size: size,
+        type: type,
+      ),
     );
   }
 }

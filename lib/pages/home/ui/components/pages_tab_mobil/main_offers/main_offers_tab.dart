@@ -27,7 +27,7 @@ class MainOffersTab extends StatelessWidget {
           AppbarCircles(
             hAppbar: hAppbar,
             content: Column(
-              children: [
+              children: <Widget>[
                 TabBar(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   indicatorColor: LdColors.orangePrimary,
@@ -67,6 +67,7 @@ class MainOffersTab extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 ListOffersMainSwitch(
                   'Ofertas para comprar',
