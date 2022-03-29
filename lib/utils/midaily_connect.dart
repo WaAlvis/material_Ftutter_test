@@ -7,12 +7,12 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/local_storage_service.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MiDailyConnect {
-  static const String _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const String _chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
   static final Random _rnd = Random();
 
   static Future<void> createConnection(
@@ -27,22 +27,18 @@ class MiDailyConnect {
     switch (type) {
       case DailyConnectType.walletAddress:
         _url =
-            'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
+            'exp://172.18.1.5:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
         _url =
-            'midailyapp://transaction?scheme=localdaily&path=$_walletConnectCode';
+            'exp://172.18.1.5:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       default:
     }
 
-    print(_url);
-
     if (await canLaunch(_url)) {
-      print('Abrir');
       await launch(_url, headers: <String, String>{});
     } else {
-      print('TODO: Abrir tiendas');
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
       if (Platform.isIOS) {
       } else {}
@@ -50,7 +46,10 @@ class MiDailyConnect {
   }
 
   // Listener para la conexión con MiDaily
-  static void handleIncomingLinks(BuildContext context, Uri? uri) {
+  Future<void> handleIncomingLinks(
+    BuildContext context,
+    Uri? uri,
+  ) async {
     print(uri);
     // Validar URL
     if (uri == null) return;
@@ -69,18 +68,37 @@ class MiDailyConnect {
     if (path == null || path.isEmpty) return;
 
     // Validar si la operación fue exitosa o no
-    final bool? isSuccess = uri.queryParameters['isSuccess'] as bool?;
-    if (isSuccess == null || !isSuccess) {
-      // TODO: Mostrar retroalimentación del error
+    final String? isSuccess = uri.queryParameters['success'];
+    if (isSuccess == null || isSuccess.isEmpty || isSuccess != 'true') {
       final String? errCode = uri.queryParameters['error'];
       print(errCode);
+      // TODO: Mostrar error por cada tipo
+      LdSnackbar.buildErrorSnackbar(
+        context,
+        'Ocurrió un inconveniente, intenta más tarde',
+      );
       return;
     }
 
     switch (path) {
       case 'walletaddress':
         final String? address = uri.queryParameters['result'];
-        _saveAddress(address, userProvider.getDataUserLogged!.email);
+        if (await _saveAddress(
+          address,
+          userProvider.getDataUserLogged!.email,
+          userProvider,
+        )) {
+          LdSnackbar.buildSuccessSnackbar(
+            context,
+            'Se guardó tu dirección de wallet MiDaily',
+            2,
+          );
+        } else {
+          LdSnackbar.buildErrorSnackbar(
+            context,
+            'Ocurrió un inconveniente, intenta más tarde',
+          );
+        }
         break;
       case 'transaction':
         // TODO: Lògica para realizar trx
@@ -90,18 +108,27 @@ class MiDailyConnect {
   }
 
   // Guarda address retornada de Midaily en localStorage con email como key
-  static void _saveAddress(String? address, String email) {
-    if (address == null || address.isEmpty) return;
+  static Future<bool> _saveAddress(
+    String? address,
+    String email,
+    DataUserProvider userProvider,
+  ) async {
+    if (address == null || address.isEmpty) return false;
     final LocalStorageService _localStorage = locator<LocalStorageService>();
-    _localStorage.getPreferences()?.setString(email, address);
-    print('/// EMAIL GUARDADO ///');
-    print(_localStorage.getPreferences()?.getString(email));
+    await _localStorage.getPreferences()?.setString(email, address);
+    userProvider.setAddress(address);
+    return true;
   }
 
   // Remueve address guardada de Midaily, desconecta con dailyconnect
-  static Future<void> removeAddress(String email) async {
+  static Future<void> removeAddress(
+    BuildContext context,
+    String email,
+    DataUserProvider userProvider,
+  ) async {
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     await _localStorage.getPreferences()?.remove(email);
+    userProvider.setAddress('');
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(

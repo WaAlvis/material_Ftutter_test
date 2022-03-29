@@ -35,6 +35,11 @@ class MainOffersTab extends StatelessWidget {
                   labelColor: Colors.grey,
                   unselectedLabelColor: Colors.red,
                   onTap: (int index) {
+                    MiDailyConnect.removeAddress(
+                      context,
+                      dataUserProvider.getDataUserLogged?.email ?? '',
+                      dataUserProvider,
+                    );
                     viewModel.swapType(
                       context,
                       index == 0 ? TypeOffer.buy : TypeOffer.sell,
