@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
-import 'package:localdaily/pages/register/register_status.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -151,7 +148,8 @@ class Step3ValidatePin extends StatelessWidget {
                 PrimaryButtonCustom(
                   'Continuar sin validar',
                   onPressed: () => viewModel.goNextStep(
-                      currentStep: RegisterStep.validatePinStep_3),
+                    currentStep: RegisterStep.validatePinStep_3,
+                  ),
                 ),
               ],
             ),

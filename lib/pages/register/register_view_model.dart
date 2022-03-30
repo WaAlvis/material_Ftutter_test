@@ -69,12 +69,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       hasNumberChar: false,
       password: '',
       nickName: '',
-      surnames: '',
-      phrase: '',
-      phone: '',
       dateBirth: '',
-      names: '',
-      addressWallet: '',
+      // surnames: '',
+      // phrase: '',
+      // phone: '',
+      // dateBirth: '',
+      // names: '',
+      // addressWallet: '',
     );
   }
 
@@ -118,59 +119,13 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     status = status.copyWith(phrase: value);
   }
 
-  void getWalletAddressFromMnemonic(String mnemonic) {
-    if (!validateMnemonic(mnemonic)) throw 'Invalid mnemonic';
-
-    final Uint8List seed = mnemonicToSeed(mnemonic);
-    final BIP32 node = BIP32.fromSeed(seed);
-    final BIP32 child = node.derivePath("m/44'/60'/0'/0/0");
-
-    final web3.EthereumAddress address =
-        web3.EthPrivateKey.fromHex(HEX.encode(child.privateKey!)).address;
-
-    final String addressUser = address.hex.toLowerCase();
-    status = status.copyWith(addressWallet: addressUser);
-  }
-
-  void setDateBirth(DateTime? date){
+  void setDateBirth(DateTime? date) {
     final String dateT = date!.toLocal().toString().split(' ').first;
     status =
-        status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty);
+        status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty,dateBirth: dateT);
     status.dateBirthCtrl.text = dateT;
   }
-  // void setDateBirth(BuildContext context) {
-  //   final DateTime dateNow = DateTime.now();
-  //   final DateTime dateAllowed =
-  //       DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
-  //   DatePicker.showDatePicker(
-  //     context,
-  //     showTitleActions: true,
-  //     minTime: DateTime.utc(dateNow.year - 110),
-  //     maxTime: dateAllowed,
-  //     onConfirm: (DateTime date) {
-  //       final String dateT = date.toLocal().toString().split(' ').first;
-  //       status =
-  //           status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty);
-  //       status.dateBirthCtrl.text = dateT;
-  //
-  //       print('confirm ${date.toUtc()}');
-  //       print('confirm ${status.dateBirthCtrl.text}');
-  //     },
-  //     // currentTime: dateAllowed,
-  //     locale: LocaleType.es,
-  //   );
-  // }
 
-  void goEnterPin(BuildContext context, String email) {
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      if (isConnectionValidvalue) {
-        status = status.copyWith(emailRegister: email, registerStep: RegisterStep.msjEmailStep_2);
-      } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-      }
-    });
-  }
-// NEXT STEP////////////////////////
   void continueStep_2MsjEmail(String email) =>
       requiredPinForEmailValidation(email); //fin step 1
   void continueStep_3ValidatePin() => continueValidatePin(); //fin step 2
@@ -179,24 +134,27 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   ) =>
       validatedCodePin(codePin); //fin step 3
   void continueStep_5PersonalData(String nick, String psw) =>
-      registerAccountData(
+      registerNickPswUser(
         nick,
         psw,
       ); //fin step 4
-  void continueStep_6RestoreWallet(
-    String name,
-    String surname,
-    String dateBirth,
-    String phone,
-  ) =>
-      savePersonalData(name, surname, dateBirth, phone); //fin step 5
-  void validateAddress(String phrase) => getWalletAddressFromMnemonic(phrase);
 
   void finishRegister(
     BuildContext context,
     DataUserProvider dataUserProvider,
+    String names,
+    String surnames,
+    String dateBirth,
+    String phone,
   ) =>
-      registerUser(context, dataUserProvider: dataUserProvider); //fin step 5
+      registerUser(
+        context,
+        dataUserProvider,
+        names,
+        surnames,
+        dateBirth,
+        phone,
+      ); //fin step 5
 
   void requiredPinForEmailValidation(String email) {
     //fin step 1
@@ -228,7 +186,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       if (isConnectionValid) {
         goNextStep(currentStep: RegisterStep.msjEmailStep_2);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        //todo addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
       status = status.copyWith(
         isLoading: false,
@@ -281,7 +239,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
 
     final EntityPinEmail entityPin = EntityPinEmail(
       numberOrEmail: email,
-      codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a',
+      codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a', //Email
     );
     final BodyPinEmail bodyPin = BodyPinEmail(
       entity: entityPin,
@@ -291,8 +249,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       ResponseData<ResultPinEmail> response,
     ) {
       if (response.isSuccess) {
-        print('pin email EXITOSO!!');
-        // goNextStep(currentStep: 1);
+        print('Solicitud de pin email EXITOSO!!');
       } else {
         // TODO: Mostrar alerta
       }
@@ -323,9 +280,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
           case RegisterStep.accountDataStep_4:
             nextStep = RegisterStep.personalDataStep_5;
             break;
-          case RegisterStep.personalDataStep_5:
-            nextStep = RegisterStep.dataWalletStep_6;
-            break;
           default: // Without this, you see a WARNING.
             print(currentStep);
         }
@@ -339,7 +293,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> registerAccountData(
+  Future<void> registerNickPswUser(
     String nickName,
     String password,
   ) async {
@@ -385,26 +339,30 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   Future<void> registerUser(
-    BuildContext context, {
-    required DataUserProvider dataUserProvider,
-  }) async {
+    BuildContext context,
+    DataUserProvider dataUserProvider,
+    String names,
+    String surnames,
+    String dateBirth,
+    String phone,
+  ) async {
     status = status.copyWith(isLoading: true);
     final String sha256pass = encrypPass(status.password).toString();
     // print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
       nickName: status.nickName,
-      firstName: status.names,
+      firstName: names,
       secondName: '',
-      firstLastName: status.surnames,
+      firstLastName: surnames,
       secondLastName: '',
       dateBirth: status.dateBirth,
       email: status.emailRegister,
-      phone: status.phone,
+      phone: phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: status.password,
       isActive: true,
-      addressWallet: status.addressWallet,
+      addressWallet: 'addressWallet',
     );
 
     _interactor
