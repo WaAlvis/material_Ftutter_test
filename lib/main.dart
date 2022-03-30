@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
@@ -30,7 +32,7 @@ Future<void> main() async {
             create: (_) => DataUserProvider(),
           ),
         ],
-        child: MyApp(),
+        child: LocalDaily(),
       ),
     );
   }, (Object error, StackTrace stackTrace) {
@@ -38,12 +40,12 @@ Future<void> main() async {
   });
 }
 
-class MyApp extends StatefulWidget {
+class LocalDaily extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _LocalDailyState createState() => _LocalDailyState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _LocalDailyState extends State<LocalDaily> {
   final LdRouter router = GetIt.instance.get<LdRouter>();
   StreamSubscription<dynamic>? _sub;
 
@@ -51,8 +53,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // DeepLink listener
     if (kIsWeb) return;
-    _sub = uriLinkStream
-        .listen((Uri? uri) => MiDailyConnect.handleIncomingLinks(context, uri));
+    _sub = uriLinkStream.listen(
+        (Uri? uri) => MiDailyConnect().handleIncomingLinks(context, uri));
     super.initState();
   }
 
@@ -66,6 +68,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       // navigatorKey: router.navigatorKey,
+      scaffoldMessengerKey: LdSnackbar.key,
       debugShowCheckedModeBanner: false,
       title: 'Local Daily',
       theme: AppTheme.build(),

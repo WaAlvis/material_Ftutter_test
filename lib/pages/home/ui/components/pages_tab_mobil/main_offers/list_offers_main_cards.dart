@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/pages/home/ui/components/advice_message.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +27,8 @@ class ListOffersMainSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    final DataUserProvider userProvider = context.watch<DataUserProvider>();
+
     final List<Data> items = viewModel.status.typeOffer == TypeOffer.buy
         ? viewModel.status.offersSaleDataHome.data
         : viewModel.status.offersBuyDataHome.data;
@@ -58,6 +63,9 @@ class ListOffersMainSwitch extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
                 separatorBuilder: (BuildContext context, int index) {
                   return const SizedBox(
                     height: 8,
@@ -76,16 +84,35 @@ class ListOffersMainSwitch extends StatelessWidget {
                           ),
                         )
                       : index == 0
-                          ? userId.isEmpty
-                              ? const SizedBox.shrink()
-                              : CardWalletConnect(
-                                  onTap: () => MiDailyConnect.createConnection(
-                                    context,
-                                    DailyConnectType.walletAddress,
-                                  ),
-                                  textTheme: textTheme,
-                                  connected: false,
-                                )
+                          ? Column(
+                              children: <Widget>[
+                                AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 500),
+                                  child: userId.isNotEmpty &&
+                                          (userProvider.getAddress == null ||
+                                              userProvider.getAddress == '')
+                                      ? CardWalletConnect(
+                                          onTap: () =>
+                                              MiDailyConnect.createConnection(
+                                            context,
+                                            DailyConnectType.walletAddress,
+                                          ),
+                                          textTheme: textTheme,
+                                          connected: false,
+                                        )
+                                      : const SizedBox.shrink(),
+                                ),
+                                if (items.isEmpty)
+                                  const IntrinsicHeight(
+                                    child: AdviceMessage(
+                                      imageName: LdAssets.emptyNotification,
+                                      title: 'Aún no hay ofertas de ventas',
+                                      description:
+                                          'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.',
+                                    ),
+                                  )
+                              ],
+                            )
                           : CardBuyAndSell(
                               onTap: () {
                                 userId.isEmpty

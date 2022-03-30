@@ -26,28 +26,24 @@ class ProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     final Color colorCardWhite = LdColors.white.withOpacity(0.95);
 
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-
       backgroundColor: LdColors.blackBackground,
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-           const  SizedBox(height: 90,),
-            const SizedBox(
-              height: 30,
-            ),
-            _headerCardUser(colorCardWhite, size),
-            _bodyCardUser(colorCardWhite),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          const SizedBox(
+            height: 90,
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          _headerCardUser(colorCardWhite, size),
+          _bodyCardUser(context, colorCardWhite),
+        ],
       ),
     );
   }
@@ -84,70 +80,89 @@ class ProfileUser extends StatelessWidget {
     );
   }
 
-  Widget _bodyCardUser(Color colorCardWhite) {
-    return Container(
-height: hBody-35,
-      decoration: BoxDecoration(
-        color: colorCardWhite,
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(16),
+  Widget _bodyCardUser(BuildContext context, Color colorCardWhite) {
+    final DataUserProvider userProvider = context.watch<DataUserProvider>();
+
+    return Expanded(
+      child: Container(
+        height: hBody - 35,
+        decoration: BoxDecoration(
+          color: colorCardWhite,
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const SizedBox(
-              height: 10,
-            ),
-            _nameEditPencil(colorCardWhite),
-            const SizedBox(
-              height: 22,
-            ),
-            _balanceDlyAvailable(),
-            // const SizedBox(
-            //   height: 30,
-            // ),
-            Column(
-              children:<Widget> [
-                ListView.separated(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: options.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const SizedBox(
+                height: 10,
+              ),
+              _nameEditPencil(colorCardWhite),
+              const SizedBox(
+                height: 22,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      _balanceDlyAvailable(),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: userProvider.getAddress != null &&
+                                userProvider.getAddress != ''
+                            ? CardWalletConnect(
+                                onTap: viewModel.disconnectWallet,
+                                textTheme: textTheme,
+                                connected: true,
+                                address: userProvider.getAddress,
+                              )
+                            : const SizedBox.shrink(),
                       ),
-                      leading: Icon(
-                        options[index].icon,
-                        color: LdColors.orangePrimary,
+                      Column(
+                        children: <Widget>[
+                          ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: options.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                leading: Icon(
+                                  options[index].icon,
+                                  color: LdColors.orangePrimary,
+                                ),
+                                title: Text(
+                                  options[index].text,
+                                  style: textTheme.textBlack,
+                                ),
+                                dense: true,
+                                onTap: () {
+                                  onOptionSelected(
+                                    context,
+                                    NavigateOption.values[index],
+                                    viewModel,
+                                  );
+                                },
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 20,
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                      title: Text(
-                        options[index].text,
-                        style: textTheme.textBlack,
-                      ),
-                      dense: true,
-                      onTap: () {
-                        onOptionSelected(
-                          context,
-                          NavigateOption.values[index],
-                          viewModel,
-                        );
-                      },
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 20,
-                    );
-                  },
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -240,7 +255,8 @@ height: hBody-35,
                   fit: BoxFit.scaleDown,
                   child: Text(
                     'Guillovela010',
-                    style: textTheme.textBigBlack.copyWith(fontSize: 26, fontWeight: FontWeight.w600),
+                    style: textTheme.textBigBlack
+                        .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),

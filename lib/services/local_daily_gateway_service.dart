@@ -18,6 +18,7 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
 
 part 'local_daily_gateway_service.g.dart';
@@ -38,6 +39,7 @@ class UrlsApi {
       '/NotificationCenter/SendMessageEvent/SendNotificationOtp';
   static const String validateToken =
       '/NotificationCenter/SendMessageEvent/ValidationToken';
+  static const String updateAddress = '/User/User/UpdateUserAddressWallet';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -46,7 +48,6 @@ class UrlsApi {
 abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
       _LocalDailyGatewayService;
-
 
   //Login & Register
   @POST(UrlsApi.login)
@@ -100,5 +101,10 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.createSmartContract)
   Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
     @Body() BodyCreateSmartContract bodyCreateSmartContract,
+  );
+
+  @PUT(UrlsApi.updateAddress)
+  Future<ResponseData<dynamic>> updateAddress(
+    @Body() BodyUpdateAddress bodyUpdateAddress,
   );
 }
