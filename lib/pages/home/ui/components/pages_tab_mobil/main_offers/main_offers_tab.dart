@@ -16,7 +16,6 @@ class MainOffersTab extends StatelessWidget {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final Size size = MediaQuery.of(context).size;
 
     //Alturas de el APpbar y el body
 
@@ -35,11 +34,6 @@ class MainOffersTab extends StatelessWidget {
                   labelColor: Colors.grey,
                   unselectedLabelColor: Colors.red,
                   onTap: (int index) {
-                    MiDailyConnect.removeAddress(
-                      context,
-                      dataUserProvider.getDataUserLogged?.email ?? '',
-                      dataUserProvider,
-                    );
                     viewModel.swapType(
                       context,
                       index == 0 ? TypeOffer.buy : TypeOffer.sell,

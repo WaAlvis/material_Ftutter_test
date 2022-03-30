@@ -3,7 +3,7 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/local_storage_service.dart';
@@ -13,11 +13,12 @@ import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 
 import 'home_status.dart';
 
-class HomeViewModel extends ViewModel<HomeStatus> {
+class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
   late LocalStorageService _localStorage;
@@ -106,22 +107,6 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   ) async {
     status = status.copyWith(typeOffer: type);
     await getData(context, userId);
-    /* switch (type) {
-      case TypeOffer.sell:
-        status = status.copyWith(
-          image: LdAssets.saleNoOffer,
-          titleText: 'Aun no tienes ofertas de venta',
-          buttonText: 'Crear oferta de venta',
-        );
-        break;
-      case TypeOffer.buy:
-        status = status.copyWith(
-          image: LdAssets.buyNoOffer,
-          titleText: 'Aun no tienes ofertas de compra',
-          buttonText: 'Crear oferta de compra',
-        );
-        break;
-    } */
   }
 
   void goHistoryOperations(BuildContext context) {
@@ -129,7 +114,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValid) {
         _route.goHistoryOperations(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -139,7 +124,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValid) {
         _route.goSettings(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -149,7 +134,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValidvalue) {
         _route.goCreateOffer(context, status.typeOffer);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -159,7 +144,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValidvalue) {
         _route.goLogin(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -169,9 +154,33 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValidvalue) {
         _route.goDetailOffer(context, item);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  void disconnectWallet() {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        addEffect(ShowDialogHomeEffect());
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void handleDisconnect(
+    BuildContext context,
+    String email,
+    DataUserProvider userProvider,
+  ) {
+    _route.pop(context);
+    MiDailyConnect.removeAddress(context, email, userProvider);
+    addEffect(ShowSnackbarDisconnect());
+  }
+
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
   }
 
   Future<void> getData(
@@ -191,7 +200,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
           await getDataOffers(context, userId, refresh: refresh);
       }
     } else {
-      // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
     status = status.copyWith(isLoading: false);
   }

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/local_storage_service.dart';
+import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,12 +28,16 @@ class MiDailyConnect {
 
     switch (type) {
       case DailyConnectType.walletAddress:
+        //_url =
+        //    'exp://172.18.1.5:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         _url =
-            'exp://172.18.1.5:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
+            'exp://127.0.0.1:19001/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
+        //_url =
+        //    'exp://172.18.1.5:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         _url =
-            'exp://172.18.1.5:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
+            'exp://127.0.0.1:19001/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       default:
     }
@@ -114,9 +120,17 @@ class MiDailyConnect {
     DataUserProvider userProvider,
   ) async {
     if (address == null || address.isEmpty) return false;
+    // Guardar localmente el address
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     await _localStorage.getPreferences()?.setString(email, address);
     userProvider.setAddress(address);
+    // Guardar en bd el address
+    ServiceInteractor().putUpdateAddress(
+      BodyUpdateAddress(
+        idUser: userProvider.getDataUserLogged?.id ?? '',
+        addressWallet: address,
+      ),
+    );
     return true;
   }
 
@@ -126,9 +140,17 @@ class MiDailyConnect {
     String email,
     DataUserProvider userProvider,
   ) async {
+    // Eliminar localmente el address
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     await _localStorage.getPreferences()?.remove(email);
     userProvider.setAddress('');
+    // Eliminar en bd el address
+    ServiceInteractor().putUpdateAddress(
+      BodyUpdateAddress(
+        idUser: userProvider.getDataUserLogged?.id ?? '',
+        addressWallet: '',
+      ),
+    );
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(

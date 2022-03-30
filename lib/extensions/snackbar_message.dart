@@ -9,23 +9,25 @@ extension ShowSnackbar on BuildContext {
     required int duration,
     required GlobalKey<ScaffoldMessengerState> key,
   }) {
-    ScaffoldMessenger.of(this).showSnackBar(
+    key.currentState!.showSnackBar(
       SnackBar(
         content: Row(
           children: <Widget>[
             const Icon(
-              Icons.copy,
-              color: LdColors.black,
-              size: 20,
+              Icons.info_outline,
+              color: LdColors.orangePrimary,
+              size: 25,
             ),
             const SizedBox(
               width: 15,
             ),
-            Text(
-              message,
-              style: Theme.of(this).textTheme.subtitleBlack.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+            Flexible(
+              child: Text(
+                message,
+                style: Theme.of(this).textTheme.textSmallBlack.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
             ),
           ],
         ),
@@ -62,11 +64,13 @@ extension ShowSnackbar on BuildContext {
                 const SizedBox(
                   width: 15,
                 ),
-                Text(
-                  message,
-                  style: Theme.of(context).textTheme.subtitleBlack.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
+                Flexible(
+                  child: Text(
+                    message,
+                    style: Theme.of(this).textTheme.textSmallBlack.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
                 ),
               ],
             ),
@@ -120,10 +124,9 @@ extension ShowSnackbar on BuildContext {
                   Flexible(
                     child: Text(
                       message,
-                      style: const TextStyle(
-                        color: LdColors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Theme.of(this).textTheme.textSmallBlack.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ],
@@ -162,10 +165,9 @@ extension ShowSnackbar on BuildContext {
                 ),
                 Text(
                   message,
-                  style: const TextStyle(
-                    color: LdColors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(this).textTheme.textSmallBlack.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
                 ),
               ],
             ),

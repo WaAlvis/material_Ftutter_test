@@ -111,11 +111,7 @@ class ProfileUser extends StatelessWidget {
                         child: userProvider.getAddress != null &&
                                 userProvider.getAddress != ''
                             ? CardWalletConnect(
-                                onTap: () => MiDailyConnect.removeAddress(
-                                  context,
-                                  userProvider.getDataUserLogged?.email ?? '',
-                                  userProvider,
-                                ),
+                                onTap: viewModel.disconnectWallet,
                                 textTheme: textTheme,
                                 connected: true,
                                 address: userProvider.getAddress,
