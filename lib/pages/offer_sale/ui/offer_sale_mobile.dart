@@ -136,7 +136,7 @@ class _OfferSaleMobile extends StatelessWidget {
                             );
                           },
                           validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
+                              viewModel.validatorAmount(value),
                           textTheme: textTheme,
                           controller: amountDLYCtrl,
                         ),

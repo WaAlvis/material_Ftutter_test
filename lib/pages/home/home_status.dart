@@ -20,6 +20,7 @@ class HomeStatus extends ViewStatus {
   final String titleText;
   // final String detailText;
   final String buttonText;
+  final double balance;
 
   HomeStatus({
     required this.offersBuyDataHome,
@@ -38,6 +39,7 @@ class HomeStatus extends ViewStatus {
     required this.titleText,
     // required this.detailText,
     required this.buttonText,
+    required this.balance,
   });
 
   HomeStatus copyWith({
@@ -57,6 +59,7 @@ class HomeStatus extends ViewStatus {
     String? titleText,
     // String? detailText,
     String? buttonText,
+    double? balance,
   }) {
     return HomeStatus(
       hideWallet: hideWallet ?? this.hideWallet,
@@ -75,6 +78,7 @@ class HomeStatus extends ViewStatus {
       titleText: titleText ?? this.titleText,
       // detailText: detailText ?? this.detailText,
       buttonText: buttonText ?? this.buttonText,
+      balance: balance ?? this.balance,
     );
   }
 }

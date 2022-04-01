@@ -17,6 +17,7 @@ import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:hex/hex.dart';
@@ -114,6 +115,15 @@ class OfferSaleViewModel
         valueText == '0' ||
         valueText == '0 COP') {
       return '* Campo necesario';
+    }
+    return null;
+  }
+
+  String? validatorAmount(String? value) {
+    if (value == null || value.isEmpty || value == '0' || value == '0 COP') {
+      return '* Campo necesario';
+    } else if (double.parse(value) < 1000) {
+      return 'El valor mínimo es de 1.000';
     }
     return null;
   }

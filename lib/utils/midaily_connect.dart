@@ -16,6 +16,7 @@ import 'package:localdaily/services/models/create_offers/transaction/entity_tran
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
+import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,19 @@ class MiDailyConnect {
   ) async {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     final String _walletConnectCode = _getRandomString(7);
+    final String _from = userProvider.getAddress ?? '';
+
+    // Se valida el monto con el balance para solicitar creacion
+    if (amount != null || amount != '') {
+      if (double.parse(amount!) > await CryptoUtils().getBalance(_from)) {
+        LdSnackbar.buildErrorSnackbar(
+          context,
+          'No hay fondos suficientes para realizar la operación',
+        );
+        return;
+      }
+    }
+
     userProvider.setMiDailyConnectCode(_walletConnectCode);
     String _url = '';
 
@@ -43,7 +57,6 @@ class MiDailyConnect {
             'exp://127.0.0.1:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
-        final String _from = userProvider.getAddress ?? '';
         //_url =
         //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
         _url =

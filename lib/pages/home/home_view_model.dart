@@ -13,6 +13,7 @@ import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -68,11 +69,20 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       image: LdAssets.buyNoOffer,
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
+      balance: -1,
     );
   }
 
-  void onItemTapped(int index) {
+  Future<void> onItemTapped(
+    int index,
+    String address,
+  ) async {
     status = status.copyWith(indexTab: index);
+    if (index == 3) {
+      status = status.copyWith(
+        balance: await CryptoUtils().getBalance(address),
+      );
+    }
   }
 
   void changeHideWallet() {

@@ -111,7 +111,10 @@ class _HomeMobile extends StatelessWidget {
                   dataUserProvider.getDataUserLogged?.id ?? '',
                 );
               }
-              viewModel.onItemTapped(index);
+              viewModel.onItemTapped(
+                index,
+                dataUserProvider.getAddress ?? '',
+              );
             },
             elevation: 10,
             iconSize: 30,

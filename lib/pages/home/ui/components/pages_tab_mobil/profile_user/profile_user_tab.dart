@@ -205,7 +205,13 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    '5.345.000',
+                    viewModel.status.balance == -1
+                        ? '-'
+                        : NumberFormat.simpleCurrency(
+                            decimalDigits: 0,
+                            name: '',
+                            locale: 'IT',
+                          ).format(viewModel.status.balance),
                     style: textTheme.textBigWhite.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
