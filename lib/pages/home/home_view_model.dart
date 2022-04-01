@@ -331,7 +331,20 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String userId, {
     bool refresh = false,
   }) async {
+    if (!refresh) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.myOfferBuyData.data.isNotEmpty ||
+            status.myOfferBuyData.totalItems ==
+                status.myOfferBuyData.data.length) return;
+      } else {
+        if (status.myOfferSaleData.data.isNotEmpty ||
+            status.myOfferSaleData.totalItems ==
+                status.myOfferSaleData.data.length) return;
+      }
+    }
+
     status = status.copyWith(isLoading: true);
+
     final Pagination pagination = Pagination(
       isPaginable: false,
       currentPage: status.typeOffer == TypeOffer.buy

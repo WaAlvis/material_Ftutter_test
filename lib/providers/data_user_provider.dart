@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 
 class DataUserProvider with ChangeNotifier {
@@ -20,6 +21,13 @@ class DataUserProvider with ChangeNotifier {
   String? get getAddress => _address;
   void setAddress(String? address) {
     _address = address;
+    notifyListeners();
+  }
+
+  BodyOffer? _bodyOffer;
+  BodyOffer? get getBodyOffer => _bodyOffer;
+  void setBodyOffer(BodyOffer? bodyOffer) {
+    _bodyOffer = bodyOffer;
     notifyListeners();
   }
 

@@ -26,13 +26,16 @@ Future<void> main() async {
 
   runZonedGuarded(() {
     runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<DataUserProvider>(
-            create: (_) => DataUserProvider(),
-          ),
-        ],
-        child: LocalDaily(),
+      MediaQuery(
+        data: MediaQueryData.fromWindow(ui.window),
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<DataUserProvider>(
+              create: (_) => DataUserProvider(),
+            ),
+          ],
+          child: LocalDaily(),
+        ),
       ),
     );
   }, (Object error, StackTrace stackTrace) {
@@ -54,7 +57,8 @@ class _LocalDailyState extends State<LocalDaily> {
     // DeepLink listener
     if (kIsWeb) return;
     _sub = uriLinkStream.listen(
-        (Uri? uri) => MiDailyConnect().handleIncomingLinks(context, uri));
+      (Uri? uri) => MiDailyConnect().handleIncomingLinks(context, uri),
+    );
     super.initState();
   }
 
@@ -67,7 +71,7 @@ class _LocalDailyState extends State<LocalDaily> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // navigatorKey: router.navigatorKey,
+      navigatorKey: router.navigatorKey,
       scaffoldMessengerKey: LdSnackbar.key,
       debugShowCheckedModeBanner: false,
       title: 'Local Daily',

@@ -50,9 +50,14 @@ class CardWalletConnect extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          const Icon(
+                          /* const Icon(
                             Icons.account_balance_wallet,
                             color: LdColors.orangePrimary,
+                          ), */
+                          SvgPicture.asset(
+                            LdAssets.dlyIcon,
+                            height: 30,
+                            fit: BoxFit.scaleDown,
                           ),
                           const SizedBox(width: 10),
                           Text(

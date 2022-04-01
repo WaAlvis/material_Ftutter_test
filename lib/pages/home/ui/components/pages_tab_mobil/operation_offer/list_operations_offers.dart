@@ -27,6 +27,7 @@ class ListOperationsOffers extends StatelessWidget {
         : viewModel.status.operationBuyData.data;
 
     return RefreshIndicator(
+      color: LdColors.orangePrimary,
       onRefresh: () async {
         await viewModel.getData(context, userId, refresh: true);
       },
@@ -57,7 +58,11 @@ class ListOperationsOffers extends StatelessWidget {
                   },
                   shrinkWrap: items.isEmpty,
                   padding: EdgeInsets.zero,
-                  itemCount: viewModel.status.isLoading ? 3 : items.length + 1,
+                  itemCount: viewModel.status.isLoading
+                      ? 3
+                      : items.isEmpty
+                          ? items.length + 1
+                          : items.length,
                   itemBuilder: (BuildContext context, int index) {
                     return viewModel.status.isLoading
                         ? Shimmer.fromColors(

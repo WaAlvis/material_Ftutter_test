@@ -2,22 +2,19 @@ part of '../../../home_view.dart';
 
 class MyOffersTab extends StatelessWidget {
   const MyOffersTab({
-    required this.viewModel,
     required this.textTheme,
     required this.listBanks,
     required this.hAppbar,
   });
 
-  final HomeViewModel viewModel;
   final TextTheme textTheme;
   final List<Bank> listBanks;
   final double hAppbar;
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
-    //Alturas de el APpbar y el body
 
     return DefaultTabController(
       length: 2,
@@ -35,36 +32,29 @@ class MyOffersTab extends StatelessWidget {
                     indicatorWeight: 3,
                     labelColor: Colors.grey,
                     onTap: (int tab) {
-                      if (tab == 0) {
-                        viewModel.swapType(
-                          context,
-                          TypeOffer.buy,
-                          dataUserProvider.getDataUserLogged?.id ?? '',
-                        );
-                      }
-                      if (tab == 1) {
-                        viewModel.swapType(
-                          context,
-                          TypeOffer.sell,
-                          dataUserProvider.getDataUserLogged?.id ?? '',
-                        );
-                      }
+                      viewModel.swapType(
+                        context,
+                        tab == 0 ? TypeOffer.buy : TypeOffer.sell,
+                        dataUserProvider.getDataUserLogged?.id ?? '',
+                      );
                     },
                     tabs: <Widget>[
                       Tab(
                         child: Text(
                           'Para comprar',
                           style: textTheme.textYellow.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: LdColors.orangePrimary),
+                            fontWeight: FontWeight.w400,
+                            color: LdColors.orangePrimary,
+                          ),
                         ),
                       ),
                       Tab(
                         child: Text(
                           'Para vender',
                           style: textTheme.textYellow.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: LdColors.orangePrimary),
+                            fontWeight: FontWeight.w400,
+                            color: LdColors.orangePrimary,
+                          ),
                         ),
                       )
                     ],
@@ -76,144 +66,20 @@ class MyOffersTab extends StatelessWidget {
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
-                  if (viewModel.status.myOfferBuyData.data.isEmpty)
-                    AdviceMessage(
-                      imageName: LdAssets.buyNoOffer,
-                      title: 'Aun no tienes ofertas de compra',
-                      description:
-                          'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
-                      btnText: 'Crear oferta de compra',
-                      onPressed: () =>
-                          dataUserProvider.getDataUserLogged != null
-                              ? viewModel.goCreateOffer(context)
-                              : viewModel.goLogin(context),
-                    )
-                  else
-                    ListMyOffersSale(
-                      textTheme: textTheme,
-                      userId: dataUserProvider.getDataUserLogged?.id ?? '',
-                    ),
-                  if (viewModel.status.myOfferSaleData.data.isEmpty)
-                    AdviceMessage(
-                      imageName: LdAssets.saleNoOffer,
-                      title: 'Aún no tienes ofertas de venta',
-                      description:
-                          'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
-                      btnText: 'Crear oferta de venta',
-                      onPressed: () =>
-                          dataUserProvider.getDataUserLogged != null
-                              ? viewModel.goCreateOffer(context)
-                              : viewModel.goLogin(context),
-                    )
-                  else
-                    ListMyOffersSale(
-                      textTheme: textTheme,
-                      userId: dataUserProvider.getDataUserLogged?.id ?? '',
-                    ),
+                  ListMyOffersSale(
+                    textTheme: textTheme,
+                    userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                  ),
+                  ListMyOffersSale(
+                    textTheme: textTheme,
+                    userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                  )
                 ],
               ),
             )
           ],
         ),
       ),
-    );
-  }
-}
-
-class ListCreateOfferSwitch extends StatelessWidget {
-  const ListCreateOfferSwitch({
-    Key? key,
-    required this.type,
-    required this.textTheme,
-    required this.size,
-    required this.viewModel,
-  }) : super(key: key);
-
-  final TypeOffer type;
-  final TextTheme textTheme;
-  final Size size;
-  final HomeViewModel viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: NotOffersYet(
-        viewModel: viewModel,
-        textTheme: textTheme,
-        size: size,
-        type: type,
-      ),
-    );
-  }
-}
-
-class NotOffersYet extends StatelessWidget {
-  const NotOffersYet({
-    Key? key,
-    required this.viewModel,
-    required this.textTheme,
-    required this.size,
-    required this.type,
-  }) : super(key: key);
-
-  final HomeViewModel viewModel;
-  final TextTheme textTheme;
-  final Size size;
-  final TypeOffer type;
-
-  @override
-  Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Expanded(
-          flex: 3,
-          child: SvgPicture.asset(
-            viewModel.status.image,
-          ),
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        Expanded(
-          flex: 2,
-          child: Column(
-            children: <Widget>[
-              Text(
-                viewModel.status.titleText,
-                style: textTheme.textBigBlack,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              SizedBox(
-                width: size.width * .7,
-                child: Text(
-                    'Crea tu primera oferta y vuelve aqui para hacerle seguimineto',
-                    textAlign: TextAlign.center,
-                    style: textTheme.textSmallBlack),
-              ),
-            ],
-          ),
-        ),
-        PrimaryButtonCustom(
-          viewModel.status.buttonText,
-          onPressed: () {
-            dataUserProvider.getDataUserLogged != null
-                ? viewModel.goCreateOffer(context)
-                : viewModel.goLogin(context);
-          },
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-      ],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
 import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
@@ -40,6 +41,8 @@ class UrlsApi {
   static const String validateToken =
       '/NotificationCenter/SendMessageEvent/ValidationToken';
   static const String updateAddress = '/User/User/UpdateUserAddressWallet';
+  static const String createTransaction =
+      '/Transaction/Transaction/CreateTransaction';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -106,5 +109,10 @@ abstract class LocalDailyGatewayService {
   @PUT(UrlsApi.updateAddress)
   Future<ResponseData<dynamic>> updateAddress(
     @Body() BodyUpdateAddress bodyUpdateAddress,
+  );
+
+  @POST(UrlsApi.createTransaction)
+  Future<ResponseData<dynamic>> createTransaction(
+    @Body() BodyCreateTransaction bodyCreateTransaction,
   );
 }

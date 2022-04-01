@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/configure/ld_router.dart';
 
 extension ShowDialogLoading on BuildContext {
   void showDialogLoading() {
     final Size size = MediaQuery.of(this).size;
 
     showDialog(
-      context: this,
+      context: LdRouter().navigatorKey.currentContext!,
       barrierColor: LdColors.blackDark.withOpacity(0.75),
       builder: (BuildContext context) {
         return WillPopScope(
@@ -18,7 +19,7 @@ extension ShowDialogLoading on BuildContext {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(56.0),
               ),
-              backgroundColor: LdColors.gray,
+              backgroundColor: LdColors.white,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: size.width * 0.05, horizontal: size.width * 0.05),

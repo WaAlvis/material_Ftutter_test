@@ -254,7 +254,7 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'Guillovela010',
+                    'JuanFerTest01',
                     style: textTheme.textBigBlack
                         .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),

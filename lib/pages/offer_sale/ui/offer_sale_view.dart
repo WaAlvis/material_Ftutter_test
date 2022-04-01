@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
@@ -17,6 +17,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
@@ -93,12 +94,12 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
 
     _effectSubscription = viewModel.effects.listen((OfferSaleEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
-        // TODO: retroalimentaciòn para mostrar falta de conexiòn
-        //DlySnackbar.buildConnectivitySnackbar(context, event.message);
+        LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ValidateOfferEffect) {
         if (keyForm.currentState!.validate()) {
           viewModel.createOfferSale(
             context,
+            dataUserProvider,
             userId: dataUserProvider.getDataUserLogged!.id,
             docNum: docNumCtrl.text,
             margin: marginCtrl.text,

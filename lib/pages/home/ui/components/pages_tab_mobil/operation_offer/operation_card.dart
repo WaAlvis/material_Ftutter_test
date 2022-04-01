@@ -49,7 +49,7 @@ class OperationCard extends StatelessWidget {
                 textTheme: textTheme,
               ),
               const Padding(
-                padding: const EdgeInsets.symmetric(vertical: 0),
+                padding: EdgeInsets.zero,
                 child: Divider(
                   color: LdColors.gray,
                 ),

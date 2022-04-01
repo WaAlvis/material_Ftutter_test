@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -15,6 +17,7 @@ import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:hex/hex.dart';
 import 'package:sha3/sha3.dart';
@@ -115,15 +118,6 @@ class OfferSaleViewModel
     return null;
   }
 
-  // {
-  //   {
-  //     if (valueText == null || valueText.isEmpty) {
-  //       return '* Campo necesario';
-  //     }
-  //     return null;
-  //   }
-  // }
-
   void changeDocNumUser(String docNum) =>
       status = status.copyWith(isDocNumUserEmpty: docNum.isEmpty);
 
@@ -209,12 +203,13 @@ class OfferSaleViewModel
     if (next) {
       addEffect(ValidateOfferEffect());
     } else {
-      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
   }
 
   Future<void> createOfferSale(
-    BuildContext context, {
+    BuildContext context,
+    DataUserProvider userProvider, {
     required String userId,
     required String margin,
     required String amountDLY,
@@ -229,7 +224,13 @@ class OfferSaleViewModel
   }) async {
     status = status.copyWith(isLoading: true);
 
-    String convertWorkKeccak(String word) {
+    await MiDailyConnect.createConnection(
+      context,
+      DailyConnectType.transaction,
+      amountDLY.replaceAll('.', ''),
+    );
+
+    /* String convertWorkKeccak(String word) {
       final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
       final SHA3 k2 = SHA3(256, KECCAK_PADDING, 256);
       k1.update(utf8.encode(word));
@@ -237,18 +238,16 @@ class OfferSaleViewModel
       k2.update(hash1);
       final List<int> hash2 = k2.digest();
       return HEX.encode(hash2);
-    }
+    } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
+      idTypeAdvertisement: '4386109e-5369-45c5-b1ec-e51d973bf4da',
       idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
       valueToSell: amountDLY.replaceAll('.', ''),
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
       codeUserPublish: '',
-      //codeUserPublish:
-      //    '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
     );
 
     final BodyOffer bodyOffer = BodyOffer(
@@ -265,10 +264,11 @@ class OfferSaleViewModel
         }
       ]),
     );
-    //'[{\"bankId\": \"$bankId\",\"accountNumber\": \"$accountNum\",\"accountTypeId\": \"$accountTypeId\",\"documentNumber\": \"$docNum\",\"documentTypeID\" : \"$docType\",\"titularUserName\": \"$nameTitularAccount\"},]');
-    //'[{\"bankId\": \"$bankId\",\"accountNumber\": \"$accountNum\",\"accountTypeId\": \"$accountTypeId\",\"documentNumber\": \"$docNum\",\"documentTypeID\" : \"$docType\",\"titularUserName\": \"$nameTitularAccount\"},]');
-// "[{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\": \"555555555\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentNumber\": \"123456789\",\"documentTypeID\" : \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"titularUserName\": \"Roger Gutierrez\"},{\"bankId\": \"249bfcd0-4ab0-49a8-a886-63ce42c919a6\",\"accountNumber\":\"101010101\",\"accountTypeId\": \"c047a07c-2daf-48a7-ad49-ec447a93485b\",\"documentTypeID\" : \"eb2e8229-13ee-4282-b053-32e7b444ea10\",\"documentNumber\": \"987654321\",\"titularUserName\": \"Carmen Martinez\"}]"
-    _interactor
+
+    userProvider.setBodyOffer(bodyOffer);
+    // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
+    status = status.copyWith(isLoading: false);
+    /* _interactor
         .createOffer(bodyOffer)
         .then((ResponseData<ResultCreateOffer> response) {
       print('Create offer Res: ${response.statusCode} ');
@@ -284,7 +284,7 @@ class OfferSaleViewModel
     }).catchError((err) {
       print('Offer Error As: ${err}');
       status = status.copyWith(isLoading: false);
-    });
+    }); */
   }
 
   String resetValueMargin(String margin) {
@@ -332,29 +332,3 @@ class OfferSaleViewModel
     );
   }
 }
-
-// Future<void> getAccountsType(BuildContext context) async {
-//   // status = status.copyWith(isLoading: true);
-//
-//   final Pagination pagination = Pagination(
-//     isPaginable: true,
-//     currentPage: 1,
-//     itemsPerPage: 25,
-//   );
-//
-//   try {
-//     final ResponseData<ResultGetDocsType> response =
-//     await _interactor.getDocumentType(pagination);
-//     print('Type Docs list Res: ${response.statusCode} ');
-//     if (response.isSuccess) {
-//       print('Exito obteniendo la data de Tipos de DOCS!!');
-//       status.listDocsType = response.result!;
-//     } else {
-//       print('ERROR obteniendo la data de Tipos de DOCS');
-//       // TODO: Mostrar alerta
-//     }
-//   } catch (err) {
-//     print('Get Type Docs Error As: $err');
-//   }
-//   status = status.copyWith(isLoading: false);
-// }

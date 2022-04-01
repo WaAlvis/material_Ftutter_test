@@ -96,6 +96,7 @@ class ListOffersMainSwitch extends StatelessWidget {
                                               MiDailyConnect.createConnection(
                                             context,
                                             DailyConnectType.walletAddress,
+                                            '',
                                           ),
                                           textTheme: textTheme,
                                           connected: false,

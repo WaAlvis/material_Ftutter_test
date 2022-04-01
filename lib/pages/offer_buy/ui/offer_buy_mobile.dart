@@ -207,22 +207,6 @@ class _OfferBuyMobile extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            InputTextCustom(
-                              'Establece una palabra clave para asegurar tus recursos',
-                              hintText: 'Ingresa tu palabra secreta',
-                              validator: (String? value) =>
-                                  viewModel.validatorNotEmpty(value),
-                              keyboardType: TextInputType.name,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp('[0-9a-zA-Z.]'),
-                                ),
-                              ],
-                              controller: cancelSecretCtrl,
-                            ),
-                            const SizedBox(
-                              height: 40,
-                            ),
                             Container(
                               height: 150,
                               padding: const EdgeInsets.only(

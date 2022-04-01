@@ -16,4 +16,5 @@ class LdAssets {
   static const String dlycopIconRed = '$pathIcons/DLYcop_red.svg';
   static const String pswBlack = '$pathIcons/psw_black.svg';
   static const String globalBlack = '$pathIcons/global_black_icon.svg';
+  static const String dlyIcon = '$pathIcons/dly_icon.svg';
 }

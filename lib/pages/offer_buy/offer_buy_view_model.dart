@@ -1,21 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:hex/hex.dart';
 import 'package:intl/intl.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
-import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
-import 'package:sha3/sha3.dart';
 
 import 'offer_buy_status.dart';
 
@@ -154,12 +154,13 @@ class OfferBuyViewModel
     if (next) {
       addEffect(ValidateOfferEffect());
     } else {
-      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
   }
 
   Future<void> createOfferBuy(
-    BuildContext context, {
+    BuildContext context,
+    DataUserProvider userProvider, {
     required String margin,
     required String amountDLY,
     required String bankId,
@@ -169,7 +170,13 @@ class OfferBuyViewModel
   }) async {
     status = status.copyWith(isLoading: true);
 
-    String convertWorkKeccak(String word) {
+    await MiDailyConnect.createConnection(
+      context,
+      DailyConnectType.transaction,
+      amountDLY.replaceAll('.', ''),
+    );
+
+    /* String convertWorkKeccak(String word) {
       final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
       final SHA3 k2 = SHA3(256, KECCAK_PADDING, 256);
       k1.update(utf8.encode(word));
@@ -177,7 +184,7 @@ class OfferBuyViewModel
       k2.update(hash1);
       final List<int> hash2 = k2.digest();
       return HEX.encode(hash2);
-    }
+    } */
 
     final EntityOffer entity = EntityOffer(
       idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
@@ -205,7 +212,11 @@ class OfferBuyViewModel
       ]),
     );
 
-    _interactor
+    userProvider.setBodyOffer(bodyOffer);
+    // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
+    status = status.copyWith(isLoading: false);
+
+    /* _interactor
         .createOffer(bodyOffer)
         .then((ResponseData<ResultCreateOffer> response) {
       print('Create offer Res: ${response.statusCode} ');
@@ -221,6 +232,6 @@ class OfferBuyViewModel
     }).catchError((err) {
       print('Offera Error As: ${err}');
       status = status.copyWith(isLoading: false);
-    });
+    }); */
   }
 }
