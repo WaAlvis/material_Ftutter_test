@@ -16,7 +16,7 @@ class Step5PersonalData extends StatelessWidget {
     required this.surnamesCtrl,
     required this.phoneCtrl,
     required this.dateBirthCtrl,
-    // required this.dataUserProvider,
+    required this.dataUserProvider,
   }) : super(key: key);
   final GlobalKey<FormState> keyForm;
   final RegisterViewModel viewModel;
@@ -24,6 +24,7 @@ class Step5PersonalData extends StatelessWidget {
   final TextEditingController surnamesCtrl;
   final TextEditingController phoneCtrl;
   final TextEditingController dateBirthCtrl;
+  final DataUserProvider dataUserProvider;
 
   // final DataUserProvider dataUserProvider;
 
@@ -84,19 +85,21 @@ class Step5PersonalData extends StatelessWidget {
                   enableInteractiveSelection: false,
                   onTap: () async {
                     final DateTime? newDate = await showDatePicker(
-                        locale: const Locale("es", "CO"),
-                        context: context,
-                        initialDate: dateAllowed,
-                        firstDate: DateTime(1900),
-                        lastDate: dateAllowed,
-                        builder: (BuildContext context, Widget? child) => Theme(
-                            data: ThemeData().copyWith(
-                              colorScheme: const ColorScheme.light(
-                                onPrimary: Colors.black,
-                                primary: LdColors.orangePrimary,
-                              ),
-                            ),
-                            child: child!));
+                      locale: const Locale("es", "CO"),
+                      context: context,
+                      initialDate: dateAllowed,
+                      firstDate: DateTime(1900),
+                      lastDate: dateAllowed,
+                      builder: (BuildContext context, Widget? child) => Theme(
+                        data: ThemeData().copyWith(
+                          colorScheme: const ColorScheme.light(
+                            onPrimary: Colors.black,
+                            primary: LdColors.orangePrimary,
+                          ),
+                        ),
+                        child: child!,
+                      ),
+                    );
                     viewModel.setDateBirth(newDate);
                   },
                 ),
@@ -120,10 +123,12 @@ class Step5PersonalData extends StatelessWidget {
                   'Continuar',
                   onPressed: () {
                     if (keyForm.currentState!.validate()) {
-                      viewModel.continueStep_6RestoreWallet(
+                      viewModel.finishRegister(
+                        context,
+                        dataUserProvider,
                         namesCtrl.text,
                         surnamesCtrl.text,
-                        dateBirthCtrl.text,
+                        viewModel.status.dateBirth,
                         phoneCtrl.text,
                       );
                     }

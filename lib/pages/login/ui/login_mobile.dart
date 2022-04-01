@@ -138,8 +138,8 @@ class _LoginMobile extends StatelessWidget {
                                 onTap: () => viewModel.hidePassword(),
                                 child: Icon(
                                   viewModel.status.hidePass
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                   color: LdColors.blackBackground,
                                 ),
                               ),

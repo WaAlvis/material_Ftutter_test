@@ -9,7 +9,6 @@ class LoginStatus extends ViewStatus {
   final bool isEmailFieldEmpty;
   final bool isPswFieldEmpty;
 
-
   LoginStatus({
     required this.errorLogin,
     required this.isLoading,

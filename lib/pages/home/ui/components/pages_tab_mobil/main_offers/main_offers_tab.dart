@@ -16,6 +16,7 @@ class MainOffersTab extends StatelessWidget {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final Size size = MediaQuery.of(context).size;
 
     //Alturas de el APpbar y el body
 
@@ -26,7 +27,7 @@ class MainOffersTab extends StatelessWidget {
           AppbarCircles(
             hAppbar: hAppbar,
             content: Column(
-              children: <Widget>[
+              children: [
                 TabBar(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   indicatorColor: LdColors.orangePrimary,
@@ -66,7 +67,6 @@ class MainOffersTab extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 ListOffersMainSwitch(
                   'Ofertas para comprar',

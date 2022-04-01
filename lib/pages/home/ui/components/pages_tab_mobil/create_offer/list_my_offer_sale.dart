@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
-import 'package:provider/provider.dart';
 
 class ListMyOffersSale extends StatelessWidget {
-  const ListMyOffersSale({
+  const ListMyOffersSale(
+    this.data, {
     Key? key,
     required this.textTheme,
-    required this.userId,
+    // required this.items,
+    required this.viewModel,
   }) : super(key: key);
 
+  final String data;
   final TextTheme textTheme;
-  final String userId;
+
+  // final List<Data> items;
+  final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final List<Data> items = viewModel.status.typeOffer == TypeOffer.buy
-        ? viewModel.status.operationSaleData.data
-        : viewModel.status.operationBuyData.data;
-
     return RefreshIndicator(
       onRefresh: () async {
         // keyRefresh.currentState?.show(atTop: false);
@@ -43,9 +40,6 @@ class ListMyOffersSale extends StatelessWidget {
           ),
           Expanded(
             child: ListView.separated(
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(
                   height: 8,
@@ -55,7 +49,7 @@ class ListMyOffersSale extends StatelessWidget {
               itemCount: 1,
               itemBuilder: (BuildContext context, int index) {
                 return MyOfferCard(
-                  item: items[index],
+                  // item: items[index],
                   textTheme: textTheme,
                   viewModel: viewModel, //Pase bien el VM
                 );

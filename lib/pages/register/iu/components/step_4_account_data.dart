@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/widgets/list_checks_required_psw.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 class Step4AccountData extends StatelessWidget {
-  const Step4AccountData(
-      {Key? key,
-        required this.keyForm,
-        required this.viewModel,
-        required this.nickNameCtrl,
-        required this.passwordCtrl,
-        required this.confirmPassCtrl,
-      })
-      : super(key: key);
+  const Step4AccountData({
+    Key? key,
+    required this.keyForm,
+    required this.viewModel,
+    required this.nickNameCtrl,
+    required this.passwordCtrl,
+    required this.confirmPassCtrl,
+  }) : super(key: key);
   final GlobalKey<FormState> keyForm;
   final RegisterViewModel viewModel;
   final TextEditingController nickNameCtrl;
@@ -31,7 +29,7 @@ class Step4AccountData extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Form(
             key: keyForm,
             child: Column(
@@ -69,8 +67,8 @@ class Step4AccountData extends StatelessWidget {
                     onTap: () => viewModel.hidePassword(),
                     child: Icon(
                       viewModel.status.hidePass
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                       color: LdColors.blackBackground,
                     ),
                   ),
@@ -81,46 +79,42 @@ class Step4AccountData extends StatelessWidget {
                   hintText: '8+ digitos',
                   controller: confirmPassCtrl,
                   obscureText: viewModel.status.hidePass,
+
                   onChange: (String value) =>
                       viewModel.changeConfirmPass(value),
                   changeFillWith: !viewModel.status.isConfirmPassFieldEmpty,
                   textInputAction: TextInputAction.done,
+                    suffixIcon: GestureDetector(
+                      onTap: () => viewModel.hidePassword(),
+                      child: Icon(
+                        viewModel.status.hidePass
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: LdColors.blackBackground,
+                      ),
+                    ),
                 ),
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Text(
-                    'Requeriminetos minimos de la contraseña:',
-                    style: textTheme.textSmallBlack,
-                  ),
+
+                ListChecksRequiredPsw(
+                  context,
+                  textTheme,
+                  hasSpecialCharStatus: viewModel.status.hasSpecialChar,
+                  hasMore8CharsStatus: viewModel.status.hasMore8Chars,
+                  hasUpperLetterStatus: viewModel.status.hasUpperLetter,
+                  hasLowerLetterStatus: viewModel.status.hasLowerLetter,
+                  hasNumberCharStatus: viewModel.status.hasNumberChar,
                 ),
-                const SizedBox(height: 4),
-                checkRowValidation(
-                  '8+ Caracteres',
-                  value: viewModel.status.hasMore8Chars,
+                const SizedBox(
+                  height: 30,
                 ),
-                checkRowValidation(
-                  '1 Mayúscula',
-                  value: viewModel.status.hasUpperLetter,
-                ),
-                checkRowValidation(
-                  '1 Minúscula',
-                  value: viewModel.status.hasLowerLetter,
-                ),
-                checkRowValidation(
-                  '1 Número',
-                  value: viewModel.status.hasNumberChar,
-                ),
-                checkRowValidation(
-                  '1 Caracter especial',
-                  value: viewModel.status.hasSpecialChar,
-                ),
-                const SizedBox(height: 20,),
                 PrimaryButtonCustom(
                   'Continuar',
                   onPressed: () {
                     if (keyForm.currentState!.validate()) {
-                      viewModel.continueStep_5PersonalData(nickNameCtrl.text, passwordCtrl.text,
+                      viewModel.continueStep_5PersonalData(
+                        nickNameCtrl.text,
+                        passwordCtrl.text,
                       );
                     }
                   },
@@ -132,23 +126,5 @@ class Step4AccountData extends StatelessWidget {
       ),
     );
   }
-
-
-  Row checkRowValidation(String title, {required bool? value}) {
-    return Row(
-      children: <Widget>[
-        SizedBox(
-          height: 24,
-          child: Checkbox(
-            activeColor: LdColors.orangePrimary,
-            value: value,
-            onChanged: (_) {},
-          ),
-        ),
-        Flexible(
-          child: Text(title),
-        ),
-      ],
-    );
-  }
 }
+

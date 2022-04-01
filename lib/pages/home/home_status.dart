@@ -1,6 +1,8 @@
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
 
 class HomeStatus extends ViewStatus {
@@ -18,10 +20,12 @@ class HomeStatus extends ViewStatus {
   final TypeOffer typeOffer;
   final String image;
   final String titleText;
+  final ResultDataUser? resultDataUser;
+
   // final String detailText;
   final String buttonText;
-
   HomeStatus({
+     this.resultDataUser,
     required this.offersBuyDataHome,
     required this.offersSaleDataHome,
     required this.operationBuyData,
@@ -41,6 +45,7 @@ class HomeStatus extends ViewStatus {
   });
 
   HomeStatus copyWith({
+    ResultDataUser? resultDataUser,
     bool? isLoading,
     bool? isError,
     bool? hideWallet,
@@ -59,6 +64,7 @@ class HomeStatus extends ViewStatus {
     String? buttonText,
   }) {
     return HomeStatus(
+      resultDataUser: resultDataUser ?? this.resultDataUser,
       hideWallet: hideWallet ?? this.hideWallet,
       hideValues: hideValues ?? this.hideValues,
       indexTab: indexTab ?? this.indexTab,

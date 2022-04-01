@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:localdaily/view_model.dart';
 
 abstract class OfferBuyEffect extends Effect {}
