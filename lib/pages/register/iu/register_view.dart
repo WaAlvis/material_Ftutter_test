@@ -35,22 +35,22 @@ class RegisterView extends StatelessWidget {
     return ChangeNotifierProvider<RegisterViewModel>(
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
-        return _RegisterBody();
+        return const RegisterBody();
       },
     );
   }
 }
 
-class _RegisterBody extends StatefulWidget {
-  const _RegisterBody({
+class RegisterBody extends StatefulWidget {
+  const RegisterBody({
     Key? key,
   }) : super(key: key);
 
   @override
-  _RegisterBodyState createState() => _RegisterBodyState();
+  RegisterBodyState createState() => RegisterBodyState();
 }
 
-class _RegisterBodyState extends State<_RegisterBody> {
+class RegisterBodyState extends State<RegisterBody> {
   // final GlobalKey<FormState> keyFirstForm = GlobalKey<FormState>();
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController emailCtrl = TextEditingController();
@@ -100,10 +100,10 @@ class _RegisterBodyState extends State<_RegisterBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? _RegisterWeb(
+                      ? RegisterWeb(
                           keyForm: keyForm,
                         )
-                      : _RegisterMobile(
+                      : RegisterMobile(
                           keyForm: keyForm,
                           emailCtrl: emailCtrl,
                           nickNameCtrl: nickNameCtrl,

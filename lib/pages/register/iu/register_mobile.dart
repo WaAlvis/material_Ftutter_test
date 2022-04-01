@@ -1,7 +1,7 @@
 part of 'register_view.dart';
 
-class _RegisterMobile extends StatelessWidget {
-  const _RegisterMobile({
+class RegisterMobile extends StatelessWidget {
+  const RegisterMobile({
     Key? key,
     required this.keyForm,
     required this.emailCtrl,

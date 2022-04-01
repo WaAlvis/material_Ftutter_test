@@ -1,20 +1,21 @@
 part of '../../../../../offer_sale/ui/offer_sale_view.dart';
 
+
 class MyOfferCard extends StatelessWidget {
   const MyOfferCard({
     Key? key,
-    required this.item,
+    // required this.item,
     required this.textTheme,
     required this.viewModel,
   }) : super(key: key);
 
-  final Data item;
+  // final Data item;
   final TextTheme textTheme;
   final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
 
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);
@@ -43,8 +44,10 @@ class MyOfferCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TitleBarCard(
-                name: item.user.nickName,
+                // name: item.user.nickName,
+                name: 'nickName03',
                 stars: '+3}',
+                // time: item.advertisement.expiredDate,
                 time: '7d',
                 textTheme: textTheme,
               ),

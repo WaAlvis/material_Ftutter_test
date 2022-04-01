@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -18,14 +16,15 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     status = ChangePasswordStatus(
       isLoading: true,
       isError: false,
-      isPasswordFieldEmpty: true,
+      isCurrentPswFieldEmpty: true,
       hasUpperLetter: false,
       hasMore8Chars: false,
       hasSpecialChar: false,
       hasLowerLetter: false,
       hasNumberChar: false,
       hidePass: true,
-
+      isAgainNewPswFieldEmpty: true,
+      isNewPswFieldEmpty: true,
     );
   }
 
@@ -35,14 +34,20 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     _route.pop(context);
   }
 
-  void changePassword(String password) =>
-      status = status.copyWith(isPasswordFieldEmpty: password.isEmpty);
+  void changeCurrentPsw(String password) =>
+      status = status.copyWith(isCurrentPswFieldEmpty: password.isEmpty);
+
+  void changeNewPsw(String password) =>
+      status = status.copyWith(isNewPswFieldEmpty: password.isEmpty);
+
+  void changeAgainNewPsw(String password) =>
+      status = status.copyWith(isAgainNewPswFieldEmpty: password.isEmpty);
 
   bool isPasswordValid(String password, [int minLength = 7]) {
     final bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
     final bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
     final bool hasSpecialCharacters =
-    password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     final bool hasMinLength = password.length > minLength;
     bool hasDigits = password.contains(new RegExp(r'[0-9]'));
 
@@ -54,19 +59,28 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
       hasNumberChar: hasDigits,
     );
     return hasMinLength &
-    hasUppercase &
-    hasSpecialCharacters &
-    hasLowercase &
-    hasDigits;
+        hasUppercase &
+        hasSpecialCharacters &
+        hasLowercase &
+        hasDigits;
   }
 
   void hidePassword() => status = status.copyWith(
-    hidePass: !status.hidePass,
-  );
+        hidePass: !status.hidePass,
+      );
+
+  String? validatorCurrentPswNotEmpty(String? email) {
+    {
+      if (email == null || email.isEmpty) {
+        return '* La Contraseña actual es necesaria';
+      }
+      return null;
+    }
+  }
 
   String? validatorPasswords(String? psw, String? confirmPsw) {
     if (psw == null || psw.isEmpty) {
-      return '* la contraseña es necesaria';
+      return '* la nueva contraseña es necesaria';
     } else if (psw != confirmPsw) {
       return 'Las contraseñas no coinciden';
     }
@@ -78,7 +92,4 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     }
     return null;
   }
-
-
 }
-

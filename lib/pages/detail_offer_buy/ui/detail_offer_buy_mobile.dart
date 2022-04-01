@@ -182,7 +182,7 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                         ), */
                         const SizedBox(height: 30),
                         Text(
-                          'Entidades',
+                          'Bancos',
                           style: textTheme.textGray.copyWith(fontSize: 14),
                         ),
                         const SizedBox(height: 5),

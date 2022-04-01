@@ -3,32 +3,25 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/home_effect.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/local_storage_service.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
-import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'home_status.dart';
 
-class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
+class HomeViewModel extends ViewModel<HomeStatus> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
-  late LocalStorageService _localStorage;
   final int itemsPerPage = 10;
 
-  HomeViewModel(
-    this._route,
-    this._interactor,
-    this._localStorage,
-  ) {
+  HomeViewModel(this._route, this._interactor) {
     status = HomeStatus(
       hideWallet: false,
       hideValues: false,
@@ -87,17 +80,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   Future<void> onInit(
     BuildContext context,
-    DataUserProvider dataUserProvider, {
+    String userId, {
     bool validateNotification = false,
   }) async {
-    final String userId = dataUserProvider.getDataUserLogged?.id ?? '';
-    final String email = dataUserProvider.getDataUserLogged?.email ?? '';
-
     getData(context, userId);
-    if (email.isNotEmpty) {
-      dataUserProvider
-          .setAddress(_localStorage.getPreferences()?.getString(email));
-    }
   }
 
   Future<void> swapType(
@@ -107,6 +93,46 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   ) async {
     status = status.copyWith(typeOffer: type);
     await getData(context, userId);
+    /* switch (type) {
+      case TypeOffer.sell:
+        status = status.copyWith(
+          image: LdAssets.saleNoOffer,
+          titleText: 'Aun no tienes ofertas de venta',
+          buttonText: 'Crear oferta de venta',
+        );
+        break;
+      case TypeOffer.buy:
+        status = status.copyWith(
+          image: LdAssets.buyNoOffer,
+          titleText: 'Aun no tienes ofertas de compra',
+          buttonText: 'Crear oferta de compra',
+        );
+        break;
+    } */
+  }
+
+  Future<void> launchWeb(SocialNetwork type) async {
+    const String instagramUrl = 'https://www.instagram.com/local.daily_/';
+    const String twitterUrl = 'https://twitter.com/';
+    const String facebookUrl = 'https://es-la.facebook.com/';
+    final String url;
+    switch (type) {
+      case SocialNetwork.facebook:
+        url = facebookUrl;
+        break;
+      case SocialNetwork.instagram:
+        url = instagramUrl;
+        break;
+      case SocialNetwork.twitter:
+        url = twitterUrl;
+        break;
+    }
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+    // can't launch url, there is some error
   }
 
   void goHistoryOperations(BuildContext context) {
@@ -114,7 +140,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       if (isConnectionValid) {
         _route.goHistoryOperations(context);
       } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
   }
@@ -124,7 +150,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       if (isConnectionValid) {
         _route.goSettings(context);
       } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
   }
@@ -134,7 +160,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       if (isConnectionValidvalue) {
         _route.goCreateOffer(context, status.typeOffer);
       } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
   }
@@ -144,7 +170,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       if (isConnectionValidvalue) {
         _route.goLogin(context);
       } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
   }
@@ -154,33 +180,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       if (isConnectionValidvalue) {
         _route.goDetailOffer(context, item);
       } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
-  }
-
-  void disconnectWallet() {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
-      if (isConnectionValid) {
-        addEffect(ShowDialogHomeEffect());
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
-
-  void handleDisconnect(
-    BuildContext context,
-    String email,
-    DataUserProvider userProvider,
-  ) {
-    _route.pop(context);
-    MiDailyConnect.removeAddress(context, email, userProvider);
-    addEffect(ShowSnackbarDisconnect());
-  }
-
-  void closeDialog(BuildContext context) {
-    _route.pop(context);
   }
 
   Future<void> getData(
@@ -200,7 +202,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           await getDataOffers(context, userId, refresh: refresh);
       }
     } else {
-      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
     }
     status = status.copyWith(isLoading: false);
   }
@@ -371,3 +373,5 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     }
   }
 }
+
+enum SocialNetwork { facebook, instagram, twitter }
