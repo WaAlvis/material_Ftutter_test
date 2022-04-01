@@ -4,11 +4,13 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
@@ -80,10 +82,12 @@ class HomeViewModel extends ViewModel<HomeStatus> {
 
   Future<void> onInit(
     BuildContext context,
-    String userId, {
+    ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
-    getData(context, userId);
+    if (resultDataUser == null) return;
+    getData(context, resultDataUser.id);
+    status = status.copyWith(resultDataUser: resultDataUser);
   }
 
   Future<void> swapType(
@@ -146,6 +150,17 @@ class HomeViewModel extends ViewModel<HomeStatus> {
   }
 
   void goSettings(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        status = status.copyWith(resultDataUser: null);
+        _route.goLogin(context);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
+
+  void logoutUser(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goSettings(context);

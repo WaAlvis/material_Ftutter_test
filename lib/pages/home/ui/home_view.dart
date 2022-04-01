@@ -87,7 +87,7 @@ class _HomeBodyState extends State<_HomeBody> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context
           .read<HomeViewModel>()
-          .onInit(context, dataUserProvider.getDataUserLogged?.id ?? '');
+          .onInit(context, dataUserProvider.getDataUserLogged, );
     });
     super.initState();
   }

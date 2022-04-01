@@ -26,7 +26,6 @@ class ProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     final Color colorCardWhite = LdColors.white.withOpacity(0.9);
@@ -86,7 +85,7 @@ class ProfileUser extends StatelessWidget {
     );
   }
 
-  Widget _bodyCardUser(Color colorCardWhite) {
+  Widget _bodyCardUser(Color colorCardWhite, ) {
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
@@ -138,6 +137,7 @@ class ProfileUser extends StatelessWidget {
                             context,
                             NavigateOption.values[index],
                             viewModel,
+
                           );
                         },
                       );
@@ -260,6 +260,7 @@ class ProfileUser extends StatelessWidget {
         viewModel.goSettings(context);
         break;
       case NavigateOption.logout:
+        viewModel.logoutUser(context);
         // TODO: Handle this case.
         break;
     }
@@ -330,7 +331,7 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'Guillovela010',
+                    viewModel.status.resultDataUser?.nickName ?? 'No Usuario',
                     style: textTheme.textBigBlack
                         .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),
