@@ -28,22 +28,27 @@ class ProfileUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
-    final Color colorCardWhite = LdColors.white.withOpacity(0.95);
+    final Color colorCardWhite = LdColors.white.withOpacity(0.9);
 
     return Scaffold(
+      // extendBodyBehindAppBar: true,
+
       backgroundColor: LdColors.blackBackground,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const SizedBox(
-            height: 90,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          _headerCardUser(colorCardWhite, size),
-          _bodyCardUser(context, colorCardWhite),
-        ],
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const SizedBox(
+              height: 90,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            _headerCardUser(colorCardWhite, size),
+            _bodyCardUser(colorCardWhite),
+          ],
+        ),
       ),
     );
   }
@@ -57,7 +62,7 @@ class ProfileUser extends StatelessWidget {
           top: 50,
           child: Container(
             width: size.width,
-            height: 50,
+            height: 50.2,
             decoration: BoxDecoration(
               color: colorCardWhite,
               borderRadius: const BorderRadius.only(
@@ -80,14 +85,14 @@ class ProfileUser extends StatelessWidget {
     );
   }
 
-  Widget _bodyCardUser(BuildContext context, Color colorCardWhite) {
-    final DataUserProvider userProvider = context.watch<DataUserProvider>();
-
-    return Expanded(
+  Widget _bodyCardUser(Color colorCardWhite, ) {
+    return SingleChildScrollView(
       child: Container(
-        height: hBody - 35,
         decoration: BoxDecoration(
           color: colorCardWhite,
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(16),
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -101,70 +106,141 @@ class ProfileUser extends StatelessWidget {
               const SizedBox(
                 height: 22,
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      _balanceDlyAvailable(),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: userProvider.getAddress != null &&
-                                userProvider.getAddress != ''
-                            ? CardWalletConnect(
-                                onTap: viewModel.disconnectWallet,
-                                textTheme: textTheme,
-                                connected: true,
-                                address: userProvider.getAddress,
-                              )
-                            : const SizedBox.shrink(),
-                      ),
-                      Column(
-                        children: <Widget>[
-                          ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: options.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                leading: Icon(
-                                  options[index].icon,
-                                  color: LdColors.orangePrimary,
-                                ),
-                                title: Text(
-                                  options[index].text,
-                                  style: textTheme.textBlack,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  onOptionSelected(
-                                    context,
-                                    NavigateOption.values[index],
-                                    viewModel,
-                                  );
-                                },
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 20,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+              _balanceDlyAvailable(),
+              const SizedBox(
+                height: 20,
+              ),
+              _buttonsSocialNetwork(instagram: true, facebook: true, twitter: true),
+              Column(
+                children: <Widget>[
+                  ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        leading: Icon(
+                          options[index].icon,
+                          color: LdColors.orangePrimary,
+                        ),
+                        title: Text(
+                          options[index].text,
+                          style: textTheme.textBlack,
+                        ),
+                        dense: true,
+                        onTap: () {
+                          onOptionSelected(
+                            context,
+                            NavigateOption.values[index],
+                            viewModel,
+
+                          );
+                        },
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 20,
+                      );
+                    },
                   ),
-                ),
+                ],
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Row _buttonsSocialNetwork({
+    bool instagram = false,
+    bool facebook = false,
+    bool twitter = false,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        if (instagram)
+          OutlinedButton(
+            onPressed: () => viewModel.launchWeb(SocialNetwork.instagram),
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(LdColors.orangePrimary),
+              minimumSize: MaterialStateProperty.all(const Size(50, 50)),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+              ),
+            ),
+            child: Column(
+              children: const <Widget>[
+                 Icon(
+                  Icons.public,
+                  color: LdColors.white,
+                ),
+                Text('Inst')
+              ],
+            ),
+          )
+        else
+          const SizedBox.shrink(),
+        if (facebook)
+          OutlinedButton(
+            onPressed: () => viewModel.launchWeb(SocialNetwork.facebook),
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(LdColors.orangePrimary),
+              minimumSize: MaterialStateProperty.all(const Size(50, 50)),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+              ),
+            ),
+            child: Column(
+              children: const <Widget>[
+                Icon(
+                  Icons.public,
+                  color: LdColors.white,
+                ),
+                Text('Face')
+              ],
+            ),
+          )
+        else
+          const SizedBox.shrink(),
+        if (twitter)
+          OutlinedButton(
+            onPressed: () => viewModel.launchWeb(SocialNetwork.twitter),
+            style: ButtonStyle(
+              backgroundColor:
+              MaterialStateProperty.all(LdColors.orangePrimary),
+              minimumSize: MaterialStateProperty.all(const Size(50, 50)),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+              ),
+            ),
+            child: Column(
+              children: const <Widget>[
+                Icon(
+                  Icons.public,
+                  color: LdColors.white,
+                ),
+                Text('Twit')
+              ],
+            ),
+          )
+        else
+          const SizedBox.shrink()
+      ],
     );
   }
 
@@ -184,6 +260,7 @@ class ProfileUser extends StatelessWidget {
         viewModel.goSettings(context);
         break;
       case NavigateOption.logout:
+        viewModel.logoutUser(context);
         // TODO: Handle this case.
         break;
     }
@@ -260,7 +337,7 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'JuanFerTest01',
+                    viewModel.status.resultDataUser?.nickName ?? 'No Usuario',
                     style: textTheme.textBigBlack
                         .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),

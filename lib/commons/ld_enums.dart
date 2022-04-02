@@ -4,7 +4,7 @@ enum RegisterStep {
   validatePinStep_3,
   accountDataStep_4,
   personalDataStep_5,
-  dataWalletStep_6
+  // dataWalletStep_6
 }
 
 enum TypeOffer { buy, sell }

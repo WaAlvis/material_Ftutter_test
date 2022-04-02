@@ -37,11 +37,10 @@ class _HomeMobile extends StatelessWidget {
         hAppbar: hAppbar,
       ),
       ProfileUser(
-        viewModel: viewModel,
-        textTheme: textTheme,
-        hAppbar: hAppbar,
-        hBody: hBody,
-      ),
+          viewModel: viewModel,
+          textTheme: textTheme,
+          hAppbar: hAppbar,
+          hBody: hBody,),
       // Camera page
       // Chats page
     ];
@@ -129,7 +128,7 @@ class _HomeMobile extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(Icons.library_add_check_outlined),
                 activeIcon: Icon(Icons.library_add_check),
-                label: 'Operaciones',
+                label: 'operaciones',
                 backgroundColor: LdColors.white,
               ),
               BottomNavigationBarItem(

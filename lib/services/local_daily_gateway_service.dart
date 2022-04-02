@@ -19,7 +19,6 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
-import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
 
 part 'local_daily_gateway_service.g.dart';
@@ -51,6 +50,7 @@ class UrlsApi {
 abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
       _LocalDailyGatewayService;
+
 
   //Login & Register
   @POST(UrlsApi.login)
@@ -116,3 +116,37 @@ abstract class LocalDailyGatewayService {
     @Body() BodyCreateTransaction bodyCreateTransaction,
   );
 }
+
+// { CELULAR
+//   "entity": {
+//   "numberOrEmail": "+573173564052",
+//   "codevia": "8a6d80af-c982-4648-86aa-f643981b6301"
+//   }
+// }
+//
+// { CELULA
+//   "entity": {
+//   "numberOrEmail": "andres.polo.ortega@gmail.com",
+//   "codevia": "cf1c420a-38bd-44b0-8187-fbf1e91ad21a"
+//   }
+// }
+
+
+// { respuesta validacion de codigo OTP
+// "isSuccess": true,
+// "statusCode": 200,
+// "result": {
+// "sid": "VE3ede5ade3b196a307a6578045b5141dd",
+// "serviceSid": "VA060871ff742639b755daf7e3e8f4a2e1",
+// "accountSid": "ACbbc00277561115d872d93ed0cb01cccf",
+// "to": "alvis.wap@gmail.com",
+// "channel": {},
+// "status": "approved",
+// "valid": true,
+// "amount": null,
+// "payee": null,
+// "dateCreated": "2022-03-29T22:19:11Z",
+// "dateUpdated": "2022-03-29T22:21:08Z"
+// },
+// "error": null
+// }

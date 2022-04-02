@@ -1,7 +1,7 @@
 part of 'register_view.dart';
 
-class _RegisterWeb extends StatelessWidget {
-  const _RegisterWeb({
+class RegisterWeb extends StatelessWidget {
+  const RegisterWeb({
     Key? key,
     required this.keyForm,
   }) : super(key: key);

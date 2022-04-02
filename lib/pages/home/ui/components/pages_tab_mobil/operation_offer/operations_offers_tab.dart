@@ -65,7 +65,6 @@ class OperationsOffersTab extends StatelessWidget {
             ),
             Expanded(
               child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   if (dataUserProvider.getDataUserLogged == null)
                     AdviceMessage(

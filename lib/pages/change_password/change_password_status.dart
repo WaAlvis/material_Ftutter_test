@@ -3,7 +3,9 @@ import 'package:localdaily/view_model.dart';
 class ChangePasswordStatus extends ViewStatus {
   final bool isLoading;
   final bool isError;
-  final bool isPasswordFieldEmpty;
+  final bool isCurrentPswFieldEmpty;
+  final bool isNewPswFieldEmpty;
+  final bool isAgainNewPswFieldEmpty;
   final bool hasMore8Chars;
   final bool hasUpperLetter;
   final bool hasSpecialChar;
@@ -15,7 +17,9 @@ class ChangePasswordStatus extends ViewStatus {
   ChangePasswordStatus({
     required this.isLoading,
     required this.isError,
-    required this.isPasswordFieldEmpty,
+    required this.isCurrentPswFieldEmpty,
+    required this.isNewPswFieldEmpty,
+    required this.isAgainNewPswFieldEmpty,
     required this.hasSpecialChar,
     required this.hasMore8Chars,
     required this.hasUpperLetter,
@@ -28,7 +32,9 @@ class ChangePasswordStatus extends ViewStatus {
   ChangePasswordStatus copyWith({
     bool? isLoading,
     bool? isError,
-    bool? isPasswordFieldEmpty,
+    bool? isCurrentPswFieldEmpty,
+    bool? isNewPswFieldEmpty,
+    bool? isAgainNewPswFieldEmpty,
     bool? hasSpecialChar,
     bool? hasUpperLetter,
     bool? hasMore8Chars,
@@ -40,7 +46,9 @@ class ChangePasswordStatus extends ViewStatus {
     return ChangePasswordStatus(
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
-      isPasswordFieldEmpty: isPasswordFieldEmpty ?? this.isPasswordFieldEmpty,
+      isCurrentPswFieldEmpty: isCurrentPswFieldEmpty ?? this.isCurrentPswFieldEmpty,
+      isNewPswFieldEmpty: isNewPswFieldEmpty ?? this.isNewPswFieldEmpty,
+      isAgainNewPswFieldEmpty: isAgainNewPswFieldEmpty ?? this.isAgainNewPswFieldEmpty,
       hasMore8Chars: hasMore8Chars ?? this.hasMore8Chars,
       hasUpperLetter: hasUpperLetter ?? this.hasUpperLetter,
       hasSpecialChar: hasSpecialChar ?? this.hasSpecialChar,

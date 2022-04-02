@@ -8,7 +8,6 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/local_storage_service.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
@@ -19,7 +18,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MiDailyConnect {
-  static const String _chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
+  static const String _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   static final Random _rnd = Random();
 
   static Future<void> createConnection(
@@ -62,19 +62,17 @@ class MiDailyConnect {
     }
 
     if (await canLaunch(_url)) {
+      Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      final String encoded = stringToBase64.encode(_url);
+      print(encoded);
       await launch(_url, headers: <String, String>{});
     } else {
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
-      if (Platform.isIOS) {
-      } else {}
     }
   }
 
   // Listener para la conexión con MiDaily
-  Future<void> handleIncomingLinks(
-    BuildContext context,
-    Uri? uri,
-  ) async {
+  static void handleIncomingLinks(BuildContext context, Uri? uri) {
     print(uri);
     // Validar URL
     if (uri == null) return;
@@ -83,8 +81,9 @@ class MiDailyConnect {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     if (userProvider.getDataUserLogged == null) return;
 
-    // Validar que el código generado sea el mismo al que recibe como respuesta
     final String host = uri.host;
+
+    // Validar que el código generado sea el mismo al que recibe como respuesta
     if (userProvider.getMiDailyConnectCode == null ||
         host != userProvider.getMiDailyConnectCode) return;
 
@@ -223,14 +222,6 @@ class MiDailyConnect {
     // Eliminar localmente el address
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     await _localStorage.getPreferences()?.remove(email);
-    userProvider.setAddress('');
-    // Eliminar en bd el address
-    ServiceInteractor().putUpdateAddress(
-      BodyUpdateAddress(
-        idUser: userProvider.getDataUserLogged?.id ?? '',
-        addressWallet: '',
-      ),
-    );
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(

@@ -6,14 +6,23 @@ class RegisterStatus extends ViewStatus {
   final bool isLoading;
   final bool hidePass;
   final bool isError;
+
+  final TextEditingController dateBirthCtrl;
+  final RegisterStep registerStep;
+
+  final String dateBirth;
+  final String emailRegister;
+  final String nickName;
+  late String password;
+  final bool isPossibleOpenEmail; //Verificar uso necesario?
+
   final bool acceptTermCoditions;
   final bool hasMore8Chars;
   final bool hasUpperLetter;
   final bool hasSpecialChar;
   final bool hasLowerLetter;
   final bool hasNumberChar;
-  final RegisterStep registerStep;
-  final TextEditingController dateBirthCtrl;
+
   final bool isEmailFieldEmpty;
   final bool isNickNameFieldEmpty;
   final bool isFirstNameFieldEmpty;
@@ -24,21 +33,11 @@ class RegisterStatus extends ViewStatus {
   final bool isDateBirthFieldEmpty;
   final bool isPasswordFieldEmpty;
   final bool isConfirmPassFieldEmpty;
-  final String emailRegister;
-  final String phrase;
-  final String addressWallet;
-  final String nickName;
-  late String password;
-  final String surnames;
-  final String names;
-  final String dateBirth;
-  final String phone;
-  final bool isPossibleOpenEmail; //Verificar uso necesario?
 
   RegisterStatus({
-    required this.phrase,
+    // required this.phrase,
     required this.isPossibleOpenEmail,
-    required this.addressWallet,
+    // required this.addressWallet,
     required this.nickName,
     required this.password,
     required this.acceptTermCoditions,
@@ -63,14 +62,14 @@ class RegisterStatus extends ViewStatus {
     required this.hasUpperLetter,
     required this.hasLowerLetter,
     required this.hasNumberChar,
-    required this.surnames,
-    required this.names,
     required this.dateBirth,
-    required this.phone,
+    // required this.surnames,
+    // required this.names,
+    // required this.phone,
   });
 
   RegisterStatus copyWith({
-    TextEditingController? dateBirthCtrl,
+    // TextEditingController? dateBirthCtrl,
     bool? isLoading,
     bool? isError,
     String? emailRegister,
@@ -90,6 +89,7 @@ class RegisterStatus extends ViewStatus {
     bool? isSecondNameFieldEmpty,
     bool? isSecondLastNameFieldEmpty,
     bool? isPhoneFieldEmpty,
+    TextEditingController? dateBirthCtrl,
     bool? isDateBirthFieldEmpty,
     bool? isPasswordFieldEmpty,
     bool? isConfirmPassFieldEmpty,
@@ -103,12 +103,13 @@ class RegisterStatus extends ViewStatus {
     String? phrase,
   }) {
     return RegisterStatus(
-      phone: phone ?? this.phone,
-      addressWallet: addressWallet ?? this.addressWallet,
+      // phone: phone ?? this.phone,
+      // addressWallet: addressWallet ?? this.addressWallet,
       dateBirth: dateBirth ?? this.dateBirth,
-      names: names ?? this.names,
-      surnames: surnames ?? this.surnames,
-      phrase: phrase ?? this.phrase,
+      dateBirthCtrl: dateBirthCtrl ?? this.dateBirthCtrl,
+      // names: names ?? this.names,
+      // surnames: surnames ?? this.surnames,
+      // phrase: phrase ?? this.phrase,
       nickName: nickName ?? this.nickName,
       password: password ?? this.password,
       hidePass: hidePass ?? this.hidePass,
@@ -129,7 +130,6 @@ class RegisterStatus extends ViewStatus {
           isConfirmPassFieldEmpty ?? this.isConfirmPassFieldEmpty,
       isPossibleOpenEmail: isPossibleOpenEmail ?? this.isPossibleOpenEmail,
       isEmailFieldEmpty: isEmailFieldEmpty ?? this.isEmailFieldEmpty,
-      dateBirthCtrl: dateBirthCtrl ?? this.dateBirthCtrl,
       registerStep: registerStep ?? this.registerStep,
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,

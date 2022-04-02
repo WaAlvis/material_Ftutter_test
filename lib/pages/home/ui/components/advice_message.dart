@@ -9,8 +9,8 @@ class AdviceMessage extends StatelessWidget {
     required this.imageName,
     required this.title,
     required this.description,
-    this.btnText,
-    this.onPressed,
+    required this.btnText,
+    required this.onPressed,
   }) : super(key: key);
 
   final String imageName;
@@ -33,7 +33,7 @@ class AdviceMessage extends StatelessWidget {
             child: SvgPicture.asset(imageName),
           ),
           const SizedBox(
-            height: 10,
+            height: 12,
           ),
           Expanded(
             flex: 2,

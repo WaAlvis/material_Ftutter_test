@@ -6,13 +6,11 @@ class CardWalletConnect extends StatelessWidget {
     required this.textTheme,
     required this.connected,
     required this.onTap,
-    this.address,
   }) : super(key: key);
 
   final TextTheme textTheme;
   final bool connected;
   final VoidCallback onTap;
-  final String? address;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,6 @@ class CardWalletConnect extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
                         children: <Widget>[
@@ -68,16 +65,10 @@ class CardWalletConnect extends StatelessWidget {
                           ),
                         ],
                       ),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        splashRadius: 5,
-                        visualDensity: VisualDensity.compact,
-                        icon: Icon(
-                          connected ? Icons.link_off : Icons.link,
-                          color: LdColors.orangePrimary,
-                        ),
-                        tooltip: connected ? 'Desconectar' : 'Conectar',
-                        onPressed: connected ? onTap : null,
+                      const SizedBox(width: 10),
+                      Text(
+                        'Conectar Wallet MiDaily',
+                        style: textTheme.textSmallBlack,
                       ),
                     ],
                   ),
@@ -87,44 +78,60 @@ class CardWalletConnect extends StatelessWidget {
                       color: LdColors.gray,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        connected
-                            ? '¡Ya tienes tu wallet conectada!'
-                            : 'Tienes tu wallet desconectada',
-                        style: textTheme.textBlack,
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text(
+                              connected
+                                  ? '¡Ya tienes tu wallet conectada!'
+                                  : 'Tienes tu wallet desconectada',
+                              style: textTheme.textBlack,
+                            ),
+                            Text(
+                              'Conecta tu wallet de MiDaily para poder disfrutar LocalDaily en su totalidad.',
+                              style: textTheme.textSmallBlack.copyWith(
+                                color: LdColors.gray,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                      if (!connected)
-                        Text(
-                          'Conecta tu wallet de MiDaily para poder disfrutar LocalDaily en su totalidad.',
-                          style: textTheme.textSmallBlack.copyWith(
-                            color: LdColors.gray,
-                          ),
-                        )
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        splashRadius: 5,
+                        visualDensity: VisualDensity.compact,
+                        icon: Icon(
+                          connected
+                              ? Icons.logout_outlined
+                              : Icons.login_rounded,
+                          color: LdColors.orangePrimary,
+                        ),
+                        tooltip: connected ? 'Desconectar' : 'Conectar',
+                        onPressed: connected
+                            ? () {
+                                print('----');
+                              }
+                            : null,
+                      ),
                     ],
                   ),
                   if (connected)
                     Container(
                       margin: const EdgeInsets.only(top: 6),
                       padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 6,
-                      ),
+                          vertical: 4, horizontal: 6),
                       decoration: BoxDecoration(
                         color: LdColors.orangePrimary.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          address ?? '',
-                          style: textTheme.textSmallBlack.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                      child: Text(
+                        '0xb24512sga...a12ws',
+                        style: textTheme.textSmallBlack.copyWith(
+                            fontSize: 15, fontWeight: FontWeight.w500),
                       ),
                     )
                   else

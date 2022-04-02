@@ -9,11 +9,8 @@ import 'package:localdaily/pages/register/iu/components/step_2_msj_email.dart';
 import 'package:localdaily/pages/register/iu/components/step_3_validate_pin.dart';
 import 'package:localdaily/pages/register/iu/components/step_4_account_data.dart';
 import 'package:localdaily/pages/register/iu/components/step_5_ personal_data.dart';
-import 'package:localdaily/pages/register/iu/components/step_6_%20restore_wallet.dart';
-import 'package:localdaily/pages/register/register_status.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
@@ -21,6 +18,7 @@ import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'register_mobile.dart';
+
 part 'register_web.dart';
 
 class RegisterView extends StatelessWidget {
@@ -35,22 +33,22 @@ class RegisterView extends StatelessWidget {
     return ChangeNotifierProvider<RegisterViewModel>(
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
-        return _RegisterBody();
+        return const RegisterBody();
       },
     );
   }
 }
 
-class _RegisterBody extends StatefulWidget {
-  const _RegisterBody({
+class RegisterBody extends StatefulWidget {
+  const RegisterBody({
     Key? key,
   }) : super(key: key);
 
   @override
-  _RegisterBodyState createState() => _RegisterBodyState();
+  RegisterBodyState createState() => RegisterBodyState();
 }
 
-class _RegisterBodyState extends State<_RegisterBody> {
+class RegisterBodyState extends State<RegisterBody> {
   // final GlobalKey<FormState> keyFirstForm = GlobalKey<FormState>();
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController emailCtrl = TextEditingController();
@@ -65,6 +63,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
   final TextEditingController confirmPassCtrl = TextEditingController();
   final TextEditingController codePinCtrl = TextEditingController();
   final TextEditingController addressWallet = TextEditingController();
+  final TextEditingController dateBirthCtrl = TextEditingController();
 
   @override
   void dispose() {
@@ -100,17 +99,17 @@ class _RegisterBodyState extends State<_RegisterBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? _RegisterWeb(
+                      ? RegisterWeb(
                           keyForm: keyForm,
                         )
-                      : _RegisterMobile(
+                      : RegisterMobile(
                           keyForm: keyForm,
                           emailCtrl: emailCtrl,
                           nickNameCtrl: nickNameCtrl,
                           namesCtrl: namesCtrl,
                           surnamesCtrl: surnamesCtrl,
                           phoneCtrl: phoneCtrl,
-                          dateBirthCtrl: viewModel.status.dateBirthCtrl,
+                          dateBirthCtrl: dateBirthCtrl,
                           passwordCtrl: passwordCtrl,
                           confirmPassCtrl: confirmPassCtrl,
                           codePinCtrl: codePinCtrl,

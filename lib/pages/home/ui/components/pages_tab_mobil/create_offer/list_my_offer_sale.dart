@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/advice_message.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
@@ -11,15 +10,21 @@ import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+
 class ListMyOffersSale extends StatelessWidget {
-  const ListMyOffersSale({
+  const ListMyOffersSale(
+    this.data, {
     Key? key,
     required this.textTheme,
-    required this.userId,
+    // required this.items,
+    required this.viewModel,
   }) : super(key: key);
 
+  final String data;
   final TextTheme textTheme;
-  final String userId;
+
+  // final List<Data> items;
+  final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {

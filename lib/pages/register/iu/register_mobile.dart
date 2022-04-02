@@ -1,7 +1,7 @@
 part of 'register_view.dart';
 
-class _RegisterMobile extends StatelessWidget {
-  const _RegisterMobile({
+class RegisterMobile extends StatelessWidget {
+  const RegisterMobile({
     Key? key,
     required this.keyForm,
     required this.emailCtrl,
@@ -139,16 +139,6 @@ class _RegisterMobile extends StatelessWidget {
                         description: 'No sera visible para los otros usuarios.',
                         heightAppbar: hAppbar,
                       )
-                    else if (viewModel.status.registerStep ==
-                        RegisterStep.dataWalletStep_6)
-                      sectionTitleAppbar(
-                        context,
-                        step: 6,
-                        title: 'Direccion de tu Wallet',
-                        description:
-                            'Escribe tus 12 palabras con las cuales podras recuperar tu direccion Wallet.',
-                        heightAppbar: hAppbar,
-                      ),
                   ],
                 ),
               ),
@@ -188,32 +178,9 @@ class _RegisterMobile extends StatelessWidget {
                 surnamesCtrl: surnamesCtrl,
                 dateBirthCtrl: dateBirthCtrl,
                 phoneCtrl: phoneCtrl,
-              )
-            else if (viewModel.status.registerStep ==
-                RegisterStep.dataWalletStep_6)
-              Step6RestoreWallet(
-                viewModel: viewModel,
-                keyForm: keyForm,
-                phraseCtrl: phraseCtrl,
                 dataUserProvider: dataUserProvider,
               )
-
-            //  if (viewModel.status.registerStep == RegisterStep.dataAccountStep_4)
-            //               FourthStepRegister(
-            //                 viewModel: viewModel,
-            //                 keyForm: keyForm,
-            //                 nickNameCtrl: nickNameCtrl,
-            //                 firstNameCtrl: firstNameCtrl,
-            //                 firstLastNameCtrl: firstLastNameCtrl,
-            //                 secondNameCtrl: secondNameCtrl,
-            //                 secondLastNameCtrl: secondLastNameCtrl,
-            //                 phoneCtrl: phoneCtrl,
-            //                 dateBirthCtrl: dateBirthCtrl,
-            //                 passwordCtrl: passwordCtrl,
-            //                 confirmPassCtrl: confirmPassCtrl,
-            //                 addressWalletCtrl: addressWalletCtrl,
-            //                 dataUserProvider: dataUserProvider,
-            //               ),
+            
           ],
         ),
       ),
