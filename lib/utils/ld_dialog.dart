@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/extensions/dialog_generic_alert.dart';
 import 'package:localdaily/extensions/dialog_loading.dart';
 
@@ -23,6 +24,6 @@ class LdDialog {
   }
 
   static void buildLoadingDialog(BuildContext context) {
-    context.showDialogLoading();
+    LdRouter().navigatorKey.currentContext!.showDialogLoading();
   }
 }

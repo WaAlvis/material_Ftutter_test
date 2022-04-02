@@ -3,8 +3,16 @@ PODS:
     - Flutter
     - Reachability
   - Flutter (1.0.0)
+  - flutter_inappwebview (0.0.1):
+    - Flutter
+    - flutter_inappwebview/Core (= 0.0.1)
+    - OrderedSet (~> 5.0)
+  - flutter_inappwebview/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 5.0)
   - open_mail_app (0.0.1):
     - Flutter
+  - OrderedSet (5.0.0)
   - Reachability (3.2)
   - shared_preferences_ios (0.0.1):
     - Flutter
@@ -16,6 +24,7 @@ PODS:
 DEPENDENCIES:
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - Flutter (from `Flutter`)
+  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - open_mail_app (from `.symlinks/plugins/open_mail_app/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - uni_links (from `.symlinks/plugins/uni_links/ios`)
@@ -23,6 +32,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - OrderedSet
     - Reachability
 
 EXTERNAL SOURCES:
@@ -30,6 +40,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity/ios"
   Flutter:
     :path: Flutter
+  flutter_inappwebview:
+    :path: ".symlinks/plugins/flutter_inappwebview/ios"
   open_mail_app:
     :path: ".symlinks/plugins/open_mail_app/ios"
   shared_preferences_ios:
@@ -42,7 +54,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   open_mail_app: 794172f6a22cd16319d3ddaf45e945b2f74952b0
+  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a

@@ -76,16 +76,36 @@ class ListOffersMainSwitch extends StatelessWidget {
                           ),
                         )
                       : index == 0
-                          ? userId.isEmpty
-                              ? const SizedBox.shrink()
-                              : CardWalletConnect(
-                                  onTap: () => MiDailyConnect.createConnection(
-                                    context,
-                                    DailyConnectType.walletAddress,
-                                  ),
-                                  textTheme: textTheme,
-                                  connected: false,
-                                )
+                          ? Column(
+                              children: <Widget>[
+                                AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 500),
+                                  child: userId.isNotEmpty &&
+                                          (userProvider.getAddress == null ||
+                                              userProvider.getAddress == '')
+                                      ? CardWalletConnect(
+                                          onTap: () =>
+                                              MiDailyConnect.createConnection(
+                                            context,
+                                            DailyConnectType.walletAddress,
+                                            '',
+                                          ),
+                                          textTheme: textTheme,
+                                          connected: false,
+                                        )
+                                      : const SizedBox.shrink(),
+                                ),
+                                if (items.isEmpty)
+                                  const IntrinsicHeight(
+                                    child: AdviceMessage(
+                                      imageName: LdAssets.emptyNotification,
+                                      title: 'Aún no hay ofertas de ventas',
+                                      description:
+                                          'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.',
+                                    ),
+                                  )
+                              ],
+                            )
                           : CardBuyAndSell(
                               onTap: () {
                                 userId.isEmpty

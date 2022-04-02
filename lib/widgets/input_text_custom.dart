@@ -15,7 +15,7 @@ class InputTextCustom extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.controller,
-    this.enableInteractiveSelection =true,
+    this.enableInteractiveSelection = true,
     this.keyboardType,
     this.validator,
     this.onChange,
@@ -80,7 +80,7 @@ class InputTextCustom extends StatelessWidget {
           height: 5,
         ),
         TextFormField(
-          enableInteractiveSelection:enableInteractiveSelection ,
+          enableInteractiveSelection: enableInteractiveSelection,
           onTap: onTap,
           style: style,
           maxLength: maxLength,

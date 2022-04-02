@@ -4,6 +4,7 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/detail_offer/advertisement.dart';
 import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
 import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
@@ -103,6 +104,26 @@ class ServiceInteractor {
     final ResponseData<ResultRegister> response =
         await locator<LocalDailyGatewayService>()
             .registerUser(bodyRegisterUser);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> putUpdateAddress(
+    BodyUpdateAddress bodyUpdateAddress,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>()
+            .updateAddress(bodyUpdateAddress);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> createTransaction(
+    BodyCreateTransaction bodyCreateTransaction,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>()
+            .createTransaction(bodyCreateTransaction);
 
     return response;
   }

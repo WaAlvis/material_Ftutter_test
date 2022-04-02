@@ -32,6 +32,6 @@ class LdSnackbar {
   }
 
   static void buildErrorSnackbar(BuildContext context, String message) {
-    context.showErrorSnackbar(message: message);
+    context.showErrorSnackbar(message: message, key: key);
   }
 }

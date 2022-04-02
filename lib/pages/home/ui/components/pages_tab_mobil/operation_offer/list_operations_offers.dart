@@ -25,6 +25,7 @@ class ListOperationsOffers extends StatelessWidget {
         : viewModel.status.operationBuyData.data;
 
     return RefreshIndicator(
+      color: LdColors.orangePrimary,
       onRefresh: () async {
         await viewModel.getData(context, userId, refresh: true);
       },
@@ -43,31 +44,57 @@ class ListOperationsOffers extends StatelessWidget {
               color: LdColors.gray,
             ),
             Expanded(
-              child: ListView.separated(
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 8,
-                  );
-                },
-                padding: EdgeInsets.zero,
-                itemCount: viewModel.status.isLoading ? 3 : items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return viewModel.status.isLoading
-                      ? Shimmer.fromColors(
-                          baseColor: LdColors.whiteDark,
-                          highlightColor: LdColors.grayButton,
-                          child: const Card(
-                            margin: EdgeInsets.all(10),
-                            child: SizedBox(height: 160),
-                          ),
-                        )
-                      : OperationCard(
-                          onTap: () {},
-                          item: items[index],
-                          textTheme: textTheme,
-                          viewModel: viewModel,
-                        );
-                },
+              child: Center(
+                child: ListView.separated(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      height: 8,
+                    );
+                  },
+                  shrinkWrap: items.isEmpty,
+                  padding: EdgeInsets.zero,
+                  itemCount: viewModel.status.isLoading
+                      ? 3
+                      : items.isEmpty
+                          ? items.length + 1
+                          : items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return viewModel.status.isLoading
+                        ? Shimmer.fromColors(
+                            baseColor: LdColors.whiteDark,
+                            highlightColor: LdColors.grayButton,
+                            child: const Card(
+                              margin: EdgeInsets.all(10),
+                              child: SizedBox(height: 160),
+                            ),
+                          )
+                        : items.isEmpty
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 30),
+                                child: IntrinsicHeight(
+                                  child: AdviceMessage(
+                                    imageName: LdAssets.emptyNotification,
+                                    title: viewModel.status.typeOffer ==
+                                            TypeOffer.buy
+                                        ? 'Aún no tienes compras en proceso'
+                                        : 'Aún no tienes ventas en proceso',
+                                    description:
+                                        'Puedes ir al inicio y buscar alguna publicación que te llame la atención.',
+                                  ),
+                                ),
+                              )
+                            : OperationCard(
+                                onTap: () {},
+                                item: items[index],
+                                textTheme: textTheme,
+                                viewModel: viewModel,
+                              );
+                  },
+                ),
               ),
             ),
           ],

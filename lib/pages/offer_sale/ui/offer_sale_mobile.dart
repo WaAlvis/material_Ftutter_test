@@ -136,7 +136,7 @@ class _OfferSaleMobile extends StatelessWidget {
                             );
                           },
                           validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
+                              viewModel.validatorAmount(value),
                           textTheme: textTheme,
                           controller: amountDLYCtrl,
                         ),
@@ -317,32 +317,17 @@ class _OfferSaleMobile extends StatelessWidget {
                           maxLines: 5,
                           // when user presses enter it will adapt to it
                           decoration: const InputDecoration(
-                              hintText:
-                                  'Ingresa informacion adicional para los compradores...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                              )),
+                            hintText:
+                                'Ingresa informacion adicional para los compradores...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 20,
-                        ),
-                        InputTextCustom(
-                          'Establece una palabra secreta para asegurar tus recursos',
-                          hintText: 'Ingresa tu palabra secreta',
-                          validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
-                          keyboardType: TextInputType.name,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp('[0-9a-zA-Z.]'),
-                            ),
-                          ],
-                          controller: cancelSecretCtrl,
-                        ),
-                        const SizedBox(
-                          height: 40,
                         ),
                         Container(
                           height: 150,
