@@ -181,6 +181,8 @@ class MiDailyConnect {
           'Se guardó tu dirección de wallet MiDaily',
         );
       }
+    }).catchError((err) {
+      print(err);
     });
 
     return;

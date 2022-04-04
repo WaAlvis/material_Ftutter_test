@@ -122,7 +122,7 @@ class OfferSaleViewModel
   String? validatorAmount(String? value) {
     if (value == null || value.isEmpty || value == '0' || value == '0 COP') {
       return '* Campo necesario';
-    } else if (double.parse(value) < 1000) {
+    } else if (double.parse(value.replaceAll('.', '')) < 1000) {
       return 'El valor mínimo es de 1.000';
     }
     return null;
@@ -276,6 +276,7 @@ class OfferSaleViewModel
     );
 
     userProvider.setBodyOffer(bodyOffer);
+    print(userProvider.getBodyOffer);
     // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
     status = status.copyWith(isLoading: false);
     /* _interactor

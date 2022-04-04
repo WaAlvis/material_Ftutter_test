@@ -20,7 +20,6 @@ class OfferModule {
         .createOffer(userProvider.getBodyOffer!)
         .then((ResponseData<ResultCreateOffer> response) async {
       if (response.isSuccess) {
-        userProvider.setBodyOffer(null);
         // Se crea la transacción en BD
         await _createTransaction(
           params,
@@ -34,6 +33,8 @@ class OfferModule {
           2,
         );
         LdRouter().goHome(LdRouter().navigatorKey.currentContext!);
+        // Se limpia el objeto de oferta.
+        userProvider.setBodyOffer(null);
       } else {
         LdSnackbar.buildErrorSnackbar(
           context,
@@ -43,11 +44,18 @@ class OfferModule {
     }).catchError((err) {
       print('Offer Error As: ${err}');
       LdRouter().pop(LdRouter().navigatorKey.currentContext!);
+      LdSnackbar.buildErrorSnackbar(
+        context,
+        'Ocurrió un inconveniente, intenta más tarde',
+      );
     });
   }
 
   static Future<void> _createTransaction(
-      Map<String, String> params, String adId, String valueToSell) async {
+    Map<String, String> params,
+    String adId,
+    String valueToSell,
+  ) async {
     // Se crea la transacción en BD
     final BodyCreateTransaction body = BodyCreateTransaction(
       entity: EntityTransaction(

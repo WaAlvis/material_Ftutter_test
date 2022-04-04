@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
@@ -12,9 +11,9 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/bank
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
+import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
-import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 
 import 'offer_buy_status.dart';
@@ -170,11 +169,11 @@ class OfferBuyViewModel
   }) async {
     status = status.copyWith(isLoading: true);
 
-    await MiDailyConnect.createConnection(
+    /* await MiDailyConnect.createConnection(
       context,
       DailyConnectType.transaction,
       amountDLY.replaceAll('.', ''),
-    );
+    ); */
 
     /* String convertWorkKeccak(String word) {
       final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
@@ -187,7 +186,7 @@ class OfferBuyViewModel
     } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '138412e9-4907-4d18-b432-70bdec7940c4',
+      idTypeAdvertisement: '9d6731f6-b4f6-4032-a21b-06abef4020f6',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: amountDLY.replaceAll('.', ''),
       margin: margin.split(' ').first,
@@ -200,23 +199,14 @@ class OfferBuyViewModel
     final BodyOffer bodyOffer = BodyOffer(
       entity: entity,
       daysOfExpired: 7,
-      strJsonAdvertisementBanks: json.encode([
-        <String, dynamic>{
-          'bankId': bankId,
-          'accountNumber': '',
-          'accountTypeId': '',
-          'documentNumber': '',
-          'documentTypeID': '',
-          'titularUserName': '',
-        }
-      ]),
+      strJsonAdvertisementBanks: '',
     );
 
-    userProvider.setBodyOffer(bodyOffer);
+    //userProvider.setBodyOffer(bodyOffer);
     // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
     status = status.copyWith(isLoading: false);
 
-    /* _interactor
+    _interactor
         .createOffer(bodyOffer)
         .then((ResponseData<ResultCreateOffer> response) {
       print('Create offer Res: ${response.statusCode} ');
@@ -232,6 +222,6 @@ class OfferBuyViewModel
     }).catchError((err) {
       print('Offera Error As: ${err}');
       status = status.copyWith(isLoading: false);
-    }); */
+    });
   }
 }
