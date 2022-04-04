@@ -43,7 +43,7 @@ extension ShowSnackbar on BuildContext {
     required BuildContext context,
     required GlobalKey<ScaffoldMessengerState> key,
   }) {
-    ScaffoldMessenger.of(this).showSnackBar(
+    key.currentState!.showSnackBar(
       SnackBar(
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
@@ -53,32 +53,35 @@ extension ShowSnackbar on BuildContext {
             const CircleDecoration(quarter: 1, color: LdColors.orangePrimary),
             const CircleDecoration(quarter: 2, color: LdColors.orangePrimary),
             const CircleDecoration(quarter: 3, color: LdColors.orangePrimary),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Icon(
-                  Icons.wifi_off,
-                  color: LdColors.black,
-                  size: 30,
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Flexible(
-                  child: Text(
-                    message,
-                    style: Theme.of(this).textTheme.textSmallBlack.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Icon(
+                    Icons.wifi_off,
+                    color: LdColors.orangePrimary,
+                    size: 20,
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Flexible(
+                    child: Text(
+                      message,
+                      style: Theme.of(this).textTheme.textSmallBlack.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
         backgroundColor: LdColors.white,
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -141,8 +144,11 @@ extension ShowSnackbar on BuildContext {
     );
   }
 
-  void showErrorSnackbar({required String message}) {
-    ScaffoldMessenger.of(this).showSnackBar(
+  void showErrorSnackbar({
+    required String message,
+    required GlobalKey<ScaffoldMessengerState> key,
+  }) {
+    key.currentState!.showSnackBar(
       SnackBar(
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
@@ -152,24 +158,29 @@ extension ShowSnackbar on BuildContext {
             const CircleDecoration(quarter: 1, color: LdColors.redError),
             const CircleDecoration(quarter: 2, color: LdColors.redError),
             const CircleDecoration(quarter: 3, color: LdColors.redError),
-            Row(
-              children: <Widget>[
-                const Icon(
-                  //TODO: Icono de alerta del figma
-                  Icons.warning_amber,
-                  color: LdColors.redError,
-                  size: 30,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  message,
-                  style: Theme.of(this).textTheme.textSmallBlack.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
+              child: Row(
+                children: <Widget>[
+                  const Icon(
+                    //TODO: Icono de alerta del figma
+                    Icons.warning_amber,
+                    color: LdColors.redError,
+                    size: 30,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(
+                    child: Text(
+                      message,
+                      style: Theme.of(this).textTheme.textSmallBlack.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

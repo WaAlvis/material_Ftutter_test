@@ -20,7 +20,6 @@ import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'components/orange_table_buy.dart';
@@ -98,17 +97,16 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
         //DlySnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ValidateOfferEffect) {
         if (keyForm.currentState!.validate()) {
-          if (keyForm.currentState!.validate()) {
-            viewModel.createOfferBuy(
-              context,
-              margin: marginCtrl.text,
-              bankId: viewModel.status.selectedBank!.id,
-              amountDLY: amountDLYCtrl.text,
-              infoPlusOffer: infoPlusOfferCtrl.text,
-              userId: dataUserProvider.getDataUserLogged!.id,
-              wordSecret: cancelSecretCtrl.text,
-            );
-          }
+          viewModel.createOfferBuy(
+            context,
+            dataUserProvider,
+            margin: marginCtrl.text,
+            bankId: viewModel.status.selectedBank!.id,
+            amountDLY: amountDLYCtrl.text,
+            infoPlusOffer: infoPlusOfferCtrl.text,
+            userId: dataUserProvider.getDataUserLogged!.id,
+            wordSecret: cancelSecretCtrl.text,
+          );
         }
       }
     });

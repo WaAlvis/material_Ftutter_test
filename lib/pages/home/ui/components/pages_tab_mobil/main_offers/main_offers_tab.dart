@@ -16,7 +16,6 @@ class MainOffersTab extends StatelessWidget {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final Size size = MediaQuery.of(context).size;
 
     //Alturas de el APpbar y el body
 

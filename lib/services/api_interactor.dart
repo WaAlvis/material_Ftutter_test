@@ -4,10 +4,9 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
-import 'package:localdaily/services/models/detail_offer/advertisement.dart';
+import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
 import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
-import 'package:localdaily/services/models/detail_offer/smart_contract.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -21,6 +20,7 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/users/body_updateaddress.dart';
 
 class ServiceInteractor {
   Future<ResponseData<ResultGetDocsType>> getDocumentType(
@@ -103,6 +103,26 @@ class ServiceInteractor {
     final ResponseData<ResultRegister> response =
         await locator<LocalDailyGatewayService>()
             .registerUser(bodyRegisterUser);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> putUpdateAddress(
+    BodyUpdateAddress bodyUpdateAddress,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>()
+            .updateAddress(bodyUpdateAddress);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> createTransaction(
+    BodyCreateTransaction bodyCreateTransaction,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>()
+            .createTransaction(bodyCreateTransaction);
 
     return response;
   }

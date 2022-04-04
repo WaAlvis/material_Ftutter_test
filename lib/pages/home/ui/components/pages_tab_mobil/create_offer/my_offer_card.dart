@@ -1,21 +1,20 @@
 part of '../../../../../offer_sale/ui/offer_sale_view.dart';
 
-
 class MyOfferCard extends StatelessWidget {
   const MyOfferCard({
     Key? key,
-    // required this.item,
+    required this.item,
     required this.textTheme,
     required this.viewModel,
   }) : super(key: key);
 
-  // final Data item;
+  final Data item;
   final TextTheme textTheme;
   final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read< DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);
@@ -43,16 +42,14 @@ class MyOfferCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TitleBarCard(
-                // name: item.user.nickName,
-                name: 'nickName03',
-                stars: '+3}',
-                // time: item.advertisement.expiredDate,
-                time: '7d',
+              TitleBarOffer(
+                code: '',
+                // TODO: hacer match del id
+                state: 0,
                 textTheme: textTheme,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 0),
+                padding: EdgeInsets.zero,
                 child: Divider(
                   color: LdColors.gray,
                 ),
@@ -65,12 +62,18 @@ class MyOfferCard extends StatelessWidget {
                     children: <Widget>[
                       InfoValueCard(
                         title: 'Cantidad',
-                        valueMoney: '10.000.000',
+                        valueMoney: NumberFormat.simpleCurrency(
+                          decimalDigits: 0,
+                          name: '',
+                          locale: 'IT',
+                        ).format(
+                          double.parse(item.advertisement.valueToSell),
+                        ),
                         textTheme: textTheme,
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        '1.2 DLYCOP ≈ 1 COP',
+                        '${item.advertisement.margin} DLYCOP ≈ 1 COP',
                         style: textTheme.textSmallBlack
                             .copyWith(color: LdColors.grayText, fontSize: 14),
                       ),
@@ -90,7 +93,18 @@ class MyOfferCard extends StatelessWidget {
                 ),
                 child: Text(
                   //Todo DA
-                  '= 12.000.000 COP',
+                  '= ${NumberFormat.simpleCurrency(
+                    decimalDigits: 0,
+                    name: '',
+                    locale: 'IT',
+                  ).format(
+                    double.parse(
+                      totalValueCalculate(
+                        item.advertisement.margin,
+                        item.advertisement.valueToSell,
+                      ),
+                    ),
+                  )} COP',
                   style: textTheme.textSmallBlack
                       .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),
@@ -103,17 +117,15 @@ class MyOfferCard extends StatelessWidget {
   }
 }
 
-class TitleBarCard extends StatelessWidget {
-  final String name;
-  final String stars;
+class TitleBarOffer extends StatelessWidget {
+  final String code;
+  final int state;
   final TextTheme textTheme;
-  final String time;
 
-  const TitleBarCard({
+  const TitleBarOffer({
     Key? key,
-    required this.name,
-    required this.time,
-    required this.stars,
+    required this.code,
+    required this.state,
     required this.textTheme,
   }) : super(key: key);
 
@@ -122,32 +134,34 @@ class TitleBarCard extends StatelessWidget {
     const double sizeFont = 12.0;
     return Row(
       children: <Widget>[
-        const Icon(
-          Icons.account_circle,
-          color: LdColors.black,
-        ),
         const SizedBox(width: 8),
         Text(
-          name,
+          code,
           style: textTheme.textSmallBlack.copyWith(fontSize: sizeFont),
         ),
         const Spacer(),
-        Text(
-          time,
-          style: textTheme.textSmallBlack
-              .copyWith(fontWeight: FontWeight.w600, fontSize: sizeFont),
-        ),
-        const SizedBox(width: 16),
-        const Icon(
-          Icons.star,
-          color: LdColors.orangePrimary,
-          size: 20,
-        ),
-        const SizedBox(width: 3),
-        Text(
-          stars,
-          style: textTheme.textSmallBlack.copyWith(fontSize: sizeFont),
-        ),
+        Container(
+          width: 110,
+          constraints: const BoxConstraints(maxWidth: 110),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: state == 0
+                ? LdColors.blueState
+                : state == 1
+                    ? LdColors.greenState
+                    : LdColors.grayState,
+          ),
+          child: Text(
+            state == 0
+                ? 'Abierto'
+                : state == 1
+                    ? 'En proceso'
+                    : 'Cerrado',
+            style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
+            textAlign: TextAlign.center,
+          ),
+        )
       ],
     );
   }

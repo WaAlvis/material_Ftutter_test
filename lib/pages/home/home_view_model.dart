@@ -3,8 +3,6 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
@@ -13,6 +11,7 @@ import 'package:localdaily/services/models/home/get_offers/reponse/result_home.d
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -63,11 +62,20 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       image: LdAssets.buyNoOffer,
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
+      balance: -1,
     );
   }
 
-  void onItemTapped(int index) {
+  Future<void> onItemTapped(
+    int index,
+    String address,
+  ) async {
     status = status.copyWith(indexTab: index);
+    if (index == 3) {
+      status = status.copyWith(
+        balance: await CryptoUtils().getBalance(address),
+      );
+    }
   }
 
   void changeHideWallet() {
@@ -85,8 +93,8 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
+    getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
-    getData(context, resultDataUser.id);
     status = status.copyWith(resultDataUser: resultDataUser);
   }
 
@@ -348,7 +356,20 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     String userId, {
     bool refresh = false,
   }) async {
+    if (!refresh) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.myOfferBuyData.data.isNotEmpty ||
+            status.myOfferBuyData.totalItems ==
+                status.myOfferBuyData.data.length) return;
+      } else {
+        if (status.myOfferSaleData.data.isNotEmpty ||
+            status.myOfferSaleData.totalItems ==
+                status.myOfferSaleData.data.length) return;
+      }
+    }
+
     status = status.copyWith(isLoading: true);
+
     final Pagination pagination = Pagination(
       isPaginable: false,
       currentPage: status.typeOffer == TypeOffer.buy

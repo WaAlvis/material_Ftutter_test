@@ -9,8 +9,8 @@ class AdviceMessage extends StatelessWidget {
     required this.imageName,
     required this.title,
     required this.description,
-    required this.btnText,
-    required this.onPressed,
+    this.btnText,
+    this.onPressed,
   }) : super(key: key);
 
   final String imageName;

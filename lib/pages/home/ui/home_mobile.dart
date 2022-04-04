@@ -17,8 +17,6 @@ class _HomeMobile extends StatelessWidget {
     final double hBody = size.height - hAppbar;
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
-    // DataUserProvider dataUserProvider;
-
     final TextTheme textTheme = Theme.of(context).textTheme;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
 
@@ -34,7 +32,6 @@ class _HomeMobile extends StatelessWidget {
         hAppbar: hAppbar,
       ),
       MyOffersTab(
-        viewModel: viewModel,
         textTheme: textTheme,
         listBanks: [],
         hAppbar: hAppbar,
@@ -74,6 +71,18 @@ class _HomeMobile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _appbars.elementAt(viewModel.status.indexTab),
+      floatingActionButton: viewModel.status.indexTab == 2 &&
+              ((viewModel.status.myOfferBuyData.data.isNotEmpty &&
+                      viewModel.status.typeOffer == TypeOffer.buy) ||
+                  (viewModel.status.myOfferSaleData.data.isNotEmpty &&
+                      viewModel.status.typeOffer == TypeOffer.sell))
+          ? FloatingActionButton(
+              backgroundColor: LdColors.orangePrimary,
+              tooltip: 'Crear oferta',
+              onPressed: () => viewModel.goCreateOffer(context),
+              child: const Icon(Icons.add, color: LdColors.white),
+            )
+          : const SizedBox.shrink(),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
@@ -101,7 +110,10 @@ class _HomeMobile extends StatelessWidget {
                   dataUserProvider.getDataUserLogged?.id ?? '',
                 );
               }
-              viewModel.onItemTapped(index);
+              viewModel.onItemTapped(
+                index,
+                dataUserProvider.getAddress ?? '',
+              );
             },
             elevation: 10,
             iconSize: 30,

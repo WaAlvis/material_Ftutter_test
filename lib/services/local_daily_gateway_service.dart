@@ -3,6 +3,7 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
 import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
@@ -18,6 +19,7 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
 
 part 'local_daily_gateway_service.g.dart';
@@ -38,6 +40,9 @@ class UrlsApi {
       '/NotificationCenter/SendMessageEvent/SendNotificationOtp';
   static const String validateToken =
       '/NotificationCenter/SendMessageEvent/ValidationToken';
+  static const String updateAddress = '/User/User/UpdateUserAddressWallet';
+  static const String createTransaction =
+      '/Transaction/Transaction/CreateTransaction';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -46,7 +51,6 @@ class UrlsApi {
 abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
       _LocalDailyGatewayService;
-
 
   //Login & Register
   @POST(UrlsApi.login)
@@ -100,6 +104,16 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.createSmartContract)
   Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
     @Body() BodyCreateSmartContract bodyCreateSmartContract,
+  );
+
+  @PUT(UrlsApi.updateAddress)
+  Future<ResponseData<dynamic>> updateAddress(
+    @Body() BodyUpdateAddress bodyUpdateAddress,
+  );
+
+  @POST(UrlsApi.createTransaction)
+  Future<ResponseData<dynamic>> createTransaction(
+    @Body() BodyCreateTransaction bodyCreateTransaction,
   );
 }
 
