@@ -9,7 +9,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/local_storage_service.dart';
+import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
@@ -227,6 +227,14 @@ class MiDailyConnect {
     // Eliminar localmente el address
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     await _localStorage.getPreferences()?.remove(email);
+    userProvider.setAddress('');
+    // Eliminar en bd el address
+    ServiceInteractor().putUpdateAddress(
+      BodyUpdateAddress(
+        idUser: userProvider.getDataUserLogged?.id ?? '',
+        addressWallet: '',
+      ),
+    );
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(

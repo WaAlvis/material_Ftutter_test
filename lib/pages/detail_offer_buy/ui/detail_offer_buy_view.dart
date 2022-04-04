@@ -7,20 +7,24 @@ import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_offer_buy/detail_offer_buy_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
+import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
+import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 import '../detail_offer_buy_view_model.dart';
@@ -74,8 +78,12 @@ class _DetailOfferBuyBody extends StatefulWidget {
 
 class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController secretWordCtrl = TextEditingController();
   late StreamSubscription<DetailOfferBuyEffect> _effectSubscription;
+
+  final TextEditingController accountNumCtrl = TextEditingController();
+  final TextEditingController docNumCtrl = TextEditingController();
+  final TextEditingController nameTitularAccountCtrl = TextEditingController();
+  final TextEditingController infoPlusOfferCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -96,7 +104,6 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
         if (keyForm.currentState!.validate()) {
           viewModel.reservationPaymentForDly(
             context,
-            wordSecretBuyer: secretWordCtrl.text,
             item: widget.item,
             userCurrent: dataUserProvider.getDataUserLogged!,
           );
@@ -109,9 +116,12 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
 
   @override
   void dispose() {
-    secretWordCtrl.dispose();
     _effectSubscription.cancel();
-    // TODO: implement dispose
+
+    accountNumCtrl.dispose();
+    docNumCtrl.dispose();
+    nameTitularAccountCtrl.dispose();
+    infoPlusOfferCtrl.dispose();
     super.dispose();
   }
 
@@ -138,7 +148,10 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
                       : _DetailOfferBuyMobile(
                           item: widget.item,
                           keyForm: keyForm,
-                          secretWordCtrl: secretWordCtrl,
+                          docNumCtrl: docNumCtrl,
+                          accountNumCtrl: accountNumCtrl,
+                          nameTitularAccountCtrl: nameTitularAccountCtrl,
+                          infoPlusOfferCtrl: infoPlusOfferCtrl,
                         ),
                 ),
               ],

@@ -3,6 +3,9 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/configure/local_storage_service.dart';
+import 'package:localdaily/pages/home/home_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
@@ -12,17 +15,19 @@ import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
+import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'home_status.dart';
 
-class HomeViewModel extends ViewModel<HomeStatus> {
+class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
   final int itemsPerPage = 10;
+  late LocalStorageService _localStorage;
 
-  HomeViewModel(this._route, this._interactor) {
+  HomeViewModel(this._route, this._interactor, this._localStorage) {
     status = HomeStatus(
       hideWallet: false,
       hideValues: false,
@@ -90,11 +95,18 @@ class HomeViewModel extends ViewModel<HomeStatus> {
 
   Future<void> onInit(
     BuildContext context,
+    DataUserProvider userProvider,
     ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
     getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
+
+    // Se trae el address en caso de que sea el mismo en BD que en LocalStorage
+    if (resultDataUser.addressWallet ==
+        _localStorage.getPreferences()!.getString(resultDataUser.email)) {
+      userProvider.setAddress(resultDataUser.addressWallet);
+    }
     status = status.copyWith(resultDataUser: resultDataUser);
   }
 
@@ -152,7 +164,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValid) {
         _route.goHistoryOperations(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -163,7 +175,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
         status = status.copyWith(resultDataUser: null);
         _route.goLogin(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -173,7 +185,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValid) {
         _route.goSettings(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -183,7 +195,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValidvalue) {
         _route.goCreateOffer(context, status.typeOffer);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -193,7 +205,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValidvalue) {
         _route.goLogin(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -203,9 +215,33 @@ class HomeViewModel extends ViewModel<HomeStatus> {
       if (isConnectionValidvalue) {
         _route.goDetailOffer(context, item);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  void disconnectWallet() {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        addEffect(ShowDialogHomeEffect());
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void handleDisconnect(
+    BuildContext context,
+    String email,
+    DataUserProvider userProvider,
+  ) {
+    _route.pop(context);
+    MiDailyConnect.removeAddress(context, email, userProvider);
+    addEffect(ShowSnackbarDisconnect());
+  }
+
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
   }
 
   Future<void> getData(
@@ -225,7 +261,7 @@ class HomeViewModel extends ViewModel<HomeStatus> {
           await getDataOffers(context, userId, refresh: refresh);
       }
     } else {
-      // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
     status = status.copyWith(isLoading: false);
   }

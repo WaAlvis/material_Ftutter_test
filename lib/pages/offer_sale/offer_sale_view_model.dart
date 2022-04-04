@@ -57,15 +57,17 @@ class OfferSaleViewModel
       listAccountType: ResultGetDocsType(
         data: <DocType>[
           DocType(
-              id: 'd307fd7e-c76f-44b6-a8ff-768ad6421616',
-              countryId: '17cccd6d-1675-485b-806b-5297063e6826',
-              description: 'Corriente',
-              isActive: true),
+            id: 'd307fd7e-c76f-44b6-a8ff-768ad6421616',
+            countryId: '17cccd6d-1675-485b-806b-5297063e6826',
+            description: 'Corriente',
+            isActive: true,
+          ),
           DocType(
-              id: 'c047a07c-2daf-48a7-ad49-ec447a93485b',
-              countryId: '17cccd6d-1675-485b-806b-5297063e6826',
-              description: 'Ahorros',
-              isActive: true),
+            id: 'c047a07c-2daf-48a7-ad49-ec447a93485b',
+            countryId: '17cccd6d-1675-485b-806b-5297063e6826',
+            description: 'Ahorros',
+            isActive: true,
+          ),
         ],
         totalItems: 10,
         totalPages: 1,
@@ -82,6 +84,7 @@ class OfferSaleViewModel
   }) async {
     getBanks(context);
     getDocumentType(context);
+    // TODO: consultar tipo de cuentas
     // getAccountsType(context);
   }
 
@@ -160,20 +163,17 @@ class OfferSaleViewModel
     // status = status.copyWith(isLoading: true);
 
     final Pagination pagination = Pagination(
-      isPaginable: true,
-      currentPage: 1,
-      itemsPerPage: 25,
+      isPaginable: false,
+      currentPage: 0,
+      itemsPerPage: 0,
     );
 
     try {
       final ResponseData<ResultGetDocsType> response =
           await _interactor.getDocumentType(pagination);
-      print('Type Docs list Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Exito obteniendo la data de Tipos de DOCS!!');
         status.listDocsType = response.result!;
       } else {
-        print('ERROR obteniendo la data de Tipos de DOCS');
         // TODO: Mostrar alerta
       }
     } catch (err) {
@@ -186,20 +186,17 @@ class OfferSaleViewModel
     status = status.copyWith(isLoading: true);
 
     final Pagination pagination = Pagination(
-      isPaginable: true,
-      currentPage: 1,
-      itemsPerPage: 25,
+      isPaginable: false,
+      currentPage: 0,
+      itemsPerPage: 0,
     );
 
     try {
       final ResponseData<ResultGetBanks> response =
           await _interactor.getBanks(pagination);
-      print('Baks list Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Exito obteniendo la data Los BANCOS!!');
         status.listBanks = response.result!;
       } else {
-        print('ERROR obteniendo la data de Baks');
         // TODO: Mostrar alerta
       }
     } catch (err) {

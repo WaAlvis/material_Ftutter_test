@@ -19,6 +19,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/d
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
+import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
