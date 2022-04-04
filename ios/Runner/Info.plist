@@ -66,5 +66,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>exp</string>
+	</array>
 </dict>
 </plist>

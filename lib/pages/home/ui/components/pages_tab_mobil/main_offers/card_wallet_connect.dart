@@ -65,11 +65,6 @@ class CardWalletConnect extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Conectar Wallet MiDaily',
-                        style: textTheme.textSmallBlack,
-                      ),
                     ],
                   ),
                   const Padding(

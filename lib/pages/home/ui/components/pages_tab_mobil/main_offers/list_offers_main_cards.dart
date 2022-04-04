@@ -27,7 +27,7 @@ class ListOffersMainSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
-    final DataUserProvider userProvider = context.read<DataUserProvider>();
+    final DataUserProvider userProvider = context.watch<DataUserProvider>();
     final List<Data> items = viewModel.status.typeOffer == TypeOffer.buy
         ? viewModel.status.offersSaleDataHome.data
         : viewModel.status.offersBuyDataHome.data;

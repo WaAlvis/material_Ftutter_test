@@ -19,8 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MiDailyConnect {
-  static const String _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const String _chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
   static final Random _rnd = Random();
 
   static Future<void> createConnection(
@@ -33,8 +32,8 @@ class MiDailyConnect {
     final String _from = userProvider.getAddress ?? '';
 
     // Se valida el monto con el balance para solicitar creacion
-    if (amount != null || amount != '') {
-      if (double.parse(amount!) > await CryptoUtils().getBalance(_from)) {
+    if (amount != null && amount != '') {
+      if (double.parse(amount) > await CryptoUtils().getBalance(_from)) {
         LdSnackbar.buildErrorSnackbar(
           context,
           'No hay fondos suficientes para realizar la operación',
@@ -42,7 +41,6 @@ class MiDailyConnect {
         return;
       }
     }
-
     userProvider.setMiDailyConnectCode(_walletConnectCode);
     String _url = '';
 
@@ -63,18 +61,21 @@ class MiDailyConnect {
     }
 
     if (await canLaunch(_url)) {
-      Codec<String, String> stringToBase64 = utf8.fuse(base64);
-      final String encoded = stringToBase64.encode(_url);
-      print(encoded);
       await launch(_url, headers: <String, String>{});
     } else {
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
+      LdSnackbar.buildErrorSnackbar(
+        context,
+        'Ocurrió un inconveniente con la petición, intentalo más tarde',
+      );
     }
   }
 
   // Listener para la conexión con MiDaily
   static Future<void> handleIncomingLinks(
-      BuildContext context, Uri? uri) async {
+    BuildContext context,
+    Uri? uri,
+  ) async {
     print(uri);
     // Validar URL
     if (uri == null) return;
