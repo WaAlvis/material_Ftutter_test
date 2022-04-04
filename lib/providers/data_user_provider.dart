@@ -32,6 +32,20 @@ class DataUserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String? _address;
+  String? get getAddress => _address;
+  void setAddress(String? address) {
+    _address = address;
+    notifyListeners();
+  }
+
+  BodyOffer? _bodyOffer;
+  BodyOffer? get getBodyOffer => _bodyOffer;
+  void setBodyOffer(BodyOffer? bodyOffer) {
+    _bodyOffer = bodyOffer;
+    notifyListeners();
+  }
+
   // late TokenLogin _tokenLogin;
   // TokenLogin get getTokenLogin => _tokenLogin;
   // void setTokenLogin(TokenLogin tokenLogin) {

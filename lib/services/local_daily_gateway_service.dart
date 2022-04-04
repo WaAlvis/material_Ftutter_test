@@ -19,6 +19,7 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
 
 part 'local_daily_gateway_service.g.dart';
@@ -50,7 +51,6 @@ class UrlsApi {
 abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
       _LocalDailyGatewayService;
-
 
   //Login & Register
   @POST(UrlsApi.login)

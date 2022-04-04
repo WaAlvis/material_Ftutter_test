@@ -20,6 +20,8 @@ class CryptoUtils {
   }
 
   Future<double> getBalance(String walletAddress) async {
+    if (walletAddress.isEmpty) return 0;
+
     final List<dynamic> queryResult =
         await query('balanceOf', <web3.EthereumAddress>[
       web3.EthereumAddress.fromHex(

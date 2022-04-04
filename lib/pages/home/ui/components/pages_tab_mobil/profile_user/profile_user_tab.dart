@@ -85,7 +85,9 @@ class ProfileUser extends StatelessWidget {
     );
   }
 
-  Widget _bodyCardUser(Color colorCardWhite, ) {
+  Widget _bodyCardUser(
+    Color colorCardWhite,
+  ) {
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
@@ -110,7 +112,8 @@ class ProfileUser extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              _buttonsSocialNetwork(instagram: true, facebook: true, twitter: true),
+              _buttonsSocialNetwork(
+                  instagram: true, facebook: true, twitter: true),
               Column(
                 children: <Widget>[
                   ListView.separated(
@@ -137,7 +140,6 @@ class ProfileUser extends StatelessWidget {
                             context,
                             NavigateOption.values[index],
                             viewModel,
-
                           );
                         },
                       );
@@ -180,7 +182,7 @@ class ProfileUser extends StatelessWidget {
             ),
             child: Column(
               children: const <Widget>[
-                 Icon(
+                Icon(
                   Icons.public,
                   color: LdColors.white,
                 ),
@@ -220,7 +222,7 @@ class ProfileUser extends StatelessWidget {
             onPressed: () => viewModel.launchWeb(SocialNetwork.twitter),
             style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all(LdColors.orangePrimary),
+                  MaterialStateProperty.all(LdColors.orangePrimary),
               minimumSize: MaterialStateProperty.all(const Size(50, 50)),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(

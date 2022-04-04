@@ -8,6 +8,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/local_storage_service.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
@@ -72,7 +73,8 @@ class MiDailyConnect {
   }
 
   // Listener para la conexión con MiDaily
-  static void handleIncomingLinks(BuildContext context, Uri? uri) {
+  static Future<void> handleIncomingLinks(
+      BuildContext context, Uri? uri) async {
     print(uri);
     // Validar URL
     if (uri == null) return;
@@ -138,7 +140,7 @@ class MiDailyConnect {
   }
 
   // Guarda address retornada de Midaily en localStorage con email como key
-  Future<void> _saveAddress(
+  static Future<void> _saveAddress(
     BuildContext context,
     String? address,
     String email,
@@ -184,7 +186,7 @@ class MiDailyConnect {
   }
 
   // Se conecta a MiDaily para realizar una transacción
-  Future<void> _sendTransaction(
+  static Future<void> _sendTransaction(
     BuildContext context,
     DataUserProvider userProvider,
     Map<String, String> params,

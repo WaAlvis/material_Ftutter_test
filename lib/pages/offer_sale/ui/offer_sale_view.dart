@@ -25,7 +25,6 @@ import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part '../../home/ui/components/pages_tab_mobil/create_offer/my_offer_card.dart';

@@ -1,6 +1,4 @@
 import 'package:localdaily/commons/ld_enums.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
@@ -27,7 +25,7 @@ class HomeStatus extends ViewStatus {
   final double balance;
 
   HomeStatus({
-     this.resultDataUser,
+    this.resultDataUser,
     required this.offersBuyDataHome,
     required this.offersSaleDataHome,
     required this.operationBuyData,

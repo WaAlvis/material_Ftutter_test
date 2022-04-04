@@ -3,8 +3,6 @@ import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/home/ui/home_view.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
@@ -14,7 +12,6 @@ import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
-import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -96,8 +93,8 @@ class HomeViewModel extends ViewModel<HomeStatus> {
     ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
+    getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
-    getData(context, resultDataUser.id);
     status = status.copyWith(resultDataUser: resultDataUser);
   }
 
