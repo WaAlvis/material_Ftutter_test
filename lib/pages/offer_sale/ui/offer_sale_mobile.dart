@@ -109,9 +109,15 @@ class _OfferSaleMobile extends StatelessWidget {
                             fontSize: 18,
                           ),
                           inputFormatters: <TextInputFormatter>[
-                            NumericalRangeFormatter(max: 3, min: 0),
+                            //NumericalRangeFormatter(max: 3, min: 0),
                             FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d+\,?\d{0,2}')),
+                              RegExp('[0-9]+[,.]{0,1}[0-9]*'),
+                            ),
+                            DecimalTextInputFormatter(decimalRange: 2),
+                            TextNumberLimitFormatter(1, 2)
+                            /* FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d+\.?\d{0,2}'),
+                            ), */
                             // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
                           ],
                           keyboardType: const TextInputType.numberWithOptions(
@@ -144,7 +150,7 @@ class _OfferSaleMobile extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          'Bancos para recibir el pago',
+                          'Entidades para recibir el pago',
                           style: textTheme.textBigBlack,
                         ),
                         const SizedBox(
@@ -158,8 +164,8 @@ class _OfferSaleMobile extends StatelessWidget {
                           height: 20,
                         ),
                         DropdownCustom(
-                          'Banco *',
-                          hintText: 'Seleciona tu banco',
+                          'Entidad *',
+                          hintText: 'Seleciona tu entidad',
                           validator: (String? value) =>
                               viewModel.validatorNotEmpty(value),
                           changeFillWith: viewModel.status.selectedBank != null,
@@ -293,16 +299,16 @@ class _OfferSaleMobile extends StatelessWidget {
                               ],
                             ),
                           ),
-                        const SizedBox(
+                        /* const SizedBox(
                           height: 20,
                         ),
                         PrimaryButtonCustom(
-                          'Agregar Banco',
+                          'Agregar Entidad',
                           icon: Icons.add_circle_outline_outlined,
                           colorButton: LdColors.white,
                           colorTextBorder: LdColors.orangePrimary,
                           onPressed: () => viewModel,
-                        ),
+                        ), */
                         const SizedBox(
                           height: 20,
                         ),

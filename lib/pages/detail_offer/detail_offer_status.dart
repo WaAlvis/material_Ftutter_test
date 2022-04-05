@@ -5,11 +5,12 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/view_model.dart';
 
-class DetailOfferBuyStatus extends ViewStatus {
+class DetailOfferStatus extends ViewStatus {
   final bool isLoading;
   final bool isError;
   final Data item;
   final String dateOfExpire;
+  final bool isBuy;
   // Bank information
   ResultGetBanks listBanks;
   ResultGetDocsType listDocsType;
@@ -20,11 +21,12 @@ class DetailOfferBuyStatus extends ViewStatus {
   final DocType?
       selectedAccountType; //cambiar el tipo cuando se consuma el servicio
 
-  DetailOfferBuyStatus({
+  DetailOfferStatus({
     required this.dateOfExpire,
     required this.isLoading,
     required this.isError,
     required this.item,
+    required this.isBuy,
     required this.listBanks,
     required this.listDocsType,
     required this.selectedBank,
@@ -33,11 +35,12 @@ class DetailOfferBuyStatus extends ViewStatus {
     required this.selectedAccountType,
   });
 
-  DetailOfferBuyStatus copyWith({
+  DetailOfferStatus copyWith({
     String? dateOfExpire,
     bool? isLoading,
     bool? isError,
     Data? item,
+    bool? isBuy,
     ResultGetBanks? listBanks,
     ResultGetDocsType? listDocsType,
     ResultGetDocsType? listAccountType,
@@ -45,11 +48,12 @@ class DetailOfferBuyStatus extends ViewStatus {
     DocType? selectedDocType,
     DocType? selectedAccountType,
   }) {
-    return DetailOfferBuyStatus(
+    return DetailOfferStatus(
       item: item ?? this.item,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
       dateOfExpire: dateOfExpire ?? this.dateOfExpire,
+      isBuy: isBuy ?? this.isBuy,
       listBanks: listBanks ?? this.listBanks,
       listDocsType: listDocsType ?? this.listDocsType,
       selectedBank: selectedBank ?? this.selectedBank,

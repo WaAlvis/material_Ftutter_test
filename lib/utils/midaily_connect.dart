@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
-import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:provider/provider.dart';
@@ -31,16 +28,6 @@ class MiDailyConnect {
     final String _walletConnectCode = _getRandomString(7);
     final String _from = userProvider.getAddress ?? '';
 
-    // Se valida el monto con el balance para solicitar creacion
-    if (amount != null && amount != '') {
-      if (double.parse(amount) > await CryptoUtils().getBalance(_from)) {
-        LdSnackbar.buildErrorSnackbar(
-          context,
-          'No hay fondos suficientes para realizar la operación',
-        );
-        return;
-      }
-    }
     userProvider.setMiDailyConnectCode(_walletConnectCode);
     String _url = '';
 
@@ -68,6 +55,7 @@ class MiDailyConnect {
         context,
         'Ocurrió un inconveniente con la petición, intentalo más tarde',
       );
+      return;
     }
   }
 

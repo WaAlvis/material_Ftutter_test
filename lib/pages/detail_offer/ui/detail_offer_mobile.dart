@@ -1,7 +1,7 @@
-part of 'detail_offer_buy_view.dart';
+part of 'detail_offer_view.dart';
 
-class _DetailOfferBuyMobile extends StatelessWidget {
-  const _DetailOfferBuyMobile({
+class _DetailOfferMobile extends StatelessWidget {
+  const _DetailOfferMobile({
     Key? key,
     required this.keyForm,
     required this.item,
@@ -21,8 +21,8 @@ class _DetailOfferBuyMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final DetailOfferBuyViewModel viewModel =
-        context.watch<DetailOfferBuyViewModel>();
+    final DetailOfferViewModel viewModel =
+        context.watch<DetailOfferViewModel>();
     final Size size = MediaQuery.of(context).size;
     //Alturas de el APpbar y el body
     const double hAppbar = 100;
@@ -81,28 +81,29 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                               textTheme: textTheme,
                               viewModel: viewModel,
                             ),
-                            const SizedBox(height: 30),
-                            DropdownCustom(
-                              'Banco *',
-                              hintText: 'Seleciona tu banco',
-                              validator: (String? value) =>
-                                  viewModel.validatorNotEmpty(value),
-                              changeFillWith:
-                                  viewModel.status.selectedBank != null,
-                              value: viewModel.status.selectedBank?.id,
-                              onChanged: (String? idBank) =>
-                                  viewModel.bankSelected(idBank!),
-                              optionItems: viewModel.status.listBanks.data
-                                  .map((Bank item) {
-                                return DropdownMenuItem<String>(
-                                  value: item.id,
-                                  child: Text(item.description),
-                                );
-                              }).toList(),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
+                            if (viewModel.status.isBuy)
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(top: 30, bottom: 12),
+                                child: DropdownCustom(
+                                  'Entidad *',
+                                  hintText: 'Seleciona tu entidad',
+                                  validator: (String? value) =>
+                                      viewModel.validatorNotEmpty(value),
+                                  changeFillWith:
+                                      viewModel.status.selectedBank != null,
+                                  value: viewModel.status.selectedBank?.id,
+                                  onChanged: (String? idBank) =>
+                                      viewModel.bankSelected(idBank!),
+                                  optionItems: viewModel.status.listBanks.data
+                                      .map((Bank item) {
+                                    return DropdownMenuItem<String>(
+                                      value: item.id,
+                                      child: Text(item.description),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             if (viewModel.status.selectedBank != null)
                               Container(
                                 padding: const EdgeInsets.symmetric(
@@ -216,8 +217,9 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            /* Text(
-                              'Bancos',
+                            const SizedBox(height: 30),
+                            Text(
+                              'Entidades',
                               style: textTheme.textGray.copyWith(fontSize: 14),
                             ),
                             const SizedBox(height: 5),
@@ -245,7 +247,7 @@ class _DetailOfferBuyMobile extends StatelessWidget {
                               style: item.advertisement.termsOfTrade.isEmpty
                                   ? textTheme.textGray
                                   : textTheme.textBlack,
-                            ), */
+                            ),
                           ],
                         ),
                         PrimaryButtonCustom(

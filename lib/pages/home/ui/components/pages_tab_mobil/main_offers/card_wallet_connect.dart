@@ -69,7 +69,7 @@ class CardWalletConnect extends StatelessWidget {
                         splashRadius: 5,
                         visualDensity: VisualDensity.compact,
                         icon: Icon(
-                          connected ? Icons.link : Icons.link_off,
+                          connected ? Icons.link_off : Icons.link,
                           color: LdColors.orangePrimary,
                         ),
                         tooltip: connected ? 'Desconectar' : 'Conectar',

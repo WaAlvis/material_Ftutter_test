@@ -24,7 +24,6 @@ class OfferModule {
         await _createTransaction(
           params,
           response.result!.id,
-          userProvider.getBodyOffer!.entity.valueToSell,
         );
         LdRouter().pop(LdRouter().navigatorKey.currentContext!);
         LdSnackbar.buildSuccessSnackbar(
@@ -54,7 +53,6 @@ class OfferModule {
   static Future<void> _createTransaction(
     Map<String, String> params,
     String adId,
-    String valueToSell,
   ) async {
     // Se crea la transacción en BD
     final BodyCreateTransaction body = BodyCreateTransaction(
@@ -65,12 +63,12 @@ class OfferModule {
       ),
       strJsonMovements: json.encode(<Map<String, dynamic>>[
         <String, dynamic>{
-          'amount': valueToSell,
+          'amount': params['value']!,
           'address': params['from']!,
           'indicativeMovement': '0',
         },
         <String, dynamic>{
-          'amount': valueToSell,
+          'amount': params['value']!,
           'address': params['to']!,
           'indicativeMovement': '1',
         },

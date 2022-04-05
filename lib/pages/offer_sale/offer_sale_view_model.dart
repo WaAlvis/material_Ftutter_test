@@ -14,14 +14,12 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/d
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
-import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
+import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/view_model.dart';
-import 'package:hex/hex.dart';
-import 'package:sha3/sha3.dart';
 
 import 'offer_sale_status.dart';
 
@@ -205,6 +203,10 @@ class OfferSaleViewModel
     status = status.copyWith(isLoading: false);
   }
 
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
+  }
+
   Future<void> onClickCreateOffer() async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
@@ -229,12 +231,30 @@ class OfferSaleViewModel
     required String infoPlusOffer,
     required String wordSecret,
   }) async {
+    closeDialog(context);
+    final String total = (int.parse(amountDLY) +
+            double.parse(status.feeMoney.replaceAll('.', '')))
+        .toStringAsFixed(0);
+
+    // Se valida que tenga una address recuperada
+    final String _from = userProvider.getAddress ?? '';
+    if (_from.isEmpty) {
+      addEffect(WithoutAddressEffect());
+      return;
+    }
+
+    // Se valida el monto con el balance para solicitar creacion
+    if (double.parse(total) > await CryptoUtils().getBalance(_from)) {
+      addEffect(WithoutFoundsEffect());
+      return;
+    }
+
     status = status.copyWith(isLoading: true);
 
     await MiDailyConnect.createConnection(
       context,
       DailyConnectType.transaction,
-      amountDLY.replaceAll('.', ''),
+      total,
     );
 
     /* String convertWorkKeccak(String word) {
@@ -250,7 +270,7 @@ class OfferSaleViewModel
     final EntityOffer entity = EntityOffer(
       idTypeAdvertisement: '4386109e-5369-45c5-b1ec-e51d973bf4da',
       idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
-      valueToSell: amountDLY.replaceAll('.', ''),
+      valueToSell: amountDLY,
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
@@ -273,7 +293,6 @@ class OfferSaleViewModel
     );
 
     userProvider.setBodyOffer(bodyOffer);
-    print(userProvider.getBodyOffer);
     // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
     status = status.copyWith(isLoading: false);
     /* _interactor
@@ -291,23 +310,36 @@ class OfferSaleViewModel
       status = status.copyWith(isLoading: false);
     }).catchError((err) {
       print('Offer Error As: ${err}');
+
       status = status.copyWith(isLoading: false);
     }); */
   }
 
   String resetValueMargin(String margin) {
-    final String marginText =
-        margin != '0 COP' ? margin.substring(0, margin.indexOf(' ')) : '';
+    String marginText = '';
+    if (margin.contains('COP')) {
+      marginText = margin.substring(0, margin.indexOf(' '));
+    } else {
+      marginText = margin;
+    }
+
     return marginText;
   }
 
   String completeEditMargin(String margin) {
     FocusManager.instance.primaryFocus?.unfocus();
-    final String marginText = margin == ''
-        ? ''
-        : !margin.contains(' ')
-            ? '$margin COP'
-            : margin;
+    String marginText = '';
+
+    if (margin.length == 2 && margin.contains('.') && !margin.contains(' ')) {
+      marginText = '${margin}0 COP';
+    } else if (!margin.contains(' ')) {
+      marginText = '${margin.isEmpty ? 0 : margin} COP';
+    } else if (margin.contains('COP')) {
+      marginText = margin;
+    } else {
+      marginText = '0 COP';
+    }
+
     return marginText;
   }
 
@@ -319,22 +351,49 @@ class OfferSaleViewModel
     }
   }
 
+  // Total en DLYCOP que va a recibir el comprador
+  String getTotalDlycopSold(String? amount) {
+    return ValueCurrencyFormat.format(
+      int.parse(amount ?? '0') -
+          double.parse(status.feeMoney.replaceAll('.', '')),
+    );
+  }
+
+  // Total en COP que debe pagar el comprador
+  String getTotalCopToPay(String? amount) {
+    return ValueCurrencyFormat.format(
+      int.parse(amount ?? '0') * double.parse(status.costDLYtoCOP),
+    );
+  }
+
+  // Total en DLYCOP que debe pagar el que publica la oferta
+  String getTotalAddToPay(String? amount) {
+    return ValueCurrencyFormat.format(
+      int.parse(amount ?? '0') +
+          double.parse(status.feeMoney.replaceAll('.', '')),
+    );
+  }
+
   void calculateTotalMoney(String marginText, String amountDLYText) {
     final String amountDLYWithoutDot = amountDLYText.replaceAll('.', '');
-    final String marginWithoutString =
-        marginText.split(' ').first.replaceAll(',', '.');
+    final String marginWithoutString = marginText.contains(' ')
+        ? marginText.split(' ').first.replaceAll(',', '.')
+        : marginText.replaceAll(',', '.');
 
     final double margin =
         marginText != '' ? double.parse(marginWithoutString) : 0;
     final double amountDLY =
         amountDLYText != '' ? double.parse(amountDLYWithoutDot) : 0;
-    final double total = margin * amountDLY;
-    final int fee = (total * 0.01).toInt();
+    final double total = (margin * amountDLY).roundToDouble();
+
+    // TODO: El fee debe ser un servicio
+    final int fee = (amountDLY * 0.025).round();
     final double totalPLUSfee = total + fee;
 
     status = status.copyWith(
       totalMoney: changeSeparatorGroup(NumberFormat().format(totalPLUSfee)),
-      costDLYtoCOP: changeSeparatorGroup(NumberFormat().format(margin)),
+      costDLYtoCOP: changeSeparatorGroup(NumberFormat().format(margin))
+          .replaceAll(',', '.'),
       feeMoney: changeSeparatorGroup(NumberFormat().format(fee)),
       isMarginEmpty: marginText.isEmpty,
     );

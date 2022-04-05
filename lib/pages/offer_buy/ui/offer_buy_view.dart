@@ -102,7 +102,6 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
             context,
             dataUserProvider,
             margin: marginCtrl.text,
-            bankId: viewModel.status.selectedBank!.id,
             amountDLY: amountDLYCtrl.text,
             infoPlusOffer: infoPlusOfferCtrl.text,
             userId: dataUserProvider.getDataUserLogged!.id,

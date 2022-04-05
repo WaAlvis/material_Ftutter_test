@@ -10,7 +10,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/detail_offer_buy/detail_offer_buy_effect.dart';
+import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -27,16 +27,16 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:provider/provider.dart';
 
-import '../detail_offer_buy_view_model.dart';
+import '../detail_offer_view_model.dart';
 
 part 'components/card_detail_offer.dart';
 
-part 'detail_offer_buy_mobile.dart';
+part 'detail_offer_mobile.dart';
 
-part 'detail_offer_buy_web.dart';
+part 'detail_offer_web.dart';
 
-class DetailOfferBuyView extends StatelessWidget {
-  const DetailOfferBuyView({
+class DetailOfferView extends StatelessWidget {
+  const DetailOfferView({
     Key? key,
     this.isBuy = false,
     this.item,
@@ -49,11 +49,15 @@ class DetailOfferBuyView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<DetailOfferBuyViewModel>(
-      create: (_) => DetailOfferBuyViewModel(
-          locator<LdRouter>(), locator<ServiceInteractor>(), item!),
+    return ChangeNotifierProvider<DetailOfferViewModel>(
+      create: (_) => DetailOfferViewModel(
+        locator<LdRouter>(),
+        locator<ServiceInteractor>(),
+        item!,
+        isBuy: isBuy,
+      ),
       builder: (BuildContext context, _) {
-        return _DetailOfferBuyBody(
+        return _DetailOfferBody(
           isBuy: isBuy,
           item: item!,
         );
@@ -62,8 +66,8 @@ class DetailOfferBuyView extends StatelessWidget {
   }
 }
 
-class _DetailOfferBuyBody extends StatefulWidget {
-  const _DetailOfferBuyBody({
+class _DetailOfferBody extends StatefulWidget {
+  const _DetailOfferBody({
     Key? key,
     required this.isBuy,
     required this.item,
@@ -73,12 +77,12 @@ class _DetailOfferBuyBody extends StatefulWidget {
   final Data item;
 
   @override
-  _DetailOfferBuyBodyState createState() => _DetailOfferBuyBodyState();
+  _DetailOfferBodyState createState() => _DetailOfferBodyState();
 }
 
-class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
+class _DetailOfferBodyState extends State<_DetailOfferBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  late StreamSubscription<DetailOfferBuyEffect> _effectSubscription;
+  late StreamSubscription<DetailOfferEffect> _effectSubscription;
 
   final TextEditingController accountNumCtrl = TextEditingController();
   final TextEditingController docNumCtrl = TextEditingController();
@@ -87,16 +91,14 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
 
   @override
   void initState() {
-    final DetailOfferBuyViewModel viewModel =
-        context.read<DetailOfferBuyViewModel>();
+    final DetailOfferViewModel viewModel = context.read<DetailOfferViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<DetailOfferBuyViewModel>().onInit(context);
+      context.read<DetailOfferViewModel>().onInit(context);
     });
 
-    _effectSubscription =
-        viewModel.effects.listen((DetailOfferBuyEffect event) {
+    _effectSubscription = viewModel.effects.listen((DetailOfferEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
         // TODO: retroalimentaciòn para mostrar falta de conexiòn
         //DlySnackbar.buildConnectivitySnackbar(context, event.message);
@@ -104,6 +106,7 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
         if (keyForm.currentState!.validate()) {
           viewModel.reservationPaymentForDly(
             context,
+            typeOffer: TypeOffer.buy,
             item: widget.item,
             userCurrent: dataUserProvider.getDataUserLogged!,
           );
@@ -127,8 +130,8 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
 
   @override
   Widget build(BuildContext context) {
-    final DetailOfferBuyViewModel viewModel =
-        context.watch<DetailOfferBuyViewModel>();
+    final DetailOfferViewModel viewModel =
+        context.watch<DetailOfferViewModel>();
     final Widget loading = viewModel.status.isLoading
         ? ProgressIndicatorLocalD()
         : const SizedBox.shrink();
@@ -144,8 +147,8 @@ class _DetailOfferBuyBodyState extends State<_DetailOfferBuyBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? const _DetailOfferBuyWeb()
-                      : _DetailOfferBuyMobile(
+                      ? const _DetailOfferWeb()
+                      : _DetailOfferMobile(
                           item: widget.item,
                           keyForm: keyForm,
                           docNumCtrl: docNumCtrl,

@@ -1,23 +1,19 @@
-part of 'detail_offer_buy_view.dart';
+part of 'detail_offer_view.dart';
 
-class _DetailOfferBuyWeb extends StatelessWidget {
-
-  const _DetailOfferBuyWeb({
+class _DetailOfferWeb extends StatelessWidget {
+  const _DetailOfferWeb({
     Key? key,
-
   }) : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
-
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final DetailOfferBuyViewModel viewModel = context.watch<DetailOfferBuyViewModel>();
+    final DetailOfferViewModel viewModel =
+        context.watch<DetailOfferViewModel>();
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const LdAppbar(title:'Test'),
+      appBar: const LdAppbar(title: 'Test'),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverFillRemaining(

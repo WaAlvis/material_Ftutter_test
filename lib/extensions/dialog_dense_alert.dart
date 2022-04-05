@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 
 import '../app_theme.dart';
 
-extension ShowDialogGenericAlert on BuildContext {
-  void showDialogGenericAlert({
+extension ShowDialogDenseAlert on BuildContext {
+  void showDialogDenseAlert({
+    String? image,
+    required String title,
     required String message,
     required String btnText,
     required VoidCallback onTap,
@@ -31,18 +34,48 @@ extension ShowDialogGenericAlert on BuildContext {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
+                  if (image != null && image != '')
+                    Container(
+                      height: 150,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: SvgPicture.asset(image),
                     ),
-                    child: Text(
-                      message,
-                      style: textTheme.textBlack.copyWith(fontSize: 16),
-                      textAlign: TextAlign.center,
+                  Flexible(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              title,
+                              style: textTheme.textBigBlack.copyWith(
+                                color: LdColors.orangePrimary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 15),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Text(
+                                message,
+                                style: textTheme.textBlack.copyWith(
+                                  fontSize: 16,
+                                  color: LdColors.blackText,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   MaterialButton(
                     color: LdColors.orangePrimary,

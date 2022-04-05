@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
-import 'package:localdaily/pages/detail_offer_buy/ui/detail_offer_buy_view.dart';
+import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
@@ -57,7 +57,7 @@ class AppRoutes {
   static final AppRoute detailOfferRoute = AppRoute(
     '/detail_offer',
     Handler(
-      handlerFunc: (BuildContext? context, __) => DetailOfferBuyView(
+      handlerFunc: (BuildContext? context, __) => DetailOfferView(
         item: (context!.settings!.arguments! as Map<String, Data>)['item'],
       ),
     ),
