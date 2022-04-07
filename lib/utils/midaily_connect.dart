@@ -23,6 +23,7 @@ class MiDailyConnect {
     BuildContext context,
     DailyConnectType type,
     String? amount,
+    String? method,
   ) async {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     final String _walletConnectCode = _getRandomString(7);
@@ -39,10 +40,11 @@ class MiDailyConnect {
             'exp://127.0.0.1:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
-        //_url =
-        //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
-        _url =
-            'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
+        if (method != null && method != '')
+          //_url =
+          //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
+          _url =
+              'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
         break;
       default:
     }
@@ -161,7 +163,6 @@ class MiDailyConnect {
         LdSnackbar.buildSuccessSnackbar(
           context,
           'Se guardó tu dirección de wallet MiDaily',
-          2,
         );
       } else {
         LdSnackbar.buildErrorSnackbar(
@@ -184,7 +185,9 @@ class MiDailyConnect {
   ) async {
     if (params['trx'] == null ||
         params['to'] == null ||
-        params['from'] == null) {
+        params['from'] == null ||
+        params['value'] == null ||
+        params['method'] == null) {
       LdSnackbar.buildErrorSnackbar(
         context,
         'Ocurrió un inconveniente, intenta más tarde',
@@ -194,17 +197,34 @@ class MiDailyConnect {
 
     LdDialog.buildLoadingDialog(context);
 
-    if (userProvider.getBodyOffer == null) {
-      LdRouter().pop(LdRouter().navigatorKey.currentContext!);
-      LdSnackbar.buildErrorSnackbar(
-        context,
-        'Ocurrió un inconveniente, intenta más tarde',
-      );
-      return;
+    switch (params['method']) {
+      case 'create':
+        if (userProvider.getBodyOffer == null) {
+          LdRouter().pop(LdRouter().navigatorKey.currentContext!);
+          LdSnackbar.buildErrorSnackbar(
+            context,
+            'Ocurrió un inconveniente, intenta más tarde',
+          );
+          return;
+        }
+        // Se crea la publicación y despúes de eso la transacción en BD
+        OfferModule.createOffer(context, userProvider, params);
+        break;
+      case 'reserve':
+        if (userProvider.getBodyUpdateStatus == null ||
+            userProvider.getBodyAddPayAccount == null) {
+          LdRouter().pop(LdRouter().navigatorKey.currentContext!);
+          LdSnackbar.buildErrorSnackbar(
+            context,
+            'Ocurrió un inconveniente, intenta más tarde',
+          );
+          return;
+        }
+        // Se actualiza la publicacion para reservar, se actualizan los bancos y se crea una transacción
+        OfferModule.reserveoffer(context, userProvider, params);
+        break;
+      default:
     }
-
-    // Se crea la publicación y despúes de eso la transacción en BD
-    OfferModule.createOffer(context, userProvider, params);
   }
 
   static Future<void> removeAddress(

@@ -151,14 +151,14 @@ class _OfferSaleMobile extends StatelessWidget {
                         ),
                         Text(
                           'Entidades para recibir el pago',
-                          style: textTheme.textBigBlack,
+                          style: textTheme.textBigBlack.copyWith(fontSize: 18),
                         ),
                         const SizedBox(
                           height: 8,
                         ),
                         Text(
-                          'Esta imformacion solo se mostrar al usuario que comfirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
-                          style: textTheme.textGray,
+                          'Esta informacion solo se mostrar al usuario que confirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
+                          style: textTheme.textGray.copyWith(fontSize: 14),
                         ),
                         const SizedBox(
                           height: 20,
@@ -324,7 +324,7 @@ class _OfferSaleMobile extends StatelessWidget {
                           // when user presses enter it will adapt to it
                           decoration: const InputDecoration(
                             hintText:
-                                'Ingresa informacion adicional para los compradores...',
+                                'Ingresa información adicional para los compradores...',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),

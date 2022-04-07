@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:localdaily/commons/ld_constans.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -255,6 +256,7 @@ class OfferSaleViewModel
       context,
       DailyConnectType.transaction,
       total,
+      'create',
     );
 
     /* String convertWorkKeccak(String word) {
@@ -275,6 +277,7 @@ class OfferSaleViewModel
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
       codeUserPublish: '',
+      hoursLimitPay: 72,
     );
 
     final BodyOffer bodyOffer = BodyOffer(
@@ -295,24 +298,6 @@ class OfferSaleViewModel
     userProvider.setBodyOffer(bodyOffer);
     // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
     status = status.copyWith(isLoading: false);
-    /* _interactor
-        .createOffer(bodyOffer)
-        .then((ResponseData<ResultCreateOffer> response) {
-      print('Create offer Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        print('Oferta de venta creada EXITOSO!!');
-
-        _route.goHome(context);
-      } else {
-        // TODO: Mostrar alerta
-        print('no se pudo realizar la oferta ve venta!');
-      }
-      status = status.copyWith(isLoading: false);
-    }).catchError((err) {
-      print('Offer Error As: ${err}');
-
-      status = status.copyWith(isLoading: false);
-    }); */
   }
 
   String resetValueMargin(String margin) {
@@ -387,7 +372,7 @@ class OfferSaleViewModel
     final double total = (margin * amountDLY).roundToDouble();
 
     // TODO: El fee debe ser un servicio
-    final int fee = (amountDLY * 0.025).round();
+    final int fee = (amountDLY * LdConstants.fee).round();
     final double totalPLUSfee = total + fee;
 
     status = status.copyWith(

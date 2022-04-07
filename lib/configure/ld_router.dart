@@ -63,13 +63,13 @@ class LdRouter {
     );
   }
 
-  void goDetailOffer(BuildContext context, Data item) {
+  void goDetailOffer(BuildContext context, Data item, {bool isBuy = false}) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailOfferRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-        arguments: <String, Data>{'item': item},
+        arguments: <String, dynamic>{'item': item, 'isbuy': isBuy},
       ),
     );
   }

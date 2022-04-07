@@ -66,6 +66,7 @@ class MainOffersTab extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 ListOffersMainSwitch(
                   'Ofertas para comprar',

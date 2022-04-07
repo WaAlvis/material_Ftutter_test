@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
+import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
+import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 
 class DataUserProvider with ChangeNotifier {
@@ -28,6 +30,20 @@ class DataUserProvider with ChangeNotifier {
   BodyOffer? get getBodyOffer => _bodyOffer;
   void setBodyOffer(BodyOffer? bodyOffer) {
     _bodyOffer = bodyOffer;
+    notifyListeners();
+  }
+
+  BodyAddPayAccount? _bodyAddPayAccount;
+  BodyAddPayAccount? get getBodyAddPayAccount => _bodyAddPayAccount;
+  void setBodyAddPayAccount(BodyAddPayAccount? bodyAddPayAccount) {
+    _bodyAddPayAccount = bodyAddPayAccount;
+    notifyListeners();
+  }
+
+  BodyUpdateStatus? _bodyUpdateStatus;
+  BodyUpdateStatus? get getBodyUpdateStatus => _bodyUpdateStatus;
+  void setBodyUpdateStatus(BodyUpdateStatus? bodyUpdateStatus) {
+    _bodyUpdateStatus = bodyUpdateStatus;
     notifyListeners();
   }
 

@@ -5,7 +5,6 @@ class _DetailOfferMobile extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.item,
-    required this.infoPlusOfferCtrl,
     required this.accountNumCtrl,
     required this.docNumCtrl,
     required this.nameTitularAccountCtrl,
@@ -13,7 +12,6 @@ class _DetailOfferMobile extends StatelessWidget {
 
   final Data item;
   final GlobalKey<FormState> keyForm;
-  final TextEditingController infoPlusOfferCtrl;
   final TextEditingController accountNumCtrl;
   final TextEditingController docNumCtrl;
   final TextEditingController nameTitularAccountCtrl;
@@ -64,7 +62,9 @@ class _DetailOfferMobile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             OperationHeader(
-                              type: TypeOffer.buy,
+                              type: viewModel.status.isBuy
+                                  ? TypeOffer.sell
+                                  : TypeOffer.buy,
                               ad: item.advertisement,
                               textTheme: textTheme,
                               size: size,
@@ -81,31 +81,96 @@ class _DetailOfferMobile extends StatelessWidget {
                               textTheme: textTheme,
                               viewModel: viewModel,
                             ),
+                            const SizedBox(height: 30),
+                            if (!viewModel.status.isBuy)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Text(
+                                    'Entidades',
+                                    style: textTheme.textGray
+                                        .copyWith(fontSize: 14),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    // TODO: Solicitar que el servicio retorne BankName
+                                    item.advertisement.advertisementPayAccount
+                                        .map(
+                                          (e) => /* '${e.bankId}, ' */ 'Bancolombia, Nequi.',
+                                        )
+                                        .toString()
+                                        .replaceAll('(', '')
+                                        .replaceAll(')', ''),
+                                    style: textTheme.textBlack,
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                            Text(
+                              'Información adicional',
+                              style: textTheme.textGray.copyWith(fontSize: 14),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              item.advertisement.termsOfTrade.isEmpty
+                                  ? 'No hay información adicional.'
+                                  : item.advertisement.termsOfTrade,
+                              style: item.advertisement.termsOfTrade.isEmpty
+                                  ? textTheme.textGray
+                                  : textTheme.textBlack,
+                            ),
                             if (viewModel.status.isBuy)
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: 30, bottom: 12),
-                                child: DropdownCustom(
-                                  'Entidad *',
-                                  hintText: 'Seleciona tu entidad',
-                                  validator: (String? value) =>
-                                      viewModel.validatorNotEmpty(value),
-                                  changeFillWith:
-                                      viewModel.status.selectedBank != null,
-                                  value: viewModel.status.selectedBank?.id,
-                                  onChanged: (String? idBank) =>
-                                      viewModel.bankSelected(idBank!),
-                                  optionItems: viewModel.status.listBanks.data
-                                      .map((Bank item) {
-                                    return DropdownMenuItem<String>(
-                                      value: item.id,
-                                      child: Text(item.description),
-                                    );
-                                  }).toList(),
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    'Entidades para recibir el pago',
+                                    style: textTheme.textBigBlack
+                                        .copyWith(fontSize: 18),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    'Esta informacion solo se mostrar al usuario que confirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
+                                    style: textTheme.textGray
+                                        .copyWith(fontSize: 14),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      bottom: 12,
+                                    ),
+                                    child: DropdownCustom(
+                                      'Entidad *',
+                                      hintText: 'Seleciona tu entidad',
+                                      validator: (String? value) =>
+                                          viewModel.validatorNotEmpty(value),
+                                      changeFillWith:
+                                          viewModel.status.selectedBank != null,
+                                      value: viewModel.status.selectedBank?.id,
+                                      onChanged: (String? idBank) =>
+                                          viewModel.bankSelected(idBank!),
+                                      optionItems: viewModel
+                                          .status.listBanks.data
+                                          .map((Bank item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item.id,
+                                          child: Text(item.description),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
                               ),
                             if (viewModel.status.selectedBank != null)
                               Container(
+                                margin: const EdgeInsets.only(bottom: 20),
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 32,
@@ -208,7 +273,8 @@ class _DetailOfferMobile extends StatelessWidget {
                                           TextCapitalization.words,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.allow(
-                                            RegExp('[a-zA-Z ]')),
+                                          RegExp('[a-zA-Z ]'),
+                                        ),
                                       ],
                                       controller: nameTitularAccountCtrl,
                                       changeFillWith: nameTitularAccountCtrl
@@ -217,37 +283,6 @@ class _DetailOfferMobile extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            const SizedBox(height: 30),
-                            Text(
-                              'Entidades',
-                              style: textTheme.textGray.copyWith(fontSize: 14),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              // TODO: Solicitar que el servicio retorne BankName
-                              item.advertisement.advertisementPayAccount
-                                  .map(
-                                    (e) => /* '${e.bankId}, ' */ 'Bancolombia, Nequi.',
-                                  )
-                                  .toString()
-                                  .replaceAll('(', '')
-                                  .replaceAll(')', ''),
-                              style: textTheme.textBlack,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Información adicional',
-                              style: textTheme.textGray.copyWith(fontSize: 14),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              item.advertisement.termsOfTrade.isEmpty
-                                  ? 'No hay información adicional.'
-                                  : item.advertisement.termsOfTrade,
-                              style: item.advertisement.termsOfTrade.isEmpty
-                                  ? textTheme.textGray
-                                  : textTheme.textBlack,
-                            ),
                           ],
                         ),
                         PrimaryButtonCustom(
@@ -416,4 +451,181 @@ class PublisherInformation extends StatelessWidget {
       ],
     );
   }
+}
+
+void confirmBottomSheet(
+  BuildContext context,
+  TextTheme textTheme,
+  Data data,
+  DetailOfferViewModel viewModel,
+  ResultDataUser user,
+  DataUserProvider userProvider,
+  String accountNo,
+  String docNum,
+  String titular, {
+  bool isBuy = false,
+}) {
+  showModalBottomSheet<void>(
+    context: context,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    builder: (BuildContext context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Text(
+                  'Resumen de la ${isBuy ? 'venta' : 'compra'}',
+                  style: textTheme.textBlack.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: LdColors.orangePrimary,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                /* Text(
+                  'Vas a transferir',
+                  style: textTheme.textGray.copyWith(fontSize: 16),
+                ),
+                const SizedBox(height: 15), */
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          ValueCurrencyFormat.format(
+                            double.parse(data.advertisement.valueToSell),
+                          ),
+                          style: textTheme.textBigBlack.copyWith(
+                            fontSize: 34,
+                            color: LdColors.blackText,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    SvgPicture.asset(LdAssets.dlycopIconBlack)
+                  ],
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.only(
+                top: 30,
+                left: 20,
+                right: 20,
+                bottom: 20,
+              ),
+              decoration: BoxDecoration(
+                color: LdColors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: LdColors.black.withOpacity(0.16),
+                    spreadRadius: 3,
+                    blurRadius: 24,
+                    offset: const Offset(0, 4), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _confirmationRowText(
+                    'Valor',
+                    '1 DLYCOP ≈ ${data.advertisement.margin} COP',
+                    textTheme,
+                  ),
+                  _confirmationRowText(
+                    'Fee (${LdConstants.fee * 100}%)',
+                    '${viewModel.calculateFee(data.advertisement.valueToSell)} DLYCOP',
+                    textTheme,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(right: 15),
+                          child: Text(
+                            'Detalle como ${isBuy ? 'vendedor' : 'comprador'}',
+                            style: textTheme.textGray.copyWith(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            color: LdColors.orangePrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _confirmationRowText(
+                    'Total a recibir',
+                    '${viewModel.calculateTotalReceive(data.advertisement.valueToSell, data.advertisement.margin, isBuy: isBuy)} ${isBuy ? 'COP' : 'DLYCOP'}',
+                    textTheme,
+                  ),
+                  _confirmationRowText(
+                    'Total a transferir',
+                    '${viewModel.calculateTotalTransfer(data.advertisement.valueToSell, data.advertisement.margin, isBuy: isBuy)} ${isBuy ? 'DLYCOP' : 'COP'}',
+                    textTheme,
+                  ),
+                ],
+              ),
+            ),
+            PrimaryButtonCustom(
+              'Confirmar la ${isBuy ? 'compra' : 'venta'}',
+              //onPressed: viewModel.onClickReserveDly,
+              onPressed: () => viewModel.reservationPaymentForDly(
+                context,
+                typeOffer: isBuy ? TypeOffer.buy : TypeOffer.sell,
+                item: data,
+                userCurrent: user,
+                userProvider: userProvider,
+                accountNo: accountNo,
+                docNum: docNum,
+                titular: titular,
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Widget _confirmationRowText(String title, String amount, TextTheme textTheme) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: <Widget>[
+      Container(
+        margin: const EdgeInsets.only(right: 10, bottom: 10),
+        child: Text(
+          title,
+          style: textTheme.textGray.copyWith(
+            fontSize: 14,
+          ),
+        ),
+      ),
+      Flexible(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            amount,
+            style: textTheme.subtitleBlack.copyWith(
+              fontSize: 16,
+            ),
+          ),
+        ),
+      )
+    ],
+  );
 }

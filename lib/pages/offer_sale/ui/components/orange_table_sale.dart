@@ -75,14 +75,14 @@ class OrangeTableSale extends StatelessWidget {
           ),
           rowOrangeTable(
             firstText: 'Valor',
-            secondText: '1 DLY ≈ ${viewModel.status.costDLYtoCOP} COP',
+            secondText: '1 DLYCOP ≈ ${viewModel.status.costDLYtoCOP} COP',
           ),
           const SizedBox(
             height: 5,
           ),
           rowOrangeTable(
             // TODO: El fee debe ser un servicio
-            firstText: 'Fee (2.5%)',
+            firstText: 'Fee (${LdConstants.fee * 100}%)',
             secondText: '${viewModel.status.feeMoney} DLYCOP',
           ),
           const SizedBox(

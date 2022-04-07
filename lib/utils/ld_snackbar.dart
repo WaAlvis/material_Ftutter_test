@@ -10,9 +10,8 @@ class LdSnackbar {
   static void buildSnackbar(
     BuildContext context,
     String message,
-    int duration,
   ) {
-    context.showSnackbar(message: message, duration: duration, key: key);
+    context.showSnackbar(message: message, key: key);
   }
 
   static void buildConnectivitySnackbar(BuildContext context, String message) {
@@ -26,9 +25,8 @@ class LdSnackbar {
   static void buildSuccessSnackbar(
     BuildContext context,
     String message,
-    int duration,
   ) {
-    context.showSuccessSnackbar(message: message, duration: duration, key: key);
+    context.showSuccessSnackbar(message: message, key: key);
   }
 
   static void buildErrorSnackbar(BuildContext context, String message) {

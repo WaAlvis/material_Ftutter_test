@@ -13,6 +13,7 @@ class LdAssets {
   static const String noFounds = '$pathImages/no_founds.svg';
   static const String done = '$pathImages/done.svg';
   static const String createOffer = '$pathImages/cloud_offer.svg';
+
   static const String dlycopIconWhite = '$pathIcons/DLYcop_white.svg';
   static const String dlycopIconBlack = '$pathIcons/DLYcop_black.svg';
   static const String dlycopIconGreen = '$pathIcons/DLYcop_green.svg';

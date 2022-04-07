@@ -17,3 +17,10 @@ enum NavigateOption {
 }
 
 enum DailyConnectType { walletAddress, transaction }
+
+enum OfferStatus {
+  open,
+  inProcess,
+  closed,
+  pending,
+}

@@ -62,6 +62,9 @@ class ListOffersMainSwitch extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
                 separatorBuilder: (BuildContext context, int index) {
                   return const SizedBox(
                     height: 8,
@@ -93,6 +96,7 @@ class ListOffersMainSwitch extends StatelessWidget {
                                             context,
                                             DailyConnectType.walletAddress,
                                             '',
+                                            '',
                                           ),
                                           textTheme: textTheme,
                                           connected: false,
@@ -100,12 +104,17 @@ class ListOffersMainSwitch extends StatelessWidget {
                                       : const SizedBox.shrink(),
                                 ),
                                 if (items.isEmpty)
-                                  const IntrinsicHeight(
+                                  IntrinsicHeight(
                                     child: AdviceMessage(
                                       imageName: LdAssets.emptyNotification,
-                                      title: 'Aún no hay ofertas de ventas',
-                                      description:
-                                          'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.',
+                                      title: viewModel.status.typeOffer ==
+                                              TypeOffer.sell
+                                          ? 'Aún no hay ofertas de ventas'
+                                          : 'Aún no hay ofertas de compras',
+                                      description: viewModel.status.typeOffer ==
+                                              TypeOffer.sell
+                                          ? 'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.'
+                                          : 'Aquí podrás visualizar las ofertas de compras creadas por la comunidad.',
                                     ),
                                   )
                               ],
@@ -117,6 +126,8 @@ class ListOffersMainSwitch extends StatelessWidget {
                                     : viewModel.goDetailOffer(
                                         context,
                                         item: items[index - 1],
+                                        isBuy: viewModel.status.typeOffer ==
+                                            TypeOffer.sell,
                                       );
                               },
                               item: items[index - 1],

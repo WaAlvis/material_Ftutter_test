@@ -58,7 +58,10 @@ class AppRoutes {
     '/detail_offer',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailOfferView(
-        item: (context!.settings!.arguments! as Map<String, Data>)['item'],
+        item: (context!.settings!.arguments! as Map<String, dynamic>)['item']
+            as Data,
+        isBuy: (context.settings!.arguments! as Map<String, dynamic>)['isbuy']
+            as bool,
       ),
     ),
   );

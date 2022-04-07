@@ -6,7 +6,6 @@ import '../app_theme.dart';
 extension ShowSnackbar on BuildContext {
   void showSnackbar({
     required String message,
-    required int duration,
     required GlobalKey<ScaffoldMessengerState> key,
   }) {
     key.currentState!.showSnackBar(
@@ -33,7 +32,7 @@ extension ShowSnackbar on BuildContext {
         ),
         backgroundColor: LdColors.white,
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: duration),
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -88,7 +87,6 @@ extension ShowSnackbar on BuildContext {
 
   void showSuccessSnackbar({
     required String message,
-    required int duration,
     required GlobalKey<ScaffoldMessengerState> key,
   }) {
     key.currentState!.showSnackBar(
@@ -139,7 +137,7 @@ extension ShowSnackbar on BuildContext {
         ),
         backgroundColor: LdColors.white,
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: duration),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

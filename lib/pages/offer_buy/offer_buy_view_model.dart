@@ -14,6 +14,7 @@ import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/modules/offer_module.dart';
 import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -153,6 +154,10 @@ class OfferBuyViewModel
     );
   }
 
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
+  }
+
   Future<void> onClickCreateOffer() async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
@@ -171,6 +176,7 @@ class OfferBuyViewModel
     required String userId,
     required String wordSecret,
   }) async {
+    closeDialog(context);
     status = status.copyWith(isLoading: true);
 
     /* String convertWorkKeccak(String word) {
@@ -191,6 +197,7 @@ class OfferBuyViewModel
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
       codeUserPublish: '',
+      hoursLimitPay: 72,
       //codeUserPublish:
       //    '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
     );
@@ -200,19 +207,8 @@ class OfferBuyViewModel
       strJsonAdvertisementBanks: '',
     );
 
-    _interactor
-        .createOffer(bodyOffer)
-        .then((ResponseData<ResultCreateOffer> response) {
-      print('Create offer Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        _route.goHome(context);
-      } else {
-        // TODO: Mostrar alerta
-      }
-      status = status.copyWith(isLoading: false);
-    }).catchError((err) {
-      status = status.copyWith(isLoading: false);
-      print(err);
-    });
+    userProvider.setBodyOffer(bodyOffer);
+    await OfferModule.createOffer(context, userProvider, null, isBuy: true);
+    status = status.copyWith(isLoading: false);
   }
 }
