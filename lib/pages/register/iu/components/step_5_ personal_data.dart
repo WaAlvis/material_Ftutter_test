@@ -6,6 +6,7 @@ import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:localdaily/widgets/warning_container_msj.dart';
 
 class Step5PersonalData extends StatelessWidget {
   const Step5PersonalData({
@@ -39,12 +40,23 @@ class Step5PersonalData extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+          padding: const EdgeInsets.only(left: 16,right: 16, bottom: 32, top: 10),
           child: Form(
             key: keyForm,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                if (viewModel.status.isErrorRegisterUser)
+                  WarningContainerMsj(
+                    textTheme,
+                    message: viewModel.status.msjErrorRegisterUser,
+                    onTap: () => viewModel.closeErrMsg(),
+                  )
+                else
+                  const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 10,
+                ),
                 InputTextCustom(
                   'Nombres  *',
                   hintText: 'Ingresa tu primer nombre',

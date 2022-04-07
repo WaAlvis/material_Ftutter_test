@@ -29,7 +29,6 @@ dependencies:
   shared_preferences: ^2.0.6
 
   #Assets
-  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.3
   flutter_svg: ^0.23.0+1
   crypto: ^3.0.1
@@ -49,6 +48,7 @@ dependencies:
   #Widgets
   shimmer: ^2.0.0
   eth_sig_util: ^0.0.7
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   build_runner: ^2.1.4

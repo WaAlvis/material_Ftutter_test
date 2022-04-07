@@ -32,7 +32,8 @@ class ProfileUser extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: LdColors.blackBackground,
-      body: Column(
+      body:
+      Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(
@@ -123,6 +124,7 @@ class ProfileUser extends StatelessWidget {
                                 )
                               : const SizedBox.shrink(),
                         ),
+                        const  SizedBox(height: 20,),
                         _buttonsSocialNetwork(
                           instagram: true,
                           facebook: true,
@@ -181,12 +183,14 @@ class ProfileUser extends StatelessWidget {
     bool instagram = false,
     bool facebook = false,
     bool twitter = false,
+    double sizeIcons = 30,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         if (instagram)
           OutlinedButton(
+
             onPressed: () => viewModel.launchWeb(SocialNetwork.instagram),
             style: ButtonStyle(
               backgroundColor:
@@ -198,14 +202,11 @@ class ProfileUser extends StatelessWidget {
                 ),
               ),
             ),
-            child: Column(
-              children: const <Widget>[
-                Icon(
-                  Icons.public,
-                  color: LdColors.white,
-                ),
-                Text('Inst')
-              ],
+            child: SvgPicture.asset(
+              LdAssets.socialInstagram,
+              fit: BoxFit.fill,
+height: sizeIcons,
+              color: LdColors.white,
             ),
           )
         else
@@ -223,15 +224,14 @@ class ProfileUser extends StatelessWidget {
                 ),
               ),
             ),
-            child: Column(
-              children: const <Widget>[
-                Icon(
-                  Icons.public,
-                  color: LdColors.white,
-                ),
-                Text('Face')
-              ],
-            ),
+            child:
+            SvgPicture.asset(
+              LdAssets.socialFacebook,
+              height: sizeIcons,
+
+              color: LdColors.white,
+            )
+            ,
           )
         else
           const SizedBox.shrink(),
@@ -248,15 +248,13 @@ class ProfileUser extends StatelessWidget {
                 ),
               ),
             ),
-            child: Column(
-              children: const <Widget>[
-                Icon(
-                  Icons.public,
-                  color: LdColors.white,
-                ),
-                Text('Twit')
-              ],
-            ),
+            child:                 SvgPicture.asset(
+              LdAssets.socialTwitter,
+              height: sizeIcons,
+
+              color: LdColors.white,
+            )
+            ,
           )
         else
           const SizedBox.shrink()

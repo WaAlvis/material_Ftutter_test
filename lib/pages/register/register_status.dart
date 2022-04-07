@@ -6,6 +6,9 @@ class RegisterStatus extends ViewStatus {
   final bool isLoading;
   final bool hidePass;
   final bool isError;
+  final bool isErrorPinValidate;
+  final bool isErrorRegisterUser;
+  final String msjErrorRegisterUser;
 
   final TextEditingController dateBirthCtrl;
   final RegisterStep registerStep;
@@ -35,6 +38,9 @@ class RegisterStatus extends ViewStatus {
   final bool isConfirmPassFieldEmpty;
 
   RegisterStatus({
+    required this.msjErrorRegisterUser,
+    required this.isErrorRegisterUser,
+    required this.isErrorPinValidate,
     // required this.phrase,
     required this.isPossibleOpenEmail,
     // required this.addressWallet,
@@ -70,6 +76,8 @@ class RegisterStatus extends ViewStatus {
 
   RegisterStatus copyWith({
     // TextEditingController? dateBirthCtrl,
+    bool? isErrorRegisterUser,
+    String? msjErrorRegisterUser,
     bool? isLoading,
     bool? isError,
     String? emailRegister,
@@ -101,6 +109,7 @@ class RegisterStatus extends ViewStatus {
     bool? hasLowerLetter,
     bool? hasNumberChar,
     String? phrase,
+    bool? isErrorPinValidate,
   }) {
     return RegisterStatus(
       // phone: phone ?? this.phone,
@@ -140,6 +149,9 @@ class RegisterStatus extends ViewStatus {
       hasSpecialChar: hasSpecialChar ?? this.hasSpecialChar,
       hasLowerLetter: hasLowerLetter ?? this.hasLowerLetter,
       hasNumberChar: hasNumberChar ?? this.hasNumberChar,
+      isErrorPinValidate: isErrorPinValidate ?? this.isErrorPinValidate,
+      isErrorRegisterUser: isErrorRegisterUser ?? this.isErrorRegisterUser,
+      msjErrorRegisterUser: msjErrorRegisterUser ?? this.msjErrorRegisterUser,
     );
   }
 }

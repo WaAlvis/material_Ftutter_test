@@ -70,6 +70,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       password: '',
       nickName: '',
       dateBirth: '',
+      isErrorPinValidate: false,
+      isErrorRegisterUser: false,
+      msjErrorRegisterUser: '',
       // surnames: '',
       // phrase: '',
       // phone: '',
@@ -121,8 +124,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
 
   void setDateBirth(DateTime? date) {
     final String dateT = date!.toLocal().toString().split(' ').first;
-    status =
-        status.copyWith(isDateBirthFieldEmpty: date.toString().isEmpty,dateBirth: dateT);
+    status = status.copyWith(
+        isDateBirthFieldEmpty: date.toString().isEmpty, dateBirth: dateT);
     status.dateBirthCtrl.text = dateT;
   }
 
@@ -213,9 +216,14 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     _interactor.validatePin(bodyValidatePin).then((
       ResponseData<ResultValidatePin> response,
     ) {
-      if (response.isSuccess && response.result!.valid) {
-        print('CodigoPin Validado con EXITOSO!!');
-        goNextStep(currentStep: RegisterStep.validatePinStep_3);
+      if (response.isSuccess) {
+        if (response.result!.valid) {
+          goNextStep(currentStep: RegisterStep.validatePinStep_3);
+        } else {
+          status = status.copyWith(
+            isErrorPinValidate: true,
+          );
+        }
       } else {
         // TODO: Mostrar alerta
         // addEffect(ShowSnackbarPinInvalid);
@@ -228,6 +236,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   Future<void> reSendPinToEmail(String email) => sendPinToEmail(email);
+
+  void closeErrMsg() {
+    status = status.copyWith(isErrorPinValidate: false);
+  }
 
   Future<void> sendPinToEmail(
     String email,
@@ -338,6 +350,24 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     status = status.copyWith(isLoading: false);
   }
 
+  String? textError({required String errorMsj}) {
+    const String start = 'Detail="';
+    const String end = '")';
+    final int startIndex = errorMsj.indexOf(start);
+    final int endIndex = errorMsj.indexOf(end, startIndex + start.length);
+    final Map<String, String> types = <String, String>{
+      'the nickname is already in use': 'El nombre de usuario ya esta en uso',
+      'the phone is already registered': 'El telefono ya esta en uso',
+      'the mail is already registered': 'El email ya esta en uso',
+    };
+    final String detailError = errorMsj.substring(
+      startIndex + start.length,
+      endIndex,
+    );
+
+    return types[detailError];
+  }
+
   Future<void> registerUser(
     BuildContext context,
     DataUserProvider dataUserProvider,
@@ -347,7 +377,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     String phone,
   ) async {
     status = status.copyWith(isLoading: true);
-    final String sha256pass = encrypPass(status.password).toString();
+    final String sha256pass = encryptionPass(status.password).toString();
     // print('pass256 $sha256pass');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
@@ -362,14 +392,28 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: status.password,
       isActive: true,
-      addressWallet: 'addressWallet',
+      addressWallet: '',
+      dateTimeCreate: '',
+      rateSeller: '',
+      rateBuyer: '',
+      isCorporative: false,
     );
 
     _interactor
         .postRegisterUser(bodyRegister)
         .then((ResponseData<ResultRegister> response) {
-      print('Register Res: ${response.statusCode} ');
       if (response.isSuccess) {
+        //todo
+
+        if (response.error != null) {
+
+          status = status.copyWith(
+            isErrorRegisterUser: true,
+            msjErrorRegisterUser: textError(
+              errorMsj: response.error!.message,
+            ),
+          );
+        }
         final String idUser = response.result!.id;
         _interactor
             .getUserById(idUser)
@@ -381,24 +425,31 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
             );
             _route.goHome(context);
           }
-        }).catchError((err) {
+        }).catchError((Object err) {
           status = status.copyWith(
             isError: true,
           );
-          print('Login DataFull Error As: ${err}');
+          print('Login DataFull Error As: $err');
           status = status.copyWith(isLoading: false);
         });
+
+
       } else {
-        // TODO: Mostrar alerta
+        status = status.copyWith(
+          isErrorRegisterUser: true,
+          msjErrorRegisterUser: textError(
+            errorMsj: response.error!.message,
+          ),
+        );
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       print('Registro Error As: $err');
-      status = status.copyWith(isLoading: false);
+      status = status.copyWith(isLoading: false, isError: true);
     });
   }
 
-  Digest encrypPass(String pass) {
+  Digest encryptionPass(String pass) {
     final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
   }

@@ -74,7 +74,7 @@ class ListMyOffersSale extends StatelessWidget {
                           ),
                         )
                       : items.isEmpty
-                          ? Padding(
+                      ? Padding(
                               padding: const EdgeInsets.symmetric(vertical: 30),
                               child: IntrinsicHeight(
                                 child: AdviceMessage(

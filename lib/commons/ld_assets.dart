@@ -17,4 +17,7 @@ class LdAssets {
   static const String pswBlack = '$pathIcons/psw_black.svg';
   static const String globalBlack = '$pathIcons/global_black_icon.svg';
   static const String dlyIcon = '$pathIcons/dly_icon.svg';
+  static const String socialInstagram = '$pathIcons/social_instagram.svg';
+  static const String socialFacebook = '$pathIcons/social_facebook.svg';
+  static const String socialTwitter = '$pathIcons/social_twitter.svg';
 }
