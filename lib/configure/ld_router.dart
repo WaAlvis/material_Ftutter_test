@@ -38,6 +38,16 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+  void goLoginForLogout(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.loginRoute.route,
+      transition: TransitionType.none,
+      // clearStack: true,
+      replace: true,
+
+    );
+  }
 
   void goBuy(BuildContext context) {
     AppRouter.router.navigateTo(
@@ -62,6 +72,7 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
 
   void goDetailOffer(BuildContext context, Data item) {
     AppRouter.router.navigateTo(

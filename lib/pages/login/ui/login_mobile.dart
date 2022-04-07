@@ -86,9 +86,10 @@ class _LoginMobile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             if (viewModel.status.errorLogin)
-                              WarningContainer(
-                                textTheme: textTheme,
-                                viewModel: viewModel,
+                              WarningContainerMsj(
+                                textTheme,
+                                message: 'Usuario o contraseña inválidos',
+                                onTap: () => viewModel.closeErrMsg(),
                               )
                             else
                               const SizedBox(
@@ -217,74 +218,6 @@ class _LoginMobile extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class WarningContainer extends StatelessWidget {
-  const WarningContainer(
-      {Key? key, required this.textTheme, required this.viewModel})
-      : super(key: key);
-
-  final TextTheme textTheme;
-  final LoginViewModel viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 18,
-        horizontal: 12,
-      ),
-      decoration: const BoxDecoration(
-        color: LdColors.orangeWarning,
-        borderRadius: BorderRadius.all(
-          Radius.circular(12),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: size.width * 0.78,
-            child: Row(
-              children: <Widget>[
-                const Icon(
-                  Icons.report_problem_outlined,
-                  color: LdColors.white,
-                  size: 25,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Flexible(
-                  child: AutoSizeText(
-                    'Usuario o contraseña inválidos',
-                    minFontSize: 10,
-                    maxLines: 1,
-                    style: textTheme.textGray.copyWith(
-                      color: LdColors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 6,
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () => viewModel.closeErrMsg(),
-            child: const Icon(
-              Icons.close,
-              color: LdColors.white,
-              size: 25,
-            ),
-          )
-        ],
       ),
     );
   }

@@ -172,8 +172,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void goSettings(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        status = status.copyWith(resultDataUser: null);
-        _route.goLogin(context);
+        _route.goSettings(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -183,7 +182,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void logoutUser(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        _route.goSettings(context);
+        status = status.copyWith(resultDataUser: null);
+        _route.goLoginForLogout(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
