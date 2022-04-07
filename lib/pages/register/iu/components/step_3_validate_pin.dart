@@ -42,7 +42,7 @@ class Step3ValidatePin extends StatelessWidget {
                 WarningContainerMsj(
                   textTheme,
                   message: ' Código de verificación incorrecto',
-                  onTap: () => viewModel.closeErrMsg(),
+                  onTap: () => viewModel.closeErrMsgPinValid(),
                 )
               else
                 const SizedBox(

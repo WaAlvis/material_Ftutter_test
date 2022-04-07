@@ -9,6 +9,7 @@ class RegisterStatus extends ViewStatus {
   final bool isErrorPinValidate;
   final bool isErrorRegisterUser;
   final String msjErrorRegisterUser;
+  final String indicativePhone;
 
   final TextEditingController dateBirthCtrl;
   final RegisterStep registerStep;
@@ -45,6 +46,7 @@ class RegisterStatus extends ViewStatus {
     required this.isPossibleOpenEmail,
     // required this.addressWallet,
     required this.nickName,
+    required this.indicativePhone,
     required this.password,
     required this.acceptTermCoditions,
     required this.dateBirthCtrl,
@@ -78,6 +80,7 @@ class RegisterStatus extends ViewStatus {
     // TextEditingController? dateBirthCtrl,
     bool? isErrorRegisterUser,
     String? msjErrorRegisterUser,
+    String? indicativePhone,
     bool? isLoading,
     bool? isError,
     String? emailRegister,
@@ -115,6 +118,7 @@ class RegisterStatus extends ViewStatus {
       // phone: phone ?? this.phone,
       // addressWallet: addressWallet ?? this.addressWallet,
       dateBirth: dateBirth ?? this.dateBirth,
+      indicativePhone: indicativePhone ?? this.indicativePhone,
       dateBirthCtrl: dateBirthCtrl ?? this.dateBirthCtrl,
       // names: names ?? this.names,
       // surnames: surnames ?? this.surnames,

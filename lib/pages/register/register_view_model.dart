@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bip32/bip32.dart';
 import 'package:bip39/bip39.dart';
+import 'package:country_code_picker/country_code.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +74,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       isErrorPinValidate: false,
       isErrorRegisterUser: false,
       msjErrorRegisterUser: '',
+      indicativePhone: '+57',
       // surnames: '',
       // phrase: '',
       // phone: '',
@@ -83,6 +85,12 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   Future<void> onInit({bool validateNotification = false}) async {}
+
+  void changeIndicative(CountryCode value) =>
+      status = status.copyWith(indicativePhone: value.dialCode);
+
+  void changePhone(String phone) =>
+      status = status.copyWith(isPhoneFieldEmpty: phone.isEmpty);
 
   void changeAcceptTermConditions({required bool newValue}) =>
       status = status.copyWith(acceptTermCoditions: newValue);
@@ -104,9 +112,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
 
   void changeSecondLastName(String secondLastName) => status =
       status.copyWith(isSecondLastNameFieldEmpty: secondLastName.isEmpty);
-
-  void changePhone(String phone) =>
-      status = status.copyWith(isPhoneFieldEmpty: phone.isEmpty);
 
   void changePassword(String password) =>
       status = status.copyWith(isPasswordFieldEmpty: password.isEmpty);
@@ -218,7 +223,12 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     ) {
       if (response.isSuccess) {
         if (response.result!.valid) {
-          goNextStep(currentStep: RegisterStep.validatePinStep_3);
+          status = status.copyWith(
+            isErrorPinValidate: false,
+          );
+          goNextStep(
+            currentStep: RegisterStep.validatePinStep_3,
+          );
         } else {
           status = status.copyWith(
             isErrorPinValidate: true,
@@ -230,15 +240,19 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
-      print('Validate codePIn Error As: $err');
+      print('Validate codePin Error As: $err');
       status = status.copyWith(isLoading: false);
     });
   }
 
   Future<void> reSendPinToEmail(String email) => sendPinToEmail(email);
 
-  void closeErrMsg() {
+  void closeErrMsgPinValid() {
     status = status.copyWith(isErrorPinValidate: false);
+  }
+
+  void closeErrMsgRegisterUser() {
+    status = status.copyWith(isErrorRegisterUser: false);
   }
 
   Future<void> sendPinToEmail(
@@ -388,7 +402,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       secondLastName: '',
       dateBirth: status.dateBirth,
       email: status.emailRegister,
-      phone: phone,
+      phone: '${status.indicativePhone}$phone',
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: status.password,
       isActive: true,
@@ -404,25 +418,19 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         .then((ResponseData<ResultRegister> response) {
       if (response.isSuccess) {
         //todo
-
-        if (response.error != null) {
-
-          status = status.copyWith(
-            isErrorRegisterUser: true,
-            msjErrorRegisterUser: textError(
-              errorMsj: response.error!.message,
-            ),
-          );
-        }
         final String idUser = response.result!.id;
         _interactor
             .getUserById(idUser)
-            .then((ResponseData<ResultDataUser> response) {
-          if (response.isSuccess) {
+            .then((ResponseData<ResultDataUser> responseDataUser) {
+          if (responseDataUser.isSuccess) {
             print('Registro EXITOSO + User guardado completps!!');
             dataUserProvider.setDataUserLogged(
-              response.result,
+              responseDataUser.result,
             );
+            status = status.copyWith(
+                isError: false,
+                isErrorPinValidate: false,
+                isErrorRegisterUser: false);
             _route.goHome(context);
           }
         }).catchError((Object err) {
@@ -432,8 +440,6 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
           print('Login DataFull Error As: $err');
           status = status.copyWith(isLoading: false);
         });
-
-
       } else {
         status = status.copyWith(
           isErrorRegisterUser: true,
@@ -455,6 +461,17 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   //   VALIDATORS    /////////////////////////
+
+  String? validatePhone(String? value) {
+    if (value == '' || value == null) {
+      return 'El número de celular es necesario';
+    }
+    if (value.length < 10) {
+      return 'El número esta incompleto';
+    }
+    return null;
+  }
+
   String? validatorCheckBox({bool? valueCheck}) {
     if (valueCheck!) {
       return null;

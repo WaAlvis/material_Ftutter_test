@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
@@ -40,7 +41,8 @@ class Step5PersonalData extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16,right: 16, bottom: 32, top: 10),
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 10),
           child: Form(
             key: keyForm,
             child: Column(
@@ -50,10 +52,12 @@ class Step5PersonalData extends StatelessWidget {
                   WarningContainerMsj(
                     textTheme,
                     message: viewModel.status.msjErrorRegisterUser,
-                    onTap: () => viewModel.closeErrMsg(),
+                    onTap: () => viewModel.closeErrMsgRegisterUser(),
                   )
                 else
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -116,19 +120,34 @@ class Step5PersonalData extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 16),
+                // CountryCodePicker(
+                //   onChanged: viewModel.changeIndicative,
+                //   padding: EdgeInsets.zero,
+                //   initialSelection: 'CO',
+                //   showCountryOnly: true,
+                //   favorite: const <String>['CO'],
+                //   textStyle: textTheme.textSmallBlack,
+                //   dialogTextStyle: textTheme.textSmallBlack,
+                //   searchStyle: textTheme.subtitleBlack,
+                //   barrierColor: LdColors.blackBackground.withOpacity(0.7),
+                // ),
                 InputTextCustom(
                   'Celular  *',
                   hintText: 'Ingresa tu celular',
                   controller: phoneCtrl,
+                  contentPadding: const EdgeInsets.only(
+                      right: 8, left: 8, top: 8, bottom: 12),
                   maxLength: 10,
                   onChange: (String value) => viewModel.changePhone(value),
                   changeFillWith: !viewModel.status.isPhoneFieldEmpty,
                   textInputAction: TextInputAction.next,
-                  validator: (String? str) => viewModel.validatorNotEmpty(str),
+                  validator: (String? phone) => viewModel.validatePhone(phone),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   keyboardType: TextInputType.number,
+                  pickerCountry: true,
+                  onChangeIndicative: viewModel.changeIndicative,
                 ),
                 const SizedBox(height: 16),
                 PrimaryButtonCustom(
@@ -172,3 +191,17 @@ class Step5PersonalData extends StatelessWidget {
 //   );
 // }
 }
+
+// CountryCodePicker(
+// onChanged: viewModel.changeIndicative,
+// padding: EdgeInsets.zero,
+// showDropDownButton: true,
+// initialSelection: 'CO',
+// showOnlyCountryWhenClosed: true,
+// favorite: const <String>['CO'],
+// alignLeft: true,
+// textStyle: textTheme.textBlack,
+// dialogTextStyle: textTheme.subtitleBlack,
+// searchStyle: textTheme.subtitleBlack,
+// barrierColor: LdColors.blackBackground.withOpacity(0.7),
+// )
