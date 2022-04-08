@@ -253,7 +253,7 @@ class DetailOfferViewModel
       idAdvertisement: item.advertisement.id,
       idUserInteraction: userCurrent.id,
       statusOrigin: OfferStatus.open.index,
-      statusDestiny: OfferStatus.inProcess.index,
+      statusDestiny: OfferStatus.pending.index,
       successfulTransaction: true,
     );
 
