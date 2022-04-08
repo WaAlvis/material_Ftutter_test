@@ -152,7 +152,7 @@ class _OfferBuyMobile extends StatelessWidget {
                               // when user presses enter it will adapt to it
                               decoration: const InputDecoration(
                                 hintText:
-                                    'Ingresa informacion adicional para los compradores...',
+                                    'Ingresa información adicional para los vendedores...',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(8),

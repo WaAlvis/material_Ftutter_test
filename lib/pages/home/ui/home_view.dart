@@ -120,7 +120,6 @@ class _HomeBodyState extends State<_HomeBody> {
         LdSnackbar.buildSnackbar(
           context,
           'Se ha desconectado tu wallet MiDaily',
-          2,
         );
       }
     });

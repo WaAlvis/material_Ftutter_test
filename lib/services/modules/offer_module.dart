@@ -11,30 +11,38 @@ import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 
 class OfferModule {
+  // SE CRAE UNA OFERTA DE COMPRA O VENTA
   static Future<void> createOffer(
     BuildContext context,
     DataUserProvider userProvider,
-    Map<String, String> params,
-  ) async {
+    Map<String, String>? params, {
+    bool isBuy = false,
+  }) async {
     await ServiceInteractor()
         .createOffer(userProvider.getBodyOffer!)
         .then((ResponseData<ResultCreateOffer> response) async {
       if (response.isSuccess) {
         // Se crea la transacción en BD
-        await _createTransaction(
-          params,
-          response.result!.id,
-        );
+        if (!isBuy && params != null) {
+          await _createTransaction(
+            'Creacion de oferta LOCALDAILY',
+            params,
+            response.result!.id,
+          );
+        }
         LdRouter().pop(LdRouter().navigatorKey.currentContext!);
         LdSnackbar.buildSuccessSnackbar(
           context,
-          'Se ha creado tu publicación exitosamente, espera que sea aprobada',
-          2,
+          isBuy
+              ? 'Se publicó exitosamente tu oferta de compra'
+              : 'Se creó exitosamente tu oferta de venta, espera que sea aprobada',
         );
         LdRouter().goHome(LdRouter().navigatorKey.currentContext!);
         // Se limpia el objeto de oferta.
         userProvider.setBodyOffer(null);
       } else {
+        // Se limpia el objeto de oferta.
+        userProvider.setBodyOffer(null);
         LdSnackbar.buildErrorSnackbar(
           context,
           'Ocurrió un inconveniente, intenta más tarde',
@@ -42,6 +50,8 @@ class OfferModule {
       }
     }).catchError((err) {
       print('Offer Error As: ${err}');
+      // Se limpia el objeto de oferta.
+      userProvider.setBodyOffer(null);
       LdRouter().pop(LdRouter().navigatorKey.currentContext!);
       LdSnackbar.buildErrorSnackbar(
         context,
@@ -50,14 +60,16 @@ class OfferModule {
     });
   }
 
+  // SE CREA UNA TRANSACCIÓN, RELACIONADA A UNA OFERTA DE VENTA
   static Future<void> _createTransaction(
+    String message,
     Map<String, String> params,
     String adId,
   ) async {
     // Se crea la transacción en BD
     final BodyCreateTransaction body = BodyCreateTransaction(
       entity: EntityTransaction(
-        message: 'Creacion de oferta LOCALDAILY',
+        message: message,
         hash: params['trx']!,
         advertisementId: adId,
       ),
@@ -74,9 +86,58 @@ class OfferModule {
         },
       ]),
     );
+
     ServiceInteractor().createTransaction(body).catchError((err) {
       print('ERROR CREATE TRANSACTION: $err');
       LdRouter().pop(LdRouter().navigatorKey.currentContext!);
+    });
+  }
+
+  static Future<void> reserveoffer(
+    BuildContext context,
+    DataUserProvider userProvider,
+    Map<String, String> params,
+  ) async {
+    // Se crea una transacción correspondiente a la reserva
+    _createTransaction(
+      'Reserva de oferta LOCALDAILY',
+      params,
+      userProvider.getBodyUpdateStatus!.idAdvertisement,
+    );
+
+    // Se actualiza la información de los bancos de la publicación
+    ServiceInteractor()
+        .addPayAccount(userProvider.getBodyAddPayAccount!)
+        .then((ResponseData<dynamic> response) {
+      if (response.isSuccess) {
+        // Se actualiza el estado de la publicacion a en proceso
+        ServiceInteractor()
+            .reserveOffer(userProvider.getBodyUpdateStatus!)
+            .then((ResponseData<dynamic> response) {
+          if (response.isSuccess) {
+            LdSnackbar.buildSuccessSnackbar(
+              context,
+              'Se reservó exitosamente la oferta de venta, espera que tu transacción sea aprobada',
+            );
+            LdRouter().goHome(LdRouter().navigatorKey.currentContext!);
+            userProvider.setBodyUpdateStatus(null);
+          } else {
+            LdSnackbar.buildErrorSnackbar(
+              context,
+              'No fue posible separar la oferta, intenta más tarde',
+            );
+            print('Reserve Error As: ${response.error?.message}');
+            userProvider.setBodyUpdateStatus(null);
+          }
+        }).catchError((err) {
+          LdSnackbar.buildErrorSnackbar(
+            context,
+            'No fue posible separar la oferta, intenta más tarde',
+          );
+          print('Reserve Error As: ${err}');
+          userProvider.setBodyUpdateStatus(null);
+        });
+      }
     });
   }
 }

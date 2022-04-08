@@ -210,10 +210,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
-  void goDetailOffer(BuildContext context, {required Data item}) {
+  void goDetailOffer(
+    BuildContext context, {
+    required Data item,
+    bool isBuy = false,
+  }) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        _route.goDetailOffer(context, item);
+        _route.goDetailOffer(context, item, isBuy: isBuy);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -356,11 +360,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     );
 
     final Filters filters = Filters(
-      typeAdvertisement: '',
-      idUserPublish: status.typeOffer == TypeOffer.buy ? '' : userId,
+      typeAdvertisement: status.typeOffer == TypeOffer.buy ? '0' : '1',
+      idUserPublish: '',
       statusCode: '1',
       idUserExclusion: '',
-      idUserInteraction: status.typeOffer == TypeOffer.buy ? userId : '',
+      idUserInteraction: userId,
     );
 
     final BodyHome body = BodyHome(

@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/commons/ld_constans.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -18,6 +19,9 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/d
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
+import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
@@ -87,7 +91,6 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
   final TextEditingController accountNumCtrl = TextEditingController();
   final TextEditingController docNumCtrl = TextEditingController();
   final TextEditingController nameTitularAccountCtrl = TextEditingController();
-  final TextEditingController infoPlusOfferCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -100,17 +103,29 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
 
     _effectSubscription = viewModel.effects.listen((DetailOfferEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
-        // TODO: retroalimentaciòn para mostrar falta de conexiòn
-        //DlySnackbar.buildConnectivitySnackbar(context, event.message);
+        LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ValidateOfferEffect) {
         if (keyForm.currentState!.validate()) {
-          viewModel.reservationPaymentForDly(
+          confirmBottomSheet(
             context,
-            typeOffer: TypeOffer.buy,
-            item: widget.item,
-            userCurrent: dataUserProvider.getDataUserLogged!,
+            Theme.of(context).textTheme,
+            widget.item,
+            viewModel,
+            dataUserProvider.getDataUserLogged!,
+            dataUserProvider,
+            accountNumCtrl.text,
+            docNumCtrl.text,
+            nameTitularAccountCtrl.text,
+            isBuy: widget.isBuy,
           );
         }
+      } else if (event is ShowSnackbarSuccesEffect) {
+        LdSnackbar.buildSuccessSnackbar(
+          context,
+          'Se reservó exitosamente la oferta de ${widget.isBuy ? 'venta' : 'compra'}',
+        );
+      } else if (event is ShowSnackbarErrorEffect) {
+        LdSnackbar.buildErrorSnackbar(context, event.message);
       }
     });
 
@@ -124,7 +139,6 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
     accountNumCtrl.dispose();
     docNumCtrl.dispose();
     nameTitularAccountCtrl.dispose();
-    infoPlusOfferCtrl.dispose();
     super.dispose();
   }
 
@@ -154,7 +168,6 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
                           docNumCtrl: docNumCtrl,
                           accountNumCtrl: accountNumCtrl,
                           nameTitularAccountCtrl: nameTitularAccountCtrl,
-                          infoPlusOfferCtrl: infoPlusOfferCtrl,
                         ),
                 ),
               ],

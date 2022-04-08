@@ -6,7 +6,6 @@ import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/advice_message.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';

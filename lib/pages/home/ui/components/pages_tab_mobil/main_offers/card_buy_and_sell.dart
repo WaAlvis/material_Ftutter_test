@@ -73,7 +73,7 @@ class CardBuyAndSell extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        '${item.advertisement.margin} DLYCOP ≈ 1 COP',
+                        '1 DLYCOP ≈ ${item.advertisement.margin} COP',
                         style: textTheme.textSmallBlack
                             .copyWith(color: LdColors.grayText, fontSize: 14),
                       ),

@@ -12,6 +12,7 @@ class EntityOffer {
     required this.termsOfTrade,
     required this.idUserPublish,
     required this.codeUserPublish,
+    required this.hoursLimitPay,
   });
 
   factory EntityOffer.fromJson(Map<String, dynamic> json) =>
@@ -24,6 +25,7 @@ class EntityOffer {
   String termsOfTrade;
   String idUserPublish;
   String codeUserPublish;
+  int hoursLimitPay;
 
   Map<String, dynamic> toJson() => _$EntityOfferToJson(this);
 }

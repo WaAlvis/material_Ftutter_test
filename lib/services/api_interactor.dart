@@ -5,8 +5,8 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
-import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
-import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
+import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
+import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -47,12 +47,12 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
-    BodyCreateSmartContract bodyCreateSmartContract,
+  Future<ResponseData<dynamic>> reserveOffer(
+    BodyUpdateStatus bodyCreateSmartContract,
   ) async {
-    final ResponseData<ResultCreateSmartContract> response =
+    final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>()
-            .createSmartContract(bodyCreateSmartContract);
+            .updateStatusAdv(bodyCreateSmartContract);
     return response;
   }
 
@@ -123,6 +123,15 @@ class ServiceInteractor {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>()
             .createTransaction(bodyCreateTransaction);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> addPayAccount(
+    BodyAddPayAccount body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().addPayAccount(body);
 
     return response;
   }

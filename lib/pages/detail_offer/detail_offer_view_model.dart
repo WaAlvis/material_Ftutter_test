@@ -1,24 +1,25 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:localdaily/commons/ld_constans.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
-import 'package:localdaily/services/models/detail_offer/advertisement.dart';
-import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
-import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
-import 'package:localdaily/services/models/detail_offer/smart_contract.dart';
+import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
+import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
+import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/view_model.dart';
 
 import 'detail_offer_status.dart';
@@ -104,7 +105,7 @@ class DetailOfferViewModel
 //Validacion de campos validator
   String? validatorNotEmpty(String? valueText) {
     if (valueText == null || valueText.isEmpty) {
-      return '* Secreto necesario';
+      return '* Campo necesario';
     }
     return null;
   }
@@ -186,12 +187,52 @@ class DetailOfferViewModel
     status = status.copyWith(isLoading: false);
   }
 
+  String calculateFee(String amount) {
+    return ValueCurrencyFormat.format(double.parse(amount) * LdConstants.fee);
+  }
+
+  String calculateTotalReceive(
+    String amount,
+    String margin, {
+    bool isBuy = false,
+  }) {
+    if (isBuy) {
+      return ValueCurrencyFormat.format(
+        double.parse(amount) * double.parse(margin),
+      );
+    } else {
+      return ValueCurrencyFormat.format(
+        double.parse(amount) - (double.parse(amount) * LdConstants.fee),
+      );
+    }
+  }
+
+  String calculateTotalTransfer(
+    String amount,
+    String margin, {
+    bool isBuy = false,
+  }) {
+    if (isBuy) {
+      return ValueCurrencyFormat.format(
+        double.parse(amount) + (double.parse(amount) * LdConstants.fee),
+      );
+    } else {
+      return ValueCurrencyFormat.format(
+        double.parse(amount) * double.parse(margin),
+      );
+    }
+  }
+
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
+  }
+
   Future<void> onClickReserveDly() async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
       addEffect(ValidateOfferEffect());
     } else {
-      //addEffect(ShowSnackbarConnectivityEffect(_i18n.noConnection));
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
   }
 
@@ -200,72 +241,74 @@ class DetailOfferViewModel
     required Data item,
     required ResultDataUser userCurrent,
     required TypeOffer typeOffer,
+    required DataUserProvider userProvider,
+    required String accountNo,
+    required String docNum,
+    required String titular,
   }) async {
+    closeDialog(context);
     status = status.copyWith(isLoading: true);
 
-    if (typeOffer == TypeOffer.buy) {
-      final String total =
-          (int.parse(item.advertisement.valueToSell) * 0.011).toString();
+    final BodyUpdateStatus body = BodyUpdateStatus(
+      idAdvertisement: item.advertisement.id,
+      idUserInteraction: userCurrent.id,
+      statusOrigin: OfferStatus.open.index,
+      statusDestiny: OfferStatus.pending.index,
+      successfulTransaction: true,
+    );
 
-      print(total);
+    if (typeOffer == TypeOffer.sell) {
+      _interactor.reserveOffer(body).then((ResponseData<dynamic> response) {
+        if (response.isSuccess) {
+          addEffect(ShowSnackbarSuccesEffect());
+          _route.goHome(context);
+        } else {
+          addEffect(
+            ShowSnackbarErrorEffect(
+              'No fue posible separar la oferta, intenta más tarde',
+            ),
+          );
+          print('Reserve Error As: ${response.error?.message}');
+        }
+        status = status.copyWith(isLoading: false);
+      }).catchError((err) {
+        addEffect(
+          ShowSnackbarErrorEffect(
+            'No fue posible separar la oferta, intenta más tarde',
+          ),
+        );
+        print('Reserve Error As: ${err}');
+        status = status.copyWith(isLoading: false);
+      });
+    } else {
+      final String total = (double.parse(item.advertisement.valueToSell) +
+              (double.parse(item.advertisement.valueToSell) * LdConstants.fee))
+          .toStringAsFixed(0);
+
+      final BodyAddPayAccount bodyBanks = BodyAddPayAccount(
+        advertisementId: item.advertisement.id,
+        strJsonAdvertPayAccount: json.encode([
+          <String, dynamic>{
+            'bankId': status.selectedBank!.id,
+            'accountNumber': accountNo,
+            'accountTypeId': status.selectedAccountType!.id,
+            'documentNumber': docNum,
+            'documentTypeID': status.selectedDocType!.id,
+            'titularUserName': titular,
+          }
+        ]),
+      );
+
+      userProvider.setBodyUpdateStatus(body);
+      userProvider.setBodyAddPayAccount(bodyBanks);
 
       await MiDailyConnect.createConnection(
         context,
         DailyConnectType.transaction,
         total,
+        'reserve',
       );
     }
-
-    /* String convertWorkKeccak(String word) {
-      final SHA3 k1 = SHA3(256, KECCAK_PADDING, 256);
-      k1.update(utf8.encode(word));
-      final List<int> hash1 = k1.digest();
-      return HEX.encode(hash1);
-    } */
-
-    // TODO: Validar objetos con Roger
-
-    final SmartContract smartContract = SmartContract(
-      amount: item.advertisement.valueToSell,
-      addressSeller: item.user.address,
-      addressBuyer: userCurrent.addressWallet,
-      //doubleHashedSecretsOfBuyer:
-      //    '${convertWorkKeccak('${wordSecretBuyer}buyercancel')},${convertWorkKeccak('${wordSecretBuyer}buyeraprove')}',
-      doubleHashedSecretsOfArbitrator: '',
-      doubleHashedSecretsOfSeller: '',
-      salt: '',
-    );
-    final Advertisement advertisement = Advertisement(
-      idAdvertisement: item.advertisement.id,
-      idUserInteraction: userCurrent.id,
-      statusOrigin: 0,
-      statusDestiny: 1,
-      successfulTransaction: true,
-    );
-
-    // Body requerido para la consulta.
-    final BodyCreateSmartContract body = BodyCreateSmartContract(
-      smartContract: smartContract,
-      advertisement: advertisement,
-      typeAdvertisementInfo: 0,
-    );
-
-    if (typeOffer == TypeOffer.sell) {
-    } else {
-      _interactor
-          .createSmartContract(body)
-          .then((ResponseData<ResultCreateSmartContract> response) {
-        if (response.isSuccess) {
-          _route.goHome(context);
-        } else {
-          // TODO: Mostrar alerta con Effects
-          print('no se pudo realizar la oferta ve venta!');
-        }
-        status = status.copyWith(isLoading: false);
-      }).catchError((err) {
-        print('Offera Error As: ${err}');
-        status = status.copyWith(isLoading: false);
-      });
-    }
+    status = status.copyWith(isLoading: false);
   }
 }
