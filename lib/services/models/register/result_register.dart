@@ -3,23 +3,26 @@ import 'package:json_annotation/json_annotation.dart';
 part 'result_register.g.dart';
 
 @JsonSerializable()
-class ResultRegister{
+class ResultRegister {
+  ResultRegister(
+      {required this.id,
+      required this.nickName,
+      required this.firstName,
+      required this.secondName,
+      required this.firstLastName,
+      required this.secondLastName,
+      required this.dateBirth,
+      required this.email,
+      required this.phone,
+      required this.userTypeId,
+      required this.password,
+      required this.isActive,
+      required this.addressWallet,
+      required this.dateTimeCreate,
+      required this.rateSeller,
+      required this.rateBuyer,
+      required this.isCorporative});
 
-  ResultRegister({
-    required this.id,
-    required this.nickName,
-    required this.firstName,
-    required this.secondName,
-    required this.firstLastName,
-    required this.secondLastName,
-    required this.dateBirth,
-    required this.email,
-    required this.phone,
-    required this.userTypeId,
-    required this.password,
-    required this.isActive,
-    required this.addressWallet,
-  });
   factory ResultRegister.fromJson(Map<String, dynamic> json) =>
       _$ResultRegisterFromJson(json);
   String id;
@@ -35,6 +38,10 @@ class ResultRegister{
   String password;
   bool isActive;
   String addressWallet;
+  String dateTimeCreate;
+  String rateSeller;
+  String rateBuyer;
+  bool isCorporative;
 
   Map<String, dynamic> toJson() => _$ResultRegisterToJson(this);
 }
