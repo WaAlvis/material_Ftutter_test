@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -33,6 +34,8 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultValidatePin.fromJson(json) as T;
       } else if ('$T' == '$ResultDataUser?' || T == ResultDataUser) {
         return ResultDataUser.fromJson(json) as T;
+      } else if ('$T' == '$ResultUpdateStatus?' || T == ResultUpdateStatus) {
+        return ResultUpdateStatus.fromJson(json) as T;
       } else if ('$T' == '$dynamic?' || T == dynamic) {
         return json as T;
       }

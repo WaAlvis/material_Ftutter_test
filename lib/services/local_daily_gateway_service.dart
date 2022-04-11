@@ -6,6 +6,7 @@ import 'package:localdaily/services/models/create_offers/offer/result_create_off
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
+import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -103,7 +104,7 @@ abstract class LocalDailyGatewayService {
   );
 
   @PUT(UrlsApi.updateStatusAdv)
-  Future<ResponseData<dynamic>> updateStatusAdv(
+  Future<ResponseData<ResultUpdateStatus>> updateStatusAdv(
     @Body() BodyUpdateStatus bodyCreateSmartContract,
   );
 

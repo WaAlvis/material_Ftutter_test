@@ -47,6 +47,16 @@ class DataUserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void logoutClear() {
+    _dataUser = null;
+    _address = null;
+    _midailyConnectCode = null;
+    _bodyOffer = null;
+    _bodyAddPayAccount = null;
+    _bodyUpdateStatus = null;
+    notifyListeners();
+  }
+
   // late TokenLogin _tokenLogin;
   // TokenLogin get getTokenLogin => _tokenLogin;
   // void setTokenLogin(TokenLogin tokenLogin) {

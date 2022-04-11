@@ -270,19 +270,18 @@ class OfferSaleViewModel
     } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '4386109e-5369-45c5-b1ec-e51d973bf4da',
+      idTypeAdvertisement: 'cddd77ed-7f24-4f08-9208-2721c2fecd04',
       idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
       valueToSell: amountDLY,
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
-      codeUserPublish: '',
-      hoursLimitPay: 72,
+      hoursLimitPay: LdConstants.hoursLimitPay,
     );
 
     final BodyOffer bodyOffer = BodyOffer(
       entity: entity,
-      daysOfExpired: 7,
+      daysOfExpired: LdConstants.daysExpire,
       strJsonAdvertisementBanks: json.encode([
         <String, dynamic>{
           'bankId': bankId,

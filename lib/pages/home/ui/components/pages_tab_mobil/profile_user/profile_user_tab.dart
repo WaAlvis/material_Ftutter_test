@@ -110,7 +110,6 @@ class ProfileUser extends StatelessWidget {
               ),
               Flexible(
                 child: SingleChildScrollView(
-
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,12 +140,11 @@ class ProfileUser extends StatelessWidget {
                       ),
                       if (dataUserProvider.getDataUserLogged == null)
                         SizedBox(
-                          height: size.height*0.4,
+                          height: size.height * 0.4,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Spacer(),
-
+                              const Spacer(),
                               Text(
                                 'Inicia sesión para continuar',
                                 style: textTheme.textBigBlack,
@@ -160,10 +158,10 @@ class ProfileUser extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: textTheme.textSmallBlack,
                               ),
-                              Spacer(),
+                              const Spacer(),
                               PrimaryButtonCustom(
                                 'Iniciar sesion',
-                                onPressed: ()=> viewModel.goLogin(context),
+                                onPressed: () => viewModel.goLogin(context),
                               ),
                             ],
                           ),
@@ -193,6 +191,7 @@ class ProfileUser extends StatelessWidget {
                                   context,
                                   NavigateOption.values[index],
                                   viewModel,
+                                  dataUserProvider,
                                 );
                               },
                             );
@@ -295,6 +294,7 @@ class ProfileUser extends StatelessWidget {
     BuildContext context,
     NavigateOption opt,
     HomeViewModel viewModel,
+    DataUserProvider userProvider,
   ) {
     switch (opt) {
       case NavigateOption.history:
@@ -307,7 +307,7 @@ class ProfileUser extends StatelessWidget {
         viewModel.goSettings(context);
         break;
       case NavigateOption.logout:
-        viewModel.logoutUser(context);
+        viewModel.logoutUser(context, userProvider);
         // TODO: Handle this case.
         break;
     }

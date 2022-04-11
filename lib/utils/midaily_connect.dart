@@ -36,19 +36,19 @@ class MiDailyConnect {
       case DailyConnectType.walletAddress:
         //_url =
         //    'exp://192.168.1.46:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
-        //_url =
-        //    'exp://127.0.0.1:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         _url =
-            'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
+            'exp://127.0.0.1:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
+        //_url =
+        //    'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
         if (method != null && method != '')
           //_url =
           //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
-          //_url =
-          //    'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
           _url =
-              'midailyapp://sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
+              'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
+        //_url =
+        //    'midailyapp://sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
         break;
       default:
     }
