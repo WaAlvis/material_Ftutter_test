@@ -11,7 +11,6 @@ class EntityOffer {
     required this.margin,
     required this.termsOfTrade,
     required this.idUserPublish,
-    required this.codeUserPublish,
     required this.hoursLimitPay,
   });
 
@@ -24,7 +23,6 @@ class EntityOffer {
   String margin;
   String termsOfTrade;
   String idUserPublish;
-  String codeUserPublish;
   int hoursLimitPay;
 
   Map<String, dynamic> toJson() => _$EntityOfferToJson(this);

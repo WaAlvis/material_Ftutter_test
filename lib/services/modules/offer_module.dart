@@ -7,6 +7,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/create_offers/transaction/entity_transaction.dart';
+import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 
@@ -113,7 +114,7 @@ class OfferModule {
         // Se actualiza el estado de la publicacion a en proceso
         ServiceInteractor()
             .reserveOffer(userProvider.getBodyUpdateStatus!)
-            .then((ResponseData<dynamic> response) {
+            .then((ResponseData<ResultUpdateStatus> response) {
           if (response.isSuccess) {
             LdSnackbar.buildSuccessSnackbar(
               context,
@@ -137,7 +138,22 @@ class OfferModule {
           print('Reserve Error As: ${err}');
           userProvider.setBodyUpdateStatus(null);
         });
+        userProvider.setBodyAddPayAccount(null);
+      } else {
+        print('Add Pay Account Error As: ${response.error?.message}');
+        LdSnackbar.buildErrorSnackbar(
+          context,
+          'No fue posible separar la oferta, intenta más tarde',
+        );
+        userProvider.setBodyAddPayAccount(null);
       }
+    }).catchError((error) {
+      LdSnackbar.buildErrorSnackbar(
+        context,
+        'No fue posible separar la oferta, intenta más tarde',
+      );
+      userProvider.setBodyAddPayAccount(null);
+      print('Add Pay Account Error As: ${error}');
     });
   }
 }

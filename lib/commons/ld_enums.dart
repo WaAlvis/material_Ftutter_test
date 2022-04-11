@@ -7,7 +7,7 @@ enum RegisterStep {
   // dataWalletStep_6
 }
 
-enum TypeOffer { buy, sell }
+enum TypeOffer { sell, buy }
 
 enum NavigateOption {
   history,

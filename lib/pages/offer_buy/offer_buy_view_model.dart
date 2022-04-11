@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:localdaily/commons/ld_constans.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
@@ -190,20 +191,19 @@ class OfferBuyViewModel
     } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '9d6731f6-b4f6-4032-a21b-06abef4020f6',
+      idTypeAdvertisement: '3da2bc46-7ef5-4b65-9a81-e72facf11e5d',
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: amountDLY.replaceAll('.', ''),
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
-      codeUserPublish: '',
-      hoursLimitPay: 72,
+      hoursLimitPay: LdConstants.hoursLimitPay,
       //codeUserPublish:
       //    '${convertWorkKeccak('${wordSecret}sellercancel')},${convertWorkKeccak('${wordSecret}selleraprove')}',
     );
     final BodyOffer bodyOffer = BodyOffer(
       entity: entity,
-      daysOfExpired: 7,
+      daysOfExpired: LdConstants.daysExpire,
       strJsonAdvertisementBanks: '',
     );
 

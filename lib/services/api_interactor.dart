@@ -7,6 +7,7 @@ import 'package:localdaily/services/models/create_offers/offer/result_create_off
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
+import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -47,12 +48,11 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<dynamic>> reserveOffer(
-    BodyUpdateStatus bodyCreateSmartContract,
+  Future<ResponseData<ResultUpdateStatus>> reserveOffer(
+    BodyUpdateStatus body,
   ) async {
-    final ResponseData<dynamic> response =
-        await locator<LocalDailyGatewayService>()
-            .updateStatusAdv(bodyCreateSmartContract);
+    final ResponseData<ResultUpdateStatus> response =
+        await locator<LocalDailyGatewayService>().updateStatusAdv(body);
     return response;
   }
 

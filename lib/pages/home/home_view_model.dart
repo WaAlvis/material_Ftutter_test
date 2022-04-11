@@ -179,10 +179,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
-  void logoutUser(BuildContext context) {
+  void logoutUser(BuildContext context, DataUserProvider userProvider) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         status = status.copyWith(resultDataUser: null);
+        userProvider.logoutClear();
         _route.goLoginForLogout(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
@@ -301,9 +302,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     );
 
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy ? '0' : '1',
+      typeAdvertisement: status.typeOffer == TypeOffer.buy
+          ? '${TypeOffer.sell.index}'
+          : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '0',
+      statusCode: '${OfferStatus.open.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
     );
@@ -360,9 +363,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     );
 
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy ? '0' : '1',
+      typeAdvertisement: status.typeOffer == TypeOffer.buy
+          ? '${TypeOffer.sell.index}'
+          : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '1',
+      statusCode: '${OfferStatus.inProcess.index}',
       idUserExclusion: '',
       idUserInteraction: userId,
     );
@@ -419,7 +424,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     );
 
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy ? '1' : '0',
+      typeAdvertisement: status.typeOffer == TypeOffer.buy
+          ? '${TypeOffer.buy.index}'
+          : '${TypeOffer.sell.index}',
       idUserPublish: userId,
       statusCode: '',
       idUserExclusion: '',

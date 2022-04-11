@@ -12,8 +12,10 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/bank
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
+import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
+import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/pagination.dart';
@@ -253,12 +255,16 @@ class DetailOfferViewModel
       idAdvertisement: item.advertisement.id,
       idUserInteraction: userCurrent.id,
       statusOrigin: OfferStatus.open.index,
-      statusDestiny: OfferStatus.pending.index,
+      statusDestiny: typeOffer == TypeOffer.buy
+          ? OfferStatus.pending.index
+          : OfferStatus.inProcess.index,
       successfulTransaction: true,
     );
 
     if (typeOffer == TypeOffer.sell) {
-      _interactor.reserveOffer(body).then((ResponseData<dynamic> response) {
+      _interactor
+          .reserveOffer(body)
+          .then((ResponseData<ResultUpdateStatus> response) {
         if (response.isSuccess) {
           addEffect(ShowSnackbarSuccesEffect());
           _route.goHome(context);

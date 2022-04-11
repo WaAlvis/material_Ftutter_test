@@ -32,8 +32,7 @@ class ProfileUser extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: LdColors.blackBackground,
-      body:
-      Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(
@@ -124,7 +123,9 @@ class ProfileUser extends StatelessWidget {
                                 )
                               : const SizedBox.shrink(),
                         ),
-                        const  SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         _buttonsSocialNetwork(
                           instagram: true,
                           facebook: true,
@@ -156,6 +157,7 @@ class ProfileUser extends StatelessWidget {
                                       context,
                                       NavigateOption.values[index],
                                       viewModel,
+                                      userProvider,
                                     );
                                   },
                                 );
@@ -190,7 +192,6 @@ class ProfileUser extends StatelessWidget {
       children: <Widget>[
         if (instagram)
           OutlinedButton(
-
             onPressed: () => viewModel.launchWeb(SocialNetwork.instagram),
             style: ButtonStyle(
               backgroundColor:
@@ -205,7 +206,7 @@ class ProfileUser extends StatelessWidget {
             child: SvgPicture.asset(
               LdAssets.socialInstagram,
               fit: BoxFit.fill,
-height: sizeIcons,
+              height: sizeIcons,
               color: LdColors.white,
             ),
           )
@@ -224,14 +225,11 @@ height: sizeIcons,
                 ),
               ),
             ),
-            child:
-            SvgPicture.asset(
+            child: SvgPicture.asset(
               LdAssets.socialFacebook,
               height: sizeIcons,
-
               color: LdColors.white,
-            )
-            ,
+            ),
           )
         else
           const SizedBox.shrink(),
@@ -248,13 +246,11 @@ height: sizeIcons,
                 ),
               ),
             ),
-            child:                 SvgPicture.asset(
+            child: SvgPicture.asset(
               LdAssets.socialTwitter,
               height: sizeIcons,
-
               color: LdColors.white,
-            )
-            ,
+            ),
           )
         else
           const SizedBox.shrink()
@@ -266,6 +262,7 @@ height: sizeIcons,
     BuildContext context,
     NavigateOption opt,
     HomeViewModel viewModel,
+    DataUserProvider userProvider,
   ) {
     switch (opt) {
       case NavigateOption.history:
@@ -278,7 +275,7 @@ height: sizeIcons,
         viewModel.goSettings(context);
         break;
       case NavigateOption.logout:
-        viewModel.logoutUser(context);
+        viewModel.logoutUser(context, userProvider);
         // TODO: Handle this case.
         break;
     }

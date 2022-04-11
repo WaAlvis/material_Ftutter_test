@@ -16,16 +16,6 @@ class Advertisement {
     required this.idStatus,
     required this.expiredDate,
     required this.advertisementPayAccount,
-
-    // required this.idTypePay,
-    // required this.idMoney,
-    // required this.idTypeReference,
-    // required this.bankName,
-    // required this.minTransactionLimit,
-    // required this.maxTransactionLimit,
-    // required this.paymentWindow,
-    // required this.trackLiquidity,
-    // required this.displayReference,
   });
 
   factory Advertisement.fromJson(Map<String, dynamic> json) =>
