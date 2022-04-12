@@ -110,7 +110,6 @@ class ProfileUser extends StatelessWidget {
               ),
               Flexible(
                 child: SingleChildScrollView(
-
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -145,8 +144,7 @@ class ProfileUser extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Spacer(),
-
+                             const  Spacer(),
                               Text(
                                 'Inicia sesión para continuar',
                                 style: textTheme.textBigBlack,

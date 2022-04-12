@@ -13,6 +13,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/register/register_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
@@ -31,7 +32,7 @@ import 'package:web3dart/web3dart.dart' as web3;
 
 import 'register_status.dart';
 
-class RegisterViewModel extends ViewModel<RegisterStatus> {
+class RegisterViewModel extends EffectsViewModel<RegisterStatus, RegisterEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -177,7 +178,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         sendPinToEmail(email);
         goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
       status = status.copyWith(
         isLoading: false,
@@ -194,7 +195,9 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       if (isConnectionValid) {
         goNextStep(currentStep: RegisterStep.msjEmailStep_2);
       } else {
-        //todo addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+
       }
       status = status.copyWith(
         isLoading: false,
@@ -314,7 +317,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         );
         // _route.goPersonalInfoRegister(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+
       }
     });
   }

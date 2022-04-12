@@ -32,6 +32,7 @@ import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
+
 part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
 
 // Components Mobile
