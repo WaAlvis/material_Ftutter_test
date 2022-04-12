@@ -49,7 +49,7 @@ class CardBuyAndSell extends StatelessWidget {
                 textTheme: textTheme,
               ),
               const Padding(
-                padding: const EdgeInsets.symmetric(vertical: 0),
+                padding: EdgeInsets.zero,
                 child: Divider(
                   color: LdColors.gray,
                 ),
@@ -61,7 +61,6 @@ class CardBuyAndSell extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       InfoValueCard(
-                        title: 'Cantidad',
                         valueMoney: NumberFormat.simpleCurrency(
                           decimalDigits: 0,
                           name: '',
@@ -117,12 +116,10 @@ class InfoValueCard extends StatelessWidget {
   const InfoValueCard({
     Key? key,
     required this.textTheme,
-    required this.title,
     required this.valueMoney,
   }) : super(key: key);
 
   final TextTheme textTheme;
-  final String title;
   final String valueMoney;
 
   @override
@@ -130,10 +127,6 @@ class InfoValueCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title,
-          style: textTheme.textSmallWhite.copyWith(fontSize: 13),
-        ),
         const SizedBox(
           height: 5,
         ),

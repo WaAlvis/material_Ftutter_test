@@ -334,7 +334,7 @@ class OperationHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              '# referencia: ${ad.id.substring(0, 5)}',
+              '# referencia: ${ad.reference}',
               style: textTheme.textGray,
             ),
             Container(

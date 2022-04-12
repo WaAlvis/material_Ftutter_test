@@ -264,6 +264,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
 
     final EntityPinEmail entityPin = EntityPinEmail(
+      clientId: '213121123',
       numberOrEmail: email,
       codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a', //Email
     );

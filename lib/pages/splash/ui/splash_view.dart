@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_assets.dart';
+import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/splash/splash_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:provider/provider.dart';
 
 part 'splash_mobile.dart';
@@ -31,14 +37,23 @@ class _SplashBody extends StatefulWidget {
 
 class _SplashBodyState extends State<_SplashBody> {
   @override
+  void initState() {
+    final SplashViewModel viewModel = context.read<SplashViewModel>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
+
+    viewModel.onInit(context, configurationProvider);
+
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final SplashViewModel viewModel = context.watch<SplashViewModel>();
-
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final double maxWidth = constraints.maxWidth;
@@ -48,7 +63,11 @@ class _SplashBodyState extends State<_SplashBody> {
           slivers: <Widget>[
             SliverFillRemaining(
               hasScrollBody: false,
-              child: maxWidth > 1024 ? _SplashWeb() : _SplashMobile(),
+              child: maxWidth > 1024
+                  ? const _SplashWeb()
+                  : _SplashMobile(
+                      constraints: constraints,
+                    ),
             )
           ],
         );

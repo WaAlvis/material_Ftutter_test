@@ -11,6 +11,7 @@ import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
+import 'package:localdaily/pages/splash/ui/splash_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class AppRoutes {
@@ -30,7 +31,7 @@ class AppRoutes {
     Handler(
       handlerFunc:
           (BuildContext? context, Map<String, List<String>> parameters) =>
-              const HomeView(),
+              const SplashView(),
     ),
   );
 

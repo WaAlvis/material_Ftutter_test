@@ -7,6 +7,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -78,13 +79,14 @@ class OfferSaleViewModel
   }
 
   Future<void> onInit(
-    BuildContext context, {
+    BuildContext context,
+    ConfigurationProvider configurationProvider, {
     bool validateNotification = false,
   }) async {
-    getBanks(context);
-    getDocumentType(context);
-    // TODO: consultar tipo de cuentas
-    // getAccountsType(context);
+    status = status.copyWith(
+      listBanks: configurationProvider.getResultBanks,
+      listDocsType: configurationProvider.getResultDocsTypes,
+    );
   }
 
   void goRegister(BuildContext context) {
@@ -156,52 +158,6 @@ class OfferSaleViewModel
       status = status.copyWith(
           selectedAccountType: status.listAccountType.data[index]);
     }
-  }
-
-  Future<void> getDocumentType(BuildContext context) async {
-    // status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: 0,
-      itemsPerPage: 0,
-    );
-
-    try {
-      final ResponseData<ResultGetDocsType> response =
-          await _interactor.getDocumentType(pagination);
-      if (response.isSuccess) {
-        status.listDocsType = response.result!;
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Type Docs Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
-  Future<void> getBanks(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: 0,
-      itemsPerPage: 0,
-    );
-
-    try {
-      final ResponseData<ResultGetBanks> response =
-          await _interactor.getBanks(pagination);
-      if (response.isSuccess) {
-        status.listBanks = response.result!;
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Banks Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
   }
 
   void closeDialog(BuildContext context) {

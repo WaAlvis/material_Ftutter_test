@@ -7,12 +7,14 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_constans.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -89,10 +91,12 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
   void initState() {
     final OfferSaleViewModel viewModel = context.read<OfferSaleViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<OfferSaleViewModel>().onInit(context);
-    });
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) => viewModel.onInit(context, configurationProvider),
+    );
 
     _effectSubscription = viewModel.effects.listen((OfferSaleEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {

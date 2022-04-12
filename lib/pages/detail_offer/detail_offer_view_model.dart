@@ -6,6 +6,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -79,22 +80,20 @@ class DetailOfferViewModel
     );
   }
 
-  Future<void> onInit(BuildContext context) async {
-    status = status.copyWith(item: item, isBuy: isBuy);
+  Future<void> onInit(
+    BuildContext context,
+    ConfigurationProvider configurationProvider,
+  ) async {
     daysForExpire(
       DateTime.fromMicrosecondsSinceEpoch(item.advertisement.expiredDate),
     );
 
-    final bool next = await LdConnection.validateConnection();
-
-    if (next) {
-      getBanks(context);
-      getDocumentType(context);
-      // TODO: consultar tipo de cuentas
-      // getAccountsType(context);
-    } else {
-      // TODO: Mostrar alerta
-    }
+    status = status.copyWith(
+      item: item,
+      isBuy: isBuy,
+      listBanks: configurationProvider.getResultBanks,
+      listDocsType: configurationProvider.getResultDocsTypes,
+    );
   }
 
   void daysForExpire(DateTime date) {
@@ -141,52 +140,6 @@ class DetailOfferViewModel
       status =
           status.copyWith(selectedDocType: status.listDocsType.data[index]);
     }
-  }
-
-  Future<void> getBanks(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: 0,
-      itemsPerPage: 0,
-    );
-
-    try {
-      final ResponseData<ResultGetBanks> response =
-          await _interactor.getBanks(pagination);
-      if (response.isSuccess) {
-        status = status.copyWith(listBanks: response.result);
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Banks Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
-  Future<void> getDocumentType(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: 0,
-      itemsPerPage: 0,
-    );
-
-    try {
-      final ResponseData<ResultGetDocsType> response =
-          await _interactor.getDocumentType(pagination);
-      if (response.isSuccess) {
-        status = status.copyWith(listDocsType: response.result);
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Type Docs Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
   }
 
   String calculateFee(String amount) {

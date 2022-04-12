@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -23,11 +22,9 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/bank
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
-import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
-import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
