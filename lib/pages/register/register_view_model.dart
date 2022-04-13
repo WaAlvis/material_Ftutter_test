@@ -32,7 +32,8 @@ import 'package:web3dart/web3dart.dart' as web3;
 
 import 'register_status.dart';
 
-class RegisterViewModel extends EffectsViewModel<RegisterStatus, RegisterEffect> {
+class RegisterViewModel
+    extends EffectsViewModel<RegisterStatus, RegisterEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -195,9 +196,7 @@ class RegisterViewModel extends EffectsViewModel<RegisterStatus, RegisterEffect>
       if (isConnectionValid) {
         goNextStep(currentStep: RegisterStep.msjEmailStep_2);
       } else {
-
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-
       }
       status = status.copyWith(
         isLoading: false,
@@ -318,7 +317,6 @@ class RegisterViewModel extends EffectsViewModel<RegisterStatus, RegisterEffect>
         // _route.goPersonalInfoRegister(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-
       }
     });
   }
@@ -395,8 +393,8 @@ class RegisterViewModel extends EffectsViewModel<RegisterStatus, RegisterEffect>
     String phone,
   ) async {
     status = status.copyWith(isLoading: true);
-    final String sha256pass = encryptionPass(status.password).toString();
-    // print('pass256 $sha256pass');
+    final String sha256passWord = encryptionPass(status.password).toString();
+    print('pass256 $sha256passWord');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
       nickName: status.nickName,
@@ -408,7 +406,7 @@ class RegisterViewModel extends EffectsViewModel<RegisterStatus, RegisterEffect>
       email: status.emailRegister,
       phone: '${status.indicativePhone}$phone',
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
-      password: status.password,
+      password: sha256passWord,
       isActive: true,
       addressWallet: '',
       dateTimeCreate: '',
