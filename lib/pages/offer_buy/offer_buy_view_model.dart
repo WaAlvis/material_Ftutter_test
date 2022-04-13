@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/commons/ld_constans.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
@@ -13,6 +14,7 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
@@ -170,7 +172,8 @@ class OfferBuyViewModel
 
   Future<void> createOfferBuy(
     BuildContext context,
-    DataUserProvider userProvider, {
+    DataUserProvider userProvider,
+    ResultTypeOffer typeOffer, {
     required String margin,
     required String amountDLY,
     required String infoPlusOffer,
@@ -191,7 +194,9 @@ class OfferBuyViewModel
     } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '3da2bc46-7ef5-4b65-9a81-e72facf11e5d',
+      idTypeAdvertisement: typeOffer.data
+          .firstWhere((element) => element.code == TypeOffer.buy.index)
+          .id,
       idCountry: '138412e9-4907-4d18-b432-70bdec7940c4',
       valueToSell: amountDLY.replaceAll('.', ''),
       margin: margin.split(' ').first,

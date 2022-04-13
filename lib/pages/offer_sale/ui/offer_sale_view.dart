@@ -113,6 +113,7 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
             onTap: () => viewModel.createOfferSale(
               context,
               dataUserProvider,
+              configurationProvider.getResultTypeOffer!,
               userId: dataUserProvider.getDataUserLogged!.id,
               docNum: docNumCtrl.text,
               margin: marginCtrl.text,

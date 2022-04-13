@@ -16,6 +16,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/d
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
@@ -175,7 +176,8 @@ class OfferSaleViewModel
 
   Future<void> createOfferSale(
     BuildContext context,
-    DataUserProvider userProvider, {
+    DataUserProvider userProvider,
+    ResultTypeOffer typeOffer, {
     required String userId,
     required String margin,
     required String amountDLY,
@@ -226,7 +228,9 @@ class OfferSaleViewModel
     } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: 'cddd77ed-7f24-4f08-9208-2721c2fecd04',
+      idTypeAdvertisement: typeOffer.data
+          .firstWhere((element) => element.code == TypeOffer.sell.index)
+          .id,
       idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
       valueToSell: amountDLY,
       margin: margin.split(' ').first,

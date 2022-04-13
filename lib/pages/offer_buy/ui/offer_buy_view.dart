@@ -10,6 +10,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
@@ -85,6 +86,8 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
   void initState() {
     final OfferBuyViewModel viewModel = context.read<OfferBuyViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configProvider =
+        context.read<ConfigurationProvider>();
 
     focusDLYCOP = FocusNode();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -107,6 +110,7 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
             onTap: () => viewModel.createOfferBuy(
               context,
               dataUserProvider,
+              configProvider.getResultTypeOffer!,
               margin: marginCtrl.text,
               amountDLY: amountDLYCtrl.text,
               infoPlusOffer: infoPlusOfferCtrl.text,

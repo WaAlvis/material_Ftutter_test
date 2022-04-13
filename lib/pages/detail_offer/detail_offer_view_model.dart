@@ -13,13 +13,11 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/bank
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
-import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
-import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/utils/values_format.dart';
@@ -29,10 +27,10 @@ import 'detail_offer_status.dart';
 
 class DetailOfferViewModel
     extends EffectsViewModel<DetailOfferStatus, DetailOfferEffect> {
-  late LdRouter _route;
-  late ServiceInteractor _interactor;
-  late Data item;
-  late bool isBuy;
+  final LdRouter _route;
+  final ServiceInteractor _interactor;
+  final Data item;
+  final bool isBuy;
 
   DetailOfferViewModel(
     this._route,
@@ -191,6 +189,10 @@ class DetailOfferViewModel
     }
   }
 
+  String getBankById(String id, List<Bank> listBanks) {
+    return listBanks.firstWhere((element) => element.id == id).description;
+  }
+
   Future<void> reservationPaymentForDly(
     BuildContext context, {
     required Data item,
@@ -219,7 +221,7 @@ class DetailOfferViewModel
           .reserveOffer(body)
           .then((ResponseData<ResultUpdateStatus> response) {
         if (response.isSuccess) {
-          addEffect(ShowSnackbarSuccesEffect());
+          //addEffect(ShowSnackbarSuccesEffect());
           _route.goHome(context);
         } else {
           addEffect(

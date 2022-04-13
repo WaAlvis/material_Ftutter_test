@@ -28,11 +28,16 @@ class SplashViewModel extends ViewModel<SplashStatus> {
     BuildContext context,
     ConfigurationProvider configurationProvider,
   ) async {
+    await ConfigurationModule.getTypeOffer(configurationProvider, _interactor);
     await ConfigurationModule.getBanks(configurationProvider, _interactor);
     await ConfigurationModule.getDocumentType(
-        configurationProvider, _interactor);
+      configurationProvider,
+      _interactor,
+    );
+
     if (configurationProvider.getResultBanks != null &&
-        configurationProvider.getResultDocsTypes != null) {
+        configurationProvider.getResultDocsTypes != null &&
+        configurationProvider.getResultTypeOffer != null) {
       _route.goHome(context);
     }
   }

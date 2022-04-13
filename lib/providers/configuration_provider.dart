@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 
 class ConfigurationProvider with ChangeNotifier {
   ResultGetBanks? _resultBanks;
@@ -21,6 +22,13 @@ class ConfigurationProvider with ChangeNotifier {
   ResultGetDocsType? get getResultAccountTypes => _resultAccountTypes;
   void setResultAccountTypes(ResultGetDocsType? resultAccountTypes) {
     _resultAccountTypes = resultAccountTypes;
+    notifyListeners();
+  }
+
+  ResultTypeOffer? _resultTypeOffer;
+  ResultTypeOffer? get getResultTypeOffer => _resultTypeOffer;
+  void setResultTypeOffer(ResultTypeOffer? resultTypeOffer) {
+    _resultTypeOffer = resultTypeOffer;
     notifyListeners();
   }
 }
