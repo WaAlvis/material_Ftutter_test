@@ -144,6 +144,14 @@ class LdRouter {
     );
   }
 
+  void goRecoverPsw(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.recoverPsw.route,
+      transition: TransitionType.none,
+    );
+  }
+
 // void goValidateEmail(BuildContext context) {
 //   AppRouter.router.navigateTo(
 //     context,

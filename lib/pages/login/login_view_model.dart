@@ -91,14 +91,14 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
   void goRecoverPassword(BuildContext context) {
     print('Implementar vista de recuperar contrasenia');
-    // _route.goEmailRegister(context);
-    // LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-    //   if (value) {
-    //     _route.goEmailRegister(context);
-    //   } else {
-    //     // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-    //   }
-    // });
+    _route.goRecoverPsw(context);
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      // if (value) {
+      //   _route.goEmailRegister(context);
+      // } else {
+      //   // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      // }
+    });
   }
 
   void closeErrMsg() {
@@ -113,9 +113,6 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   ) async {
     status = status.copyWith(isLoading: true);
     final String pass256 = encrypPass(password).toString();
-    // print('Email: $email');
-    // print('Password: $password');
-    // print('Pass256: $pass256');
 
     final BodyLogin bodyLogin = BodyLogin(
       identity: email,
