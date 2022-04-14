@@ -5,13 +5,11 @@ class _RecoverPswWeb extends StatelessWidget {
   const _RecoverPswWeb({
     Key? key,
     required this.keyForm,
-    required this.passwordCtrl,
-    required this.isBuy,
+    required this.emailForRecoverCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
-  final bool isBuy;
+  final TextEditingController emailForRecoverCtrl;
 
   @override
   Widget build(BuildContext context) {

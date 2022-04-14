@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
+import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
+import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
+import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:string_validator/string_validator.dart';
 
@@ -22,6 +26,7 @@ class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
     status = RecoverPswStatus(
       isLoading: false,
       isError: false,
+      isEmailFieldEmpty: true,
     );
   }
 
@@ -29,18 +34,52 @@ class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
     bool validateNotification = false,
   }) async {}
 
+  void changeEmail(String email) =>
+      status = status.copyWith(isEmailFieldEmpty: email.isEmpty);
 
+  void requestNewPsw(BuildContext context, String email) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        getNewPsw(context, email);
+      } else {
+        status = status.copyWith(
+          isError: true,
+        );
+        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+      }
+    });
+  }
 
-  void getRecoverPsw(BuildContext context) {
-    print('Implementar vista de recuperar contrasenia');
-    // _route.goEmailRegister(context);
-    // LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-    //   if (value) {
-    //     _route.goEmailRegister(context);
-    //   } else {
-    //     // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-    //   }
-    // });
+  Future<void> getNewPsw(
+    BuildContext context,
+    String emailUser,
+  ) async {
+    status = status.copyWith(isLoading: true);
+
+    final BodyRecoverPsw bodyRecoverPsw = BodyRecoverPsw(
+      filter: emailUser,
+      document: '',
+      signature:
+          'T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
+      codeLang: 'es',
+    );
+
+    _interactor
+        .requestPsw(bodyRecoverPsw)
+        .then((ResponseData<ResultRecoverPsw> response) {
+      print('NewPsw Res: ${response.statusCode} ');
+      if (response.isSuccess) {
+        print('NewPsw EXITOSO!!');
+        status = status.copyWith(isError: false);
+        _route.goLogin(context);
+      } else {
+        // TODO: Mostrar alerta
+        status = status.copyWith(isError: true, isLoading: false );
+      }
+    }).catchError((err) {
+      // status = status.copyWith(isLoading: false, isError: true);
+      print('NewPsw Error As: ${err}');
+    });
   }
 
   String? validatorEmail(String? email) {
@@ -52,5 +91,9 @@ class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
       }
       return null;
     }
+  }
+
+  void closeErrMsg() {
+    status = status.copyWith(isError: false);
   }
 }

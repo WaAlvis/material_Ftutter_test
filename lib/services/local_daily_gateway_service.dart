@@ -12,6 +12,8 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
+import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
+import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
@@ -29,6 +31,7 @@ class UrlsApi {
       '/WebAdmin/Advertisement/GetAllByFilters';
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
+  static const String recoverPassword = '/Identity/GetRecoverPassword';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String createSmartContract =
@@ -57,6 +60,12 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultLogin>> loginUser(
     @Body() BodyLogin bodyLogin,
   );
+
+  //Login & Register
+  @POST(UrlsApi.recoverPassword)
+  Future<ResponseData<ResultRecoverPsw>> recoverPsw(
+      @Body() BodyRecoverPsw bodyRecoverPsw,
+      );
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(

@@ -6,6 +6,7 @@ import 'package:localdaily/services/models/detail_offer/result_create_smart_cont
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
@@ -23,29 +24,32 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
       else if ('$T' == '$ResultRegister?' || T == ResultRegister) {
         return ResultRegister.fromJson(json) as T;
       }
-      if ('$T' == '$ResultHome?' || T == ResultHome) {
+      else if ('$T' == '$ResultHome?' || T == ResultHome) {
         return ResultHome.fromJson(json) as T;
       }
-      if ('$T' == '$ResultGetBanks?' || T == ResultGetBanks) {
+      else if ('$T' == '$ResultGetBanks?' || T == ResultGetBanks) {
         return ResultGetBanks.fromJson(json) as T;
       }
-      if ('$T' == '$ResultGetDocsType?' || T == ResultGetDocsType) {
+      else if ('$T' == '$ResultGetDocsType?' || T == ResultGetDocsType) {
         return ResultGetDocsType.fromJson(json) as T;
       }
-      if ('$T' == '$ResultCreateOffer?' || T == ResultCreateOffer) {
+      else if ('$T' == '$ResultCreateOffer?' || T == ResultCreateOffer) {
         return ResultCreateOffer.fromJson(json) as T;
       }
-      if ('$T' == '$ResultPinEmail?' || T == ResultPinEmail) {
+      else if ('$T' == '$ResultPinEmail?' || T == ResultPinEmail) {
         return ResultPinEmail.fromJson(json) as T;
       }
-      if ('$T' == '$ResultValidatePin?' || T == ResultValidatePin) {
+      else if ('$T' == '$ResultValidatePin?' || T == ResultValidatePin) {
         return ResultValidatePin.fromJson(json) as T;
       }
-      if ('$T' == '$ResultDataUser?' || T == ResultDataUser) {
+      else if ('$T' == '$ResultDataUser?' || T == ResultDataUser) {
         return ResultDataUser.fromJson(json) as T;
       }
-      if ('$T' == '$ResultCreateSmartContract?' || T == ResultCreateSmartContract) {
+      else if ('$T' == '$ResultCreateSmartContract?' || T == ResultCreateSmartContract) {
         return ResultCreateSmartContract.fromJson(json) as T;
+      }
+      else if ('$T' == '$ResultRecoverPsw?' || T == ResultRecoverPsw) {
+        return ResultRecoverPsw.fromJson(json) as T;
       }
     }
     return json as T;

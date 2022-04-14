@@ -439,7 +439,7 @@ class RegisterViewModel
           status = status.copyWith(
             isError: true,
           );
-          print('Login DataFull Error As: $err');
+          print('Registro DataFull Error As: $err');
           status = status.copyWith(isLoading: false);
         });
       } else {

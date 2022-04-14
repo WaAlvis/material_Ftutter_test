@@ -4,22 +4,19 @@ class _RecoverPswWebMobile extends StatelessWidget {
   const _RecoverPswWebMobile({
     Key? key,
     required this.keyForm,
-    required this.passwordCtrl,
-    required this.userCtrl,
+    required this.emailForRecoverCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final TextEditingController passwordCtrl;
-  final TextEditingController userCtrl;
+  final TextEditingController emailForRecoverCtrl;
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final RecoverPswViewModel viewModel = context.watch<RecoverPswViewModel>();
     final Size size = MediaQuery.of(context).size;
 
-    const double hAppbar = 190;
+    const double hAppbar = 120;
     final double hBody = size.height - hAppbar;
 
     return GestureDetector(
@@ -38,181 +35,125 @@ class _RecoverPswWebMobile extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            AppbarCircles(
+            const AppbarCircles(
               hAppbar: hAppbar,
-              content: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text(
-                      '¡Bienvenido!',
-                      style: textTheme.textBigWhite.copyWith(fontSize: 30),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Inicia sesión en LocalDaily',
-                      style: textTheme.textSmallWhite.copyWith(
-                        color: LdColors.grayBg,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  constraints: BoxConstraints(minHeight: hBody),
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 16, right: 16, bottom: 20),
-                  decoration: const BoxDecoration(
-                    color: LdColors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(25),
-                    ),
+              child: Container(
+                constraints: BoxConstraints(
+                  maxHeight: hBody,
+                ),
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 16,
+                  right: 16,
+                  bottom: 20,
+                ),
+                decoration: const BoxDecoration(
+                  color: LdColors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25),
                   ),
-                  child: Form(
-                    key: keyForm,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            // if (viewModel.status.errorLogin)
-                            //   WarningContainerMsj(
-                            //     textTheme,
-                            //     message: 'Usuario o contraseña inválidos',
-                            //     onTap: () => viewModel.closeErrMsg(),
-                            //   )
-                            // else
-                            //   const SizedBox(
-                            //     height: 30,
-                            //   ),
-                            // const SizedBox(
-                            //   height: 22,
-                            // ),
-                            // InputTextCustom(
-                            //   'Correo electronio *',
-                            //   hintText: 'Ingresa correo del usuario',
-                            //   controller: userCtrl,
-                            //   onChange: (String value) =>
-                            //       viewModel.changeEmail(value),
-                            //   changeFillWith:
-                            //       !viewModel.status.isEmailFieldEmpty,
-                            //   keyboardType: TextInputType.emailAddress,
-                            //   textInputAction: TextInputAction.next,
-                            //   inputFormatters: <TextInputFormatter>[
-                            //     FilteringTextInputFormatter.deny(
-                            //       RegExp(r'[ ]'),
-                            //     ),
-                            //   ],
-                            //   validator: (String? email) =>
-                            //       viewModel.validatorEmail(email),
-                            // ),
-                            const SizedBox(height: 20),
-                            // InputTextCustom(
-                            //   'Contraseña *',
-                            //   hintText: '8+ digitos',
-                            //   controller: passwordCtrl,
-                            //   changeFillWith: !viewModel.status.isPswFieldEmpty,
-                            //   textInputAction: TextInputAction.done,
-                            //   obscureText: viewModel.status.hidePass,
-                            //   onChange: (String value) =>
-                            //       viewModel.changePsw(value),
-                            //   // onFieldSubmitted: (_) => viewModel.goHomeForLogin(
-                            //   //   context,
-                            //   //   userCtrl,
-                            //   //   passwordCtrl,
-                            //   //   dataUserProvider,
-                            //   //   keyForm,
-                            //   // ),
-                            //   validator: (String? pass) =>
-                            //       viewModel.validatorPass(pass),
-                            //   suffixIcon: GestureDetector(
-                            //     onTap: () => viewModel.hidePassword(),
-                            //     child: Icon(
-                            //       viewModel.status.hidePass
-                            //           ? Icons.visibility
-                            //           : Icons.visibility_off,
-                            //       color: LdColors.blackBackground,
-                            //     ),
-                            //   ),
-                            // ),
-                            const SizedBox(height: 10),
-                            // TextButton(
-                            //   onPressed: () =>
-                            //       viewModel.goRecoverPassword(context),
-                            //   style: TextButton.styleFrom(
-                            //     padding: EdgeInsets.zero,
-                            //     minimumSize: const Size(50, 30),
-                            //     alignment: Alignment.centerLeft,
-                            //   ),
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.only(left: 12.0),
-                            //     child: Text(
-                            //       'Olvidé mi contraseña',
-                            //       style: textTheme.textSmallBlack.copyWith(
-                            //         color: LdColors.orangePrimary,
-                            //         decoration: TextDecoration.underline,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Text(
-                                '¿No tienes cuenta en LocalDaily?',
-                                style: textTheme.textSmallBlack,
-                              ),
-                              TextButton(
-                                onPressed: () =>
-                                    viewModel.getRecoverPsw(context),
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: const Size(50, 30),
-                                  alignment: Alignment.centerLeft,
+                ),
+                child: Form(
+                  key: keyForm,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          if (viewModel.status.isError)
+                            WarningContainerMsj(
+                              textTheme,
+                              message: 'Correo no encontrado',
+                              onTap: () => viewModel.closeErrMsg(),
+                            )
+                          else
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                                child: Text(
-                                  'nueva contraseña',
-                                  style: textTheme.textSmallBlack.copyWith(
-                                    color: LdColors.orangePrimary,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                                Text(
+                                  'Recuperar contraseña',
+                                  style: textTheme.textBigBlack,
                                 ),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                Text(
+                                  'Ingresa tu correo electrónico, allí recibirás tu nueva contraseña',
+                                  style: textTheme.textSmallBlack,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          InputTextCustom(
+                            'Correo electronio *',
+                            hintText: 'Ingresa correo del usuario',
+                            controller: emailForRecoverCtrl,
+                            onChange: (String value) =>
+                                viewModel.changeEmail(value),
+                            changeFillWith: !viewModel.status.isEmailFieldEmpty,
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.deny(
+                                RegExp(r'[ ]'),
                               ),
                             ],
+                            validator: (String? email) =>
+                                viewModel.validatorEmail(email),
+                          ),
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final OpenMailAppResult result =
+                              await OpenMailApp.openMailApp();
+
+                          if (!result.didOpen && !result.canOpen) {
+                            showNoMailAppsDialog(context);
+                          } else if (!result.didOpen && result.canOpen) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MailAppPickerDialog(
+                                  mailApps: result.options,
+                                );
+                              },
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Abrir correo',
+                          style: textTheme.textSmallWhite.copyWith(
+                            decoration: TextDecoration.underline,
+                            color: LdColors.gray,
                           ),
                         ),
-                        // PrimaryButtonCustom(
-                        //   'Ingresar',
-                        //   onPressed: () => viewModel.goHomeForLogin(
-                        //     context,
-                        //     keyForm,
-                        //     userCtrl,
-                        //     passwordCtrl,
-                        //     dataUserProvider,
-                        //   ),
-                        //   // onPressed: () {
-                        //   //   if (keyForm.currentState!.validate()) {
-                        //   //     viewModel.goHome(
-                        //   //         context, userCtrl, passwordCtrl, dataUserProvider);
-                        //   //   }
-                        //   // },
-                        // ),
-                      ],
-                    ),
+                      ),
+                      PrimaryButtonCustom(
+                        'Enviar',
+                        onPressed: () {
+                          if (keyForm.currentState!.validate()) {
+                            viewModel.requestNewPsw(
+                                context, emailForRecoverCtrl.text);
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -220,6 +161,30 @@ class _RecoverPswWebMobile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Abrir App de email',
+          ),
+          content: const Text(
+            'No se encontraron Aplicaciones instaladas',
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Entendido'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }
