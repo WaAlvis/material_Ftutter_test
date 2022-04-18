@@ -11,3 +11,9 @@ class ShowSnackbarConnectivityEffect extends RecoverPswEffect {
 class ShowDialogRecoverPswEffect extends RecoverPswEffect {}
 
 class ShowSnackbarRecoverPswEffect extends RecoverPswEffect {}
+
+class ShowSnackbarErrorEmailEffect extends RecoverPswEffect {
+  final String message;
+
+  ShowSnackbarErrorEmailEffect(this.message);
+}

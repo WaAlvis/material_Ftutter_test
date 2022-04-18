@@ -63,9 +63,10 @@ class _LoginBodyState extends State<_LoginBody> {
     usuarioCtrl.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
-    final LoginViewModel  viewModel = context.read<LoginViewModel>();
+    final LoginViewModel viewModel = context.read<LoginViewModel>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<LoginViewModel>().onInit();
@@ -74,18 +75,18 @@ class _LoginBodyState extends State<_LoginBody> {
     _effectSubscription = viewModel.effects.listen((LoginEffect event) async {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
-      }else if(event is ShowSnackbarFailCredential ){
-        LdSnackbar.buildErrorSnackbar(context, event.message);
-
+      } else if (event is ShowSnackbarErrorCredential) {
+        LdSnackbar.buildErrorSnackbar(
+          context,
+          event.message,
+        );
       }
-
     });
 
     super.initState();
   }
 
   @override
-
   @override
   Widget build(BuildContext context) {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();

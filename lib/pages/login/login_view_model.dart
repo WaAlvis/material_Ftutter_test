@@ -145,7 +145,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         } else {
           err = 'El Correo es incorrecto.';
         }
-        addEffect(ShowSnackbarFailCredential(err));
+        addEffect(ShowSnackbarErrorCredential(err));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {

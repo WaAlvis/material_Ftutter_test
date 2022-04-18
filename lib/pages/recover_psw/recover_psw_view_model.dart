@@ -67,10 +67,11 @@ class RecoverPswViewModel extends EffectsViewModel<RecoverPswStatus,RecoverPswEf
         .then((ResponseData<ResultRecoverPsw> response) {
       if (response.isSuccess) {
         print('NewPsw EXITOSO!!');
+        addEffect(ShowSnackbarRecoverPswEffect());
         _route.goLogin(context);
       } else {
         // TODO: Mostrar alerta
-        addEffect(ShowSnackbarFailCredential(err));
+        addEffect(ShowSnackbarErrorEmailEffect('error EN el envio'));
         status = status.copyWith(isError: true, isLoading: false );
       }
     }).catchError((err) {

@@ -10,10 +10,10 @@ class ShowSnackbarConnectivityEffect extends LoginEffect {
 
 class ShowDialogHomeEffect extends LoginEffect {}
 
-class ShowSnackbarFailCredential extends LoginEffect {
+class ShowSnackbarErrorCredential extends LoginEffect {
   final String message;
 
-  ShowSnackbarFailCredential(this.message);
+  ShowSnackbarErrorCredential(this.message);
 }
 
 

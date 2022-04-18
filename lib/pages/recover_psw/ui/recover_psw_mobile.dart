@@ -64,13 +64,6 @@ class _RecoverPswWebMobile extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          if (viewModel.status.isError)
-                            WarningContainerMsj(
-                              textTheme,
-                              message: 'Correo no encontrado',
-                              onTap: () => viewModel.closeErrMsg(),
-                            )
-                          else
                             const SizedBox(
                               height: 10,
                             ),
