@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/recover_psw/recover_psw_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -12,7 +13,7 @@ import 'package:string_validator/string_validator.dart';
 
 import 'recover_psw_status.dart';
 
-class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
+class RecoverPswViewModel extends EffectsViewModel<RecoverPswStatus,RecoverPswEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -42,10 +43,7 @@ class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
       if (isConnectionValid) {
         getNewPsw(context, email);
       } else {
-        status = status.copyWith(
-          isError: true,
-        );
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -67,13 +65,12 @@ class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
     _interactor
         .requestPsw(bodyRecoverPsw)
         .then((ResponseData<ResultRecoverPsw> response) {
-      print('NewPsw Res: ${response.statusCode} ');
       if (response.isSuccess) {
         print('NewPsw EXITOSO!!');
-        status = status.copyWith(isError: false);
         _route.goLogin(context);
       } else {
         // TODO: Mostrar alerta
+        addEffect(ShowSnackbarFailCredential(err));
         status = status.copyWith(isError: true, isLoading: false );
       }
     }).catchError((err) {
@@ -93,7 +90,4 @@ class RecoverPswViewModel extends ViewModel<RecoverPswStatus> {
     }
   }
 
-  void closeErrMsg() {
-    status = status.copyWith(isError: false);
-  }
 }

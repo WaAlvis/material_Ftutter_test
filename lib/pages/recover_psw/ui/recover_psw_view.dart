@@ -4,19 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/recover_psw/recover_psw_view_model.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/warning_container_msj.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 
 part 'recover_psw_mobile.dart';
-
 part 'recover_psw_web.dart';
 
 class RecoverPswView extends StatelessWidget {

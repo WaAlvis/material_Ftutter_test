@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/login/login_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -17,7 +18,7 @@ import 'package:string_validator/string_validator.dart';
 
 import 'login_status.dart';
 
-class LoginViewModel extends ViewModel<LoginStatus> {
+class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -30,9 +31,8 @@ class LoginViewModel extends ViewModel<LoginStatus> {
 
     status = LoginStatus(
       isLoading: false,
-      // isError: true,
+      isError: false,
       hidePass: true,
-      errorLogin: false,
       isEmailFieldEmpty: true,
       isPswFieldEmpty: true,
     );
@@ -73,18 +73,18 @@ class LoginViewModel extends ViewModel<LoginStatus> {
           );
         }
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
 
   void goRegister(BuildContext context) {
     _route.goEmailRegister(context);
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      if (isConnectionValidvalue) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
         _route.goEmailRegister(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -92,17 +92,13 @@ class LoginViewModel extends ViewModel<LoginStatus> {
   void goRecoverPassword(BuildContext context) {
     print('Implementar vista de recuperar contrasenia');
     _route.goRecoverPsw(context);
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      // if (value) {
-      //   _route.goEmailRegister(context);
-      // } else {
-      //   // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-      // }
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        // _route.goEmailRegister(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
     });
-  }
-
-  void closeErrMsg() {
-    status = status.copyWith(errorLogin: false);
   }
 
   Future<void> login(
@@ -125,7 +121,6 @@ class LoginViewModel extends ViewModel<LoginStatus> {
     _interactor.postLogin(bodyLogin).then((ResponseData<ResultLogin> response) {
       print('Login Res: ${response.statusCode} ');
       if (response.isSuccess) {
-        print('Login EXITOSO!!');
         final String idUser = response.result!.user.id;
         _interactor
             .getUserById(idUser)
@@ -138,24 +133,22 @@ class LoginViewModel extends ViewModel<LoginStatus> {
             _route.goHome(context);
           }
         }).catchError((err) {
-          status = status.copyWith(
-            errorLogin: true,
-          );
+          // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+
           print('Login DataFull Error As: ${err}');
           status = status.copyWith(isLoading: false);
         });
       } else {
-        status = status.copyWith(
-          errorLogin: true,
-        );
-        // TODO: Mostrar alerta
-
+        String err = '';
+        if (response.error!.message == 'The credential  not match.') {
+          err = 'La contraseña es incorrecta.';
+        } else {
+          err = 'El Correo es incorrecto.';
+        }
+        addEffect(ShowSnackbarFailCredential(err));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {
-      status = status.copyWith(
-        errorLogin: true,
-      );
       print('Login BasicData Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });

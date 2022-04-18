@@ -1,17 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/pages/login/login_effect.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/warning_container_msj.dart';
 import 'package:provider/provider.dart';
 
 part 'components/card_login.dart';
@@ -52,12 +55,36 @@ class _LoginBodyState extends State<_LoginBody> {
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController usuarioCtrl = TextEditingController();
 
-  @override
+  late StreamSubscription<LoginEffect> _effectSubscription;
+
   void dispose() {
     passwordCtrl.dispose();
+    _effectSubscription.cancel();
     usuarioCtrl.dispose();
     super.dispose();
   }
+  @override
+  void initState() {
+    final LoginViewModel  viewModel = context.read<LoginViewModel>();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<LoginViewModel>().onInit();
+    });
+
+    _effectSubscription = viewModel.effects.listen((LoginEffect event) async {
+      if (event is ShowSnackbarConnectivityEffect) {
+        LdSnackbar.buildConnectivitySnackbar(context, event.message);
+      }else if(event is ShowSnackbarFailCredential ){
+        LdSnackbar.buildErrorSnackbar(context, event.message);
+
+      }
+
+    });
+
+    super.initState();
+  }
+
+  @override
 
   @override
   Widget build(BuildContext context) {
