@@ -43,9 +43,8 @@ class MyOfferCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TitleBarOffer(
-                code: '',
-                // TODO: hacer match del id
-                state: 0,
+                code: '# ${item.advertisement.reference}',
+                state: int.parse(item.advertisement.idStatus),
                 textTheme: textTheme,
               ),
               const Padding(
@@ -61,7 +60,6 @@ class MyOfferCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       InfoValueCard(
-                        title: 'Cantidad',
                         valueMoney: NumberFormat.simpleCurrency(
                           decimalDigits: 0,
                           name: '',
@@ -131,7 +129,7 @@ class TitleBarOffer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double sizeFont = 12.0;
+    const double sizeFont = 14;
     return Row(
       children: <Widget>[
         const SizedBox(width: 8),
@@ -152,14 +150,19 @@ class TitleBarOffer extends StatelessWidget {
                     ? LdColors.greenState
                     : LdColors.grayState,
           ),
-          child: Text(
-            state == 0
-                ? 'Abierto'
-                : state == 1
-                    ? 'En proceso'
-                    : 'Cerrado',
-            style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
-            textAlign: TextAlign.center,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              state == 0
+                  ? 'Abierto'
+                  : state == 1
+                      ? 'En proceso'
+                      : state == 2
+                          ? 'Cerrado'
+                          : 'Pendiente',
+              style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
+              textAlign: TextAlign.center,
+            ),
           ),
         )
       ],

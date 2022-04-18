@@ -5,6 +5,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
@@ -132,6 +133,15 @@ class ServiceInteractor {
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().addPayAccount(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultTypeOffer>> getTypesAdvertisement(
+    Pagination body,
+  ) async {
+    final ResponseData<ResultTypeOffer> response =
+        await locator<LocalDailyGatewayService>().getTypeAdvertisement(body);
 
     return response;
   }

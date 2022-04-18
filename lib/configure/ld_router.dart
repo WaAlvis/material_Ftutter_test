@@ -28,8 +28,6 @@ class LdRouter {
   }
 
   void goHome(BuildContext context) {
-    /*return navigatorKey.currentState!
-        .push(MaterialPageRoute<HomePage>(builder: (_) => const HomePage()));*/
     AppRouter.router.navigateTo(
       context,
       AppRoutes.homeRoute.route,
@@ -38,6 +36,7 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
   void goLoginForLogout(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
@@ -45,7 +44,6 @@ class LdRouter {
       transition: TransitionType.none,
       // clearStack: true,
       replace: true,
-
     );
   }
 

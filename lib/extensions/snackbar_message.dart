@@ -161,7 +161,6 @@ extension ShowSnackbar on BuildContext {
               child: Row(
                 children: <Widget>[
                   const Icon(
-                    //TODO: Icono de alerta del figma
                     Icons.warning_amber,
                     color: LdColors.redError,
                     size: 30,

@@ -12,6 +12,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -96,10 +97,12 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
   void initState() {
     final DetailOfferViewModel viewModel = context.read<DetailOfferViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<DetailOfferViewModel>().onInit(context);
-    });
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) => viewModel.onInit(context, configurationProvider),
+    );
 
     _effectSubscription = viewModel.effects.listen((DetailOfferEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {

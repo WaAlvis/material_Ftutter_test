@@ -21,6 +21,8 @@ class _DetailOfferMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final DetailOfferViewModel viewModel =
         context.watch<DetailOfferViewModel>();
+    final ConfigurationProvider configProvider =
+        context.read<ConfigurationProvider>();
     final Size size = MediaQuery.of(context).size;
     //Alturas de el APpbar y el body
     const double hAppbar = 100;
@@ -96,7 +98,10 @@ class _DetailOfferMobile extends StatelessWidget {
                                     // TODO: Solicitar que el servicio retorne BankName
                                     item.advertisement.advertisementPayAccount
                                         .map(
-                                          (e) => /* '${e.bankId}, ' */ 'Bancolombia, Nequi.',
+                                          (e) => viewModel.getBankById(
+                                            e.bankId,
+                                            configProvider.getResultBanks!.data,
+                                          ),
                                         )
                                         .toString()
                                         .replaceAll('(', '')
@@ -334,7 +339,7 @@ class OperationHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              '# referencia: ${ad.id.substring(0, 5)}',
+              '# referencia: ${ad.reference}',
               style: textTheme.textGray,
             ),
             Container(

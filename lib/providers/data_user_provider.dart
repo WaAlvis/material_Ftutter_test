@@ -5,6 +5,13 @@ import 'package:localdaily/services/models/detail_offer/body_update_status.dart'
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 
 class DataUserProvider with ChangeNotifier {
+  // late TokenLogin _tokenLogin;
+  // TokenLogin get getTokenLogin => _tokenLogin;
+  // void setTokenLogin(TokenLogin tokenLogin) {
+  //   _tokenLogin = tokenLogin;
+  //   notifyListeners();
+  // }
+
   ResultDataUser? _dataUser;
   ResultDataUser? get getDataUserLogged => _dataUser;
   void setDataUserLogged(ResultDataUser? user) {
@@ -25,6 +32,8 @@ class DataUserProvider with ChangeNotifier {
     _address = address;
     notifyListeners();
   }
+
+  // --- Objetos para almacenar datos temporalmente, se usan con DailyConnect ---
 
   BodyOffer? _bodyOffer;
   BodyOffer? get getBodyOffer => _bodyOffer;
@@ -57,11 +66,6 @@ class DataUserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // late TokenLogin _tokenLogin;
-  // TokenLogin get getTokenLogin => _tokenLogin;
-  // void setTokenLogin(TokenLogin tokenLogin) {
-  //   _tokenLogin = tokenLogin;
-  //   notifyListeners();
-  // }
+  // --- Objetos para almacenar configuraciones ---
 
 }

@@ -5,13 +5,13 @@ part 'result_update_status.g.dart';
 @JsonSerializable()
 class ResultUpdateStatus {
   ResultUpdateStatus({
-    required this.isSucessful,
+    this.isSucessful,
   });
 
   factory ResultUpdateStatus.fromJson(Map<String, dynamic> json) =>
       _$ResultUpdateStatusFromJson(json);
 
-  bool isSucessful;
+  bool? isSucessful;
 
   Map<String, dynamic> toJson() => _$ResultUpdateStatusToJson(this);
 }
