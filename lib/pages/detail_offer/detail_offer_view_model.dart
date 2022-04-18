@@ -221,8 +221,8 @@ class DetailOfferViewModel
           .reserveOffer(body)
           .then((ResponseData<ResultUpdateStatus> response) {
         if (response.isSuccess) {
-          //addEffect(ShowSnackbarSuccesEffect());
-          _route.goHome(context);
+          addEffect(ShowSnackbarSuccesEffect());
+          _route.goHome(_route.navigatorKey.currentContext!);
         } else {
           addEffect(
             ShowSnackbarErrorEffect(
