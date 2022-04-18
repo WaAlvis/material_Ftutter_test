@@ -41,14 +41,17 @@ class ProfileUser extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          _headerCardUser(colorCardWhite, size),
+          _headerCardUser(context, colorCardWhite, size),
           _bodyCardUser(context, colorCardWhite),
         ],
       ),
     );
   }
 
-  Widget _headerCardUser(Color colorCardWhite, Size size) {
+  Widget _headerCardUser(
+      BuildContext context, Color colorCardWhite, Size size) {
+    // final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
+
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
@@ -84,7 +87,8 @@ class ProfileUser extends StatelessWidget {
     BuildContext context,
     Color colorCardWhite,
   ) {
-    final DataUserProvider userProvider = context.watch<DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
+    final Size size = MediaQuery.of(context).size;
 
     return Expanded(
       child: Container(
@@ -100,78 +104,106 @@ class ProfileUser extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              _nameEditPencil(colorCardWhite),
+              _nameEditPencil(context, colorCardWhite),
               const SizedBox(
                 height: 22,
               ),
-              Expanded(
+              Flexible(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      if (dataUserProvider.getDataUserLogged == null)
+                        const SizedBox.shrink()
+                      else
                         _balanceDlyAvailable(),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          child: userProvider.getAddress != null &&
-                                  userProvider.getAddress != ''
-                              ? CardWalletConnect(
-                                  onTap: viewModel.disconnectWallet,
-                                  textTheme: textTheme,
-                                  connected: true,
-                                  address: userProvider.getAddress,
-                                )
-                              : const SizedBox.shrink(),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        _buttonsSocialNetwork(
-                          instagram: true,
-                          facebook: true,
-                          twitter: true,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            ListView.separated(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: options.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  leading: Icon(
-                                    options[index].icon,
-                                    color: LdColors.orangePrimary,
-                                  ),
-                                  title: Text(
-                                    options[index].text,
-                                    style: textTheme.textBlack,
-                                  ),
-                                  dense: true,
-                                  onTap: () {
-                                    onOptionSelected(
-                                      context,
-                                      NavigateOption.values[index],
-                                      viewModel,
-                                      userProvider,
-                                    );
-                                  },
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: dataUserProvider.getAddress != null &&
+                                dataUserProvider.getAddress != ''
+                            ? CardWalletConnect(
+                                onTap: viewModel.disconnectWallet,
+                                textTheme: textTheme,
+                                connected: true,
+                                address: dataUserProvider.getAddress,
+                              )
+                            : const SizedBox.shrink(),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      _buttonsSocialNetwork(
+                        instagram: true,
+                        facebook: true,
+                        twitter: true,
+                      ),
+                      if (dataUserProvider.getDataUserLogged == null)
+                        SizedBox(
+                          height: size.height * 0.4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Spacer(),
+                              Text(
+                                'Inicia sesión para continuar',
+                                style: textTheme.textBigBlack,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'Para visualizar tu perfil y configuraciones, es necesario que inicies sesión.',
+                                textAlign: TextAlign.center,
+                                style: textTheme.textSmallBlack,
+                              ),
+                              const Spacer(),
+                              PrimaryButtonCustom(
+                                'Iniciar sesion',
+                                onPressed: () => viewModel.goLogin(context),
+                              ),
+                            ],
+                          ),
+                        )
+                      else
+                        ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              leading: Icon(
+                                options[index].icon,
+                                color: LdColors.orangePrimary,
+                              ),
+                              title: Text(
+                                options[index].text,
+                                style: textTheme.textBlack,
+                              ),
+                              dense: true,
+                              onTap: () {
+                                onOptionSelected(
+                                  context,
+                                  NavigateOption.values[index],
+                                  viewModel,
+                                  dataUserProvider,
                                 );
                               },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  height: 20,
-                                );
-                              },
-                            ),
-                          ],
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(
+                              height: 20,
+                            );
+                          },
                         ),
-                      ]),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -328,7 +360,9 @@ class ProfileUser extends StatelessWidget {
     );
   }
 
-  Widget _nameEditPencil(Color colorCardWhite) {
+  Widget _nameEditPencil(BuildContext context, Color colorCardWhite) {
+    final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
+
     const double sizeCircleIcon = 22;
     return Column(
       children: <Widget>[
@@ -352,7 +386,7 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    viewModel.status.resultDataUser?.nickName ?? 'No Usuario',
+                    viewModel.status.resultDataUser?.nickName ?? 'Sin Usuario',
                     style: textTheme.textBigBlack
                         .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),
@@ -372,13 +406,16 @@ class ProfileUser extends StatelessWidget {
             ],
           ),
         ),
-        Text(
-          'usuario desde el 2010',
-          style: textTheme.textSmallBlack.copyWith(
-            color: LdColors.gray,
-            fontSize: 14,
+        if (dataUserProvider.getDataUserLogged == null)
+          const SizedBox.shrink()
+        else
+          Text(
+            'usuario desde el 2010',
+            style: textTheme.textSmallBlack.copyWith(
+              color: LdColors.gray,
+              fontSize: 14,
+            ),
           ),
-        ),
       ],
     );
   }
