@@ -28,14 +28,22 @@ class LdRouter {
   }
 
   void goHome(BuildContext context) {
-    /*return navigatorKey.currentState!
-        .push(MaterialPageRoute<HomePage>(builder: (_) => const HomePage()));*/
     AppRouter.router.navigateTo(
       context,
       AppRoutes.homeRoute.route,
       replace: true,
       clearStack: true,
       transition: TransitionType.none,
+    );
+  }
+
+  void goLoginForLogout(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.loginRoute.route,
+      transition: TransitionType.none,
+      // clearStack: true,
+      replace: true,
     );
   }
 
@@ -63,13 +71,13 @@ class LdRouter {
     );
   }
 
-  void goDetailOffer(BuildContext context, Data item) {
+  void goDetailOffer(BuildContext context, Data item, {bool isBuy = false}) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailOfferRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-        arguments: <String, Data>{'item': item},
+        arguments: <String, dynamic>{'item': item, 'isbuy': isBuy},
       ),
     );
   }

@@ -32,8 +32,8 @@ extension ShowDialogGenericAlert on BuildContext {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: message.length > 30 ? 20 : size.width * 0.1,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
                     ),
                     child: Text(
                       message,
@@ -49,7 +49,7 @@ extension ShowDialogGenericAlert on BuildContext {
                     minWidth: double.maxFinite,
                     height: 42,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     disabledColor: LdColors.orangePrimary.withOpacity(0.7),
                     onPressed: onTap,
@@ -67,7 +67,7 @@ extension ShowDialogGenericAlert on BuildContext {
                       minWidth: double.maxFinite,
                       height: 42,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                         side: const BorderSide(
                           width: 2,
                           color: LdColors.orangePrimary,

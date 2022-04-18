@@ -9,6 +9,7 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
@@ -29,9 +30,12 @@ Future<void> main() async {
       MediaQuery(
         data: MediaQueryData.fromWindow(ui.window),
         child: MultiProvider(
-          providers: [
+          providers: <ChangeNotifierProvider<dynamic>>[
             ChangeNotifierProvider<DataUserProvider>(
               create: (_) => DataUserProvider(),
+            ),
+            ChangeNotifierProvider<ConfigurationProvider>(
+              create: (_) => ConfigurationProvider(),
             ),
           ],
           child: LocalDaily(),

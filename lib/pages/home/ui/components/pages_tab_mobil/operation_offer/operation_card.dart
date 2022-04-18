@@ -43,9 +43,8 @@ class OperationCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TitleBarCard2(
-                code: '',
-                // TODO: hacer match del id
-                state: 0,
+                code: '# ${item.advertisement.reference}',
+                state: int.parse(item.advertisement.idStatus),
                 textTheme: textTheme,
               ),
               const Padding(
@@ -61,7 +60,6 @@ class OperationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       InfoValueCard2(
-                        title: 'Cantidad',
                         valueMoney: NumberFormat.simpleCurrency(
                           decimalDigits: 0,
                           name: '',
@@ -73,7 +71,7 @@ class OperationCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        '${item.advertisement.margin} DLYCOP ≈ 1 COP',
+                        '1 DLYCOP ≈ ${item.advertisement.margin} COP',
                         style: textTheme.textSmallBlack
                             .copyWith(color: LdColors.grayText, fontSize: 14),
                       ),
@@ -117,12 +115,10 @@ class InfoValueCard2 extends StatelessWidget {
   const InfoValueCard2({
     Key? key,
     required this.textTheme,
-    required this.title,
     required this.valueMoney,
   }) : super(key: key);
 
   final TextTheme textTheme;
-  final String title;
   final String valueMoney;
 
   @override
@@ -130,10 +126,6 @@ class InfoValueCard2 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title,
-          style: textTheme.textSmallWhite.copyWith(fontSize: 13),
-        ),
         const SizedBox(
           height: 5,
         ),
@@ -172,7 +164,7 @@ class TitleBarCard2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double sizeFont = 12.0;
+    const double sizeFont = 14;
     return Row(
       children: <Widget>[
         const SizedBox(width: 8),
@@ -198,7 +190,9 @@ class TitleBarCard2 extends StatelessWidget {
                 ? 'Abierto'
                 : state == 1
                     ? 'En proceso'
-                    : 'Cerrado',
+                    : state == 2
+                        ? 'Cerrado'
+                        : 'Pendiente',
             style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
             textAlign: TextAlign.center,
           ),

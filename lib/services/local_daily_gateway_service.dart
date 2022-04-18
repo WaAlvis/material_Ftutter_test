@@ -4,8 +4,10 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
-import 'package:localdaily/services/models/detail_offer/body_create_smart_contract.dart';
-import 'package:localdaily/services/models/detail_offer/result_create_smart_contract.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
+import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
+import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
+import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -31,8 +33,7 @@ class UrlsApi {
   static const String login = '/Identity/Authentication';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
-  static const String createSmartContract =
-      '/Transaction/SmartContract/CreateSmartContract';
+  static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
   static const String createOffer = '/WebAdmin/Advertisement';
@@ -43,6 +44,10 @@ class UrlsApi {
   static const String updateAddress = '/User/User/UpdateUserAddressWallet';
   static const String createTransaction =
       '/Transaction/Transaction/CreateTransaction';
+  static const String addPayAccount =
+      '/WebAdmin/AdvertisementPayAccount/AddPayAccount';
+  static const String getTypeAdvertisement =
+      '/WebAdmin/TypeAdvertisement/GetAllTypeAdvertisement';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -101,9 +106,9 @@ abstract class LocalDailyGatewayService {
     @Body() BodyOffer bodyOffer,
   );
 
-  @POST(UrlsApi.createSmartContract)
-  Future<ResponseData<ResultCreateSmartContract>> createSmartContract(
-    @Body() BodyCreateSmartContract bodyCreateSmartContract,
+  @PUT(UrlsApi.updateStatusAdv)
+  Future<ResponseData<ResultUpdateStatus>> updateStatusAdv(
+    @Body() BodyUpdateStatus bodyCreateSmartContract,
   );
 
   @PUT(UrlsApi.updateAddress)
@@ -115,38 +120,14 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<dynamic>> createTransaction(
     @Body() BodyCreateTransaction bodyCreateTransaction,
   );
+
+  @POST(UrlsApi.addPayAccount)
+  Future<ResponseData<dynamic>> addPayAccount(
+    @Body() BodyAddPayAccount body,
+  );
+
+  @POST(UrlsApi.getTypeAdvertisement)
+  Future<ResponseData<ResultTypeOffer>> getTypeAdvertisement(
+    @Body() Pagination body,
+  );
 }
-
-// { CELULAR
-//   "entity": {
-//   "numberOrEmail": "+573173564052",
-//   "codevia": "8a6d80af-c982-4648-86aa-f643981b6301"
-//   }
-// }
-//
-// { CELULA
-//   "entity": {
-//   "numberOrEmail": "andres.polo.ortega@gmail.com",
-//   "codevia": "cf1c420a-38bd-44b0-8187-fbf1e91ad21a"
-//   }
-// }
-
-
-// { respuesta validacion de codigo OTP
-// "isSuccess": true,
-// "statusCode": 200,
-// "result": {
-// "sid": "VE3ede5ade3b196a307a6578045b5141dd",
-// "serviceSid": "VA060871ff742639b755daf7e3e8f4a2e1",
-// "accountSid": "ACbbc00277561115d872d93ed0cb01cccf",
-// "to": "alvis.wap@gmail.com",
-// "channel": {},
-// "status": "approved",
-// "valid": true,
-// "amount": null,
-// "payee": null,
-// "dateCreated": "2022-03-29T22:19:11Z",
-// "dateUpdated": "2022-03-29T22:21:08Z"
-// },
-// "error": null
-// }

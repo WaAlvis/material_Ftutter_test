@@ -9,3 +9,7 @@ class ShowSnackbarConnectivityEffect extends OfferSaleEffect {
 
   ShowSnackbarConnectivityEffect(this.message);
 }
+
+class WithoutAddressEffect extends OfferSaleEffect {}
+
+class WithoutFoundsEffect extends OfferSaleEffect {}

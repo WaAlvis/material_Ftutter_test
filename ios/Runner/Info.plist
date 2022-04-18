@@ -66,5 +66,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>exp</string>
+		<string>midailyapp</string>
+	</array>
 </dict>
 </plist>

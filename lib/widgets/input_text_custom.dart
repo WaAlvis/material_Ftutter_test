@@ -1,34 +1,40 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 
 class InputTextCustom extends StatelessWidget {
-  InputTextCustom(
-    this.data, {
-    Key? key,
-    this.textInputAction,
-    this.maxLength,
-    this.styleLabel,
-    this.hintStyle,
-    required this.hintText,
-    this.obscureText = false,
-    this.suffixIcon,
-    this.controller,
-    this.enableInteractiveSelection = true,
-    this.keyboardType,
-    this.validator,
-    this.onChange,
-    this.inputFormatters,
-    this.onTap,
-    this.autocorrect = false,
-    this.onFieldSubmitted,
-    this.textCapitalization = TextCapitalization.none,
-    this.changeFillWith,
-    this.onEditingComplete,
-    this.style,
-  }) : super(key: key);
+  InputTextCustom(this.data,
+      {Key? key,
+      this.textInputAction,
+      this.maxLength,
+      this.styleLabel,
+      this.hintStyle,
+      required this.hintText,
+      this.obscureText = false,
+      this.suffixIcon,
+      this.controller,
+      this.enableInteractiveSelection = true,
+      this.keyboardType,
+      this.validator,
+      this.onChange,
+      this.inputFormatters,
+      this.onTap,
+      this.autocorrect = false,
+      this.onFieldSubmitted,
+      this.textCapitalization = TextCapitalization.none,
+      this.changeFillWith,
+      this.onEditingComplete,
+      this.style,
+      // this.prefix,
+      this.contentPadding,
+      this.pickerCountry = false,
+      this.onChangeIndicative})
+      : super(key: key);
 
+  // final Widget? prefix;
+  final bool pickerCountry;
   final void Function(String)? onChange;
   final TextStyle? styleLabel;
   final TextStyle? hintStyle;
@@ -45,10 +51,12 @@ class InputTextCustom extends StatelessWidget {
   final void Function()? onTap;
   final TextInputAction? textInputAction;
   final void Function(String)? onFieldSubmitted;
+  final EdgeInsetsGeometry? contentPadding;
   final bool autocorrect;
   final void Function()? onEditingComplete;
   final TextCapitalization textCapitalization;
   final TextStyle? style;
+  void Function(CountryCode)? onChangeIndicative;
 
   bool? changeFillWith = false;
 
@@ -98,8 +106,35 @@ class InputTextCustom extends StatelessWidget {
           validator: validator,
           textCapitalization: textCapitalization,
           decoration: InputDecoration(
+            contentPadding: contentPadding,
             fillColor: LdColors.grayBorder,
+            focusColor: LdColors.redError,
             filled: changeFillWith,
+            prefix: pickerCountry
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      CountryCodePicker(
+                        onChanged: onChangeIndicative,
+                        padding: EdgeInsets.zero,
+                        // enabled: false,
+                        // boxDecoration: BoxDecoration(color: LdColors.redError,),
+
+                        initialSelection: 'CO',
+                        // showCountryOnly: true,
+                        favorite: const <String>['CO'],
+                        textStyle: textTheme.textSmallBlack,
+                        dialogTextStyle: textTheme.textSmallBlack,
+                        searchStyle: textTheme.textSmallBlack,
+                        barrierColor: LdColors.blackBackground.withOpacity(0.7),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                        child: VerticalDivider(color: LdColors.blackBackground),
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
             border: border,
             enabledBorder: controller == null || changeFillWith == null
                 ? border

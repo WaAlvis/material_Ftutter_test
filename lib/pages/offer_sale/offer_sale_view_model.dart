@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:localdaily/commons/ld_constans.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -14,14 +16,13 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/d
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
-import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
+import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/view_model.dart';
-import 'package:hex/hex.dart';
-import 'package:sha3/sha3.dart';
 
 import 'offer_sale_status.dart';
 
@@ -57,15 +58,17 @@ class OfferSaleViewModel
       listAccountType: ResultGetDocsType(
         data: <DocType>[
           DocType(
-              id: 'd307fd7e-c76f-44b6-a8ff-768ad6421616',
-              countryId: '17cccd6d-1675-485b-806b-5297063e6826',
-              description: 'Corriente',
-              isActive: true),
+            id: 'd307fd7e-c76f-44b6-a8ff-768ad6421616',
+            countryId: '17cccd6d-1675-485b-806b-5297063e6826',
+            description: 'Corriente',
+            isActive: true,
+          ),
           DocType(
-              id: 'c047a07c-2daf-48a7-ad49-ec447a93485b',
-              countryId: '17cccd6d-1675-485b-806b-5297063e6826',
-              description: 'Ahorros',
-              isActive: true),
+            id: 'c047a07c-2daf-48a7-ad49-ec447a93485b',
+            countryId: '17cccd6d-1675-485b-806b-5297063e6826',
+            description: 'Ahorros',
+            isActive: true,
+          ),
         ],
         totalItems: 10,
         totalPages: 1,
@@ -77,12 +80,14 @@ class OfferSaleViewModel
   }
 
   Future<void> onInit(
-    BuildContext context, {
+    BuildContext context,
+    ConfigurationProvider configurationProvider, {
     bool validateNotification = false,
   }) async {
-    getBanks(context);
-    getDocumentType(context);
-    // getAccountsType(context);
+    status = status.copyWith(
+      listBanks: configurationProvider.getResultBanks,
+      listDocsType: configurationProvider.getResultDocsTypes,
+    );
   }
 
   void goRegister(BuildContext context) {
@@ -122,7 +127,7 @@ class OfferSaleViewModel
   String? validatorAmount(String? value) {
     if (value == null || value.isEmpty || value == '0' || value == '0 COP') {
       return '* Campo necesario';
-    } else if (double.parse(value) < 1000) {
+    } else if (double.parse(value.replaceAll('.', '')) < 1000) {
       return 'El valor mínimo es de 1.000';
     }
     return null;
@@ -156,56 +161,8 @@ class OfferSaleViewModel
     }
   }
 
-  Future<void> getDocumentType(BuildContext context) async {
-    // status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: true,
-      currentPage: 1,
-      itemsPerPage: 25,
-    );
-
-    try {
-      final ResponseData<ResultGetDocsType> response =
-          await _interactor.getDocumentType(pagination);
-      print('Type Docs list Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        print('Exito obteniendo la data de Tipos de DOCS!!');
-        status.listDocsType = response.result!;
-      } else {
-        print('ERROR obteniendo la data de Tipos de DOCS');
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Type Docs Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
-  Future<void> getBanks(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: true,
-      currentPage: 1,
-      itemsPerPage: 25,
-    );
-
-    try {
-      final ResponseData<ResultGetBanks> response =
-          await _interactor.getBanks(pagination);
-      print('Baks list Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        print('Exito obteniendo la data Los BANCOS!!');
-        status.listBanks = response.result!;
-      } else {
-        print('ERROR obteniendo la data de Baks');
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Banks Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
   }
 
   Future<void> onClickCreateOffer() async {
@@ -219,7 +176,8 @@ class OfferSaleViewModel
 
   Future<void> createOfferSale(
     BuildContext context,
-    DataUserProvider userProvider, {
+    DataUserProvider userProvider,
+    ResultTypeOffer typeOffer, {
     required String userId,
     required String margin,
     required String amountDLY,
@@ -232,12 +190,31 @@ class OfferSaleViewModel
     required String infoPlusOffer,
     required String wordSecret,
   }) async {
+    closeDialog(context);
+    final String total = (int.parse(amountDLY) +
+            double.parse(status.feeMoney.replaceAll('.', '')))
+        .toStringAsFixed(0);
+
+    // Se valida que tenga una address recuperada
+    final String _from = userProvider.getAddress ?? '';
+    if (_from.isEmpty) {
+      addEffect(WithoutAddressEffect());
+      return;
+    }
+
+    // Se valida el monto con el balance para solicitar creacion
+    if (double.parse(total) > await CryptoUtils().getBalance(_from)) {
+      addEffect(WithoutFoundsEffect());
+      return;
+    }
+
     status = status.copyWith(isLoading: true);
 
     await MiDailyConnect.createConnection(
       context,
       DailyConnectType.transaction,
-      amountDLY.replaceAll('.', ''),
+      total,
+      'create',
     );
 
     /* String convertWorkKeccak(String word) {
@@ -251,18 +228,20 @@ class OfferSaleViewModel
     } */
 
     final EntityOffer entity = EntityOffer(
-      idTypeAdvertisement: '4386109e-5369-45c5-b1ec-e51d973bf4da',
+      idTypeAdvertisement: typeOffer.data
+          .firstWhere((element) => element.code == TypeOffer.sell.index)
+          .id,
       idCountry: '809b4025-bf15-43f8-9995-68e3b7c53be6',
-      valueToSell: amountDLY.replaceAll('.', ''),
+      valueToSell: amountDLY,
       margin: margin.split(' ').first,
       termsOfTrade: infoPlusOffer,
       idUserPublish: userId,
-      codeUserPublish: '',
+      hoursLimitPay: LdConstants.hoursLimitPay,
     );
 
     final BodyOffer bodyOffer = BodyOffer(
       entity: entity,
-      daysOfExpired: 7,
+      daysOfExpired: LdConstants.daysExpire,
       strJsonAdvertisementBanks: json.encode([
         <String, dynamic>{
           'bankId': bankId,
@@ -278,38 +257,33 @@ class OfferSaleViewModel
     userProvider.setBodyOffer(bodyOffer);
     // La publicación se crea en Midaily_connect ya que esta escuchando la respuesta de la transacción.
     status = status.copyWith(isLoading: false);
-    /* _interactor
-        .createOffer(bodyOffer)
-        .then((ResponseData<ResultCreateOffer> response) {
-      print('Create offer Res: ${response.statusCode} ');
-      if (response.isSuccess) {
-        print('Oferta de venta creada EXITOSO!!');
-
-        _route.goHome(context);
-      } else {
-        // TODO: Mostrar alerta
-        print('no se pudo realizar la oferta ve venta!');
-      }
-      status = status.copyWith(isLoading: false);
-    }).catchError((err) {
-      print('Offer Error As: ${err}');
-      status = status.copyWith(isLoading: false);
-    }); */
   }
 
   String resetValueMargin(String margin) {
-    final String marginText =
-        margin != '0 COP' ? margin.substring(0, margin.indexOf(' ')) : '';
+    String marginText = '';
+    if (margin.contains('COP')) {
+      marginText = margin.substring(0, margin.indexOf(' '));
+    } else {
+      marginText = margin;
+    }
+
     return marginText;
   }
 
   String completeEditMargin(String margin) {
     FocusManager.instance.primaryFocus?.unfocus();
-    final String marginText = margin == ''
-        ? ''
-        : !margin.contains(' ')
-            ? '$margin COP'
-            : margin;
+    String marginText = '';
+
+    if (margin.length == 2 && margin.contains('.') && !margin.contains(' ')) {
+      marginText = '${margin}0 COP';
+    } else if (!margin.contains(' ')) {
+      marginText = '${margin.isEmpty ? 0 : margin} COP';
+    } else if (margin.contains('COP')) {
+      marginText = margin;
+    } else {
+      marginText = '0 COP';
+    }
+
     return marginText;
   }
 
@@ -321,22 +295,49 @@ class OfferSaleViewModel
     }
   }
 
+  // Total en DLYCOP que va a recibir el comprador
+  String getTotalDlycopSold(String? amount) {
+    return ValueCurrencyFormat.format(
+      int.parse(amount ?? '0') -
+          double.parse(status.feeMoney.replaceAll('.', '')),
+    );
+  }
+
+  // Total en COP que debe pagar el comprador
+  String getTotalCopToPay(String? amount) {
+    return ValueCurrencyFormat.format(
+      int.parse(amount ?? '0') * double.parse(status.costDLYtoCOP),
+    );
+  }
+
+  // Total en DLYCOP que debe pagar el que publica la oferta
+  String getTotalAddToPay(String? amount) {
+    return ValueCurrencyFormat.format(
+      int.parse(amount ?? '0') +
+          double.parse(status.feeMoney.replaceAll('.', '')),
+    );
+  }
+
   void calculateTotalMoney(String marginText, String amountDLYText) {
     final String amountDLYWithoutDot = amountDLYText.replaceAll('.', '');
-    final String marginWithoutString =
-        marginText.split(' ').first.replaceAll(',', '.');
+    final String marginWithoutString = marginText.contains(' ')
+        ? marginText.split(' ').first.replaceAll(',', '.')
+        : marginText.replaceAll(',', '.');
 
     final double margin =
         marginText != '' ? double.parse(marginWithoutString) : 0;
     final double amountDLY =
         amountDLYText != '' ? double.parse(amountDLYWithoutDot) : 0;
-    final double total = margin * amountDLY;
-    final int fee = (total * 0.01).toInt();
+    final double total = (margin * amountDLY).roundToDouble();
+
+    // TODO: El fee debe ser un servicio
+    final int fee = (amountDLY * LdConstants.fee).round();
     final double totalPLUSfee = total + fee;
 
     status = status.copyWith(
       totalMoney: changeSeparatorGroup(NumberFormat().format(totalPLUSfee)),
-      costDLYtoCOP: changeSeparatorGroup(NumberFormat().format(margin)),
+      costDLYtoCOP: changeSeparatorGroup(NumberFormat().format(margin))
+          .replaceAll(',', '.'),
       feeMoney: changeSeparatorGroup(NumberFormat().format(fee)),
       isMarginEmpty: marginText.isEmpty,
     );

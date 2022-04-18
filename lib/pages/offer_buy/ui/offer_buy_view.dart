@@ -10,9 +10,10 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_effect.dart';
 import 'package:localdaily/pages/offer_buy/offer_buy_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
@@ -85,6 +86,8 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
   void initState() {
     final OfferBuyViewModel viewModel = context.read<OfferBuyViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configProvider =
+        context.read<ConfigurationProvider>();
 
     focusDLYCOP = FocusNode();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -97,15 +100,25 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
         //DlySnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ValidateOfferEffect) {
         if (keyForm.currentState!.validate()) {
-          viewModel.createOfferBuy(
+          LdDialog.buildDenseAlertDialog(
             context,
-            dataUserProvider,
-            margin: marginCtrl.text,
-            bankId: viewModel.status.selectedBank!.id,
-            amountDLY: amountDLYCtrl.text,
-            infoPlusOffer: infoPlusOfferCtrl.text,
-            userId: dataUserProvider.getDataUserLogged!.id,
-            wordSecret: cancelSecretCtrl.text,
+            image: LdAssets.createOffer,
+            title: 'Publicar oferta',
+            message:
+                'Tu publicación estará visible por 7 días, pasado este tiempo la publicación no estará disponible.\n\n¿Quiéres publicar la oferta de compra?',
+            btnText: 'Si, publicar',
+            onTap: () => viewModel.createOfferBuy(
+              context,
+              dataUserProvider,
+              configProvider.getResultTypeOffer!,
+              margin: marginCtrl.text,
+              amountDLY: amountDLYCtrl.text,
+              infoPlusOffer: infoPlusOfferCtrl.text,
+              userId: dataUserProvider.getDataUserLogged!.id,
+              wordSecret: cancelSecretCtrl.text,
+            ),
+            btnTextSecondary: 'Cancelar',
+            onTapSecondary: () => viewModel.closeDialog(context),
           );
         }
       }

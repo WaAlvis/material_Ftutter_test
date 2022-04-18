@@ -6,19 +6,24 @@ import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
+import 'package:localdaily/commons/ld_constans.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
 import 'package:localdaily/pages/offer_sale/offer_sale_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
+import 'package:localdaily/widgets/dropdown_custom.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -86,32 +91,60 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
   void initState() {
     final OfferSaleViewModel viewModel = context.read<OfferSaleViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<OfferSaleViewModel>().onInit(context);
-    });
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) => viewModel.onInit(context, configurationProvider),
+    );
 
     _effectSubscription = viewModel.effects.listen((OfferSaleEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ValidateOfferEffect) {
         if (keyForm.currentState!.validate()) {
-          viewModel.createOfferSale(
+          LdDialog.buildDenseAlertDialog(
             context,
-            dataUserProvider,
-            userId: dataUserProvider.getDataUserLogged!.id,
-            docNum: docNumCtrl.text,
-            margin: marginCtrl.text,
-            accountTypeId: viewModel.status.selectedAccountType!.id,
-            accountNum: accountNumCtrl.text,
-            nameTitularAccount: nameTitularAccountCtrl.text,
-            bankId: viewModel.status.selectedBank!.id,
-            amountDLY: amountDLYCtrl.text,
-            infoPlusOffer: infoPlusOfferCtrl.text,
-            docType: viewModel.status.selectedDocType!.id,
-            wordSecret: cancelSecretCtrl.text,
+            image: LdAssets.createOffer,
+            title: 'Publicar oferta',
+            message:
+                'Tus Dailys se reservarán en nuestra nube por 7 días. Pasado este tiempo la publicación se bajará y tus Dailys estarán disponibles nuevamente.\n\n¿Quiéres publicar la oferta de venta?',
+            btnText: 'Si, publicar',
+            onTap: () => viewModel.createOfferSale(
+              context,
+              dataUserProvider,
+              configurationProvider.getResultTypeOffer!,
+              userId: dataUserProvider.getDataUserLogged!.id,
+              docNum: docNumCtrl.text,
+              margin: marginCtrl.text,
+              accountTypeId: viewModel.status.selectedAccountType!.id,
+              accountNum: accountNumCtrl.text,
+              nameTitularAccount: nameTitularAccountCtrl.text,
+              bankId: viewModel.status.selectedBank!.id,
+              amountDLY: amountDLYCtrl.text.replaceAll('.', ''),
+              infoPlusOffer: infoPlusOfferCtrl.text,
+              docType: viewModel.status.selectedDocType!.id,
+              wordSecret: cancelSecretCtrl.text,
+            ),
+            btnTextSecondary: 'Cancelar',
+            onTapSecondary: () => viewModel.closeDialog(context),
           );
         }
+      } else if (event is WithoutAddressEffect) {
+        LdSnackbar.buildErrorSnackbar(
+          context,
+          'No tienes una wallet conectada para realizar la operación',
+        );
+      } else if (event is WithoutFoundsEffect) {
+        LdDialog.buildDenseAlertDialog(
+          context,
+          image: LdAssets.noFounds,
+          title: 'No tienes suficientes DLYCOP',
+          message:
+              'Lo sentimos, no tienes suficientes DLYCOP para hacer esta oferta.',
+          btnText: 'Volver',
+          onTap: () => LdRouter().pop(context),
+        );
       }
     });
 

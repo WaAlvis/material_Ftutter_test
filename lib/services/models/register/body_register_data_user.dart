@@ -17,13 +17,15 @@ class BodyRegisterDataUser {
     required this.password,
     required this.isActive,
     required this.addressWallet,
-
-      });
+    required this.dateTimeCreate,
+    required this.rateSeller,
+    required this.rateBuyer,
+    required this.isCorporative,
+  });
 
   factory BodyRegisterDataUser.fromJson(Map<String, dynamic> json) =>
       _$BodyRegisterDataUserFromJson(json);
 
-  String addressWallet;
   String nickName;
   String firstName;
   String secondName;
@@ -35,6 +37,11 @@ class BodyRegisterDataUser {
   String userTypeId;
   String password;
   bool isActive;
+  String addressWallet;
+  String dateTimeCreate;
+  String rateSeller;
+  String rateBuyer;
+  bool isCorporative;
 
   Map<String, dynamic> toJson() => _$BodyRegisterDataUserToJson(this);
 }

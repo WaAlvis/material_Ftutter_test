@@ -10,6 +10,10 @@ class LdAssets {
   static const String buyNoOffer = '$pathImages/buy_no_offer.svg';
   static const String loginIdentity = '$pathImages/identity_card.svg';
   static const String emptyNotification = '$pathImages/empty_notification.svg';
+  static const String noFounds = '$pathImages/no_founds.svg';
+  static const String done = '$pathImages/done.svg';
+  static const String createOffer = '$pathImages/cloud_offer.svg';
+
   static const String dlycopIconWhite = '$pathIcons/DLYcop_white.svg';
   static const String dlycopIconBlack = '$pathIcons/DLYcop_black.svg';
   static const String dlycopIconGreen = '$pathIcons/DLYcop_green.svg';
@@ -17,4 +21,7 @@ class LdAssets {
   static const String pswBlack = '$pathIcons/psw_black.svg';
   static const String globalBlack = '$pathIcons/global_black_icon.svg';
   static const String dlyIcon = '$pathIcons/dly_icon.svg';
+  static const String socialInstagram = '$pathIcons/social_instagram.svg';
+  static const String socialFacebook = '$pathIcons/social_facebook.svg';
+  static const String socialTwitter = '$pathIcons/social_twitter.svg';
 }

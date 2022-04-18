@@ -64,6 +64,7 @@ class MyOffersTab extends StatelessWidget {
             ),
             Expanded(
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   ListMyOffersSale(
                     textTheme: textTheme,

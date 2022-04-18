@@ -1,47 +1,33 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/local_storage_service.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
-import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MiDailyConnect {
-  static const String _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  static const String _chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
   static final Random _rnd = Random();
 
   static Future<void> createConnection(
     BuildContext context,
     DailyConnectType type,
     String? amount,
+    String? method,
   ) async {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     final String _walletConnectCode = _getRandomString(7);
     final String _from = userProvider.getAddress ?? '';
-
-    // Se valida el monto con el balance para solicitar creacion
-    if (amount != null || amount != '') {
-      if (double.parse(amount!) > await CryptoUtils().getBalance(_from)) {
-        LdSnackbar.buildErrorSnackbar(
-          context,
-          'No hay fondos suficientes para realizar la operación',
-        );
-        return;
-      }
-    }
 
     userProvider.setMiDailyConnectCode(_walletConnectCode);
     String _url = '';
@@ -52,29 +38,38 @@ class MiDailyConnect {
         //    'exp://192.168.1.46:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         _url =
             'exp://127.0.0.1:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
+        //_url =
+        //    'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
+        if (method != null && method != '')
+          //_url =
+          //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
+          _url =
+              'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
         //_url =
-        //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
-        _url =
-            'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
+        //    'midailyapp://sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
         break;
       default:
     }
 
     if (await canLaunch(_url)) {
-      Codec<String, String> stringToBase64 = utf8.fuse(base64);
-      final String encoded = stringToBase64.encode(_url);
-      print(encoded);
       await launch(_url, headers: <String, String>{});
     } else {
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
+      LdSnackbar.buildErrorSnackbar(
+        context,
+        'Ocurrió un inconveniente con la petición, intentalo más tarde',
+      );
+      return;
     }
   }
 
   // Listener para la conexión con MiDaily
   static Future<void> handleIncomingLinks(
-      BuildContext context, Uri? uri) async {
+    BuildContext context,
+    Uri? uri,
+  ) async {
     print(uri);
     // Validar URL
     if (uri == null) return;
@@ -172,7 +167,6 @@ class MiDailyConnect {
         LdSnackbar.buildSuccessSnackbar(
           context,
           'Se guardó tu dirección de wallet MiDaily',
-          2,
         );
       } else {
         LdSnackbar.buildErrorSnackbar(
@@ -180,6 +174,8 @@ class MiDailyConnect {
           'Se guardó tu dirección de wallet MiDaily',
         );
       }
+    }).catchError((err) {
+      print(err);
     });
 
     return;
@@ -193,7 +189,9 @@ class MiDailyConnect {
   ) async {
     if (params['trx'] == null ||
         params['to'] == null ||
-        params['from'] == null) {
+        params['from'] == null ||
+        params['value'] == null ||
+        params['method'] == null) {
       LdSnackbar.buildErrorSnackbar(
         context,
         'Ocurrió un inconveniente, intenta más tarde',
@@ -203,17 +201,34 @@ class MiDailyConnect {
 
     LdDialog.buildLoadingDialog(context);
 
-    if (userProvider.getBodyOffer == null) {
-      LdRouter().pop(LdRouter().navigatorKey.currentContext!);
-      LdSnackbar.buildErrorSnackbar(
-        context,
-        'Ocurrió un inconveniente, intenta más tarde',
-      );
-      return;
+    switch (params['method']) {
+      case 'create':
+        if (userProvider.getBodyOffer == null) {
+          LdRouter().pop(LdRouter().navigatorKey.currentContext!);
+          LdSnackbar.buildErrorSnackbar(
+            context,
+            'Ocurrió un inconveniente, intenta más tarde',
+          );
+          return;
+        }
+        // Se crea la publicación y despúes de eso la transacción en BD
+        OfferModule.createOffer(context, userProvider, params);
+        break;
+      case 'reserve':
+        if (userProvider.getBodyUpdateStatus == null ||
+            userProvider.getBodyAddPayAccount == null) {
+          LdRouter().pop(LdRouter().navigatorKey.currentContext!);
+          LdSnackbar.buildErrorSnackbar(
+            context,
+            'Ocurrió un inconveniente, intenta más tarde',
+          );
+          return;
+        }
+        // Se actualiza la publicacion para reservar, se actualizan los bancos y se crea una transacción
+        OfferModule.reserveoffer(context, userProvider, params);
+        break;
+      default:
     }
-
-    // Se crea la publicación y despúes de eso la transacción en BD
-    OfferModule.createOffer(context, userProvider, params);
   }
 
   static Future<void> removeAddress(
@@ -224,6 +239,14 @@ class MiDailyConnect {
     // Eliminar localmente el address
     final LocalStorageService _localStorage = locator<LocalStorageService>();
     await _localStorage.getPreferences()?.remove(email);
+    userProvider.setAddress('');
+    // Eliminar en bd el address
+    ServiceInteractor().putUpdateAddress(
+      BodyUpdateAddress(
+        idUser: userProvider.getDataUserLogged?.id ?? '',
+        addressWallet: '',
+      ),
+    );
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(

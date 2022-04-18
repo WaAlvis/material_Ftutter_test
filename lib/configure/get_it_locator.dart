@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
-import 'package:localdaily/services/local_storage_service.dart';
+import 'package:localdaily/configure/local_storage_service.dart';
 
 GetIt locator = GetIt.instance;
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
-import 'package:localdaily/pages/detail_offer_buy/ui/detail_offer_buy_view.dart';
+import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
@@ -11,6 +11,7 @@ import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
+import 'package:localdaily/pages/splash/ui/splash_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class AppRoutes {
@@ -30,7 +31,7 @@ class AppRoutes {
     Handler(
       handlerFunc:
           (BuildContext? context, Map<String, List<String>> parameters) =>
-              const HomeView(),
+              const SplashView(),
     ),
   );
 
@@ -57,8 +58,11 @@ class AppRoutes {
   static final AppRoute detailOfferRoute = AppRoute(
     '/detail_offer',
     Handler(
-      handlerFunc: (BuildContext? context, __) => DetailOfferBuyView(
-        item: (context!.settings!.arguments! as Map<String, Data>)['item'],
+      handlerFunc: (BuildContext? context, __) => DetailOfferView(
+        item: (context!.settings!.arguments! as Map<String, dynamic>)['item']
+            as Data,
+        isBuy: (context.settings!.arguments! as Map<String, dynamic>)['isbuy']
+            as bool,
       ),
     ),
   );
