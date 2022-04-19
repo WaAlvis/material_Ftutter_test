@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/login/login_effect.dart';
-import 'package:localdaily/pages/login/login_view_model.dart';
-import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/pages/recover_psw/recover_psw_effect.dart';
+import 'package:localdaily/pages/recover_psw/recover_psw_view_model.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
@@ -15,69 +14,68 @@ import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 
-part 'components/card_login.dart';
+part 'recover_psw_mobile.dart';
 
-part 'login_mobile.dart';
+part 'recover_psw_web.dart';
 
-part 'login_web.dart';
-
-class LoginView extends StatelessWidget {
-  const LoginView({Key? key, this.isBuy = false}) : super(key: key);
-
-  final bool isBuy;
+class RecoverPswView extends StatelessWidget {
+  const RecoverPswView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<LoginViewModel>(
-      create: (_) => LoginViewModel(),
+    return ChangeNotifierProvider<RecoverPswViewModel>(
+      create: (_) => RecoverPswViewModel(),
       builder: (BuildContext context, _) {
-        return _LoginBody(isBuy: isBuy);
+        return _RecoverPswBody();
       },
     );
   }
 }
 
-class _LoginBody extends StatefulWidget {
-  const _LoginBody({Key? key, required this.isBuy}) : super(key: key);
-
-  final bool isBuy;
+class _RecoverPswBody extends StatefulWidget {
+  const _RecoverPswBody({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _LoginBodyState createState() => _LoginBodyState();
+  _RecoverPswBodyState createState() => _RecoverPswBodyState();
 }
 
-class _LoginBodyState extends State<_LoginBody> {
+class _RecoverPswBodyState extends State<_RecoverPswBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController passwordCtrl = TextEditingController();
-  final TextEditingController usuarioCtrl = TextEditingController();
+  final TextEditingController emailForRecoverCtrl = TextEditingController();
 
-  late StreamSubscription<LoginEffect> _effectSubscription;
+  late StreamSubscription<RecoverPswEffect> _effectSubscription;
 
   @override
   void dispose() {
-    passwordCtrl.dispose();
+    emailForRecoverCtrl.dispose();
     _effectSubscription.cancel();
-    usuarioCtrl.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    final LoginViewModel viewModel = context.read<LoginViewModel>();
+    final RecoverPswViewModel viewModel = context.read<RecoverPswViewModel>();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<LoginViewModel>().onInit();
-    });
-
-    _effectSubscription = viewModel.effects.listen((LoginEffect event) async {
+    _effectSubscription =
+        viewModel.effects.listen((RecoverPswEffect event) async {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
-      } else if (event is ShowErrorSnackbar) {
+      } else if (event is ShowSuccessSnackbar) {
+        LdSnackbar.buildSuccessSnackbar(context, event.message,);
+      } else if (event is ShowWarningSnackbar) {
         LdSnackbar.buildSnackbar(
+          context,
+          event.message,
+        );
+      } else if (event is ShowErrorSnackbar) {
+        LdSnackbar.buildErrorSnackbar(
           context,
           event.message,
         );
@@ -89,7 +87,7 @@ class _LoginBodyState extends State<_LoginBody> {
 
   @override
   Widget build(BuildContext context) {
-    final LoginViewModel viewModel = context.watch<LoginViewModel>();
+    final RecoverPswViewModel viewModel = context.watch<RecoverPswViewModel>();
     final Widget loading = viewModel.status.isLoading
         ? ProgressIndicatorLocalD()
         : const SizedBox.shrink();
@@ -106,15 +104,13 @@ class _LoginBodyState extends State<_LoginBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? _LoginWeb(
+                      ? _RecoverPswWeb(
                           keyForm: keyForm,
-                          passwordCtrl: passwordCtrl,
-                          isBuy: widget.isBuy,
+                          emailForRecoverCtrl: emailForRecoverCtrl,
                         )
-                      : _LoginMobile(
+                      : _RecoverPswWebMobile(
                           keyForm: keyForm,
-                          passwordCtrl: passwordCtrl,
-                          userCtrl: usuarioCtrl,
+                          emailForRecoverCtrl: emailForRecoverCtrl,
                         ),
                 )
               ],

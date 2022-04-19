@@ -85,18 +85,8 @@ class _LoginMobile extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            if (viewModel.status.errorLogin)
-                              WarningContainerMsj(
-                                textTheme,
-                                message: 'Usuario o contraseña inválidos',
-                                onTap: () => viewModel.closeErrMsg(),
-                              )
-                            else
-                              const SizedBox(
-                                height: 30,
-                              ),
                             const SizedBox(
-                              height: 22,
+                              height: 30,
                             ),
                             InputTextCustom(
                               'Correo electronio *',

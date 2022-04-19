@@ -30,6 +30,7 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
+
 part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
 
 // Components Mobile

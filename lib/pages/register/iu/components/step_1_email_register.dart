@@ -56,7 +56,7 @@ class Step1EmailRegister extends StatelessWidget {
               const Spacer(),
               CheckboxTyC(textTheme: textTheme, viewModel: viewModel),
               PrimaryButtonCustom(
-                'Enviar codigo de verificacion',
+                'Enviar código de verificacion',
                 onPressed: () {
                   if (keyForm.currentState!.validate()) {
                     viewModel.continueStep_2MsjEmail  (emailCtrl.text);

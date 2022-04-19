@@ -6,13 +6,15 @@ part 'body_pin_email.g.dart';
 @JsonSerializable()
 class BodyPinEmail {
   BodyPinEmail({
-    required this.entity,
+    required this.numberOrEmail,
+    required this.codevia,
   });
 
   factory BodyPinEmail.fromJson(Map<String, dynamic> json) =>
       _$BodyPinEmailFromJson(json);
 
-  EntityPinEmail entity;
+  String numberOrEmail;
+  String codevia;
 
   Map<String, dynamic> toJson() => _$BodyPinEmailToJson(this);
 }

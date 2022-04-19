@@ -1,13 +1,10 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/warning_container_msj.dart';
 
 class Step5PersonalData extends StatelessWidget {
   const Step5PersonalData({
@@ -34,33 +31,33 @@ class Step5PersonalData extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateTime dateNow = DateTime.now();
     final DateTime dateAllowed =
-        DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    final Size size = MediaQuery.of(context).size;
+    DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
+    final TextTheme textTheme = Theme
+        .of(context)
+        .textTheme;
+    final Size size = MediaQuery
+        .of(context)
+        .size;
 
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 10),
+          const EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 10),
           child: Form(
             key: keyForm,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                if (viewModel.status.isErrorRegisterUser)
-                  WarningContainerMsj(
-                    textTheme,
-                    message: viewModel.status.msjErrorRegisterUser,
-                    onTap: () => viewModel.closeErrMsgRegisterUser(),
-                  )
-                else
+                // if (viewModel.status.isErrorRegisterUser)
+                //   WarningContainerMsj(
+                //     textTheme,
+                //     message: viewModel.status.msjErrorRegisterUser,
+                //     onTap: () => viewModel.closeErrMsgRegisterUser(),
+                //   )
                   const SizedBox(
                     height: 20,
                   ),
-                const SizedBox(
-                  height: 10,
-                ),
                 InputTextCustom(
                   'Nombres  *',
                   hintText: 'Ingresa tu primer nombre',
@@ -106,15 +103,16 @@ class Step5PersonalData extends StatelessWidget {
                       initialDate: dateAllowed,
                       firstDate: DateTime(1900),
                       lastDate: dateAllowed,
-                      builder: (BuildContext context, Widget? child) => Theme(
-                        data: ThemeData().copyWith(
-                          colorScheme: const ColorScheme.light(
-                            onPrimary: Colors.black,
-                            primary: LdColors.orangePrimary,
+                      builder: (BuildContext context, Widget? child) =>
+                          Theme(
+                            data: ThemeData().copyWith(
+                              colorScheme: const ColorScheme.light(
+                                onPrimary: Colors.black,
+                                primary: LdColors.orangePrimary,
+                              ),
+                            ),
+                            child: child!,
                           ),
-                        ),
-                        child: child!,
-                      ),
                     );
                     viewModel.setDateBirth(newDate);
                   },

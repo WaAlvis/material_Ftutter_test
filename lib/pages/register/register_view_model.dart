@@ -13,6 +13,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/register/register_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
@@ -31,7 +32,8 @@ import 'package:web3dart/web3dart.dart' as web3;
 
 import 'register_status.dart';
 
-class RegisterViewModel extends ViewModel<RegisterStatus> {
+class RegisterViewModel
+    extends EffectsViewModel<RegisterStatus, RegisterEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -47,7 +49,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     status = RegisterStatus(
       registerStep: RegisterStep.emailStep_1,
       isLoading: false,
-      isError: false,
+      // isError: false,
       emailRegister: '',
       dateBirthCtrl: TextEditingController(),
       isEmailFieldEmpty: true,
@@ -72,8 +74,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       nickName: '',
       dateBirth: '',
       isErrorPinValidate: false,
-      isErrorRegisterUser: false,
-      msjErrorRegisterUser: '',
+      // isErrorRegisterUser: false,
+      // msjErrorRegisterUser: '',
       indicativePhone: '+57',
       // surnames: '',
       // phrase: '',
@@ -140,13 +142,12 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   void continueStep_4AccountData(
     String codePin,
   ) =>
-      validatedCodePin(codePin); //fin step 3
+      validateCodePin(codePin); //fin step 3
   void continueStep_5PersonalData(String nick, String psw) =>
       registerNickPswUser(
         nick,
         psw,
       ); //fin step 4
-
   void finishRegister(
     BuildContext context,
     DataUserProvider dataUserProvider,
@@ -175,9 +176,10 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
           emailRegister: email,
         );
         sendPinToEmail(email);
+        //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
         goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
       status = status.copyWith(
         isLoading: false,
@@ -194,7 +196,22 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       if (isConnectionValid) {
         goNextStep(currentStep: RegisterStep.msjEmailStep_2);
       } else {
-        //todo addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+      status = status.copyWith(
+        isLoading: false,
+      );
+    });
+  }
+  void validateCodePin(String codePin,) {
+    status = status.copyWith(
+      isLoading: true,
+    );
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        validatedPin(codePin);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
       status = status.copyWith(
         isLoading: false,
@@ -202,7 +219,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     });
   }
 
-  Future<void> validatedCodePin(
+  Future<void> validatedPin(
     //fin step 3
     String codePin,
   ) async {
@@ -221,39 +238,29 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     _interactor.validatePin(bodyValidatePin).then((
       ResponseData<ResultValidatePin> response,
     ) {
+
       if (response.isSuccess) {
         if (response.result!.valid) {
-          status = status.copyWith(
-            isErrorPinValidate: false,
-          );
+          addEffect(ShowSuccessSnackbar('Pin validado con éxito'));
           goNextStep(
             currentStep: RegisterStep.validatePinStep_3,
           );
         } else {
-          status = status.copyWith(
-            isErrorPinValidate: true,
-          );
+          addEffect(ShowWarningSnackbar('Codigo incorrecto'));
         }
       } else {
-        // TODO: Mostrar alerta
-        // addEffect(ShowSnackbarPinInvalid);
+        addEffect(ShowWarningSnackbar('Error en la validación'));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
+      addEffect(ShowErrorSnackbar('Error servicio**'));
+
       print('Validate codePin Error As: $err');
       status = status.copyWith(isLoading: false);
     });
   }
 
   Future<void> reSendPinToEmail(String email) => sendPinToEmail(email);
-
-  void closeErrMsgPinValid() {
-    status = status.copyWith(isErrorPinValidate: false);
-  }
-
-  void closeErrMsgRegisterUser() {
-    status = status.copyWith(isErrorRegisterUser: false);
-  }
 
   Future<void> sendPinToEmail(
     String email,
@@ -264,34 +271,40 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     );
 
     final EntityPinEmail entityPin = EntityPinEmail(
-      clientId: '213121123',
+      clientId: '123',
       numberOrEmail: email,
       codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a', //Email
     );
     final BodyPinEmail bodyPin = BodyPinEmail(
-      entity: entityPin,
+      numberOrEmail: email,
+      codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a',
     );
 
     _interactor.requestPinValidateEmail(bodyPin).then((
       ResponseData<ResultPinEmail> response,
     ) {
       if (response.isSuccess) {
-        print('Solicitud de pin email EXITOSO!!');
+        addEffect(ShowSuccessSnackbar('Código enviado'));
+        //Todo ACTIVAR, cuando sea efectivo el envio de codigo al correo
+        goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
-        // TODO: Mostrar alerta
+        addEffect(ShowWarningSnackbar('Error en el envio'));
+
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       print('Envio de Codigo Error As: $err');
-      status = status.copyWith(isLoading: false);
+      addEffect(ShowErrorSnackbar('Error servicio**'));
+
     });
+    status = status.copyWith(isLoading: false);
   }
 
   void goNextStep({
     required RegisterStep currentStep,
   }) {
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      if (isConnectionValidvalue) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
         late RegisterStep nextStep;
 
         switch (currentStep) {
@@ -315,7 +328,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
         );
         // _route.goPersonalInfoRegister(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -326,17 +339,17 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   ) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
-      (bool value) {
-        if (value) {
+      (bool isConnectionValid) {
+        if (isConnectionValid) {
           status = status.copyWith(nickName: nickName, password: password);
           goNextStep(currentStep: RegisterStep.accountDataStep_4);
         } else {
-          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+          addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
         }
       },
     ).catchError((Object err) {
+      addEffect(ShowErrorSnackbar('Error servicio**'));
       print('Envio de Codigo Error As: $err');
-      status = status.copyWith(isLoading: false);
     });
     status = status.copyWith(isLoading: false);
   }
@@ -360,7 +373,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       },
     ).catchError((Object err) {
       print('Envio de Codigo Error As: $err');
-      status = status.copyWith(isLoading: false);
+      addEffect(ShowErrorSnackbar('Error servicio**'));
     });
     status = status.copyWith(isLoading: false);
   }
@@ -372,7 +385,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     final int endIndex = errorMsj.indexOf(end, startIndex + start.length);
     final Map<String, String> types = <String, String>{
       'the nickname is already in use': 'El nombre de usuario ya esta en uso',
-      'the phone is already registered': 'El telefono ya esta en uso',
+      'the phone is already registered': 'El celular ya esta en uso',
       'the mail is already registered': 'El email ya esta en uso',
     };
     final String detailError = errorMsj.substring(
@@ -384,6 +397,38 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
   }
 
   Future<void> registerUser(
+      BuildContext context,
+      DataUserProvider dataUserProvider,
+      String names,
+      String surnames,
+      String dateBirth,
+      String phone,
+      ) async {
+    status = status.copyWith(isLoading: true);
+    LdConnection.validateConnection().then(
+          (bool isConnectionValid) {
+        if (isConnectionValid) {
+          registerUserService(
+            context,
+            dataUserProvider,
+            names,
+            surnames,
+            dateBirth,
+            phone,
+          );
+
+        } else {
+          addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        }
+      },
+    ).catchError((Object err) {
+      addEffect(ShowErrorSnackbar('Error servicio**'));
+      print('Registro de Usuario Error As: $err');
+    });
+    status = status.copyWith(isLoading: false);
+  }
+
+  Future<void> registerUserService(
     BuildContext context,
     DataUserProvider dataUserProvider,
     String names,
@@ -391,9 +436,8 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
     String dateBirth,
     String phone,
   ) async {
-    status = status.copyWith(isLoading: true);
-    final String sha256pass = encryptionPass(status.password).toString();
-    // print('pass256 $sha256pass');
+    final String sha256passWord = encryptionPass(status.password).toString();
+    print('pass256 $sha256passWord');
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
       nickName: status.nickName,
@@ -405,7 +449,7 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
       email: status.emailRegister,
       phone: '${status.indicativePhone}$phone',
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
-      password: status.password,
+      password: sha256passWord,
       isActive: true,
       addressWallet: '',
       dateTimeCreate: '',
@@ -429,30 +473,27 @@ class RegisterViewModel extends ViewModel<RegisterStatus> {
               responseDataUser.result,
             );
             status = status.copyWith(
-                isError: false,
                 isErrorPinValidate: false,
-                isErrorRegisterUser: false);
+            );
             _route.goHome(context);
           }
         }).catchError((Object err) {
-          status = status.copyWith(
-            isError: true,
-          );
-          print('Login DataFull Error As: $err');
-          status = status.copyWith(isLoading: false);
+          print('Registro DataFull Error As: $err');
+          addEffect(ShowErrorSnackbar('Error servicio**'));
+          status = status.copyWith(isLoading: false,);
         });
       } else {
-        status = status.copyWith(
-          isErrorRegisterUser: true,
-          msjErrorRegisterUser: textError(
-            errorMsj: response.error!.message,
-          ),
-        );
+       final String err = textError(
+          errorMsj: response.error!.message,
+        )
+           ?? 'Error en el registro';
+        addEffect(ShowWarningSnackbar(err));
+        print(err);
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       print('Registro Error As: $err');
-      status = status.copyWith(isLoading: false, isError: true);
+      status = status.copyWith(isLoading: false,);
     });
   }
 
