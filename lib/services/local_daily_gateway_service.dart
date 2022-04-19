@@ -69,8 +69,8 @@ abstract class LocalDailyGatewayService {
   //Login & Register
   @POST(UrlsApi.recoverPassword)
   Future<ResponseData<ResultRecoverPsw>> recoverPsw(
-      @Body() BodyRecoverPsw bodyRecoverPsw,
-      );
+    @Body() BodyRecoverPsw bodyRecoverPsw,
+  );
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
