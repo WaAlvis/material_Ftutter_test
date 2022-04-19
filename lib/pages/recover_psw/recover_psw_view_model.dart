@@ -13,7 +13,8 @@ import 'package:string_validator/string_validator.dart';
 
 import 'recover_psw_status.dart';
 
-class RecoverPswViewModel extends EffectsViewModel<RecoverPswStatus,RecoverPswEffect> {
+class RecoverPswViewModel
+    extends EffectsViewModel<RecoverPswStatus, RecoverPswEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
 
@@ -66,18 +67,19 @@ class RecoverPswViewModel extends EffectsViewModel<RecoverPswStatus,RecoverPswEf
         .requestPsw(bodyRecoverPsw)
         .then((ResponseData<ResultRecoverPsw> response) {
       if (response.isSuccess) {
-        print('NewPsw EXITOSO!!');
-        addEffect(ShowSnackbarRecoverPswEffect());
+        addEffect(ShowSuccessSnackbar('Nueva contraseña enviada'));
         _route.goLogin(context);
       } else {
-        // TODO: Mostrar alerta
-        addEffect(ShowSnackbarErrorEmailEffect('error EN el envio'));
-        status = status.copyWith(isError: true, isLoading: false );
+        addEffect(ShowWarningSnackbar('Error en el envio'));
+        status = status.copyWith(isError: true, isLoading: false);
       }
     }).catchError((err) {
-      // status = status.copyWith(isLoading: false, isError: true);
+      addEffect(ShowErrorSnackbar('Error en el servicio**'));
       print('NewPsw Error As: ${err}');
     });
+    status = status.copyWith(
+      isLoading: false,
+    );
   }
 
   String? validatorEmail(String? email) {
@@ -90,5 +92,4 @@ class RecoverPswViewModel extends EffectsViewModel<RecoverPswStatus,RecoverPswEf
       return null;
     }
   }
-
 }

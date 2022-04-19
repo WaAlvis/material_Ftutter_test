@@ -10,10 +10,20 @@ class ShowSnackbarConnectivityEffect extends RecoverPswEffect {
 
 class ShowDialogRecoverPswEffect extends RecoverPswEffect {}
 
-class ShowSnackbarRecoverPswEffect extends RecoverPswEffect {}
-
-class ShowSnackbarErrorEmailEffect extends RecoverPswEffect {
+class ShowSuccessSnackbar extends RecoverPswEffect {
   final String message;
 
-  ShowSnackbarErrorEmailEffect(this.message);
+  ShowSuccessSnackbar(this.message);
+}
+
+class ShowWarningSnackbar extends RecoverPswEffect {
+  final String message;
+
+  ShowWarningSnackbar(this.message);
+}
+
+class ShowErrorSnackbar extends RecoverPswEffect {
+  final String message;
+
+  ShowErrorSnackbar(this.message);
 }

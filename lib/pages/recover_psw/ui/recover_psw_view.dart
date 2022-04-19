@@ -67,14 +67,15 @@ class _RecoverPswBodyState extends State<_RecoverPswBody> {
         viewModel.effects.listen((RecoverPswEffect event) async {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
-      } else if (event is ShowSnackbarRecoverPswEffect) {
-        LdSnackbar.buildSuccessSnackbar(context, 'el otro snack', 2);
+      } else if (event is ShowSuccessSnackbar) {
+        LdSnackbar.buildSuccessSnackbar(context, event.message, 2);
+      } else if (event is ShowWarningSnackbar) {
         LdSnackbar.buildSnackbar(
           context,
-          'nueva contraseña enviada',
+          event.message,
           2,
         );
-      } else if (event is ShowSnackbarErrorEmailEffect) {
+      } else if (event is ShowErrorSnackbar) {
         LdSnackbar.buildErrorSnackbar(
           context,
           event.message,
