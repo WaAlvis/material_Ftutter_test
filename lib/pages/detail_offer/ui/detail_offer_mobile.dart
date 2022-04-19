@@ -589,15 +589,18 @@ void confirmBottomSheet(
             PrimaryButtonCustom(
               'Confirmar la ${isBuy ? 'compra' : 'venta'}',
               //onPressed: viewModel.onClickReserveDly,
-              onPressed: () => viewModel.reservationPaymentForDly(
+              onPressed: () => viewModel.onClicConfirmkReserveDly(
                 context,
-                typeOffer: isBuy ? TypeOffer.buy : TypeOffer.sell,
-                item: data,
-                userCurrent: user,
-                userProvider: userProvider,
-                accountNo: accountNo,
-                docNum: docNum,
-                titular: titular,
+                () => viewModel.reservationPaymentForDly(
+                  context,
+                  typeOffer: isBuy ? TypeOffer.buy : TypeOffer.sell,
+                  item: data,
+                  userCurrent: user,
+                  userProvider: userProvider,
+                  accountNo: accountNo,
+                  docNum: docNum,
+                  titular: titular,
+                ),
               ),
             ),
           ],

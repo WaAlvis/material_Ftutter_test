@@ -113,10 +113,6 @@ class InfoValueCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title,
-          style: textTheme.textSmallWhite.copyWith(fontSize: 13),
-        ),
         const SizedBox(
           height: 5,
         ),

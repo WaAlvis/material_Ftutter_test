@@ -193,6 +193,17 @@ class DetailOfferViewModel
     return listBanks.firstWhere((element) => element.id == id).description;
   }
 
+  Future<void> onClicConfirmkReserveDly(
+      BuildContext context, VoidCallback action) async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      _route.pop(context);
+      addEffect(ConfirmOfferEffect(action));
+    } else {
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+    }
+  }
+
   Future<void> reservationPaymentForDly(
     BuildContext context, {
     required Data item,
@@ -203,7 +214,7 @@ class DetailOfferViewModel
     required String docNum,
     required String titular,
   }) async {
-    closeDialog(context);
+    closeDialog(_route.navigatorKey.currentContext!);
     status = status.copyWith(isLoading: true);
 
     final BodyUpdateStatus body = BodyUpdateStatus(
@@ -264,7 +275,7 @@ class DetailOfferViewModel
       userProvider.setBodyAddPayAccount(bodyBanks);
 
       await MiDailyConnect.createConnection(
-        context,
+        _route.navigatorKey.currentContext!,
         DailyConnectType.transaction,
         total,
         'reserve',
