@@ -76,7 +76,7 @@ class _LoginBodyState extends State<_LoginBody> {
     _effectSubscription = viewModel.effects.listen((LoginEffect event) async {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
-      } else if (event is ShowSnackbarErrorCredential) {
+      } else if (event is ShowErrorSnackbar) {
         LdSnackbar.buildSnackbar(
           context,
           event.message,

@@ -79,7 +79,6 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   }
 
   void goRegister(BuildContext context) {
-    _route.goEmailRegister(context);
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goEmailRegister(context);
@@ -91,10 +90,10 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
 
   void goRecoverPassword(BuildContext context) {
     print('Implementar vista de recuperar contrasenia');
-    _route.goRecoverPsw(context);
+
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        // _route.goEmailRegister(context);
+        _route.goRecoverPsw(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -145,7 +144,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         } else {
           err = 'El correo no esta registrado.';
         }
-        addEffect(ShowSnackbarErrorCredential(err));
+        addEffect(ShowErrorSnackbar(err));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((err) {
