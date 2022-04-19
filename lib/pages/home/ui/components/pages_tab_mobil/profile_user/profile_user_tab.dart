@@ -375,7 +375,7 @@ class ProfileUser extends StatelessWidget {
                 radius: sizeCircleIcon,
                 backgroundColor: Colors.transparent,
                 child: Icon(
-                  Icons.edit,
+                  Icons.opacity,
                   color: Colors.transparent,
                 ),
               ),
@@ -395,12 +395,15 @@ class ProfileUser extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              const CircleAvatar(
+               CircleAvatar(
                 radius: sizeCircleIcon,
                 backgroundColor: LdColors.orangePrimary,
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.white,
+                child: GestureDetector(
+                  onTap:() => viewModel.goProfileSeller(context),
+                  child: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
