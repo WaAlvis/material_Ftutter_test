@@ -218,23 +218,29 @@ class _HomeBodyState extends State<_HomeBody> {
       if (scrollController.position.pixels >
               scrollController.position.maxScrollExtent &&
           !viewModel.status.isLoading) {
-        scrollController.jumpTo(
-          scrollController.position.maxScrollExtent,
-        );
+        if (scrollController.position.maxScrollExtent != 0) {
+          scrollController.jumpTo(
+            scrollController.position.maxScrollExtent,
+          );
+        }
 
         viewModel
             .getData(
-              context,
-              id,
-              isPagination: true,
-            )
+          context,
+          id,
+          isPagination: true,
+        )
             .then(
-              (value) => scrollController.animateTo(
+          (_) {
+            if (scrollController.position.maxScrollExtent != 0) {
+              scrollController.animateTo(
                 scrollController.position.maxScrollExtent + 150,
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.decelerate,
-              ),
-            );
+              );
+            }
+          },
+        );
       }
     });
   }

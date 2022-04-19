@@ -5,7 +5,6 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
-import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/create_offer/list_my_offer_sale.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
@@ -445,6 +444,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
+    print('////');
+    print(pagination.toJson());
+    print('////');
     final Filters filters = Filters(
       typeAdvertisement: status.typeOffer == TypeOffer.buy
           ? '${TypeOffer.sell.index}'
