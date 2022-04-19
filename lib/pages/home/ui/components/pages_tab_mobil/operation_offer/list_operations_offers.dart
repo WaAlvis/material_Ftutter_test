@@ -14,10 +14,12 @@ class ListOperationsOffers extends StatelessWidget {
     Key? key,
     required this.textTheme,
     required this.userId,
+    required this.operationScrollCtrl,
   }) : super(key: key);
 
   final TextTheme textTheme;
   final String userId;
+  final ScrollController operationScrollCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class ListOperationsOffers extends StatelessWidget {
             Expanded(
               child: Center(
                 child: ListView.separated(
+                  controller: operationScrollCtrl,
                   physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics(),
                   ),

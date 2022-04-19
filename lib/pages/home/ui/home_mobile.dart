@@ -3,12 +3,20 @@ part of 'home_view.dart';
 class _HomeMobile extends StatelessWidget {
   const _HomeMobile({
     Key? key,
-    // required this.keyForm,
-    // required this.passwordCtrl,
+    required this.mainScrollBuyCtrl,
+    required this.mainScrollSellCtrl,
+    required this.operationScrollBuyCtrl,
+    required this.operationScrollSellCtrl,
+    required this.offerScrollBuyCtrl,
+    required this.offerScrollSellCtrl,
   }) : super(key: key);
 
-  // final GlobalKey<FormState> keyForm;
-  // final TextEditingController passwordCtrl;
+  final ScrollController mainScrollBuyCtrl;
+  final ScrollController mainScrollSellCtrl;
+  final ScrollController operationScrollBuyCtrl;
+  final ScrollController operationScrollSellCtrl;
+  final ScrollController offerScrollBuyCtrl;
+  final ScrollController offerScrollSellCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +33,21 @@ class _HomeMobile extends StatelessWidget {
         textTheme: textTheme,
         hAppbar: hAppbar,
         hBody: hBody,
+        mainScrollBuyCtrl: mainScrollBuyCtrl,
+        mainScrollSellCtrl: mainScrollSellCtrl,
       ),
       OperationsOffersTab(
         viewModel: viewModel,
         textTheme: textTheme,
         hAppbar: hAppbar,
+        operationScrollBuyCtrl: operationScrollBuyCtrl,
+        operationScrollSellCtrl: operationScrollSellCtrl,
       ),
       MyOffersTab(
         textTheme: textTheme,
-        listBanks: [],
         hAppbar: hAppbar,
+        offerScrollBuyCtrl: offerScrollBuyCtrl,
+        offerScrollSellCtrl: offerScrollSellCtrl,
       ),
       ProfileUser(
         viewModel: viewModel,

@@ -3,13 +3,15 @@ part of '../../../home_view.dart';
 class MyOffersTab extends StatelessWidget {
   const MyOffersTab({
     required this.textTheme,
-    required this.listBanks,
     required this.hAppbar,
+    required this.offerScrollBuyCtrl,
+    required this.offerScrollSellCtrl,
   });
 
   final TextTheme textTheme;
-  final List<Bank> listBanks;
   final double hAppbar;
+  final ScrollController offerScrollBuyCtrl;
+  final ScrollController offerScrollSellCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +71,12 @@ class MyOffersTab extends StatelessWidget {
                   ListMyOffersSale(
                     textTheme: textTheme,
                     userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                    offerScrollCtrl: offerScrollBuyCtrl,
                   ),
                   ListMyOffersSale(
                     textTheme: textTheme,
                     userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                    offerScrollCtrl: offerScrollSellCtrl,
                   )
                 ],
               ),
