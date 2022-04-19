@@ -5,10 +5,10 @@ import 'package:localdaily/view_model.dart';
 class RegisterStatus extends ViewStatus {
   final bool isLoading;
   final bool hidePass;
-  final bool isError;
+  // final bool isError;
   final bool isErrorPinValidate;
-  final bool isErrorRegisterUser;
-  final String msjErrorRegisterUser;
+  // final bool isErrorRegisterUser;
+  // final String msjErrorRegisterUser;
   final String indicativePhone;
 
   final TextEditingController dateBirthCtrl;
@@ -39,8 +39,8 @@ class RegisterStatus extends ViewStatus {
   final bool isConfirmPassFieldEmpty;
 
   RegisterStatus({
-    required this.msjErrorRegisterUser,
-    required this.isErrorRegisterUser,
+    // required this.msjErrorRegisterUser,
+    // required this.isErrorRegisterUser,
     required this.isErrorPinValidate,
     // required this.phrase,
     required this.isPossibleOpenEmail,
@@ -51,7 +51,7 @@ class RegisterStatus extends ViewStatus {
     required this.acceptTermCoditions,
     required this.dateBirthCtrl,
     required this.isLoading,
-    required this.isError,
+    // required this.isError,
     required this.emailRegister,
     required this.registerStep,
     required this.isEmailFieldEmpty,
@@ -78,11 +78,11 @@ class RegisterStatus extends ViewStatus {
 
   RegisterStatus copyWith({
     // TextEditingController? dateBirthCtrl,
-    bool? isErrorRegisterUser,
-    String? msjErrorRegisterUser,
+    // bool? isErrorRegisterUser,
+    // String? msjErrorRegisterUser,
     String? indicativePhone,
     bool? isLoading,
-    bool? isError,
+    // bool? isError,
     String? emailRegister,
     String? addressWallet,
     String? nickName,
@@ -146,7 +146,7 @@ class RegisterStatus extends ViewStatus {
       registerStep: registerStep ?? this.registerStep,
       isLoading: isLoading ?? this.isLoading,
       emailRegister: emailRegister ?? this.emailRegister,
-      isError: isError ?? this.isError,
+      // isError: isError ?? this.isError,
       acceptTermCoditions: acceptTermCoditions ?? this.acceptTermCoditions,
       hasMore8Chars: hasMore8Chars ?? this.hasMore8Chars,
       hasUpperLetter: hasUpperLetter ?? this.hasUpperLetter,
@@ -154,8 +154,8 @@ class RegisterStatus extends ViewStatus {
       hasLowerLetter: hasLowerLetter ?? this.hasLowerLetter,
       hasNumberChar: hasNumberChar ?? this.hasNumberChar,
       isErrorPinValidate: isErrorPinValidate ?? this.isErrorPinValidate,
-      isErrorRegisterUser: isErrorRegisterUser ?? this.isErrorRegisterUser,
-      msjErrorRegisterUser: msjErrorRegisterUser ?? this.msjErrorRegisterUser,
+      // isErrorRegisterUser: isErrorRegisterUser ?? this.isErrorRegisterUser,
+      // msjErrorRegisterUser: msjErrorRegisterUser ?? this.msjErrorRegisterUser,
     );
   }
 }

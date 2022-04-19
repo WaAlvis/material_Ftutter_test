@@ -143,7 +143,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         if (response.error!.message == 'The credential  not match.') {
           err = 'La contraseña es incorrecta.';
         } else {
-          err = 'El Correo es incorrecto.';
+          err = 'El correo no esta registrado.';
         }
         addEffect(ShowSnackbarErrorCredential(err));
       }

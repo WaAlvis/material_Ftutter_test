@@ -4,7 +4,6 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/warning_container_msj.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -38,13 +37,6 @@ class Step3ValidatePin extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              if (viewModel.status.isErrorPinValidate)
-                WarningContainerMsj(
-                  textTheme,
-                  message: ' Código de verificación incorrecto',
-                  onTap: () => viewModel.closeErrMsgPinValid(),
-                )
-              else
                 const SizedBox(
                   height: 30,
                 ),

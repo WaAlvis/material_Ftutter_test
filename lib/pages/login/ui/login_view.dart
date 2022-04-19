@@ -57,6 +57,7 @@ class _LoginBodyState extends State<_LoginBody> {
 
   late StreamSubscription<LoginEffect> _effectSubscription;
 
+  @override
   void dispose() {
     passwordCtrl.dispose();
     _effectSubscription.cancel();
@@ -76,9 +77,10 @@ class _LoginBodyState extends State<_LoginBody> {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ShowSnackbarErrorCredential) {
-        LdSnackbar.buildErrorSnackbar(
+        LdSnackbar.buildSnackbar(
           context,
           event.message,
+          2,
         );
       }
     });
@@ -86,7 +88,6 @@ class _LoginBodyState extends State<_LoginBody> {
     super.initState();
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     final LoginViewModel viewModel = context.watch<LoginViewModel>();

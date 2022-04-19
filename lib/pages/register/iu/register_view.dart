@@ -105,29 +105,14 @@ class RegisterBodyState extends State<RegisterBody> {
     _effectSubscription = viewModel.effects.listen((RegisterEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
+      }else  if (event is ShowSuccessSnackbar) {
+        LdSnackbar.buildSuccessSnackbar(
+          context, event.message, 2,);
+      }else  if (event is ShowWarningSnackbar){
+        LdSnackbar.buildSnackbar(context, event.message,2);
+      }else  if (event is ShowErrorSnackbar){
+        LdSnackbar.buildErrorSnackbar(context, event.message,);
       }
-      // else
-      //   if (event is ShowDialogHomeEffect) {
-      //   LdDialog.buildGenericAlertDialog(
-      //     context,
-      //     message:
-      //     'Estás a punto de desconectar tu wallet de MiDaily\n\n¿Deseas continuar?',
-      //     btnText: 'Aceptar',
-      //     onTap: () => viewModel.handleDisconnect(
-      //       context,
-      //       dataUserProvider.getDataUserLogged?.email ?? '',
-      //       dataUserProvider,
-      //     ),
-      //     btnTextSecondary: 'Cancelar',
-      //     onTapSecondary: () => viewModel.closeDialog(context),
-      //   );
-      // } else if (event is ShowSnackbarDisconnect) {
-      //   LdSnackbar.buildSnackbar(
-      //     context,
-      //     'Se ha desconectado tu wallet MiDaily',
-      //     2,
-      //   );
-      // }
     });
     super.initState();
   }
