@@ -55,7 +55,6 @@ extension ShowSnackbar on BuildContext {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Icon(
                     Icons.wifi_off,
