@@ -15,6 +15,7 @@ import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';

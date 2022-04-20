@@ -1,3 +1,4 @@
+import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
@@ -16,12 +17,10 @@ class OfferSaleStatus extends ViewStatus {
   final bool isMarginEmpty;
   ResultGetBanks listBanks;
   ResultGetDocsType listDocsType;
-  ResultGetDocsType
-      listAccountType; //cambiar el tipo cuando se consuma el servicio
+  List<AccountType> listAccountType;
   final Bank? selectedBank;
   final DocType? selectedDocType;
-  final DocType?
-      selectedAccountType; //cambiar el tipo cuando se consuma el servicio
+  final AccountType? selectedAccountType;
 
   OfferSaleStatus({
     required this.isAccountNumEmpty,
@@ -53,10 +52,10 @@ class OfferSaleStatus extends ViewStatus {
     bool? isError,
     ResultGetBanks? listBanks,
     ResultGetDocsType? listDocsType,
-    ResultGetDocsType? listAccountType,
+    List<AccountType>? listAccountType,
     Bank? selectedBank,
     DocType? selectedDocType,
-    DocType? selectedAccountType,
+    AccountType? selectedAccountType,
   }) {
     return OfferSaleStatus(
       isNameTitularAccountEmpty:

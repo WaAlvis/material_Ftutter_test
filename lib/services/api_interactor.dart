@@ -1,5 +1,6 @@
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
@@ -66,9 +67,10 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultRecoverPsw>> requestPsw(BodyRecoverPsw bodyRecoverPsw) async {
+  Future<ResponseData<ResultRecoverPsw>> requestPsw(
+      BodyRecoverPsw bodyRecoverPsw) async {
     final ResponseData<ResultRecoverPsw> response =
-    await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
+        await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
 
     return response;
   }
@@ -151,6 +153,13 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultTypeOffer> response =
         await locator<LocalDailyGatewayService>().getTypeAdvertisement(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultAccountType>> getAccountType() async {
+    final ResponseData<ResultAccountType> response =
+        await locator<LocalDailyGatewayService>().getAccountType();
 
     return response;
   }
