@@ -28,7 +28,7 @@ class ProfileUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
-    final Color colorCardWhite = LdColors.white;
+    const Color colorCardWhite = LdColors.white;
 
     return Scaffold(
       backgroundColor: LdColors.blackBackground,
