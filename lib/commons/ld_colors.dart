@@ -24,6 +24,7 @@ class LdColors {
   static const Color blueState = Color(0xff276F8F);
   static const Color grayState = Color(0xff707070);
   static const Color greenState = Color(0xff00875A);
+  static const Color greenCard = Color.fromARGB(184, 208, 250, 179);
 
   static const Color redError = Color(0xffFF5959);
 }

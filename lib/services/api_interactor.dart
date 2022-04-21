@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -132,6 +135,22 @@ class ServiceInteractor {
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().addPayAccount(body);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> sendAttach({
+    required String AdvertisementId,
+    required XFile xFile,
+    required String UserId,
+  }) async {
+    File file = File(xFile.path);
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().sendAttach(
+      AdvertisementId,
+      UserId,
+      file,
+    );
 
     return response;
   }

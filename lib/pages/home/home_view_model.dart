@@ -455,6 +455,20 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       print('Get DataHome Error As: $err');
     }
   }
+
+  void goDetailOperOffer(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goDetailOperOffer(
+          context,
+        );
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
 }
 
 enum SocialNetwork { facebook, instagram, twitter }

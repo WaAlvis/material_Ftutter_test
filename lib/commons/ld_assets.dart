@@ -13,6 +13,16 @@ class LdAssets {
   static const String noFounds = '$pathImages/no_founds.svg';
   static const String done = '$pathImages/done.svg';
   static const String createOffer = '$pathImages/cloud_offer.svg';
+  static const String comprobante = '$pathImages/comprobante.svg'; //pagado
+  static const String comprobante2 =
+      '$pathImages/comprobante2.svg'; //pendiente de pago
+  static const String comprobante3 = '$pathImages/comprobante3.svg'; //cerrado
+  static const String comprobante4 = '$pathImages/search.svg'; //publicado
+  static const String dlycop = '$pathImages/DLYCOP.svg';
+  static const String contactOper = '$pathImages/support_agent_black.svg';
+  static const String homeIndicator = '$pathImages/Home Indicator.svg';
+  static const String cancelBuy = '$pathImages/cancelar compra.svg';
+  static const String downloadFile = '$pathImages/Vector.svg';
 
   static const String dlycopIconWhite = '$pathIcons/DLYcop_white.svg';
   static const String dlycopIconBlack = '$pathIcons/DLYcop_black.svg';

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
@@ -45,6 +48,8 @@ class UrlsApi {
       '/Transaction/Transaction/CreateTransaction';
   static const String addPayAccount =
       '/WebAdmin/AdvertisementPayAccount/AddPayAccount';
+  static const String sendAttach =
+      '/AttachDocuments/AttachDocument/AttachDocument';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -121,5 +126,13 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.addPayAccount)
   Future<ResponseData<dynamic>> addPayAccount(
     @Body() BodyAddPayAccount body,
+  );
+
+// Attach file
+  @POST(UrlsApi.sendAttach)
+  Future<ResponseData<dynamic>> sendAttach(
+    @Part() String AdvertisementId,
+    @Part() String UserId,
+    @Part() File File,
   );
 }

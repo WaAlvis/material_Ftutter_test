@@ -50,6 +50,9 @@ dependencies:
   eth_sig_util: ^0.0.7
   font_awesome_flutter: ^10.1.0
   country_code_picker: ^2.0.2
+  dotted_line: ^3.1.0
+  image_picker: ^0.8.5
+  permission_handler: ^9.2.0
 
 dev_dependencies:
   build_runner: ^2.1.4

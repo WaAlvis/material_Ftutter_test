@@ -1,9 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:localdaily/pages/attached_file/ui/attached_file_view.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
+import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
@@ -114,6 +116,24 @@ class AppRoutes {
   //   Handler(handlerFunc: (_, __) => const PersonalInfoRegisterView()),
   // );
 
+  static final AppRoute detailOperOfferRoute = AppRoute(
+    '/detail_oper_offer',
+    Handler(
+      handlerFunc: (_, __) => const DetailOperOfferView(
+        item: 'poner aca los items',
+      ),
+    ),
+  );
+
+  static final AppRoute attachedFileRoute = AppRoute(
+    '/attached_file',
+    Handler(
+      handlerFunc: (_, __) => const AttachedFileView(
+        item: 'poner aca los items',
+      ),
+    ),
+  );
+
   static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
     homeRoute,
@@ -130,5 +150,7 @@ class AppRoutes {
     changePswRoute,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
+    detailOperOfferRoute,
+    attachedFileRoute,
   ];
 }

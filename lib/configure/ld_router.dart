@@ -38,6 +38,7 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
   void goLoginForLogout(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
@@ -45,7 +46,6 @@ class LdRouter {
       transition: TransitionType.none,
       // clearStack: true,
       replace: true,
-
     );
   }
 
@@ -158,4 +158,21 @@ class LdRouter {
 //     transition: TransitionType.none,
 //   );
 // }
+
+  void goDetailOperOffer(BuildContext context, {bool replace = false}) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailOperOfferRoute.route,
+      replace: replace,
+    );
+  }
+
+  void goAttachedFile(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.attachedFileRoute.route,
+    );
+  }
 }
