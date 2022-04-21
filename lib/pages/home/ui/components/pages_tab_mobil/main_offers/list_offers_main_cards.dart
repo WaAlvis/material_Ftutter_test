@@ -18,11 +18,13 @@ class ListOffersMainSwitch extends StatelessWidget {
     Key? key,
     required this.textTheme,
     required this.userId,
+    required this.mainScrollCtrl,
   }) : super(key: key);
 
   final String data;
   final TextTheme textTheme;
   final String userId;
+  final ScrollController mainScrollCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class ListOffersMainSwitch extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
+                controller: mainScrollCtrl,
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),

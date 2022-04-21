@@ -21,6 +21,7 @@ import 'package:localdaily/services/models/home/get_offers/reponse/advertisement
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
@@ -129,6 +130,18 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
         );
       } else if (event is ShowSnackbarErrorEffect) {
         LdSnackbar.buildErrorSnackbar(context, event.message);
+      } else if (event is ConfirmOfferEffect) {
+        LdDialog.buildDenseAlertDialog(
+          context,
+          image: LdAssets.cardConfirm,
+          title: 'Confirmar la compra',
+          message:
+              'Reservaremos esta oferta de compra. Realiza tu pago y adjunta el comprobante antes de 12 horas.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la compra?',
+          btnText: 'Sí, confirmar',
+          onTap: event.action,
+          btnTextSecondary: 'No, cancelar',
+          onTapSecondary: () => viewModel.closeDialog(context),
+        );
       }
     });
 

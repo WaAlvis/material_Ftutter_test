@@ -15,10 +15,12 @@ class ListMyOffersSale extends StatelessWidget {
     Key? key,
     required this.textTheme,
     required this.userId,
+    required this.offerScrollCtrl,
   }) : super(key: key);
 
   final TextTheme textTheme;
   final String userId;
+  final ScrollController offerScrollCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class ListMyOffersSale extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
+                controller: offerScrollCtrl,
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
@@ -73,7 +76,7 @@ class ListMyOffersSale extends StatelessWidget {
                           ),
                         )
                       : items.isEmpty
-                      ? Padding(
+                          ? Padding(
                               padding: const EdgeInsets.symmetric(vertical: 30),
                               child: IntrinsicHeight(
                                 child: AdviceMessage(

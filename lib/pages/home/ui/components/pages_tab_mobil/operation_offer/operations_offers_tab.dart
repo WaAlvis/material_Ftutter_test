@@ -6,11 +6,15 @@ class OperationsOffersTab extends StatelessWidget {
     required this.viewModel,
     required this.textTheme,
     required this.hAppbar,
+    required this.operationScrollBuyCtrl,
+    required this.operationScrollSellCtrl,
   }) : super(key: key);
 
   final HomeViewModel viewModel;
   final TextTheme textTheme;
   final double hAppbar;
+  final ScrollController operationScrollBuyCtrl;
+  final ScrollController operationScrollSellCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +84,7 @@ class OperationsOffersTab extends StatelessWidget {
                     ListOperationsOffers(
                       textTheme: textTheme,
                       userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                      operationScrollCtrl: operationScrollBuyCtrl,
                     ),
                   if (dataUserProvider.getDataUserLogged == null)
                     AdviceMessage(
@@ -94,6 +99,7 @@ class OperationsOffersTab extends StatelessWidget {
                     ListOperationsOffers(
                       textTheme: textTheme,
                       userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                      operationScrollCtrl: operationScrollSellCtrl,
                     ),
                 ],
               ),
