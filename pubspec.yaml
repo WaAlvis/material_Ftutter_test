@@ -51,6 +51,7 @@ dependencies:
   eth_sig_util: ^0.0.7
   font_awesome_flutter: ^10.1.0
   country_code_picker: ^2.0.2
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   build_runner: ^2.1.4

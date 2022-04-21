@@ -103,6 +103,16 @@ class LdRouter {
     );
   }
 
+  void goProfileSeller(
+      BuildContext context,
+      ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.profileSellerRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
   void goChangePsw(
     BuildContext context,
   ) {

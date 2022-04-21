@@ -42,8 +42,7 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultTypeOffer.fromJson(json) as T;
       } else if ('$T' == '$dynamic?' || T == dynamic) {
         return json as T;
-      }
-      else if ('$T' == '$ResultRecoverPsw?' || T == ResultRecoverPsw) {
+      } else if ('$T' == '$ResultRecoverPsw?' || T == ResultRecoverPsw) {
         return ResultRecoverPsw.fromJson(json) as T;
       }
     }
