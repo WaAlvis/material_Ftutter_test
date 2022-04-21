@@ -8,6 +8,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
@@ -17,6 +18,8 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
+import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
+import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
@@ -62,6 +65,14 @@ class ServiceInteractor {
   Future<ResponseData<ResultLogin>> postLogin(BodyLogin bodyLogin) async {
     final ResponseData<ResultLogin> response =
         await locator<LocalDailyGatewayService>().loginUser(bodyLogin);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultRecoverPsw>> requestPsw(
+      BodyRecoverPsw bodyRecoverPsw) async {
+    final ResponseData<ResultRecoverPsw> response =
+        await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
 
     return response;
   }
@@ -151,6 +162,14 @@ class ServiceInteractor {
       UserId,
       file,
     );
+    return response;
+  }
+
+  Future<ResponseData<ResultTypeOffer>> getTypesAdvertisement(
+    Pagination body,
+  ) async {
+    final ResponseData<ResultTypeOffer> response =
+        await locator<LocalDailyGatewayService>().getTypeAdvertisement(body);
 
     return response;
   }

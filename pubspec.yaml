@@ -44,6 +44,7 @@ dependencies:
   bip32: ^2.0.0
   web3dart: ^2.3.5
   bip39: ^1.0.6
+  flutter_launcher_icons: ^0.9.2
 
   #Widgets
   shimmer: ^2.0.0
@@ -53,6 +54,7 @@ dependencies:
   dotted_line: ^3.1.0
   image_picker: ^0.8.5
   permission_handler: ^9.2.0
+  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   build_runner: ^2.1.4
@@ -61,6 +63,11 @@ dev_dependencies:
   retrofit_generator: ^2.0.1+2
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/icons/ICONAPP.png"
 
 flutter:
   uses-material-design: true

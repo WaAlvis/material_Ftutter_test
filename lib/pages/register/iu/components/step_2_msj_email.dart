@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
-import 'package:localdaily/pages/register/register_status.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
-import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 
 class Step2MsjEmail extends StatelessWidget {
   const Step2MsjEmail({
@@ -104,15 +101,11 @@ class Step2MsjEmail extends StatelessWidget {
                       'Continuar',
                       style: textTheme.textSmallWhite.copyWith(
                           decoration: TextDecoration.underline,
-                          color: LdColors.white),
+                          color: LdColors.white,
+                      ),
                     ),
                   ),
                   const SizedBox(height:20,),
-                  // PrimaryButtonCustom(
-                  //   'Continuar',
-                  //   colorButton: LdColors.whiteGray,
-                  //
-                  // ),
                 ],
               ),
             ),

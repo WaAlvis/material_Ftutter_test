@@ -28,8 +28,6 @@ class LdRouter {
   }
 
   void goHome(BuildContext context) {
-    /*return navigatorKey.currentState!
-        .push(MaterialPageRoute<HomePage>(builder: (_) => const HomePage()));*/
     AppRouter.router.navigateTo(
       context,
       AppRoutes.homeRoute.route,
@@ -105,6 +103,16 @@ class LdRouter {
     );
   }
 
+  void goProfileSeller(
+      BuildContext context,
+      ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.profileSellerRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
   void goChangePsw(
     BuildContext context,
   ) {
@@ -139,6 +147,14 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.registerEmailRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goRecoverPsw(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.recoverPsw.route,
       transition: TransitionType.none,
     );
   }

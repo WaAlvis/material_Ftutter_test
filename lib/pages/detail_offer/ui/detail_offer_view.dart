@@ -12,6 +12,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -20,6 +21,7 @@ import 'package:localdaily/services/models/home/get_offers/reponse/advertisement
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
@@ -96,10 +98,12 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
   void initState() {
     final DetailOfferViewModel viewModel = context.read<DetailOfferViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<DetailOfferViewModel>().onInit(context);
-    });
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (_) => viewModel.onInit(context, configurationProvider),
+    );
 
     _effectSubscription = viewModel.effects.listen((DetailOfferEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
@@ -126,6 +130,18 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
         );
       } else if (event is ShowSnackbarErrorEffect) {
         LdSnackbar.buildErrorSnackbar(context, event.message);
+      } else if (event is ConfirmOfferEffect) {
+        LdDialog.buildDenseAlertDialog(
+          context,
+          image: LdAssets.cardConfirm,
+          title: 'Confirmar la compra',
+          message:
+              'Reservaremos esta oferta de compra. Realiza tu pago y adjunta el comprobante antes de 12 horas.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la compra?',
+          btnText: 'Sí, confirmar',
+          onTap: event.action,
+          btnTextSecondary: 'No, cancelar',
+          onTapSecondary: () => viewModel.closeDialog(context),
+        );
       }
     });
 

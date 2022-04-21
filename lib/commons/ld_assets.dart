@@ -23,6 +23,7 @@ class LdAssets {
   static const String homeIndicator = '$pathImages/Home Indicator.svg';
   static const String cancelBuy = '$pathImages/cancelar compra.svg';
   static const String downloadFile = '$pathImages/Vector.svg';
+  static const String cardConfirm = '$pathImages/card_confirm.svg';
 
   static const String dlycopIconWhite = '$pathIcons/DLYcop_white.svg';
   static const String dlycopIconBlack = '$pathIcons/DLYcop_black.svg';

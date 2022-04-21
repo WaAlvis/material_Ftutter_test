@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -23,15 +22,15 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/bank
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
-import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/progress_indicator_local_d.dart';
+
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
+
 part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
 
 // Components Mobile
@@ -78,12 +77,26 @@ class _HomeBodyState extends State<_HomeBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final TextEditingController passwordCtrl = TextEditingController();
 
+  final ScrollController mainScrollBuyCtrl = ScrollController();
+  final ScrollController mainScrollSellCtrl = ScrollController();
+  final ScrollController operationScrollBuyCtrl = ScrollController();
+  final ScrollController operationScrollSellCtrl = ScrollController();
+  final ScrollController offerScrollBuyCtrl = ScrollController();
+  final ScrollController offerScrollSellCtrl = ScrollController();
+
   late StreamSubscription<HomeEffect> _effectSubscription;
 
   @override
   void dispose() {
     passwordCtrl.dispose();
     _effectSubscription.cancel();
+
+    mainScrollBuyCtrl.dispose();
+    mainScrollSellCtrl.dispose();
+    operationScrollBuyCtrl.dispose();
+    operationScrollSellCtrl.dispose();
+    offerScrollBuyCtrl.dispose();
+    offerScrollSellCtrl.dispose();
     super.dispose();
   }
 
@@ -93,11 +106,43 @@ class _HomeBodyState extends State<_HomeBody> {
     final HomeViewModel viewModel = context.read<HomeViewModel>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<HomeViewModel>().onInit(
-            context,
-            dataUserProvider,
-            dataUserProvider.getDataUserLogged,
-          );
+      //final HomeViewModel viewModelW = context.watch<HomeViewModel>();
+      viewModel.onInit(
+        context,
+        dataUserProvider,
+        dataUserProvider.getDataUserLogged,
+      );
+
+      _scrollControllerListener(
+        mainScrollBuyCtrl,
+        viewModel,
+        dataUserProvider.getDataUserLogged?.id ?? '',
+      );
+      _scrollControllerListener(
+        mainScrollSellCtrl,
+        viewModel,
+        dataUserProvider.getDataUserLogged?.id ?? '',
+      );
+      _scrollControllerListener(
+        operationScrollBuyCtrl,
+        viewModel,
+        dataUserProvider.getDataUserLogged?.id ?? '',
+      );
+      _scrollControllerListener(
+        operationScrollSellCtrl,
+        viewModel,
+        dataUserProvider.getDataUserLogged?.id ?? '',
+      );
+      _scrollControllerListener(
+        offerScrollBuyCtrl,
+        viewModel,
+        dataUserProvider.getDataUserLogged?.id ?? '',
+      );
+      _scrollControllerListener(
+        offerScrollSellCtrl,
+        viewModel,
+        dataUserProvider.getDataUserLogged?.id ?? '',
+      );
     });
 
     _effectSubscription = viewModel.effects.listen((HomeEffect event) {
@@ -124,6 +169,7 @@ class _HomeBodyState extends State<_HomeBody> {
         );
       }
     });
+
     super.initState();
   }
 
@@ -145,7 +191,14 @@ class _HomeBodyState extends State<_HomeBody> {
                           keyForm: keyForm,
                           passwordCtrl: passwordCtrl,
                         )
-                      : const _HomeMobile(),
+                      : _HomeMobile(
+                          mainScrollBuyCtrl: mainScrollBuyCtrl,
+                          mainScrollSellCtrl: mainScrollSellCtrl,
+                          operationScrollBuyCtrl: operationScrollBuyCtrl,
+                          operationScrollSellCtrl: operationScrollSellCtrl,
+                          offerScrollBuyCtrl: offerScrollBuyCtrl,
+                          offerScrollSellCtrl: offerScrollSellCtrl,
+                        ),
                 )
               ],
             ),
@@ -154,5 +207,41 @@ class _HomeBodyState extends State<_HomeBody> {
         );
       },
     );
+  }
+
+  void _scrollControllerListener(
+    ScrollController scrollController,
+    HomeViewModel viewModel,
+    String id,
+  ) {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >
+              scrollController.position.maxScrollExtent &&
+          !viewModel.status.isLoading) {
+        if (scrollController.position.maxScrollExtent != 0) {
+          scrollController.jumpTo(
+            scrollController.position.maxScrollExtent,
+          );
+        }
+
+        viewModel
+            .getData(
+          context,
+          id,
+          isPagination: true,
+        )
+            .then(
+          (_) {
+            if (scrollController.position.maxScrollExtent != 0) {
+              scrollController.animateTo(
+                scrollController.position.maxScrollExtent + 150,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.decelerate,
+              );
+            }
+          },
+        );
+      }
+    });
   }
 }

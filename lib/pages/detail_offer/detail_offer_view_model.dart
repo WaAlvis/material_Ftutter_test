@@ -6,19 +6,18 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_offer/detail_offer_effect.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
-import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
-import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/utils/values_format.dart';
@@ -28,10 +27,10 @@ import 'detail_offer_status.dart';
 
 class DetailOfferViewModel
     extends EffectsViewModel<DetailOfferStatus, DetailOfferEffect> {
-  late LdRouter _route;
-  late ServiceInteractor _interactor;
-  late Data item;
-  late bool isBuy;
+  final LdRouter _route;
+  final ServiceInteractor _interactor;
+  final Data item;
+  final bool isBuy;
 
   DetailOfferViewModel(
     this._route,
@@ -79,22 +78,20 @@ class DetailOfferViewModel
     );
   }
 
-  Future<void> onInit(BuildContext context) async {
-    status = status.copyWith(item: item, isBuy: isBuy);
+  Future<void> onInit(
+    BuildContext context,
+    ConfigurationProvider configurationProvider,
+  ) async {
     daysForExpire(
       DateTime.fromMicrosecondsSinceEpoch(item.advertisement.expiredDate),
     );
 
-    final bool next = await LdConnection.validateConnection();
-
-    if (next) {
-      getBanks(context);
-      getDocumentType(context);
-      // TODO: consultar tipo de cuentas
-      // getAccountsType(context);
-    } else {
-      // TODO: Mostrar alerta
-    }
+    status = status.copyWith(
+      item: item,
+      isBuy: isBuy,
+      listBanks: configurationProvider.getResultBanks,
+      listDocsType: configurationProvider.getResultDocsTypes,
+    );
   }
 
   void daysForExpire(DateTime date) {
@@ -141,52 +138,6 @@ class DetailOfferViewModel
       status =
           status.copyWith(selectedDocType: status.listDocsType.data[index]);
     }
-  }
-
-  Future<void> getBanks(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: 0,
-      itemsPerPage: 0,
-    );
-
-    try {
-      final ResponseData<ResultGetBanks> response =
-          await _interactor.getBanks(pagination);
-      if (response.isSuccess) {
-        status = status.copyWith(listBanks: response.result);
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Banks Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
-  }
-
-  Future<void> getDocumentType(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
-
-    final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: 0,
-      itemsPerPage: 0,
-    );
-
-    try {
-      final ResponseData<ResultGetDocsType> response =
-          await _interactor.getDocumentType(pagination);
-      if (response.isSuccess) {
-        status = status.copyWith(listDocsType: response.result);
-      } else {
-        // TODO: Mostrar alerta
-      }
-    } catch (err) {
-      print('Get Type Docs Error As: $err');
-    }
-    status = status.copyWith(isLoading: false);
   }
 
   String calculateFee(String amount) {
@@ -238,6 +189,21 @@ class DetailOfferViewModel
     }
   }
 
+  String getBankById(String id, List<Bank> listBanks) {
+    return listBanks.firstWhere((element) => element.id == id).description;
+  }
+
+  Future<void> onClicConfirmkReserveDly(
+      BuildContext context, VoidCallback action) async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      _route.pop(context);
+      addEffect(ConfirmOfferEffect(action));
+    } else {
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+    }
+  }
+
   Future<void> reservationPaymentForDly(
     BuildContext context, {
     required Data item,
@@ -248,7 +214,7 @@ class DetailOfferViewModel
     required String docNum,
     required String titular,
   }) async {
-    closeDialog(context);
+    closeDialog(_route.navigatorKey.currentContext!);
     status = status.copyWith(isLoading: true);
 
     final BodyUpdateStatus body = BodyUpdateStatus(
@@ -267,7 +233,7 @@ class DetailOfferViewModel
           .then((ResponseData<ResultUpdateStatus> response) {
         if (response.isSuccess) {
           addEffect(ShowSnackbarSuccesEffect());
-          _route.goHome(context);
+          _route.goHome(_route.navigatorKey.currentContext!);
         } else {
           addEffect(
             ShowSnackbarErrorEffect(
@@ -309,7 +275,7 @@ class DetailOfferViewModel
       userProvider.setBodyAddPayAccount(bodyBanks);
 
       await MiDailyConnect.createConnection(
-        context,
+        _route.navigatorKey.currentContext!,
         DailyConnectType.transaction,
         total,
         'reserve',

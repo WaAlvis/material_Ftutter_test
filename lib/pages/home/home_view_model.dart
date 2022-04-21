@@ -211,6 +211,17 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
+  void goProfileSeller(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goProfileSeller(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+
   void goDetailOffer(
     BuildContext context, {
     required Data item,
@@ -253,17 +264,33 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     BuildContext context,
     String userId, {
     bool refresh = false,
+    bool isPagination = false,
   }) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
       if (status.indexTab == 0) {
-        await getDataHome(context, userId, refresh: refresh);
+        await getDataHome(
+          context,
+          userId,
+          refresh: refresh,
+          isPagination: isPagination,
+        );
       } else if (status.indexTab == 1) {
         if (userId.isNotEmpty)
-          await getDataOperations(context, userId, refresh: refresh);
+          await getDataOperations(
+            context,
+            userId,
+            refresh: refresh,
+            isPagination: isPagination,
+          );
       } else if (status.indexTab == 2) {
         if (userId.isNotEmpty)
-          await getDataOffers(context, userId, refresh: refresh);
+          await getDataOffers(
+            context,
+            userId,
+            refresh: refresh,
+            isPagination: isPagination,
+          );
       }
     } else {
       addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
@@ -276,31 +303,50 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     BuildContext context,
     String userId, {
     bool refresh = false,
+    bool isPagination = false,
   }) async {
-    // TODO: Validar esta condiciòn para cuando sea paginable
-    if (!refresh) {
+    // Validación para evitar consultar al cambiar cada tab, solo 1 vez
+    if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
-        if (status.offersSaleDataHome.data.isNotEmpty ||
-            status.offersSaleDataHome.totalItems ==
-                status.offersSaleDataHome.data.length) return;
+        if (status.offersSaleDataHome.data.isNotEmpty) return;
       } else {
-        if (status.offersBuyDataHome.data.isNotEmpty ||
-            status.offersBuyDataHome.totalItems ==
-                status.offersBuyDataHome.data.length) return;
+        if (status.offersBuyDataHome.data.isNotEmpty) return;
+      }
+    }
+    if (isPagination) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.offersSaleDataHome.totalItems ==
+            status.offersSaleDataHome.data.length) return;
+      } else {
+        if (status.offersBuyDataHome.totalItems ==
+            status.offersBuyDataHome.data.length) return;
       }
     }
 
-    status = status.copyWith(isLoading: true);
+    status = status.copyWith(isLoading: !isPagination);
 
-    // TODO: REALIZAR LA PAGINACIÒN EN LAS 3 CONSULTAS
+    int currentPage = 1;
+    // Calculo de la pagina actual para realizar paginación a la siguiente página
+    if (isPagination) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.offersSaleDataHome.data.length >= itemsPerPage) {
+          currentPage =
+              (status.offersSaleDataHome.data.length ~/ itemsPerPage) + 1;
+        }
+      } else {
+        if (status.offersBuyDataHome.data.length >= itemsPerPage) {
+          currentPage =
+              (status.offersBuyDataHome.data.length ~/ itemsPerPage) + 1;
+        }
+      }
+    }
+
+    // Construcción del body para la consulta
     final Pagination pagination = Pagination(
       isPaginable: false,
-      currentPage: status.typeOffer == TypeOffer.buy
-          ? status.offersBuyDataHome.data.length ~/ itemsPerPage
-          : status.offersSaleDataHome.data.length ~/ itemsPerPage,
+      currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
-
     final Filters filters = Filters(
       typeAdvertisement: status.typeOffer == TypeOffer.buy
           ? '${TypeOffer.sell.index}'
@@ -310,20 +356,46 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       idUserExclusion: userId,
       idUserInteraction: '',
     );
-
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
 
     try {
+      // Solicitud al servicio
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
+        final List<Data> data = status.typeOffer == TypeOffer.buy
+            ? <Data>[
+                ...status.offersSaleDataHome.data,
+                ...response.result!.data
+              ]
+            : <Data>[
+                ...status.offersBuyDataHome.data,
+                ...response.result!.data
+              ];
+
         if (status.typeOffer == TypeOffer.buy) {
-          status = status.copyWith(offersSaleDataHome: response.result);
+          status = status.copyWith(
+            offersSaleDataHome: isPagination
+                ? ResultHome(
+                    data: data,
+                    totalItems: status.offersSaleDataHome.totalItems,
+                    totalPages: status.offersSaleDataHome.totalPages,
+                  )
+                : response.result,
+          );
         } else {
-          status = status.copyWith(offersBuyDataHome: response.result);
+          status = status.copyWith(
+            offersBuyDataHome: isPagination
+                ? ResultHome(
+                    data: data,
+                    totalItems: status.offersBuyDataHome.totalItems,
+                    totalPages: status.offersBuyDataHome.totalPages,
+                  )
+                : response.result,
+          );
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -339,29 +411,53 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     BuildContext context,
     String userId, {
     bool refresh = false,
+    bool isPagination = false,
   }) async {
-    if (!refresh) {
+    // Validación para evitar consultar al cambiar cada tab, solo 1 vez
+    if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
-        if (status.operationSaleData.data.isNotEmpty ||
-            status.operationSaleData.totalItems ==
-                status.operationSaleData.data.length) return;
+        if (status.operationSaleData.data.isNotEmpty) return;
       } else {
-        if (status.operationBuyData.data.isNotEmpty ||
-            status.operationBuyData.totalItems ==
-                status.operationBuyData.data.length) return;
+        if (status.operationBuyData.data.isNotEmpty) return;
+      }
+    }
+    if (isPagination) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.operationSaleData.totalItems ==
+            status.operationSaleData.data.length) return;
+      } else {
+        if (status.operationBuyData.totalItems ==
+            status.operationBuyData.data.length) return;
       }
     }
 
-    status = status.copyWith(isLoading: true);
+    status = status.copyWith(isLoading: !isPagination);
 
+    int currentPage = 1;
+    // Calculo de la pagina actual para realizar paginación a la siguiente página
+    if (isPagination) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.operationSaleData.data.length >= itemsPerPage) {
+          currentPage =
+              (status.operationSaleData.data.length ~/ itemsPerPage) + 1;
+        }
+      } else {
+        if (status.operationBuyData.data.length >= itemsPerPage) {
+          currentPage =
+              (status.operationBuyData.data.length ~/ itemsPerPage) + 1;
+        }
+      }
+    }
+
+    // Construcción del body para la consulta
     final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: status.typeOffer == TypeOffer.buy
-          ? status.operationBuyData.data.length ~/ itemsPerPage
-          : status.operationSaleData.data.length ~/ itemsPerPage,
+      isPaginable: true,
+      currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
-
+    print('////');
+    print(pagination.toJson());
+    print('////');
     final Filters filters = Filters(
       typeAdvertisement: status.typeOffer == TypeOffer.buy
           ? '${TypeOffer.sell.index}'
@@ -371,20 +467,39 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       idUserExclusion: '',
       idUserInteraction: userId,
     );
-
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
 
     try {
+      // Solicitud al servicio
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
+        final List<Data> data = status.typeOffer == TypeOffer.buy
+            ? <Data>[...status.operationSaleData.data, ...response.result!.data]
+            : <Data>[...status.operationBuyData.data, ...response.result!.data];
         if (status.typeOffer == TypeOffer.buy) {
-          status = status.copyWith(operationSaleData: response.result);
+          status = status.copyWith(
+            operationSaleData: isPagination
+                ? ResultHome(
+                    data: data,
+                    totalItems: status.operationSaleData.totalItems,
+                    totalPages: status.operationSaleData.totalPages,
+                  )
+                : response.result,
+          );
         } else {
-          status = status.copyWith(operationBuyData: response.result);
+          status = status.copyWith(
+            operationBuyData: isPagination
+                ? ResultHome(
+                    data: data,
+                    totalItems: status.operationBuyData.totalItems,
+                    totalPages: status.operationBuyData.totalPages,
+                  )
+                : response.result,
+          );
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -400,29 +515,49 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     BuildContext context,
     String userId, {
     bool refresh = false,
+    bool isPagination = false,
   }) async {
-    if (!refresh) {
+    // Validación para evitar consultar al cambiar cada tab, solo 1 vez
+    if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
-        if (status.myOfferBuyData.data.isNotEmpty ||
-            status.myOfferBuyData.totalItems ==
-                status.myOfferBuyData.data.length) return;
+        if (status.myOfferBuyData.data.isNotEmpty) return;
       } else {
-        if (status.myOfferSaleData.data.isNotEmpty ||
-            status.myOfferSaleData.totalItems ==
-                status.myOfferSaleData.data.length) return;
+        if (status.myOfferSaleData.data.isNotEmpty) return;
+      }
+    }
+    if (isPagination) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.myOfferBuyData.totalItems ==
+            status.myOfferBuyData.data.length) return;
+      } else {
+        if (status.myOfferSaleData.totalItems ==
+            status.myOfferSaleData.data.length) return;
       }
     }
 
-    status = status.copyWith(isLoading: true);
+    status = status.copyWith(isLoading: !isPagination);
 
+    int currentPage = 1;
+    // Calculo de la pagina actual para realizar paginación a la siguiente página
+    if (isPagination) {
+      if (status.typeOffer == TypeOffer.buy) {
+        if (status.myOfferBuyData.data.length >= itemsPerPage) {
+          currentPage = (status.myOfferBuyData.data.length ~/ itemsPerPage) + 1;
+        }
+      } else {
+        if (status.myOfferSaleData.data.length >= itemsPerPage) {
+          currentPage =
+              (status.myOfferSaleData.data.length ~/ itemsPerPage) + 1;
+        }
+      }
+    }
+
+    // Construcción del body para la consulta
     final Pagination pagination = Pagination(
-      isPaginable: false,
-      currentPage: status.typeOffer == TypeOffer.buy
-          ? status.myOfferBuyData.data.length ~/ itemsPerPage
-          : status.myOfferSaleData.data.length ~/ itemsPerPage,
+      isPaginable: true,
+      currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
-
     final Filters filters = Filters(
       typeAdvertisement: status.typeOffer == TypeOffer.buy
           ? '${TypeOffer.buy.index}'
@@ -432,20 +567,40 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       idUserExclusion: '',
       idUserInteraction: '',
     );
-
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
 
+    // Solicitud al servicio
     try {
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
+        final List<Data> data = status.typeOffer == TypeOffer.buy
+            ? <Data>[...status.myOfferBuyData.data, ...response.result!.data]
+            : <Data>[...status.myOfferSaleData.data, ...response.result!.data];
+
         if (status.typeOffer == TypeOffer.buy) {
-          status = status.copyWith(myOfferBuyData: response.result);
+          status = status.copyWith(
+            myOfferBuyData: isPagination
+                ? ResultHome(
+                    data: data,
+                    totalItems: status.myOfferBuyData.totalItems,
+                    totalPages: status.myOfferBuyData.totalPages,
+                  )
+                : response.result,
+          );
         } else {
-          status = status.copyWith(myOfferSaleData: response.result);
+          status = status.copyWith(
+            myOfferSaleData: isPagination
+                ? ResultHome(
+                    data: data,
+                    totalItems: status.myOfferSaleData.totalItems,
+                    totalPages: status.myOfferSaleData.totalPages,
+                  )
+                : response.result,
+          );
         }
       } else {
         print('ERROR obteniendo la data de Home');

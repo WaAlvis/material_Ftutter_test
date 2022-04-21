@@ -7,6 +7,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/transaction/body_createtransaction.dart';
+import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
@@ -16,6 +17,8 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
+import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
+import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/body_register_data_user.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
@@ -33,6 +36,7 @@ class UrlsApi {
       '/WebAdmin/Advertisement/GetAllByFilters';
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
+  static const String recoverPassword = '/Identity/GetRecoverPassword';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
@@ -50,6 +54,8 @@ class UrlsApi {
       '/WebAdmin/AdvertisementPayAccount/AddPayAccount';
   static const String sendAttach =
       '/AttachDocuments/AttachDocument/AttachDocument';
+  static const String getTypeAdvertisement =
+      '/WebAdmin/TypeAdvertisement/GetAllTypeAdvertisement';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -63,6 +69,12 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.login)
   Future<ResponseData<ResultLogin>> loginUser(
     @Body() BodyLogin bodyLogin,
+  );
+
+  //Login & Register
+  @POST(UrlsApi.recoverPassword)
+  Future<ResponseData<ResultRecoverPsw>> recoverPsw(
+    @Body() BodyRecoverPsw bodyRecoverPsw,
   );
 
   @POST(UrlsApi.sendPinEmail)
@@ -134,5 +146,10 @@ abstract class LocalDailyGatewayService {
     @Part() String AdvertisementId,
     @Part() String UserId,
     @Part() File File,
+  );
+
+  @POST(UrlsApi.getTypeAdvertisement)
+  Future<ResponseData<ResultTypeOffer>> getTypeAdvertisement(
+    @Body() Pagination body,
   );
 }

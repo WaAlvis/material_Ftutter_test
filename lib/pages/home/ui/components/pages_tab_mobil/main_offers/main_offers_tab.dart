@@ -5,11 +5,15 @@ class MainOffersTab extends StatelessWidget {
     required this.textTheme,
     required this.hAppbar,
     required this.hBody,
+    required this.mainScrollBuyCtrl,
+    required this.mainScrollSellCtrl,
   });
 
   final TextTheme textTheme;
   final double hAppbar;
   final double hBody;
+  final ScrollController mainScrollBuyCtrl;
+  final ScrollController mainScrollSellCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +76,13 @@ class MainOffersTab extends StatelessWidget {
                   'Ofertas para comprar',
                   textTheme: textTheme,
                   userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                  mainScrollCtrl: mainScrollBuyCtrl,
                 ),
                 ListOffersMainSwitch(
                   'Ofertas para vender',
                   textTheme: textTheme,
                   userId: dataUserProvider.getDataUserLogged?.id ?? '',
+                  mainScrollCtrl: mainScrollSellCtrl,
                 ),
               ],
             ),

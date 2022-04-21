@@ -11,8 +11,11 @@ import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
+import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
+import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
+import 'package:localdaily/pages/splash/ui/splash_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class AppRoutes {
@@ -32,7 +35,7 @@ class AppRoutes {
     Handler(
       handlerFunc:
           (BuildContext? context, Map<String, List<String>> parameters) =>
-              const HomeView(),
+              const SplashView(),
     ),
   );
 
@@ -87,6 +90,11 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const ChangePasswordView()),
   );
 
+  static final AppRoute profileSellerRoute = AppRoute(
+    '/profile_seller',
+    Handler(handlerFunc: (_, __) => const ProfileSellerView()),
+  );
+
   static final AppRoute createOfferBuyRoute = AppRoute(
     '/create_offer_buy',
     Handler(handlerFunc: (_, __) => const OfferBuyView()),
@@ -105,6 +113,11 @@ class AppRoutes {
   static final AppRoute registerEmailRoute = AppRoute(
     '/register_email',
     Handler(handlerFunc: (_, __) => const RegisterView()),
+  );
+
+  static final AppRoute recoverPsw = AppRoute(
+    '/recover_password',
+    Handler(handlerFunc: (_, __) => const RecoverPswView()),
   );
 
   // static final AppRoute registerValidateEmailRoute = AppRoute(
@@ -148,6 +161,8 @@ class AppRoutes {
     detailHistoryOperationRoute,
     settingsRoute,
     changePswRoute,
+    recoverPsw,
+    profileSellerRoute,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
     detailOperOfferRoute,

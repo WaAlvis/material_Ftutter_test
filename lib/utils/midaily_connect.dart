@@ -53,8 +53,8 @@ class MiDailyConnect {
       default:
     }
 
-    await launch(_url, headers: <String, String>{});
     if (await canLaunch(_url)) {
+      await launch(_url, headers: <String, String>{});
     } else {
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
       LdSnackbar.buildErrorSnackbar(
