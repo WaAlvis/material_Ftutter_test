@@ -207,9 +207,8 @@ class _OfferSaleMobile extends StatelessWidget {
                                           null,
                                   onChanged: (String? idDocType) =>
                                       viewModel.accountTypeSelected(idDocType!),
-                                  optionItems: viewModel
-                                      .status.listAccountType.data
-                                      .map((DocType item) {
+                                  optionItems: viewModel.status.listAccountType
+                                      .map((AccountType item) {
                                     return DropdownMenuItem<String>(
                                       value: item.id,
                                       child: Text(item.description),

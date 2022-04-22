@@ -10,6 +10,7 @@ import 'package:localdaily/pages/offer_sale/offer_sale_effect.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
@@ -17,8 +18,6 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart';
 import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
-import 'package:localdaily/services/models/pagination.dart';
-import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/utils/values_format.dart';
@@ -55,24 +54,7 @@ class OfferSaleViewModel
         totalItems: 10,
         totalPages: 1,
       ),
-      listAccountType: ResultGetDocsType(
-        data: <DocType>[
-          DocType(
-            id: 'd307fd7e-c76f-44b6-a8ff-768ad6421616',
-            countryId: '17cccd6d-1675-485b-806b-5297063e6826',
-            description: 'Corriente',
-            isActive: true,
-          ),
-          DocType(
-            id: 'c047a07c-2daf-48a7-ad49-ec447a93485b',
-            countryId: '17cccd6d-1675-485b-806b-5297063e6826',
-            description: 'Ahorros',
-            isActive: true,
-          ),
-        ],
-        totalItems: 10,
-        totalPages: 1,
-      ),
+      listAccountType: <AccountType>[],
       isAccountNumEmpty: true,
       isDocNumUserEmpty: true,
       isNameTitularAccountEmpty: true,
@@ -87,6 +69,7 @@ class OfferSaleViewModel
     status = status.copyWith(
       listBanks: configurationProvider.getResultBanks,
       listDocsType: configurationProvider.getResultDocsTypes,
+      listAccountType: configurationProvider.getResultAccountTypes,
     );
   }
 
@@ -141,7 +124,6 @@ class OfferSaleViewModel
 
   void docTypeSelected(String id) {
     final int index = status.listDocsType.data.indexWhere(
-      // (Bank bank) => bank.id == id,
       (DocType docType) => docType.id == id,
     );
     if (index != -1) {
@@ -151,13 +133,13 @@ class OfferSaleViewModel
   }
 
   void accountTypeSelected(String id) {
-    final int index = status.listAccountType.data.indexWhere(
-      // (Bank bank) => bank.id == id,
-      (DocType docType) => docType.id == id,
+    final int index = status.listAccountType.indexWhere(
+      (AccountType accountType) => accountType.id == id,
     );
     if (index != -1) {
       status = status.copyWith(
-          selectedAccountType: status.listAccountType.data[index]);
+        selectedAccountType: status.listAccountType[index],
+      );
     }
   }
 
