@@ -61,7 +61,6 @@ class DetailOperOfferViewModel
         await _interactor.getDetailAdvertisement(offerId).then((response) {
           status = status.copyWith(isLoading: false);
           status = status.copyWith(item: response.result);
-          print('${status.item!.idStatus} llllllllll');
           status = status.copyWith(
             listAdvertisementDoc: response.result?.advertisementDocuments,
           );

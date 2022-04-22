@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+<<<<<<< HEAD
 import 'package:image_picker/image_picker.dart';
+=======
+import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
+>>>>>>> rebase
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
@@ -29,6 +33,7 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
+import 'package:retrofit/http.dart' as http;
 
 part 'local_daily_gateway_service.g.dart';
 
@@ -59,6 +64,8 @@ class UrlsApi {
       '/WebAdmin/TypeAdvertisement/GetAllTypeAdvertisement';
 
   static const String getDetailAdvertisement = '/WebAdmin/Advertisement/id';
+  static const String getAccountType =
+      '/Configuration/ConfigurationAccountType/GetData';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -161,4 +168,7 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultTypeOffer>> getTypeAdvertisement(
     @Body() Pagination body,
   );
+
+  @POST(UrlsApi.getAccountType)
+  Future<ResponseData<ResultAccountType>> getAccountType();
 }
