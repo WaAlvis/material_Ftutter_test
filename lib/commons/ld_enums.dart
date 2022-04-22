@@ -24,3 +24,11 @@ enum OfferStatus {
   closed,
   pending,
 }
+
+enum NotificationType {
+  c, // Compra
+  v, // Venta
+  sv, // Soporte Compra
+  sc, // Soporte Venta
+  t, // Tiempo
+}

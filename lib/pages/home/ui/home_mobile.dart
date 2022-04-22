@@ -63,7 +63,7 @@ class _HomeMobile extends StatelessWidget {
       LdAppbar(
         dataUserProvider: dataUserProvider.getDataUserLogged,
         goLogin: (BuildContext context) => viewModel.goLogin(context),
-        // withBackIcon: false,
+        goNotifications: () => viewModel.goNotifications(context),
       ),
       LdAppbar(
         title: 'Mis operaciones',

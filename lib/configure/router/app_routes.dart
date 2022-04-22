@@ -7,6 +7,7 @@ import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/pages/notification/ui/notification_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
@@ -112,6 +113,11 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const RecoverPswView()),
   );
 
+  static final AppRoute notifications = AppRoute(
+    '/notifications',
+    Handler(handlerFunc: (_, __) => const NotificationView()),
+  );
+
   // static final AppRoute registerValidateEmailRoute = AppRoute(
   //   '/register_validate_email',
   //   Handler(handlerFunc: (_, __) => const ValidateEmailView()),
@@ -136,6 +142,7 @@ class AppRoutes {
     settingsRoute,
     changePswRoute,
     recoverPsw,
+    notifications
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
   ];
