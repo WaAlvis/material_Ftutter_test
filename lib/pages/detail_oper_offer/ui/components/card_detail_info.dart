@@ -1,13 +1,21 @@
 part of '../detail_oper_offer_view.dart';
 
 class CardDetailinfo extends StatelessWidget {
-  const CardDetailinfo({Key? key, required this.textTheme, required this.isBuy})
-      : super(key: key);
+  const CardDetailinfo({
+    Key? key,
+    required this.textTheme,
+    required this.isBuy,
+    required this.item,
+  }) : super(key: key);
   final TextTheme textTheme;
   final bool isBuy;
+  final ResultDataAdvertisement item;
 
   @override
   Widget build(BuildContext context) {
+    double val = double.parse(item.valueToSell);
+    double marg = double.parse(item.margin);
+
     return Container(
       padding: const EdgeInsets.only(left: 14),
       child: Column(
@@ -16,7 +24,7 @@ class CardDetailinfo extends StatelessWidget {
             direction: Axis.horizontal,
             children: <Widget>[
               Text(
-                isBuy ? 'Cantidad a vender' : 'Cantidad a vender',
+                isBuy ? 'Cantidad' : 'Cantidad a vender',
                 style: textTheme.textGray.copyWith(fontSize: 14),
               ),
             ],
@@ -31,7 +39,7 @@ class CardDetailinfo extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  '1.000.000',
+                  item.valueToSell,
                   style: textTheme.titleBigBlack
                       .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left,
@@ -56,7 +64,7 @@ class CardDetailinfo extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  '1 DLYCOP ≈ 1 COP ',
+                  '1 DLYCOP ≈ ${item.margin} COP ',
                   style: textTheme.textBlack.copyWith(
                     fontSize: 14,
                   ),
@@ -74,7 +82,7 @@ class CardDetailinfo extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  '= 1.000.000 COP',
+                  '=  ${(val * marg).roundToDouble().toStringAsFixed(0)} COP',
                   style: textTheme.titleBigBlack.copyWith(
                       fontSize: 24,
                       color: LdColors.orangePrimary,

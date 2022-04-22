@@ -8,6 +8,7 @@ class OperationHeader extends StatelessWidget {
     required this.textTheme,
     required this.size,
     required this.state,
+    required this.expiredDate,
   }) : super(key: key);
 
   // final TypeOffer type;
@@ -17,6 +18,7 @@ class OperationHeader extends StatelessWidget {
   final TextTheme textTheme;
   final Size size;
   final String state;
+  final int expiredDate;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class OperationHeader extends StatelessWidget {
           children: <Widget>[
             Text(
               // '# referencia: ${ad.id.substring(0, 5)}',
-              '# referencia: ${ad.substring(0, 5)}',
+              '# referencia: $ad',
               style: textTheme.textGray,
             ),
             Container(
@@ -78,8 +80,8 @@ class OperationHeader extends StatelessWidget {
                         // TODO: Calcular tiempo restante de la publicacion
                         Text(
                           DateTime.fromMillisecondsSinceEpoch(
-                                    // ad.expiredDate,
-                                    1640979000000,
+                                    expiredDate,
+                                    // 1640979000000,
                                   )
                                       .difference(
                                         DateTime.now(),
@@ -87,8 +89,8 @@ class OperationHeader extends StatelessWidget {
                                       .inDays >
                                   0
                               ? '${DateTime.fromMillisecondsSinceEpoch(
-                                  // ad.expiredDate,
-                                  1640979000000,
+                                  expiredDate,
+                                  // 1640979000000,
                                 ).difference(
                                     DateTime.now(),
                                   ).inDays.toString()} d'

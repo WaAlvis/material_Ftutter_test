@@ -11,6 +11,7 @@ import 'package:localdaily/services/models/create_offers/type_offer/result_type_
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -56,6 +57,8 @@ class UrlsApi {
       '/AttachDocuments/AttachDocument/AttachDocument';
   static const String getTypeAdvertisement =
       '/WebAdmin/TypeAdvertisement/GetAllTypeAdvertisement';
+
+  static const String getDetailAdvertisement = '/WebAdmin/Advertisement/id';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -146,6 +149,12 @@ abstract class LocalDailyGatewayService {
     @Part() String AdvertisementId,
     @Part() String UserId,
     @Part() File File,
+  );
+
+  //Get
+  @GET(UrlsApi.getDetailAdvertisement)
+  Future<ResponseData<ResultDataAdvertisement>> getDetailAdvertisement(
+    @Query('id') String id,
   );
 
   @POST(UrlsApi.getTypeAdvertisement)

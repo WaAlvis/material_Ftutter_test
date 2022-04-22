@@ -18,7 +18,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     const double hAppbar = 100;
-    final String estado = 'Pagado';
+    final String estado = viewModel.status.state!;
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -55,8 +55,9 @@ class _DetailOperOfferMobile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             OperationHeader(
-                              isBuy: isBuy,
-                              ad: 'efwewer3-r32f3-234ß',
+                              expiredDate: viewModel.status.item!.expiredDate,
+                              isBuy: viewModel.status.isBuy,
+                              ad: '${viewModel.status.item!.reference}',
                               textTheme: textTheme,
                               size: size,
                               state: estado,
@@ -83,7 +84,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
                               textTheme: textTheme,
                               viewModel: viewModel,
                               state: estado,
-                              isBuy: true,
+                              isBuy: viewModel.status.isBuy,
                             ),
                             const SizedBox(
                               height: 32,
@@ -98,7 +99,8 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             ),
                             CardDetailinfo(
                               textTheme: textTheme,
-                              isBuy: true,
+                              isBuy: viewModel.status.isBuy,
+                              item: viewModel.status.item!,
                             ),
                             const SizedBox(
                               height: 21,
@@ -112,8 +114,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             ),
                             CardAddInfo(
                               textTheme: textTheme,
-                              addInfo:
-                                  'Puedo hacer transferencia o consignación nacional a Bancolombia.',
+                              addInfo: viewModel.status.item!.termsOfTrade,
                             ),
                             // const SizedBox(
                             //   height: 40,
@@ -124,7 +125,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             ),
                             CardBankBuy(
                               textTheme: textTheme,
-                              isBuy: true,
+                              isBuy: viewModel.status.isBuy,
                               state: estado,
                               item: item,
                             ),
@@ -140,7 +141,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
                                   colorButton: LdColors.white,
                                   colorTextBorder: LdColors.orangePrimary,
                                   onPressed: () {
-                                    _getDialog(context, viewModel);
+                                    viewModel.getDialog(context, viewModel);
                                   },
                                 ),
                               )
@@ -171,20 +172,6 @@ class _DetailOperOfferMobile extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void _getDialog(BuildContext context, DetailOperOfferViewModel viewModel) {
-    return LdDialog.buildDenseAlertDialog(
-      context,
-      image: LdAssets.cancelBuy,
-      title: '¿Ya no quieres comprar estos DLYCOP?',
-      message:
-          'Piénsalo un poco más. El sistema te dará una mala calificación y perderás la oportunidad de tener más DLYCOP.',
-      btnText: 'Cancelar la compra',
-      onTap: () {},
-      btnTextSecondary: 'Cancelar',
-      onTapSecondary: () => viewModel.closeDialog(context),
     );
   }
 }

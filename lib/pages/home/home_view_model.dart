@@ -221,7 +221,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
-
   void goDetailOffer(
     BuildContext context, {
     required Data item,
@@ -613,11 +612,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void goDetailOperOffer(
     BuildContext context,
+    String offerId,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goDetailOperOffer(
           context,
+          offerId,
         );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));

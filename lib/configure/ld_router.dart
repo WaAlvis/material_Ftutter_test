@@ -104,8 +104,8 @@ class LdRouter {
   }
 
   void goProfileSeller(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.profileSellerRoute.route,
@@ -175,11 +175,15 @@ class LdRouter {
 //   );
 // }
 
-  void goDetailOperOffer(BuildContext context, {bool replace = false}) {
+  void goDetailOperOffer(BuildContext context, String offerId,
+      {bool replace = false}) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailOperOfferRoute.route,
       replace: replace,
+      routeSettings: RouteSettings(
+        arguments: <String, String>{'offerId': offerId},
+      ),
     );
   }
 

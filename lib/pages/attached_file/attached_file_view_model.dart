@@ -45,7 +45,6 @@ class AttachedFileViewModel
 
   attachFile(String AdvertisementId, String UserId, BuildContext context) {
     if (status.file == null) {
-      print(' no se pudo enviar');
       addEffect(
         ShowSnackbarErrorEffect(
           'No se pudo cargar la imagen, intetalo nuevamente',
@@ -65,7 +64,7 @@ class AttachedFileViewModel
         status = status.copyWith(isLoading: false);
         closeDialog(context);
         closeDialog(context);
-        _router.goDetailOperOffer(context, replace: true);
+        _router.goDetailOperOffer(context, AdvertisementId, replace: true);
 
         if (response.isSuccess) {
           addEffect(ShowSnackbarSuccesEffect());

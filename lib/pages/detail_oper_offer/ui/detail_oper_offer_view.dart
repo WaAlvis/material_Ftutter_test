@@ -13,9 +13,11 @@ import 'package:localdaily/pages/attached_file/attached_file_view_model.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_effect.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
+import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
@@ -52,12 +54,10 @@ part 'components/card_bank_sell.dart';
 part 'detail_oper_offer_web.dart';
 
 class DetailOperOfferView extends StatelessWidget {
-  const DetailOperOfferView({
-    Key? key,
-    this.item,
-  }) : super(key: key);
+  const DetailOperOfferView({Key? key, required this.offerId})
+      : super(key: key);
 
-  final dynamic item;
+  final String offerId;
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +67,10 @@ class DetailOperOfferView extends StatelessWidget {
       create: (_) => DetailOperOfferViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
-        item!,
+        offerId,
       ),
       builder: (BuildContext context, _) {
-        return _DetailOperOfferBody(
-          item: 'print',
-        );
+        return _DetailOperOfferBody();
       },
     );
   }
@@ -81,10 +79,7 @@ class DetailOperOfferView extends StatelessWidget {
 class _DetailOperOfferBody extends StatefulWidget {
   const _DetailOperOfferBody({
     Key? key,
-    required this.item,
   }) : super(key: key);
-
-  final dynamic item;
 
   @override
   State<_DetailOperOfferBody> createState() => __DetailOperOfferBodyState();
@@ -97,10 +92,13 @@ class __DetailOperOfferBodyState extends State<_DetailOperOfferBody> {
   void initState() {
     final DetailOperOfferViewModel viewModel =
         context.read<DetailOperOfferViewModel>();
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<DetailOperOfferViewModel>().onInit(context);
+      context
+          .read<DetailOperOfferViewModel>()
+          .onInit(context, configurationProvider);
     });
 
     _effectSubscription =
@@ -146,6 +144,7 @@ class __DetailOperOfferBodyState extends State<_DetailOperOfferBody> {
                 ),
               ],
             ),
+            loading,
           ],
         );
       },

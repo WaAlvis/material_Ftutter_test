@@ -132,8 +132,9 @@ class AppRoutes {
   static final AppRoute detailOperOfferRoute = AppRoute(
     '/detail_oper_offer',
     Handler(
-      handlerFunc: (_, __) => const DetailOperOfferView(
-        item: 'poner aca los items',
+      handlerFunc: (BuildContext? context, __) => DetailOperOfferView(
+        offerId:
+            (context!.settings!.arguments! as Map<String, String>)['offerId']!,
       ),
     ),
   );

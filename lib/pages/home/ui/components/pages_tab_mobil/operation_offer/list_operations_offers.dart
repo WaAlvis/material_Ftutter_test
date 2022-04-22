@@ -94,7 +94,8 @@ class ListOperationsOffers extends StatelessWidget {
                               )
                             : OperationCard(
                                 onTap: () {
-                                  viewModel.goDetailOperOffer(context);
+                                  viewModel.goDetailOperOffer(
+                                      context, items[index].advertisement.id);
                                 },
                                 item: items[index],
                                 textTheme: textTheme,
