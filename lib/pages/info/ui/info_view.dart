@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
+import 'package:localdaily/widgets/ld_appbar.dart';
 
 // Components
 part 'info_mobile.dart';
 part 'info_web.dart';
+
 
 class InfoView extends StatefulWidget {
   const InfoView({Key? key}) : super(key: key);

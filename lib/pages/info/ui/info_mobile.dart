@@ -5,10 +5,16 @@ class _InfoMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppbarCircles(
-      hAppbar: 0,
-      content: Column(
-        children: [],
+    return Scaffold(
+      appBar: const LdAppbar(title: 'Test', centerTitle: false,),
+      extendBodyBehindAppBar: true,
+      body: AppbarCircles(
+        hAppbar: 0,
+        content: Column(
+          children: [
+            const Text('Hola')
+          ],
+        ),
       ),
     );
   }

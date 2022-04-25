@@ -15,6 +15,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool withBackIcon;
   final bool withText;
   final ResultDataUser? dataUserProvider;
+  final bool? centerTitle;
 
   const LdAppbar({
     this.dataUserProvider,
@@ -23,6 +24,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.withBackIcon = false,
     this.withText = false,
     this.goLogin,
+    this.centerTitle = true,
   });
 
   @override
@@ -36,7 +38,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.infinite,
       child: AppBar(
-        centerTitle: true,
+        centerTitle: centerTitle,
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: withBackIcon
