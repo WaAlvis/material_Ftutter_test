@@ -141,6 +141,17 @@ class LdRouter {
     );
   }
 
+  void goInfoView(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.info.route,
+      transition: TransitionType.none,
+      // routeSettings: RouteSettings(
+      //   arguments: <String, Operation>{'item': item},
+      // ),
+    );
+  }
+
 // void goValidateEmail(BuildContext context) {
 //   AppRouter.router.navigateTo(
 //     context,
