@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 import '../pages/history/ui/history_view.dart';
@@ -81,6 +82,21 @@ class LdRouter {
       ),
     );
   }
+  void goHistoryOperations(
+    BuildContext context,
+    List<DataUserAdvertisement> operations,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.historyOperationsRoute.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, List<DataUserAdvertisement>>{
+          'operations':  operations
+        },
+      ),
+    );
+  }
 
   void goDetailHistoryOperation(BuildContext context, Operation item) {
     AppRouter.router.navigateTo(
@@ -123,15 +139,6 @@ class LdRouter {
     );
   }
 
-  void goHistoryOperations(
-    BuildContext context,
-  ) {
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.historyOperationsRoute.route,
-      transition: TransitionType.none,
-    );
-  }
 
   void goEmailRegister(BuildContext context) {
     AppRouter.router.navigateTo(

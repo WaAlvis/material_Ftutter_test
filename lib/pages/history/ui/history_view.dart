@@ -8,6 +8,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/history_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,9 @@ part 'history_mobile.dart';
 part 'history_web.dart';
 
 class HistoryView extends StatelessWidget {
-  const HistoryView({Key? key}) : super(key: key);
+  const HistoryView({Key? key, this.operations}) : super(key: key);
+
+  final List<DataUserAdvertisement>? operations;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +29,11 @@ class HistoryView extends StatelessWidget {
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
-        return const Scaffold(
+        return Scaffold(
           backgroundColor: LdColors.white,
-          body: _HistoryBody(),
+          body: _HistoryBody(
+            operations: operations!,
+          ),
         );
       },
     );
@@ -36,7 +41,9 @@ class HistoryView extends StatelessWidget {
 }
 
 class _HistoryBody extends StatefulWidget {
-  const _HistoryBody({Key? key}) : super(key: key);
+  const _HistoryBody({Key? key, required this.operations}) : super(key: key);
+
+  final List<DataUserAdvertisement> operations;
 
   @override
   _HistoryBodyState createState() => _HistoryBodyState();
@@ -86,6 +93,7 @@ class _HistoryBodyState extends State<_HistoryBody> {
                   : HistoryMobile(
                       keyForm: keyForm,
                       scrollCtrl: _scrollCtrl,
+                      operations: widget.operations,
                     ),
             )
           ],

@@ -9,6 +9,8 @@ import 'package:localdaily/services/models/create_offers/type_offer/result_type_
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -66,9 +68,17 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultRecoverPsw>> requestPsw(BodyRecoverPsw bodyRecoverPsw) async {
+  Future<ResponseData<ResultRecoverPsw>> requestPsw(
+      BodyRecoverPsw bodyRecoverPsw) async {
     final ResponseData<ResultRecoverPsw> response =
-    await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
+        await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+    final ResponseData<ResultHistoryOperationsUser> response =
+        await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
 
     return response;
   }

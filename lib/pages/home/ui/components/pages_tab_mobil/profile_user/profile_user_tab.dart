@@ -29,6 +29,7 @@ class ProfileUser extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     final Color colorCardWhite = LdColors.white;
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     return Scaffold(
       backgroundColor: LdColors.blackBackground,
@@ -298,7 +299,7 @@ class ProfileUser extends StatelessWidget {
   ) {
     switch (opt) {
       case NavigateOption.history:
-        viewModel.goHistoryOperations(context);
+        viewModel.goHistoryOperations(context, userProvider.getDataUserLogged?.id ?? '',);
         break;
       case NavigateOption.support:
         // TODO: Handle this case.

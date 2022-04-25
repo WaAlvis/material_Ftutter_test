@@ -7,6 +7,9 @@ import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -68,6 +71,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
       balance: -1,
+      listHistoryOpertaions: <DataUserAdvertisement>[],
     );
   }
 
@@ -159,10 +163,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // can't launch url, there is some error
   }
 
-  void goHistoryOperations(BuildContext context) {
+  void goHistoryOperations(BuildContext context, String idUSer) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        _route.goHistoryOperations(context);
+        //TODO hacer servicio q obtiene el historial de operaciones
+        getHistoryOperationsUser(idUSer);
+        if( status.listHistoryOpertaions.isNotEmpty){
+          _route.goHistoryOperations(context, status.listHistoryOpertaions);
+        }
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -199,6 +207,38 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  Future<void> getHistoryOperationsUser(String idUSer) async {
+    status = status.copyWith(isLoading: true);
+
+    final BodyHistoryOperationsUser bodyHistoryOperationsUser =
+        BodyHistoryOperationsUser(
+      idUser: idUSer,
+      pagination: Pagination(
+        isPaginable: true,
+        currentPage: 1,
+        itemsPerPage: 10,
+      ),
+    );
+
+    _interactor
+        .getHistoryOperationsUser(bodyHistoryOperationsUser)
+        .then((ResponseData<ResultHistoryOperationsUser> response) {
+      if (response.isSuccess) {
+        final List<DataUserAdvertisement> dataOperations =
+            response.result!.data;
+        status = status.copyWith(listHistoryOpertaions: dataOperations);
+      } else {
+        //Add effect NOT success
+      }
+    }).catchError((err) {
+      // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+
+      print('Operations User Error As: ${err}');
+      status = status.copyWith(isLoading: false);
+    });
+    status = status.copyWith(isLoading: false);
   }
 
   void goLogin(BuildContext context) {

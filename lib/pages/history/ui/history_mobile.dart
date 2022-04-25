@@ -1,14 +1,16 @@
 part of 'history_view.dart';
 
 class HistoryMobile extends StatelessWidget {
-  const HistoryMobile({
+  const  HistoryMobile({
     Key? key,
     required this.keyForm,
-    required this.scrollCtrl,
+    required this.scrollCtrl, required this.operations,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final ScrollController scrollCtrl;
+  final List<DataUserAdvertisement> operations;
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +136,7 @@ class HistoryMobile extends StatelessWidget {
                       controller: scrollCtrl,
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: viewModel.status.daysMockHistory.length,
+                      itemCount: operations.length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(

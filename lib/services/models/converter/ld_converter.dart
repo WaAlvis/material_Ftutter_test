@@ -4,6 +4,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -42,9 +43,11 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultTypeOffer.fromJson(json) as T;
       } else if ('$T' == '$dynamic?' || T == dynamic) {
         return json as T;
-      }
-      else if ('$T' == '$ResultRecoverPsw?' || T == ResultRecoverPsw) {
+      } else if ('$T' == '$ResultRecoverPsw?' || T == ResultRecoverPsw) {
         return ResultRecoverPsw.fromJson(json) as T;
+      }
+      else if ('$T' == '$ResultHistoryOperationsUser?' || T == ResultHistoryOperationsUser) {
+        return ResultHistoryOperationsUser.fromJson(json) as T;
       }
     }
     return json as T;
