@@ -38,21 +38,60 @@ class _NotificationBody extends StatefulWidget {
 }
 
 class _NotificationBodyState extends State<_NotificationBody> {
+  final ScrollController _notiScrollCtrl = ScrollController();
+
   @override
   void initState() {
+    final NotificationViewModel viewModel =
+        context.read<NotificationViewModel>();
+    _notiScrollCtrl.addListener(() {
+      if (_notiScrollCtrl.position.pixels >
+              _notiScrollCtrl.position.maxScrollExtent &&
+          !viewModel.status.isLoading) {
+        if (_notiScrollCtrl.position.maxScrollExtent != 0) {
+          _notiScrollCtrl.jumpTo(
+            _notiScrollCtrl.position.maxScrollExtent,
+          );
+        }
+
+        /* viewModel
+            .getData(
+          context,
+          id,
+          isPagination: true,
+        )
+            .then(
+          (_) {
+            if (_notiScrollCtrl.position.maxScrollExtent != 0) {
+              _notiScrollCtrl.animateTo(
+                _notiScrollCtrl.position.maxScrollExtent + 150,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.decelerate,
+              );
+            }
+          },
+        ); */
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _notiScrollCtrl.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
-        return const CustomScrollView(
-          physics: BouncingScrollPhysics(),
+        return CustomScrollView(
+          physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             SliverFillRemaining(
               hasScrollBody: false,
-              child: _NotificationMobile(),
+              child: _NotificationMobile(notiScrollCtrl: _notiScrollCtrl),
             )
           ],
         );

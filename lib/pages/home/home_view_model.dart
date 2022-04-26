@@ -351,7 +351,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.open.index}',
+      statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
     );
@@ -462,7 +462,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.inProcess.index}',
+      statusCode: '${OfferStatus.Pendiente.index}',
       idUserExclusion: '',
       idUserInteraction: userId,
     );

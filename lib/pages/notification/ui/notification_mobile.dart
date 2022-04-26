@@ -1,7 +1,9 @@
 part of 'notification_view.dart';
 
 class _NotificationMobile extends StatelessWidget {
-  const _NotificationMobile({Key? key}) : super(key: key);
+  const _NotificationMobile({Key? key, required this.notiScrollCtrl})
+      : super(key: key);
+  final ScrollController notiScrollCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _NotificationMobile extends StatelessWidget {
                     top: Radius.circular(25),
                   ),
                 ),
-                child: RefreshIndicator(
+                child: /* RefreshIndicator(
                   color: LdColors.orangePrimary,
                   onRefresh: () async {
                     await Future.delayed(Duration(seconds: 1));
@@ -41,16 +43,17 @@ class _NotificationMobile extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     physics: const BouncingScrollPhysics(),
                     itemCount: 10,
-                    controller: null,
+                    controller: notiScrollCtrl,
                     itemBuilder: (BuildContext context, int index) {
                       return _NotificationSlide(
                         index: index,
                         notificationType: NotificationType.c,
-                        offerStatus: OfferStatus.inProcess,
+                        offerStatus: OfferStatus.Pendiente,
                       );
                     },
                   ),
-                ),
+                ), */
+                    _EmptyNotifications(),
               ),
             ),
           )
@@ -222,11 +225,11 @@ Color _getNotificationColor(
     return isLight ? LdColors.yellowlight : LdColors.yellowDark;
   } else if (notificationType == NotificationType.t) {
     return isLight ? LdColors.redlight : LdColors.orangeWarning;
-  } else if (offerStatus == OfferStatus.open) {
+  } else if (offerStatus == OfferStatus.Publicado) {
     return isLight ? LdColors.orangelight : LdColors.orangePrimary;
-  } else if (offerStatus == OfferStatus.inProcess) {
+  } else if (offerStatus == OfferStatus.Pendiente) {
     return isLight ? LdColors.graylight : LdColors.blackText;
-  } else if (offerStatus == OfferStatus.closed) {
+  } else if (offerStatus == OfferStatus.Cerrado) {
     return isLight ? LdColors.bluelight : LdColors.blueDark;
   } else {
     return isLight ? LdColors.greenlight : LdColors.green;
