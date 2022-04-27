@@ -22,8 +22,8 @@ class MyOfferCard extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () => viewModel.goDetailOperOffer(
-          context, item.advertisement.id), //asi pase bien la navegacion?
+      onTap: () => viewModel.goDetailOperOffer(context, item.advertisement.id,
+          'Oferta'), //asi pase bien la navegacion?
       child: Container(
         decoration: BoxDecoration(
           color: LdColors.white,

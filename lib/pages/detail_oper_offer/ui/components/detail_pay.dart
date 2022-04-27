@@ -7,11 +7,15 @@ class CardDetailPay extends StatelessWidget {
     required this.isBuy,
     required this.state,
     required this.viewModel,
+    required this.isOper,
+    required this.item,
   }) : super(key: key);
   final TextTheme textTheme;
   final bool isBuy;
   final String state;
   final DetailOperOfferViewModel viewModel;
+  final bool isOper;
+  final ResultDataAdvertisement item;
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +27,33 @@ class CardDetailPay extends StatelessWidget {
       case 'Cerrado':
         _color = LdColors.blueState;
         _comprobante = LdAssets.comprobante3;
-        _title1 = 'Adjuntaste el comprobante de pago.';
+        _title1 = isBuy
+            ? 'Adjuntaste el comprobante de pago.'
+            : 'Comprador adjuntó un comprobante de pago.';
         _title2 = '';
         break;
       case 'Pagado':
         _color = LdColors.green;
         _comprobante = LdAssets.comprobante;
-        _title1 = 'Adjuntaste el comprobante de pago.';
-        _title2 = '';
+        _title1 = isBuy
+            ? 'Adjuntaste el comprobante de pago.'
+            : 'Comprador adjuntó un comprobante de pago.';
+        _title2 =
+            isBuy ? '' : 'Valida la información antes de confirmar el pago.';
         break;
       case 'Pendiente de pago':
         _color = LdColors.gray;
         _comprobante = LdAssets.comprobante2;
-        _title1 = 'No has adjuntado el comprobante de pago.';
+        _title1 = isBuy
+            ? 'No has adjuntado el comprobante de pago.'
+            : 'El comprador no ha adjuntado el comprobante de pago.';
         break;
       case 'Publicado':
         _color = LdColors.orangePrimary;
         _comprobante = LdAssets.comprobante4;
+        _title1 = isBuy
+            ? 'Aún no tienes un vendedor interesado'
+            : 'Aún no tienes comprobantes de pago.';
 
         break;
     }
@@ -74,9 +88,11 @@ class CardDetailPay extends StatelessWidget {
                       Text(
                         _title1,
                         style: textTheme.textBlack.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: state == 'Publicado'
+                                ? LdColors.orangePrimary
+                                : LdColors.black),
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(
@@ -92,18 +108,21 @@ class CardDetailPay extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      GestureDetector(
-                        onTap: () {}, //Abrir perfil del comprador
-                        child: Text(
-                          isBuy ? 'Ver el vendedor' : 'Ver el comprador',
-                          style: textTheme.bodyMedium?.copyWith(
-                            decoration: TextDecoration.underline,
-                            color: LdColors.orangePrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                      if (state == 'Publicado')
+                        Container()
+                      else
+                        GestureDetector(
+                          onTap: () {}, //Abrir perfil del comprador
+                          child: Text(
+                            isBuy ? 'Ver el vendedor' : 'Ver el comprador',
+                            style: textTheme.bodyMedium?.copyWith(
+                              decoration: TextDecoration.underline,
+                              color: LdColors.orangePrimary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      )
+                        )
                     ],
                   ),
                 ),
@@ -115,7 +134,7 @@ class CardDetailPay extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            if (state == 'Pendiente de pago')
+            if (state == 'Pendiente de pago' || state == 'Publicado')
               Container()
             else
               PrimaryButtonCustom(
@@ -123,22 +142,56 @@ class CardDetailPay extends StatelessWidget {
                 colorText: _color,
                 colorButton: LdColors.white,
                 colorTextBorder: _color,
-                onPressed: () {},
+                onPressed: () {
+                  viewModel.goAttachedFile(context, isOper, '1');
+                },
               ),
             const SizedBox(
               height: 10,
             ),
             if (state == 'Pagado' || state == 'Pendiente de pago')
-              PrimaryButtonCustom(
-                isBuy ? 'Adjuntar' : 'Confirmar pago',
-                colorButton: _color,
-                colorTextBorder: LdColors.white,
-                icon: isBuy ? Icons.attach_file : null,
-                colorText: LdColors.white,
-                onPressed: () {
-                  viewModel.goAttachedFile(context);
-                },
-              )
+              if (isBuy && state == 'Pendiente de pago')
+                PrimaryButtonCustom(isBuy ? 'Adjuntar' : 'Confirmar pago',
+                    colorButton:
+                        state == 'Pendiente de pago' ? LdColors.white : _color,
+                    colorTextBorder:
+                        state == 'Pendiente de pago' ? _color : LdColors.white,
+                    icon: isBuy ? Icons.attach_file : null,
+                    colorText: LdColors.white,
+                    onPressed: isBuy
+                        ? () {
+                            viewModel.goAttachedFile(context, isOper, '');
+                          }
+                        : () {} //confirmar pago,
+                    )
+              else if (state == 'Pagado' && !isBuy)
+                PrimaryButtonCustom(
+                  isBuy ? 'Adjuntar' : 'Confirmar pago',
+                  colorButton:
+                      state == 'Pendiente de pago' ? LdColors.white : _color,
+                  colorTextBorder:
+                      state == 'Pendiente de pago' ? _color : LdColors.white,
+                  icon: isBuy ? Icons.attach_file : null,
+                  colorText: LdColors.white,
+                  onPressed: () {},
+                )
+              else if (state == 'Pagado' && isBuy)
+                PrimaryButtonCustom(
+                  isBuy ? 'Adjuntar' : 'Confirmar pago',
+                  colorButton:
+                      state == 'Pendiente de pago' ? LdColors.white : _color,
+                  colorTextBorder:
+                      state == 'Pendiente de pago' ? _color : LdColors.white,
+                  icon: isBuy ? Icons.attach_file : null,
+                  colorText: LdColors.white,
+                  onPressed: isBuy
+                      ? () {
+                          viewModel.goAttachedFile(context, isOper, '');
+                        }
+                      : () {},
+                )
+              else
+                Container()
             else
               Container()
           ],

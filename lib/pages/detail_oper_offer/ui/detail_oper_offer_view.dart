@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'dart:html';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +55,12 @@ part 'components/card_bank_sell.dart';
 part 'detail_oper_offer_web.dart';
 
 class DetailOperOfferView extends StatelessWidget {
-  const DetailOperOfferView({Key? key, required this.offerId})
+  const DetailOperOfferView(
+      {Key? key, required this.offerId, required this.isOper})
       : super(key: key);
 
   final String offerId;
+  final String isOper;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +71,7 @@ class DetailOperOfferView extends StatelessWidget {
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
         offerId,
+        isOper,
       ),
       builder: (BuildContext context, _) {
         return _DetailOperOfferBody();
@@ -138,8 +142,7 @@ class __DetailOperOfferBodyState extends State<_DetailOperOfferBody> {
                   child: maxWidth > 1024
                       ? const _DetailOperOfferWeb()
                       : _DetailOperOfferMobile(
-                          item: 'Prueba',
-                          isBuy: true,
+                          isBuy: viewModel.status.isBuy,
                         ),
                 ),
               ],

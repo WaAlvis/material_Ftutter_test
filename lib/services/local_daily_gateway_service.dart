@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-<<<<<<< HEAD
 import 'package:image_picker/image_picker.dart';
-=======
+import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
->>>>>>> rebase
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
@@ -15,6 +13,7 @@ import 'package:localdaily/services/models/create_offers/type_offer/result_type_
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -53,6 +52,8 @@ class UrlsApi {
       '/NotificationCenter/SendMessageEvent/SendNotificationOtp';
   static const String validateToken =
       '/NotificationCenter/SendMessageEvent/ValidationToken';
+  static const String releaseToken =
+      '/Transaction/DistributionOptions/ReleaseToken';
   static const String updateAddress = '/User/User/UpdateUserAddressWallet';
   static const String createTransaction =
       '/Transaction/Transaction/CreateTransaction';
@@ -66,6 +67,8 @@ class UrlsApi {
   static const String getDetailAdvertisement = '/WebAdmin/Advertisement/id';
   static const String getAccountType =
       '/Configuration/ConfigurationAccountType/GetData';
+  static const String getAttachFile =
+      '/AttachDocuments/AttachDocument/GetDocumentAdvertisement';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -163,10 +166,20 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultDataAdvertisement>> getDetailAdvertisement(
     @Query('id') String id,
   );
+  //Get
+  @GET(UrlsApi.getAttachFile)
+  Future<ResponseData<String>> getAttachFile(
+    @Query('advertismentID') String advertismentID,
+  );
 
   @POST(UrlsApi.getTypeAdvertisement)
   Future<ResponseData<ResultTypeOffer>> getTypeAdvertisement(
     @Body() Pagination body,
+  );
+
+  @POST(UrlsApi.releaseToken)
+  Future<ResponseData<bool>> confirmPayment(
+    @Body() ConfirmPayment body,
   );
 
   @POST(UrlsApi.getAccountType)

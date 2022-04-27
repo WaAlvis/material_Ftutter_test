@@ -6,12 +6,12 @@ class CardBankBuy extends StatefulWidget {
     required this.textTheme,
     required this.isBuy,
     required this.state,
-    required this.item,
+    required this.viewModel,
   }) : super(key: key);
   final TextTheme textTheme;
   final bool isBuy;
   final String state;
-  final dynamic item;
+  final DetailOperOfferViewModel viewModel;
 
   @override
   State<CardBankBuy> createState() => _CardBankBuyState();
@@ -22,14 +22,25 @@ class _CardBankBuyState extends State<CardBankBuy> {
   @override
   void initState() {
     // TODO: traer informacion de bancos
-    list.add(CardBankBuyDetails(
-      item: '',
-      state: widget.state,
-    ));
-    list.add(CardBankBuyDetails(
-      item: '',
-      state: widget.state,
-    ));
+    widget.viewModel.status.banks.asMap().forEach((index, bank) {
+      print(
+          '${bank.description} posicion ${widget.viewModel.status.item!.advertisementPayAccount![0].accountNumber}');
+
+      list.add(
+        CardBankBuyDetails(
+            item: widget.viewModel.status.item,
+            state: widget.state,
+            bank: bank.description,
+            docType: widget.viewModel.status.docsType![index].description,
+            accountNumber: widget.viewModel.status.item!
+                .advertisementPayAccount![index].accountNumber,
+            userName: widget.viewModel.status.item!
+                .advertisementPayAccount![index].titularUserName,
+            documentNumber: widget.viewModel.status.item!
+                .advertisementPayAccount![index].documentNumber),
+      );
+    });
+
     // setState(() {});
     super.initState();
   }
@@ -63,11 +74,24 @@ class _CardBankBuyState extends State<CardBankBuy> {
 }
 
 class CardBankBuyDetails extends StatefulWidget {
-  const CardBankBuyDetails({Key? key, required this.item, required this.state})
+  const CardBankBuyDetails(
+      {Key? key,
+      required this.item,
+      required this.state,
+      required this.bank,
+      required this.docType,
+      required this.accountNumber,
+      required this.userName,
+      required this.documentNumber})
       : super(key: key);
 
   final dynamic item;
   final String state;
+  final String bank;
+  final String docType;
+  final String accountNumber;
+  final String userName;
+  final String documentNumber;
 
   @override
   State<CardBankBuyDetails> createState() => _CardBankBuyDetailsState();
@@ -127,7 +151,7 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
                     width: 16,
                   ),
                   Text(
-                    'Bancolombia',
+                    widget.bank,
                     style: textTheme.textBlack
                         .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
@@ -162,12 +186,13 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
                 height: 8,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   const SizedBox(
                     width: 16,
                   ),
                   Text(
-                    '1234567891',
+                    widget.accountNumber,
                     style: textTheme.textBlack
                         .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
@@ -194,7 +219,8 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
                     // _height = isExpanded ? 318 : 168;
                     isExpanded = !isExpanded;
                     setState(() {});
-                    _getInfo(widget.item, textTheme, isExpanded);
+                    _getInfo(widget.item, textTheme, isExpanded, widget.docType,
+                        widget.userName, widget.documentNumber);
                   },
                   child: Icon(
                     !isExpanded
@@ -212,7 +238,8 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
     );
   }
 
-  void _getInfo(item, TextTheme textTheme, bool isExpanded) {
+  void _getInfo(item, TextTheme textTheme, bool isExpanded, String docType,
+      String userName, String documentNumber) {
     listRow = [];
     if (isExpanded) {
       listRow.add(
@@ -262,7 +289,7 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
               width: 16,
             ),
             Text(
-              'Cédula de ciudadanía',
+              docType,
               style: textTheme.textBlack
                   .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
             ),
@@ -270,7 +297,7 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
               width: 44,
             ),
             Text(
-              '1234567891',
+              documentNumber,
               style: textTheme.textBlack
                   .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
             ),
@@ -305,7 +332,7 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
               width: 16,
             ),
             Text(
-              'Juan Perez Toncel',
+              userName,
               style: textTheme.textBlack
                   .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
             ),

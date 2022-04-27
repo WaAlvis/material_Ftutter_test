@@ -10,7 +10,8 @@ class ShowSnackConnetivityEffect extends AttachedFileEffect {
 }
 
 class ShowSnackbarSuccesEffect extends AttachedFileEffect {
-  ShowSnackbarSuccesEffect();
+  final String message;
+  ShowSnackbarSuccesEffect(this.message);
 }
 
 class ShowSnackbarErrorEffect extends AttachedFileEffect {

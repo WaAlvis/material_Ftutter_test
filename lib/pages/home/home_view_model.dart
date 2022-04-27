@@ -613,12 +613,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void goDetailOperOffer(
     BuildContext context,
     String offerId,
+    String isOper,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goDetailOperOffer(
           context,
           offerId,
+          isOper,
         );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));

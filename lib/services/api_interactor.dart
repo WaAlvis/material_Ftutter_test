@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -180,6 +181,12 @@ class ServiceInteractor {
       String id) async {
     final ResponseData<ResultDataAdvertisement> response =
         await locator<LocalDailyGatewayService>().getDetailAdvertisement(id);
+    return response;
+  }
+
+  Future<ResponseData<String>> getAttachFile(String advertismentID) async {
+    final ResponseData<String> response =
+        await locator<LocalDailyGatewayService>().getAttachFile(advertismentID);
     return response;
   }
 

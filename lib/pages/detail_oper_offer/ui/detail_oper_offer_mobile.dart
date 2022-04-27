@@ -3,11 +3,9 @@ part of 'detail_oper_offer_view.dart';
 class _DetailOperOfferMobile extends StatelessWidget {
   const _DetailOperOfferMobile({
     Key? key,
-    required this.item,
     required this.isBuy,
   }) : super(key: key);
 
-  final dynamic item;
   final bool isBuy;
 
   @override
@@ -18,7 +16,8 @@ class _DetailOperOfferMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     const double hAppbar = 100;
-    final String estado = viewModel.status.state!;
+    final String estado =
+        viewModel.status.state == null ? 'Publicado' : viewModel.status.state!;
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -67,9 +66,10 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             ),
                             CardDetailOperOffer(
                               textTheme: textTheme,
-                              isBuy: true,
+                              isBuy: viewModel.status.isBuy,
                               state: estado,
-                              item: item,
+                              item: viewModel.status.item,
+                              viewModel: viewModel,
                             ),
                             const SizedBox(height: 32),
                             Text(
@@ -85,6 +85,8 @@ class _DetailOperOfferMobile extends StatelessWidget {
                               viewModel: viewModel,
                               state: estado,
                               isBuy: viewModel.status.isBuy,
+                              isOper: viewModel.status.isOper,
+                              item: viewModel.status.item!,
                             ),
                             const SizedBox(
                               height: 32,
@@ -127,21 +129,30 @@ class _DetailOperOfferMobile extends StatelessWidget {
                               textTheme: textTheme,
                               isBuy: viewModel.status.isBuy,
                               state: estado,
-                              item: item,
+                              viewModel: viewModel,
                             ),
                             const SizedBox(
                               height: 56,
                             ),
-                            if (estado == 'Pendiente de pago')
+                            if (estado == 'Pendiente de pago' &&
+                                    viewModel.status.isOper ||
+                                estado == 'Publicado')
                               Container(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: PrimaryButtonCustom(
-                                  'Cancelar la compra',
+                                  isBuy
+                                      ? viewModel.status.isOper
+                                          ? 'Cancelar la compra'
+                                          : 'Quitar la publicación'
+                                      : viewModel.status.isOper
+                                          ? 'Cancelar la venta'
+                                          : 'Quitar la publicación',
                                   colorText: LdColors.orangePrimary,
                                   colorButton: LdColors.white,
                                   colorTextBorder: LdColors.orangePrimary,
                                   onPressed: () {
-                                    viewModel.getDialog(context, viewModel);
+                                    viewModel.getDialog(context, viewModel,
+                                        isBuy, viewModel.status.isOper);
                                   },
                                 ),
                               )

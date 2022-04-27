@@ -1,3 +1,4 @@
+import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
@@ -15,7 +16,9 @@ class DetailOperOfferStatus extends ViewStatus {
   final String dateOfExpire;
   final bool isBuy;
   final String? state;
-
+  final bool isOper;
+  final String? extensionFile;
+  List<AccountType> listAccountTypes;
   List<Bank> banks;
   List<AdvertisementDocument> listAdvertisementDoc;
   List<DocType>? docsType;
@@ -32,6 +35,9 @@ class DetailOperOfferStatus extends ViewStatus {
     required this.listAdvertisementDoc,
     required this.banks,
     required this.state,
+    required this.listAccountTypes,
+    required this.isOper,
+    required this.extensionFile,
   });
 
   DetailOperOfferStatus copyWith({
@@ -39,11 +45,14 @@ class DetailOperOfferStatus extends ViewStatus {
     bool? isLoading,
     bool? isError,
     bool? isBuy,
+    bool? isOper,
     List<DocType>? docsType,
     ResultDataAdvertisement? item,
     List<AdvertisementDocument>? listAdvertisementDoc,
     List<Bank>? banks,
     String? state,
+    List<AccountType>? resultAccountTypes,
+    String? extensionFile,
   }) {
     return DetailOperOfferStatus(
       isLoading: isLoading ?? this.isLoading,
@@ -54,7 +63,10 @@ class DetailOperOfferStatus extends ViewStatus {
       listAdvertisementDoc: listAdvertisementDoc ?? this.listAdvertisementDoc,
       banks: banks ?? this.banks,
       docsType: docsType ?? this.docsType,
-      state: state ?? state,
+      state: state ?? this.state,
+      listAccountTypes: listAccountTypes,
+      isOper: isOper ?? this.isOper,
+      extensionFile: extensionFile ?? extensionFile,
     );
   }
 }

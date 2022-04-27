@@ -6,11 +6,13 @@ class DetailState extends StatefulWidget {
     required this.state,
     required this.isBuy,
     required this.item,
+    required this.isOper,
   }) : super(key: key);
 
   final String state;
   final bool isBuy;
   final dynamic item;
+  final bool isOper;
 
   @override
   State<DetailState> createState() => _DetailStateState();
@@ -29,21 +31,33 @@ class _DetailStateState extends State<DetailState> {
     switch (widget.state) {
       case 'Cerrado':
         _color = LdColors.blueState;
-        stateString = 'Se cerró la oferta de venta exitosamente.';
+        stateString =
+            'Se cerró la oferta de ${widget.isBuy ? 'compra' : 'venta'} exitosamente.';
         break;
       case 'Pagado':
         _color = LdColors.green;
-        stateString =
-            'El usuario ${widget.item} realizó el pago y adjuntó el comprobante de pago.';
+        stateString = widget.isOper
+            ? widget.isBuy
+                ? 'Realizaste el pago y adjuntaste el comprobante.'
+                : 'El usuario comprador realizó el pago y adjuntó el comprobante de pago.'
+            : widget.isBuy
+                ? 'Realizaste el pago y adjuntaste el comprobante.'
+                : 'El usuario  realizó el pago y adjuntó el comprobante de pago.';
         break;
       case 'Pendiente de pago':
         _color = LdColors.gray;
-        stateString =
-            'El usuario  ${widget.item}  aceptó comprar tu oferta de venta pero no ha adjuntado el comprobante de pago.';
+        stateString = widget.isOper
+            ? widget.isBuy
+                ? 'Confirmaste la compra. Realiza el pago y adjunta el comprobante.'
+                : 'Confirmaste la venta. En espera de recibir el comprobante de pago para la confirmarción.'
+            : widget.isBuy
+                ? 'El usuario vendedor aceptó vender sus Dailys y te envió la información de pago.'
+                : 'El usuario  aceptó comprar tu oferta de venta pero no ha adjuntado el comprobante de pago.';
         break;
       case 'Publicado':
         _color = LdColors.orangePrimary;
-        stateString = 'Se publicó una oferta de venta.';
+        stateString =
+            'Se publicó una oferta de ${widget.isBuy ? 'Compra' : 'Venta'}.';
         break;
     }
   }

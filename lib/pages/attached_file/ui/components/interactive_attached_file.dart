@@ -1,9 +1,16 @@
 part of '../attached_file_view.dart';
 
 class InteractiveAttachedFile extends StatefulWidget {
-  const InteractiveAttachedFile({Key? key, required this.fileDoc})
+  const InteractiveAttachedFile(
+      {Key? key,
+      required this.fileDoc,
+      required this.extensionFile,
+      required this.bytes})
       : super(key: key);
   final String fileDoc;
+  final String extensionFile;
+  final Uint8List bytes;
+
   @override
   State<InteractiveAttachedFile> createState() =>
       _InteractiveAttachedFileState();
@@ -12,9 +19,14 @@ class InteractiveAttachedFile extends StatefulWidget {
 class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
   double? width;
   double? height;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
+    final AttachedFileViewModel viewModel =
+        context.watch<AttachedFileViewModel>();
+    print(
+        '${widget.fileDoc} ruta del archivo ${widget.extensionFile} extension del archivo');
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
@@ -28,10 +40,42 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
             maxScale: 5.0,
             minScale: 0.5,
             child: Container(
-              color: LdColors.grayLight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: LdColors.grayLight,
+              ),
               height: 400,
               width: 400,
-              child: Image.file(File(widget.fileDoc), fit: BoxFit.contain),
+              child: widget.extensionFile == '' && widget.fileDoc == '' ||
+                      widget.extensionFile == '.pdf'
+                  ? Stack(
+                      children: <Widget>[
+                        Center(
+                          child: SvgPicture.asset(
+                            LdAssets.downloadFile,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        const Center()
+                      ],
+                    )
+                  : widget.bytes != Uint8List(0)
+                      ? widget.fileDoc == ''
+                          ? Image.memory(widget.bytes)
+                          : Image.file(
+                              File(widget.fileDoc),
+                              fit: BoxFit.cover,
+                            )
+                      : widget.fileDoc != '' && widget.bytes == Uint8List(0)
+                          ? Image.file(
+                              File(widget.fileDoc),
+                              fit: BoxFit.cover,
+                            )
+                          : SvgPicture.asset(
+                              LdAssets.downloadFile,
+                            ),
             ),
           ),
         ],
@@ -43,10 +87,47 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
   }
 }
 
-Widget _getWidget(XFile? fileDoc) {
-  Widget _widget = const Text('No ha seleccionado una imagen');
-  if (fileDoc == null) {
-    return _widget = Image.file(File(LdAssets.downloadFile));
-  }
-  return _widget;
+void confirmBottomSheet(
+  BuildContext context,
+  AttachedFileViewModel viewModel, {
+  bool isBuy = false,
+}) {
+  showModalBottomSheet<void>(
+    context: context,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    builder: (BuildContext context) {
+      final ImagePicker _picker = ImagePicker();
+
+      return Container(
+        height: 250,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              PrimaryButtonCustom(
+                'Tomar foto',
+                colorButton: LdColors.white,
+                colorTextBorder: LdColors.orangePrimary,
+                onPressed: () {
+                  viewModel.getPhotoCamera(_picker, context);
+                },
+              ),
+              PrimaryButtonCustom(
+                'Adjuntar desde archivo',
+                colorButton: LdColors.white,
+                colorTextBorder: LdColors.orangePrimary,
+                onPressed: () {
+                  viewModel.getFile(context);
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

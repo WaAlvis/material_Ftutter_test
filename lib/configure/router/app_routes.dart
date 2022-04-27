@@ -135,6 +135,7 @@ class AppRoutes {
       handlerFunc: (BuildContext? context, __) => DetailOperOfferView(
         offerId:
             (context!.settings!.arguments! as Map<String, String>)['offerId']!,
+        isOper: (context.settings!.arguments! as Map<String, String>)['type']!,
       ),
     ),
   );
@@ -142,8 +143,13 @@ class AppRoutes {
   static final AppRoute attachedFileRoute = AppRoute(
     '/attached_file',
     Handler(
-      handlerFunc: (_, __) => const AttachedFileView(
-        item: 'poner aca los items',
+      handlerFunc: (BuildContext? context, __) => AttachedFileView(
+        item:
+            (context!.settings!.arguments! as Map<String, String>)['offerId']!,
+        extensionFile: (context.settings!.arguments!
+            as Map<String, String>)['extensionFile']!,
+        isView:
+            (context.settings!.arguments! as Map<String, String>)['isView']!,
       ),
     ),
   );

@@ -6,6 +6,7 @@ import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_effect.dart
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_status.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
@@ -15,6 +16,7 @@ import 'package:localdaily/services/models/detail_oper_offer/advertisement_docum
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_documents.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_pay_account.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/view_model.dart';
 
@@ -25,11 +27,13 @@ class DetailOperOfferViewModel
   late LdRouter _router;
   late ServiceInteractor _interactor;
   late String offerId;
+  late String isOper;
 
   DetailOperOfferViewModel(
     this._router,
     this._interactor,
     this.offerId,
+    this.isOper,
   ) {
     status = DetailOperOfferStatus(
       isLoading: false,
@@ -41,18 +45,19 @@ class DetailOperOfferViewModel
       isBuy: true,
       item: null,
       state: '',
+      isOper: true,
+      extensionFile: '',
+      listAccountTypes: <AccountType>[],
     );
   }
 
   Future<void> onInit(
       BuildContext context, ConfigurationProvider configurationProvider) async {
     status = status.copyWith();
-    daysForExpire(
-      DateTime.fromMicrosecondsSinceEpoch(1640901600000000),
-    );
 
     final bool next = await LdConnection.validateConnection();
     status = status.copyWith(isLoading: true);
+    status = status.copyWith(isOper: isOper == 'Operacion');
     if (next) {
       // TODO: consultar tipo de cuentas
       // getAccountsType(context);
@@ -69,37 +74,96 @@ class DetailOperOfferViewModel
               configurationProvider.getResultDocsTypes!.data;
           List<Data> listTypeOffer =
               configurationProvider.getResultTypeOffer!.data;
+          List<AccountType>? listAccountTypes =
+              configurationProvider.getResultAccountTypes;
 
-          response.result!.advertisementPayAccount!.forEach((account) {
-            DocType _docType = listDocType
-                .firstWhere((docType) => docType.id == account.documentTypeID);
-            status = status.copyWith(docsType: [...?status.docsType, _docType]);
-          });
+          try {
+            response.result!.advertisementPayAccount!
+                .forEach((AdvertisementPayAccount account) {
+              AccountType _accountType = listAccountTypes!.firstWhere(
+                  (AccountType accountType) =>
+                      accountType.id == account.accountTypeId);
+              status = status.copyWith(resultAccountTypes: <AccountType>[
+                ...status.listAccountTypes,
+                _accountType
+              ]);
+            });
+          } catch (e) {
+            print('$e accounttype');
+          }
+          print('2');
 
-          response.result!.advertisementPayAccount!.forEach((account) {
-            Bank _bank =
-                listBank.firstWhere((bank) => bank.id == account.bankId);
-            status = status.copyWith(banks: [...status.banks, _bank]);
-          });
-          Data _isBuy = listTypeOffer.firstWhere((typeOffer) =>
-              typeOffer.id == response.result!.idTypeAdvertisement);
+          try {
+            response.result!.advertisementPayAccount!.forEach((account) {
+              DocType _docType = listDocType.firstWhere(
+                  (docType) => docType.id == account.documentTypeID);
+              status =
+                  status.copyWith(docsType: [...?status.docsType, _docType]);
+            });
+          } catch (e) {
+            print('$e typedoc');
+          }
+          print('3');
 
-          status = status.copyWith(isBuy: _isBuy == 'buy' ? true : false);
+          try {
+            response.result!.advertisementPayAccount!.forEach((account) {
+              Bank _bank =
+                  listBank.firstWhere((bank) => bank.id == account.bankId);
+              status = status.copyWith(banks: [...status.banks, _bank]);
+            });
+          } catch (e) {
+            print('$e banks');
+          }
+          print('4');
+
+          try {
+            Data _isBuy = listTypeOffer.firstWhere((typeOffer) =>
+                typeOffer.id == response.result!.idTypeAdvertisement);
+
+            status = status.copyWith(
+                isBuy: _isBuy.description == 'Buy' ? true : false);
+            print('status.isBuy  ${status.isBuy} _isbuy ${_isBuy.description}');
+          } catch (e) {
+            print('$e isbuy');
+          }
+          print('5');
+
+          try {
+            print('inicio del try');
+            daysForExpire(
+              DateTime.fromMillisecondsSinceEpoch(response.result!.expiredDate),
+            );
+          } catch (e) {
+            print('$e expiredate');
+          }
         });
 
         switch (status.item!.idStatus) {
           case '2':
             status = status.copyWith(state: 'Cerrado');
+            status = status.copyWith(
+                extensionFile: status.listAdvertisementDoc[0].fileExtension);
+            print('Pagado');
+
             break;
           case '1':
             if (status.listAdvertisementDoc.isEmpty) {
               status = status.copyWith(state: 'Pendiente de pago');
+              print('Pendiente de pago');
             } else {
               status = status.copyWith(state: 'Pagado');
+              print('pago ${status.state}');
+
+              status = status.copyWith(
+                extensionFile: status.listAdvertisementDoc[0].fileExtension,
+              );
+              print('pagodo');
             }
             break;
           case '0':
             status = status.copyWith(state: 'Publicado');
+            print('Publicado');
+
             break;
           default:
             status = status.copyWith(state: 'Publicado');
@@ -110,6 +174,8 @@ class DetailOperOfferViewModel
           ShowSnackbarErrorEffect('Error desconocdio'),
         ); //cambiar mensaje
       }
+      // status = status.copyWith(
+      //     state: 'Pendiente de pago', isBuy: true, isOper: true);
     } else {
       status = status.copyWith(isLoading: false);
 
@@ -123,11 +189,17 @@ class DetailOperOfferViewModel
 
   void goAttachedFile(
     BuildContext context,
+    bool isOper,
+    String isView,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _router.goAttachedFile(
           context,
+          // isOper,
+          offerId,
+          status.extensionFile ?? '',
+          isView,
         );
       } else {
         addEffect(ShowSnackConnetivityEffect('Sin conexión a internet'));
@@ -135,7 +207,12 @@ class DetailOperOfferViewModel
     });
   }
 
-  void getDialog(BuildContext context, DetailOperOfferViewModel viewModel) {
+  void getDialog(
+    BuildContext context,
+    DetailOperOfferViewModel viewModel,
+    bool isBuy,
+    bool isOper,
+  ) {
     return LdDialog.buildDenseAlertDialog(
       context,
       image: LdAssets.cancelBuy,
@@ -154,5 +231,7 @@ class DetailOperOfferViewModel
     final DateTime date2 = DateTime.now();
     final int difference = date2.difference(birthday).inDays;
     status = status.copyWith(dateOfExpire: difference.toString());
+    print('status.dateOfExpire ${difference.toString()}');
+    print(difference.toString());
   }
 }

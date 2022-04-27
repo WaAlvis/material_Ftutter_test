@@ -12,7 +12,7 @@ class _AttachedFileMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     //Alturas de el APpbar y el body
     const double hAppbar = 100;
-    final ImagePicker _picker = ImagePicker();
+    print(' viewModel.status.isView  ${viewModel.status.isView}');
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -48,39 +48,53 @@ class _AttachedFileMobile extends StatelessWidget {
                           textTheme: textTheme,
                           size: size,
                         ),
-                        InteractiveAttachedFile(
-                          fileDoc: viewModel.status.filePath ?? '',
-                        ),
+                        if (viewModel.status.extensionFile == '.pdf' &&
+                            viewModel.status.isView == '1')
+                          DocumentFile(
+                            file: viewModel.status.bytes!,
+                          )
+                        else
+                          InteractiveAttachedFile(
+                            fileDoc: viewModel.status.filePath ?? '',
+                            extensionFile: viewModel.extensionFile,
+                            bytes: viewModel.status.bytes!,
+                          ),
                         const SizedBox(
                           height: 16,
                         ),
-                        PrimaryButtonCustom(
-                          'Tomar foto',
-                          onPressed: () {
-                            viewModel.getPhotoCamera(_picker);
-                          },
-                        ),
+                        if (viewModel.status.isView == '1')
+                          Container()
+                        else
+                          PrimaryButtonCustom(
+                            'Adjuntar comprobante',
+                            colorButton: LdColors.white,
+                            colorTextBorder: LdColors.orangePrimary,
+                            onPressed: () {
+                              // viewModel.getPhotoCamera(_picker);
+                              confirmBottomSheet(
+                                context,
+                                viewModel,
+                              );
+                            },
+                          ),
                         const SizedBox(
                           height: 16,
                         ),
-                        // PrimaryButtonCustom(
-                        //   'Abrir galeria',
-                        //   onPressed: () {
-                        //     _getPhotoGallery(_picker);
-                        //   },
-                        // ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        PrimaryButtonCustom(
-                          'Enviar comprobante',
-                          onPressed: () async {
-                            viewModel.attachFile(
-                                'e44e3cfd-1366-435f-9cbd-b0d28eb62f4c',
-                                'd399d1c8-a165-466e-a98e-0a69c176f5a3',
-                                context);
-                          },
-                        ),
+                        if (viewModel.status.isView == '1')
+                          Container()
+                        else
+                          PrimaryButtonCustom(
+                            'Enviar comprobante',
+                            colorButton: LdColors.white,
+                            colorTextBorder: LdColors.orangePrimary,
+                            onPressed: () async {
+                              viewModel.attachFile(
+                                viewModel.status.item,
+                                viewModel.status.userId!,
+                                context,
+                              );
+                            },
+                          ),
                         const SizedBox(
                           height: 16,
                         ),

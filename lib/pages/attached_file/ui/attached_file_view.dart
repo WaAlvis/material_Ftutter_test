@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -14,11 +16,13 @@ import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:localdaily/view_model.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:provider/provider.dart';
@@ -33,15 +37,23 @@ part 'components/operation_header_oper_offer.dart';
 
 part 'components/interactive_attached_file.dart';
 
+part 'components/document_file.dart';
+
 class AttachedFileView extends StatelessWidget {
   const AttachedFileView({
     Key? key,
-    this.item,
+    required this.item,
     this.isBuy = false,
+    this.isOper = false,
+    required this.extensionFile,
+    required this.isView,
   }) : super(key: key);
 
-  final dynamic item;
+  final String item;
   final bool isBuy;
+  final bool isOper;
+  final String extensionFile;
+  final String isView;
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +63,18 @@ class AttachedFileView extends StatelessWidget {
       create: (_) => AttachedFileViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
-        item!,
+        item,
+        extensionFile,
         isBuy: isBuy,
+        isOper: isOper,
+        offerId: item,
+        isView2: isView,
       ),
       builder: (BuildContext context, _) {
         return _AttachedFileBody(
           isBuy: isBuy,
-          item: item!,
+          item: item,
+          isOper: isOper,
         );
       },
     );
@@ -69,8 +86,10 @@ class _AttachedFileBody extends StatefulWidget {
     Key? key,
     required this.isBuy,
     required this.item,
+    required this.isOper,
   }) : super(key: key);
   final bool isBuy;
+  final bool isOper;
   final dynamic item;
   @override
   State<_AttachedFileBody> createState() => __AttachedFileBodyState();
@@ -86,7 +105,7 @@ class __AttachedFileBodyState extends State<_AttachedFileBody> {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<AttachedFileViewModel>().onInit(context);
+      context.read<AttachedFileViewModel>().onInit(context, dataUserProvider);
     });
     _effectSubscription = viewModel.effects.listen((AttachedFileEffect event) {
       if (event is ShowSnackConnetivityEffect) {
@@ -94,7 +113,7 @@ class __AttachedFileBodyState extends State<_AttachedFileBody> {
       } else if (event is ShowSnackbarSuccesEffect) {
         LdSnackbar.buildSuccessSnackbar(
           context,
-          'Se envio exitosamente el archivo',
+          event.message,
         );
       } else if (event is ShowSnackbarErrorEffect) {
         LdSnackbar.buildErrorSnackbar(context, event.message);
