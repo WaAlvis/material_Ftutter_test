@@ -1,16 +1,16 @@
 part of 'history_view.dart';
 
 class HistoryMobile extends StatelessWidget {
-  const  HistoryMobile({
+  const HistoryMobile({
     Key? key,
     required this.keyForm,
-    required this.scrollCtrl, required this.operations,
+    required this.scrollCtrl,
+    required this.operations,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final ScrollController scrollCtrl;
   final List<DataUserAdvertisement> operations;
-
 
   @override
   Widget build(BuildContext context) {
@@ -127,40 +127,37 @@ class HistoryMobile extends StatelessWidget {
                     quantityFilter: 5,
                     textTheme: textTheme,
                   ),
-                  if (viewModel.status.daysMockHistory.isEmpty)
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  else
-                    ListView.separated(
-                      controller: scrollCtrl,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: operations.length,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            dateHeader(viewModel.status.daysMockHistory, index,
-                                textTheme),
-                            ListOperationDay(
-                              viewModel,
-                              textTheme,
-                              viewModel.status.daysMockHistory[index],
-                            ),
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Divider(
-                            thickness: 2,
+                  ListView.separated(
+                    controller: scrollCtrl,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: viewModel.status.operationsForDay.length,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          dateHeader(
+                            textTheme,
+                            viewModel.status.operationsForDay[index].wrapedDate,
                           ),
-                        );
-                      },
-                    )
+                          ListOperationDay(
+                            viewModel,
+                            textTheme,
+                            viewModel.status.operationsForDay[index].data,
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Divider(
+                          thickness: 2,
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -170,12 +167,11 @@ class HistoryMobile extends StatelessWidget {
     );
   }
 
-  Padding dateHeader(
-      List<DayOperation> listOperationByDay, int index, TextTheme textTheme) {
+  Padding dateHeader(TextTheme textTheme,String date, ) {
     return Padding(
       padding: const EdgeInsets.only(left: 32, top: 16, right: 32),
       child: Text(
-        listOperationByDay[index].date,
+        date.capitalize(),
         textAlign: TextAlign.left,
         style: textTheme.textGray.copyWith(
           fontSize: 12,
@@ -194,7 +190,7 @@ class ListOperationDay extends StatelessWidget {
 
   final HistoryViewModel viewModel;
   final TextTheme textTheme;
-  final DayOperation dayOperations;
+  final List<DataUserAdvertisement> dayOperations;
 
   Color get orangeSlash => LdColors.orangeWarning;
 
@@ -206,7 +202,7 @@ class ListOperationDay extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
-      itemCount: dayOperations.operations.length,
+      itemCount: dayOperations.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -222,17 +218,21 @@ class ListOperationDay extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
-                  highlightColor:
-                      dayOperations.operations[index].amount.contains('-')
-                          ? orangeSlash.withOpacity(0.1)
-                          : greenSplash.withOpacity(0.1),
-                  splashColor:
-                      dayOperations.operations[index].amount.contains('-')
-                          ? orangeSlash.withOpacity(0.2)
-                          : greenSplash.withOpacity(0.2),
+                  highlightColor: dayOperations[index]
+                          .advertisement
+                          .valueToSell
+                          .contains('-')
+                      ? orangeSlash.withOpacity(0.1)
+                      : greenSplash.withOpacity(0.1),
+                  splashColor: dayOperations[index]
+                          .advertisement
+                          .valueToSell
+                          .contains('-')
+                      ? orangeSlash.withOpacity(0.2)
+                      : greenSplash.withOpacity(0.2),
                   focusColor: LdColors.orangePrimary.withOpacity(0.4),
-                  onTap: () => viewModel.goDetailHistoryOperation(context,
-                      item: dayOperations.operations[index]),
+                  // onTap: () => viewModel.goDetailHistoryOperation(context,
+                  //     item: dayOperations.operations[index]),
                   // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   //   content: Text('Tap'),
                   // ));
@@ -252,7 +252,9 @@ class ListOperationDay extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              dayOperations.operations[index].amount
+                              dayOperations[index]
+                                      .advertisement
+                                      .valueToSell
                                       .contains('-')
                                   ? 'DLYCOP vendidos'
                                   : 'DLYCOP comprados',
@@ -265,10 +267,14 @@ class ListOperationDay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  dayOperations.operations[index].amount,
+                                  dayOperations[index]
+                                      .advertisement
+                                      .valueToSell,
+                                  // dayOperations.operations[index].amount,
                                   style: textTheme.textBigBlack.copyWith(
-                                    color: dayOperations
-                                            .operations[index].amount
+                                    color: dayOperations[index]
+                                            .advertisement
+                                            .valueToSell
                                             .contains('-')
                                         ? orangeSlash
                                         : greenSplash,
@@ -279,7 +285,9 @@ class ListOperationDay extends StatelessWidget {
                                   width: 10,
                                 ),
                                 SvgPicture.asset(
-                                  dayOperations.operations[index].amount
+                                  dayOperations[index]
+                                          .advertisement
+                                          .valueToSell
                                           .contains('-')
                                       ? LdAssets.dlycopIconRed
                                       : LdAssets.dlycopIconGreen,

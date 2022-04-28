@@ -5,18 +5,25 @@ import 'package:localdaily/services/models/history_operations_user/response/user
 part 'data_user_advertisement.g.dart';
 
 @JsonSerializable()
-class DataUserAdvertisement{
+class DataUserAdvertisement {
+  DataUserAdvertisement({
+    required this.user,
+    required this.advertisement,
+  });
 
- DataUserAdvertisement({
-   required this.user,
-   required this.advertisement,
-
- });
   factory DataUserAdvertisement.fromJson(Map<String, dynamic> json) =>
       _$DataUserAdvertisementFromJson(json);
 
   User user;
- Advertisement advertisement;
+  Advertisement advertisement;
 
   Map<String, dynamic> toJson() => _$DataUserAdvertisementToJson(this);
+}
+
+class GroupAdvertisement {
+  GroupAdvertisement({required this.wrapedDate, required this.data});
+
+  String wrapedDate;
+  List<DataUserAdvertisement> data;
+
 }

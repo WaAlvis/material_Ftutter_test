@@ -164,13 +164,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   void goHistoryOperations(BuildContext context, String idUSer) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
         //TODO hacer servicio q obtiene el historial de operaciones
-        getHistoryOperationsUser(idUSer);
-        if( status.listHistoryOpertaions.isNotEmpty){
-          _route.goHistoryOperations(context, status.listHistoryOpertaions);
-        }
+        await getHistoryOperationsUser(context,idUSer);
+
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -209,7 +207,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
-  Future<void> getHistoryOperationsUser(String idUSer) async {
+  Future<void> getHistoryOperationsUser(BuildContext context, String idUSer) async {
+    //TODO cambiar la consulta a la vista del historial
     status = status.copyWith(isLoading: true);
 
     final BodyHistoryOperationsUser bodyHistoryOperationsUser =
@@ -229,12 +228,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         final List<DataUserAdvertisement> dataOperations =
             response.result!.data;
         status = status.copyWith(listHistoryOpertaions: dataOperations);
+        _route.goHistoryOperations(context, status.listHistoryOpertaions);
+
       } else {
         //Add effect NOT success
       }
     }).catchError((err) {
-      // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-
       print('Operations User Error As: ${err}');
       status = status.copyWith(isLoading: false);
     });

@@ -180,7 +180,7 @@ class _HomeBodyState extends State<_HomeBody> {
         final double maxWidth = constraints.maxWidth;
 
         return Stack(
-          children: [
+          children:<Widget> [
             CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: <Widget>[

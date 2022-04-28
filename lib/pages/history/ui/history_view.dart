@@ -11,6 +11,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
+import 'string_extension.dart';
 
 part 'history_mobile.dart';
 
@@ -27,6 +28,7 @@ class HistoryView extends StatelessWidget {
       create: (_) => HistoryViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
+        operations,
       ),
       builder: (BuildContext context, _) {
         return Scaffold(
