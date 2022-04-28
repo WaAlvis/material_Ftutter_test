@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/commons/ld_assets.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_effect.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_status.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -12,7 +14,9 @@ import 'package:localdaily/services/models/create_offers/get_banks/response/resu
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/type_offer/data.dart';
+import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
+import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_documents.dart';
@@ -38,26 +42,32 @@ class DetailOperOfferViewModel
     status = DetailOperOfferStatus(
       isLoading: false,
       isError: true,
-      dateOfExpire: '',
+      dateOfExpire: 0,
       listAdvertisementDoc: <AdvertisementDocument>[],
       banks: <Bank>[],
       docsType: <DocType>[],
       isBuy: true,
       item: null,
       state: '',
-      isOper: true,
+      isOper2: true,
       extensionFile: '',
       listAccountTypes: <AccountType>[],
+      userId: '',
+      rateUser: '',
     );
   }
 
   Future<void> onInit(
-      BuildContext context, ConfigurationProvider configurationProvider) async {
+      BuildContext context,
+      ConfigurationProvider configurationProvider,
+      DataUserProvider dataUserProvider) async {
     status = status.copyWith();
 
     final bool next = await LdConnection.validateConnection();
     status = status.copyWith(isLoading: true);
-    status = status.copyWith(isOper: isOper == 'Operacion');
+    status = status.copyWith(isOper2: isOper == 'Operacion' ? true : false);
+    status = status.copyWith(userId: dataUserProvider.getDataUserLogged!.id);
+    print('${status.isOper2} que esta llegando');
     if (next) {
       // TODO: consultar tipo de cuentas
       // getAccountsType(context);
@@ -91,19 +101,17 @@ class DetailOperOfferViewModel
           } catch (e) {
             print('$e accounttype');
           }
-          print('2');
 
           try {
             response.result!.advertisementPayAccount!.forEach((account) {
               DocType _docType = listDocType.firstWhere(
                   (docType) => docType.id == account.documentTypeID);
-              status =
-                  status.copyWith(docsType: [...?status.docsType, _docType]);
+              status = status
+                  .copyWith(docsType: <DocType>[...?status.docsType, _docType]);
             });
           } catch (e) {
             print('$e typedoc');
           }
-          print('3');
 
           try {
             response.result!.advertisementPayAccount!.forEach((account) {
@@ -114,22 +122,24 @@ class DetailOperOfferViewModel
           } catch (e) {
             print('$e banks');
           }
-          print('4');
 
           try {
             Data _isBuy = listTypeOffer.firstWhere((typeOffer) =>
                 typeOffer.id == response.result!.idTypeAdvertisement);
 
             status = status.copyWith(
-                isBuy: _isBuy.description == 'Buy' ? true : false);
-            print('status.isBuy  ${status.isBuy} _isbuy ${_isBuy.description}');
+                isBuy: _isBuy.description == 'Buy'
+                    ? status.isOper2
+                        ? false
+                        : true
+                    : status.isOper2
+                        ? true
+                        : false);
           } catch (e) {
             print('$e isbuy');
           }
-          print('5');
 
           try {
-            print('inicio del try');
             daysForExpire(
               DateTime.fromMillisecondsSinceEpoch(response.result!.expiredDate),
             );
@@ -143,26 +153,21 @@ class DetailOperOfferViewModel
             status = status.copyWith(state: 'Cerrado');
             status = status.copyWith(
                 extensionFile: status.listAdvertisementDoc[0].fileExtension);
-            print('Pagado');
 
             break;
           case '1':
             if (status.listAdvertisementDoc.isEmpty) {
               status = status.copyWith(state: 'Pendiente de pago');
-              print('Pendiente de pago');
             } else {
               status = status.copyWith(state: 'Pagado');
-              print('pago ${status.state}');
 
               status = status.copyWith(
                 extensionFile: status.listAdvertisementDoc[0].fileExtension,
               );
-              print('pagodo');
             }
             break;
           case '0':
             status = status.copyWith(state: 'Publicado');
-            print('Publicado');
 
             break;
           default:
@@ -175,7 +180,7 @@ class DetailOperOfferViewModel
         ); //cambiar mensaje
       }
       // status = status.copyWith(
-      //     state: 'Pendiente de pago', isBuy: true, isOper: true);
+      //     state: 'Pendiente de pago', isBuy: false, isOper: false);
     } else {
       status = status.copyWith(isLoading: false);
 
@@ -216,22 +221,108 @@ class DetailOperOfferViewModel
     return LdDialog.buildDenseAlertDialog(
       context,
       image: LdAssets.cancelBuy,
-      title: '¿Ya no quieres comprar estos DLYCOP?',
-      message:
-          'Piénsalo un poco más. El sistema te dará una mala calificación y perderás la oportunidad de tener más DLYCOP.',
-      btnText: 'Cancelar la compra',
-      onTap: () {},
+      title: isBuy
+          ? isOper
+              ? '¿Ya no quieres comprar estos DLYCOP?'
+              : '¿Quieres quitar esta publicación?'
+          : isOper
+              ? '¿Ya no quieres vender estos DLYCOP?'
+              : '¿Quieres quitar esta publicación?',
+      message: isBuy
+          ? isOper
+              ? 'Piénsalo un poco más. El sistema te dará una mala calificación y perderás la oportunidad de tener más DLYCOP.'
+              : 'Piensalo un poco más. Perderás lo oportunidad de obtener más Dailys.\n\n¿Estás seguro de hacer esto?'
+          : isOper
+              ? 'Piénsalo un poco más. El sistema te dará una mala calificación y perderás la oportunidad de ganar dinero.'
+              : 'Piensalo un poco más. Perderás lo oportunidad de obtener más Dailys.\n\n¿Estás seguro de hacer esto?',
+      btnText: isBuy
+          ? isOper
+              ? 'Cancelar la compra'
+              : 'Sí, quitar'
+          : 'Sí, cancelar la venta',
+      onTap: () {
+        cancelAdvertisement(context);
+      },
       btnTextSecondary: 'Cancelar',
       onTapSecondary: () => viewModel.closeDialog(context),
     );
+  }
+
+  void getDialogConfirmPay(
+    BuildContext context,
+    DetailOperOfferViewModel viewModel,
+  ) {
+    return LdDialog.buildDenseAlertDialog(
+      context,
+      image: LdAssets.payConfirm,
+      title: 'Confirmar pago',
+      message:
+          'Estas a punto de confirmar que recibiste completo el pago del comprador y el comprobante es verdadero. \n\n¿Quieres confirmar el pago?',
+      btnText: 'Sí, confirmar',
+      onTap: () {
+        confirmPay(context);
+      },
+      btnTextSecondary: 'Cancelar',
+      onTapSecondary: () => viewModel.closeDialog(context),
+    );
+  }
+
+  Future<void> confirmPay(BuildContext context) async {
+    status = status.copyWith(isLoading: true);
+    closeDialog(context);
+    addEffect(ShowLoadingEffect());
+
+    ConfirmPayment body = ConfirmPayment(
+      idAvertisement: offerId,
+      addressDestiny: '',
+      value: '2',
+      message: 'Usuario confirmo orden de pago',
+    );
+    try {
+      await _interactor.confirmPayment(body).then((response) {
+        status = status.copyWith(isLoading: false);
+        // addEffect(ShowSnackbarSuccesEffect());
+        // closeDialog(context);
+      });
+    } catch (e) {
+      addEffect(ShowSnackbarErrorEffect(e.toString()));
+      status = status.copyWith(isLoading: true);
+    }
+  }
+
+  Future<void> cancelAdvertisement(BuildContext context) async {
+    closeDialog(context);
+
+    status = status.copyWith(isLoading: true);
+    final BodyUpdateStatus body = BodyUpdateStatus(
+      idAdvertisement: offerId,
+      idUserInteraction: status.userId!,
+      statusOrigin: int.parse(status.item!.idStatus),
+      statusDestiny: 2, //OfferStatus.closed,
+      successfulTransaction:
+          status.userId != status.item!.idUserPublish ? true : false,
+    );
+
+    try {
+      await _interactor.reserveOffer(body).then((response) {
+        _router.goDetailOperOffer(
+          context,
+          offerId,
+          status.isOper2 ? 'Operacion' : 'Oferta',
+          replace: true,
+        );
+        status = status.copyWith(isLoading: false);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void daysForExpire(DateTime date) {
     final DateTime birthday = DateTime(date.year, date.month, date.day);
     final DateTime date2 = DateTime.now();
     final int difference = date2.difference(birthday).inDays;
-    status = status.copyWith(dateOfExpire: difference.toString());
-    print('status.dateOfExpire ${difference.toString()}');
-    print(difference.toString());
+    status = status.copyWith(dateOfExpire: difference);
+    // print('status.dateOfExpire ${difference.toString()}');
   }
 }

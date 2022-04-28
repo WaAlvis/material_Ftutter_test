@@ -1,15 +1,15 @@
 part of '../attached_file_view.dart';
 
 class InteractiveAttachedFile extends StatefulWidget {
-  const InteractiveAttachedFile(
-      {Key? key,
-      required this.fileDoc,
-      required this.extensionFile,
-      required this.bytes})
-      : super(key: key);
-  final String fileDoc;
-  final String extensionFile;
-  final Uint8List bytes;
+  const InteractiveAttachedFile({
+    Key? key,
+    // required this.fileDoc,
+    // required this.extensionFile,
+    // required this.bytes
+  }) : super(key: key);
+  // final String fileDoc;
+  // final String extensionFile;
+  // final Uint8List bytes;
 
   @override
   State<InteractiveAttachedFile> createState() =>
@@ -26,7 +26,7 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
     final AttachedFileViewModel viewModel =
         context.watch<AttachedFileViewModel>();
     print(
-        '${widget.fileDoc} ruta del archivo ${widget.extensionFile} extension del archivo');
+        '${viewModel.status.filePath} ruta del archivo ${viewModel.status.extensionFile} extension del archivo');
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
@@ -35,7 +35,7 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
         });
       },
       child: Column(
-        children: [
+        children: <Widget>[
           InteractiveViewer(
             maxScale: 5.0,
             minScale: 0.5,
@@ -46,13 +46,17 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
               ),
               height: 400,
               width: 400,
-              child: widget.extensionFile == '' && widget.fileDoc == '' ||
-                      widget.extensionFile == '.pdf'
+              child: (viewModel.status.extensionFile == '' &&
+                          viewModel.status.filePath == null) ||
+                      viewModel.status.extensionFile == '.pdf'
                   ? Stack(
                       children: <Widget>[
                         Center(
                           child: SvgPicture.asset(
                             LdAssets.downloadFile,
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.scaleDown,
                           ),
                         ),
                         const SizedBox(
@@ -61,20 +65,24 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
                         const Center()
                       ],
                     )
-                  : widget.bytes != Uint8List(0)
-                      ? widget.fileDoc == ''
-                          ? Image.memory(widget.bytes)
+                  : viewModel.status.bytes != null
+                      ? viewModel.status.filePath == null
+                          ? Image.memory(viewModel.status.bytes!)
                           : Image.file(
-                              File(widget.fileDoc),
+                              File(viewModel.status.filePath ?? ''),
                               fit: BoxFit.cover,
                             )
-                      : widget.fileDoc != '' && widget.bytes == Uint8List(0)
+                      : viewModel.status.filePath != null &&
+                              viewModel.status.bytes == null
                           ? Image.file(
-                              File(widget.fileDoc),
+                              File(viewModel.status.filePath ?? ''),
                               fit: BoxFit.cover,
                             )
                           : SvgPicture.asset(
                               LdAssets.downloadFile,
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.scaleDown,
                             ),
             ),
           ),
@@ -94,7 +102,8 @@ void confirmBottomSheet(
 }) {
   showModalBottomSheet<void>(
     context: context,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
     builder: (BuildContext context) {
       final ImagePicker _picker = ImagePicker();
 

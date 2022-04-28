@@ -54,23 +54,26 @@ class _DetailOperOfferMobile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             OperationHeader(
-                              expiredDate: viewModel.status.item!.expiredDate,
+                              expiredDate: viewModel.status.dateOfExpire,
                               isBuy: viewModel.status.isBuy,
-                              ad: '${viewModel.status.item!.reference}',
+                              ad: viewModel.status.item?.reference.toString() ??
+                                  '',
                               textTheme: textTheme,
                               size: size,
                               state: estado,
+                              isOper: viewModel.status.isOper2,
                             ),
                             const SizedBox(
                               height: 20,
                             ),
-                            CardDetailOperOffer(
-                              textTheme: textTheme,
-                              isBuy: viewModel.status.isBuy,
-                              state: estado,
-                              item: viewModel.status.item,
-                              viewModel: viewModel,
-                            ),
+                            if (viewModel.status.item != null)
+                              CardDetailOperOffer(
+                                textTheme: textTheme,
+                                isBuy: viewModel.status.isBuy,
+                                state: estado,
+                                item: viewModel.status.item,
+                                viewModel: viewModel,
+                              ),
                             const SizedBox(height: 32),
                             Text(
                               'Comprobante de pago',
@@ -80,14 +83,17 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 24,
                             ),
-                            CardDetailPay(
-                              textTheme: textTheme,
-                              viewModel: viewModel,
-                              state: estado,
-                              isBuy: viewModel.status.isBuy,
-                              isOper: viewModel.status.isOper,
-                              item: viewModel.status.item!,
-                            ),
+                            if (viewModel.status.item != null)
+                              CardDetailPay(
+                                textTheme: textTheme,
+                                viewModel: viewModel,
+                                state: estado,
+                                isBuy: viewModel.status.isBuy,
+                                isOper: viewModel.status.isOper2,
+                                item: viewModel.status.item!,
+                              )
+                            else
+                              Container(),
                             const SizedBox(
                               height: 32,
                             ),
@@ -99,11 +105,14 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 40,
                             ),
-                            CardDetailinfo(
-                              textTheme: textTheme,
-                              isBuy: viewModel.status.isBuy,
-                              item: viewModel.status.item!,
-                            ),
+                            if (viewModel.status.item != null)
+                              CardDetailinfo(
+                                textTheme: textTheme,
+                                isBuy: viewModel.status.isBuy,
+                                item: viewModel.status.item!,
+                              )
+                            else
+                              Container(),
                             const SizedBox(
                               height: 21,
                             ),
@@ -114,10 +123,17 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 9,
                             ),
-                            CardAddInfo(
-                              textTheme: textTheme,
-                              addInfo: viewModel.status.item!.termsOfTrade,
-                            ),
+
+                            if (viewModel.status.item != null)
+                              CardAddInfo(
+                                textTheme: textTheme,
+                                addInfo: viewModel.status.item!.termsOfTrade,
+                              )
+                            else
+                              CardAddInfo(
+                                textTheme: textTheme,
+                                addInfo: '',
+                              ),
                             // const SizedBox(
                             //   height: 40,
                             // ),
@@ -135,24 +151,28 @@ class _DetailOperOfferMobile extends StatelessWidget {
                               height: 56,
                             ),
                             if (estado == 'Pendiente de pago' &&
-                                    viewModel.status.isOper ||
+                                    viewModel.status.isOper2 ||
                                 estado == 'Publicado')
                               Container(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: PrimaryButtonCustom(
                                   isBuy
-                                      ? viewModel.status.isOper
+                                      ? viewModel.status.isOper2
                                           ? 'Cancelar la compra'
                                           : 'Quitar la publicación'
-                                      : viewModel.status.isOper
+                                      : viewModel.status.isOper2
                                           ? 'Cancelar la venta'
                                           : 'Quitar la publicación',
                                   colorText: LdColors.orangePrimary,
                                   colorButton: LdColors.white,
                                   colorTextBorder: LdColors.orangePrimary,
                                   onPressed: () {
-                                    viewModel.getDialog(context, viewModel,
-                                        isBuy, viewModel.status.isOper);
+                                    viewModel.getDialog(
+                                      context,
+                                      viewModel,
+                                      isBuy,
+                                      viewModel.status.isOper2,
+                                    );
                                   },
                                 ),
                               )
@@ -172,6 +192,10 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               width: 8,
                             ),
+                            const SizedBox(
+                              height: 53,
+                            ),
+                            CardRateUser(),
                           ],
                         )
                       ],

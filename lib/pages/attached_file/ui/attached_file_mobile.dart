@@ -54,11 +54,7 @@ class _AttachedFileMobile extends StatelessWidget {
                             file: viewModel.status.bytes!,
                           )
                         else
-                          InteractiveAttachedFile(
-                            fileDoc: viewModel.status.filePath ?? '',
-                            extensionFile: viewModel.extensionFile,
-                            bytes: viewModel.status.bytes!,
-                          ),
+                          const InteractiveAttachedFile(),
                         const SizedBox(
                           height: 16,
                         ),

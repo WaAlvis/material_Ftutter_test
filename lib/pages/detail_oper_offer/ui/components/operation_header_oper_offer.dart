@@ -9,6 +9,7 @@ class OperationHeader extends StatelessWidget {
     required this.size,
     required this.state,
     required this.expiredDate,
+    required this.isOper,
   }) : super(key: key);
 
   // final TypeOffer type;
@@ -19,14 +20,26 @@ class OperationHeader extends StatelessWidget {
   final Size size;
   final String state;
   final int expiredDate;
+  final bool isOper;
 
   @override
   Widget build(BuildContext context) {
+    final DetailOperOfferViewModel viewModel =
+        context.watch<DetailOperOfferViewModel>();
+    print(
+        'isBuy? ${viewModel.status.isBuy}  isOper2 ${viewModel.status.isOper2}');
+    print('isBuy? $isBuy  isOper $isOper');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          isBuy ? 'Oferta de compra' : 'Detalles de la venta',
+          isBuy
+              ? viewModel.status.isOper2
+                  ? 'Detalle de la compra'
+                  : 'Oferta de compra'
+              : viewModel.status.isOper2
+                  ? 'Detalle de la venta'
+                  : 'Oferta de venta',
           style: textTheme.subtitleBlack.copyWith(
             fontWeight: FontWeight.bold,
           ),

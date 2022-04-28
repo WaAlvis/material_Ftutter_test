@@ -48,7 +48,7 @@ class AttachedFileViewModel
       offerId: offerId,
       extensionFile: extensionFile,
       isView: isView2,
-      bytes: Uint8List(0),
+      bytes: null,
     );
   }
 
@@ -155,6 +155,7 @@ class AttachedFileViewModel
       closeDialog(context);
     } else {
       // User canceled the picker
+      closeDialog(context);
     }
   }
 

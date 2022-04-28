@@ -14,6 +14,7 @@ import 'package:localdaily/services/models/create_offers/type_offer/result_type_
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -101,7 +102,6 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultValidatePin> response =
         await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
-    print(response.result);
     return response;
   }
 
@@ -173,6 +173,15 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultTypeOffer> response =
         await locator<LocalDailyGatewayService>().getTypeAdvertisement(body);
+
+    return response;
+  }
+
+  Future<ResponseData<bool>> confirmPayment(
+    ConfirmPayment body,
+  ) async {
+    final ResponseData<bool> response =
+        await locator<LocalDailyGatewayService>().confirmPayment(body);
 
     return response;
   }

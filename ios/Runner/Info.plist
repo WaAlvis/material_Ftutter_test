@@ -8,8 +8,8 @@
 	<string>La aplicacion necesita poder acceder a la galeria para subir comprobantes.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-   <string>Acceso a los archivos de su dispositivo.</string>
-   <string>Poder filtran los archivos que pude subir como coprobantes.</string>
+    	<string>Acceso a los archivos de su dispositivo.</string>
+    	<string>Poder filtran los archivos que pude subir como coprobantes.</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

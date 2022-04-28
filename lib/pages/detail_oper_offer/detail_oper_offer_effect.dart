@@ -17,3 +17,5 @@ class ShowSnackbarErrorEffect extends DetailOperOfferEffect {
   final String message;
   ShowSnackbarErrorEffect(this.message);
 }
+
+class ShowLoadingEffect extends DetailOperOfferEffect {}

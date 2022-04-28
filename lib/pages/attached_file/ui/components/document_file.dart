@@ -15,7 +15,7 @@ class _DocumentFileState extends State<DocumentFile> {
         context.watch<AttachedFileViewModel>();
     return GestureDetector(
       child: Column(
-        children: [
+        children: <Widget>[
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -27,7 +27,7 @@ class _DocumentFileState extends State<DocumentFile> {
               children: <Widget>[
                 Center(
                   child: SvgPicture.asset(
-                    LdAssets.downloadFile,
+                    LdAssets.buyNoOffer,
                   ),
                 ),
               ],

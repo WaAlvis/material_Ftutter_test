@@ -13,39 +13,42 @@ class DetailOperOfferStatus extends ViewStatus {
   final bool isLoading;
   final bool isError;
   final ResultDataAdvertisement? item;
-  final String dateOfExpire;
+  final int dateOfExpire;
   final bool isBuy;
   final String? state;
-  final bool isOper;
+  final bool isOper2;
   final String? extensionFile;
+  final String? userId;
   List<AccountType> listAccountTypes;
   List<Bank> banks;
   List<AdvertisementDocument> listAdvertisementDoc;
   List<DocType>? docsType;
+  String? rateUser;
 
   // agregar demas estados con el servicio
 
-  DetailOperOfferStatus({
-    required this.isLoading,
-    required this.isError,
-    required this.item,
-    required this.isBuy,
-    required this.docsType,
-    required this.dateOfExpire,
-    required this.listAdvertisementDoc,
-    required this.banks,
-    required this.state,
-    required this.listAccountTypes,
-    required this.isOper,
-    required this.extensionFile,
-  });
+  DetailOperOfferStatus(
+      {required this.isLoading,
+      required this.isError,
+      required this.item,
+      required this.isBuy,
+      required this.docsType,
+      required this.dateOfExpire,
+      required this.listAdvertisementDoc,
+      required this.banks,
+      required this.state,
+      required this.listAccountTypes,
+      required this.isOper2,
+      required this.extensionFile,
+      required this.userId,
+      required this.rateUser});
 
   DetailOperOfferStatus copyWith({
-    String? dateOfExpire,
+    int? dateOfExpire,
     bool? isLoading,
     bool? isError,
     bool? isBuy,
-    bool? isOper,
+    bool? isOper2,
     List<DocType>? docsType,
     ResultDataAdvertisement? item,
     List<AdvertisementDocument>? listAdvertisementDoc,
@@ -53,6 +56,8 @@ class DetailOperOfferStatus extends ViewStatus {
     String? state,
     List<AccountType>? resultAccountTypes,
     String? extensionFile,
+    String? userId,
+    String? rateUser,
   }) {
     return DetailOperOfferStatus(
       isLoading: isLoading ?? this.isLoading,
@@ -65,8 +70,10 @@ class DetailOperOfferStatus extends ViewStatus {
       docsType: docsType ?? this.docsType,
       state: state ?? this.state,
       listAccountTypes: listAccountTypes,
-      isOper: isOper ?? this.isOper,
+      isOper2: isOper2 ?? this.isOper2,
       extensionFile: extensionFile ?? extensionFile,
+      userId: userId ?? this.userId,
+      rateUser: rateUser ?? rateUser,
     );
   }
 }

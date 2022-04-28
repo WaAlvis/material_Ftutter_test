@@ -151,19 +151,20 @@ class CardDetailPay extends StatelessWidget {
             ),
             if (state == 'Pagado' || state == 'Pendiente de pago')
               if (isBuy && state == 'Pendiente de pago')
-                PrimaryButtonCustom(isBuy ? 'Adjuntar' : 'Confirmar pago',
-                    colorButton:
-                        state == 'Pendiente de pago' ? LdColors.white : _color,
-                    colorTextBorder:
-                        state == 'Pendiente de pago' ? _color : LdColors.white,
-                    icon: isBuy ? Icons.attach_file : null,
-                    colorText: LdColors.white,
-                    onPressed: isBuy
-                        ? () {
-                            viewModel.goAttachedFile(context, isOper, '');
-                          }
-                        : () {} //confirmar pago,
-                    )
+                PrimaryButtonCustom(
+                  isBuy ? 'Adjuntar' : 'Confirmar pago',
+                  colorButton:
+                      state == 'Pendiente de pago' ? LdColors.white : _color,
+                  colorTextBorder:
+                      state == 'Pendiente de pago' ? _color : LdColors.white,
+                  icon: isBuy ? Icons.attach_file : null,
+                  colorText: LdColors.white,
+                  onPressed: isBuy
+                      ? () {
+                          viewModel.goAttachedFile(context, isOper, '');
+                        }
+                      : () {}, //confirmar pago,
+                )
               else if (state == 'Pagado' && !isBuy)
                 PrimaryButtonCustom(
                   isBuy ? 'Adjuntar' : 'Confirmar pago',
@@ -173,7 +174,9 @@ class CardDetailPay extends StatelessWidget {
                       state == 'Pendiente de pago' ? _color : LdColors.white,
                   icon: isBuy ? Icons.attach_file : null,
                   colorText: LdColors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    viewModel.getDialogConfirmPay(context, viewModel);
+                  },
                 )
               else if (state == 'Pagado' && isBuy)
                 PrimaryButtonCustom(
@@ -188,7 +191,9 @@ class CardDetailPay extends StatelessWidget {
                       ? () {
                           viewModel.goAttachedFile(context, isOper, '');
                         }
-                      : () {},
+                      : () {
+                          viewModel.getDialogConfirmPay(context, viewModel);
+                        },
                 )
               else
                 Container()

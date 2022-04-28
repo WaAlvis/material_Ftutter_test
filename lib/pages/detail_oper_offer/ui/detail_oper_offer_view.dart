@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -52,6 +53,8 @@ part 'components/card_bank_buy.dart';
 
 part 'components/card_bank_sell.dart';
 
+part 'components/card_rate_user.dart';
+
 part 'detail_oper_offer_web.dart';
 
 class DetailOperOfferView extends StatelessWidget {
@@ -98,11 +101,11 @@ class __DetailOperOfferBodyState extends State<_DetailOperOfferBody> {
         context.read<DetailOperOfferViewModel>();
     final ConfigurationProvider configurationProvider =
         context.read<ConfigurationProvider>();
-
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context
           .read<DetailOperOfferViewModel>()
-          .onInit(context, configurationProvider);
+          .onInit(context, configurationProvider, dataUserProvider);
     });
 
     _effectSubscription =

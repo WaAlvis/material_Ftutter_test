@@ -33,10 +33,9 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
         state: widget.state,
         isBuy: widget.isBuy,
         item: widget.item,
-        isOper: widget.viewModel.status.isOper,
+        isOper: widget.viewModel.status.isOper2,
       ),
     );
-    print('object Aaaaaaaaaaaaa ${widget.state}');
     switch (widget.state) {
       case 'Cerrado':
         _color = LdColors.blueState;
@@ -111,42 +110,42 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
         state: 'Cerrado',
         isBuy: widget.isBuy,
         item: widget.item,
-        isOper: widget.viewModel.status.isOper,
+        isOper: widget.viewModel.status.isOper2,
       ));
       _list2.add(DetailState(
         state: 'Pagado',
         isBuy: widget.isBuy,
         item: widget.item,
-        isOper: widget.viewModel.status.isOper,
+        isOper: widget.viewModel.status.isOper2,
       ));
       _list2.add(DetailState(
         state: 'Pendiente de pago',
         isBuy: widget.isBuy,
         item: widget.item,
-        isOper: widget.viewModel.status.isOper,
+        isOper: widget.viewModel.status.isOper2,
       ));
       _list2.add(
         DetailState(
           state: 'Publicado',
           isBuy: widget.isBuy,
           item: widget.item,
-          isOper: widget.viewModel.status.isOper,
+          isOper: widget.viewModel.status.isOper2,
         ),
       );
       if (countStates == 1) {
         _list.add(_list2[3]);
       } else if (countStates == 2) {
         _list.add(_list2[2]);
-        widget.viewModel.status.isOper ? null : _list.add(_list2[3]);
+        widget.viewModel.status.isOper2 ? null : _list.add(_list2[3]);
       } else if (countStates == 3) {
         _list.add(_list2[1]);
         _list.add(_list2[2]);
-        widget.viewModel.status.isOper ? null : _list.add(_list2[3]);
+        widget.viewModel.status.isOper2 ? null : _list.add(_list2[3]);
       } else if (countStates == 4) {
         _list.add(_list2[0]);
         _list.add(_list2[1]);
         _list.add(_list2[2]);
-        widget.viewModel.status.isOper ? null : _list.add(_list2[3]);
+        widget.viewModel.status.isOper2 ? null : _list.add(_list2[3]);
       }
       setState(() {});
     } else {
@@ -155,7 +154,7 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
         state: widget.state,
         isBuy: widget.isBuy,
         item: widget.item,
-        isOper: widget.viewModel.status.isOper,
+        isOper: widget.viewModel.status.isOper2,
       ));
       setState(() {});
     }
