@@ -5,12 +5,10 @@ class HistoryMobile extends StatelessWidget {
     Key? key,
     required this.keyForm,
     required this.scrollCtrl,
-    required this.operations,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
   final ScrollController scrollCtrl;
-  final List<DataUserAdvertisement> operations;
 
   @override
   Widget build(BuildContext context) {

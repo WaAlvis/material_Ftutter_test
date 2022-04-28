@@ -71,7 +71,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
       balance: -1,
-      listHistoryOpertaions: <DataUserAdvertisement>[],
+      // listHistoryOpertaions: <DataUserAdvertisement>[],
     );
   }
 
@@ -163,12 +163,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // can't launch url, there is some error
   }
 
-  void goHistoryOperations(BuildContext context, String idUSer) {
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
     LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
         //TODO hacer servicio q obtiene el historial de operaciones
-        await getHistoryOperationsUser(context,idUSer);
-
+        // await getHistoryOperationsUser(context,idUSer);
+        _route.goHistoryOperations(
+          context,
+        );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -205,39 +209,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
-  }
-
-  Future<void> getHistoryOperationsUser(BuildContext context, String idUSer) async {
-    //TODO cambiar la consulta a la vista del historial
-    status = status.copyWith(isLoading: true);
-
-    final BodyHistoryOperationsUser bodyHistoryOperationsUser =
-        BodyHistoryOperationsUser(
-      idUser: idUSer,
-      pagination: Pagination(
-        isPaginable: true,
-        currentPage: 1,
-        itemsPerPage: 10,
-      ),
-    );
-
-    _interactor
-        .getHistoryOperationsUser(bodyHistoryOperationsUser)
-        .then((ResponseData<ResultHistoryOperationsUser> response) {
-      if (response.isSuccess) {
-        final List<DataUserAdvertisement> dataOperations =
-            response.result!.data;
-        status = status.copyWith(listHistoryOpertaions: dataOperations);
-        _route.goHistoryOperations(context, status.listHistoryOpertaions);
-
-      } else {
-        //Add effect NOT success
-      }
-    }).catchError((err) {
-      print('Operations User Error As: ${err}');
-      status = status.copyWith(isLoading: false);
-    });
-    status = status.copyWith(isLoading: false);
   }
 
   void goLogin(BuildContext context) {

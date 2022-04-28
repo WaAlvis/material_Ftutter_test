@@ -16,7 +16,7 @@ class HomeStatus extends ViewStatus {
   late ResultHome operationSaleData;
   late ResultHome myOfferBuyData;
   late ResultHome myOfferSaleData;
-  late List<DataUserAdvertisement> listHistoryOpertaions;
+
 
   final TypeOffer typeOffer;
   final String image;
@@ -35,7 +35,7 @@ class HomeStatus extends ViewStatus {
     required this.operationSaleData,
     required this.myOfferBuyData,
     required this.myOfferSaleData,
-    required this.listHistoryOpertaions,
+    // required this.listHistoryOpertaions,
     required this.hideWallet,
     required this.hideValues,
     required this.indexTab,
@@ -65,7 +65,7 @@ class HomeStatus extends ViewStatus {
     TypeOffer? typeOffer,
     String? image,
     String? titleText,
-    List<DataUserAdvertisement>? listHistoryOpertaions,
+    // List<DataUserAdvertisement>? listHistoryOpertaions,
     // String? detailText,
     String? buttonText,
     double? balance,
@@ -85,8 +85,8 @@ class HomeStatus extends ViewStatus {
       myOfferSaleData: myOfferSaleData ?? this.myOfferSaleData,
       typeOffer: typeOffer ?? this.typeOffer,
       image: image ?? this.image,
-      listHistoryOpertaions:
-          listHistoryOpertaions ?? this.listHistoryOpertaions,
+      // listHistoryOpertaions:
+      //     listHistoryOpertaions ?? this.listHistoryOpertaions,
       titleText: titleText ?? this.titleText,
       // detailText: detailText ?? this.detailText,
       buttonText: buttonText ?? this.buttonText,

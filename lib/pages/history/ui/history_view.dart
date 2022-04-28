@@ -7,6 +7,8 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/history_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
@@ -18,9 +20,9 @@ part 'history_mobile.dart';
 part 'history_web.dart';
 
 class HistoryView extends StatelessWidget {
-  const HistoryView({Key? key, this.operations}) : super(key: key);
-
-  final List<DataUserAdvertisement>? operations;
+  const HistoryView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +30,11 @@ class HistoryView extends StatelessWidget {
       create: (_) => HistoryViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
-        operations,
       ),
       builder: (BuildContext context, _) {
-        return Scaffold(
+        return const Scaffold(
           backgroundColor: LdColors.white,
-          body: _HistoryBody(
-            operations: operations!,
-          ),
+          body: _HistoryBody(),
         );
       },
     );
@@ -43,9 +42,9 @@ class HistoryView extends StatelessWidget {
 }
 
 class _HistoryBody extends StatefulWidget {
-  const _HistoryBody({Key? key, required this.operations}) : super(key: key);
-
-  final List<DataUserAdvertisement> operations;
+  const _HistoryBody({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HistoryBodyState createState() => _HistoryBodyState();
@@ -54,21 +53,18 @@ class _HistoryBody extends StatefulWidget {
 class _HistoryBodyState extends State<_HistoryBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   final ScrollController _scrollCtrl = ScrollController();
+  late DataUserProvider userProvider;
 
   @override
   void initState() {
-    // final HistoryViewModel viewModel = context.read<HistoryViewModel>();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<HistoryViewModel>().onInit(_scrollCtrl);
-    });
+
+    final HistoryViewModel viewModel = context.read<HistoryViewModel>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
+    WidgetsBinding.instance!.addPostFrameCallback(
+          (_) => viewModel.onInit(_scrollCtrl, dataUserProvider.getDataUserLogged!.id),
+    );
     super.initState();
-    // _scrollCtrl.addListener(() {
-    //   if (_scrollCtrl.position.pixels >= _scrollCtrl.position.maxScrollExtent &&
-    //       !viewModel.status.isLoadingHistory) {
-    //     print('Get Data Historial');
-    //     viewModel.mockFetch();
-    //   }
-    // });
   }
 
   @override
@@ -95,7 +91,6 @@ class _HistoryBodyState extends State<_HistoryBody> {
                   : HistoryMobile(
                       keyForm: keyForm,
                       scrollCtrl: _scrollCtrl,
-                      operations: widget.operations,
                     ),
             )
           ],

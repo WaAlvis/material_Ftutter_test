@@ -299,7 +299,9 @@ class ProfileUser extends StatelessWidget {
   ) {
     switch (opt) {
       case NavigateOption.history:
-        viewModel.goHistoryOperations(context, userProvider.getDataUserLogged?.id ?? '',);
+        viewModel.goHistoryOperations(
+          context,
+        );
         break;
       case NavigateOption.support:
         // TODO: Handle this case.

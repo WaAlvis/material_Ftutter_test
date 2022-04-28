@@ -1,52 +1,37 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
+import 'package:localdaily/services/models/pagination.dart';
+import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
-import 'package:intl/intl.dart';
-
-import 'dart:math';
 
 import 'history_status.dart';
 
 class HistoryViewModel extends ViewModel<HistoryStatus> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
-  final List<DataUserAdvertisement>? operations;
 
   HistoryViewModel(
     this._route,
     this._interactor,
-    this.operations,
   ) {
     status = HistoryStatus(
       isLoading: true,
       isError: false,
       allLoaded: false,
-      daysMockHistory: <DayOperation>[],
-      operations: operations ?? [],
-      operationsForDay: [],
+      listHistoryOperations: <DataUserAdvertisement>[],
+      operationsForDay: <GroupAdvertisement>[],
     );
   }
 
-  Future<void> onInit(ScrollController scrollCtrl) async {
-    // mockFetch();
-    organizeDaysOperations(status.operations);
-    // if (scrollCtrl.position.pixels >= scrollCtrl.position.maxScrollExtent &&
-    //     !status.isLoadingHistory) {
-    //   print('Get Data Historial');
-    //   mockFetch();
-    // }
-    // scrollCtrl.addListener(() {
-    //   if (scrollCtrl.position.pixels >= scrollCtrl.position.maxScrollExtent &&
-    //       !status.isLoadingHistory) {
-    //     print('Get Data Historial');
-    //     mockFetch();
-    //   }
-    // });
+  Future<void> onInit(ScrollController scrollCtrl, String idUser) async {
+    await getAndOrderOperationsForDay(idUser);
   }
 
   void goBack(BuildContext context) {
@@ -61,27 +46,63 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     }
 
     final List<GroupAdvertisement> value = data
-        .fold(<String, List<DataUserAdvertisement>>{},
-            (Map<String, List<DataUserAdvertisement>> a, DataUserAdvertisement b) {
+        .fold(<String, List<DataUserAdvertisement>>{}, (
+          Map<String, List<DataUserAdvertisement>> a,
+          DataUserAdvertisement b,
+        ) {
           final int creationDate = b.advertisement.creationDate;
           final String parseDate = formatDate(creationDate, 'yyyy-MM-dd');
-          a.putIfAbsent(parseDate, () => <DataUserAdvertisement> []).add(b);
+          a.putIfAbsent(parseDate, () => <DataUserAdvertisement>[]).add(b);
           return a;
         })
         .values
         .where((List<DataUserAdvertisement> l) => l.isNotEmpty)
-        .map((List<DataUserAdvertisement> l) =>
-    GroupAdvertisement(wrapedDate:
-                formatDate(l.first.advertisement.creationDate,'MMMM dd yyyy'),data: l ,),
-    )
+        .map(
+          (List<DataUserAdvertisement> l) => GroupAdvertisement(
+            wrapedDate:
+                formatDate(l.first.advertisement.creationDate, 'MMMM dd yyyy'),
+            data: l,
+          ),
+        )
         .toList();
 
     status = status.copyWith(operationsForDay: value);
-
   }
 
-  void goDetailHistoryOperation(BuildContext context,
-      {required Operation item}) {
+  Future<void> getAndOrderOperationsForDay(String idUSer) async {
+    status = status.copyWith(isLoading: true);
+
+    final BodyHistoryOperationsUser bodyHistoryOperationsUser =
+        BodyHistoryOperationsUser(
+      idUser: idUSer,
+      pagination: Pagination(
+        isPaginable: true,
+        currentPage: 1,
+        itemsPerPage: 10,
+      ),
+    );
+
+    _interactor
+        .getHistoryOperationsUser(bodyHistoryOperationsUser)
+        .then((ResponseData<ResultHistoryOperationsUser> response) {
+      if (response.isSuccess) {
+        final List<DataUserAdvertisement> dataOperations =
+            response.result!.data;
+        organizeDaysOperations(dataOperations);
+      } else {
+        //Add effect NOT success
+      }
+    }).catchError((Object err) {
+      print('Operations User Error As: $err');
+      status = status.copyWith(isLoading: false);
+    });
+    status = status.copyWith(isLoading: false);
+  }
+
+  void goDetailHistoryOperation(
+    BuildContext context, {
+    required Operation item,
+  }) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goDetailHistoryOperation(context, item);

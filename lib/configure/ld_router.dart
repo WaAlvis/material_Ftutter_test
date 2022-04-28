@@ -82,19 +82,14 @@ class LdRouter {
       ),
     );
   }
+
   void goHistoryOperations(
     BuildContext context,
-    List<DataUserAdvertisement> operations,
   ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.historyOperationsRoute.route,
       transition: TransitionType.none,
-      routeSettings: RouteSettings(
-        arguments: <String, List<DataUserAdvertisement>>{
-          'operations':  operations
-        },
-      ),
     );
   }
 
@@ -138,7 +133,6 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
-
 
   void goEmailRegister(BuildContext context) {
     AppRouter.router.navigateTo(

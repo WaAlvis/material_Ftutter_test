@@ -7,34 +7,31 @@ class HistoryStatus extends ViewStatus {
   final bool isLoading;
   final bool allLoaded;
   final bool isError;
-  final List<DataUserAdvertisement> operations;
-  final List<DayOperation> daysMockHistory;
   final List<GroupAdvertisement> operationsForDay;
+  late List<DataUserAdvertisement> listHistoryOperations;
 
   HistoryStatus({
     required this.isLoading,
-    required this.operations,
-    required this.daysMockHistory,
     required this.isError,
     required this.allLoaded,
     required this.operationsForDay,
+    required this.listHistoryOperations,
   });
 
   HistoryStatus copyWith({
     bool? isLoading,
-    List<DataUserAdvertisement>? operations,
     List<GroupAdvertisement>? operationsForDay,
-    List<DayOperation>? daysMockHistory,
     bool? isError,
     bool? allLoaded,
+    List<DataUserAdvertisement>? listHistoryOperations,
   }) {
     return HistoryStatus(
       operationsForDay: operationsForDay ?? this.operationsForDay,
-      operations: operations ?? this.operations,
-      daysMockHistory: daysMockHistory ?? this.daysMockHistory,
       allLoaded: allLoaded ?? this.allLoaded,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
+      listHistoryOperations:
+          listHistoryOperations ?? this.listHistoryOperations,
     );
   }
 }
