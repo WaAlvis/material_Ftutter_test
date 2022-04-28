@@ -30,7 +30,10 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     );
   }
 
-  Future<void> onInit(ScrollController scrollCtrl, String idUser) async {
+  Future<void> onInit(
+    String idUser, {
+    bool refresh = false,
+  }) async {
     await getAndOrderOperationsForDay(idUser);
   }
 

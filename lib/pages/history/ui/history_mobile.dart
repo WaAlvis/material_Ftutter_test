@@ -13,7 +13,8 @@ class HistoryMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HistoryViewModel viewModel = context.watch<HistoryViewModel>();
-    // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    String idUser = dataUserProvider.getDataUserLogged!.id;
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
@@ -107,56 +108,63 @@ class HistoryMobile extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-              child: SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              constraints: BoxConstraints(minHeight: hBody),
-              decoration: const BoxDecoration(
-                color: LdColors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25),
-                ),
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: LdColors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(25),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  RowOptionsFilter(
-                    quantityFilter: 5,
-                    textTheme: textTheme,
-                  ),
-                  ListView.separated(
-                    controller: scrollCtrl,
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: viewModel.status.operationsForDay.length,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          dateHeader(
-                            textTheme,
-                            viewModel.status.operationsForDay[index].wrapedDate,
-                          ),
-                          ListOperationDay(
-                            viewModel,
-                            textTheme,
-                            viewModel.status.operationsForDay[index].data,
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Divider(
-                          thickness: 2,
-                        ),
-                      );
-                    },
-                  )
-                ],
+            ),
+            child: RowOptionsFilter(
+              quantityFilter: 5,
+              textTheme: textTheme,
+            ),
+          ),
+          Expanded(
+              child: RefreshIndicator(
+            color: LdColors.orangePrimary,
+            onRefresh: () async {
+              await viewModel.onInit(
+                idUser,
+                refresh: true,
+              );
+            },
+            child: Container(
+              constraints: BoxConstraints(minHeight: hBody),
+              color: LdColors.white,
+              child: ListView.separated(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                controller: scrollCtrl,
+                shrinkWrap: true,
+                itemCount: viewModel.status.operationsForDay.length,
+                padding: EdgeInsets.zero,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      dateHeader(
+                        textTheme,
+                        viewModel.status.operationsForDay[index].wrapedDate,
+                      ),
+                      ListOperationDay(
+                        viewModel,
+                        textTheme,
+                        viewModel.status.operationsForDay[index].data,
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Divider(
+                      thickness: 2,
+                    ),
+                  );
+                },
               ),
             ),
           )),
@@ -165,7 +173,10 @@ class HistoryMobile extends StatelessWidget {
     );
   }
 
-  Padding dateHeader(TextTheme textTheme,String date, ) {
+  Padding dateHeader(
+    TextTheme textTheme,
+    String date,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 32, top: 16, right: 32),
       child: Text(
