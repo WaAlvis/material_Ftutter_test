@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
@@ -14,6 +15,7 @@ import 'package:localdaily/services/models/history_operations_user/response/data
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'string_extension.dart';
 
 part 'history_mobile.dart';

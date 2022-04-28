@@ -139,31 +139,45 @@ class HistoryMobile extends StatelessWidget {
                 ),
                 controller: scrollCtrl,
                 shrinkWrap: true,
-                itemCount: viewModel.status.operationsForDay.length,
+                itemCount: viewModel.status.isLoading
+                    ? 4
+                    : viewModel.status.operationsForDay.length,
                 padding: EdgeInsets.zero,
                 itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      dateHeader(
-                        textTheme,
-                        viewModel.status.operationsForDay[index].wrapedDate,
-                      ),
-                      ListOperationDay(
-                        viewModel,
-                        textTheme,
-                        viewModel.status.operationsForDay[index].data,
-                      ),
-                    ],
-                  );
+                  return viewModel.status.isLoading
+                      ? Shimmer.fromColors(
+                          baseColor: LdColors.whiteDark,
+                          highlightColor: LdColors.grayButton,
+                          child: const Card(
+                            margin: EdgeInsets.all(10),
+                            child: SizedBox(height: 160),
+                          ),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            dateHeader(
+                              textTheme,
+                              viewModel
+                                  .status.operationsForDay[index].wrapedDate,
+                            ),
+                            ListOperationDay(
+                              viewModel,
+                              textTheme,
+                              viewModel.status.operationsForDay[index].data,
+                            ),
+                          ],
+                        );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Divider(
-                      thickness: 2,
-                    ),
-                  );
+                  return viewModel.status.isLoading
+                      ? const SizedBox.shrink()
+                      : const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Divider(
+                            thickness: 2,
+                          ),
+                        );
                 },
               ),
             ),

@@ -41,7 +41,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     _route.pop(context);
   }
 
-  void organizeDaysOperations(List<DataUserAdvertisement> data) {
+  List<GroupAdvertisement> organizeDaysOperations(List<DataUserAdvertisement> data) {
     String formatDate(int timeStamp, String format) {
       final DateTime date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
       final DateFormat formatter = DateFormat(format, 'ES_CO');
@@ -68,8 +68,8 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
           ),
         )
         .toList();
-
-    status = status.copyWith(operationsForDay: value);
+    status = status.copyWith(operationsForDay: value, isLoading: false);
+    return value;
   }
 
   Future<void> getAndOrderOperationsForDay(String idUSer) async {
@@ -91,7 +91,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
       if (response.isSuccess) {
         final List<DataUserAdvertisement> dataOperations =
             response.result!.data;
-        organizeDaysOperations(dataOperations);
+         organizeDaysOperations(dataOperations);
       } else {
         //Add effect NOT success
       }
@@ -99,7 +99,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
       print('Operations User Error As: $err');
       status = status.copyWith(isLoading: false);
     });
-    status = status.copyWith(isLoading: false);
+    // status = status.copyWith(isLoading: false);
   }
 
   void goDetailHistoryOperation(
