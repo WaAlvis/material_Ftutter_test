@@ -13,6 +13,8 @@ import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
+import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
