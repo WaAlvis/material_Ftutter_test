@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 import '../pages/history/ui/history_view.dart';
@@ -104,8 +105,8 @@ class LdRouter {
   }
 
   void goProfileSeller(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.profileSellerRoute.route,
@@ -156,6 +157,17 @@ class LdRouter {
       context,
       AppRoutes.recoverPsw.route,
       transition: TransitionType.none,
+    );
+  }
+
+  void goInfoView(BuildContext context, InfoViewArguments arguments) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.info.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, InfoViewArguments>{'arguments': arguments},
+      ),
     );
   }
 
