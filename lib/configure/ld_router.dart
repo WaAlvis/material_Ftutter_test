@@ -6,6 +6,7 @@ import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 import '../pages/history/ui/history_view.dart';
@@ -159,6 +160,33 @@ class LdRouter {
       context,
       AppRoutes.recoverPsw.route,
       transition: TransitionType.none,
+    );
+  }
+
+  void goNotifications(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.notifications.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goContactSupport(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.contactSupport.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goInfoView(BuildContext context, InfoViewArguments arguments) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.info.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, InfoViewArguments>{'arguments': arguments},
+      ),
     );
   }
 

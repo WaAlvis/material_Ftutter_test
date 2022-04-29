@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/pages/attached_file/ui/attached_file_view.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
+import 'package:localdaily/pages/contact_support/ui/contact_support_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/pages/notification/ui/notification_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
@@ -120,6 +123,31 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const RecoverPswView()),
   );
 
+  static final AppRoute notifications = AppRoute(
+    '/notifications',
+    Handler(handlerFunc: (_, __) => const NotificationView()),
+  );
+
+  static final AppRoute contactSupport = AppRoute(
+    '/contact_support',
+    Handler(
+      handlerFunc: (_, __) => const ContactSupportView(
+        advertisementId: '',
+        reference: '',
+        isbuy: true,
+      ),
+    ),
+  );
+  static final AppRoute info = AppRoute(
+    '/info',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => InfoView(
+        arguments: (context!.settings!.arguments!
+            as Map<String, InfoViewArguments>)['arguments'],
+      ),
+    ),
+  );
+
   // static final AppRoute registerValidateEmailRoute = AppRoute(
   //   '/register_validate_email',
   //   Handler(handlerFunc: (_, __) => const ValidateEmailView()),
@@ -169,7 +197,10 @@ class AppRoutes {
     settingsRoute,
     changePswRoute,
     recoverPsw,
+    notifications,
+    contactSupport,
     profileSellerRoute,
+    info,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
     detailOperOfferRoute,

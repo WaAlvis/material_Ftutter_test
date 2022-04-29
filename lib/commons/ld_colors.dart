@@ -21,10 +21,20 @@ class LdColors {
   static const Color orangePrimary = Color(0xffFC764C);
   static const Color orangeWarning = Color(0xffDE350B);
   static const Color blackBackground = Color(0xff333333);
+  static const Color yellowDark = Color(0xffFFC400);
+  static const Color blueDark = Color(0xff0F4C66);
+
   static const Color blueState = Color(0xff276F8F);
   static const Color grayState = Color(0xff707070);
   static const Color greenState = Color(0xff00875A);
   static const Color greenCard = Color.fromARGB(184, 208, 250, 179);
 
   static const Color redError = Color(0xffFF5959);
+
+  static const Color orangelight = Color(0xFFFFF1ED);
+  static const Color graylight = Color(0xFFEBEBEB);
+  static const Color greenlight = Color(0xFFE2F2EE);
+  static const Color bluelight = Color(0xFFF6FCFF);
+  static const Color yellowlight = Color(0xFFFFF6CC);
+  static const Color redlight = Color(0xFFFFE6DF);
 }

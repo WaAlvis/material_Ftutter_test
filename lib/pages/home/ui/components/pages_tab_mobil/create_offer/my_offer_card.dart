@@ -120,12 +120,14 @@ class TitleBarOffer extends StatelessWidget {
   final String code;
   final int state;
   final TextTheme textTheme;
+  final bool hasDocuments;
 
   const TitleBarOffer({
     Key? key,
     required this.code,
     required this.state,
     required this.textTheme,
+    this.hasDocuments = false,
   }) : super(key: key);
 
   @override
@@ -146,21 +148,17 @@ class TitleBarOffer extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: state == 0
-                ? LdColors.blueState
+                ? LdColors.orangePrimary
                 : state == 1
-                    ? LdColors.greenState
-                    : LdColors.grayState,
+                    ? hasDocuments
+                        ? LdColors.greenState
+                        : LdColors.grayState
+                    : LdColors.blueState,
           ),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              state == 0
-                  ? 'Abierto'
-                  : state == 1
-                      ? 'En proceso'
-                      : state == 2
-                          ? 'Cerrado'
-                          : 'Pendiente',
+              OfferStatus.values[state == 1 && hasDocuments ? 4 : state].name,
               style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
               textAlign: TextAlign.center,
             ),

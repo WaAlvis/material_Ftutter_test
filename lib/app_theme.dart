@@ -146,4 +146,11 @@ extension LDailyAttributes on TextTheme {
         fontWeight: FontWeight.w400,
         fontFamily: 'GTWalsheimPro',
       );
+
+  TextStyle get infoTitle => bodyText1!.copyWith(
+        color: LdColors.orangePrimary,
+        fontSize: 30,
+        fontWeight: FontWeight.w600,
+        fontFamily: 'GTWalsheimPro',
+      );
 }

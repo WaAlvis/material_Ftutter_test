@@ -211,6 +211,17 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
+  void goNotifications(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        //_route.goNotifications(context);
+        _route.goContactSupport(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
   void goProfileSeller(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
@@ -351,7 +362,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.open.index}',
+      statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
     );
@@ -462,7 +473,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.inProcess.index}',
+      statusCode: '${OfferStatus.Pendiente.index}',
       idUserExclusion: '',
       idUserInteraction: userId,
     );
