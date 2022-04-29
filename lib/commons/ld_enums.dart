@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum RegisterStep {
   emailStep_1,
   msjEmailStep_2,
@@ -18,9 +20,12 @@ enum NavigateOption {
 
 enum DailyConnectType { walletAddress, transaction }
 
-enum OfferStatus {
-  open,
-  inProcess,
-  closed,
-  pending,
+enum OfferStatus { Publicado, Pendiente, Cerrado, pending, Pagado }
+
+enum NotificationType {
+  c, // Compra
+  v, // Venta
+  sv, // Soporte Compra
+  sc, // Soporte Venta
+  t, // Tiempo
 }

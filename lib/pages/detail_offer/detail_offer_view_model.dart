@@ -204,10 +204,10 @@ class DetailOfferViewModel
     final BodyUpdateStatus body = BodyUpdateStatus(
       idAdvertisement: item.advertisement.id,
       idUserInteraction: userCurrent.id,
-      statusOrigin: OfferStatus.open.index,
+      statusOrigin: OfferStatus.Publicado.index,
       statusDestiny: typeOffer == TypeOffer.buy
           ? OfferStatus.pending.index
-          : OfferStatus.inProcess.index,
+          : OfferStatus.Pendiente.index,
       successfulTransaction: true,
     );
 

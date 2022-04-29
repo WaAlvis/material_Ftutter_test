@@ -160,6 +160,22 @@ class LdRouter {
     );
   }
 
+  void goNotifications(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.notifications.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goContactSupport(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.contactSupport.route,
+      transition: TransitionType.none,
+    );
+  }
+
   void goInfoView(BuildContext context, InfoViewArguments arguments) {
     AppRouter.router.navigateTo(
       context,
