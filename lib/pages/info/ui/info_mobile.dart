@@ -37,8 +37,10 @@ class _InfoMobile extends StatelessWidget {
                 ),
               ),
               if (arguments.hasActionButton)
-                PrimaryButtonCustom( 'asd',
-                  onPressed: () => arguments.onAction , )
+                PrimaryButtonCustom(
+                  arguments.actionCaption,
+                  onPressed: () => arguments.onAction,
+                )
               else
                 Container(),
               const SizedBox(

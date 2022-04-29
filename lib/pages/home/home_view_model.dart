@@ -204,7 +204,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void goLogin(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        _route.goInfoView(context);
+        _route.goLogin(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
