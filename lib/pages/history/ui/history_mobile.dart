@@ -163,6 +163,7 @@ class HistoryMobile extends StatelessWidget {
                             ),
                             ListOperationDay(
                               viewModel,
+                              dataUserProvider,
                               textTheme,
                               viewModel.status.operationsForDay[index].data,
                             ),
@@ -207,6 +208,7 @@ class HistoryMobile extends StatelessWidget {
 class ListOperationDay extends StatelessWidget {
   const ListOperationDay(
     this.viewModel,
+    this.dataUserProvider,
     this.textTheme,
     this.dayOperations,
   );
@@ -214,6 +216,7 @@ class ListOperationDay extends StatelessWidget {
   final HistoryViewModel viewModel;
   final TextTheme textTheme;
   final List<DataUserAdvertisement> dayOperations;
+  final DataUserProvider dataUserProvider;
 
   Color get orangeSlash => LdColors.orangeWarning;
 
@@ -227,6 +230,9 @@ class ListOperationDay extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       itemCount: dayOperations.length,
       itemBuilder: (BuildContext context, int index) {
+        final bool isBuying = dataUserProvider.getDataUserLogged!.nickName ==
+            dayOperations[index].user.nickName;
+
         return Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -254,11 +260,8 @@ class ListOperationDay extends StatelessWidget {
                       ? orangeSlash.withOpacity(0.2)
                       : greenSplash.withOpacity(0.2),
                   focusColor: LdColors.orangePrimary.withOpacity(0.4),
-                  // onTap: () => viewModel.goDetailHistoryOperation(context,
-                  //     item: dayOperations.operations[index]),
-                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //   content: Text('Tap'),
-                  // ));
+                  onTap: () => viewModel.goDetailHistoryOperation(context,
+                      item: dayOperations[index]),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -275,12 +278,7 @@ class ListOperationDay extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              dayOperations[index]
-                                      .advertisement
-                                      .valueToSell
-                                      .contains('-')
-                                  ? 'DLYCOP vendidos'
-                                  : 'DLYCOP comprados',
+                              isBuying ? 'DLYCOP vendidos' : 'DLYCOP comprados',
                               style: textTheme.textBlack,
                             ),
                             const SizedBox(
@@ -290,17 +288,19 @@ class ListOperationDay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  dayOperations[index]
-                                      .advertisement
-                                      .valueToSell,
-                                  // dayOperations.operations[index].amount,
+                                  '${isBuying ? '-' : ''}${NumberFormat.simpleCurrency(
+                                    decimalDigits: 0,
+                                    name: '',
+                                    locale: 'IT',
+                                  ).format(
+                                    double.parse(
+                                      dayOperations[index]
+                                          .advertisement
+                                          .valueToSell,
+                                    ),
+                                  )}',
                                   style: textTheme.textBigBlack.copyWith(
-                                    color: dayOperations[index]
-                                            .advertisement
-                                            .valueToSell
-                                            .contains('-')
-                                        ? orangeSlash
-                                        : greenSplash,
+                                    color: isBuying ? orangeSlash : greenSplash,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -308,10 +308,7 @@ class ListOperationDay extends StatelessWidget {
                                   width: 10,
                                 ),
                                 SvgPicture.asset(
-                                  dayOperations[index]
-                                          .advertisement
-                                          .valueToSell
-                                          .contains('-')
+                                  isBuying
                                       ? LdAssets.dlycopIconRed
                                       : LdAssets.dlycopIconGreen,
                                   height: 30,
@@ -322,7 +319,7 @@ class ListOperationDay extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              '1 DLYCOP ≈ 1 COP',
+                              '${dayOperations[index].advertisement.margin} DLYCOP ≈ 1 COP',
                               style: textTheme.textGray.copyWith(
                                 fontSize: 12,
                               ),
@@ -390,20 +387,4 @@ class RowOptionsFilter extends StatelessWidget {
       ),
     );
   }
-}
-
-class DayOperation {
-  final List<Operation> operations;
-  final String date;
-
-  const DayOperation(this.operations, {required this.date});
-}
-
-class Operation {
-  final String amount;
-  final String margin;
-  final String nickname;
-  final String rate;
-
-  const Operation(this.amount, this.margin, this.nickname, this.rate);
 }

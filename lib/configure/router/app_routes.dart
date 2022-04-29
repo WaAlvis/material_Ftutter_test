@@ -73,7 +73,7 @@ class AppRoutes {
     '/detail_history_operation',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
-        item: (context!.settings!.arguments! as Map<String, Operation>)['item'],
+        item: (context!.settings!.arguments! as Map<String, DataUserAdvertisement>)['item'],
       ),
     ),
   );
@@ -101,7 +101,7 @@ class AppRoutes {
   static final AppRoute historyOperationsRoute = AppRoute(
     '/history_operations',
      Handler(
-        handlerFunc: (BuildContext? context, __) => const HistoryView(),
+        handlerFunc: (BuildContext? context, __) => HistoryView(),
       ),
   );
 

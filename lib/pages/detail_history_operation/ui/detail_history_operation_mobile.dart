@@ -9,12 +9,13 @@ class DetailHistoryOperationMobile extends StatelessWidget {
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final Operation item;
+  final DataUserAdvertisement item;
 
   // final ScrollController scrollCtrl;
 
   @override
   Widget build(BuildContext context) {
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final DetailHistoryOperationViewModel viewModel =
         context.watch<DetailHistoryOperationViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -23,6 +24,8 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     const double hAppbar = 150;
     final double hBody = size.height - hAppbar;
     final TextStyle styleGrayText = textTheme.textGray.copyWith(fontSize: 14);
+    final bool isBuying =
+        dataUserProvider.getDataUserLogged!.nickName == item.user.nickName;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -128,13 +131,14 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    _operationType(textTheme, styleGrayText),
+                    _operationType(
+                        textTheme, dataUserProvider, styleGrayText, isBuying),
                     RowInfoPartner(textTheme, styleGrayText, item: item),
                     _rowAmount(
                       textTheme,
                       styleGrayText,
                       amountIn: _TypeMoney.dlycop,
-                      amountValue: item.amount,
+                      amountValue: item.advertisement.valueToSell,
                     ),
                     const SizedBox(
                       height: 24,
@@ -147,7 +151,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                       textTheme,
                       styleGrayText,
                       amountIn: _TypeMoney.cop,
-                      amountValue: item.amount,
+                      amountValue: item.advertisement.valueToSell,
                     ),
                     const SizedBox(
                       height: 24,
@@ -166,11 +170,16 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     );
   }
 
-  Column _operationType(TextTheme textTheme, TextStyle styleGrayText) {
+  Column _operationType(
+    TextTheme textTheme,
+    DataUserProvider dataUserProvider,
+    TextStyle styleGrayText,
+    bool isBuying,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (item.amount.contains('-'))
+        if (isBuying)
           Text(
             'Venta de DLYCOP',
             style: textTheme.textBlack.copyWith(
@@ -190,7 +199,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          '# referencia: 0130${item.margin}',
+          '# referencia: ${item.advertisement.reference}',
           style: styleGrayText,
         ),
       ],
@@ -228,7 +237,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          '1 DLYCOP ≈ ${item.margin} COP',
+          '1 DLYCOP ≈ ${item.advertisement.margin} COP',
           style: textTheme.textSmallBlack,
         ),
       ],
@@ -290,7 +299,7 @@ class RowInfoPartner extends StatelessWidget {
   }) : super(key: key);
   final TextStyle styleGrayText;
   final TextTheme textTheme;
-  final Operation item;
+  final DataUserAdvertisement item;
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +335,7 @@ class RowInfoPartner extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            item.nickname,
+                            item.user.nickName,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -357,7 +366,8 @@ class RowInfoPartner extends StatelessWidget {
                             width: 6,
                           ),
                           Text(
-                            item.rate != '0' ? item.rate : '4.5',
+                            // item.rate != '0' ? item.rate : '4.5',
+                            '55',
                           ),
                         ],
                       ),

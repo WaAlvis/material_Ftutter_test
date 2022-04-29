@@ -10,12 +10,12 @@ class DetailHistoryOperationStatus extends ViewStatus {
     required this.isError,
   });
 
-  DetailHistoryOperationStatus copyWith(
-      {bool? isLoading,
-      List<DayOperation>? dayMockOpr,
-      bool? isError,
-      bool? isLoadingOperations,
-      bool? allLoaded}) {
+  DetailHistoryOperationStatus copyWith({
+    bool? isLoading,
+    bool? isError,
+    bool? isLoadingOperations,
+    bool? allLoaded,
+  }) {
     return DetailHistoryOperationStatus(
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,

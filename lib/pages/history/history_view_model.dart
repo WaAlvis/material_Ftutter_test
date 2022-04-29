@@ -104,7 +104,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
 
   void goDetailHistoryOperation(
     BuildContext context, {
-    required Operation item,
+    required DataUserAdvertisement item,
   }) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
