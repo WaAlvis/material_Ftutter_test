@@ -7,10 +7,12 @@ import 'package:localdaily/pages/detail_history_operation/ui/detail_history_oper
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
 import 'package:localdaily/pages/notification/ui/notification_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
+import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
@@ -89,6 +91,11 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const ChangePasswordView()),
   );
 
+  static final AppRoute profileSellerRoute = AppRoute(
+    '/profile_seller',
+    Handler(handlerFunc: (_, __) => const ProfileSellerView()),
+  );
+
   static final AppRoute createOfferBuyRoute = AppRoute(
     '/create_offer_buy',
     Handler(handlerFunc: (_, __) => const OfferBuyView()),
@@ -129,6 +136,15 @@ class AppRoutes {
       ),
     ),
   );
+  static final AppRoute info = AppRoute(
+    '/info',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => InfoView(
+        arguments: (context!.settings!.arguments!
+            as Map<String, InfoViewArguments>)['arguments'],
+      ),
+    ),
+  );
 
   // static final AppRoute registerValidateEmailRoute = AppRoute(
   //   '/register_validate_email',
@@ -156,6 +172,8 @@ class AppRoutes {
     recoverPsw,
     notifications,
     contactSupport,
+    profileSellerRoute,
+    info,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
   ];

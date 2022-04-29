@@ -222,6 +222,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
+  void goProfileSeller(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goProfileSeller(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
   void goDetailOffer(
     BuildContext context, {
     required Data item,
