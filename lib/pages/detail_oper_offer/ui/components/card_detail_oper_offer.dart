@@ -12,7 +12,7 @@ class CardDetailOperOffer extends StatefulWidget {
   final TextTheme textTheme;
   final bool isBuy;
   final String state;
-  final dynamic item;
+  final ResultDataAdvertisement item;
   final DetailOperOfferViewModel viewModel;
 
   @override

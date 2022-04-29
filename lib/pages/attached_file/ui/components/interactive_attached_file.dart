@@ -48,16 +48,18 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
               width: 400,
               child: (viewModel.status.extensionFile == '' &&
                           viewModel.status.filePath == null) ||
-                      viewModel.status.extensionFile == '.pdf'
+                      viewModel.status.extensionUrl == 'pdf'
                   ? Stack(
                       children: <Widget>[
                         Center(
-                          child: SvgPicture.asset(
-                            LdAssets.downloadFile,
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.scaleDown,
-                          ),
+                          child: viewModel.status.extensionUrl != 'pdf'
+                              ? SvgPicture.asset(
+                                  LdAssets.downloadFile,
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.scaleDown,
+                                )
+                              : const Icon(Icons.picture_as_pdf, size: 50),
                         ),
                         const SizedBox(
                           height: 18,

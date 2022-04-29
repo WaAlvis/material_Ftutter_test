@@ -2,7 +2,7 @@ part of '../attached_file_view.dart';
 
 class DocumentFile extends StatefulWidget {
   const DocumentFile({Key? key, required this.file}) : super(key: key);
-  final Uint8List file;
+  final Uint8List? file;
 
   @override
   State<DocumentFile> createState() => _DocumentFileState();
@@ -27,7 +27,7 @@ class _DocumentFileState extends State<DocumentFile> {
               children: <Widget>[
                 Center(
                   child: SvgPicture.asset(
-                    LdAssets.buyNoOffer,
+                    LdAssets.downloadFile,
                   ),
                 ),
               ],
@@ -36,7 +36,7 @@ class _DocumentFileState extends State<DocumentFile> {
         ],
       ),
       onTap: () async {
-        viewModel.saveFile(widget.file);
+        viewModel.saveFile(widget.file!);
       },
     );
   }

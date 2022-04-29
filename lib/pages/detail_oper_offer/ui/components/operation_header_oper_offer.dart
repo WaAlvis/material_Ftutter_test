@@ -26,9 +26,8 @@ class OperationHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final DetailOperOfferViewModel viewModel =
         context.watch<DetailOperOfferViewModel>();
-    print(
-        'isBuy? ${viewModel.status.isBuy}  isOper2 ${viewModel.status.isOper2}');
-    print('isBuy? $isBuy  isOper $isOper');
+    print('horas para expirar oferta ${viewModel.status.dateHours}');
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -47,74 +46,126 @@ class OperationHeader extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              // '# referencia: ${ad.id.substring(0, 5)}',
-              '# referencia: $ad',
-              style: textTheme.textGray,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 6,
-                horizontal: 6,
+        if (state != 'Pendiente de pago')
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                // '# referencia: ${ad.id.substring(0, 5)}',
+                '# referencia: $ad',
+                style: textTheme.textGray,
               ),
-              decoration: BoxDecoration(
-                color: state == 'Cerrado'
-                    ? LdColors.redError
-                    : LdColors.orangePrimary,
-                borderRadius: BorderRadius.circular(6),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6,
+                  horizontal: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: state == 'Cerrado'
+                      ? LdColors.redError
+                      : LdColors.orangePrimary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: state == 'Cerrado'
+                    ? Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.timer,
+                            color: LdColors.white,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          // TODO: Calcular tiempo restante de la publicacion
+                          Text(
+                            'Finalizado',
+                            style: textTheme.textWhite,
+                          )
+                        ],
+                      )
+                    : Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.event,
+                            color: LdColors.white,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          // TODO: Calcular tiempo restante de la publicacion
+                          Text(
+                            expiredDate > 0 ? '$expiredDate d' : '0 d',
+                            style: textTheme.textWhite,
+                          )
+                        ],
+                      ),
+              )
+            ],
+          )
+        else
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.check_box,
+                        color: LdColors.orangePrimary,
+                      ),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Oferta de ${isBuy ? 'Compra' : 'venta'} reservada',
+                          style: textTheme.bodyText2?.copyWith(
+                              color: LdColors.orangePrimary, fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6,
+                        horizontal: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: LdColors.redError,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.timer,
+                            color: LdColors.white,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          // TODO: Calcular tiempo restante de la publicacion
+                          if (viewModel.status.dateHours != null)
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                viewModel.status.dateHours! > 72
+                                    ? 'Finalizado'
+                                    : '${viewModel.status.dateHours} h',
+                                style: textTheme.textWhite,
+                              ),
+                            )
+                        ],
+                      )),
+                ],
               ),
-              child: state == 'Cerrado'
-                  ? Row(
-                      children: <Widget>[
-                        const Icon(
-                          Icons.timer,
-                          color: LdColors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 6),
-                        // TODO: Calcular tiempo restante de la publicacion
-                        Text(
-                          'Finalizado',
-                          style: textTheme.textWhite,
-                        )
-                      ],
-                    )
-                  : Row(
-                      children: <Widget>[
-                        const Icon(
-                          Icons.event,
-                          color: LdColors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 6),
-                        // TODO: Calcular tiempo restante de la publicacion
-                        Text(
-                          DateTime.fromMillisecondsSinceEpoch(
-                                    expiredDate,
-                                    // 1640979000000,
-                                  )
-                                      .difference(
-                                        DateTime.now(),
-                                      )
-                                      .inDays >
-                                  0
-                              ? '${DateTime.fromMillisecondsSinceEpoch(
-                                  expiredDate,
-                                  // 1640979000000,
-                                ).difference(
-                                    DateTime.now(),
-                                  ).inDays.toString()} d'
-                              : '0 d',
-                          style: textTheme.textWhite,
-                        )
-                      ],
-                    ),
-            )
-          ],
-        ),
+              Row(
+                children: [
+                  Text(
+                    // '# referencia: ${ad.id.substring(0, 5)}',
+                    '# referencia: $ad',
+                    style: textTheme.textGray,
+                  ),
+                ],
+              )
+            ],
+          )
       ],
     );
   }

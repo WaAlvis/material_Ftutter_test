@@ -24,24 +24,27 @@ class DetailOperOfferStatus extends ViewStatus {
   List<AdvertisementDocument> listAdvertisementDoc;
   List<DocType>? docsType;
   String? rateUser;
+  int? dateHours;
 
   // agregar demas estados con el servicio
 
-  DetailOperOfferStatus(
-      {required this.isLoading,
-      required this.isError,
-      required this.item,
-      required this.isBuy,
-      required this.docsType,
-      required this.dateOfExpire,
-      required this.listAdvertisementDoc,
-      required this.banks,
-      required this.state,
-      required this.listAccountTypes,
-      required this.isOper2,
-      required this.extensionFile,
-      required this.userId,
-      required this.rateUser});
+  DetailOperOfferStatus({
+    required this.isLoading,
+    required this.isError,
+    required this.item,
+    required this.isBuy,
+    required this.docsType,
+    required this.dateOfExpire,
+    required this.listAdvertisementDoc,
+    required this.banks,
+    required this.state,
+    required this.listAccountTypes,
+    required this.isOper2,
+    required this.extensionFile,
+    required this.userId,
+    required this.rateUser,
+    required this.dateHours,
+  });
 
   DetailOperOfferStatus copyWith({
     int? dateOfExpire,
@@ -58,6 +61,7 @@ class DetailOperOfferStatus extends ViewStatus {
     String? extensionFile,
     String? userId,
     String? rateUser,
+    int? dateHours,
   }) {
     return DetailOperOfferStatus(
       isLoading: isLoading ?? this.isLoading,
@@ -74,6 +78,7 @@ class DetailOperOfferStatus extends ViewStatus {
       extensionFile: extensionFile ?? extensionFile,
       userId: userId ?? this.userId,
       rateUser: rateUser ?? rateUser,
+      dateHours: dateHours ?? this.dateHours,
     );
   }
 }

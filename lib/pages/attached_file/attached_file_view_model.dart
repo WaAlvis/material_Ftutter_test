@@ -49,6 +49,7 @@ class AttachedFileViewModel
       extensionFile: extensionFile,
       isView: isView2,
       bytes: null,
+      extensionUrl: '',
     );
   }
 
@@ -150,8 +151,11 @@ class AttachedFileViewModel
 
     if (result != null) {
       final XFile file = XFile(result.files.single.path!);
+      status = status.copyWith(extensionUrl: result.files.first.extension);
       status = status.copyWith(file: file);
       status = status.copyWith(filePath: file.path);
+      print(
+          '${status.extensionUrl} pppppppppppp ${result.files.first.extension}');
       closeDialog(context);
     } else {
       // User canceled the picker
@@ -188,7 +192,7 @@ class AttachedFileViewModel
       await file.writeAsBytes(docFile);
       addEffect(
         ShowSnackbarSuccesEffect(
-          'Archivo guardado exitmsamente en: ${file.path}',
+          'Archivo guardado exitosamente en: ${file.path}',
         ),
       );
       status = status.copyWith(isLoading: false);

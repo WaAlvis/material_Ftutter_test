@@ -18,6 +18,7 @@ class AttachedFileStatus extends ViewStatus {
   final String? extensionFile;
   final Uint8List? bytes;
   final String? isView;
+  final String? extensionUrl;
 
   AttachedFileStatus({
     this.file,
@@ -33,6 +34,7 @@ class AttachedFileStatus extends ViewStatus {
     required this.extensionFile,
     required this.bytes,
     required this.isView,
+    required this.extensionUrl,
   });
 
   AttachedFileStatus copyWith({
@@ -49,20 +51,23 @@ class AttachedFileStatus extends ViewStatus {
     String? extensionFile,
     Uint8List? bytes,
     String? isView,
+    String? extensionUrl,
   }) {
     return AttachedFileStatus(
-        item: item ?? this.item,
-        isLoading: isLoading ?? this.isLoading,
-        isError: isError ?? this.isError,
-        dateOfExpire: dateOfExpire ?? this.dateOfExpire,
-        isBuy: isBuy ?? this.isBuy,
-        file: file ?? this.file,
-        filePath: filePath ?? this.filePath,
-        isOper: isOper ?? this.isOper,
-        userId: userId ?? this.userId,
-        offerId: offerId ?? this.offerId,
-        extensionFile: extensionFile ?? this.extensionFile,
-        bytes: bytes ?? this.bytes,
-        isView: isView ?? this.isView);
+      item: item ?? this.item,
+      isLoading: isLoading ?? this.isLoading,
+      isError: isError ?? this.isError,
+      dateOfExpire: dateOfExpire ?? this.dateOfExpire,
+      isBuy: isBuy ?? this.isBuy,
+      file: file ?? this.file,
+      filePath: filePath ?? this.filePath,
+      isOper: isOper ?? this.isOper,
+      userId: userId ?? this.userId,
+      offerId: offerId ?? this.offerId,
+      extensionFile: extensionFile ?? this.extensionFile,
+      bytes: bytes ?? this.bytes,
+      isView: isView ?? this.isView,
+      extensionUrl: extensionUrl ?? this.extensionUrl,
+    );
   }
 }

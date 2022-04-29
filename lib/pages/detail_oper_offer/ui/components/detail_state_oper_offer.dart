@@ -11,7 +11,7 @@ class DetailState extends StatefulWidget {
 
   final String state;
   final bool isBuy;
-  final dynamic item;
+  final ResultDataAdvertisement item;
   final bool isOper;
 
   @override
@@ -21,6 +21,7 @@ class DetailState extends StatefulWidget {
 class _DetailStateState extends State<DetailState> {
   Color _color = LdColors.orangePrimary;
   String stateString = '';
+  final DateFormat f = DateFormat('dd-MM-yyyy hh:mm a');
   @override
   void initState() {
     _getColor();
@@ -148,7 +149,14 @@ class _DetailStateState extends State<DetailState> {
                 height: 8,
               ),
               Text(
-                '17/11/2021 - 09:30 a.m',
+                // '17/11/2021 - 09:30 a.m',
+                f.format(
+                  DateTime.fromMillisecondsSinceEpoch(
+                    widget.state == 'Publicado'
+                        ? widget.item.creationDate
+                        : widget.item.modificationDate,
+                  ),
+                ),
                 style: textTheme.textGray.copyWith(fontSize: 14),
               )
             ],

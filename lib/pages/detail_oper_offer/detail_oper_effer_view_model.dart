@@ -54,6 +54,7 @@ class DetailOperOfferViewModel
       listAccountTypes: <AccountType>[],
       userId: '',
       rateUser: '',
+      dateHours: 0,
     );
   }
 
@@ -141,7 +142,14 @@ class DetailOperOfferViewModel
 
           try {
             daysForExpire(
-              DateTime.fromMillisecondsSinceEpoch(response.result!.expiredDate),
+              DateTime.fromMillisecondsSinceEpoch(
+                response.result!.expiredDate,
+              ),
+            );
+            hoursForExpire(
+              DateTime.fromMillisecondsSinceEpoch(
+                response.result!.modificationDate,
+              ),
             );
           } catch (e) {
             print('$e expiredate');
@@ -323,6 +331,13 @@ class DetailOperOfferViewModel
     final DateTime date2 = DateTime.now();
     final int difference = date2.difference(birthday).inDays;
     status = status.copyWith(dateOfExpire: difference);
-    // print('status.dateOfExpire ${difference.toString()}');
+    // print('status.dateOfExpire pasada al header ${status.dateOfExpire}');
+  }
+
+  void hoursForExpire(DateTime date) {
+    final DateTime date2 = DateTime.now();
+    final int difference = date2.difference(date).inHours;
+    status = status.copyWith(dateHours: difference);
+    print('$difference   horas pasada al header ${status.dateHours}');
   }
 }

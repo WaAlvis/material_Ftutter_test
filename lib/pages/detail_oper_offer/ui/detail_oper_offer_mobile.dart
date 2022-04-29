@@ -71,7 +71,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
                                 textTheme: textTheme,
                                 isBuy: viewModel.status.isBuy,
                                 state: estado,
-                                item: viewModel.status.item,
+                                item: viewModel.status.item!,
                                 viewModel: viewModel,
                               ),
                             const SizedBox(height: 32),
@@ -192,10 +192,6 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               width: 8,
                             ),
-                            const SizedBox(
-                              height: 53,
-                            ),
-                            CardRateUser(),
                           ],
                         )
                       ],

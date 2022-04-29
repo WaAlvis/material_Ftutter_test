@@ -51,7 +51,7 @@ class _AttachedFileMobile extends StatelessWidget {
                         if (viewModel.status.extensionFile == '.pdf' &&
                             viewModel.status.isView == '1')
                           DocumentFile(
-                            file: viewModel.status.bytes!,
+                            file: viewModel.status.bytes,
                           )
                         else
                           const InteractiveAttachedFile(),
