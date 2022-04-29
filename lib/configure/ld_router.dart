@@ -157,6 +157,14 @@ class LdRouter {
     );
   }
 
+  void goContactSupport(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.contactSupport.route,
+      transition: TransitionType.none,
+    );
+  }
+
 // void goValidateEmail(BuildContext context) {
 //   AppRouter.router.navigateTo(
 //     context,
