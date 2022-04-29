@@ -15,6 +15,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:open_file/open_file.dart';
 
 class AttachedFileViewModel
     extends EffectsViewModel<AttachedFileStatus, AttachedFileEffect> {
@@ -185,21 +186,32 @@ class AttachedFileViewModel
     try {
       // Directory dir = await getDownloadsDirectory();
 
-      final Directory dir = await getApplicationDocumentsDirectory();
+      final Directory? dir = Platform.isIOS
+          ? await getApplicationDocumentsDirectory()
+          : await getExternalStorageDirectory();
       final File file = File(
-        '${dir.path}/${DateTime.now().millisecondsSinceEpoch.toString()}.pdf',
+        '${dir!.path}/${DateTime.now().millisecondsSinceEpoch.toString()}.pdf',
       );
       await file.writeAsBytes(docFile);
+      print(dir.path);
       addEffect(
         ShowSnackbarSuccesEffect(
           'Archivo guardado exitosamente en: ${file.path}',
         ),
       );
+      Uint8List contents = await file.readAsBytes();
+      print('${contents.length} ontenido del archivo');
       status = status.copyWith(isLoading: false);
+      try {
+        OpenFile.open(file.path);
+      } catch (e) {
+        print(e);
+      }
     } catch (e) {
-      addEffect(
-        ShowSnackbarErrorEffect('Error desconocdio'),
-      );
+      // addEffect(
+      //   ShowSnackbarErrorEffect('$e Error desconocdio'),
+      // );
+      print(e);
       status = status.copyWith(isLoading: false);
     }
   }

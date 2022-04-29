@@ -69,6 +69,8 @@ class UrlsApi {
       '/Configuration/ConfigurationAccountType/GetData';
   static const String getAttachFile =
       '/AttachDocuments/AttachDocument/GetDocumentAdvertisement';
+
+  static const String addRateUser = '/User/UserInfoAdditional/RateUser';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -179,6 +181,11 @@ abstract class LocalDailyGatewayService {
 
   @POST(UrlsApi.releaseToken)
   Future<ResponseData<bool>> confirmPayment(
+    @Body() ConfirmPayment body,
+  );
+
+  @POST(UrlsApi.addRateUser)
+  Future<ResponseData<dynamic>> addRateUser(
     @Body() ConfirmPayment body,
   );
 
