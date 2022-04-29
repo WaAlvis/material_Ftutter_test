@@ -109,7 +109,12 @@ class AppRoutes {
 
   static final AppRoute info = AppRoute(
     '/info',
-    Handler(handlerFunc: (_, __) => const InfoView()),
+    Handler(
+      handlerFunc: (BuildContext? context, __) => InfoView(
+        arguments: (context!.settings!.arguments!
+            as Map<String, InfoViewArguments>)['arguments'],
+      ),
+    ),
   );
 
   // static final AppRoute registerValidateEmailRoute = AppRoute(
