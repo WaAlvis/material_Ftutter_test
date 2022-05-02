@@ -26,7 +26,8 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
     final AttachedFileViewModel viewModel =
         context.watch<AttachedFileViewModel>();
     print(
-        '${viewModel.status.filePath} ruta del archivo ${viewModel.status.extensionFile} extension del archivo');
+      '${viewModel.status.filePath} ruta del archivo ${viewModel.status.extensionFile} extension del archivo ${viewModel.status.bytes?.isEmpty} archivo en bytes .${viewModel.status.extensionUrl}',
+    );
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
@@ -69,7 +70,9 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
                     )
                   : viewModel.status.bytes != null
                       ? viewModel.status.filePath == null
-                          ? Image.memory(viewModel.status.bytes!)
+                          ? viewModel.status.extensionFile != '.pdf'
+                              ? Image.memory(viewModel.status.bytes!)
+                              : const Icon(Icons.picture_as_pdf, size: 50)
                           : Image.file(
                               File(viewModel.status.filePath ?? ''),
                               fit: BoxFit.cover,

@@ -26,7 +26,7 @@ class OperationHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final DetailOperOfferViewModel viewModel =
         context.watch<DetailOperOfferViewModel>();
-    print('horas para expirar oferta ${viewModel.status.dateHours}');
+    // print('horas para expirar oferta ${viewModel.status.dateHours}');
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -156,7 +156,7 @@ class OperationHeader extends StatelessWidget {
                 ],
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Text(
                     // '# referencia: ${ad.id.substring(0, 5)}',
                     '# referencia: $ad',

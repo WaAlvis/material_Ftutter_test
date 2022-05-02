@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_effect.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_status.dart';
+import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -17,6 +20,7 @@ import 'package:localdaily/services/models/create_offers/type_offer/data.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
+import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_documents.dart';
@@ -53,7 +57,7 @@ class DetailOperOfferViewModel
       extensionFile: '',
       listAccountTypes: <AccountType>[],
       userId: '',
-      rateUser: '',
+      rateUser: 0,
       dateHours: 0,
     );
   }
@@ -94,10 +98,12 @@ class DetailOperOfferViewModel
               AccountType _accountType = listAccountTypes!.firstWhere(
                   (AccountType accountType) =>
                       accountType.id == account.accountTypeId);
-              status = status.copyWith(resultAccountTypes: <AccountType>[
-                ...status.listAccountTypes,
-                _accountType
-              ]);
+              status = status.copyWith(
+                resultAccountTypes: <AccountType>[
+                  ...?status.listAccountTypes,
+                  _accountType
+                ],
+              );
             });
           } catch (e) {
             print('$e accounttype');
@@ -187,8 +193,7 @@ class DetailOperOfferViewModel
           ShowSnackbarErrorEffect('Error desconocdio'),
         ); //cambiar mensaje
       }
-      // status = status.copyWith(
-      //     state: 'Pendiente de pago', isBuy: false, isOper: false);
+      // status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);
     } else {
       status = status.copyWith(isLoading: false);
 
@@ -245,7 +250,7 @@ class DetailOperOfferViewModel
               : 'Piensalo un poco más. Perderás lo oportunidad de obtener más Dailys.\n\n¿Estás seguro de hacer esto?',
       btnText: isBuy
           ? isOper
-              ? 'Cancelar la compra'
+              ? 'Sí, cancelar la compra'
               : 'Sí, quitar'
           : 'Sí, cancelar la venta',
       onTap: () {
@@ -268,17 +273,19 @@ class DetailOperOfferViewModel
           'Estas a punto de confirmar que recibiste completo el pago del comprador y el comprobante es verdadero. \n\n¿Quieres confirmar el pago?',
       btnText: 'Sí, confirmar',
       onTap: () {
-        confirmPay(context);
+        confirmPay(context, viewModel);
       },
       btnTextSecondary: 'Cancelar',
       onTapSecondary: () => viewModel.closeDialog(context),
     );
   }
 
-  Future<void> confirmPay(BuildContext context) async {
-    status = status.copyWith(isLoading: true);
+  Future<void> confirmPay(
+    BuildContext context,
+    DetailOperOfferViewModel viewModel,
+  ) async {
     closeDialog(context);
-    addEffect(ShowLoadingEffect());
+    status = status.copyWith(isLoading: true);
 
     ConfirmPayment body = ConfirmPayment(
       idAvertisement: offerId,
@@ -286,15 +293,61 @@ class DetailOperOfferViewModel
       value: '2',
       message: 'Usuario confirmo orden de pago',
     );
+
+    final RateUser bodyRate = RateUser(
+      isSeller: true,
+      userId: status.item!.idUserPublish,
+      rate: status.rateUser!.toString(),
+      advertisementId: status.item!.id,
+    );
     try {
       await _interactor.confirmPayment(body).then((response) {
+        InfoViewArguments info = InfoViewArguments(
+            title: '¡Dailys entregados!',
+            description:
+                'Tus Dailys fueron entregados exitosamente al comprador.',
+            imageType: ImageType.success,
+            pageTitle: ' ',
+            customWidget: CardRateUser(
+              viewModel: viewModel,
+            ),
+            onAction: () async {
+              if (status.rateUser! > 0.0) {
+                try {
+                  await _interactor.addRateUser(bodyRate).then((response) {
+                    final statusCode = response.result.statusCode;
+                    if (response.isSuccess) {
+                      try {
+                        closeDialog(context);
+                        _router.goDetailOperOffer(
+                          context,
+                          offerId,
+                          status.isOper2 ? 'Operacion' : 'Oferta',
+                          replace: true,
+                        );
+                      } catch (e) {
+                        print('info $e');
+                      }
+                    } else {
+                      print('statusCode $statusCode');
+                    }
+                  });
+                } catch (e) {
+                  print('$e ');
+                }
+              } else {
+                print('${status.rateUser} rate user');
+
+                // addEffect(
+                //     ShowSnackbarErrorEffect('Por favor califique al usuario'));
+              }
+            });
+        _router.goInfoView(context, info);
         status = status.copyWith(isLoading: false);
-        // addEffect(ShowSnackbarSuccesEffect());
-        // closeDialog(context);
       });
     } catch (e) {
       addEffect(ShowSnackbarErrorEffect(e.toString()));
-      status = status.copyWith(isLoading: true);
+      status = status.copyWith(isLoading: false);
     }
   }
 
@@ -313,12 +366,31 @@ class DetailOperOfferViewModel
 
     try {
       await _interactor.reserveOffer(body).then((response) {
-        _router.goDetailOperOffer(
-          context,
-          offerId,
-          status.isOper2 ? 'Operacion' : 'Oferta',
-          replace: true,
+        InfoViewArguments info = InfoViewArguments(
+          title: '¡Cancelada!',
+          description: status.isOper2
+              ? "Se canceló exitosamente la ${status.isBuy ? 'compra' : 'venta'}."
+              : 'Se quitó exitosamente una publicación.',
+          imageType: ImageType.success,
+          pageTitle: ' ',
+          onAction: () {
+            print('pantalla nueva ');
+
+            try {
+              closeDialog(context);
+              _router.goDetailOperOffer(
+                context,
+                offerId,
+                status.isOper2 ? 'Operacion' : 'Oferta',
+                replace: true,
+              );
+            } catch (e) {
+              print('pantalla nueva $e');
+            }
+          },
         );
+        _router.goInfoView(context, info);
+
         status = status.copyWith(isLoading: false);
       });
     } catch (e) {
@@ -338,6 +410,6 @@ class DetailOperOfferViewModel
     final DateTime date2 = DateTime.now();
     final int difference = date2.difference(date).inHours;
     status = status.copyWith(dateHours: difference);
-    print('$difference   horas pasada al header ${status.dateHours}');
+    // print('$difference   horas pasada al header ${status.dateHours}');
   }
 }

@@ -17,6 +17,7 @@ class _DocumentFileState extends State<DocumentFile> {
       child: Column(
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(top: 150),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: LdColors.grayLight,
@@ -24,11 +25,18 @@ class _DocumentFileState extends State<DocumentFile> {
             height: 400,
             width: 400,
             child: Stack(
+              alignment: AlignmentDirectional.center,
               children: <Widget>[
-                Center(
-                  child: SvgPicture.asset(
-                    LdAssets.downloadFile,
-                  ),
+                Column(
+                  children: [
+                    SvgPicture.asset(
+                      LdAssets.downloadFile,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const Text('Descargar archivo PDF')
+                  ],
                 ),
               ],
             ),

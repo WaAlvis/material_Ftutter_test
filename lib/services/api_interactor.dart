@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
+import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
@@ -15,6 +16,7 @@ import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dar
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
+import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -202,6 +204,15 @@ class ServiceInteractor {
   Future<ResponseData<ResultAccountType>> getAccountType() async {
     final ResponseData<ResultAccountType> response =
         await locator<LocalDailyGatewayService>().getAccountType();
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> addRateUser(
+    RateUser body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().addRateUser(body);
 
     return response;
   }

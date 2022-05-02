@@ -14,6 +14,7 @@ import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dar
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
+import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -186,7 +187,7 @@ abstract class LocalDailyGatewayService {
 
   @POST(UrlsApi.addRateUser)
   Future<ResponseData<dynamic>> addRateUser(
-    @Body() ConfirmPayment body,
+    @Body() RateUser body,
   );
 
   @POST(UrlsApi.getAccountType)

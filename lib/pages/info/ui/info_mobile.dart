@@ -39,7 +39,7 @@ class _InfoMobile extends StatelessWidget {
               if (arguments.hasActionButton)
                 PrimaryButtonCustom(
                   arguments.actionCaption,
-                  onPressed: () => arguments.onAction,
+                  onPressed: arguments.onAction,
                 )
               else
                 Container(),

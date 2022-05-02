@@ -19,11 +19,11 @@ class DetailOperOfferStatus extends ViewStatus {
   final bool isOper2;
   final String? extensionFile;
   final String? userId;
-  List<AccountType> listAccountTypes;
+  List<AccountType>? listAccountTypes;
   List<Bank> banks;
   List<AdvertisementDocument> listAdvertisementDoc;
   List<DocType>? docsType;
-  String? rateUser;
+  double? rateUser;
   int? dateHours;
 
   // agregar demas estados con el servicio
@@ -60,7 +60,7 @@ class DetailOperOfferStatus extends ViewStatus {
     List<AccountType>? resultAccountTypes,
     String? extensionFile,
     String? userId,
-    String? rateUser,
+    double? rateUser,
     int? dateHours,
   }) {
     return DetailOperOfferStatus(
@@ -73,11 +73,11 @@ class DetailOperOfferStatus extends ViewStatus {
       banks: banks ?? this.banks,
       docsType: docsType ?? this.docsType,
       state: state ?? this.state,
-      listAccountTypes: listAccountTypes,
+      listAccountTypes: listAccountTypes ?? this.listAccountTypes,
       isOper2: isOper2 ?? this.isOper2,
       extensionFile: extensionFile ?? extensionFile,
       userId: userId ?? this.userId,
-      rateUser: rateUser ?? rateUser,
+      rateUser: rateUser ?? this.rateUser,
       dateHours: dateHours ?? this.dateHours,
     );
   }

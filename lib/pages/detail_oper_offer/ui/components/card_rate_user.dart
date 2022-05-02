@@ -1,13 +1,12 @@
 part of '../detail_oper_offer_view.dart';
 
 class CardRateUser extends StatelessWidget {
-  const CardRateUser({Key? key}) : super(key: key);
-
+  const CardRateUser({Key? key, required this.viewModel}) : super(key: key);
+  final DetailOperOfferViewModel viewModel;
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final DetailOperOfferViewModel viewModel =
-        context.watch<DetailOperOfferViewModel>();
+
     return Container(
       padding: EdgeInsets.all(8),
       width: 342,
@@ -53,8 +52,8 @@ class CardRateUser extends StatelessWidget {
               color: LdColors.white,
             ),
             onRatingUpdate: (double rating) {
-              viewModel.status.rateUser = rating.toString();
-              // print(viewModel.status.rateUser);
+              viewModel.status.rateUser = rating;
+              print(viewModel.status.rateUser);
             },
           ),
           const SizedBox(
