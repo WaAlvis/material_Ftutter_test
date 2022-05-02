@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
+import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
@@ -202,4 +205,44 @@ class LdRouter {
 //     transition: TransitionType.none,
 //   );
 // }
+
+  void goDetailOperOffer(
+    BuildContext context,
+    String offerId,
+    String isOper, {
+    bool replace = false,
+  }) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailOperOfferRoute.route,
+      replace: replace,
+      routeSettings: RouteSettings(
+        arguments: <String, String>{
+          'offerId': offerId,
+          'type': isOper,
+        },
+      ),
+    );
+  }
+
+  void goAttachedFile(
+    BuildContext context,
+    // bool isOper,
+    String offerIdFile,
+    String extensionFile,
+    String isView,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.attachedFileRoute.route,
+      routeSettings: RouteSettings(
+        arguments: <String, String>{
+          // 'type': isOper,
+          'offerId': offerIdFile,
+          'extensionFile': extensionFile,
+          'isView': isView,
+        },
+      ),
+    );
+  }
 }

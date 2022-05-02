@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
+import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -10,6 +15,9 @@ import 'package:localdaily/services/models/create_offers/type_offer/result_type_
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
+import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
+import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -96,7 +104,6 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultValidatePin> response =
         await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
-    print(response.result);
     return response;
   }
 
@@ -148,6 +155,21 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<dynamic>> sendAttach({
+    required String AdvertisementId,
+    required XFile xFile,
+    required String UserId,
+  }) async {
+    File file = File(xFile.path);
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().sendAttach(
+      AdvertisementId,
+      UserId,
+      file,
+    );
+    return response;
+  }
+
   Future<ResponseData<ResultTypeOffer>> getTypesAdvertisement(
     Pagination body,
   ) async {
@@ -157,9 +179,40 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<bool>> confirmPayment(
+    ConfirmPayment body,
+  ) async {
+    final ResponseData<bool> response =
+        await locator<LocalDailyGatewayService>().confirmPayment(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultDataAdvertisement>> getDetailAdvertisement(
+      String id) async {
+    final ResponseData<ResultDataAdvertisement> response =
+        await locator<LocalDailyGatewayService>().getDetailAdvertisement(id);
+    return response;
+  }
+
+  Future<ResponseData<String>> getAttachFile(String advertismentID) async {
+    final ResponseData<String> response =
+        await locator<LocalDailyGatewayService>().getAttachFile(advertismentID);
+    return response;
+  }
+
   Future<ResponseData<ResultAccountType>> getAccountType() async {
     final ResponseData<ResultAccountType> response =
         await locator<LocalDailyGatewayService>().getAccountType();
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> addRateUser(
+    RateUser body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().addRateUser(body);
 
     return response;
   }

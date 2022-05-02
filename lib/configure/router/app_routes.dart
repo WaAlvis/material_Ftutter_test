@@ -1,10 +1,12 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:localdaily/pages/attached_file/ui/attached_file_view.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
 import 'package:localdaily/pages/contact_support/ui/contact_support_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
+import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
@@ -155,6 +157,31 @@ class AppRoutes {
   //   Handler(handlerFunc: (_, __) => const PersonalInfoRegisterView()),
   // );
 
+  static final AppRoute detailOperOfferRoute = AppRoute(
+    '/detail_oper_offer',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => DetailOperOfferView(
+        offerId:
+            (context!.settings!.arguments! as Map<String, String>)['offerId']!,
+        isOper: (context.settings!.arguments! as Map<String, String>)['type']!,
+      ),
+    ),
+  );
+
+  static final AppRoute attachedFileRoute = AppRoute(
+    '/attached_file',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => AttachedFileView(
+        item:
+            (context!.settings!.arguments! as Map<String, String>)['offerId']!,
+        extensionFile: (context.settings!.arguments!
+            as Map<String, String>)['extensionFile']!,
+        isView:
+            (context.settings!.arguments! as Map<String, String>)['isView']!,
+      ),
+    ),
+  );
+
   static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
     homeRoute,
@@ -176,5 +203,7 @@ class AppRoutes {
     info,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
+    detailOperOfferRoute,
+    attachedFileRoute,
   ];
 }

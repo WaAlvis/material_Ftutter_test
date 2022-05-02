@@ -37,7 +37,7 @@ class MiDailyConnect {
         //_url =
         //    'exp://192.168.1.46:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         _url =
-            'exp://127.0.0.1:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
+            'exp://192.168.0.8:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         //_url =
         //    'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
