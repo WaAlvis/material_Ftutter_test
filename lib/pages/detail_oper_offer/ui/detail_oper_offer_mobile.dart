@@ -184,14 +184,6 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 53,
                             ),
-                            SvgPicture.asset(
-                              LdAssets.homeIndicator,
-                              height: 5,
-                              width: 134,
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
                           ],
                         )
                       ],
