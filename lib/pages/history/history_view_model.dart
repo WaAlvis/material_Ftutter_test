@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
@@ -116,20 +115,31 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     });
   }
 
-  String calculateTotal(List<DataUserAdvertisement> data, int index) {
+  String calculateDlyTotal(List<DataUserAdvertisement> data, int index) {
+    final double value = double.parse(data[index].advertisement.valueToSell);
+
+    final String totalDlycop = formatNumberPoint(value.toString());
+    return totalDlycop;
+  }
+
+  String calculateCopTotal(List<DataUserAdvertisement> data, int index) {
     final double value = double.parse(
           data[index].advertisement.margin,
         ) *
         double.parse(
           data[index].advertisement.valueToSell,
         );
-    final String totalValue = NumberFormat.simpleCurrency(
+    final String totalCop = formatNumberPoint(value.toString());
+    return totalCop;
+  }
+
+  String formatNumberPoint(String value) {
+    return NumberFormat.simpleCurrency(
       decimalDigits: 0,
       name: '',
       locale: 'IT',
     ).format(
-      value,
+      double.parse(value),
     );
-    return totalValue;
   }
 }

@@ -56,9 +56,11 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                   children: <Widget>[
                     _operationType(
                         textTheme, dataUserProvider, styleGrayText, isBuying),
-                    RowInfoPartner(textTheme, styleGrayText, item: item),
+                    RowInfoPartner(textTheme, styleGrayText,
+                        isBuying: isBuying, item: item),
                     _rowAmount(
                       textTheme,
+                      viewModel,
                       styleGrayText,
                       amountIn: _TypeMoney.dlycop,
                       amountValue: item.advertisement.valueToSell,
@@ -72,6 +74,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                     ),
                     _rowAmount(
                       textTheme,
+                      viewModel,
                       styleGrayText,
                       amountIn: _TypeMoney.cop,
                       amountValue: item.advertisement.valueToSell,
@@ -81,6 +84,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                     ),
                     _dateOperation(
                       styleGrayText,
+                      viewModel,
                       textTheme,
                     ),
                   ],
@@ -129,7 +133,8 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     );
   }
 
-  Column _dateOperation(TextStyle styleGrayText, TextTheme textTheme) {
+  Column _dateOperation(TextStyle styleGrayText,
+      DetailHistoryOperationViewModel viewModel, TextTheme textTheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -141,7 +146,9 @@ class DetailHistoryOperationMobile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          '04 de Noviembre a las 8:34 am',
+          viewModel.dateOperation(
+            item.advertisement.creationDate,
+          ),
           style: textTheme.textSmallBlack.copyWith(fontWeight: FontWeight.w500),
         ),
       ],
@@ -169,6 +176,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
 
   Column _rowAmount(
     TextTheme textTheme,
+    DetailHistoryOperationViewModel viewModel,
     TextStyle grayText, {
     required _TypeMoney amountIn,
     required String amountValue,
@@ -189,14 +197,18 @@ class DetailHistoryOperationMobile extends StatelessWidget {
         ),
         if (amountIn == _TypeMoney.cop)
           Text(
-            '= $amountValue COP',
+            '= ${viewModel.calculateCopTotal(item)} COP',
             style: styleBlackAmount,
           )
         else
           Row(
             children: <Widget>[
               Text(
-                amountValue,
+                NumberFormat.simpleCurrency(
+                  decimalDigits: 0,
+                  name: '',
+                  locale: 'IT',
+                ).format(double.parse(amountValue)),
                 style: styleBlackAmount,
               ),
               const SizedBox(
@@ -218,11 +230,13 @@ class RowInfoPartner extends StatelessWidget {
     this.textTheme,
     this.styleGrayText, {
     Key? key,
+    required this.isBuying,
     required this.item,
   }) : super(key: key);
   final TextStyle styleGrayText;
   final TextTheme textTheme;
   final DataUserAdvertisement item;
+  final bool isBuying;
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +246,7 @@ class RowInfoPartner extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(
-            'Comprador',
+            isBuying ? 'Comprador' : 'Vendedor',
             style: styleGrayText,
           ),
           const SizedBox(
@@ -258,6 +272,7 @@ class RowInfoPartner extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           fit: BoxFit.scaleDown,
                           child: Text(
+                            //TODO obtener el usaurio para las ventas e ir a ver su perfil
                             item.user.nickName,
                             textAlign: TextAlign.left,
                           ),
@@ -266,7 +281,6 @@ class RowInfoPartner extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 // const SizedBox(width: 2,),
                 const SizedBox(
                   height: 30,
@@ -289,12 +303,12 @@ class RowInfoPartner extends StatelessWidget {
                             width: 6,
                           ),
                           Text(
-                            // item.rate != '0' ? item.rate : '4.5',
-                            '55',
+                            isBuying
+                                ? item.user.rateSeller.toString()
+                                : item.user.rateBuyer.toString(),
                           ),
                         ],
                       ),
-
                       // const Spacer(),
                       const SizedBox(
                         height: 30,

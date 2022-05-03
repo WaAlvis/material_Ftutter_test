@@ -2,27 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/app_theme.dart';
-import 'package:intl/intl.dart';
-import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/history_view_model.dart';
-import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
-import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+
 import 'string_extension.dart';
 
 part 'history_mobile.dart';
-
 part 'history_web.dart';
 
 class HistoryView extends StatelessWidget {
@@ -67,7 +62,7 @@ class _HistoryBodyState extends State<_HistoryBody> {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     WidgetsBinding.instance!.addPostFrameCallback(
-          (_) => viewModel.onInit( dataUserProvider.getDataUserLogged!.id),
+      (_) => viewModel.onInit(dataUserProvider.getDataUserLogged!.id),
     );
     super.initState();
   }

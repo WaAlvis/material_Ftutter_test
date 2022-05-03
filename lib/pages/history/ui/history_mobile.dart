@@ -211,17 +211,10 @@ class ListOperationDay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '${isBuying ? '-' : ''}${NumberFormat.simpleCurrency(
-                                    decimalDigits: 0,
-                                    name: '',
-                                    locale: 'IT',
-                                  ).format(
-                                    double.parse(
-                                      dayOperations[index]
-                                          .advertisement
-                                          .valueToSell,
-                                    ),
-                                  )}',
+                                  viewModel.calculateDlyTotal(
+                                    dayOperations,
+                                    index,
+                                  ),
                                   style: textTheme.textBigBlack.copyWith(
                                     color: isBuying ? orangeSlash : greenSplash,
                                     fontWeight: FontWeight.w700,
@@ -251,7 +244,7 @@ class ListOperationDay extends StatelessWidget {
                               height: 4,
                             ),
                             Text(
-                              '= ${viewModel.calculateTotal(
+                              '= ${viewModel.calculateCopTotal(
                                 dayOperations,
                                 index,
                               )} COP',
