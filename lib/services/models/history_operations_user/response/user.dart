@@ -16,7 +16,7 @@ class User{
       _$UserFromJson(json);
 
  String nickName;
- int rateSeller;
+ double rateSeller;
  double rateBuyer;
  String address;
 

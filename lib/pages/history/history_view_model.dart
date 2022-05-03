@@ -41,7 +41,8 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     _route.pop(context);
   }
 
-  List<GroupAdvertisement> organizeDaysOperations(List<DataUserAdvertisement> data) {
+  List<GroupAdvertisement> organizeDaysOperations(
+      List<DataUserAdvertisement> data) {
     String formatDate(int timeStamp, String format) {
       final DateTime date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
       final DateFormat formatter = DateFormat(format, 'ES_CO');
@@ -91,7 +92,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
       if (response.isSuccess) {
         final List<DataUserAdvertisement> dataOperations =
             response.result!.data;
-         organizeDaysOperations(dataOperations);
+        organizeDaysOperations(dataOperations);
       } else {
         //Add effect NOT success
       }
@@ -113,5 +114,22 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }
     });
+  }
+
+  String calculateTotal(List<DataUserAdvertisement> data, int index) {
+    final double value = double.parse(
+          data[index].advertisement.margin,
+        ) *
+        double.parse(
+          data[index].advertisement.valueToSell,
+        );
+    final String totalValue = NumberFormat.simpleCurrency(
+      decimalDigits: 0,
+      name: '',
+      locale: 'IT',
+    ).format(
+      value,
+    );
+    return totalValue;
   }
 }

@@ -38,9 +38,7 @@ class Advertisement {
   int hoursLimitPay;
   int modificationDate;
   int creationDate;
-
   List<dynamic>? advertisementPayAccount;
-
   List<dynamic>? advertisementDocuments;
 
   Map<String, dynamic> toJson() => _$AdvertisementToJson(this);

@@ -251,8 +251,11 @@ class ListOperationDay extends StatelessWidget {
                               height: 4,
                             ),
                             Text(
-                              '= 1.000.000 ?? COP',
-                              style: textTheme.textSmallBlack.copyWith(color: Colors.red),
+                              '= ${viewModel.calculateTotal(
+                                dayOperations,
+                                index,
+                              )} COP',
+                              style: textTheme.textSmallBlack,
                             ),
                           ],
                         ),
