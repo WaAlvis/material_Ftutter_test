@@ -34,7 +34,7 @@ class _NotificationMobile extends StatelessWidget {
                     top: Radius.circular(25),
                   ),
                 ),
-                child: /* RefreshIndicator(
+                child: RefreshIndicator(
                   color: LdColors.orangePrimary,
                   onRefresh: () async {
                     await Future.delayed(Duration(seconds: 1));
@@ -52,8 +52,8 @@ class _NotificationMobile extends StatelessWidget {
                       );
                     },
                   ),
-                ), */
-                    _EmptyNotifications(),
+                ),
+                //_EmptyNotifications(),
               ),
             ),
           )
