@@ -14,6 +14,7 @@ import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 
@@ -84,7 +85,7 @@ class AppRoutes {
     '/detail_history_operation',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
-        item: (context!.settings!.arguments! as Map<String, Operation>)['item'],
+        item: (context!.settings!.arguments! as Map<String, DataUserAdvertisement>)['item'],
       ),
     ),
   );
@@ -111,7 +112,9 @@ class AppRoutes {
 
   static final AppRoute historyOperationsRoute = AppRoute(
     '/history_operations',
-    Handler(handlerFunc: (_, __) => const HistoryView()),
+     Handler(
+        handlerFunc: (BuildContext? context, __) => HistoryView(),
+      ),
   );
 
   static final AppRoute registerEmailRoute = AppRoute(

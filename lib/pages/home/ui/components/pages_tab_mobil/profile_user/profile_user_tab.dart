@@ -29,6 +29,7 @@ class ProfileUser extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     const Color colorCardWhite = LdColors.white;
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     return Scaffold(
       backgroundColor: LdColors.blackBackground,
@@ -298,7 +299,9 @@ class ProfileUser extends StatelessWidget {
   ) {
     switch (opt) {
       case NavigateOption.history:
-        viewModel.goHistoryOperations(context);
+        viewModel.goHistoryOperations(
+          context,
+        );
         break;
       case NavigateOption.support:
         // TODO: Handle this case.
@@ -395,15 +398,12 @@ class ProfileUser extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-               CircleAvatar(
+              const CircleAvatar(
                 radius: sizeCircleIcon,
                 backgroundColor: LdColors.orangePrimary,
-                child: GestureDetector(
-                  onTap:(){},
-                  child: const Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
                 ),
               ),
             ],

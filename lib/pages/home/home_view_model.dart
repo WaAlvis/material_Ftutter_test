@@ -7,6 +7,9 @@ import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -68,6 +71,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
       balance: -1,
+      // listHistoryOpertaions: <DataUserAdvertisement>[],
     );
   }
 
@@ -159,10 +163,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // can't launch url, there is some error
   }
 
-  void goHistoryOperations(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        _route.goHistoryOperations(context);
+        //TODO hacer servicio q obtiene el historial de operaciones
+        // await getHistoryOperationsUser(context,idUSer);
+        _route.goHistoryOperations(
+          context,
+        );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }

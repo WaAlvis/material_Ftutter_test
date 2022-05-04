@@ -9,12 +9,13 @@ class DetailHistoryOperationMobile extends StatelessWidget {
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
-  final Operation item;
+  final DataUserAdvertisement item;
 
   // final ScrollController scrollCtrl;
 
   @override
   Widget build(BuildContext context) {
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final DetailHistoryOperationViewModel viewModel =
         context.watch<DetailHistoryOperationViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -23,94 +24,19 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     const double hAppbar = 150;
     final double hBody = size.height - hAppbar;
     final TextStyle styleGrayText = textTheme.textGray.copyWith(fontSize: 14);
+    final bool isBuying =
+        dataUserProvider.getDataUserLogged!.nickName == item.user.nickName;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      // appBar: const LdAppbar(
-      //   title: 'Historial',
-      //   withBackIcon: true,
-      // ),
+      appBar: const LdAppbar(
+        title: 'Detalle',
+        withBackIcon: true,
+      ),
       body: Column(
         children: <Widget>[
-          Container(
-            width: size.width,
-            color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: hAppbar,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 12.0,
-                      right: 12.0,
-                      top: 30,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () => viewModel.goBack(context),
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: LdColors.white,
-                          ),
-                        ),
-                        Text(
-                          'Detalle',
-                          style: textTheme.textBigWhite,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.transparent,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          const AppbarCircles(hAppbar: hAppbar),
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -128,16 +54,23 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    _operationType(textTheme, styleGrayText),
-                    RowInfoPartner(textTheme, styleGrayText,
-                        item: item,
-                        onPressed: () =>
-                            viewModel.goProfileSeller(context,)),
-                    _rowAmount(
+                    _operationType(
+                        textTheme, dataUserProvider, styleGrayText, isBuying),
+                    RowInfoPartner(
                       textTheme,
                       styleGrayText,
+                      isBuying: isBuying,
+                      item: item,
+                      onPressed: () => viewModel.goProfileSeller(
+                        context,
+                      ),
+                    ),
+                    _rowAmount(
+                      textTheme,
+                      viewModel,
+                      styleGrayText,
                       amountIn: _TypeMoney.dlycop,
-                      amountValue: item.amount,
+                      amountValue: item.advertisement.valueToSell,
                     ),
                     const SizedBox(
                       height: 24,
@@ -148,15 +81,17 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                     ),
                     _rowAmount(
                       textTheme,
+                      viewModel,
                       styleGrayText,
                       amountIn: _TypeMoney.cop,
-                      amountValue: item.amount,
+                      amountValue: item.advertisement.valueToSell,
                     ),
                     const SizedBox(
                       height: 24,
                     ),
                     _dateOperation(
                       styleGrayText,
+                      viewModel,
                       textTheme,
                     ),
                   ],
@@ -169,11 +104,16 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     );
   }
 
-  Column _operationType(TextTheme textTheme, TextStyle styleGrayText) {
+  Column _operationType(
+    TextTheme textTheme,
+    DataUserProvider dataUserProvider,
+    TextStyle styleGrayText,
+    bool isBuying,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (item.amount.contains('-'))
+        if (isBuying)
           Text(
             'Venta de DLYCOP',
             style: textTheme.textBlack.copyWith(
@@ -193,14 +133,15 @@ class DetailHistoryOperationMobile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          '# referencia: 0130${item.margin}',
+          '# referencia: ${item.advertisement.reference}',
           style: styleGrayText,
         ),
       ],
     );
   }
 
-  Column _dateOperation(TextStyle styleGrayText, TextTheme textTheme) {
+  Column _dateOperation(TextStyle styleGrayText,
+      DetailHistoryOperationViewModel viewModel, TextTheme textTheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -212,7 +153,9 @@ class DetailHistoryOperationMobile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          '04 de Noviembre a las 8:34 am',
+          viewModel.dateOperation(
+            item.advertisement.creationDate,
+          ),
           style: textTheme.textSmallBlack.copyWith(fontWeight: FontWeight.w500),
         ),
       ],
@@ -231,7 +174,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          '1 DLYCOP ≈ ${item.margin} COP',
+          '1 DLYCOP ≈ ${item.advertisement.margin} COP',
           style: textTheme.textSmallBlack,
         ),
       ],
@@ -240,6 +183,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
 
   Column _rowAmount(
     TextTheme textTheme,
+    DetailHistoryOperationViewModel viewModel,
     TextStyle grayText, {
     required _TypeMoney amountIn,
     required String amountValue,
@@ -260,14 +204,18 @@ class DetailHistoryOperationMobile extends StatelessWidget {
         ),
         if (amountIn == _TypeMoney.cop)
           Text(
-            '= $amountValue COP',
+            '= ${viewModel.calculateCopTotal(item)} COP',
             style: styleBlackAmount,
           )
         else
           Row(
             children: <Widget>[
               Text(
-                amountValue,
+                NumberFormat.simpleCurrency(
+                  decimalDigits: 0,
+                  name: '',
+                  locale: 'IT',
+                ).format(double.parse(amountValue)),
                 style: styleBlackAmount,
               ),
               const SizedBox(
@@ -288,14 +236,16 @@ class RowInfoPartner extends StatelessWidget {
   const RowInfoPartner(
     this.textTheme,
     this.styleGrayText, {
+    Key? key,
+    required this.isBuying,
     required this.item,
     this.onPressed,
-    Key? key,
   }) : super(key: key);
   final TextStyle styleGrayText;
   final TextTheme textTheme;
-  final Operation item;
+  final DataUserAdvertisement item;
   final void Function()? onPressed;
+  final bool isBuying;
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +255,7 @@ class RowInfoPartner extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(
-            'Comprador',
+            isBuying ? 'Comprador' : 'Vendedor',
             style: styleGrayText,
           ),
           const SizedBox(
@@ -331,7 +281,8 @@ class RowInfoPartner extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            item.nickname,
+                            //TODO obtener el usaurio para las ventas e ir a ver su perfil
+                            item.user.nickName,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -339,7 +290,6 @@ class RowInfoPartner extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 // const SizedBox(width: 2,),
                 const SizedBox(
                   height: 30,
@@ -362,11 +312,12 @@ class RowInfoPartner extends StatelessWidget {
                             width: 6,
                           ),
                           Text(
-                            item.rate != '0' ? item.rate : '4.5',
+                            isBuying
+                                ? item.user.rateSeller.toString()
+                                : item.user.rateBuyer.toString(),
                           ),
                         ],
                       ),
-
                       // const Spacer(),
                       const SizedBox(
                         height: 30,
