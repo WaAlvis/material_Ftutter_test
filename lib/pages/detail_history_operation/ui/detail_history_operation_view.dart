@@ -15,6 +15,7 @@ import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:provider/provider.dart';
 
 part 'detail_history_operation_mobile.dart';
+
 part 'detail_history_opertarion_web.dart';
 
 class DetailHistoryOperationView extends StatelessWidget {

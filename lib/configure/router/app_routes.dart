@@ -1,12 +1,17 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:localdaily/pages/attached_file/ui/attached_file_view.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_password/ui/change_password_view.dart';
+import 'package:localdaily/pages/contact_support/ui/contact_support_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
+import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
+import 'package:localdaily/pages/notification/ui/notification_view.dart';
 import 'package:localdaily/pages/offer_buy/ui/offer_buy_view.dart';
 import 'package:localdaily/pages/offer_sale/ui/offer_sale_view.dart';
 import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
@@ -16,7 +21,6 @@ import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 
 class AppRoutes {
   /*static final loginRoute = AppRoute(
@@ -127,6 +131,31 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const RecoverPswView()),
   );
 
+  static final AppRoute notifications = AppRoute(
+    '/notifications',
+    Handler(handlerFunc: (_, __) => const NotificationView()),
+  );
+
+  static final AppRoute contactSupport = AppRoute(
+    '/contact_support',
+    Handler(
+      handlerFunc: (_, __) => const ContactSupportView(
+        advertisementId: '',
+        reference: '',
+        isbuy: true,
+      ),
+    ),
+  );
+  static final AppRoute info = AppRoute(
+    '/info',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => InfoView(
+        arguments: (context!.settings!.arguments!
+            as Map<String, InfoViewArguments>)['arguments'],
+      ),
+    ),
+  );
+
   // static final AppRoute registerValidateEmailRoute = AppRoute(
   //   '/register_validate_email',
   //   Handler(handlerFunc: (_, __) => const ValidateEmailView()),
@@ -135,6 +164,31 @@ class AppRoutes {
   //   '/personal_info_register',
   //   Handler(handlerFunc: (_, __) => const PersonalInfoRegisterView()),
   // );
+
+  static final AppRoute detailOperOfferRoute = AppRoute(
+    '/detail_oper_offer',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => DetailOperOfferView(
+        offerId:
+            (context!.settings!.arguments! as Map<String, String>)['offerId']!,
+        isOper: (context.settings!.arguments! as Map<String, String>)['type']!,
+      ),
+    ),
+  );
+
+  static final AppRoute attachedFileRoute = AppRoute(
+    '/attached_file',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => AttachedFileView(
+        item:
+            (context!.settings!.arguments! as Map<String, String>)['offerId']!,
+        extensionFile: (context.settings!.arguments!
+            as Map<String, String>)['extensionFile']!,
+        isView:
+            (context.settings!.arguments! as Map<String, String>)['isView']!,
+      ),
+    ),
+  );
 
   static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
@@ -151,8 +205,13 @@ class AppRoutes {
     settingsRoute,
     changePswRoute,
     recoverPsw,
+    notifications,
+    contactSupport,
     profileSellerRoute,
+    info,
     // registerValidateEmailRoute,
     // personalInfoRegisterRoute,
+    detailOperOfferRoute,
+    attachedFileRoute,
   ];
 }

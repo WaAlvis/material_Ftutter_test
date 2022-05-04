@@ -15,6 +15,8 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final bool withBackIcon;
   final bool withText;
   final ResultDataUser? dataUserProvider;
+  final VoidCallback? goNotifications;
+  final bool? centerTitle;
 
   const LdAppbar({
     this.dataUserProvider,
@@ -23,6 +25,8 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.withBackIcon = false,
     this.withText = false,
     this.goLogin,
+    this.goNotifications,
+    this.centerTitle = true,
   });
 
   @override
@@ -36,7 +40,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.infinite,
       child: AppBar(
-        centerTitle: true,
+        centerTitle: centerTitle,
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: withBackIcon
@@ -58,12 +62,29 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
                     height: 30,
                   ),
                   if (dataUserProvider != null)
-                    IconButton(
-                      splashRadius: 20,
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.notifications_none,
-                      ),
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: <Widget>[
+                        IconButton(
+                          splashRadius: 20,
+                          onPressed: goNotifications,
+                          icon: const Icon(Icons.notifications_none),
+                        ),
+                        CircleAvatar(
+                          radius: 10,
+                          backgroundColor: LdColors.orangePrimary,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                '7',
+                                style: textTheme.textSmallBlack,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     )
                   else
                     Padding(

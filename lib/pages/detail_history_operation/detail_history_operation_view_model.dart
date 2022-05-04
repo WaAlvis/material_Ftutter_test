@@ -64,15 +64,17 @@ class DetailHistoryOperationViewModel
     return formatNumberPoint(value.toString());
   }
 
-  void goProfileSeller(BuildContext context,
-      ) {
+  void goProfileSeller(
+    BuildContext context,
+  ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        _route.goProfileSeller(context, );
+        _route.goProfileSeller(
+          context,
+        );
       } else {
         // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
-
 }

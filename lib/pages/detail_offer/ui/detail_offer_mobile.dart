@@ -478,7 +478,9 @@ void confirmBottomSheet(
 }) {
   showModalBottomSheet<void>(
     context: context,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+    ),
     builder: (BuildContext context) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),

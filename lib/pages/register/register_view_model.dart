@@ -1,14 +1,9 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:bip32/bip32.dart';
-import 'package:bip39/bip39.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:hex/hex.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
@@ -28,7 +23,6 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:web3dart/web3dart.dart' as web3;
 
 import 'register_status.dart';
 

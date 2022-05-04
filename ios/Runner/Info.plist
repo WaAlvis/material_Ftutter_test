@@ -20,7 +20,27 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>exp</string>
+		<string>midailyapp</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>La aplicacion necesita poder tomar fotos para subir comprobantes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>La aplicacion necesita poder acceder a la galeria para subir comprobantes.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>Acceso a los archivos de su dispositivo.</string>
+		<string>Poder filtran los archivos que pude subir como coprobantes.</string>
+	</array>
+	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -39,37 +59,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>LSApplicationQueriesSchemes</key>
-        <array>
-            <string>googlegmail</string>
-            <string>x-dispatch</string>
-            <string>readdle-spark</string>
-            <string>airmail</string>
-            <string>ms-outlook</string>
-            <string>ymail</string>
-            <string>fastmail</string>
-            <string>superhuman</string>
-            <string>protonmail</string>
-        </array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>app.com</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>localdaily</string>
-			</array>
-		</dict>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>exp</string>
-		<string>midailyapp</string>
-	</array>
 </dict>
 </plist>

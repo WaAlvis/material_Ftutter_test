@@ -14,7 +14,6 @@ import 'package:localdaily/pages/register/iu/components/step_5_ personal_data.da
 import 'package:localdaily/pages/register/register_effect.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
@@ -24,7 +23,6 @@ import 'package:provider/provider.dart';
 import '../../../utils/ld_snackbar.dart';
 
 part 'register_mobile.dart';
-
 part 'register_web.dart';
 
 class RegisterView extends StatelessWidget {

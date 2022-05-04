@@ -7,9 +7,6 @@ import 'package:localdaily/configure/local_storage_service.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
-import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
-import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -71,7 +68,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
       balance: -1,
-      // listHistoryOpertaions: <DataUserAdvertisement>[],
     );
   }
 
@@ -221,6 +217,27 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
+  void goNotifications(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goNotifications(context);
+        //_route.goContactSupport(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void goProfileSeller(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goProfileSeller(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
   void goDetailOffer(
     BuildContext context, {
     required Data item,
@@ -351,7 +368,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.open.index}',
+      statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
     );
@@ -462,7 +479,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.inProcess.index}',
+      statusCode: '${OfferStatus.Pendiente.index}',
       idUserExclusion: '',
       idUserInteraction: userId,
     );
@@ -608,6 +625,24 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     } catch (err) {
       print('Get DataHome Error As: $err');
     }
+  }
+
+  void goDetailOperOffer(
+    BuildContext context,
+    String offerId,
+    String isOper,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goDetailOperOffer(
+          context,
+          offerId,
+          isOper,
+        );
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
   }
 }
 

@@ -2,17 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/profile_seller/profile_seller_effect.dart';
 import 'package:localdaily/pages/profile_seller/profile_seller_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
-import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -26,10 +23,10 @@ part 'profile_seller_mobile.dart';
 part 'profile_seller_web.dart';
 
 class ProfileSellerView extends StatelessWidget {
-  const ProfileSellerView({Key? key, this.isBuy = false})
-      : super(key: key);
+  const ProfileSellerView({Key? key, this.isBuy = false}) : super(key: key);
 
   final bool isBuy;
+
   // final UserDataHome user;
 
   @override
@@ -39,15 +36,14 @@ class ProfileSellerView extends StatelessWidget {
     return ChangeNotifierProvider<ProfileSellerViewModel>(
       create: (_) => ProfileSellerViewModel(),
       builder: (BuildContext context, _) {
-        return _ProfileSellerBody( isBuy: isBuy);
+        return _ProfileSellerBody(isBuy: isBuy);
       },
     );
   }
 }
 
 class _ProfileSellerBody extends StatefulWidget {
-  const _ProfileSellerBody( {Key? key, required this.isBuy})
-      : super(key: key);
+  const _ProfileSellerBody({Key? key, required this.isBuy}) : super(key: key);
 
   final bool isBuy;
 
@@ -119,7 +115,8 @@ class _ProfileSellerBodyState extends State<_ProfileSellerBody> {
                           passwordCtrl: passwordCtrl,
                           isBuy: widget.isBuy,
                         )
-                      : _ProfileSellerMobile(keyForm: keyForm,
+                      : _ProfileSellerMobile(
+                          keyForm: keyForm,
                           passwordCtrl: passwordCtrl,
                           userCtrl: usuarioCtrl,
                         ),

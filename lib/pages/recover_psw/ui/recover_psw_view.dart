@@ -68,7 +68,10 @@ class _RecoverPswBodyState extends State<_RecoverPswBody> {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ShowSuccessSnackbar) {
-        LdSnackbar.buildSuccessSnackbar(context, event.message,);
+        LdSnackbar.buildSuccessSnackbar(
+          context,
+          event.message,
+        );
       } else if (event is ShowWarningSnackbar) {
         LdSnackbar.buildSnackbar(
           context,

@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
-
-import '../pages/history/ui/history_view.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -94,7 +92,8 @@ class LdRouter {
     );
   }
 
-  void goDetailHistoryOperation(BuildContext context, DataUserAdvertisement item) {
+  void goDetailHistoryOperation(
+      BuildContext context, DataUserAdvertisement item) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,
@@ -105,7 +104,9 @@ class LdRouter {
     );
   }
 
-  void goProfileSeller(BuildContext context, ) {
+  void goProfileSeller(
+    BuildContext context,
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.profileSellerRoute.route,
@@ -162,6 +163,33 @@ class LdRouter {
     );
   }
 
+  void goNotifications(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.notifications.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goContactSupport(BuildContext context) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.contactSupport.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goInfoView(BuildContext context, InfoViewArguments arguments) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.info.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, InfoViewArguments>{'arguments': arguments},
+      ),
+    );
+  }
+
 // void goValidateEmail(BuildContext context) {
 //   AppRouter.router.navigateTo(
 //     context,
@@ -177,4 +205,44 @@ class LdRouter {
 //     transition: TransitionType.none,
 //   );
 // }
+
+  void goDetailOperOffer(
+    BuildContext context,
+    String offerId,
+    String isOper, {
+    bool replace = false,
+  }) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailOperOfferRoute.route,
+      replace: replace,
+      routeSettings: RouteSettings(
+        arguments: <String, String>{
+          'offerId': offerId,
+          'type': isOper,
+        },
+      ),
+    );
+  }
+
+  void goAttachedFile(
+    BuildContext context,
+    // bool isOper,
+    String offerIdFile,
+    String extensionFile,
+    String isView,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.attachedFileRoute.route,
+      routeSettings: RouteSettings(
+        arguments: <String, String>{
+          // 'type': isOper,
+          'offerId': offerIdFile,
+          'extensionFile': extensionFile,
+          'isView': isView,
+        },
+      ),
+    );
+  }
 }

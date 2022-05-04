@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
@@ -10,6 +13,9 @@ import 'package:localdaily/services/models/create_offers/type_offer/result_type_
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
+import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
+import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
 import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
@@ -105,7 +111,6 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultValidatePin> response =
         await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
-    print(response.result);
     return response;
   }
 
@@ -157,6 +162,21 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<dynamic>> sendAttach({
+    required String AdvertisementId,
+    required XFile xFile,
+    required String UserId,
+  }) async {
+    File file = File(xFile.path);
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().sendAttach(
+      AdvertisementId,
+      UserId,
+      file,
+    );
+    return response;
+  }
+
   Future<ResponseData<ResultTypeOffer>> getTypesAdvertisement(
     Pagination body,
   ) async {
@@ -166,9 +186,40 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<bool>> confirmPayment(
+    ConfirmPayment body,
+  ) async {
+    final ResponseData<bool> response =
+        await locator<LocalDailyGatewayService>().confirmPayment(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultDataAdvertisement>> getDetailAdvertisement(
+      String id) async {
+    final ResponseData<ResultDataAdvertisement> response =
+        await locator<LocalDailyGatewayService>().getDetailAdvertisement(id);
+    return response;
+  }
+
+  Future<ResponseData<String>> getAttachFile(String advertismentID) async {
+    final ResponseData<String> response =
+        await locator<LocalDailyGatewayService>().getAttachFile(advertismentID);
+    return response;
+  }
+
   Future<ResponseData<ResultAccountType>> getAccountType() async {
     final ResponseData<ResultAccountType> response =
         await locator<LocalDailyGatewayService>().getAccountType();
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> addRateUser(
+    RateUser body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().addRateUser(body);
 
     return response;
   }
