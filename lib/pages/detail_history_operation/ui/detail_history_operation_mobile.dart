@@ -129,7 +129,10 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     _operationType(textTheme, styleGrayText),
-                    RowInfoPartner(textTheme, styleGrayText, item: item),
+                    RowInfoPartner(textTheme, styleGrayText,
+                        item: item,
+                        onPressed: () =>
+                            viewModel.goProfileSeller(context,)),
                     _rowAmount(
                       textTheme,
                       styleGrayText,
@@ -285,12 +288,14 @@ class RowInfoPartner extends StatelessWidget {
   const RowInfoPartner(
     this.textTheme,
     this.styleGrayText, {
-    Key? key,
     required this.item,
+    this.onPressed,
+    Key? key,
   }) : super(key: key);
   final TextStyle styleGrayText;
   final TextTheme textTheme;
   final Operation item;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -370,12 +375,15 @@ class RowInfoPartner extends StatelessWidget {
                         ),
                       ),
                       // const Spacer(),
-                      const Text(
-                        'Ver perfil',
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: LdColors.orangePrimary,
-                          fontStyle: FontStyle.italic,
+                      TextButton(
+                        onPressed: onPressed,
+                        child: const Text(
+                          'Ver perfil',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: LdColors.orangePrimary,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                       ),
                     ],

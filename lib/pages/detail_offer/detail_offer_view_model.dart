@@ -18,6 +18,7 @@ import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dar
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
@@ -78,6 +79,18 @@ class DetailOfferViewModel
       listAccountType: configurationProvider.getResultAccountTypes,
     );
   }
+
+  void goProfileSeller(BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goProfileSeller(context, );
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
 
   void daysForExpire(DateTime date) {
     final DateTime birthday = DateTime(date.year, date.month, date.day);

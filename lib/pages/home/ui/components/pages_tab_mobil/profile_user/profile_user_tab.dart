@@ -49,7 +49,7 @@ class ProfileUser extends StatelessWidget {
   }
 
   Widget _headerCardUser(
-      BuildContext context, Color colorCardWhite, Size size) {
+      BuildContext context, Color colorCardWhite, Size size,) {
     // final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
 
     return Stack(
@@ -399,7 +399,7 @@ class ProfileUser extends StatelessWidget {
                 radius: sizeCircleIcon,
                 backgroundColor: LdColors.orangePrimary,
                 child: GestureDetector(
-                  onTap:() => viewModel.goProfileSeller(context),
+                  onTap:(){},
                   child: const Icon(
                     Icons.edit,
                     color: Colors.white,

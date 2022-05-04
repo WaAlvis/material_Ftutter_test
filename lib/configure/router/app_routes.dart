@@ -15,6 +15,7 @@ import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 
 class AppRoutes {
   /*static final loginRoute = AppRoute(
@@ -57,6 +58,16 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
 
+  static final AppRoute profileSellerRoute = AppRoute(
+    '/profile_seller',
+    Handler(
+        // handlerFunc: (_, __) => const ProfileSellerView()
+        handlerFunc: (BuildContext? context, __) => ProfileSellerView(
+              // user: (context!.settings!.arguments!
+              //     as Map<String, dynamic>)['user'] as UserDataHome,
+            )),
+  );
+
   static final AppRoute detailOfferRoute = AppRoute(
     '/detail_offer',
     Handler(
@@ -86,11 +97,6 @@ class AppRoutes {
   static final AppRoute changePswRoute = AppRoute(
     '/change_password',
     Handler(handlerFunc: (_, __) => const ChangePasswordView()),
-  );
-
-  static final AppRoute profileSellerRoute = AppRoute(
-    '/profile_seller',
-    Handler(handlerFunc: (_, __) => const ProfileSellerView()),
   );
 
   static final AppRoute createOfferBuyRoute = AppRoute(

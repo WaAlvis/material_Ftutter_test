@@ -4,6 +4,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 
 import '../pages/history/ui/history_view.dart';
 
@@ -93,22 +94,23 @@ class LdRouter {
     );
   }
 
+  void goProfileSeller(BuildContext context, ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.profileSellerRoute.route,
+      transition: TransitionType.none,
+      // routeSettings: RouteSettings(
+      //   arguments: <String, UserDataHome>{'user': user},
+      // ),
+    );
+  }
+
   void goSettings(
     BuildContext context,
   ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.settingsRoute.route,
-      transition: TransitionType.none,
-    );
-  }
-
-  void goProfileSeller(
-      BuildContext context,
-      ) {
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.profileSellerRoute.route,
       transition: TransitionType.none,
     );
   }
