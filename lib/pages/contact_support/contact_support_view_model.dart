@@ -34,5 +34,6 @@ class ContactSupportViewModel extends ViewModel<ContactSupportStatus> {
   void changeDescription(String description) => status = status.copyWith(
         description: description,
       );
+
   void changeMobile(String mobile) => status = status.copyWith(mobile: mobile);
 }

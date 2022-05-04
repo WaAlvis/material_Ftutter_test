@@ -73,6 +73,7 @@ class _DetailOfferMobile extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             PublisherInformation(
+                              viewModel,
                               user: item.user,
                               textTheme: textTheme,
                               size: size,
@@ -388,13 +389,15 @@ class OperationHeader extends StatelessWidget {
 }
 
 class PublisherInformation extends StatelessWidget {
-  const PublisherInformation({
+  const PublisherInformation(
+    this.viewModel, {
     Key? key,
     required this.user,
     required this.textTheme,
     required this.size,
   }) : super(key: key);
 
+  final DetailOfferViewModel viewModel;
   final UserDataHome user;
   final TextTheme textTheme;
   final Size size;
@@ -446,11 +449,14 @@ class PublisherInformation extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        Text(
-          'Ver perfil',
-          style: textTheme.textSmallBlack.copyWith(
-            color: LdColors.orangePrimary,
-            decoration: TextDecoration.underline,
+        TextButton(
+          onPressed: () => viewModel.goProfileSeller(context,),
+          child: Text(
+            'Ver perfil',
+            style: textTheme.textSmallBlack.copyWith(
+              color: LdColors.orangePrimary,
+              decoration: TextDecoration.underline,
+            ),
           ),
         ),
       ],

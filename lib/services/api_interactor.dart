@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
-import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -18,6 +16,8 @@ import 'package:localdaily/services/models/detail_offer/result_update_status.dar
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -79,6 +79,13 @@ class ServiceInteractor {
       BodyRecoverPsw bodyRecoverPsw) async {
     final ResponseData<ResultRecoverPsw> response =
         await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+    final ResponseData<ResultHistoryOperationsUser> response =
+        await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
 
     return response;
   }

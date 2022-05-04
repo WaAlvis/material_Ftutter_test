@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -16,6 +14,8 @@ import 'package:localdaily/services/models/detail_offer/result_update_status.dar
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
@@ -33,7 +33,6 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
-import 'package:retrofit/http.dart' as http;
 
 part 'local_daily_gateway_service.g.dart';
 
@@ -46,6 +45,8 @@ class UrlsApi {
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
+  static const String getHistoryOperationsUser =
+      '/WebAdmin/Advertisement/GetHistoryAvertisementUser';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
   static const String createOffer = '/WebAdmin/Advertisement';
@@ -128,6 +129,11 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getDocsType)
   Future<ResponseData<ResultGetDocsType>> getDocsType(
     @Body() Pagination bodyGetDocsType,
+  );
+
+  @POST(UrlsApi.getHistoryOperationsUser)
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
+    @Body() BodyHistoryOperationsUser bodyHistoryOperationsUser,
   );
 
   //Offer

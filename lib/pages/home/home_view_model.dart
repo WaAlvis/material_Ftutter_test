@@ -159,10 +159,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // can't launch url, there is some error
   }
 
-  void goHistoryOperations(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        _route.goHistoryOperations(context);
+        //TODO hacer servicio q obtiene el historial de operaciones
+        // await getHistoryOperationsUser(context,idUSer);
+        _route.goHistoryOperations(
+          context,
+        );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }

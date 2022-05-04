@@ -19,6 +19,7 @@ import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
 class AppRoutes {
@@ -62,6 +63,16 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const LoginView()),
   );
 
+  static final AppRoute profileSellerRoute = AppRoute(
+    '/profile_seller',
+    Handler(
+        // handlerFunc: (_, __) => const ProfileSellerView()
+        handlerFunc: (BuildContext? context, __) => ProfileSellerView(
+              // user: (context!.settings!.arguments!
+              //     as Map<String, dynamic>)['user'] as UserDataHome,
+            )),
+  );
+
   static final AppRoute detailOfferRoute = AppRoute(
     '/detail_offer',
     Handler(
@@ -78,7 +89,7 @@ class AppRoutes {
     '/detail_history_operation',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
-        item: (context!.settings!.arguments! as Map<String, Operation>)['item'],
+        item: (context!.settings!.arguments! as Map<String, DataUserAdvertisement>)['item'],
       ),
     ),
   );
@@ -93,11 +104,6 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const ChangePasswordView()),
   );
 
-  static final AppRoute profileSellerRoute = AppRoute(
-    '/profile_seller',
-    Handler(handlerFunc: (_, __) => const ProfileSellerView()),
-  );
-
   static final AppRoute createOfferBuyRoute = AppRoute(
     '/create_offer_buy',
     Handler(handlerFunc: (_, __) => const OfferBuyView()),
@@ -110,7 +116,9 @@ class AppRoutes {
 
   static final AppRoute historyOperationsRoute = AppRoute(
     '/history_operations',
-    Handler(handlerFunc: (_, __) => const HistoryView()),
+     Handler(
+        handlerFunc: (BuildContext? context, __) => HistoryView(),
+      ),
   );
 
   static final AppRoute registerEmailRoute = AppRoute(

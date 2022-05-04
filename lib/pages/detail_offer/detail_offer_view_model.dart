@@ -79,6 +79,20 @@ class DetailOfferViewModel
     );
   }
 
+  void goProfileSeller(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goProfileSeller(
+          context,
+        );
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
   void daysForExpire(DateTime date) {
     final DateTime birthday = DateTime(date.year, date.month, date.day);
     final DateTime date2 = DateTime.now();

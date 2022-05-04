@@ -18,7 +18,6 @@ import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/main_offers/
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/operation_offer/list_operations_offers.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
@@ -26,26 +25,17 @@ import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
-
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
-
-part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
-
+part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
 // Components Mobile
 part 'components/pages_tab_mobil/main_offers/card_wallet_connect.dart';
-
-part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
-
 part 'components/pages_tab_mobil/main_offers/main_offers_tab.dart';
-
 part 'components/pages_tab_mobil/operation_offer/operation_card.dart';
-
 part 'components/pages_tab_mobil/operation_offer/operations_offers_tab.dart';
-
+part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
 part 'home_mobile.dart';
-
 part 'home_web.dart';
 
 class HomeView extends StatelessWidget {
@@ -180,7 +170,7 @@ class _HomeBodyState extends State<_HomeBody> {
         final double maxWidth = constraints.maxWidth;
 
         return Stack(
-          children: [
+          children: <Widget>[
             CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: <Widget>[

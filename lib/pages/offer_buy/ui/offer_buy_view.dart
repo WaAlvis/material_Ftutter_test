@@ -24,9 +24,7 @@ import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:provider/provider.dart';
 
 part 'components/orange_table_buy.dart';
-
 part 'offer_buy_mobile.dart';
-
 part 'offer_buy_web.dart';
 
 class OfferBuyView extends StatelessWidget {

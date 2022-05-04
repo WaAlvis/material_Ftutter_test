@@ -16,7 +16,6 @@ class SettingsStatus extends ViewStatus {
   SettingsStatus copyWith(
       {bool? isLoading,
       Language? currentLanguage,
-      List<DayOperation>? dayMockOpr,
       bool? isError,
       bool? isLoadingOperations,
       bool? allLoaded}) {

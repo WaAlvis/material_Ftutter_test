@@ -16,29 +16,23 @@ import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
-import 'package:localdaily/view_model.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
-import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../attached_file_view_model.dart';
 
-part 'attached_file_web.dart';
-
 part 'attached_file_mobile.dart';
 
-part 'components/operation_header_oper_offer.dart';
+part 'attached_file_web.dart';
+
+part 'components/document_file.dart';
 
 part 'components/interactive_attached_file.dart';
 
-part 'components/document_file.dart';
+part 'components/operation_header_oper_offer.dart';
 
 class AttachedFileView extends StatelessWidget {
   const AttachedFileView({
@@ -92,6 +86,7 @@ class _AttachedFileBody extends StatefulWidget {
   final bool isBuy;
   final bool isOper;
   final dynamic item;
+
   @override
   State<_AttachedFileBody> createState() => __AttachedFileBodyState();
 }

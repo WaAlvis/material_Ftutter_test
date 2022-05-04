@@ -12,7 +12,6 @@ import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
 part 'settings_mobile.dart';
-
 part 'settings_web.dart';
 
 class SettingsView extends StatelessWidget {
