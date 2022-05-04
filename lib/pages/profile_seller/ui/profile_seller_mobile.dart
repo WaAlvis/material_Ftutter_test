@@ -14,7 +14,7 @@ class _ProfileSellerMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ProfileSellerViewModel viewModel =
         context.watch<ProfileSellerViewModel>();
@@ -23,7 +23,7 @@ class _ProfileSellerMobile extends StatelessWidget {
     const double hAppbar = 160;
     final double hBody = size.height - hAppbar;
 
-    const double ratingSellerTest = 3.5;
+    final double ratingSellerTest = viewModel.status.infoUserPublish?.rateGeneral ?? 1;
 
     return GestureDetector(
       onTap: () {

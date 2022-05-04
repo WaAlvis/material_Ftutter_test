@@ -20,6 +20,8 @@ import 'package:localdaily/services/models/history_operations_user/body_history_
 import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
+import 'package:localdaily/services/models/info_user_publish/body_info_user_publish.dart';
+import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -86,6 +88,13 @@ class ServiceInteractor {
   Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
     final ResponseData<ResultHistoryOperationsUser> response =
         await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(BodyInfoUserPublish bodyInfoUserPublish) async {
+    final ResponseData<ResultInfoUserPublish> response =
+        await locator<LocalDailyGatewayService>().getInfoUserPublish(bodyInfoUserPublish);
 
     return response;
   }

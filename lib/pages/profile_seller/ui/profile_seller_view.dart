@@ -23,9 +23,11 @@ part 'profile_seller_mobile.dart';
 part 'profile_seller_web.dart';
 
 class ProfileSellerView extends StatelessWidget {
-  const ProfileSellerView({Key? key, this.isBuy = false}) : super(key: key);
+  const ProfileSellerView({Key? key, this.isBuy = false, required this.idUser})
+      : super(key: key);
 
   final bool isBuy;
+  final String idUser;
 
   // final UserDataHome user;
 
@@ -34,7 +36,7 @@ class ProfileSellerView extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return ChangeNotifierProvider<ProfileSellerViewModel>(
-      create: (_) => ProfileSellerViewModel(),
+      create: (_) => ProfileSellerViewModel(idUser),
       builder: (BuildContext context, _) {
         return _ProfileSellerBody(isBuy: isBuy);
       },

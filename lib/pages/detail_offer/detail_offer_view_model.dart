@@ -81,11 +81,12 @@ class DetailOfferViewModel
 
   void goProfileSeller(
     BuildContext context,
+      String idUser
   ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goProfileSeller(
-          context,
+          context,idUser
         );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));

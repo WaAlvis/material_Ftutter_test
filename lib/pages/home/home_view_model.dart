@@ -164,8 +164,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        //TODO hacer servicio q obtiene el historial de operaciones
-        // await getHistoryOperationsUser(context,idUSer);
         _route.goHistoryOperations(
           context,
         );
@@ -222,16 +220,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       if (isConnectionValidvalue) {
         _route.goNotifications(context);
         //_route.goContactSupport(context);
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
-
-  void goProfileSeller(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      if (isConnectionValidvalue) {
-        _route.goProfileSeller(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
