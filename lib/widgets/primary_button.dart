@@ -42,6 +42,7 @@ class PrimaryButtonCustom extends StatelessWidget {
       child: icon == null
           ? Text(
               data,
+              textAlign: TextAlign.center,
               style:
               textTheme.textWhite
                   .copyWith(color: colorText ??  colorTextBorder ?? LdColors.black),

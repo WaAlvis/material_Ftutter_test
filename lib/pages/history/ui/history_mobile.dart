@@ -14,7 +14,7 @@ class HistoryMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final HistoryViewModel viewModel = context.watch<HistoryViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
-    String idUser = dataUserProvider.getDataUserLogged!.id;
+    final String idUser = dataUserProvider.getDataUserLogged!.id;
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
@@ -56,54 +56,64 @@ class HistoryMobile extends StatelessWidget {
             child: Container(
               constraints: BoxConstraints(minHeight: hBody),
               color: LdColors.white,
-              child: ListView.separated(
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                controller: scrollCtrl,
-                shrinkWrap: true,
-                itemCount: viewModel.status.isLoading
-                    ? 4
-                    : viewModel.status.operationsForDay.length,
-                padding: EdgeInsets.zero,
-                itemBuilder: (BuildContext context, int index) {
-                  return viewModel.status.isLoading
-                      ? Shimmer.fromColors(
-                          baseColor: LdColors.whiteDark,
-                          highlightColor: LdColors.grayButton,
-                          child: const Card(
-                            margin: EdgeInsets.all(10),
-                            child: SizedBox(height: 160),
-                          ),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            dateHeader(
-                              textTheme,
-                              viewModel
-                                  .status.operationsForDay[index].wrapedDate,
-                            ),
-                            ListOperationDay(
-                              viewModel,
-                              dataUserProvider,
-                              textTheme,
-                              viewModel.status.operationsForDay[index].data,
-                            ),
-                          ],
-                        );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return viewModel.status.isLoading
-                      ? const SizedBox.shrink()
-                      : const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Divider(
-                            thickness: 2,
-                          ),
-                        );
-                },
-              ),
+              child: viewModel.status.isDataEmpty
+                  ? const IntrinsicHeight(
+                      child: AdviceMessage(
+                        imageName: LdAssets.emptyNotification,
+                        title: 'Aún no tienes operaciones registradas',
+                        description:
+                            'Aquí encontraras tus operaciones conclusas tanto de venta como de compra.',
+                      ),
+                    )
+                  : ListView.separated(
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      controller: scrollCtrl,
+                      shrinkWrap: true,
+                      itemCount: viewModel.status.isLoading
+                          ? 4
+                          : viewModel.status.operationsForDay.length,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (BuildContext context, int index) {
+                        return viewModel.status.isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: LdColors.whiteDark,
+                                highlightColor: LdColors.grayButton,
+                                child: const Card(
+                                  margin: EdgeInsets.all(10),
+                                  child: SizedBox(height: 160),
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  dateHeader(
+                                    textTheme,
+                                    viewModel.status.operationsForDay[index]
+                                        .wrapedDate,
+                                  ),
+                                  ListOperationDay(
+                                    viewModel,
+                                    dataUserProvider,
+                                    textTheme,
+                                    viewModel
+                                        .status.operationsForDay[index].data,
+                                  ),
+                                ],
+                              );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return viewModel.status.isLoading
+                            ? const SizedBox.shrink()
+                            : const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Divider(
+                                  thickness: 2,
+                                ),
+                              );
+                      },
+                    ),
             ),
           )),
         ],

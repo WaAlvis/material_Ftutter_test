@@ -23,7 +23,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     status = HistoryStatus(
       isLoading: true,
       isError: false,
-      allLoaded: false,
+      // allLoaded: false,
       listHistoryOperations: <DataUserAdvertisement>[],
       operationsForDay: <GroupAdvertisement>[],
     );
@@ -41,7 +41,8 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
   }
 
   List<GroupAdvertisement> organizeDaysOperations(
-      List<DataUserAdvertisement> data) {
+    List<DataUserAdvertisement> data,
+  ) {
     String formatDate(int timeStamp, String format) {
       final DateTime date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
       final DateFormat formatter = DateFormat(format, 'ES_CO');
@@ -68,7 +69,6 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
           ),
         )
         .toList();
-    status = status.copyWith(operationsForDay: value, isLoading: false);
     return value;
   }
 
@@ -87,11 +87,17 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
 
     _interactor
         .getHistoryOperationsUser(bodyHistoryOperationsUser)
-        .then((ResponseData<ResultHistoryOperationsUser> response) {
+        .then((ResponseData<ResultHistoryOperationsUser> response) async {
+      final List<GroupAdvertisement> value;
       if (response.isSuccess) {
         final List<DataUserAdvertisement> dataOperations =
             response.result!.data;
-        organizeDaysOperations(dataOperations);
+        if (dataOperations.isNotEmpty) {
+          value = organizeDaysOperations(dataOperations);
+          status = status.copyWith(operationsForDay: value, isLoading: false);
+        } else {
+          status = status.copyWith(isDataEmpty: true);
+        }
       } else {
         //Add effect NOT success
       }

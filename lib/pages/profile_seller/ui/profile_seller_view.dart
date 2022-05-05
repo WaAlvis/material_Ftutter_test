@@ -8,6 +8,8 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/profile_seller/profile_seller_effect.dart';
 import 'package:localdaily/pages/profile_seller/profile_seller_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
+import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -23,9 +25,16 @@ part 'profile_seller_mobile.dart';
 part 'profile_seller_web.dart';
 
 class ProfileSellerView extends StatelessWidget {
-  const ProfileSellerView({Key? key, this.isBuy = false}) : super(key: key);
+  const ProfileSellerView(
+      {Key? key,
+      this.isBuy = false,
+      required this.idUser,
+      required this.nickName})
+      : super(key: key);
 
   final bool isBuy;
+  final String idUser;
+  final String nickName;
 
   // final UserDataHome user;
 
@@ -34,7 +43,7 @@ class ProfileSellerView extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return ChangeNotifierProvider<ProfileSellerViewModel>(
-      create: (_) => ProfileSellerViewModel(),
+      create: (_) => ProfileSellerViewModel(idUser, nickName),
       builder: (BuildContext context, _) {
         return _ProfileSellerBody(isBuy: isBuy);
       },

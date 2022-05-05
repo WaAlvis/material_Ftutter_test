@@ -14,7 +14,6 @@ class _ProfileSellerMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ProfileSellerViewModel viewModel =
         context.watch<ProfileSellerViewModel>();
@@ -23,7 +22,7 @@ class _ProfileSellerMobile extends StatelessWidget {
     const double hAppbar = 160;
     final double hBody = size.height - hAppbar;
 
-    const double ratingSellerTest = 3.5;
+    final ResultInfoUserPublish? infoUser = viewModel.status.infoUserPublish;
 
     return GestureDetector(
       onTap: () {
@@ -79,12 +78,15 @@ class _ProfileSellerMobile extends StatelessWidget {
                             const SizedBox(
                               height: 50,
                             ),
-                            _nameUser(textTheme),
+                            _nameUser(textTheme, viewModel),
                             const SizedBox(
                               height: 12,
                             ),
                             const Spacer(),
-                            _containerRateSeller(ratingSellerTest, textTheme),
+                            _containerRateSeller(
+                              infoUser?.rateGeneral ?? 0.5,
+                              textTheme,
+                            ),
                             const SizedBox(
                               height: 12,
                             ),
@@ -93,16 +95,30 @@ class _ProfileSellerMobile extends StatelessWidget {
                               children: <Widget>[
                                 _summaryOperationsRow(
                                   textTheme,
-                                  hBody,
-                                  title: 'Operaciones',
+                                  titleSection: 'Operaciones',
+                                  leftBox: <dynamic>[
+                                    infoUser?.numberOfSales ?? '0',
+                                    'Ventas realizadas'
+                                  ],
+                                  rightBox: <dynamic>[
+                                    infoUser?.numberOfBuys ?? '0',
+                                    'Compras realizadas'
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 12,
                                 ),
                                 _summaryOperationsRow(
                                   textTheme,
-                                  hBody,
-                                  title: 'Ofertas publicadas',
+                                  titleSection: 'Ofertas publicadas',
+                                  leftBox: <dynamic>[
+                                    infoUser?.openSales ?? '0',
+                                    'De ventas'
+                                  ],
+                                  rightBox: <dynamic>[
+                                    infoUser?.openBuys ?? '0',
+                                    'De compra'
+                                  ],
                                 ),
                               ],
                             ),
@@ -129,16 +145,16 @@ class _ProfileSellerMobile extends StatelessWidget {
   }
 
   Widget _summaryOperationsRow(
-    TextTheme textTheme,
-    double hBody, {
-    required String title,
+    TextTheme textTheme, {
+    required String titleSection,
+    required List<dynamic> leftBox ,
+    required List<dynamic> rightBox,
   }) {
-    // final String title;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          title,
+          titleSection,
           style: textTheme.textBlack.copyWith(fontSize: 16),
         ),
         const SizedBox(
@@ -146,18 +162,30 @@ class _ProfileSellerMobile extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-            _counterOperationsContainer(textTheme),
+            _counterOperationsContainer(
+              textTheme,
+              leftBox[0].toString(),
+              leftBox[1].toString(),
+            ),
             const SizedBox(
               width: 12,
             ),
-            _counterOperationsContainer(textTheme),
+            _counterOperationsContainer(
+              textTheme,
+              rightBox[0].toString(),
+              rightBox[1].toString(),
+            ),
           ],
         )
       ],
     );
   }
 
-  Widget _counterOperationsContainer(TextTheme textTheme) {
+  Widget _counterOperationsContainer(
+    TextTheme textTheme,
+    String amountOperations,
+    String titleOperation,
+  ) {
     return Expanded(
       child: Container(
         // height: 100,
@@ -171,7 +199,7 @@ class _ProfileSellerMobile extends StatelessWidget {
           children: <Widget>[
             const Spacer(),
             Text(
-              '125',
+              amountOperations,
               style: textTheme.textBigBlack.copyWith(
                 color: LdColors.blackBackground,
               ),
@@ -181,7 +209,7 @@ class _ProfileSellerMobile extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                'ventas realizadas',
+                titleOperation,
                 style: textTheme.textSmallBlack.copyWith(
                   fontSize: 12,
                 ),
@@ -241,7 +269,10 @@ class _ProfileSellerMobile extends StatelessWidget {
     );
   }
 
-  Column _nameUser(TextTheme textTheme) {
+  Column _nameUser(
+    TextTheme textTheme,
+    ProfileSellerViewModel viewModel,
+  ) {
     return Column(
       children: <Widget>[
         SizedBox(
@@ -249,7 +280,7 @@ class _ProfileSellerMobile extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                'UsuV2021',
+                viewModel.status.nickName,
                 style: textTheme.textBigBlack
                     .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
               ),

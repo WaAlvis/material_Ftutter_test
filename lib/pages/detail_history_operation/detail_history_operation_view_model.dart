@@ -66,11 +66,13 @@ class DetailHistoryOperationViewModel
 
   void goProfileSeller(
     BuildContext context,
-  ) {
+      {required String idUserPublish,required String nickName,}) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goProfileSeller(
           context,
+          idUserPublish,
+            nickName
         );
       } else {
         // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));

@@ -7,6 +7,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/history_view_model.dart';
+import 'package:localdaily/pages/home/ui/components/advice_message.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';

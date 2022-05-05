@@ -66,10 +66,11 @@ class AppRoutes {
   static final AppRoute profileSellerRoute = AppRoute(
     '/profile_seller',
     Handler(
-        // handlerFunc: (_, __) => const ProfileSellerView()
         handlerFunc: (BuildContext? context, __) => ProfileSellerView(
-              // user: (context!.settings!.arguments!
-              //     as Map<String, dynamic>)['user'] as UserDataHome,
+              idUser: (context!.settings!.arguments!
+                  as Map<String, dynamic>)['idUser'] as String,
+              nickName: (context!.settings!.arguments!
+                  as Map<String, dynamic>)['nickName'] as String,
             )),
   );
 
@@ -89,7 +90,8 @@ class AppRoutes {
     '/detail_history_operation',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
-        item: (context!.settings!.arguments! as Map<String, DataUserAdvertisement>)['item'],
+        item: (context!.settings!.arguments!
+            as Map<String, DataUserAdvertisement>)['item'],
       ),
     ),
   );
@@ -116,9 +118,9 @@ class AppRoutes {
 
   static final AppRoute historyOperationsRoute = AppRoute(
     '/history_operations',
-     Handler(
-        handlerFunc: (BuildContext? context, __) => HistoryView(),
-      ),
+    Handler(
+      handlerFunc: (_, __) => const HistoryView(),
+    ),
   );
 
   static final AppRoute registerEmailRoute = AppRoute(
@@ -146,6 +148,7 @@ class AppRoutes {
       ),
     ),
   );
+
   static final AppRoute info = AppRoute(
     '/info',
     Handler(

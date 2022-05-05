@@ -77,6 +77,11 @@ class _DetailOfferMobile extends StatelessWidget {
                               user: item.user,
                               textTheme: textTheme,
                               size: size,
+                              onPressed: () => viewModel.goProfileSeller(
+                                context,
+                                idUser: item.advertisement.idUserPublish,
+                                nickName: item.user.nickName,
+                              ),
                             ),
                             const SizedBox(height: 30),
                             CardDetailOffer(
@@ -395,9 +400,11 @@ class PublisherInformation extends StatelessWidget {
     required this.user,
     required this.textTheme,
     required this.size,
+    required this.onPressed,
   }) : super(key: key);
 
   final DetailOfferViewModel viewModel;
+  final void Function()? onPressed;
   final UserDataHome user;
   final TextTheme textTheme;
   final Size size;
@@ -450,7 +457,7 @@ class PublisherInformation extends StatelessWidget {
         ),
         const Spacer(),
         TextButton(
-          onPressed: () => viewModel.goProfileSeller(context,),
+          onPressed: onPressed,
           child: Text(
             'Ver perfil',
             style: textTheme.textSmallBlack.copyWith(

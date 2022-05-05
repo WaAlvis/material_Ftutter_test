@@ -72,13 +72,15 @@ class OperationsOffersTab extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   if (dataUserProvider.getDataUserLogged == null)
-                    AdviceMessage(
-                      imageName: LdAssets.loginIdentity,
-                      title: 'Inicia sesión para continuar',
-                      description:
-                          'Para visualizar tus operaciones de compra, es necesario que inicies sesión.',
-                      btnText: 'Iniciar sesión',
-                      onPressed: () => viewModel.goLogin(context),
+                    IntrinsicHeight(
+                      child: AdviceMessage(
+                        imageName: LdAssets.loginIdentity,
+                        title: 'Inicia sesión para continuar',
+                        description:
+                            'Para visualizar tus operaciones de compra, es necesario que inicies sesión.',
+                        btnText: 'Iniciar sesión',
+                        onPressed: () => viewModel.goLogin(context),
+                      ),
                     )
                   else
                     ListOperationsOffers(
