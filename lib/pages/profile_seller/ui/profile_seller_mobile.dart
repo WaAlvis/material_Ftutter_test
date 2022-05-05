@@ -84,7 +84,7 @@ class _ProfileSellerMobile extends StatelessWidget {
                             ),
                             const Spacer(),
                             _containerRateSeller(
-                              infoUser?.rateGeneral ?? 0.0,
+                              infoUser?.rateGeneral ?? 0.5,
                               textTheme,
                             ),
                             const SizedBox(
