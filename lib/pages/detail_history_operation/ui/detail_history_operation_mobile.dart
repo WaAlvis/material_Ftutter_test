@@ -63,6 +63,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                       item: item,
                       onPressed: () => viewModel.goProfileSeller(context,
                           idUserPublish: item.advertisement.idUserPublish,
+                          nickName: item.user.nickName,
                       ),
                     ),
                     _rowAmount(

@@ -17,9 +17,11 @@ class ProfileSellerViewModel
   late LdRouter _route;
   late ServiceInteractor _interactor;
   late String idUser;
+  late String nickName;
 
   ProfileSellerViewModel(
-    this.idUser, {
+    this.idUser,
+    this.nickName, {
     LdRouter? route,
     ServiceInteractor? interactor,
   }) {
@@ -27,8 +29,9 @@ class ProfileSellerViewModel
     _interactor = interactor ?? locator<ServiceInteractor>();
 
     status = ProfileSellerStatus(
-      isLoading: false,
+      isLoading: true,
       isError: false,
+      nickName: nickName,
     );
   }
 
@@ -48,14 +51,16 @@ class ProfileSellerViewModel
         .getInfoUserPublish(bodyInfoUserPublish)
         .then((ResponseData<ResultInfoUserPublish> response) {
       if (response.isSuccess) {
-        status = status.copyWith(infoUserPublish: response.result, );
+        status = status.copyWith(
+          infoUserPublish: response.result,
+          isLoading: false,
+        );
       } else {
         //Add effect NOT success
       }
     }).catchError((Object err) {
       print('Info User Publish Error As: $err');
     });
-    status = status.copyWith(isLoading: false);
   }
 
   //Register

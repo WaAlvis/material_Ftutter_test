@@ -69,6 +69,8 @@ class AppRoutes {
         handlerFunc: (BuildContext? context, __) => ProfileSellerView(
               idUser: (context!.settings!.arguments!
                   as Map<String, dynamic>)['idUser'] as String,
+              nickName: (context!.settings!.arguments!
+                  as Map<String, dynamic>)['nickName'] as String,
             )),
   );
 
@@ -117,7 +119,7 @@ class AppRoutes {
   static final AppRoute historyOperationsRoute = AppRoute(
     '/history_operations',
     Handler(
-      handlerFunc: (BuildContext? context, __) => HistoryView(),
+      handlerFunc: (_, __) => const HistoryView(),
     ),
   );
 
@@ -146,6 +148,7 @@ class AppRoutes {
       ),
     ),
   );
+
   static final AppRoute info = AppRoute(
     '/info',
     Handler(

@@ -106,14 +106,15 @@ class LdRouter {
 
   void goProfileSeller(
     BuildContext context,
-     String  idUser
+    String idUser,
+    String nickName,
   ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.profileSellerRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-        arguments: <String, String>{'idUser': idUser},
+        arguments: <String, String>{'idUser': idUser, 'nickName': nickName},
       ),
     );
   }

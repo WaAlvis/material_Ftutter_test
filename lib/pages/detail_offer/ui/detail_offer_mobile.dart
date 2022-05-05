@@ -79,7 +79,8 @@ class _DetailOfferMobile extends StatelessWidget {
                               size: size,
                               onPressed: () => viewModel.goProfileSeller(
                                 context,
-                                item.advertisement.idUserPublish,
+                                idUser: item.advertisement.idUserPublish,
+                                nickName: item.user.nickName,
                               ),
                             ),
                             const SizedBox(height: 30),
