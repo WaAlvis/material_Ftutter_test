@@ -134,16 +134,11 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         }).catchError((err) {
           // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
 
-          print('Login DataFull Error As: ${err}');
+          print('Login DataFull Error As: $err');
           status = status.copyWith(isLoading: false);
         });
       } else {
-        String err = '';
-        if (response.error!.message == 'The credential  not match.') {
-          err = 'La contraseña es incorrecta.';
-        } else {
-          err = 'El correo no esta registrado.';
-        }
+        const String err = 'Usuario o contraseña incorrectos';
         addEffect(ShowErrorSnackbar(err));
       }
       status = status.copyWith(isLoading: false);
