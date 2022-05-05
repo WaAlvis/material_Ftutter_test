@@ -1,4 +1,6 @@
 import 'package:localdaily/commons/ld_enums.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
+import 'package:localdaily/services/models/home/extra_filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
@@ -23,6 +25,9 @@ class HomeStatus extends ViewStatus {
   // final String detailText;
   final String buttonText;
   final double balance;
+  //filters
+  final ExtraFilters? extraFilters;
+  final FiltersArguments? filtersArguments;
 
   HomeStatus({
     this.resultDataUser,
@@ -43,6 +48,8 @@ class HomeStatus extends ViewStatus {
     // required this.detailText,
     required this.buttonText,
     required this.balance,
+    this.extraFilters,
+    this.filtersArguments,
   });
 
   HomeStatus copyWith({
@@ -64,6 +71,8 @@ class HomeStatus extends ViewStatus {
     // String? detailText,
     String? buttonText,
     double? balance,
+    ExtraFilters? extraFilters,
+    FiltersArguments? filtersArguments,
   }) {
     return HomeStatus(
       resultDataUser: resultDataUser ?? this.resultDataUser,
@@ -84,6 +93,8 @@ class HomeStatus extends ViewStatus {
       // detailText: detailText ?? this.detailText,
       buttonText: buttonText ?? this.buttonText,
       balance: balance ?? this.balance,
+      extraFilters: extraFilters ?? this.extraFilters,
+      filtersArguments: filtersArguments ?? this.filtersArguments,
     );
   }
 }

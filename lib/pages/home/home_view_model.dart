@@ -4,10 +4,12 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/local_storage_service.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
+import 'package:localdaily/services/models/home/extra_filters.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -68,6 +70,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
       balance: -1,
+      filtersArguments: FiltersArguments(),
     );
   }
 
@@ -99,6 +102,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
+    FiltersArguments filtersArguments = FiltersArguments(
+        extraFilters: status.extraFilters,
+        homeStatus: status,
+        setFilters: (ExtraFilters extraFilters) {
+          setExtraFilters(extraFilters);
+        });
+    status = status.copyWith(filtersArguments: filtersArguments);
     getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
 
@@ -240,6 +250,19 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goDetailOffer(context, item, isBuy: isBuy);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void goFiltres(
+    BuildContext context,
+    FiltersArguments filtersArguments,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goFilters(context, filtersArguments);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -637,6 +660,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  void getExtraFilters() {}
+
+  void setExtraFilters(ExtraFilters extraFilters) {
+    status = status.copyWith(extraFilters: extraFilters);
   }
 }
 

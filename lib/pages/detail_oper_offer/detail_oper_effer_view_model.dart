@@ -290,7 +290,7 @@ class DetailOperOfferViewModel
     ConfirmPayment body = ConfirmPayment(
       idAvertisement: offerId,
       addressDestiny: '',
-      value: '2',
+      value: (double.parse(status.item!.valueToSell) * 0.975).toString(),
       message: 'Usuario confirmo orden de pago',
     );
 
