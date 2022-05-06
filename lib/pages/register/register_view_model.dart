@@ -4,10 +4,12 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/pages/register/register_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
@@ -164,9 +166,9 @@ class RegisterViewModel
     status = status.copyWith(
       isLoading: true,
     );
-    LdConnection.validateConnection().then((bool isConnectionValid) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        sendPinToEmail(email);
+        await sendPinToEmail(email);
         //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
         goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
@@ -424,7 +426,7 @@ class RegisterViewModel
     String phone,
   ) async {
     final String sha256passWord = encryptionPass(status.password).toString();
-    print('pass256 $sha256passWord');
+    status = status.copyWith(isLoading: true);
 
     final BodyRegisterDataUser bodyRegister = BodyRegisterDataUser(
       nickName: status.nickName,
@@ -453,19 +455,18 @@ class RegisterViewModel
         final String idUser = response.result!.id;
         _interactor
             .getUserById(idUser)
-            .then((ResponseData<ResultDataUser> responseDataUser) {
+            .then((ResponseData<ResultDataUser> responseDataUser) async {
           if (responseDataUser.isSuccess) {
-            print('Registro EXITOSO + User guardado completps!!');
             dataUserProvider.setDataUserLogged(
               responseDataUser.result,
             );
             status = status.copyWith(
               isErrorPinValidate: false,
             );
-            _route.goHome(context);
+            goSuccessRegister(context);
+            //todo vista intermedia
           }
         }).catchError((Object err) {
-          print('Registro DataFull Error As: $err');
           addEffect(ShowErrorSnackbar('Error servicio**'));
           status = status.copyWith(
             isLoading: false,
@@ -477,11 +478,9 @@ class RegisterViewModel
             ) ??
             'Error en el registro';
         addEffect(ShowWarningSnackbar(err));
-        print(err);
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
-      print('Registro Error As: $err');
       status = status.copyWith(
         isLoading: false,
       );
@@ -499,7 +498,7 @@ class RegisterViewModel
     if (value == '' || value == null) {
       return 'El número de celular es necesario';
     }
-    if (value.length < 7 ) {
+    if (value.length < 7) {
       return 'El número esta incompleto';
     }
     return null;
@@ -543,13 +542,12 @@ class RegisterViewModel
     {
       if (pin == null || pin.isEmpty) {
         return '* Código necesario';
-      }else if(pin.length<6){
+      } else if (pin.length < 6) {
         return '* Código incompleto';
       }
       return null;
     }
   }
-
 
   String? validatorNotEmpty(String? str) {
     {
@@ -588,10 +586,21 @@ class RegisterViewModel
         hasDigits;
   }
 
+  void goSuccessRegister(BuildContext context) {
+    final InfoViewArguments info = InfoViewArguments(
+      actionCaption: 'Ingresar',
+      title: '¡Felciitaciones!',
+      colorTitle: LdColors.white,
+      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
+      onAction: () => _route.goHome(context),
+    );
+    _route.goInfoView(context, info);
+  }
+
 // Future<void> openEmail(BuildContext context) async {
 //   final OpenMailAppResult result = await OpenMailApp.openMailApp();
 //   if (!result.didOpen && !result.canOpen) {
-//     // showNoMailAppsDialog(context);
+//     // showNoMailAppsDia|(context);
 //   } else if (!result.didOpen && result.canOpen) {
 //     status = status.copyWith(isPossibleOpenEmail: true);
 //   }

@@ -34,6 +34,7 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
+
     return ChangeNotifierProvider<RegisterViewModel>(
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
