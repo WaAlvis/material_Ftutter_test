@@ -89,8 +89,6 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   }
 
   void goRecoverPassword(BuildContext context) {
-    print('Implementar vista de recuperar contrasenia');
-
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goRecoverPsw(context);
@@ -107,7 +105,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
     DataUserProvider dataUserProvider,
   ) async {
     status = status.copyWith(isLoading: true);
-    final String pass256 = encrypPass(password).toString();
+    final String pass256 = encryptPass(password).toString();
 
     final BodyLogin bodyLogin = BodyLogin(
       identity: email,
@@ -118,23 +116,18 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
     );
 
     _interactor.postLogin(bodyLogin).then((ResponseData<ResultLogin> response) {
-      print('Login Res: ${response.statusCode} ');
       if (response.isSuccess) {
         final String idUser = response.result!.user.id;
         _interactor
             .getUserById(idUser)
             .then((ResponseData<ResultDataUser> response) {
           if (response.isSuccess) {
-            print('Login EXITOSO + Datos user completps!!');
             dataUserProvider.setDataUserLogged(
               response.result,
             );
             _route.goHome(context);
           }
-        }).catchError((err) {
-          // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-
-          print('Login DataFull Error As: $err');
+        }).catchError((dynamic err) {
           status = status.copyWith(isLoading: false);
         });
       } else {
@@ -142,13 +135,12 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         addEffect(ShowErrorSnackbar(err));
       }
       status = status.copyWith(isLoading: false);
-    }).catchError((err) {
-      print('Login BasicData Error As: ${err}');
+    }).catchError((dynamic err) {
       status = status.copyWith(isLoading: false);
     });
   }
 
-  Digest encrypPass(String pass) {
+  Digest encryptPass(String pass) {
     final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
   }
@@ -156,7 +148,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   String? validatorEmail(String? email) {
     {
       if (email == null || email.isEmpty) {
-        return '* Campo necesario';
+        return '* Campo obligatorio';
       } else if (!isEmail(email)) {
         return '* Debe ser un correo';
       }
@@ -167,7 +159,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   String? validatorPass(String? pass) {
     {
       if (pass == null || pass.isEmpty) {
-        return '* Campo necesario';
+        return '* Campo obligatorio';
       } else if (pass.length < 8) {
         return '* Contraseña incompleta';
       }

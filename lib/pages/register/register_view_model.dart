@@ -166,9 +166,6 @@ class RegisterViewModel
     );
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        status = status.copyWith(
-          emailRegister: email,
-        );
         sendPinToEmail(email);
         //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
         goNextStep(currentStep: RegisterStep.emailStep_1);
@@ -197,7 +194,10 @@ class RegisterViewModel
       );
     });
   }
-  void validateCodePin(String codePin,) {
+
+  void validateCodePin(
+    String codePin,
+  ) {
     status = status.copyWith(
       isLoading: true,
     );
@@ -232,7 +232,6 @@ class RegisterViewModel
     _interactor.validatePin(bodyValidatePin).then((
       ResponseData<ResultValidatePin> response,
     ) {
-
       if (response.isSuccess) {
         if (response.result!.valid) {
           addEffect(ShowSuccessSnackbar('Pin validado con éxito'));
@@ -249,7 +248,6 @@ class RegisterViewModel
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error servicio**'));
 
-      print('Validate codePin Error As: $err');
       status = status.copyWith(isLoading: false);
     });
   }
@@ -283,13 +281,10 @@ class RegisterViewModel
         goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
         addEffect(ShowWarningSnackbar('Error en el envio'));
-
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
-      print('Envio de Codigo Error As: $err');
       addEffect(ShowErrorSnackbar('Error servicio**'));
-
     });
     status = status.copyWith(isLoading: false);
   }
@@ -315,7 +310,6 @@ class RegisterViewModel
             nextStep = RegisterStep.personalDataStep_5;
             break;
           default: // Without this, you see a WARNING.
-            print(currentStep);
         }
         status = status.copyWith(
           registerStep: nextStep,
@@ -391,16 +385,16 @@ class RegisterViewModel
   }
 
   Future<void> registerUser(
-      BuildContext context,
-      DataUserProvider dataUserProvider,
-      String names,
-      String surnames,
-      String dateBirth,
-      String phone,
-      ) async {
+    BuildContext context,
+    DataUserProvider dataUserProvider,
+    String names,
+    String surnames,
+    String dateBirth,
+    String phone,
+  ) async {
     status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
-          (bool isConnectionValid) {
+      (bool isConnectionValid) {
         if (isConnectionValid) {
           registerUserService(
             context,
@@ -410,7 +404,6 @@ class RegisterViewModel
             dateBirth,
             phone,
           );
-
         } else {
           addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
         }
@@ -467,27 +460,31 @@ class RegisterViewModel
               responseDataUser.result,
             );
             status = status.copyWith(
-                isErrorPinValidate: false,
+              isErrorPinValidate: false,
             );
             _route.goHome(context);
           }
         }).catchError((Object err) {
           print('Registro DataFull Error As: $err');
           addEffect(ShowErrorSnackbar('Error servicio**'));
-          status = status.copyWith(isLoading: false,);
+          status = status.copyWith(
+            isLoading: false,
+          );
         });
       } else {
-       final String err = textError(
-          errorMsj: response.error!.message,
-        )
-           ?? 'Error en el registro';
+        final String err = textError(
+              errorMsj: response.error!.message,
+            ) ??
+            'Error en el registro';
         addEffect(ShowWarningSnackbar(err));
         print(err);
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       print('Registro Error As: $err');
-      status = status.copyWith(isLoading: false,);
+      status = status.copyWith(
+        isLoading: false,
+      );
     });
   }
 
@@ -502,7 +499,7 @@ class RegisterViewModel
     if (value == '' || value == null) {
       return 'El número de celular es necesario';
     }
-    if (value.length < 10) {
+    if (value.length < 7 ) {
       return 'El número esta incompleto';
     }
     return null;
@@ -542,9 +539,21 @@ class RegisterViewModel
     return null;
   }
 
-  String? validatorNotEmpty(String? email) {
+  String? validatorNotEmptyPin(String? pin) {
     {
-      if (email == null || email.isEmpty) {
+      if (pin == null || pin.isEmpty) {
+        return '* Código necesario';
+      }else if(pin.length<6){
+        return '* Código incompleto';
+      }
+      return null;
+    }
+  }
+
+
+  String? validatorNotEmpty(String? str) {
+    {
+      if (str == null || str.isEmpty) {
         return '* Campo necesario';
       }
       return null;

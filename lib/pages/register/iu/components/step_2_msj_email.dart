@@ -27,7 +27,7 @@ class Step2MsjEmail extends StatelessWidget {
         color: LdColors.blackBackground,
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
-          children: [
+          children: <Widget>[
             Positioned(
               right: 0,
               child: SizedBox(

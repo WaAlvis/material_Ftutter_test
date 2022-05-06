@@ -34,7 +34,6 @@ class _LoginWeb extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(
                     height: size.height - 100,
-                    child: const _CardLogin(),
                   ),
                   const LdFooter()
                 ],
