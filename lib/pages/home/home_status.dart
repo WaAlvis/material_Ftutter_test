@@ -28,6 +28,7 @@ class HomeStatus extends ViewStatus {
   //filters
   final ExtraFilters? extraFilters;
   final FiltersArguments? filtersArguments;
+  final String? extraFiltersString;
 
   HomeStatus({
     this.resultDataUser,
@@ -50,6 +51,7 @@ class HomeStatus extends ViewStatus {
     required this.balance,
     this.extraFilters,
     this.filtersArguments,
+    this.extraFiltersString,
   });
 
   HomeStatus copyWith({
@@ -73,6 +75,7 @@ class HomeStatus extends ViewStatus {
     double? balance,
     ExtraFilters? extraFilters,
     FiltersArguments? filtersArguments,
+    String? extraFiltersString,
   }) {
     return HomeStatus(
       resultDataUser: resultDataUser ?? this.resultDataUser,
@@ -95,6 +98,7 @@ class HomeStatus extends ViewStatus {
       balance: balance ?? this.balance,
       extraFilters: extraFilters ?? this.extraFilters,
       filtersArguments: filtersArguments ?? this.filtersArguments,
+      extraFiltersString: extraFiltersString ?? this.extraFiltersString,
     );
   }
 }

@@ -112,12 +112,24 @@ class ListOffersMainSwitch extends StatelessWidget {
                                       imageName: LdAssets.emptyNotification,
                                       title: viewModel.status.typeOffer ==
                                               TypeOffer.sell
-                                          ? 'Aún no hay ofertas de ventas'
-                                          : 'Aún no hay ofertas de compras',
+                                          ? viewModel.status.extraFilters !=
+                                                  null
+                                              ? 'No hay publicaciones para estos filtros'
+                                              : 'Aún no hay ofertas de ventas'
+                                          : viewModel.status.extraFilters !=
+                                                  null
+                                              ? 'No hay publicaciones para estos filtros'
+                                              : 'Aún no hay ofertas de compras',
                                       description: viewModel.status.typeOffer ==
                                               TypeOffer.sell
-                                          ? 'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.'
-                                          : 'Aquí podrás visualizar las ofertas de compras creadas por la comunidad.',
+                                          ? viewModel.status.extraFilters !=
+                                                  null
+                                              ? 'Por favor seleccione nuevos criterios'
+                                              : 'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.'
+                                          : viewModel.status.extraFilters !=
+                                                  null
+                                              ? 'Por favor seleccione nuevos criterios'
+                                              : 'Aquí podrás visualizar las ofertas de compras creadas por la comunidad.',
                                     ),
                                   )
                               ],

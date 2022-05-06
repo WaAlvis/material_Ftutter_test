@@ -79,6 +79,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String address,
   ) async {
     status = status.copyWith(indexTab: index);
+    status = status.copyWith(
+        extraFilters: ExtraFilters(
+            range: null, dateExpiry: null, bank: null, status: null));
     if (index == 3) {
       status = status.copyWith(
         balance: await CryptoUtils().getBalance(address),
@@ -103,11 +106,17 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     bool validateNotification = false,
   }) async {
     FiltersArguments filtersArguments = FiltersArguments(
-        extraFilters: status.extraFilters,
-        homeStatus: status,
-        setFilters: (ExtraFilters extraFilters) {
-          setExtraFilters(extraFilters);
-        });
+      extraFilters: status.extraFilters,
+      homeStatus: status,
+      indexTab: status.indexTab,
+      setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
+        status = status.copyWith(extraFilters: extraFilters);
+        status = status.copyWith(extraFiltersString: extraFiltersString);
+        getData(context, resultDataUser?.id ?? '', refresh: true);
+        print('${status.extraFilters?.toJson()} @@@ extrafilters');
+      },
+      getFilters: <int>() => status.indexTab,
+    );
     status = status.copyWith(filtersArguments: filtersArguments);
     getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
@@ -388,11 +397,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
+      strJsonExtraFilters: status.extraFiltersString ?? '',
     );
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
+    print('${filters.toJson()} @@@@@@ filters');
 
     try {
       // Solicitud al servicio
@@ -492,19 +503,21 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     print(pagination.toJson());
     print('////');
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy
-          ? '${TypeOffer.sell.index}'
-          : '${TypeOffer.buy.index}',
-      idUserPublish: '',
-      statusCode: '${OfferStatus.Pendiente.index}',
-      idUserExclusion: '',
-      idUserInteraction: userId,
-    );
+        typeAdvertisement: status.typeOffer == TypeOffer.buy
+            ? '${TypeOffer.sell.index}'
+            : '${TypeOffer.buy.index}',
+        idUserPublish: '',
+        statusCode: '${OfferStatus.Pendiente.index}',
+        idUserExclusion: '',
+        idUserInteraction: userId,
+        strJsonExtraFilters: status.extraFiltersString ?? '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
-
+    print('////');
+    print('${filters.strJsonExtraFilters} @@@@@');
+    print('////');
     try {
       // Solicitud al servicio
       final ResponseData<ResultHome> response =
@@ -592,19 +605,18 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       itemsPerPage: itemsPerPage,
     );
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy
-          ? '${TypeOffer.buy.index}'
-          : '${TypeOffer.sell.index}',
-      idUserPublish: userId,
-      statusCode: '',
-      idUserExclusion: '',
-      idUserInteraction: '',
-    );
+        typeAdvertisement: status.typeOffer == TypeOffer.buy
+            ? '${TypeOffer.buy.index}'
+            : '${TypeOffer.sell.index}',
+        idUserPublish: userId,
+        statusCode: '',
+        idUserExclusion: '',
+        idUserInteraction: '',
+        strJsonExtraFilters: status.extraFiltersString ?? '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
-
     // Solicitud al servicio
     try {
       final ResponseData<ResultHome> response =
@@ -660,12 +672,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
-  }
-
-  void getExtraFilters() {}
-
-  void setExtraFilters(ExtraFilters extraFilters) {
-    status = status.copyWith(extraFilters: extraFilters);
   }
 }
 

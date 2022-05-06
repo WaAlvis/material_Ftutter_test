@@ -20,6 +20,6 @@ class ExtraFilters {
   List<double>? rate;
   int? dateExpiry;
   String? bank;
-  String? status;
+  int? status;
   Map<String, dynamic> toJson() => _$ExtraFiltersToJson(this);
 }

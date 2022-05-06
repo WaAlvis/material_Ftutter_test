@@ -4,12 +4,14 @@ class FiltersArguments {
   final Function? setFilters;
   final Function? getFilters;
   final HomeStatus? homeStatus;
-  final ExtraFilters? extraFilters;
+  late ExtraFilters? extraFilters;
+  late int? indexTab;
 
-  const FiltersArguments({
+  FiltersArguments({
     this.extraFilters,
     this.getFilters,
     this.homeStatus,
     this.setFilters,
+    this.indexTab,
   });
 }

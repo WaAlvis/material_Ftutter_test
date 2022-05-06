@@ -9,6 +9,7 @@ class FilterStatus extends ViewStatus {
   final int? dateExpiry;
   final int? range;
   final RangeValues? selectRange;
+  final int? status;
 
   FilterStatus({
     required this.isLoading,
@@ -17,6 +18,7 @@ class FilterStatus extends ViewStatus {
     this.dateExpiry,
     this.range,
     this.selectRange,
+    this.status,
   });
   FilterStatus copyWith({
     bool? isLoading,
@@ -25,6 +27,7 @@ class FilterStatus extends ViewStatus {
     int? dateExpiry,
     int? range,
     RangeValues? selectRange,
+    int? status,
   }) {
     return FilterStatus(
       isLoading: isLoading ?? this.isLoading,
@@ -33,6 +36,7 @@ class FilterStatus extends ViewStatus {
       dateExpiry: dateExpiry ?? this.dateExpiry,
       range: range ?? this.range,
       selectRange: selectRange ?? this.selectRange,
+      status: status ?? this.status,
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -355,17 +356,12 @@ class DetailOperOfferViewModel
     closeDialog(context);
 
     status = status.copyWith(isLoading: true);
-    final BodyUpdateStatus body = BodyUpdateStatus(
-      idAdvertisement: offerId,
-      idUserInteraction: status.userId!,
-      statusOrigin: int.parse(status.item!.idStatus),
-      statusDestiny: 2, //OfferStatus.closed,
-      successfulTransaction:
-          status.userId != status.item!.idUserPublish ? true : false,
+    final CancelOper body = CancelOper(
+      advertisementId: offerId,
     );
 
     try {
-      await _interactor.reserveOffer(body).then((response) {
+      await _interactor.cancelOperation(body).then((response) {
         InfoViewArguments info = InfoViewArguments(
           title: '¡Cancelada!',
           description: status.isOper2

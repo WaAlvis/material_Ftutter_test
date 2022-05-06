@@ -5,6 +5,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -151,6 +152,15 @@ class ServiceInteractor {
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().addPayAccount(body);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> cancelOperation(
+    CancelOper body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().cancelOperation(body);
 
     return response;
   }

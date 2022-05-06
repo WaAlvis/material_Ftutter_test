@@ -33,7 +33,7 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
         totalItems: 10,
         totalPages: 1,
       ),
-      banks: [],
+      // banks: [],
       selectRange: RangeValues(0, 5),
     );
   }
@@ -83,7 +83,7 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
           .map(
             (data) => FormBuilderFieldOption(
               child: Text(data.description),
-              value: data.description,
+              value: data.id,
             ),
           )
           .toList(growable: false),
@@ -96,7 +96,7 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
     );
   }
 
-  getDateExpiry(int index) {
+  String getDateExpiry(int index) {
     String resp = '';
     switch (index) {
       case 0:
@@ -107,12 +107,37 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
       case 1:
         DateTime init = DateTime.now();
         resp =
-            '${init.add(Duration(hours: 24)).toUtc().millisecondsSinceEpoch}, ${init.add(Duration(hours: 72)).toUtc().millisecondsSinceEpoch}';
+            '${init.add(Duration(hours: 24)).toUtc().millisecondsSinceEpoch}, ${init.add(Duration(days: 8)).toUtc().millisecondsSinceEpoch}';
         break;
       case 2:
         DateTime init = DateTime.now();
         resp =
-            '${init.add(Duration(hours: 24)).toUtc().millisecondsSinceEpoch}, null';
+            '${init.add(Duration(hours: 72)).toUtc().millisecondsSinceEpoch}, ${init.add(Duration(days: 8)).toUtc().millisecondsSinceEpoch}';
+        break;
+      default:
+    }
+    return '[$resp]';
+    //return '[1651867267004, 1652561463000]';
+    //[1651867267004, 1652561463000]
+  }
+
+  String getDateExpiryOper(int index) {
+    String resp = '';
+    switch (index) {
+      case 0:
+        DateTime init = DateTime.now();
+        resp =
+            '${init.toUtc().millisecondsSinceEpoch}, ${init.add(Duration(hours: 4)).toUtc().millisecondsSinceEpoch}';
+        break;
+      case 1:
+        DateTime init = DateTime.now();
+        resp =
+            '${init.add(Duration(hours: 4)).toUtc().millisecondsSinceEpoch}, ${init.add(Duration(hours: 8)).toUtc().millisecondsSinceEpoch}';
+        break;
+      case 2:
+        DateTime init = DateTime.now();
+        resp =
+            '${init.add(Duration(hours: 8)).toUtc().millisecondsSinceEpoch}, ${init.add(Duration(days: 8)).toUtc().millisecondsSinceEpoch}';
         break;
       default:
     }
@@ -122,6 +147,12 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
   void setRange(int index) {
     status = status.copyWith(range: index);
     print(status.range);
+    print(index);
+  }
+
+  void setStatus(int index) {
+    status = status.copyWith(status: index);
+    print(status.status);
     print(index);
   }
 
@@ -135,5 +166,13 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
     status = status.copyWith(selectRange: rangeValues);
     print(status.dateExpiry);
     print(rangeValues);
+  }
+
+  void goToHome(BuildContext context) {
+    _router.goHome(context);
+  }
+
+  void closeDialog(BuildContext context) {
+    Navigator.pop(context);
   }
 }

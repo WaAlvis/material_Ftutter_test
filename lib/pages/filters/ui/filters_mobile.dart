@@ -22,9 +22,11 @@ class _FilterMobile extends StatelessWidget {
       '[1000000, 2000000]',
       '[2000000, 5000000]',
       '[5000000, 10000000]',
-      '[10000000, null]'
+      '[10000000, 999999999]'
     ];
-    print(filtersArguments.homeStatus!.isLoading);
+    late ExtraFiltersString jsonFilterString = ExtraFiltersString();
+    final index = filtersArguments.getFilters!();
+    print('${filtersArguments.extraFilters?.toJson()} @@@ filtersmobile');
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -61,10 +63,15 @@ class _FilterMobile extends StatelessWidget {
                           height: 32,
                         ),
                         FormBuilderRadioGroup(
-                          initialValue: viewModel.status.range,
+                          initialValue: filtersArguments.extraFilters?.range ??
+                              viewModel.status.range,
                           controlAffinity: ControlAffinity.trailing,
                           valueTransformer: (int? index) {
-                            return index != null ? rangeDly[index] : null;
+                            if (index != null)
+                              jsonFilterString.range = rangeDly[index];
+                            print(
+                                '${jsonFilterString.range} rango de cantidad');
+                            // return index != null ? rangeDly[index] : null;
                           },
                           onChanged: (int? index) {
                             viewModel.setRange(index!);
@@ -177,103 +184,388 @@ class _FilterMobile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        FormBuilderRadioGroup(
-                          orientation: OptionsOrientation.vertical,
-                          controlAffinity: ControlAffinity.trailing,
-                          initialValue: viewModel.status.dateExpiry,
-                          name: 'dateExpiry',
-                          valueTransformer: (int? index) {
-                            return index != null
-                                ? viewModel.getDateExpiry(index)
-                                : null;
-                          },
-                          onChanged: (int? index) {
-                            viewModel.setDateExpiry(index!);
-                          },
-                          decoration: InputDecoration(
-                            label: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const <Widget>[
-                                Text('Tiempo de expiración')
-                              ],
-                            ),
-                            // labelText: 'Cantidad DLYCOP',
-                            labelStyle:
-                                textTheme.bodyMedium?.copyWith(fontSize: 24),
-                          ),
-                          activeColor: LdColors.orangePrimary,
-                          options: [
-                            FormBuilderFieldOption(
-                              value: 0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Menos de 24 horas',
-                                    style: textTheme.bodyText2!
-                                        .copyWith(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FormBuilderFieldOption(
-                              value: 1,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'De 24 a 72 horas',
-                                    style: textTheme.bodyText2!
-                                        .copyWith(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FormBuilderFieldOption(
-                              value: 2,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Más de 72 horas',
-                                    style: textTheme.bodyText2!
-                                        .copyWith(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          child: CustomSliderRange(),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _formKey.currentState!.save();
-
-                            viewModel.getDialogBanks(context);
-                          },
-                          child: FormBuilderTextField(
-                            enabled: false,
-                            name: 'bank',
-                            initialValue: viewModel.status.banks.toString(),
+                        if (index == 0)
+                          FormBuilderRadioGroup(
+                            orientation: OptionsOrientation.vertical,
+                            controlAffinity: ControlAffinity.trailing,
+                            initialValue: viewModel.status.dateExpiry,
+                            name: 'dateExpiry',
+                            valueTransformer: (int? index) {
+                              index != null
+                                  ? jsonFilterString.dateExpiry =
+                                      viewModel.getDateExpiry(index)
+                                  : null;
+                            },
+                            onChanged: (int? index) {
+                              viewModel.setDateExpiry(index!);
+                            },
                             decoration: InputDecoration(
                               label: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: const <Widget>[
-                                  Text('Selecciona tu entidad'),
-                                  Icon(Icons.arrow_drop_down)
+                                  Text('Tiempo de expiración')
                                 ],
                               ),
+                              // labelText: 'Cantidad DLYCOP',
+                              labelStyle:
+                                  textTheme.bodyMedium?.copyWith(fontSize: 24),
                             ),
-                            // onChanged: null,
-                            // valueTransformer: (text) => num.tryParse(text),
-
-                            keyboardType: TextInputType.number,
+                            activeColor: LdColors.orangePrimary,
+                            options: [
+                              FormBuilderFieldOption(
+                                value: 0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Menos de 24 horas',
+                                      style: textTheme.bodyText2!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 1,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'De 24 a 72 horas',
+                                      style: textTheme.bodyText2!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Más de 72 horas',
+                                      style: textTheme.bodyText2!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+
+                        if (int.parse(index.toString()) > 0)
+                          FormBuilderRadioGroup(
+                            orientation: OptionsOrientation.vertical,
+                            controlAffinity: ControlAffinity.trailing,
+                            initialValue: viewModel.status.dateExpiry,
+                            name: 'dateExpiry',
+                            valueTransformer: (int? index) {
+                              index != null
+                                  ? jsonFilterString.dateExpiry =
+                                      viewModel.getDateExpiryOper(index)
+                                  : null;
+                            },
+                            onChanged: (int? index) {
+                              viewModel.setDateExpiry(index!);
+                            },
+                            decoration: InputDecoration(
+                              label: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const <Widget>[
+                                  Text('Tiempo de operación')
+                                ],
+                              ),
+                              // labelText: 'Cantidad DLYCOP',
+                              labelStyle:
+                                  textTheme.bodyMedium?.copyWith(fontSize: 24),
+                            ),
+                            activeColor: LdColors.orangePrimary,
+                            options: [
+                              FormBuilderFieldOption(
+                                value: 0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Menos de 4 horas',
+                                      style: textTheme.bodyText2!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 1,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'De 4 a 8 horas',
+                                      style: textTheme.bodyText2!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Más de 8 horas',
+                                      style: textTheme.bodyText2!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        if (int.parse(index.toString()) > 0)
+                          FormBuilderRadioGroup(
+                            orientation: OptionsOrientation.vertical,
+                            controlAffinity: ControlAffinity.trailing,
+                            initialValue: viewModel.status.status,
+                            name: 'status',
+                            valueTransformer: (int? index) {
+                              if (index != null)
+                                jsonFilterString.status = index.toString();
+                            },
+                            onChanged: (int? index) {
+                              viewModel.setStatus(index!);
+                            },
+                            decoration: InputDecoration(
+                              label: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const <Widget>[Text('Estado')],
+                              ),
+                              // labelText: 'Cantidad DLYCOP',
+                              labelStyle:
+                                  textTheme.bodyMedium?.copyWith(fontSize: 24),
+                            ),
+                            activeColor: LdColors.orangePrimary,
+                            options: [
+                              FormBuilderFieldOption(
+                                value: 0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 24,
+                                      width: 130,
+                                      decoration: const BoxDecoration(
+                                        color: LdColors.orangePrimary,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(4),
+                                        ),
+                                      ),
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          FittedBox(
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              'Publicado',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: LdColors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 1,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 24,
+                                      width: 130,
+                                      decoration: const BoxDecoration(
+                                        color: LdColors.grayState,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(4),
+                                        ),
+                                      ),
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          FittedBox(
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              'Pendiente',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: LdColors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 24,
+                                      width: 130,
+                                      decoration: const BoxDecoration(
+                                        color: LdColors.green,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(4),
+                                        ),
+                                      ),
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          FittedBox(
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              'Pagado',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: LdColors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FormBuilderFieldOption(
+                                value: 3,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 24,
+                                      width: 130,
+                                      decoration: const BoxDecoration(
+                                        color: LdColors.blueState,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(4),
+                                        ),
+                                      ),
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          FittedBox(
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              'Cerrado',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: LdColors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // FormBuilderFieldOption(
+                              //   value: 4,
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.start,
+                              //     children: <Widget>[
+                              //       Container(
+                              //         height: 24,
+                              //         width: 130,
+                              //         decoration: const BoxDecoration(
+                              //           color: LdColors.yellowDark,
+                              //           borderRadius: BorderRadius.all(
+                              //             Radius.circular(4),
+                              //           ),
+                              //         ),
+                              //         child: Flex(
+                              //           direction: Axis.horizontal,
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.center,
+                              //           children: <Widget>[
+                              //             FittedBox(
+                              //               alignment: Alignment.centerLeft,
+                              //               fit: BoxFit.scaleDown,
+                              //               child: Text(
+                              //                 'Soporte',
+                              //                 textAlign: TextAlign.center,
+                              //                 style: TextStyle(
+                              //                   color: LdColors.white,
+                              //                   fontSize: 14,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        // Container(
+                        //   padding: EdgeInsets.all(15),
+                        //   child: CustomSliderRange(),
+                        // ),
+                        if (index == 0)
+                          GestureDetector(
+                            onTap: () {
+                              _formKey.currentState!.save();
+
+                              viewModel.getDialogBanks(context);
+                            },
+                            child: FormBuilderTextField(
+                              enabled: false,
+                              name: 'bank',
+                              initialValue: viewModel.status.banks == null
+                                  ? null
+                                  : viewModel.status.banks.toString(),
+                              valueTransformer: (String? banks) {
+                                jsonFilterString.bank = banks;
+                              },
+                              decoration: InputDecoration(
+                                label: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const <Widget>[
+                                    Text('Selecciona tu entidad'),
+                                    Icon(Icons.arrow_drop_down)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         const SizedBox(
                           height: 16,
                         ),
@@ -293,11 +585,21 @@ class _FilterMobile extends StatelessWidget {
                           'Filtrar',
                           onPressed: () {
                             _formKey.currentState!.save();
-                            // final jsonFilter = ExtraFilters.fromJson(
-                            //     _formKey.currentState!.value);
-                            // filtersArguments.setFilters!(jsonFilter);
+                            late ExtraFilters jsonFilter =
+                                ExtraFilters.fromJson(
+                                    _formKey.currentState!.value);
+
+                            filtersArguments.setFilters!(
+                              jsonFilter,
+                              jsonFilterString.toJson().toString(),
+                            );
+                            // filtersArguments.extraFilters = jsonFilterString;
                             print(
-                                '${_formKey.currentState?.value} datos del form');
+                                '${_formKey.currentState!.value} datos del form');
+                            print(
+                                '${jsonFilterString.toJson().toString()} datos del form string');
+                            viewModel.closeDialog(context);
+                            // viewModel.goToHome(context);
                           },
                         ),
                       ],

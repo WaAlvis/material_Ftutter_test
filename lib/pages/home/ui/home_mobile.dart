@@ -192,7 +192,10 @@ class OptionsFilterRow extends StatelessWidget {
           GestureDetector(
             onTap: () {
               print('Ir a filtros');
-              viewModel.goFiltres(context, viewModel.status.filtersArguments!);
+              viewModel.goFiltres(
+                context,
+                viewModel.status.filtersArguments!,
+              );
             },
             child: Text(
               'Filtros ($quantityFilter)',

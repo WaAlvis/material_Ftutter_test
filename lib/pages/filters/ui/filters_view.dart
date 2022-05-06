@@ -9,6 +9,7 @@ import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/extra_filters.dart';
+import 'package:localdaily/services/models/home/extra_filters_string.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';

@@ -85,10 +85,17 @@ class ListOperationsOffers extends StatelessWidget {
                                     imageName: LdAssets.emptyNotification,
                                     title: viewModel.status.typeOffer ==
                                             TypeOffer.buy
-                                        ? 'Aún no tienes compras en proceso'
-                                        : 'Aún no tienes ventas en proceso',
-                                    description:
-                                        'Puedes ir al inicio y buscar alguna publicación que te llame la atención.',
+                                        ? viewModel.status.extraFilters != null
+                                            ? 'No hay publicaciones para estos filtros'
+                                            : 'Aún no tienes compras en proceso'
+                                        : viewModel.status.extraFilters != null
+                                            ? 'No hay publicaciones para estos filtros'
+                                            : 'Aún no tienes ventas en proceso',
+                                    description: viewModel
+                                                .status.extraFilters !=
+                                            null
+                                        ? 'Por favor seleccione nuevos criterios'
+                                        : 'Puedes ir al inicio y buscar alguna publicación que te llame la atención.',
                                   ),
                                 ),
                               )
