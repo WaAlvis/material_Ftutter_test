@@ -113,8 +113,8 @@ class _OfferSaleMobile extends StatelessWidget {
                             FilteringTextInputFormatter.allow(
                               RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                             ),
-                            DecimalTextInputFormatter(decimalRange: 2),
-                            TextNumberLimitFormatter(1, 2)
+                            DecimalTextInputFormatter(decimalRange: 1),
+                            // TextNumberLimitFormatter(1, 2)
                             /* FilteringTextInputFormatter.allow(
                               RegExp(r'^\d+\.?\d{0,2}'),
                             ), */
