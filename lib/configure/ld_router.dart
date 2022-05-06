@@ -93,7 +93,9 @@ class LdRouter {
   }
 
   void goDetailHistoryOperation(
-      BuildContext context, DataUserAdvertisement item) {
+    BuildContext context,
+    DataUserAdvertisement item,
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,

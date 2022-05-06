@@ -105,7 +105,9 @@ class DecimalTextInputFormatter extends TextInputFormatter {
   ) {
     TextSelection newSelection = newValue.selection;
     String truncated = newValue.text;
-
+    if (newValue.text == '0.0') {
+      truncated = '0.1';
+    }
     if (decimalRange != null) {
       String value = newValue.text;
 
@@ -113,6 +115,16 @@ class DecimalTextInputFormatter extends TextInputFormatter {
               oldValue.text.length == newValue.text.length) &&
           newValue.text.length == 1) {
         value = '$value.';
+        truncated = value;
+        newSelection = newValue.selection.copyWith(
+          baseOffset: math.min(truncated.length, truncated.length + 1),
+          extentOffset: math.min(truncated.length, truncated.length + 1),
+        );
+      } else if (oldValue.text.length == 1 &&
+          newValue.text[newValue.text.length - 1] != '.' &&
+          newValue.text.length > 1) {
+        final String lastNumber = newValue.text[newValue.text.length - 1];
+        value = newValue.text == '00' ? '0.1' : '${oldValue.text}.$lastNumber';
         truncated = value;
         newSelection = newValue.selection.copyWith(
           baseOffset: math.min(truncated.length, truncated.length + 1),
@@ -141,4 +153,3 @@ class DecimalTextInputFormatter extends TextInputFormatter {
     return newValue;
   }
 }
-
