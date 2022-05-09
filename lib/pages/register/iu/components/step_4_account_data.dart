@@ -42,6 +42,8 @@ class Step4AccountData extends StatelessWidget {
                   onChange: (String value) => viewModel.changeNickName(value),
                   changeFillWith: !viewModel.status.isNickNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  maxLength: 40,
+                  counterText: '',
                   validator: (String? str) => viewModel.validatorNickName(str),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.deny(RegExp(r'[ ]')),

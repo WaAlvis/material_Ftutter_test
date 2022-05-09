@@ -344,29 +344,29 @@ class RegisterViewModel
     status = status.copyWith(isLoading: false);
   }
 
-  Future<void> savePersonalData(
-      String name, String surname, String dateBirth, String phone) async {
-    status = status.copyWith(isLoading: true);
-    LdConnection.validateConnection().then(
-      (bool value) {
-        if (value) {
-          status = status.copyWith(
-            names: name,
-            surnames: surname,
-            dateBirth: dateBirth,
-            phone: phone,
-          );
-          goNextStep(currentStep: RegisterStep.personalDataStep_5);
-        } else {
-          // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-        }
-      },
-    ).catchError((Object err) {
-      print('Envio de Codigo Error As: $err');
-      addEffect(ShowErrorSnackbar('Error servicio**'));
-    });
-    status = status.copyWith(isLoading: false);
-  }
+  // Future<void> savePersonalData(
+  //     String name, String surname, String dateBirth, String phone) async {
+  //   status = status.copyWith(isLoading: true);
+  //   LdConnection.validateConnection().then(
+  //     (bool value) {
+  //       if (value) {
+  //         status = status.copyWith(
+  //           names: name,
+  //           surnames: surname,
+  //           dateBirth: dateBirth,
+  //           phone: phone,
+  //         );
+  //         goNextStep(currentStep: RegisterStep.personalDataStep_5);
+  //       } else {
+  //         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+  //       }
+  //     },
+  //   ).catchError((Object err) {
+  //     print('Envio de Codigo Error As: $err');
+  //     addEffect(ShowErrorSnackbar('Error servicio**'));
+  //   });
+  //   status = status.copyWith(isLoading: false);
+  // }
 
   String? textError({required String errorMsj}) {
     const String start = 'Detail="';
@@ -550,30 +550,38 @@ class RegisterViewModel
   }
 
   String? validatorNickName(String? str) {
-    {
-      if (str == null || str.isEmpty) {
-        return '* Campo necesario';
-      }
-      if (str.length < 8 || str.length > 35) {
-        return '* Minímo 8 y máximo 35 caracteres';
-      }
-      return null;
+    if (str == null || str.isEmpty) {
+      return '* Campo necesario';
     }
+    if (str.length < 8 || str.length > 35) {
+      return '* Minímo 8 y máximo 35 caracteres';
+    }
+    return null;
+  }
+
+  String? validatorMax50chars(String? str) {
+    if (str == null || str.isEmpty) {
+      return '* Campo necesario';
+    }
+    if (str.length > 50) {
+      return '* máximo 50 caracteres';
+    }
+
+    return null;
   }
 
   String? validatorNotEmpty(String? str) {
-    {
-      if (str == null || str.isEmpty) {
-        return '* Campo necesario';
-      }
-      return null;
+    if (str == null || str.isEmpty) {
+      return '* Campo necesario';
     }
+    return null;
   }
 
   String? validateBirthday(String? value) {
-    if (value == '') {
+    if (value == ''|| value == null) {
       return '* Tu fecha de nacimiento es necesaria';
     }
+    return null;
   }
 
   bool isPasswordValid(String password, [int minLength = 7]) {

@@ -61,9 +61,11 @@ class Step5PersonalData extends StatelessWidget {
                   onChange: (String value) => viewModel.changeFirstName(value),
                   changeFillWith: !viewModel.status.isFirstNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  maxLength: 55,
+                  counterText: '',
                   textCapitalization: TextCapitalization.words,
                   validator: (String? firstName) =>
-                      viewModel.validatorNotEmpty(firstName),
+                      viewModel.validatorMax50chars(firstName),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
                   ],
@@ -77,8 +79,10 @@ class Step5PersonalData extends StatelessWidget {
                   changeFillWith: !viewModel.status.isSecondNameFieldEmpty,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-                  validator: (String? secondName) =>
-                      viewModel.validatorNotEmpty(secondName),
+                  maxLength: 55,
+                  counterText: '',
+                  validator: (String? lastName) =>
+                      viewModel.validatorMax50chars(lastName),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
                   ],
