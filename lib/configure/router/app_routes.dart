@@ -69,7 +69,7 @@ class AppRoutes {
         handlerFunc: (BuildContext? context, __) => ProfileSellerView(
               idUser: (context!.settings!.arguments!
                   as Map<String, dynamic>)['idUser'] as String,
-              nickName: (context!.settings!.arguments!
+              nickName: (context.settings!.arguments!
                   as Map<String, dynamic>)['nickName'] as String,
             )),
   );
