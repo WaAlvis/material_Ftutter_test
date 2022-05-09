@@ -549,6 +549,18 @@ class RegisterViewModel
     }
   }
 
+  String? validatorNickName(String? str) {
+    {
+      if (str == null || str.isEmpty) {
+        return '* Campo necesario';
+      }
+      if (str.length < 8 || str.length > 35) {
+        return '* Minímo 8 y máximo 35 caracteres';
+      }
+      return null;
+    }
+  }
+
   String? validatorNotEmpty(String? str) {
     {
       if (str == null || str.isEmpty) {
