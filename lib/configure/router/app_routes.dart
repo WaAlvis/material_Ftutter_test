@@ -69,7 +69,7 @@ class AppRoutes {
         handlerFunc: (BuildContext? context, __) => ProfileSellerView(
               idUser: (context!.settings!.arguments!
                   as Map<String, dynamic>)['idUser'] as String,
-              nickName: (context!.settings!.arguments!
+              nickName: (context.settings!.arguments!
                   as Map<String, dynamic>)['nickName'] as String,
             )),
   );
@@ -90,8 +90,11 @@ class AppRoutes {
     '/detail_history_operation',
     Handler(
       handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
+
         item: (context!.settings!.arguments!
-            as Map<String, DataUserAdvertisement>)['item'],
+            as Map<String, dynamic>)['item'] as DataUserAdvertisement,
+          // isBuying: (context.settings!.arguments!
+          // as Map<String, dynamic>)['isBuying'] as bool
       ),
     ),
   );

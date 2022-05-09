@@ -111,10 +111,14 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
   void goDetailHistoryOperation(
     BuildContext context, {
     required DataUserAdvertisement item,
+    // required bool isBuying,
   }) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        _route.goDetailHistoryOperation(context, item);
+        _route.goDetailHistoryOperation(
+          context, item,
+          // isBuying: isBuying
+        );
       } else {
         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
       }

@@ -95,13 +95,19 @@ class LdRouter {
   void goDetailHistoryOperation(
     BuildContext context,
     DataUserAdvertisement item,
+    // {
+    // required bool isBuying,
+    // }
   ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-        arguments: <String, DataUserAdvertisement>{'item': item},
+        arguments: <String, dynamic>{
+          'item': item,
+          // 'isBuying': isBuying
+        },
       ),
     );
   }
