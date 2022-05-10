@@ -27,6 +27,8 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
 import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
@@ -254,6 +256,15 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultNotification> response =
         await locator<LocalDailyGatewayService>().getNotifications(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
+    BodyNotificationCounter body,
+  ) async {
+    final ResponseData<ResultNotificationCounter> response =
+        await locator<LocalDailyGatewayService>().getNotificationsUnread(body);
 
     return response;
   }

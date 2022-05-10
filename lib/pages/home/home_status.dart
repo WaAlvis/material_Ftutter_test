@@ -1,5 +1,5 @@
 import 'package:localdaily/commons/ld_enums.dart';
-import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
+
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
@@ -17,7 +17,6 @@ class HomeStatus extends ViewStatus {
   late ResultHome myOfferBuyData;
   late ResultHome myOfferSaleData;
 
-
   final TypeOffer typeOffer;
   final String image;
   final String titleText;
@@ -26,6 +25,7 @@ class HomeStatus extends ViewStatus {
   // final String detailText;
   final String buttonText;
   final double balance;
+  final int countNotification;
 
   HomeStatus({
     this.resultDataUser,
@@ -47,6 +47,7 @@ class HomeStatus extends ViewStatus {
     // required this.detailText,
     required this.buttonText,
     required this.balance,
+    required this.countNotification,
   });
 
   HomeStatus copyWith({
@@ -69,6 +70,7 @@ class HomeStatus extends ViewStatus {
     // String? detailText,
     String? buttonText,
     double? balance,
+    int? countNotification,
   }) {
     return HomeStatus(
       resultDataUser: resultDataUser ?? this.resultDataUser,
@@ -91,6 +93,7 @@ class HomeStatus extends ViewStatus {
       // detailText: detailText ?? this.detailText,
       buttonText: buttonText ?? this.buttonText,
       balance: balance ?? this.balance,
+      countNotification: countNotification ?? this.countNotification,
     );
   }
 }

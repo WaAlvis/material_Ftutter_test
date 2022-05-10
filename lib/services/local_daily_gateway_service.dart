@@ -25,6 +25,8 @@ import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
 import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
@@ -82,6 +84,8 @@ class UrlsApi {
   static const String createSupportCase = '/WebAdmin/SupportCase';
   static const String getNotifications =
       '/WebAdmin/Notification/GetNotificationByUserId';
+  static const String getNotificationsUnread =
+      '/WebAdmin/Notification/GetCountNotificationUnread';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -221,5 +225,10 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getNotifications)
   Future<ResponseData<ResultNotification>> getNotifications(
     @Body() BodyNotifications body,
+  );
+
+  @POST(UrlsApi.getNotificationsUnread)
+  Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
+    @Body() BodyNotificationCounter body,
   );
 }

@@ -11,6 +11,7 @@ import 'package:localdaily/services/models/home/get_offers/reponse/result_home.d
 import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
 import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
@@ -62,6 +63,9 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultInfoUserPublish.fromJson(json) as T;
       } else if ('$T' == '$ResultNotification?' || T == ResultNotification) {
         return ResultNotification.fromJson(json) as T;
+      } else if ('$T' == '$ResultNotificationCounter?' ||
+          T == ResultNotificationCounter) {
+        return ResultNotificationCounter.fromJson(json) as T;
       }
     }
     return json as T;
