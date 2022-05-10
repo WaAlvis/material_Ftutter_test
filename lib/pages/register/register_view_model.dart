@@ -344,30 +344,6 @@ class RegisterViewModel
     status = status.copyWith(isLoading: false);
   }
 
-  // Future<void> savePersonalData(
-  //     String name, String surname, String dateBirth, String phone) async {
-  //   status = status.copyWith(isLoading: true);
-  //   LdConnection.validateConnection().then(
-  //     (bool value) {
-  //       if (value) {
-  //         status = status.copyWith(
-  //           names: name,
-  //           surnames: surname,
-  //           dateBirth: dateBirth,
-  //           phone: phone,
-  //         );
-  //         goNextStep(currentStep: RegisterStep.personalDataStep_5);
-  //       } else {
-  //         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-  //       }
-  //     },
-  //   ).catchError((Object err) {
-  //     print('Envio de Codigo Error As: $err');
-  //     addEffect(ShowErrorSnackbar('Error servicio**'));
-  //   });
-  //   status = status.copyWith(isLoading: false);
-  // }
-
   String? textError({required String errorMsj}) {
     const String start = 'Detail="';
     const String end = '")';

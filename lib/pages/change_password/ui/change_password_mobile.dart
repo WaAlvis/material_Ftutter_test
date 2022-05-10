@@ -241,6 +241,7 @@ class ChangePasswordMobile extends StatelessWidget {
                       'Continuar',
                       onPressed: () {
                         if (keyForm.currentState!.validate()) {
+                          print('ok, Boton continuar');
                           // viewModel.continueStep_5PersonalData(
                           //   nickNameCtrl.text,
                           //   passwordCtrl.text,
