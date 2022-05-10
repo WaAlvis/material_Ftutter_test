@@ -80,7 +80,7 @@ class _OfferBuyMobile extends StatelessWidget {
                             ),
                             InputTextCustom(
                               'Valor de los DLYCOP*',
-                              counterText: 'Min: 0.1, Max: 9.9',
+                              counterText: 'Min: 0.8, Max: 9.9',
                               onChange: (_) => viewModel.calculateTotalMoney(
                                 marginCtrl.text,
                                 amountDLYCtrl.text,

@@ -487,6 +487,17 @@ class RegisterViewModel
     });
   }
 
+  void goSuccessRegister(BuildContext context) {
+    final InfoViewArguments info = InfoViewArguments(
+      actionCaption: 'Ingresar',
+      title: '¡Felciitaciones!',
+      colorTitle: LdColors.white,
+      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
+      onAction: () => _route.goHome(context),
+    );
+    _route.goInfoView(context, info);
+  }
+
   Digest encryptionPass(String pass) {
     final List<int> bytes = utf8.encode(pass);
     return sha256.convert(bytes);
@@ -606,16 +617,7 @@ class RegisterViewModel
         hasDigits;
   }
 
-  void goSuccessRegister(BuildContext context) {
-    final InfoViewArguments info = InfoViewArguments(
-      actionCaption: 'Ingresar',
-      title: '¡Felciitaciones!',
-      colorTitle: LdColors.white,
-      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
-      onAction: () => _route.goHome(context),
-    );
-    _route.goInfoView(context, info);
-  }
+
 
 // Future<void> openEmail(BuildContext context) async {
 //   final OpenMailAppResult result = await OpenMailApp.openMailApp();
