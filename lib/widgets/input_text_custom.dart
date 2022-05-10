@@ -30,10 +30,11 @@ class InputTextCustom extends StatelessWidget {
       // this.prefix,
       this.contentPadding,
       this.pickerCountry = false,
-      this.onChangeIndicative})
+      this.onChangeIndicative, this.counterText,})
       : super(key: key);
 
   // final Widget? prefix;
+  final String? counterText;
   final bool pickerCountry;
   final void Function(String)? onChange;
   final TextStyle? styleLabel;
@@ -106,6 +107,7 @@ class InputTextCustom extends StatelessWidget {
           validator: validator,
           textCapitalization: textCapitalization,
           decoration: InputDecoration(
+            counterText: counterText,
             contentPadding: contentPadding,
             fillColor: LdColors.grayBorder,
             focusColor: LdColors.redError,

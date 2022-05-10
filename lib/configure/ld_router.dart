@@ -10,9 +10,8 @@ import 'package:localdaily/services/models/detail_oper_offer/result_get_advertis
 import 'package:localdaily/services/models/home/extra_filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
-
-import '../pages/history/ui/history_view.dart';
 
 class LdRouter {
   static final LdRouter _singleton = LdRouter._internal();
@@ -89,13 +88,47 @@ class LdRouter {
     );
   }
 
-  void goDetailHistoryOperation(BuildContext context, Operation item) {
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.historyOperationsRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
+  void goDetailHistoryOperation(
+    BuildContext context,
+    DataUserAdvertisement item,
+    // {
+    // required bool isBuying,
+    // }
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-        arguments: <String, Operation>{'item': item},
+        arguments: <String, dynamic>{
+          'item': item,
+          // 'isBuying': isBuying
+        },
+      ),
+    );
+  }
+
+  void goProfileSeller(
+    BuildContext context,
+    String idUser,
+    String nickName,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.profileSellerRoute.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, String>{'idUser': idUser, 'nickName': nickName},
       ),
     );
   }
@@ -106,16 +139,6 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.settingsRoute.route,
-      transition: TransitionType.none,
-    );
-  }
-
-  void goProfileSeller(
-    BuildContext context,
-  ) {
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.profileSellerRoute.route,
       transition: TransitionType.none,
     );
   }
@@ -136,16 +159,6 @@ class LdRouter {
       type == TypeOffer.buy
           ? AppRoutes.createOfferBuyRoute.route
           : AppRoutes.createOfferSaleRoute.route,
-      transition: TransitionType.none,
-    );
-  }
-
-  void goHistoryOperations(
-    BuildContext context,
-  ) {
-    AppRouter.router.navigateTo(
-      context,
-      AppRoutes.historyOperationsRoute.route,
       transition: TransitionType.none,
     );
   }

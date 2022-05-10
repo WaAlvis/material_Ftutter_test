@@ -6,8 +6,10 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
+import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -52,6 +54,12 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
       } else if ('$T' == '$ResultDataAdvertisement?' ||
           T == ResultDataAdvertisement) {
         return ResultDataAdvertisement.fromJson(json) as T;
+      }
+      else if ('$T' == '$ResultHistoryOperationsUser?' || T == ResultHistoryOperationsUser) {
+        return ResultHistoryOperationsUser.fromJson(json) as T;
+      }
+      else if ('$T' == '$ResultInfoUserPublish?' || T == ResultInfoUserPublish) {
+        return ResultInfoUserPublish.fromJson(json) as T;
       }
     }
     return json as T;

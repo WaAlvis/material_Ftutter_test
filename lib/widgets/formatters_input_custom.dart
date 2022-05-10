@@ -105,7 +105,9 @@ class DecimalTextInputFormatter extends TextInputFormatter {
   ) {
     TextSelection newSelection = newValue.selection;
     String truncated = newValue.text;
-
+    if (newValue.text == '0.0') {
+      truncated = '0.1';
+    }
     if (decimalRange != null) {
       String value = newValue.text;
 
@@ -113,6 +115,16 @@ class DecimalTextInputFormatter extends TextInputFormatter {
               oldValue.text.length == newValue.text.length) &&
           newValue.text.length == 1) {
         value = '$value.';
+        truncated = value;
+        newSelection = newValue.selection.copyWith(
+          baseOffset: math.min(truncated.length, truncated.length + 1),
+          extentOffset: math.min(truncated.length, truncated.length + 1),
+        );
+      } else if (oldValue.text.length == 1 &&
+          newValue.text[newValue.text.length - 1] != '.' &&
+          newValue.text.length > 1) {
+        final String lastNumber = newValue.text[newValue.text.length - 1];
+        value = newValue.text == '00' ? '0.1' : '${oldValue.text}.$lastNumber';
         truncated = value;
         newSelection = newValue.selection.copyWith(
           baseOffset: math.min(truncated.length, truncated.length + 1),
@@ -137,70 +149,6 @@ class DecimalTextInputFormatter extends TextInputFormatter {
         text: truncated,
         selection: newSelection,
       );
-    }
-    return newValue;
-  }
-}
-
-class TextNumberLimitFormatter extends TextInputFormatter {
-  int _declen;
-  int _intlen;
-
-  TextNumberLimitFormatter(this._intlen, this._declen);
-
-  RegExp exp = new RegExp("[0-9.]");
-  static const String POINTER = ".";
-  static const String ZERO = "0";
-
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    /// La entrada se elimina por completo
-    if (newValue.text.isEmpty) {
-      return TextEditingValue();
-    }
-
-    // Solo permite ingresar números y puntos decimales
-    if (!exp.hasMatch(newValue.text)) {
-      return oldValue;
-    }
-
-    /// Incluir un punto decimal
-    if (newValue.text.contains(POINTER)) {
-      // La precisión es 0, es decir, sin decimales
-      if (_declen == 0) return oldValue;
-
-      /// Contiene varios decimales
-      if (newValue.text.indexOf(POINTER) !=
-          newValue.text.lastIndexOf(POINTER)) {
-        return oldValue;
-      }
-      String input = newValue.text;
-      int index = input.indexOf(POINTER);
-
-      /// Los dígitos antes del punto decimal
-      int lengthBeforePointer = input.substring(0, index).length;
-
-      /// La parte entera es mayor que la longitud acordada
-      if (lengthBeforePointer > _intlen) {
-        return oldValue;
-      }
-
-      /// Dígitos después del punto decimal
-      int lengthAfterPointer = input.substring(index, input.length).length - 1;
-
-      /// Los lugares decimales son mayores que la precisión
-      if (lengthAfterPointer > _declen) {
-        return oldValue;
-      }
-    } else if (
-        // Empiece con un punto
-        newValue.text.startsWith(POINTER) ||
-            // Si el primer dígito es 0 y la longitud es mayor que 1, excluya todas las entradas ilegales 00, 01-09
-            (newValue.text.startsWith(ZERO) && newValue.text.length > 1) ||
-            // Si la longitud del número entero excede la longitud acordada
-            newValue.text.length > _intlen) {
-      return oldValue;
     }
     return newValue;
   }

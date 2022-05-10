@@ -30,7 +30,7 @@ class _RecoverPswWebMobile extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: LdColors.blackBackground,
         appBar: const LdAppbar(
-          title: 'Iniciar sesión',
+          title: 'Recuperar contraseña',
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,9 +64,9 @@ class _RecoverPswWebMobile extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                            const SizedBox(
-                              height: 10,
-                            ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             child: Column(

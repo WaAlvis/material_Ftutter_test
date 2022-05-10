@@ -31,19 +31,15 @@ class Step5PersonalData extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateTime dateNow = DateTime.now();
     final DateTime dateAllowed =
-    DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
-    final TextTheme textTheme = Theme
-        .of(context)
-        .textTheme;
-    final Size size = MediaQuery
-        .of(context)
-        .size;
+        DateTime.utc(dateNow.year - 18, dateNow.month, dateNow.day);
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final Size size = MediaQuery.of(context).size;
 
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
           padding:
-          const EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 10),
+              const EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 10),
           child: Form(
             key: keyForm,
             child: Column(
@@ -55,9 +51,9 @@ class Step5PersonalData extends StatelessWidget {
                 //     message: viewModel.status.msjErrorRegisterUser,
                 //     onTap: () => viewModel.closeErrMsgRegisterUser(),
                 //   )
-                  const SizedBox(
-                    height: 20,
-                  ),
+                const SizedBox(
+                  height: 20,
+                ),
                 InputTextCustom(
                   'Nombres  *',
                   hintText: 'Ingresa tu primer nombre',
@@ -65,9 +61,11 @@ class Step5PersonalData extends StatelessWidget {
                   onChange: (String value) => viewModel.changeFirstName(value),
                   changeFillWith: !viewModel.status.isFirstNameFieldEmpty,
                   textInputAction: TextInputAction.next,
+                  maxLength: 55,
+                  counterText: '',
                   textCapitalization: TextCapitalization.words,
                   validator: (String? firstName) =>
-                      viewModel.validatorNotEmpty(firstName),
+                      viewModel.validatorMax50chars(firstName),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
                   ],
@@ -81,8 +79,10 @@ class Step5PersonalData extends StatelessWidget {
                   changeFillWith: !viewModel.status.isSecondNameFieldEmpty,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-                  validator: (String? secondName) =>
-                      viewModel.validatorNotEmpty(secondName),
+                  maxLength: 55,
+                  counterText: '',
+                  validator: (String? lastName) =>
+                      viewModel.validatorMax50chars(lastName),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
                   ],
@@ -103,16 +103,15 @@ class Step5PersonalData extends StatelessWidget {
                       initialDate: dateAllowed,
                       firstDate: DateTime(1900),
                       lastDate: dateAllowed,
-                      builder: (BuildContext context, Widget? child) =>
-                          Theme(
-                            data: ThemeData().copyWith(
-                              colorScheme: const ColorScheme.light(
-                                onPrimary: Colors.black,
-                                primary: LdColors.orangePrimary,
-                              ),
-                            ),
-                            child: child!,
+                      builder: (BuildContext context, Widget? child) => Theme(
+                        data: ThemeData().copyWith(
+                          colorScheme: const ColorScheme.light(
+                            onPrimary: Colors.black,
+                            primary: LdColors.orangePrimary,
                           ),
+                        ),
+                        child: child!,
+                      ),
                     );
                     viewModel.setDateBirth(newDate);
                   },
@@ -135,7 +134,8 @@ class Step5PersonalData extends StatelessWidget {
                   controller: phoneCtrl,
                   contentPadding: const EdgeInsets.only(
                       right: 8, left: 8, top: 8, bottom: 12),
-                  maxLength: 10,
+                  maxLength: 13,
+                  counterText: '7 - 13 Caracteres   ',
                   onChange: (String value) => viewModel.changePhone(value),
                   changeFillWith: !viewModel.status.isPhoneFieldEmpty,
                   textInputAction: TextInputAction.next,

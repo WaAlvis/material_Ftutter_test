@@ -17,8 +17,12 @@ import 'package:localdaily/services/models/detail_offer/result_update_status.dar
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
+import 'package:localdaily/services/models/info_user_publish/body_info_user_publish.dart';
+import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -34,7 +38,6 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
-import 'package:retrofit/http.dart' as http;
 
 part 'local_daily_gateway_service.g.dart';
 
@@ -47,6 +50,8 @@ class UrlsApi {
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
+  static const String getHistoryOperationsUser =
+      '/WebAdmin/Advertisement/GetHistoryAvertisementUser';
   static const String getDocsType =
       '/Configuration/ConfigurationDocumentType/GetData';
   static const String createOffer = '/WebAdmin/Advertisement';
@@ -75,6 +80,7 @@ class UrlsApi {
   static const String addRateUser = '/User/UserInfoAdditional/RateUser';
   static const String cancelOperation =
       '/Transaction/DistributionOptions/CancelOperation';
+  static const String getInfoUserPublish = '/User/UserInfoAdditional';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -131,6 +137,16 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getDocsType)
   Future<ResponseData<ResultGetDocsType>> getDocsType(
     @Body() Pagination bodyGetDocsType,
+  );
+
+  @POST(UrlsApi.getHistoryOperationsUser)
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
+    @Body() BodyHistoryOperationsUser bodyHistoryOperationsUser,
+  );
+
+  @POST(UrlsApi.getInfoUserPublish)
+  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(
+    @Body() BodyInfoUserPublish bodyInfoUserPublish,
   );
 
   //Offer

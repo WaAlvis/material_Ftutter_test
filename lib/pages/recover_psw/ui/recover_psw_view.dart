@@ -31,7 +31,7 @@ class RecoverPswView extends StatelessWidget {
     return ChangeNotifierProvider<RecoverPswViewModel>(
       create: (_) => RecoverPswViewModel(),
       builder: (BuildContext context, _) {
-        return _RecoverPswBody();
+        return const _RecoverPswBody();
       },
     );
   }
@@ -68,7 +68,10 @@ class _RecoverPswBodyState extends State<_RecoverPswBody> {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ShowSuccessSnackbar) {
-        LdSnackbar.buildSuccessSnackbar(context, event.message,);
+        LdSnackbar.buildSuccessSnackbar(
+          context,
+          event.message,
+        );
       } else if (event is ShowWarningSnackbar) {
         LdSnackbar.buildSnackbar(
           context,

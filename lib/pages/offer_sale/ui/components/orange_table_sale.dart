@@ -135,7 +135,7 @@ class OrangeTableSale extends StatelessWidget {
             ],
           ),
           rowOrangeTable(
-            firstText: 'Costo publicación',
+            firstText: 'Total',
             secondText: '$totaAd DLYCOP',
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/services/models/home/extra_filters.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
@@ -17,6 +18,7 @@ class HomeStatus extends ViewStatus {
   late ResultHome operationSaleData;
   late ResultHome myOfferBuyData;
   late ResultHome myOfferSaleData;
+
   final TypeOffer typeOffer;
   final String image;
   final String titleText;
@@ -38,6 +40,7 @@ class HomeStatus extends ViewStatus {
     required this.operationSaleData,
     required this.myOfferBuyData,
     required this.myOfferSaleData,
+    // required this.listHistoryOpertaions,
     required this.hideWallet,
     required this.hideValues,
     required this.indexTab,
@@ -70,6 +73,7 @@ class HomeStatus extends ViewStatus {
     TypeOffer? typeOffer,
     String? image,
     String? titleText,
+    // List<DataUserAdvertisement>? listHistoryOpertaions,
     // String? detailText,
     String? buttonText,
     double? balance,
@@ -92,6 +96,8 @@ class HomeStatus extends ViewStatus {
       myOfferSaleData: myOfferSaleData ?? this.myOfferSaleData,
       typeOffer: typeOffer ?? this.typeOffer,
       image: image ?? this.image,
+      // listHistoryOpertaions:
+      //     listHistoryOpertaions ?? this.listHistoryOpertaions,
       titleText: titleText ?? this.titleText,
       // detailText: detailText ?? this.detailText,
       buttonText: buttonText ?? this.buttonText,

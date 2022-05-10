@@ -8,8 +8,10 @@ import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 part '../info_models.dart';
+
 // Components
 part 'info_mobile.dart';
+
 part 'info_web.dart';
 
 class InfoView extends StatefulWidget {
@@ -38,8 +40,9 @@ class _InfoViewState extends State<InfoView> {
               slivers: <Widget>[
                 SliverFillRemaining(
                   hasScrollBody: false,
-                  child:
-                      maxWidth > 1024 ? const _InfoWeb() : _InfoMobile(arguments: widget.arguments!),
+                  child: maxWidth > 1024
+                      ? const _InfoWeb()
+                      : _InfoMobile(arguments: widget.arguments!),
                 )
               ],
             ),

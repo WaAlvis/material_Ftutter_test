@@ -13,7 +13,8 @@ class HistoryMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HistoryViewModel viewModel = context.watch<HistoryViewModel>();
-    // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final String idUser = dataUserProvider.getDataUserLogged!.id;
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
@@ -23,144 +24,96 @@ class HistoryMobile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      // appBar: const LdAppbar(
-      //   title: 'Historial',
-      //   withBackIcon: true,
-      // ),
+      appBar: const LdAppbar(
+        title: 'Historial',
+        withBackIcon: true,
+      ),
       body: Column(
         children: <Widget>[
+          const AppbarCircles(hAppbar: hAppbar),
           Container(
-            width: size.width,
-            color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: hAppbar,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 12.0,
-                      right: 12.0,
-                      top: 30,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () => viewModel.goBack(context),
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: LdColors.white,
-                          ),
-                        ),
-                        Text(
-                          'Historial',
-                          style: textTheme.textBigWhite,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.transparent,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: LdColors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(25),
+              ),
+            ),
+            child: RowOptionsFilter(
+              quantityFilter: 5,
+              textTheme: textTheme,
             ),
           ),
           Expanded(
-              child: SingleChildScrollView(
+              child: RefreshIndicator(
+            color: LdColors.orangePrimary,
+            onRefresh: () async {
+              await viewModel.onInit(
+                idUser,
+                refresh: true,
+              );
+            },
             child: Container(
-              width: double.infinity,
               constraints: BoxConstraints(minHeight: hBody),
-              decoration: const BoxDecoration(
-                color: LdColors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  RowOptionsFilter(
-                    quantityFilter: 5,
-                    textTheme: textTheme,
-                  ),
-                  if (viewModel.status.daysMockHistory.isEmpty)
-                    const Center(
-                      child: CircularProgressIndicator(),
+              color: LdColors.white,
+              child: viewModel.status.isDataEmpty
+                  ? const IntrinsicHeight(
+                      child: AdviceMessage(
+                        imageName: LdAssets.emptyNotification,
+                        title: 'Aún no tienes operaciones registradas',
+                        description:
+                            'Aquí encontraras tus operaciones conclusas tanto de venta como de compra.',
+                      ),
                     )
-                  else
-                    ListView.separated(
+                  : ListView.separated(
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
                       controller: scrollCtrl,
                       shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: viewModel.status.daysMockHistory.length,
+                      itemCount: viewModel.status.isLoading
+                          ? 4
+                          : viewModel.status.operationsForDay.length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            dateHeader(viewModel.status.daysMockHistory, index,
-                                textTheme),
-                            ListOperationDay(
-                              viewModel,
-                              textTheme,
-                              viewModel.status.daysMockHistory[index],
-                            ),
-                          ],
-                        );
+                        return viewModel.status.isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: LdColors.whiteDark,
+                                highlightColor: LdColors.grayButton,
+                                child: const Card(
+                                  margin: EdgeInsets.all(10),
+                                  child: SizedBox(height: 160),
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  dateHeader(
+                                    textTheme,
+                                    viewModel.status.operationsForDay[index]
+                                        .wrapedDate,
+                                  ),
+                                  ListOperationDay(
+                                    viewModel,
+                                    dataUserProvider,
+                                    textTheme,
+                                    viewModel
+                                        .status.operationsForDay[index].data,
+                                  ),
+                                ],
+                              );
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Divider(
-                            thickness: 2,
-                          ),
-                        );
+                        return viewModel.status.isLoading
+                            ? const SizedBox.shrink()
+                            : const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Divider(
+                                  thickness: 2,
+                                ),
+                              );
                       },
-                    )
-                ],
-              ),
+                    ),
             ),
           )),
         ],
@@ -169,11 +122,13 @@ class HistoryMobile extends StatelessWidget {
   }
 
   Padding dateHeader(
-      List<DayOperation> listOperationByDay, int index, TextTheme textTheme) {
+    TextTheme textTheme,
+    String date,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 32, top: 16, right: 32),
       child: Text(
-        listOperationByDay[index].date,
+        date.capitalize(),
         textAlign: TextAlign.left,
         style: textTheme.textGray.copyWith(
           fontSize: 12,
@@ -186,13 +141,15 @@ class HistoryMobile extends StatelessWidget {
 class ListOperationDay extends StatelessWidget {
   const ListOperationDay(
     this.viewModel,
+    this.dataUserProvider,
     this.textTheme,
     this.dayOperations,
   );
 
   final HistoryViewModel viewModel;
   final TextTheme textTheme;
-  final DayOperation dayOperations;
+  final List<DataUserAdvertisement> dayOperations;
+  final DataUserProvider dataUserProvider;
 
   Color get orangeSlash => LdColors.orangeWarning;
 
@@ -204,8 +161,11 @@ class ListOperationDay extends StatelessWidget {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
-      itemCount: dayOperations.operations.length,
+      itemCount: dayOperations.length,
       itemBuilder: (BuildContext context, int index) {
+        final bool isBuying = dataUserProvider.getDataUserLogged!.nickName ==
+            dayOperations[index].user.nickName;
+
         return Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -219,21 +179,25 @@ class ListOperationDay extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
+                  onTap: () => viewModel.goDetailHistoryOperation(
+                    context,
+                    item: dayOperations[index],
+                    // isBuying: isBuying,
+                  ),
                   borderRadius: BorderRadius.circular(20),
-                  highlightColor:
-                      dayOperations.operations[index].amount.contains('-')
-                          ? orangeSlash.withOpacity(0.1)
-                          : greenSplash.withOpacity(0.1),
-                  splashColor:
-                      dayOperations.operations[index].amount.contains('-')
-                          ? orangeSlash.withOpacity(0.2)
-                          : greenSplash.withOpacity(0.2),
+                  highlightColor: dayOperations[index]
+                          .advertisement
+                          .valueToSell
+                          .contains('-')
+                      ? orangeSlash.withOpacity(0.1)
+                      : greenSplash.withOpacity(0.1),
+                  splashColor: dayOperations[index]
+                          .advertisement
+                          .valueToSell
+                          .contains('-')
+                      ? orangeSlash.withOpacity(0.2)
+                      : greenSplash.withOpacity(0.2),
                   focusColor: LdColors.orangePrimary.withOpacity(0.4),
-                  onTap: () => viewModel.goDetailHistoryOperation(context,
-                      item: dayOperations.operations[index]),
-                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //   content: Text('Tap'),
-                  // ));
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -250,10 +214,7 @@ class ListOperationDay extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              dayOperations.operations[index].amount
-                                      .contains('-')
-                                  ? 'DLYCOP vendidos'
-                                  : 'DLYCOP comprados',
+                              isBuying ? 'DLYCOP vendidos' : 'DLYCOP comprados',
                               style: textTheme.textBlack,
                             ),
                             const SizedBox(
@@ -263,13 +224,12 @@ class ListOperationDay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  dayOperations.operations[index].amount,
+                                  viewModel.calculateDlyTotal(
+                                    dayOperations,
+                                    index,
+                                  ),
                                   style: textTheme.textBigBlack.copyWith(
-                                    color: dayOperations
-                                            .operations[index].amount
-                                            .contains('-')
-                                        ? orangeSlash
-                                        : greenSplash,
+                                    color: isBuying ? orangeSlash : greenSplash,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -277,8 +237,7 @@ class ListOperationDay extends StatelessWidget {
                                   width: 10,
                                 ),
                                 SvgPicture.asset(
-                                  dayOperations.operations[index].amount
-                                          .contains('-')
+                                  isBuying
                                       ? LdAssets.dlycopIconRed
                                       : LdAssets.dlycopIconGreen,
                                   height: 30,
@@ -289,7 +248,7 @@ class ListOperationDay extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              '1 DLYCOP ≈ 1 COP',
+                              '${dayOperations[index].advertisement.margin} DLYCOP ≈ 1 COP',
                               style: textTheme.textGray.copyWith(
                                 fontSize: 12,
                               ),
@@ -298,7 +257,10 @@ class ListOperationDay extends StatelessWidget {
                               height: 4,
                             ),
                             Text(
-                              '= 1.000.000 COP',
+                              '= ${viewModel.calculateCopTotal(
+                                dayOperations,
+                                index,
+                              )} COP',
                               style: textTheme.textSmallBlack,
                             ),
                           ],
@@ -357,20 +319,4 @@ class RowOptionsFilter extends StatelessWidget {
       ),
     );
   }
-}
-
-class DayOperation {
-  final List<Operation> operations;
-  final String date;
-
-  const DayOperation(this.operations, {required this.date});
-}
-
-class Operation {
-  final String amount;
-  final String margin;
-  final String nickname;
-  final String rate;
-
-  const Operation(this.amount, this.margin, this.nickname, this.rate);
 }

@@ -104,8 +104,8 @@ class ListMyOffersSale extends StatelessWidget {
                                       ? viewModel.goCreateOffer(context)
                                       : viewModel.goLogin(context),
                                 ),
-                              ),
-                            )
+                            ),
+                          )
                           : MyOfferCard(
                               item: items[index],
                               textTheme: textTheme,

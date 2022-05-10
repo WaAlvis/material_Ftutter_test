@@ -168,10 +168,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     // can't launch url, there is some error
   }
 
-  void goHistoryOperations(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
+  void goHistoryOperations(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        _route.goHistoryOperations(context);
+        _route.goHistoryOperations(
+          context,
+        );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -223,18 +227,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   void goNotifications(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        //_route.goNotifications(context);
-        _route.goContactSupport(context);
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
-
-  void goProfileSeller(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
-      if (isConnectionValidvalue) {
-        _route.goProfileSeller(context);
+        _route.goNotifications(context);
+        //_route.goContactSupport(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }

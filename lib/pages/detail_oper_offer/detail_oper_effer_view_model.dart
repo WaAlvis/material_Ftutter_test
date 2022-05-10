@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_assets.dart';
-import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_effect.dart';
@@ -16,17 +15,12 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
-import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
-import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/type_offer/data.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
-import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_documents.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_pay_account.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
@@ -371,9 +365,7 @@ class DetailOperOfferViewModel
     closeDialog(context);
 
     status = status.copyWith(isLoading: true);
-    final CancelOper body = CancelOper(
-      advertisementId: json.encode(offerId),
-    );
+    final CancelOper body = CancelOper(advertisementId: json.encode(offerId));
 
     try {
       await _interactor.cancelOperation(body).then((response) {

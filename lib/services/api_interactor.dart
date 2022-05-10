@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
-import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
@@ -19,8 +18,12 @@ import 'package:localdaily/services/models/detail_offer/result_update_status.dar
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
+import 'package:localdaily/services/models/info_user_publish/body_info_user_publish.dart';
+import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
@@ -84,6 +87,24 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
+      BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+    final ResponseData<ResultHistoryOperationsUser> response =
+        await locator<LocalDailyGatewayService>()
+            .getHistoryOperationsUser(bodyHistoryOperationsUser);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(
+      BodyInfoUserPublish bodyInfoUserPublish) async {
+    final ResponseData<ResultInfoUserPublish> response =
+        await locator<LocalDailyGatewayService>()
+            .getInfoUserPublish(bodyInfoUserPublish);
+
+    return response;
+  }
+
   Future<ResponseData<ResultDataUser>> getUserById(String id) async {
     final ResponseData<ResultDataUser> response =
         await locator<LocalDailyGatewayService>().getUserId(id);
@@ -96,7 +117,6 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultPinEmail> response =
         await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
-    print(response.statusCode);
     return response;
   }
 

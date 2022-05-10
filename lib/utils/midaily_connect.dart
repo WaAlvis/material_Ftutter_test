@@ -36,24 +36,25 @@ class MiDailyConnect {
       case DailyConnectType.walletAddress:
         //_url =
         //    'exp://192.168.1.46:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
-        _url =
-            'exp://192.168.0.8:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
         //_url =
-        //    'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
+        //    'exp://192.168.0.8:19000/--/walletaddress?scheme=localdaily&path=$_walletConnectCode';
+        _url =
+            'midailyapp://walletaddress?scheme=localdaily&path=$_walletConnectCode';
         break;
       case DailyConnectType.transaction:
         if (method != null && method != '')
           //_url =
           //    'exp://192.168.1.46:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount';
+          //_url =
+          //    'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
           _url =
-              'exp://127.0.0.1:19000/--/sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
-        //_url =
-        //    'midailyapp://sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
+              'midailyapp://sendtransaction?scheme=localdaily&path=$_walletConnectCode&from=$_from&to=0x8651A084e57Bfc93F901289767E4733Ee08cEe6B&value=$amount&method=$method';
         break;
       default:
     }
 
     if (await canLaunch(_url)) {
+      print(_url);
       await launch(_url, headers: <String, String>{});
     } else {
       //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
@@ -71,22 +72,28 @@ class MiDailyConnect {
     Uri? uri,
   ) async {
     print(uri);
+    print(1);
     // Validar URL
     if (uri == null) return;
 
     // Validar usuario Loggeado
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     if (userProvider.getDataUserLogged == null) return;
+    print(2);
 
     final String host = uri.host;
 
+    print(host);
+    print(userProvider.getMiDailyConnectCode);
     // Validar que el código generado sea el mismo al que recibe como respuesta
     if (userProvider.getMiDailyConnectCode == null ||
         host != userProvider.getMiDailyConnectCode) return;
+    print(3);
 
     // Validar que el path o funcion no esta vacío
     final String? path = uri.queryParameters['path'];
     if (path == null || path.isEmpty) return;
+    print(4);
 
     // Validar si la operación fue exitosa o no
     final String? isSuccess = uri.queryParameters['success'];
@@ -116,6 +123,7 @@ class MiDailyConnect {
       );
       return;
     }
+    print(5);
 
     switch (path) {
       case 'walletaddress':
