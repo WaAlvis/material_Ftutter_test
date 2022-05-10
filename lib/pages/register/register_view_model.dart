@@ -436,7 +436,8 @@ class RegisterViewModel
       secondLastName: '',
       dateBirth: status.dateBirth,
       email: status.emailRegister,
-      phone: '${status.indicativePhone}$phone',
+      indicative: int.parse(status.indicativePhone.replaceFirst('+', '')),
+      phone: phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: sha256passWord,
       isActive: true,
@@ -589,7 +590,7 @@ class RegisterViewModel
   }
 
   String? validateBirthday(String? value) {
-    if (value == ''|| value == null) {
+    if (value == '' || value == null) {
       return '* Tu fecha de nacimiento es necesaria';
     }
     return null;
@@ -616,8 +617,6 @@ class RegisterViewModel
         hasLowercase &
         hasDigits;
   }
-
-
 
 // Future<void> openEmail(BuildContext context) async {
 //   final OpenMailAppResult result = await OpenMailApp.openMailApp();
