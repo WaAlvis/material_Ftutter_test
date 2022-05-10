@@ -9,6 +9,7 @@ class RateUser {
     required this.userId,
     required this.rate,
     required this.advertisementId,
+    required this.isOper,
   });
 
   factory RateUser.fromJson(Map<String, dynamic> json) =>
@@ -18,6 +19,7 @@ class RateUser {
   String userId;
   String rate;
   String advertisementId;
+  String isOper;
 
   Map<String, dynamic> toJson() => _$RateUserToJson(this);
 }

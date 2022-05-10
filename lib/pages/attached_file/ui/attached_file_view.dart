@@ -39,14 +39,14 @@ class AttachedFileView extends StatelessWidget {
     Key? key,
     required this.item,
     this.isBuy = false,
-    this.isOper = false,
+    required this.isOper,
     required this.extensionFile,
     required this.isView,
   }) : super(key: key);
 
   final String item;
   final bool isBuy;
-  final bool isOper;
+  final String isOper;
   final String extensionFile;
   final String isView;
 
@@ -84,7 +84,7 @@ class _AttachedFileBody extends StatefulWidget {
     required this.isOper,
   }) : super(key: key);
   final bool isBuy;
-  final bool isOper;
+  final String isOper;
   final dynamic item;
 
   @override

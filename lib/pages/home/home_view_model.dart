@@ -1,13 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/local_storage_service.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/body_home.dart';
+import 'package:localdaily/services/models/home/extra_filters.dart';
 import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -68,6 +72,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       titleText: 'Aún no tienes ofertas de compra',
       buttonText: 'Crear oferta de compra',
       balance: -1,
+      filtersArguments: FiltersArguments(),
     );
   }
 
@@ -76,6 +81,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String address,
   ) async {
     status = status.copyWith(indexTab: index);
+    // status = status.copyWith(
+    //     extraFilters: ExtraFilters(
+    //         range: null, dateExpiry: null, bank: null, status: null));
     if (index == 3) {
       status = status.copyWith(
         balance: await CryptoUtils().getBalance(address),
@@ -99,6 +107,22 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
+    FiltersArguments filtersArguments = FiltersArguments(
+        // extraFilters: status.extraFilters,
+        homeStatus: status,
+        indexTab: status.indexTab,
+        setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
+          status = status.copyWith(extraFilters: extraFilters);
+          status = status.copyWith(extraFiltersString: extraFiltersString);
+          getData(context, resultDataUser?.id ?? '', refresh: true);
+        },
+        getFilters: <int>() => status.indexTab,
+        clearFilters: () {
+          status = status.copyWith(
+              extraFilters: ExtraFilters(), extraFiltersString: '');
+        });
+    status = status.copyWith(filtersArguments: filtersArguments);
+
     getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
 
@@ -115,24 +139,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     TypeOffer type,
     String userId,
   ) async {
-    status = status.copyWith(typeOffer: type);
-    await getData(context, userId);
-    /* switch (type) {
-      case TypeOffer.sell:
-        status = status.copyWith(
-          image: LdAssets.saleNoOffer,
-          titleText: 'Aun no tienes ofertas de venta',
-          buttonText: 'Crear oferta de venta',
-        );
-        break;
-      case TypeOffer.buy:
-        status = status.copyWith(
-          image: LdAssets.buyNoOffer,
-          titleText: 'Aun no tienes ofertas de compra',
-          buttonText: 'Crear oferta de compra',
-        );
-        break;
-    } */
+    status = status.copyWith(
+        typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters());
+    await getData(context, userId, refresh: true);
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
@@ -234,6 +243,22 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goDetailOffer(context, item, isBuy: isBuy);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void goFiltres(
+    BuildContext context,
+    // FiltersArguments filtersArguments,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        status = status.copyWith(
+            filtersArguments: status.filtersArguments!
+                .copyWith(extraFilters: status.extraFilters));
+        _route.goFilters(context, status.filtersArguments!);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -359,6 +384,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
+      strJsonExtraFilters: status.extraFiltersString ?? '',
     );
     final BodyHome body = BodyHome(
       pagination: pagination,
@@ -463,14 +489,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     print(pagination.toJson());
     print('////');
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy
-          ? '${TypeOffer.sell.index}'
-          : '${TypeOffer.buy.index}',
-      idUserPublish: '',
-      statusCode: '${OfferStatus.Pendiente.index}',
-      idUserExclusion: '',
-      idUserInteraction: userId,
-    );
+        typeAdvertisement: status.typeOffer == TypeOffer.buy
+            ? '${TypeOffer.sell.index}'
+            : '${TypeOffer.buy.index}',
+        idUserPublish: '',
+        statusCode: '${OfferStatus.Pendiente.index}',
+        idUserExclusion: '',
+        idUserInteraction: userId,
+        strJsonExtraFilters: status.extraFiltersString ?? '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -563,19 +589,18 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       itemsPerPage: itemsPerPage,
     );
     final Filters filters = Filters(
-      typeAdvertisement: status.typeOffer == TypeOffer.buy
-          ? '${TypeOffer.buy.index}'
-          : '${TypeOffer.sell.index}',
-      idUserPublish: userId,
-      statusCode: '',
-      idUserExclusion: '',
-      idUserInteraction: '',
-    );
+        typeAdvertisement: status.typeOffer == TypeOffer.buy
+            ? '${TypeOffer.buy.index}'
+            : '${TypeOffer.sell.index}',
+        idUserPublish: userId,
+        statusCode: '',
+        idUserExclusion: '',
+        idUserInteraction: '',
+        strJsonExtraFilters: status.extraFiltersString ?? '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
-
     // Solicitud al servicio
     try {
       final ResponseData<ResultHome> response =
@@ -631,6 +656,32 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  int countFilters() {
+    print(
+        'extrafiltersstring ${status.extraFiltersString}  extrafilters ${status.extraFilters?.toJson()}');
+    int count = 0;
+    if (status.extraFilters?.range != null &&
+        status.extraFilters?.range != -1) {
+      count = count + 1;
+    }
+    if (status.extraFilters?.dateExpiry != null &&
+        status.extraFilters?.dateExpiry != -1) {
+      count = count + 1;
+    }
+    if (status.extraFilters?.status != null &&
+        status.extraFilters?.status != -1) {
+      count = count + 1;
+    }
+    if (status.extraFilters?.bank != null &&
+        status.extraFilters?.bank != '[]') {
+      count = count + 1;
+      print(
+          '${status.extraFilters!.bank} Filtro de bancos account ${status.extraFilters!.bank?.isEmpty}');
+    }
+
+    return count;
   }
 }
 

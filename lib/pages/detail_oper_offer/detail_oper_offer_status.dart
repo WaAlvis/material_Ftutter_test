@@ -19,7 +19,7 @@ class DetailOperOfferStatus extends ViewStatus {
   final bool isOper2;
   final String? extensionFile;
   final String? userId;
-  List<AccountType>? listAccountTypes;
+  List<AccountType> listAccountTypes;
   List<Bank> banks;
   List<AdvertisementDocument> listAdvertisementDoc;
   List<DocType>? docsType;
@@ -57,7 +57,7 @@ class DetailOperOfferStatus extends ViewStatus {
     List<AdvertisementDocument>? listAdvertisementDoc,
     List<Bank>? banks,
     String? state,
-    List<AccountType>? resultAccountTypes,
+    List<AccountType>? listAccountTypes,
     String? extensionFile,
     String? userId,
     double? rateUser,
