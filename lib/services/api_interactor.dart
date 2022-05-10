@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
+import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -120,7 +122,6 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultPinEmail> response =
         await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
-    print(response.statusCode);
     return response;
   }
 
@@ -180,6 +181,15 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<dynamic>> cancelOperation(
+    CancelOper body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().cancelOperation(body);
+
+    return response;
+  }
+
   Future<ResponseData<dynamic>> sendAttach({
     required String AdvertisementId,
     required XFile xFile,
@@ -204,10 +214,10 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<bool>> confirmPayment(
+  Future<ResponseData<dynamic>> confirmPayment(
     ConfirmPayment body,
   ) async {
-    final ResponseData<bool> response =
+    final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().confirmPayment(body);
 
     return response;

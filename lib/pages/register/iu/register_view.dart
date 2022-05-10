@@ -34,6 +34,7 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
+
     return ChangeNotifierProvider<RegisterViewModel>(
       create: (_) => RegisterViewModel(),
       builder: (BuildContext context, _) {
@@ -55,8 +56,8 @@ class RegisterBody extends StatefulWidget {
 class RegisterBodyState extends State<RegisterBody> {
   // final GlobalKey<FormState> keyFirstForm = GlobalKey<FormState>();
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
-  final TextEditingController emailCtrl = TextEditingController();
 
+  final TextEditingController emailCtrl = TextEditingController();
   final TextEditingController nickNameCtrl = TextEditingController();
   final TextEditingController phraseCtrl = TextEditingController();
   final TextEditingController namesCtrl = TextEditingController();
@@ -74,10 +75,10 @@ class RegisterBodyState extends State<RegisterBody> {
   void dispose() {
     emailCtrl.dispose();
     nickNameCtrl.dispose();
+    phraseCtrl.dispose();
     namesCtrl.dispose();
     surnamesCtrl.dispose();
     phoneCtrl.dispose();
-    phraseCtrl.dispose();
     passwordCtrl.dispose();
     confirmPassCtrl.dispose();
     codePinCtrl.dispose();

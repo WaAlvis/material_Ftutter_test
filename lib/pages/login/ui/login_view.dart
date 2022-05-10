@@ -17,7 +17,6 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:provider/provider.dart';
 
-part 'components/card_login.dart';
 
 part 'login_mobile.dart';
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
@@ -80,6 +81,8 @@ class UrlsApi {
       '/AttachDocuments/AttachDocument/GetDocumentAdvertisement';
 
   static const String addRateUser = '/User/UserInfoAdditional/RateUser';
+  static const String cancelOperation =
+      '/Transaction/DistributionOptions/CancelOperation';
   static const String getInfoUserPublish = '/User/UserInfoAdditional';
   static const String createSupportCase = '/WebAdmin/SupportCase';
   static const String getNotifications =
@@ -180,6 +183,11 @@ abstract class LocalDailyGatewayService {
     @Body() BodyAddPayAccount body,
   );
 
+  @POST(UrlsApi.cancelOperation)
+  Future<ResponseData<dynamic>> cancelOperation(
+    @Body() CancelOper body,
+  );
+
 // Attach file
   @POST(UrlsApi.sendAttach)
   Future<ResponseData<dynamic>> sendAttach(
@@ -205,7 +213,7 @@ abstract class LocalDailyGatewayService {
   );
 
   @POST(UrlsApi.releaseToken)
-  Future<ResponseData<bool>> confirmPayment(
+  Future<ResponseData<dynamic>> confirmPayment(
     @Body() ConfirmPayment body,
   );
 

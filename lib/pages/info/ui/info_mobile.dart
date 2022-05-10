@@ -33,7 +33,7 @@ class _InfoMobile extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: content(arguments, textTheme),
+                  children: content(arguments, textTheme,size),
                 ),
               ),
               if (arguments.hasActionButton)
@@ -68,20 +68,23 @@ List<Widget> divider() => <Widget>[
       ),
     ];
 
-List<Widget> content(InfoViewArguments arguments, TextTheme textTheme) =>
+List<Widget> content(InfoViewArguments arguments, TextTheme textTheme, Size size) =>
     <Widget>[
       SvgPicture.asset(imageList[arguments.imageType.index]),
       const SizedBox(height: 20),
       Text(
         arguments.title!,
-        style: textTheme.infoTitle,
+        style: textTheme.infoTitle.copyWith(color: arguments.colorTitle),
         textAlign: TextAlign.center,
       ),
       const SizedBox(height: 20),
-      Text(
-        arguments.description,
-        style: textTheme.textWhite,
-        textAlign: TextAlign.center,
+      SizedBox(
+        width: size.width*.8,
+        child: Text(
+          arguments.description,
+          style: textTheme.textWhite.copyWith(fontWeight: FontWeight.normal),
+          textAlign: TextAlign.center,
+        ),
       ),
       arguments.customWidget,
       Container(),

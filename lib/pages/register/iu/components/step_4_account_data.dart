@@ -42,7 +42,9 @@ class Step4AccountData extends StatelessWidget {
                   onChange: (String value) => viewModel.changeNickName(value),
                   changeFillWith: !viewModel.status.isNickNameFieldEmpty,
                   textInputAction: TextInputAction.next,
-                  validator: (String? str) => viewModel.validatorNotEmpty(str),
+                  maxLength: 40,
+                  counterText: '',
+                  validator: (String? str) => viewModel.validatorNickName(str),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
                   ],
@@ -79,23 +81,21 @@ class Step4AccountData extends StatelessWidget {
                   hintText: '8+ digitos',
                   controller: confirmPassCtrl,
                   obscureText: viewModel.status.hidePass,
-
                   onChange: (String value) =>
                       viewModel.changeConfirmPass(value),
                   changeFillWith: !viewModel.status.isConfirmPassFieldEmpty,
                   textInputAction: TextInputAction.done,
-                    suffixIcon: GestureDetector(
-                      onTap: () => viewModel.hidePassword(),
-                      child: Icon(
-                        viewModel.status.hidePass
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: LdColors.blackBackground,
-                      ),
+                  suffixIcon: GestureDetector(
+                    onTap: () => viewModel.hidePassword(),
+                    child: Icon(
+                      viewModel.status.hidePass
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: LdColors.blackBackground,
                     ),
+                  ),
                 ),
                 const SizedBox(height: 16),
-
                 ListChecksRequiredPsw(
                   context,
                   textTheme,
@@ -127,4 +127,3 @@ class Step4AccountData extends StatelessWidget {
     );
   }
 }
-

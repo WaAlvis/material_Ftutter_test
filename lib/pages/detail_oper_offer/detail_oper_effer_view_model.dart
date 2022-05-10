@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_assets.dart';
@@ -10,6 +12,7 @@ import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/doc_type.dart';
@@ -20,6 +23,7 @@ import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/con
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_pay_account.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/view_model.dart';
 
 import 'detail_oper_offer_status.dart';
@@ -66,7 +70,8 @@ class DetailOperOfferViewModel
     status = status.copyWith(isLoading: true);
     status = status.copyWith(isOper2: isOper == 'Operacion' ? true : false);
     status = status.copyWith(userId: dataUserProvider.getDataUserLogged!.id);
-    print('${status.isOper2} que esta llegando');
+    print(
+        '${status.isOper2} que esta llegando ${status.isBuy} isoper??? $isOper');
     if (next) {
       // TODO: consultar tipo de cuentas
       // getAccountsType(context);
@@ -89,15 +94,20 @@ class DetailOperOfferViewModel
           try {
             response.result!.advertisementPayAccount!
                 .forEach((AdvertisementPayAccount account) {
-              AccountType _accountType = listAccountTypes!.firstWhere(
+              print('account ${account.toJson()}');
+              int index = listAccountTypes!.indexWhere(
                   (AccountType accountType) =>
                       accountType.id == account.accountTypeId);
-              status = status.copyWith(
-                resultAccountTypes: <AccountType>[
-                  ...?status.listAccountTypes,
-                  _accountType
-                ],
-              );
+
+              print('${index} accounttype');
+              if (index != -1) {
+                status = status.copyWith(
+                  listAccountTypes: <AccountType>[
+                    ...status.listAccountTypes,
+                    listAccountTypes[index]
+                  ],
+                );
+              }
             });
           } catch (e) {
             print('$e accounttype');
@@ -201,14 +211,14 @@ class DetailOperOfferViewModel
 
   void goAttachedFile(
     BuildContext context,
-    bool isOper,
+    String isOper,
     String isView,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _router.goAttachedFile(
           context,
-          // isOper,
+          isOper,
           offerId,
           status.extensionFile ?? '',
           isView,
@@ -284,7 +294,7 @@ class DetailOperOfferViewModel
     final ConfirmPayment body = ConfirmPayment(
       idAvertisement: offerId,
       addressDestiny: '',
-      value: '2',
+      value: (double.parse(status.item!.valueToSell) * 0.975).toString(),
       message: 'Usuario confirmo orden de pago',
     );
 
@@ -293,54 +303,60 @@ class DetailOperOfferViewModel
       userId: status.item!.idUserPublish,
       rate: status.rateUser!.toString(),
       advertisementId: status.item!.id,
+      isOper: isOper,
+    );
+    InfoViewArguments info = InfoViewArguments(
+      title: '¡Dailys entregados!',
+      description: 'Tus Dailys fueron entregados exitosamente al comprador.',
+      imageType: ImageType.success,
+      pageTitle: ' ',
+      customWidget: CardRateUser(
+        viewModel: viewModel,
+      ),
+      onAction: () async {
+        if (status.rateUser! > 0) {
+          try {
+            await _interactor.addRateUser(bodyRate).then((response) {
+              // final statusCode = response.result.statusCode;
+              if (response.isSuccess) {
+                try {
+                  closeDialog(context);
+                  _router.goDetailOperOffer(
+                    context,
+                    offerId,
+                    // status.isOper2 ? 'Operacion' : 'Oferta',
+                    isOper,
+                    replace: true,
+                  );
+                } catch (e) {
+                  print('info $e');
+                }
+              } else {
+                print('statusCode error');
+              }
+            });
+          } catch (e) {
+            print('$e ');
+          }
+        } else {
+          LdSnackbar.buildErrorSnackbar(
+              context, 'Es necesario que califiques al usuario entre 1 y 5');
+        }
+      },
     );
     try {
       await _interactor.confirmPayment(body).then((response) {
-        InfoViewArguments info = InfoViewArguments(
-            title: '¡Dailys entregados!',
-            description:
-                'Tus Dailys fueron entregados exitosamente al comprador.',
-            imageType: ImageType.success,
-            pageTitle: ' ',
-            customWidget: CardRateUser(
-              viewModel: viewModel,
-            ),
-            onAction: () async {
-              if (status.rateUser! > 0.0) {
-                try {
-                  await _interactor.addRateUser(bodyRate).then((response) {
-                    final statusCode = response.result.statusCode;
-                    if (response.isSuccess) {
-                      try {
-                        closeDialog(context);
-                        _router.goDetailOperOffer(
-                          context,
-                          offerId,
-                          status.isOper2 ? 'Operacion' : 'Oferta',
-                          replace: true,
-                        );
-                      } catch (e) {
-                        print('info $e');
-                      }
-                    } else {
-                      print('statusCode $statusCode');
-                    }
-                  });
-                } catch (e) {
-                  print('$e ');
-                }
-              } else {
-                print('${status.rateUser} rate user');
-
-                // addEffect(
-                //     ShowSnackbarErrorEffect('Por favor califique al usuario'));
-              }
-            });
-        _router.goInfoView(context, info);
-        status = status.copyWith(isLoading: false);
+        if (response.isSuccess) {
+          _router.goInfoView(context, info);
+          status = status.copyWith(isLoading: false);
+        } else {
+          status = status.copyWith(isLoading: false);
+          addEffect(
+              ShowSnackbarErrorEffect('Algo salio mal intente nuevamente'));
+        }
       });
     } catch (e) {
-      addEffect(ShowSnackbarErrorEffect(e.toString()));
+      print('$e conformPay');
       status = status.copyWith(isLoading: false);
     }
   }
@@ -349,44 +365,39 @@ class DetailOperOfferViewModel
     closeDialog(context);
 
     status = status.copyWith(isLoading: true);
-    final BodyUpdateStatus body = BodyUpdateStatus(
-      idAdvertisement: offerId,
-      idUserInteraction: status.userId!,
-      statusOrigin: int.parse(status.item!.idStatus),
-      statusDestiny: 2,
-      //OfferStatus.closed,
-      successfulTransaction:
-          status.userId != status.item!.idUserPublish ? true : false,
-    );
+    final CancelOper body = CancelOper(advertisementId: json.encode(offerId));
 
     try {
-      await _interactor.reserveOffer(body).then((response) {
+      await _interactor.cancelOperation(body).then((response) {
         InfoViewArguments info = InfoViewArguments(
           title: '¡Cancelada!',
           description: status.isOper2
               ? "Se canceló exitosamente la ${status.isBuy ? 'compra' : 'venta'}."
               : 'Se quitó exitosamente una publicación.',
           imageType: ImageType.success,
-          pageTitle: ' ',
+          pageTitle: '',
           onAction: () {
             print('pantalla nueva ');
 
             try {
               closeDialog(context);
-              _router.goDetailOperOffer(
-                context,
-                offerId,
-                status.isOper2 ? 'Operacion' : 'Oferta',
-                replace: true,
-              );
+              _router.goHome(context);
             } catch (e) {
               print('pantalla nueva $e');
             }
           },
         );
-        _router.goInfoView(context, info);
+        if (response.isSuccess) {
+          _router.goInfoView(context, info);
+        } else {
+          print('algo salio mal');
+          status = status.copyWith(isLoading: false);
+          addEffect(ShowSnackbarErrorEffect(
+            'Algo salio mal, por favor intente nuevamente',
+          ));
+        }
 
-        status = status.copyWith(isLoading: false);
+        // status = status.copyWith(isLoading: false);
       });
     } catch (e) {
       print(e);
@@ -423,5 +434,10 @@ class DetailOperOfferViewModel
         addEffect(ShowSnackConnetivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  void setRate(double rate) {
+    status = status.copyWith(rateUser: rate);
+    print('Status.rate ${status.rateUser}');
   }
 }

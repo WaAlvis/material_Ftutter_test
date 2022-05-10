@@ -1,5 +1,7 @@
 import 'package:localdaily/commons/ld_enums.dart';
-
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
+import 'package:localdaily/services/models/home/extra_filters.dart';
+import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
@@ -26,6 +28,10 @@ class HomeStatus extends ViewStatus {
   final String buttonText;
   final double balance;
   final int countNotification;
+  //filters
+  final ExtraFilters? extraFilters;
+  final FiltersArguments? filtersArguments;
+  final String? extraFiltersString;
 
   HomeStatus({
     this.resultDataUser,
@@ -48,6 +54,9 @@ class HomeStatus extends ViewStatus {
     required this.buttonText,
     required this.balance,
     required this.countNotification,
+    this.extraFilters,
+    this.filtersArguments,
+    this.extraFiltersString,
   });
 
   HomeStatus copyWith({
@@ -71,6 +80,9 @@ class HomeStatus extends ViewStatus {
     String? buttonText,
     double? balance,
     int? countNotification,
+    ExtraFilters? extraFilters,
+    FiltersArguments? filtersArguments,
+    String? extraFiltersString,
   }) {
     return HomeStatus(
       resultDataUser: resultDataUser ?? this.resultDataUser,
@@ -94,6 +106,9 @@ class HomeStatus extends ViewStatus {
       buttonText: buttonText ?? this.buttonText,
       balance: balance ?? this.balance,
       countNotification: countNotification ?? this.countNotification,
+      extraFilters: extraFilters ?? this.extraFilters,
+      filtersArguments: filtersArguments ?? this.filtersArguments,
+      extraFiltersString: extraFiltersString ?? this.extraFiltersString,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/notification/notification_effect.dart';
@@ -52,6 +53,17 @@ class NotificationViewModel
     );
 
     // TODO: Conectar servicio para eliminar notificación
+  }
+
+  Future<bool> goHome(BuildContext context) async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      _route.goHome(context);
+      return false;
+    } else {
+      addEffect(SnackbarConnectivityEffect('Sin conexión a internet'));
+      return false;
+    }
   }
 
   Future<bool?> getData(

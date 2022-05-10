@@ -18,80 +18,83 @@ class _NotificationMobile extends StatelessWidget {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     final List<NotificationP> items = viewModel.status.resultNotification.data;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: LdColors.blackBackground,
-      appBar: const LdAppbar(title: 'Notificaciones'),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const AppbarCircles(hAppbar: hAppbar),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                height: size.height - hAppbar,
-                constraints: BoxConstraints(
-                  minHeight: size.height - hAppbar,
-                  maxHeight: size.height - hAppbar,
-                ),
-                padding: const EdgeInsets.all(18.0),
-                decoration: const BoxDecoration(
-                  color: LdColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25),
+    return WillPopScope(
+      onWillPop: () => viewModel.goHome(context),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: LdColors.blackBackground,
+        appBar: const LdAppbar(title: 'Notificaciones'),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const AppbarCircles(hAppbar: hAppbar),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height - hAppbar,
+                  constraints: BoxConstraints(
+                    minHeight: size.height - hAppbar,
+                    maxHeight: size.height - hAppbar,
                   ),
-                ),
-                child: RefreshIndicator(
-                  color: LdColors.orangePrimary,
-                  onRefresh: () async {
-                    await viewModel.getData(
-                      userProvider.getDataUserLogged?.id ?? '',
-                      refresh: true,
-                    );
-                  },
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(18.0),
+                  decoration: const BoxDecoration(
+                    color: LdColors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25),
                     ),
-                    shrinkWrap: items.isEmpty,
-                    itemCount: viewModel.status.isLoading
-                        ? 10
-                        : items.isEmpty
-                            ? 1
-                            : items.length,
-                    controller: notiScrollCtrl,
-                    itemBuilder: (BuildContext context, int index) {
-                      return viewModel.status.isLoading
-                          ? Shimmer.fromColors(
-                              baseColor: LdColors.whiteDark,
-                              highlightColor: LdColors.grayButton,
-                              child: const Card(
-                                margin: EdgeInsets.all(10),
-                                child: SizedBox(height: 100),
-                              ),
-                            )
-                          : items.isEmpty
-                              ? IntrinsicHeight(child: _EmptyNotifications())
-                              : _NotificationSlide(
-                                  viewModel: viewModel,
-                                  notificationType:
-                                      NotificationType.values.firstWhere(
-                                    (element) =>
-                                        element.name ==
-                                        items[index]
-                                            .identifierCode
-                                            .toLowerCase(),
-                                  ),
-                                  notification: items[index],
-                                );
+                  ),
+                  child: RefreshIndicator(
+                    color: LdColors.orangePrimary,
+                    onRefresh: () async {
+                      await viewModel.getData(
+                        userProvider.getDataUserLogged?.id ?? '',
+                        refresh: true,
+                      );
                     },
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      shrinkWrap: items.isEmpty,
+                      itemCount: viewModel.status.isLoading
+                          ? 10
+                          : items.isEmpty
+                              ? 1
+                              : items.length,
+                      controller: notiScrollCtrl,
+                      itemBuilder: (BuildContext context, int index) {
+                        return viewModel.status.isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: LdColors.whiteDark,
+                                highlightColor: LdColors.grayButton,
+                                child: const Card(
+                                  margin: EdgeInsets.all(10),
+                                  child: SizedBox(height: 100),
+                                ),
+                              )
+                            : items.isEmpty
+                                ? IntrinsicHeight(child: _EmptyNotifications())
+                                : _NotificationSlide(
+                                    viewModel: viewModel,
+                                    notificationType:
+                                        NotificationType.values.firstWhere(
+                                      (element) =>
+                                          element.name ==
+                                          items[index]
+                                              .identifierCode
+                                              .toLowerCase(),
+                                    ),
+                                    notification: items[index],
+                                  );
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

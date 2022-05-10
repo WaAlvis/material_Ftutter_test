@@ -13,31 +13,37 @@ import 'package:localdaily/services/models/history_operations_user/response/data
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 part 'detail_history_operation_mobile.dart';
-
 part 'detail_history_opertarion_web.dart';
 
 class DetailHistoryOperationView extends StatelessWidget {
   const DetailHistoryOperationView({
     Key? key,
     this.item,
+    // this.isBuying,
   }) : super(key: key);
 
+  // final bool? isBuying;
   final DataUserAdvertisement? item;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DetailHistoryOperationViewModel>(
       create: (_) => DetailHistoryOperationViewModel(
-        locator<LdRouter>(),
-        locator<ServiceInteractor>(),
-      ),
+          locator<LdRouter>(),
+          locator<ServiceInteractor>(),
+          item!.advertisement.advertisementUserInteraction!.first.idUser
+          // dataUserAdvertisement
+          //     .advertisement.advertisementUserInteraction!.first.idUser,
+          // isBuying: isBuying!,
+          ),
       builder: (BuildContext context, _) {
         return Scaffold(
           backgroundColor: LdColors.white,
           body: _DetailHistoryOperationBody(
-            item: item!,
+            item!,
           ),
         );
       },
@@ -46,8 +52,10 @@ class DetailHistoryOperationView extends StatelessWidget {
 }
 
 class _DetailHistoryOperationBody extends StatefulWidget {
-  const _DetailHistoryOperationBody({Key? key, required this.item})
-      : super(key: key);
+  const _DetailHistoryOperationBody(
+    this.item, {
+    Key? key,
+  }) : super(key: key);
 
   final DataUserAdvertisement item;
 

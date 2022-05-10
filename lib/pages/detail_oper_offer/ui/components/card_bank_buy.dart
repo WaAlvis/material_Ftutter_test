@@ -19,12 +19,17 @@ class CardBankBuy extends StatefulWidget {
 
 class _CardBankBuyState extends State<CardBankBuy> {
   List<CardBankBuyDetails> list = <CardBankBuyDetails>[];
+  bool isEmpty = true;
   @override
   void initState() {
     // TODO: traer informacion de bancos
     widget.viewModel.status.banks.asMap().forEach((index, bank) {
-      //print(
-      //    '${bank.description} posicion ${widget.viewModel.status.item!.advertisementPayAccount![0].accountNumber}');
+      if (bank.description.isNotEmpty) {
+        isEmpty = false;
+      }
+      // print('**** $index  &&&& ${bank.description}');
+      // print(
+      //     '${bank.description} posicion ${widget.viewModel.status.listAccountTypes.isEmpty}');
 
       list.add(
         CardBankBuyDetails(
@@ -38,6 +43,9 @@ class _CardBankBuyState extends State<CardBankBuy> {
               .advertisementPayAccount![index].titularUserName,
           documentNumber: widget.viewModel.status.item!
               .advertisementPayAccount![index].documentNumber,
+          acountType: widget.viewModel.status.listAccountTypes.isEmpty
+              ? ''
+              : widget.viewModel.status.listAccountTypes[index].description,
         ),
       );
     });
@@ -49,31 +57,31 @@ class _CardBankBuyState extends State<CardBankBuy> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return list.isEmpty
-        ? const SizedBox()
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                widget.isBuy
-                    ? 'Entidades donde puedes pagar'
-                    : 'Entidades donde recibirás el pago',
-                style: textTheme.textBlack.copyWith(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  // color: LdColors.green.withOp÷acity(0.08),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Column(
-                  children: list,
-                ),
-              ),
-            ],
-          );
+    return Column(
+      children: <Widget>[
+        if (isEmpty)
+          const Text('')
+        else
+          Text(
+            widget.isBuy
+                ? 'Entidades donde puedes pagar'
+                : 'Entidades donde recibirás el pago',
+            style: textTheme.textBlack.copyWith(fontSize: 18),
+          ),
+        const SizedBox(
+          height: 32,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            // color: LdColors.green.withOp÷acity(0.08),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            children: list,
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -86,7 +94,8 @@ class CardBankBuyDetails extends StatefulWidget {
       required this.docType,
       required this.accountNumber,
       required this.userName,
-      required this.documentNumber})
+      required this.documentNumber,
+      required this.acountType})
       : super(key: key);
 
   final dynamic item;
@@ -96,6 +105,7 @@ class CardBankBuyDetails extends StatefulWidget {
   final String accountNumber;
   final String userName;
   final String documentNumber;
+  final String acountType;
 
   @override
   State<CardBankBuyDetails> createState() => _CardBankBuyDetailsState();
@@ -204,7 +214,7 @@ class _CardBankBuyDetailsState extends State<CardBankBuyDetails> {
                     width: 143,
                   ),
                   Text(
-                    'Ahorros',
+                    widget.acountType,
                     style: textTheme.textBlack
                         .copyWith(fontSize: 16, fontWeight: FontWeight.w500),
                   ),

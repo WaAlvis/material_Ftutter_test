@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
+import 'package:localdaily/pages/home/home_status.dart';
+import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
+import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/home/extra_filters.dart';
+import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -93,13 +99,21 @@ class LdRouter {
   }
 
   void goDetailHistoryOperation(
-      BuildContext context, DataUserAdvertisement item) {
+    BuildContext context,
+    DataUserAdvertisement item,
+    // {
+    // required bool isBuying,
+    // }
+  ) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,
       transition: TransitionType.none,
       routeSettings: RouteSettings(
-        arguments: <String, DataUserAdvertisement>{'item': item},
+        arguments: <String, dynamic>{
+          'item': item,
+          // 'isBuying': isBuying
+        },
       ),
     );
   }
@@ -193,6 +207,20 @@ class LdRouter {
     );
   }
 
+  void goFilters(
+    BuildContext context,
+    FiltersArguments filtersArguments,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.filters.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, FiltersArguments>{'extraFilters': filtersArguments},
+      ),
+    );
+  }
+
   void goInfoView(BuildContext context, InfoViewArguments arguments) {
     AppRouter.router.navigateTo(
       context,
@@ -241,7 +269,7 @@ class LdRouter {
 
   void goAttachedFile(
     BuildContext context,
-    // bool isOper,
+    String isOper,
     String offerIdFile,
     String extensionFile,
     String isView,
@@ -251,7 +279,7 @@ class LdRouter {
       AppRoutes.attachedFileRoute.route,
       routeSettings: RouteSettings(
         arguments: <String, String>{
-          // 'type': isOper,
+          'type': isOper,
           'offerId': offerIdFile,
           'extensionFile': extensionFile,
           'isView': isView,

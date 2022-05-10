@@ -143,7 +143,7 @@ class CardDetailPay extends StatelessWidget {
                 colorButton: LdColors.white,
                 colorTextBorder: _color,
                 onPressed: () {
-                  viewModel.goAttachedFile(context, isOper, '1');
+                  viewModel.goAttachedFile(context, viewModel.isOper, '1');
                 },
               ),
             const SizedBox(
@@ -161,7 +161,8 @@ class CardDetailPay extends StatelessWidget {
                   colorText: LdColors.white,
                   onPressed: isBuy
                       ? () {
-                          viewModel.goAttachedFile(context, isOper, '');
+                          viewModel.goAttachedFile(
+                              context, viewModel.isOper, '');
                         }
                       : () {}, //confirmar pago,
                 )
@@ -189,7 +190,8 @@ class CardDetailPay extends StatelessWidget {
                   colorText: LdColors.white,
                   onPressed: isBuy
                       ? () {
-                          viewModel.goAttachedFile(context, isOper, '');
+                          viewModel.goAttachedFile(
+                              context, viewModel.isOper, '');
                         }
                       : () {
                           viewModel.getDialogConfirmPay(context, viewModel);

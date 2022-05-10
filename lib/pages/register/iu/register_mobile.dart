@@ -107,7 +107,7 @@ class RegisterMobile extends StatelessWidget {
                         step: 2,
                         title: 'Crear mi cuenta',
                         description:
-                            'Para continuar ingresa tu correo electronico.',
+                            'Para continuar ingresa tu correo electrónico.',
                         heightAppbar: hAppbar,
                       )
                     else if (viewModel.status.registerStep ==
@@ -159,6 +159,7 @@ class RegisterMobile extends StatelessWidget {
                 viewModel: viewModel,
                 heightBody: hBody,
                 codePinCtrl: codePinCtrl,
+                keyForm: keyForm,
               )
             else if (viewModel.status.registerStep ==
                 RegisterStep.accountDataStep_4)
@@ -180,7 +181,6 @@ class RegisterMobile extends StatelessWidget {
                 phoneCtrl: phoneCtrl,
                 dataUserProvider: dataUserProvider,
               )
-            
           ],
         ),
       ),
