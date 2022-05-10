@@ -13,6 +13,7 @@ class ResultDataUser {
     required this.secondLastName,
     required this.dateBirth,
     required this.email,
+    required this.indicative,
     required this.phone,
     required this.userTypeId,
     required this.password,
@@ -31,6 +32,7 @@ class ResultDataUser {
   String secondLastName;
   String dateBirth;
   String email;
+  int indicative;
   String phone;
   String userTypeId;
   String password;

@@ -412,7 +412,8 @@ class RegisterViewModel
       secondLastName: '',
       dateBirth: status.dateBirth,
       email: status.emailRegister,
-      phone: '${status.indicativePhone}$phone',
+      indicative: int.parse(status.indicativePhone.replaceFirst('+', '')),
+      phone: phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: sha256passWord,
       isActive: true,
@@ -461,6 +462,17 @@ class RegisterViewModel
         isLoading: false,
       );
     });
+  }
+
+  void goSuccessRegister(BuildContext context) {
+    final InfoViewArguments info = InfoViewArguments(
+      actionCaption: 'Ingresar',
+      title: '¡Felciitaciones!',
+      colorTitle: LdColors.white,
+      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
+      onAction: () => _route.goHome(context),
+    );
+    _route.goInfoView(context, info);
   }
 
   Digest encryptionPass(String pass) {
@@ -554,7 +566,7 @@ class RegisterViewModel
   }
 
   String? validateBirthday(String? value) {
-    if (value == ''|| value == null) {
+    if (value == '' || value == null) {
       return '* Tu fecha de nacimiento es necesaria';
     }
     return null;
@@ -580,17 +592,6 @@ class RegisterViewModel
         hasSpecialCharacters &
         hasLowercase &
         hasDigits;
-  }
-
-  void goSuccessRegister(BuildContext context) {
-    final InfoViewArguments info = InfoViewArguments(
-      actionCaption: 'Ingresar',
-      title: '¡Felciitaciones!',
-      colorTitle: LdColors.white,
-      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
-      onAction: () => _route.goHome(context),
-    );
-    _route.goInfoView(context, info);
   }
 
 // Future<void> openEmail(BuildContext context) async {
