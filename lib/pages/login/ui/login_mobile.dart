@@ -89,8 +89,8 @@ class _LoginMobile extends StatelessWidget {
                               height: 30,
                             ),
                             InputTextCustom(
-                              'Correo electronio *',
-                              hintText: 'Ingresa correo del usuario',
+                              'Correo electrónico *',
+                              hintText: 'Ingresa el correo',
                               controller: userCtrl,
                               onChange: (String value) =>
                                   viewModel.changeEmail(value),

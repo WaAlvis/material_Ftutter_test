@@ -26,8 +26,7 @@ class Step1EmailRegister extends StatelessWidget {
     // final RegisterViewModel viewModel = context.watch<RegisterViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    final Size size = MediaQuery.of(context).size;
-    bool? checkboxIconFormFieldValue = false;
+    // final Size size = MediaQuery.of(context).size;
 
     return Flexible(
       child: Padding(
@@ -37,7 +36,7 @@ class Step1EmailRegister extends StatelessWidget {
           child: Column(
             children: <Widget>[
               InputTextCustom(
-                'Correo electronico',
+                'Correo electrónico',
                 hintText: 'ejemplo@correo.com',
                 controller: emailCtrl,
                 onChange: (String value) => viewModel.changeEmail(value),
@@ -46,7 +45,7 @@ class Step1EmailRegister extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.deny(
-                    RegExp(r'[ ]'),
+                    RegExp('[ ]'),
                   ),
                 ],
                 validator: (String? email) =>
@@ -106,15 +105,13 @@ class CheckboxTyC extends StatelessWidget {
           TextSpan(
             text: 'Terminos y Condiciones',
             style: const TextStyle(color: LdColors.orangePrimary),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => print('Terms of Service"'),
+            recognizer: TapGestureRecognizer(),
           ),
           const TextSpan(text: ' del servicio y los '),
           TextSpan(
             text: 'Términos de uso',
             style: const TextStyle(color: LdColors.orangePrimary),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => print('Privacy Policy"'),
+            recognizer: TapGestureRecognizer(),
           ),
           const TextSpan(text: ' de la aplicacón'),
         ],
@@ -128,7 +125,6 @@ class CheckboxFormField extends FormField<bool> {
     required Widget title,
     FormFieldValidator<bool>? validator,
     bool initialValue = false,
-    bool autovalidate = false,
   }) : super(
           validator: validator,
           initialValue: initialValue,

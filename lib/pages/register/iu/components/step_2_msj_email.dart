@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 
 class Step2MsjEmail extends StatelessWidget {
@@ -27,7 +28,7 @@ class Step2MsjEmail extends StatelessWidget {
         color: LdColors.blackBackground,
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
-          children: [
+          children: <Widget>[
             Positioned(
               right: 0,
               child: SizedBox(
@@ -95,17 +96,23 @@ class Step2MsjEmail extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  TextButton(
+                  PrimaryButtonCustom(
+                    'Continuar',
                     onPressed: () => viewModel.continueStep_3ValidatePin(),
-                    child: Text(
-                      'Continuar',
-                      style: textTheme.textSmallWhite.copyWith(
-                          decoration: TextDecoration.underline,
-                          color: LdColors.white,
-                      ),
-                    ),
                   ),
-                  const SizedBox(height:20,),
+                  // TextButton(
+                  //   onPressed: () => viewModel.continueStep_3ValidatePin(),
+                  //   child: Text(
+                  //     'Continuar',
+                  //     style: textTheme.textSmallWhite.copyWith(
+                  //       decoration: TextDecoration.underline,
+                  //       color: LdColors.white,
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),
@@ -114,5 +121,4 @@ class Step2MsjEmail extends StatelessWidget {
       ),
     );
   }
-
 }

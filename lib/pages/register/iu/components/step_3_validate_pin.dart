@@ -12,9 +12,10 @@ class Step3ValidatePin extends StatelessWidget {
     required this.viewModel,
     required this.codePinCtrl,
     required this.heightBody,
-    //required this.textTheme,
+    required this.keyForm,
     Key? key,
   }) : super(key: key);
+  final GlobalKey<FormState> keyForm;
   final RegisterViewModel viewModel;
   final double heightBody;
   final TextEditingController codePinCtrl;
@@ -34,126 +35,137 @@ class Step3ValidatePin extends StatelessWidget {
           color: LdColors.white,
           constraints: BoxConstraints(minHeight: heightBody),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+          child: Form(
+            key: keyForm,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
                 const SizedBox(
                   height: 30,
                 ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 26,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      'Ingresa el codigo de verificacion enviado a:',
-                      style: textTheme.textBlack,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      viewModel.status.emailRegister,
-                      style: textTheme.textBlack
-                          .copyWith(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    PinCodeWidget(
-                      viewModel,
-                      codePinCtrl: codePinCtrl,
-                    ),
-                    const SizedBox(
-                      height: 90,
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final OpenMailAppResult result =
-                            await OpenMailApp.openMailApp();
-
-                        if (!result.didOpen && !result.canOpen) {
-                          showNoMailAppsDialog(context);
-                        } else if (!result.didOpen && result.canOpen) {
-                          showDialog(
-                            context: context,
-                            builder: (_) {
-                              return MailAppPickerDialog(
-                                mailApps: result.options,
-                              );
-                            },
-                          );
-                        }
-                      },
-                      child: Text(
-                        'Abrir correo',
-                        style: textTheme.textSmallWhite.copyWith(
-                            decoration: TextDecoration.underline,
-                            color: LdColors.gray,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 26,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 30,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '¿Deseas ',
-                          style:
-                              textTheme.textSmallWhite.copyWith(fontSize: 12),
+                      Text(
+                        'Ingresa el codigo de verificacion enviado a:',
+                        style: textTheme.textBlack,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 30),
+                      Text(
+                        viewModel.status.emailRegister,
+                        style: textTheme.textBlack
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      PinCodeWidget(
+                        viewModel,
+                        codePinCtrl: codePinCtrl,
+                        validator: (String? str) =>
+                            viewModel.validatorNotEmptyPin(str),
+                      ),
+                      const SizedBox(
+                        height: 90,
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final OpenMailAppResult result =
+                              await OpenMailApp.openMailApp();
+
+                          if (!result.didOpen && !result.canOpen) {
+                            showNoMailAppsDialog(context);
+                          } else if (!result.didOpen && result.canOpen) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MailAppPickerDialog(
+                                  mailApps: result.options,
+                                );
+                              },
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Abrir correo',
+                          style: textTheme.textSmallWhite.copyWith(
+                            decoration: TextDecoration.underline,
+                            color: LdColors.gray,
+                          ),
                         ),
-                        InkWell(
-                          child: Text(
-                            'Reenviar',
-                            style: textTheme.textSmallWhite.copyWith(
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            '¿Deseas ',
+                            style:
+                                textTheme.textSmallWhite.copyWith(fontSize: 12),
+                          ),
+                          InkWell(
+                            child: Text(
+                              'Reenviar',
+                              style: textTheme.textSmallWhite.copyWith(
                                 decoration: TextDecoration.underline,
                                 color: LdColors.orangePrimary,
-                                fontSize: 11,),
-                          ),
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text('Codigo Reenviado!'),
-                                action: SnackBarAction(
-                                  label: 'OK',
-                                  onPressed: () {
-                                    // Code to execute.
-                                  },
-                                ),
+                                fontSize: 11,
                               ),
-                            );
-                            viewModel.reSendPinToEmail(
-                                viewModel.status.emailRegister,);
-                          },
-                        ),
-                        Text(
-                          ' el codigo?',
-                          style:
-                              textTheme.textSmallWhite.copyWith(fontSize: 12),
-                        )
-                      ],
-                    ),
-                  ],
+                            ),
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text('Codigo Reenviado!'),
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    onPressed: () {
+                                      // Code to execute.
+                                    },
+                                  ),
+                                ),
+                              );
+                              viewModel.reSendPinToEmail(
+                                viewModel.status.emailRegister,
+                              );
+                            },
+                          ),
+                          Text(
+                            ' el codigo?',
+                            style:
+                                textTheme.textSmallWhite.copyWith(fontSize: 12),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              PrimaryButtonCustom(
-                'Validar',
-                onPressed: () =>
-                    viewModel.continueStep_4AccountData(codePinCtrl.text),
-              ),
-              const SizedBox(height: 10),
-              PrimaryButtonCustom(
-                'Continuar sin validar',
-                onPressed: () => viewModel.goNextStep(
-                  currentStep: RegisterStep.validatePinStep_3,
+                const SizedBox(height: 50),
+                PrimaryButtonCustom(
+                  'Validar',
+                  onPressed: () {
+                    if (keyForm.currentState!.validate()) {
+                      viewModel.continueStep_4AccountData(codePinCtrl.text);
+                    }
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(height: 10),
+                PrimaryButtonCustom(
+                  'Continuar sin validar',
+                  onPressed: () => viewModel.goNextStep(
+                    currentStep: RegisterStep.validatePinStep_3,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -190,19 +202,26 @@ class PinCodeWidget extends StatelessWidget {
     this.viewModel, {
     Key? key,
     required this.codePinCtrl,
+    required this.validator,
   }) : super(key: key);
   final RegisterViewModel viewModel;
   final TextEditingController codePinCtrl;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
       controller: codePinCtrl,
+      validator: validator,
       length: 6,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       // obscureText: false,
       animationType: AnimationType.fade,
       keyboardType: TextInputType.number,
+      errorAnimationDuration: 10,
+      errorTextSpace: 30,
       pinTheme: PinTheme(
+
         selectedColor: LdColors.orangePrimary,
         activeColor: viewModel.status.isErrorPinValidate
             ? LdColors.orangeWarning

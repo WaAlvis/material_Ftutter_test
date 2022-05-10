@@ -86,6 +86,7 @@ class _OfferSaleMobile extends StatelessWidget {
                         ),
                         InputTextCustom(
                           'Valor de los DLYCOP*',
+                          counterText: 'Min: 0.1, Max: 9.9',
                           onChange: (_) => viewModel.calculateTotalMoney(
                             marginCtrl.text,
                             amountDLYCtrl.text,
@@ -109,16 +110,10 @@ class _OfferSaleMobile extends StatelessWidget {
                             fontSize: 18,
                           ),
                           inputFormatters: <TextInputFormatter>[
-                            //NumericalRangeFormatter(max: 3, min: 0),
                             FilteringTextInputFormatter.allow(
                               RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                             ),
-                            DecimalTextInputFormatter(decimalRange: 2),
-                            TextNumberLimitFormatter(1, 2)
-                            /* FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d+\.?\d{0,2}'),
-                            ), */
-                            // FilteringTextInputFormatter.deny(RegExp(r'[ -]')),
+                            DecimalTextInputFormatter(decimalRange: 1),
                           ],
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,

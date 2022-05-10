@@ -54,16 +54,19 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    _operationType(
-                        textTheme, dataUserProvider, styleGrayText, isBuying),
+                    _operationType(textTheme, viewModel, dataUserProvider,
+                        styleGrayText, isBuying),
                     RowInfoPartner(
                       textTheme,
+                      viewModel,
                       styleGrayText,
                       isBuying: isBuying,
                       item: item,
-                      onPressed: () => viewModel.goProfileSeller(context,
-                          idUserPublish: item.advertisement.idUserPublish,
-                          nickName: item.user.nickName,
+                      onPressed: () => viewModel.goProfileSeller(
+                        context,
+                        idUserPublish: item.advertisement
+                            .advertisementUserInteraction!.first.idUser,
+                        nickName: viewModel.status.userBuyer!.nickName,
                       ),
                     ),
                     _rowAmount(
@@ -76,7 +79,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                     const SizedBox(
                       height: 24,
                     ),
-                    _relationMargin(textTheme, styleGrayText),
+                    _relationMargin(textTheme, viewModel, styleGrayText),
                     const SizedBox(
                       height: 24,
                     ),
@@ -107,6 +110,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
 
   Column _operationType(
     TextTheme textTheme,
+    DetailHistoryOperationViewModel viewModel,
     DataUserProvider dataUserProvider,
     TextStyle styleGrayText,
     bool isBuying,
@@ -163,7 +167,8 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     );
   }
 
-  Column _relationMargin(TextTheme textTheme, TextStyle styleGrayText) {
+  Column _relationMargin(TextTheme textTheme,
+      DetailHistoryOperationViewModel viewModel, TextStyle styleGrayText) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -205,7 +210,10 @@ class DetailHistoryOperationMobile extends StatelessWidget {
         ),
         if (amountIn == _TypeMoney.cop)
           Text(
-            '= ${viewModel.calculateCopTotal(item)} COP',
+            '= ${viewModel.calculateCopTotal(
+              margin: item.advertisement.margin,
+              valueToSell: item.advertisement.valueToSell,
+            )} COP',
             style: styleBlackAmount,
           )
         else
@@ -236,6 +244,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
 class RowInfoPartner extends StatelessWidget {
   const RowInfoPartner(
     this.textTheme,
+    this.viewModel,
     this.styleGrayText, {
     Key? key,
     required this.isBuying,
@@ -243,6 +252,7 @@ class RowInfoPartner extends StatelessWidget {
     this.onPressed,
   }) : super(key: key);
   final TextStyle styleGrayText;
+  final DetailHistoryOperationViewModel viewModel;
   final TextTheme textTheme;
   final DataUserAdvertisement item;
   final void Function()? onPressed;
@@ -281,11 +291,21 @@ class RowInfoPartner extends StatelessWidget {
                         child: FittedBox(
                           alignment: Alignment.centerLeft,
                           fit: BoxFit.scaleDown,
-                          child: Text(
-                            //TODO obtener el usaurio para las ventas e ir a ver su perfil
-                            item.user.nickName,
-                            textAlign: TextAlign.left,
-                          ),
+                          child: viewModel.status.userBuyer != null
+                              ? Text(
+                                  viewModel.status.userBuyer!.nickName,
+                                  textAlign: TextAlign.left,
+                                )
+                              : Shimmer.fromColors(
+                                  baseColor: LdColors.whiteDark,
+                                  highlightColor: LdColors.grayButton,
+                                  child: const Card(
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: 100,
+                                    ),
+                                  ),
+                                ),
                         ),
                       ),
                     ],

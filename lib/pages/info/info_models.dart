@@ -14,6 +14,7 @@ List<String> imageList = <String>[
 class InfoViewArguments {
   final String? pageTitle;
   final String? title;
+  final Color? colorTitle;
   final String description;
   final ImageType imageType;
   final Widget customWidget;
@@ -23,6 +24,7 @@ class InfoViewArguments {
 
   const InfoViewArguments({
     this.title,
+    this.colorTitle,
     required this.description,
     this.imageType = ImageType.success,
     this.pageTitle,

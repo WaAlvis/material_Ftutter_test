@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:localdaily/services/models/history_operations_user/response/advertisement_user_interaction.dart';
 import 'package:localdaily/services/models/pagination.dart';
 
 part 'advertisement.g.dart';
@@ -21,6 +22,7 @@ class Advertisement {
     required this.creationDate,
     required this.advertisementPayAccount,
     required this.advertisementDocuments,
+    required this. advertisementUserInteraction,
   });
 
   factory Advertisement.fromJson(Map<String, dynamic> json) =>
@@ -40,6 +42,7 @@ class Advertisement {
   int creationDate;
   List<dynamic>? advertisementPayAccount;
   List<dynamic>? advertisementDocuments;
+  List<AdvertisementUserInteraction>? advertisementUserInteraction;
 
   Map<String, dynamic> toJson() => _$AdvertisementToJson(this);
 }

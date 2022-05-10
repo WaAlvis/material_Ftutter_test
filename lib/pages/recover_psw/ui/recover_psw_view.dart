@@ -31,7 +31,7 @@ class RecoverPswView extends StatelessWidget {
     return ChangeNotifierProvider<RecoverPswViewModel>(
       create: (_) => RecoverPswViewModel(),
       builder: (BuildContext context, _) {
-        return _RecoverPswBody();
+        return const _RecoverPswBody();
       },
     );
   }

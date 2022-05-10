@@ -111,7 +111,6 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultPinEmail> response =
         await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
-    print(response.statusCode);
     return response;
   }
 

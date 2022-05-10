@@ -179,6 +179,11 @@ class ListOperationDay extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
+                  onTap: () => viewModel.goDetailHistoryOperation(
+                    context,
+                    item: dayOperations[index],
+                    // isBuying: isBuying,
+                  ),
                   borderRadius: BorderRadius.circular(20),
                   highlightColor: dayOperations[index]
                           .advertisement
@@ -193,8 +198,6 @@ class ListOperationDay extends StatelessWidget {
                       ? orangeSlash.withOpacity(0.2)
                       : greenSplash.withOpacity(0.2),
                   focusColor: LdColors.orangePrimary.withOpacity(0.4),
-                  onTap: () => viewModel.goDetailHistoryOperation(context,
-                      item: dayOperations[index]),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
