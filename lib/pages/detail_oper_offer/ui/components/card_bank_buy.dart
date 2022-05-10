@@ -23,21 +23,22 @@ class _CardBankBuyState extends State<CardBankBuy> {
   void initState() {
     // TODO: traer informacion de bancos
     widget.viewModel.status.banks.asMap().forEach((index, bank) {
-      print(
-          '${bank.description} posicion ${widget.viewModel.status.item!.advertisementPayAccount![0].accountNumber}');
+      //print(
+      //    '${bank.description} posicion ${widget.viewModel.status.item!.advertisementPayAccount![0].accountNumber}');
 
       list.add(
         CardBankBuyDetails(
-            item: widget.viewModel.status.item,
-            state: widget.state,
-            bank: bank.description,
-            docType: widget.viewModel.status.docsType![index].description,
-            accountNumber: widget.viewModel.status.item!
-                .advertisementPayAccount![index].accountNumber,
-            userName: widget.viewModel.status.item!
-                .advertisementPayAccount![index].titularUserName,
-            documentNumber: widget.viewModel.status.item!
-                .advertisementPayAccount![index].documentNumber),
+          item: widget.viewModel.status.item,
+          state: widget.state,
+          bank: bank.description,
+          docType: widget.viewModel.status.docsType![index].description,
+          accountNumber: widget.viewModel.status.item!
+              .advertisementPayAccount![index].accountNumber,
+          userName: widget.viewModel.status.item!
+              .advertisementPayAccount![index].titularUserName,
+          documentNumber: widget.viewModel.status.item!
+              .advertisementPayAccount![index].documentNumber,
+        ),
       );
     });
 
@@ -48,28 +49,31 @@ class _CardBankBuyState extends State<CardBankBuy> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return Column(
-      children: <Widget>[
-        Text(
-          widget.isBuy
-              ? 'Entidades donde puedes pagar'
-              : 'Entidades donde recibirás el pago',
-          style: textTheme.textBlack.copyWith(fontSize: 18),
-        ),
-        const SizedBox(
-          height: 32,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            // color: LdColors.green.withOp÷acity(0.08),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Column(
-            children: list,
-          ),
-        ),
-      ],
-    );
+    return list.isEmpty
+        ? const SizedBox()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                widget.isBuy
+                    ? 'Entidades donde puedes pagar'
+                    : 'Entidades donde recibirás el pago',
+                style: textTheme.textBlack.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  // color: LdColors.green.withOp÷acity(0.08),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Column(
+                  children: list,
+                ),
+              ),
+            ],
+          );
   }
 }
 

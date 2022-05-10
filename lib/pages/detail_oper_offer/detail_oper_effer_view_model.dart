@@ -281,7 +281,7 @@ class DetailOperOfferViewModel
     closeDialog(context);
     status = status.copyWith(isLoading: true);
 
-    ConfirmPayment body = ConfirmPayment(
+    final ConfirmPayment body = ConfirmPayment(
       idAvertisement: offerId,
       addressDestiny: '',
       value: '2',
@@ -406,5 +406,22 @@ class DetailOperOfferViewModel
     final int difference = date2.difference(date).inHours;
     status = status.copyWith(dateHours: difference);
     // print('$difference   horas pasada al header ${status.dateHours}');
+  }
+
+  void goContactSupport(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
+      if (isConnectionValid) {
+        _router.goContactSupport(
+          context,
+          status.item?.id ?? '',
+          status.item?.reference ?? 0,
+          isBuy: status.isBuy,
+        );
+      } else {
+        addEffect(ShowSnackConnetivityEffect('Sin conexión a internet'));
+      }
+    });
   }
 }

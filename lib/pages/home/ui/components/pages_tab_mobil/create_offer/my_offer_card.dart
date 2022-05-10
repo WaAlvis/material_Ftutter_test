@@ -47,6 +47,9 @@ class MyOfferCard extends StatelessWidget {
                 code: '# ${item.advertisement.reference}',
                 state: int.parse(item.advertisement.idStatus),
                 textTheme: textTheme,
+                hasDocuments:
+                    item.advertisement.advertisementDocuments != null &&
+                        item.advertisement.advertisementDocuments!.isNotEmpty,
               ),
               const Padding(
                 padding: EdgeInsets.zero,

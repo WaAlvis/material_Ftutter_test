@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -25,6 +26,8 @@ import 'package:localdaily/services/models/info_user_publish/response/result_inf
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -85,16 +88,20 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
+      BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
     final ResponseData<ResultHistoryOperationsUser> response =
-        await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
+        await locator<LocalDailyGatewayService>()
+            .getHistoryOperationsUser(bodyHistoryOperationsUser);
 
     return response;
   }
 
-  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(BodyInfoUserPublish bodyInfoUserPublish) async {
+  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(
+      BodyInfoUserPublish bodyInfoUserPublish) async {
     final ResponseData<ResultInfoUserPublish> response =
-        await locator<LocalDailyGatewayService>().getInfoUserPublish(bodyInfoUserPublish);
+        await locator<LocalDailyGatewayService>()
+            .getInfoUserPublish(bodyInfoUserPublish);
 
     return response;
   }
@@ -229,6 +236,24 @@ class ServiceInteractor {
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().addRateUser(body);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> createContactSupport(
+    BodyContactSupport body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().createSupportCase(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultNotification>> getNotifications(
+    BodyNotifications body,
+  ) async {
+    final ResponseData<ResultNotification> response =
+        await locator<LocalDailyGatewayService>().getNotifications(body);
 
     return response;
   }

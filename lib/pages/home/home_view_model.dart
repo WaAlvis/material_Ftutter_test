@@ -347,7 +347,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
     // Construcción del body para la consulta
     final Pagination pagination = Pagination(
-      isPaginable: false,
+      isPaginable: true,
       currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
@@ -459,9 +459,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
-    print('////');
-    print(pagination.toJson());
-    print('////');
     final Filters filters = Filters(
       typeAdvertisement: status.typeOffer == TypeOffer.buy
           ? '${TypeOffer.sell.index}'

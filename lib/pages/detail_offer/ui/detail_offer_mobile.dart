@@ -146,7 +146,7 @@ class _DetailOfferMobile extends StatelessWidget {
                                     height: 8,
                                   ),
                                   Text(
-                                    'Esta informacion solo se mostrar al usuario que confirme la compra de tus Dailys y servirá para que pueda hacer el pago correspondiente.',
+                                    'Esta información solo se mostrará al usuario que confirme la compra de tus Dailys y servirá para que puedan hacer el pago correspondiente.',
                                     style: textTheme.textGray
                                         .copyWith(fontSize: 14),
                                   ),
@@ -602,7 +602,7 @@ void confirmBottomSheet(
               ),
             ),
             PrimaryButtonCustom(
-              'Confirmar la ${isBuy ? 'compra' : 'venta'}',
+              'Confirmar la ${isBuy ? 'venta' : 'compra'}',
               //onPressed: viewModel.onClickReserveDly,
               onPressed: () => viewModel.onClicConfirmkReserveDly(
                 context,

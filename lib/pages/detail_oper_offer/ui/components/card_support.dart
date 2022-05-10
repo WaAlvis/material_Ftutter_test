@@ -5,8 +5,9 @@ class CardSupport extends StatelessWidget {
   final TextTheme textTheme;
   @override
   Widget build(BuildContext context) {
+    final DetailOperOfferViewModel viewModel =
+        context.read<DetailOperOfferViewModel>();
     return Container(
-      // padding: const EdgeInsets.only(bottom: 53),
       decoration: BoxDecoration(
         color: LdColors.grayText.withOpacity(0.08),
         borderRadius: BorderRadius.circular(24),
@@ -30,6 +31,7 @@ class CardSupport extends StatelessWidget {
                 ),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         '¿Tienes inquietudes con esta operación?',
@@ -42,13 +44,16 @@ class CardSupport extends StatelessWidget {
                         height: 12,
                       ),
                       GestureDetector(
-                        onTap: () {}, //Abrir perfil del comprador
+                        onTap: () => viewModel.goContactSupport(
+                          context,
+                        ), //Abrir perfil del comprador
                         child: Text(
                           'Contacta a soporte',
                           style: textTheme.bodyMedium?.copyWith(
-                              fontSize: 18,
-                              decoration: TextDecoration.underline,
-                              color: LdColors.orangePrimary),
+                            fontSize: 18,
+                            decoration: TextDecoration.underline,
+                            color: LdColors.orangePrimary,
+                          ),
                         ),
                       )
                     ],
