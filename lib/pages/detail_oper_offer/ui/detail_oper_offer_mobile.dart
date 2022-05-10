@@ -141,12 +141,13 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 40,
                             ),
-                            CardBankBuy(
-                              textTheme: textTheme,
-                              isBuy: viewModel.status.isBuy,
-                              state: estado,
-                              viewModel: viewModel,
-                            ),
+                            if (viewModel.status.item != null)
+                              CardBankBuy(
+                                textTheme: textTheme,
+                                isBuy: viewModel.status.isBuy,
+                                state: estado,
+                                viewModel: viewModel,
+                              ),
                             const SizedBox(
                               height: 56,
                             ),

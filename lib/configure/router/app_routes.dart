@@ -181,6 +181,7 @@ class AppRoutes {
             as Map<String, String>)['extensionFile']!,
         isView:
             (context.settings!.arguments! as Map<String, String>)['isView']!,
+        isOper: (context.settings!.arguments! as Map<String, String>)['type']!,
       ),
     ),
   );

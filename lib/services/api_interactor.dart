@@ -189,10 +189,10 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<bool>> confirmPayment(
+  Future<ResponseData<dynamic>> confirmPayment(
     ConfirmPayment body,
   ) async {
-    final ResponseData<bool> response =
+    final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().confirmPayment(body);
 
     return response;

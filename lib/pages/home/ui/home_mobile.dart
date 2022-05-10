@@ -191,10 +191,9 @@ class OptionsFilterRow extends StatelessWidget {
           const Icon(Icons.filter_alt_outlined),
           GestureDetector(
             onTap: () {
-              print('Ir a filtros');
               viewModel.goFiltres(
                 context,
-                viewModel.status.filtersArguments!,
+                // viewModel.status.filtersArguments!,
               );
             },
             child: Text(

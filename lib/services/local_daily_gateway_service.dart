@@ -189,7 +189,7 @@ abstract class LocalDailyGatewayService {
   );
 
   @POST(UrlsApi.releaseToken)
-  Future<ResponseData<bool>> confirmPayment(
+  Future<ResponseData<dynamic>> confirmPayment(
     @Body() ConfirmPayment body,
   );
 

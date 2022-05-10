@@ -23,7 +23,7 @@ class AttachedFileViewModel
   late ServiceInteractor _interactor;
   late String item;
   late bool isBuy;
-  late bool isOper;
+  late String isOper;
   final String offerId;
   final String extensionFile;
   final String isView2;
@@ -44,7 +44,7 @@ class AttachedFileViewModel
       item: item,
       dateOfExpire: '',
       isBuy: isBuy,
-      isOper: isOper,
+      // isOper: isOper,
       userId: '',
       offerId: offerId,
       extensionFile: extensionFile,
@@ -106,8 +106,7 @@ class AttachedFileViewModel
         status = status.copyWith(isLoading: false);
         closeDialog(context);
         closeDialog(context);
-        _router.goDetailOperOffer(
-            context, AdvertisementId, isOper ? 'Operacion' : 'Oferta',
+        _router.goDetailOperOffer(context, AdvertisementId, isOper,
             replace: true);
 
         if (response.isSuccess) {

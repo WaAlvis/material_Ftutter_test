@@ -8,6 +8,7 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/filters/filters_effect.dart';
 import 'package:localdaily/pages/filters/filters_status.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/bank.dart';
@@ -54,7 +55,6 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
           final ResultGetBanks? _resultGetBanks = response.result;
           status = status.copyWith(resultGetBanks: _resultGetBanks);
         });
-        print('Lista de bancos ${status.resultGetBanks.data[0].description}');
       } catch (e) {
         print('$e');
       }
@@ -66,7 +66,7 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
   void getDialogBanks(BuildContext context) {
     final GlobalKey<FormBuilderState> _formKeyBanks =
         GlobalKey<FormBuilderState>();
-
+    print('Lista de bancos ${status.banks}');
     final Widget customWidget = FormBuilderCheckboxGroup(
       key: _formKeyBanks,
       name: 'listBanks',
@@ -82,8 +82,12 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
       options: status.resultGetBanks.data
           .map(
             (data) => FormBuilderFieldOption(
-              child: Text(data.description),
-              value: data.id,
+              child: Row(
+                children: [
+                  Text(data.description),
+                ],
+              ),
+              value: data.description,
             ),
           )
           .toList(growable: false),
@@ -144,22 +148,22 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
     return '[$resp]';
   }
 
-  void setRange(int index) {
+  void setRange(int? index) {
     status = status.copyWith(range: index);
     print(status.range);
     print(index);
   }
 
-  void setStatus(int index) {
+  void setStatus(int? index) {
     status = status.copyWith(status: index);
     print(status.status);
     print(index);
   }
 
-  void setDateExpiry(int index) {
+  void setDateExpiry(int? index) {
     status = status.copyWith(dateExpiry: index);
     print(status.dateExpiry);
-    print(index);
+    print('$index index');
   }
 
   void setRangeSlider(RangeValues rangeValues) {
@@ -174,5 +178,52 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
 
   void closeDialog(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  void setFilters(FiltersArguments filtersArguments) {
+    String? listBank = filtersArguments.extraFilters?.bank;
+    // print('${json.decode(listBank!)} listbank');
+    listBank = listBank?.replaceAll('[', '');
+    listBank = listBank?.replaceAll(']', '');
+    List<String> stringList = [];
+    if (listBank != null && listBank != '') {
+// jsonDecode(listBank) as List<String>.cast<String>();
+      stringList = listBank.split(',');
+      print(stringList);
+    }
+    status = status.copyWith(
+      range: filtersArguments.extraFilters?.range,
+      dateExpiry: filtersArguments.extraFilters?.dateExpiry,
+      status: filtersArguments.extraFilters?.status,
+      banks: stringList,
+    );
+  }
+
+  void clearFilters() {
+    status = status.copyWith(range: -1, dateExpiry: -1, status: -1, banks: []);
+    print(status.range);
+  }
+
+  List<String> setBankApi(String banks) {
+    List<String> stringList = [];
+    Bank banklists;
+    List<String> stringList2 = [];
+    String? listBank = banks;
+    listBank = listBank.replaceAll('[', '');
+    listBank = listBank.replaceAll(']', '');
+    stringList = listBank.split(',');
+    // // print('${json.decode(listBank!)} listbank');
+    // stringList.map((bank) => null);
+    try {
+      stringList.forEach((bank) {
+        banklists = status.resultGetBanks.data
+            .firstWhere((bankResult) => bankResult.description == bank);
+        stringList2.add(banklists.id);
+      });
+    } catch (e) {
+      print('$e setBankApi');
+    }
+
+    return stringList2;
   }
 }

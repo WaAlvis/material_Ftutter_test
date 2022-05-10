@@ -47,7 +47,7 @@ class ListOffersMainSwitch extends StatelessWidget {
           children: <Widget>[
             OptionsFilterRow(
               textTheme: textTheme,
-              quantityFilter: 2,
+              quantityFilter: viewModel.countFilters(),
             ),
             const Divider(
               height: 8,

@@ -12,7 +12,7 @@ class AttachedFileStatus extends ViewStatus {
   final bool isBuy;
   final XFile? file;
   final String? filePath;
-  final bool? isOper;
+  // final bool? isOper;
   final String? userId;
   final String? offerId;
   final String? extensionFile;
@@ -28,7 +28,7 @@ class AttachedFileStatus extends ViewStatus {
     required this.isError,
     required this.item,
     required this.isBuy,
-    required this.isOper,
+    // required this.isOper,
     required this.userId,
     required this.offerId,
     required this.extensionFile,
@@ -45,7 +45,7 @@ class AttachedFileStatus extends ViewStatus {
     bool? isBuy,
     XFile? file,
     String? filePath,
-    bool? isOper,
+    // bool? isOper,
     String? userId,
     String? offerId,
     String? extensionFile,
@@ -61,7 +61,7 @@ class AttachedFileStatus extends ViewStatus {
       isBuy: isBuy ?? this.isBuy,
       file: file ?? this.file,
       filePath: filePath ?? this.filePath,
-      isOper: isOper ?? this.isOper,
+      // isOper: isOper ?? this.isOper,
       userId: userId ?? this.userId,
       offerId: offerId ?? this.offerId,
       extensionFile: extensionFile ?? this.extensionFile,

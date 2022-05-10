@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_enums.dart';
@@ -79,9 +81,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String address,
   ) async {
     status = status.copyWith(indexTab: index);
-    status = status.copyWith(
-        extraFilters: ExtraFilters(
-            range: null, dateExpiry: null, bank: null, status: null));
+    // status = status.copyWith(
+    //     extraFilters: ExtraFilters(
+    //         range: null, dateExpiry: null, bank: null, status: null));
     if (index == 3) {
       status = status.copyWith(
         balance: await CryptoUtils().getBalance(address),
@@ -106,18 +108,21 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     bool validateNotification = false,
   }) async {
     FiltersArguments filtersArguments = FiltersArguments(
-      extraFilters: status.extraFilters,
-      homeStatus: status,
-      indexTab: status.indexTab,
-      setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
-        status = status.copyWith(extraFilters: extraFilters);
-        status = status.copyWith(extraFiltersString: extraFiltersString);
-        getData(context, resultDataUser?.id ?? '', refresh: true);
-        print('${status.extraFilters?.toJson()} @@@ extrafilters');
-      },
-      getFilters: <int>() => status.indexTab,
-    );
+        // extraFilters: status.extraFilters,
+        homeStatus: status,
+        indexTab: status.indexTab,
+        setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
+          status = status.copyWith(extraFilters: extraFilters);
+          status = status.copyWith(extraFiltersString: extraFiltersString);
+          getData(context, resultDataUser?.id ?? '', refresh: true);
+        },
+        getFilters: <int>() => status.indexTab,
+        clearFilters: () {
+          status = status.copyWith(
+              extraFilters: ExtraFilters(), extraFiltersString: '');
+        });
     status = status.copyWith(filtersArguments: filtersArguments);
+
     getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
 
@@ -134,24 +139,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     TypeOffer type,
     String userId,
   ) async {
-    status = status.copyWith(typeOffer: type);
-    await getData(context, userId);
-    /* switch (type) {
-      case TypeOffer.sell:
-        status = status.copyWith(
-          image: LdAssets.saleNoOffer,
-          titleText: 'Aun no tienes ofertas de venta',
-          buttonText: 'Crear oferta de venta',
-        );
-        break;
-      case TypeOffer.buy:
-        status = status.copyWith(
-          image: LdAssets.buyNoOffer,
-          titleText: 'Aun no tienes ofertas de compra',
-          buttonText: 'Crear oferta de compra',
-        );
-        break;
-    } */
+    status = status.copyWith(
+        typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters());
+    await getData(context, userId, refresh: true);
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
@@ -267,11 +257,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void goFiltres(
     BuildContext context,
-    FiltersArguments filtersArguments,
+    // FiltersArguments filtersArguments,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        _route.goFilters(context, filtersArguments);
+        status = status.copyWith(
+            filtersArguments: status.filtersArguments!
+                .copyWith(extraFilters: status.extraFilters));
+        _route.goFilters(context, status.filtersArguments!);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -403,7 +396,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       pagination: pagination,
       filters: filters,
     );
-    print('${filters.toJson()} @@@@@@ filters');
 
     try {
       // Solicitud al servicio
@@ -515,9 +507,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       pagination: pagination,
       filters: filters,
     );
-    print('////');
-    print('${filters.strJsonExtraFilters} @@@@@');
-    print('////');
+
     try {
       // Solicitud al servicio
       final ResponseData<ResultHome> response =
@@ -672,6 +662,32 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  int countFilters() {
+    print(
+        'extrafiltersstring ${status.extraFiltersString}  extrafilters ${status.extraFilters?.toJson()}');
+    int count = 0;
+    if (status.extraFilters?.range != null &&
+        status.extraFilters?.range != -1) {
+      count = count + 1;
+    }
+    if (status.extraFilters?.dateExpiry != null &&
+        status.extraFilters?.dateExpiry != -1) {
+      count = count + 1;
+    }
+    if (status.extraFilters?.status != null &&
+        status.extraFilters?.status != -1) {
+      count = count + 1;
+    }
+    if (status.extraFilters?.bank != null &&
+        status.extraFilters?.bank != '[]') {
+      count = count + 1;
+      print(
+          '${status.extraFilters!.bank} Filtro de bancos account ${status.extraFilters!.bank?.isEmpty}');
+    }
+
+    return count;
   }
 }
 

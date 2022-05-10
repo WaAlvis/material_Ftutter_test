@@ -244,7 +244,7 @@ class LdRouter {
 
   void goAttachedFile(
     BuildContext context,
-    // bool isOper,
+    String isOper,
     String offerIdFile,
     String extensionFile,
     String isView,
@@ -254,7 +254,7 @@ class LdRouter {
       AppRoutes.attachedFileRoute.route,
       routeSettings: RouteSettings(
         arguments: <String, String>{
-          // 'type': isOper,
+          'type': isOper,
           'offerId': offerIdFile,
           'extensionFile': extensionFile,
           'isView': isView,

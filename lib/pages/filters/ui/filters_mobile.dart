@@ -26,7 +26,7 @@ class _FilterMobile extends StatelessWidget {
     ];
     late ExtraFiltersString jsonFilterString = ExtraFiltersString();
     final index = filtersArguments.getFilters!();
-    print('${filtersArguments.extraFilters?.toJson()} @@@ filtersmobile');
+
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -63,18 +63,14 @@ class _FilterMobile extends StatelessWidget {
                           height: 32,
                         ),
                         FormBuilderRadioGroup(
-                          initialValue: filtersArguments.extraFilters?.range ??
-                              viewModel.status.range,
+                          initialValue: viewModel.status.range,
                           controlAffinity: ControlAffinity.trailing,
                           valueTransformer: (int? index) {
-                            if (index != null)
+                            if (index != null && index != -1)
                               jsonFilterString.range = rangeDly[index];
-                            print(
-                                '${jsonFilterString.range} rango de cantidad');
-                            // return index != null ? rangeDly[index] : null;
                           },
                           onChanged: (int? index) {
-                            viewModel.setRange(index!);
+                            viewModel.setRange(index);
                           },
                           orientation: OptionsOrientation.vertical,
                           name: 'range',
@@ -197,7 +193,7 @@ class _FilterMobile extends StatelessWidget {
                                   : null;
                             },
                             onChanged: (int? index) {
-                              viewModel.setDateExpiry(index!);
+                              viewModel.setDateExpiry(index);
                             },
                             decoration: InputDecoration(
                               label: Row(
@@ -267,7 +263,7 @@ class _FilterMobile extends StatelessWidget {
                                   : null;
                             },
                             onChanged: (int? index) {
-                              viewModel.setDateExpiry(index!);
+                              viewModel.setDateExpiry(index);
                             },
                             decoration: InputDecoration(
                               label: Row(
@@ -334,7 +330,7 @@ class _FilterMobile extends StatelessWidget {
                                 jsonFilterString.status = index.toString();
                             },
                             onChanged: (int? index) {
-                              viewModel.setStatus(index!);
+                              viewModel.setStatus(index);
                             },
                             decoration: InputDecoration(
                               label: Row(
@@ -422,7 +418,7 @@ class _FilterMobile extends StatelessWidget {
                                 ),
                               ),
                               FormBuilderFieldOption(
-                                value: 2,
+                                value: 1,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
@@ -459,7 +455,7 @@ class _FilterMobile extends StatelessWidget {
                                 ),
                               ),
                               FormBuilderFieldOption(
-                                value: 3,
+                                value: 2,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
@@ -552,7 +548,8 @@ class _FilterMobile extends StatelessWidget {
                                   ? null
                                   : viewModel.status.banks.toString(),
                               valueTransformer: (String? banks) {
-                                jsonFilterString.bank = banks;
+                                jsonFilterString.bank =
+                                    json.encode(viewModel.setBankApi(banks!));
                               },
                               decoration: InputDecoration(
                                 label: Row(
@@ -572,7 +569,14 @@ class _FilterMobile extends StatelessWidget {
                         PrimaryButtonCustom(
                           'Borrar',
                           onPressed: () {
-                            _formKey.currentState?.reset();
+                            try {
+                              _formKey.currentState?.reset();
+                              viewModel.clearFilters();
+                              jsonFilterString = ExtraFiltersString();
+                              filtersArguments.clearFilters!();
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                           colorButton: LdColors.white,
                           colorText: LdColors.orangePrimary,
@@ -585,6 +589,7 @@ class _FilterMobile extends StatelessWidget {
                           'Filtrar',
                           onPressed: () {
                             _formKey.currentState!.save();
+
                             late ExtraFilters jsonFilter =
                                 ExtraFilters.fromJson(
                                     _formKey.currentState!.value);
@@ -593,11 +598,7 @@ class _FilterMobile extends StatelessWidget {
                               jsonFilter,
                               jsonFilterString.toJson().toString(),
                             );
-                            // filtersArguments.extraFilters = jsonFilterString;
-                            print(
-                                '${_formKey.currentState!.value} datos del form');
-                            print(
-                                '${jsonFilterString.toJson().toString()} datos del form string');
+
                             viewModel.closeDialog(context);
                             // viewModel.goToHome(context);
                           },

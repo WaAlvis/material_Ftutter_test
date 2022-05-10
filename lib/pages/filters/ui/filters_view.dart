@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
@@ -64,9 +66,10 @@ class __FilterBodyState extends State<_FilterBody> {
     final FilterViewModel viewModel = context.read<FilterViewModel>();
     final ConfigurationProvider configurationProvider =
         context.read<ConfigurationProvider>();
-    WidgetsBinding.instance!.addPostFrameCallback(
-      (_) => viewModel.onInit(context, configurationProvider),
-    );
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      viewModel.onInit(context, configurationProvider);
+      viewModel.setFilters(widget.filtersArguments);
+    });
     super.initState();
   }
 
