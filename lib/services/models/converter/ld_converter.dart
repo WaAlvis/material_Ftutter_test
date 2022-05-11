@@ -1,17 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
 import 'package:localdaily/services/models/create_offers/offer/result_create_offer.dart';
 import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
-import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
+import 'package:localdaily/services/models/history_operations_user/response/result_history_operations_user.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
@@ -54,12 +55,17 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
       } else if ('$T' == '$ResultDataAdvertisement?' ||
           T == ResultDataAdvertisement) {
         return ResultDataAdvertisement.fromJson(json) as T;
-      }
-      else if ('$T' == '$ResultHistoryOperationsUser?' || T == ResultHistoryOperationsUser) {
+      } else if ('$T' == '$ResultHistoryOperationsUser?' ||
+          T == ResultHistoryOperationsUser) {
         return ResultHistoryOperationsUser.fromJson(json) as T;
-      }
-      else if ('$T' == '$ResultInfoUserPublish?' || T == ResultInfoUserPublish) {
+      } else if ('$T' == '$ResultInfoUserPublish?' ||
+          T == ResultInfoUserPublish) {
         return ResultInfoUserPublish.fromJson(json) as T;
+      } else if ('$T' == '$ResultNotification?' || T == ResultNotification) {
+        return ResultNotification.fromJson(json) as T;
+      } else if ('$T' == '$ResultNotificationCounter?' ||
+          T == ResultNotificationCounter) {
+        return ResultNotificationCounter.fromJson(json) as T;
       }
     }
     return json as T;

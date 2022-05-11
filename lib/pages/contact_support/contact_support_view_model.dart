@@ -1,16 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/contact_support/contact_support_effect.dart';
 import 'package:localdaily/pages/contact_support/contact_support_status.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/view_model.dart';
 
-class ContactSupportViewModel extends ViewModel<ContactSupportStatus> {
+class ContactSupportViewModel
+    extends EffectsViewModel<ContactSupportStatus, ContactSupportEffect> {
   late LdRouter _route;
   late ServiceInteractor _interactor;
+  late String advertisementId;
+  late int reference;
   late bool isbuy;
 
   ContactSupportViewModel(
     this._route,
-    this._interactor, {
+    this._interactor,
+    this.advertisementId,
+    this.reference, {
     required this.isbuy,
   }) {
     status = ContactSupportStatus(
@@ -18,7 +27,6 @@ class ContactSupportViewModel extends ViewModel<ContactSupportStatus> {
       isError: false,
       isBuy: isbuy,
       description: '',
-      mobile: '',
     );
   }
 
@@ -35,5 +43,48 @@ class ContactSupportViewModel extends ViewModel<ContactSupportStatus> {
         description: description,
       );
 
-  void changeMobile(String mobile) => status = status.copyWith(mobile: mobile);
+  Future<void> onClickContactSupport() async {
+    final bool next = await LdConnection.validateConnection();
+    if (next) {
+      addEffect(CreateContactSupportEffect());
+    } else {
+      addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+    }
+  }
+
+  Future<void> createContactSupport(
+    String email,
+    String userId,
+    BuildContext context,
+  ) async {
+    status = status.copyWith(isLoading: true);
+    final BodyContactSupport body = BodyContactSupport(
+      idPublish: advertisementId,
+      idUserPublish: userId,
+      description: status.description,
+      email: email,
+    );
+    try {
+      await _interactor.createContactSupport(body).then((response) {
+        status = status.copyWith(isLoading: false);
+        if (response.isSuccess) {
+          addEffect(ShowSnackbarSuccesEffect());
+          _route.goHome(context);
+        } else {
+          addEffect(
+            ShowSnackbarErrorEffect(
+              'No fue posible enviar el caso de soporte, intenta más tarde',
+            ),
+          );
+        }
+      });
+    } catch (e) {
+      addEffect(
+        ShowSnackbarErrorEffect(
+          'No fue posible enviar el caso de soporte, intenta más tarde',
+        ),
+      );
+      status = status.copyWith(isLoading: false);
+    }
+  }
 }

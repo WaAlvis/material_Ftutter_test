@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -26,6 +25,10 @@ import 'package:localdaily/services/models/info_user_publish/response/result_inf
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -81,6 +84,11 @@ class UrlsApi {
   static const String cancelOperation =
       '/Transaction/DistributionOptions/CancelOperation';
   static const String getInfoUserPublish = '/User/UserInfoAdditional';
+  static const String createSupportCase = '/WebAdmin/SupportCase';
+  static const String getNotifications =
+      '/WebAdmin/Notification/GetNotificationByUserId';
+  static const String getNotificationsUnread =
+      '/WebAdmin/Notification/GetCountNotificationUnread';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -216,4 +224,19 @@ abstract class LocalDailyGatewayService {
 
   @POST(UrlsApi.getAccountType)
   Future<ResponseData<ResultAccountType>> getAccountType();
+
+  @POST(UrlsApi.createSupportCase)
+  Future<ResponseData<dynamic>> createSupportCase(
+    @Body() BodyContactSupport body,
+  );
+
+  @POST(UrlsApi.getNotifications)
+  Future<ResponseData<ResultNotification>> getNotifications(
+    @Body() BodyNotifications body,
+  );
+
+  @POST(UrlsApi.getNotificationsUnread)
+  Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
+    @Body() BodyNotificationCounter body,
+  );
 }

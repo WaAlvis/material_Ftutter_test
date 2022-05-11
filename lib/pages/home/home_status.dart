@@ -27,6 +27,7 @@ class HomeStatus extends ViewStatus {
   // final String detailText;
   final String buttonText;
   final double balance;
+  final int countNotification;
   //filters
   final ExtraFilters? extraFilters;
   final FiltersArguments? filtersArguments;
@@ -52,6 +53,7 @@ class HomeStatus extends ViewStatus {
     // required this.detailText,
     required this.buttonText,
     required this.balance,
+    required this.countNotification,
     this.extraFilters,
     this.filtersArguments,
     this.extraFiltersString,
@@ -77,6 +79,7 @@ class HomeStatus extends ViewStatus {
     // String? detailText,
     String? buttonText,
     double? balance,
+    int? countNotification,
     ExtraFilters? extraFilters,
     FiltersArguments? filtersArguments,
     String? extraFiltersString,
@@ -102,6 +105,7 @@ class HomeStatus extends ViewStatus {
       // detailText: detailText ?? this.detailText,
       buttonText: buttonText ?? this.buttonText,
       balance: balance ?? this.balance,
+      countNotification: countNotification ?? this.countNotification,
       extraFilters: extraFilters ?? this.extraFilters,
       filtersArguments: filtersArguments ?? this.filtersArguments,
       extraFiltersString: extraFiltersString ?? this.extraFiltersString,

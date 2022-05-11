@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
@@ -8,10 +9,13 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/home/ui/components/advice_message.dart';
 import 'package:localdaily/pages/notification/notification_view_model.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/notifications/notification.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 part 'notification_mobile.dart';
 
@@ -44,25 +48,29 @@ class _NotificationBodyState extends State<_NotificationBody> {
   void initState() {
     final NotificationViewModel viewModel =
         context.read<NotificationViewModel>();
+    final DataUserProvider userProvider = context.read<DataUserProvider>();
+
     _notiScrollCtrl.addListener(() {
       if (_notiScrollCtrl.position.pixels >
               _notiScrollCtrl.position.maxScrollExtent &&
           !viewModel.status.isLoading) {
-        if (_notiScrollCtrl.position.maxScrollExtent != 0) {
+        if (_notiScrollCtrl.position.maxScrollExtent != 0 &&
+            viewModel.status.resultNotification.data.length !=
+                viewModel.status.resultNotification.totalItems) {
           _notiScrollCtrl.jumpTo(
             _notiScrollCtrl.position.maxScrollExtent,
           );
         }
 
-        /* viewModel
+        viewModel
             .getData(
-          context,
-          id,
+          userProvider.getDataUserLogged?.id ?? '',
           isPagination: true,
         )
             .then(
-          (_) {
-            if (_notiScrollCtrl.position.maxScrollExtent != 0) {
+          (bool? value) {
+            if (_notiScrollCtrl.position.maxScrollExtent != 0 &&
+                value == null) {
               _notiScrollCtrl.animateTo(
                 _notiScrollCtrl.position.maxScrollExtent + 150,
                 duration: const Duration(milliseconds: 300),
@@ -70,9 +78,14 @@ class _NotificationBodyState extends State<_NotificationBody> {
               );
             }
           },
-        ); */
+        );
       }
     });
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      viewModel.onInit(userProvider.getDataUserLogged?.id ?? '');
+    });
+
     super.initState();
   }
 

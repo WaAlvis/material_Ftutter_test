@@ -135,9 +135,10 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
         LdDialog.buildDenseAlertDialog(
           context,
           image: LdAssets.cardConfirm,
-          title: 'Confirmar la compra',
-          message:
-              'Reservaremos esta oferta de compra. Realiza tu pago y adjunta el comprobante antes de 12 horas.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la compra?',
+          title: 'Confirmar la ${widget.isBuy ? 'venta' : 'compra'}',
+          message: widget.isBuy
+              ? 'Reservaremos esta oferta de venta. Recuerda revisar tu cuenta bancaria para confirmar el pago.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la venta?'
+              : 'Reservaremos esta oferta de compra. Realiza tu pago y adjunta el comprobante antes de 12 horas.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la compra?',
           btnText: 'Sí, confirmar',
           onTap: event.action,
           btnTextSecondary: 'No, cancelar',

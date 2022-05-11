@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -52,17 +53,27 @@ class MiDailyConnect {
         break;
       default:
     }
-
-    if (await canLaunch(_url)) {
-      print(_url);
-      await launch(_url, headers: <String, String>{});
-    } else {
-      //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
+    try {
+      if (await canLaunch(_url)) {
+        await launch(_url, headers: <String, String>{});
+      } else {
+        if (Platform.isAndroid) {
+          await launch(
+            'https://play.google.com/store/apps/details?id=com.brandinggrp.midaily&hl=es_CO&gl=US',
+            headers: <String, String>{},
+          );
+        } else if (Platform.isIOS) {
+          await launch(
+            'https://apps.apple.com/co/app/mi-daily/id1569921133',
+            headers: <String, String>{},
+          );
+        }
+      }
+    } catch (e) {
       LdSnackbar.buildErrorSnackbar(
         context,
         'Ocurrió un inconveniente con la petición, intentalo más tarde',
       );
-      return;
     }
   }
 

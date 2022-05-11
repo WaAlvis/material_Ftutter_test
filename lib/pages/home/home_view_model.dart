@@ -16,6 +16,7 @@ import 'package:localdaily/services/models/home/filters.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
@@ -36,6 +37,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       hideWallet: false,
       hideValues: false,
       isError: false,
+      countNotification: 0,
       offersBuyDataHome: ResultHome(
         data: <Data>[],
         totalItems: 10,
@@ -107,6 +109,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     ResultDataUser? resultDataUser, {
     bool validateNotification = false,
   }) async {
+    if (userProvider.getDataUserLogged != null) {
+      getCountNotification(userProvider.getDataUserLogged!.id);
+    }
     FiltersArguments filtersArguments = FiltersArguments(
         // extraFilters: status.extraFilters,
         homeStatus: status,
@@ -249,6 +254,22 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
+  Future<void> getCountNotification(String userId) async {
+    try {
+      final BodyNotificationCounter body =
+          BodyNotificationCounter(idUser: userId);
+      _interactor.getNotificationsUnread(body).then((response) {
+        if (response.isSuccess) {
+          status = status.copyWith(
+            countNotification: response.result!.notificationsUnread,
+          );
+        }
+      });
+    } catch (e) {
+      print('Error Notification Unread $e');
+    }
+  }
+
   void goFiltres(
     BuildContext context,
     // FiltersArguments filtersArguments,
@@ -372,7 +393,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
     // Construcción del body para la consulta
     final Pagination pagination = Pagination(
-      isPaginable: false,
+      isPaginable: true,
       currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
@@ -485,9 +506,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
-    print('////');
-    print(pagination.toJson());
-    print('////');
     final Filters filters = Filters(
         typeAdvertisement: status.typeOffer == TypeOffer.buy
             ? '${TypeOffer.sell.index}'
