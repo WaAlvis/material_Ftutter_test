@@ -93,14 +93,6 @@ class RegisterBodyState extends State<RegisterBody> {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final RegisterViewModel viewModel = context.read<RegisterViewModel>();
 
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   context.read<RegisterViewModel>().onInit(
-    //     // context,
-    //     // dataUserProvider,
-    //     // dataUserProvider.getDataUserLogged,
-    //   );
-    // });
-
     _effectSubscription = viewModel.effects.listen((RegisterEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);

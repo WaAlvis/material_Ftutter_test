@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/change_password/change_password_effect.dart';
+import 'package:localdaily/pages/change_psw/change_psw_effect.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
@@ -12,18 +12,18 @@ import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 
-import 'change_password_status.dart';
+import 'change_psw_status.dart';
 
-class ChangePasswordViewModel
-    extends EffectsViewModel<ChangePasswordStatus, ChangePswEffect> {
+class ChangePswViewModel
+    extends EffectsViewModel<ChangePswStatus, ChangePswEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
-  ChangePasswordViewModel(
+  ChangePswViewModel(
     this._route,
     this._interactor,
   ) {
-    status = ChangePasswordStatus(
+    status = ChangePswStatus(
       isLoading: false,
       isError: false,
       isCurrentPswFieldEmpty: true,
@@ -44,22 +44,22 @@ class ChangePasswordViewModel
     _route.pop(context);
   }
 
-  void changeCurrentPsw(String password) =>
-      status = status.copyWith(isCurrentPswFieldEmpty: password.isEmpty);
+  void changeCurrentPsw(String Psw) =>
+      status = status.copyWith(isCurrentPswFieldEmpty: Psw.isEmpty);
 
-  void changeNewPsw(String password) =>
-      status = status.copyWith(isNewPswFieldEmpty: password.isEmpty);
+  void changeNewPsw(String Psw) =>
+      status = status.copyWith(isNewPswFieldEmpty: Psw.isEmpty);
 
-  void changeAgainNewPsw(String password) =>
-      status = status.copyWith(isAgainNewPswFieldEmpty: password.isEmpty);
+  void changeAgainNewPsw(String Psw) =>
+      status = status.copyWith(isAgainNewPswFieldEmpty: Psw.isEmpty);
 
-  bool isPasswordValid(String password, [int minLength = 7]) {
-    final bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
-    final bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+  bool isPswValid(String Psw, [int minLength = 7]) {
+    final bool hasUppercase = Psw.contains(new RegExp(r'[A-Z]'));
+    final bool hasLowercase = Psw.contains(new RegExp(r'[a-z]'));
     final bool hasSpecialCharacters =
-        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    final bool hasMinLength = password.length > minLength;
-    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+        Psw.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final bool hasMinLength = Psw.length > minLength;
+    bool hasDigits = Psw.contains(new RegExp(r'[0-9]'));
 
     status = status.copyWith(
       hasMore8Chars: hasMinLength,
@@ -148,7 +148,7 @@ class ChangePasswordViewModel
     });
   }
 
-  void hidePassword() => status = status.copyWith(
+  void hidePsw() => status = status.copyWith(
         hidePass: !status.hidePass,
       );
 
@@ -164,7 +164,7 @@ class ChangePasswordViewModel
     }
   }
 
-  String? validatorPasswords(String? psw, String? confirmPsw) {
+  String? validatorPsws(String? psw, String? confirmPsw) {
     if (psw == null || psw.isEmpty) {
       return '* la nueva contraseña es necesaria';
     } else if (psw != confirmPsw) {
@@ -173,7 +173,7 @@ class ChangePasswordViewModel
     if (psw.length < 8 || confirmPsw!.length < 8) {
       return 'La contraseña debe incluir al menos 8 caracteres alfanuméricos';
     }
-    if (!isPasswordValid(psw)) {
+    if (!isPswValid(psw)) {
       return 'La contraseña no cumple los requerimientos';
     }
     return null;

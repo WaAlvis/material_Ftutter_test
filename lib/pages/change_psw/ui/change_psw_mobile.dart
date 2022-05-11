@@ -1,7 +1,7 @@
-part of 'change_password_view.dart';
+part of 'change_psw_view.dart';
 
-class ChangePasswordMobile extends StatelessWidget {
-  const ChangePasswordMobile({
+class ChangePswMobile extends StatelessWidget {
+  const ChangePswMobile({
     Key? key,
     required this.keyForm,
     required this.currentPswCtrl,
@@ -18,8 +18,8 @@ class ChangePasswordMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ChangePasswordViewModel viewModel =
-        context.watch<ChangePasswordViewModel>();
+    final ChangePswViewModel viewModel =
+        context.watch<ChangePswViewModel>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
@@ -177,7 +177,7 @@ class ChangePasswordMobile extends StatelessWidget {
                           currentPswCtrl.text,
                         ),
                         suffixIcon: GestureDetector(
-                          onTap: () => viewModel.hidePassword(),
+                          onTap: () => viewModel.hidePsw(),
                           child: Icon(
                             viewModel.status.hidePass
                                 ? Icons.visibility
@@ -193,17 +193,17 @@ class ChangePasswordMobile extends StatelessWidget {
                         controller: newPswCtrl,
                         onChange: (String psw) {
                           viewModel.changeNewPsw(psw);
-                          viewModel.isPasswordValid(psw);
+                          viewModel.isPswValid(psw);
                         },
                         changeFillWith: !viewModel.status.isNewPswFieldEmpty,
                         textInputAction: TextInputAction.next,
                         obscureText: viewModel.status.hidePass,
-                        validator: (_) => viewModel.validatorPasswords(
+                        validator: (_) => viewModel.validatorPsws(
                           newPswCtrl.text,
                           againNewPswCtrl.text,
                         ),
                         suffixIcon: GestureDetector(
-                          onTap: () => viewModel.hidePassword(),
+                          onTap: () => viewModel.hidePsw(),
                           child: Icon(
                             viewModel.status.hidePass
                                 ? Icons.visibility
@@ -224,7 +224,7 @@ class ChangePasswordMobile extends StatelessWidget {
                         textInputAction: TextInputAction.next,
                         obscureText: viewModel.status.hidePass,
                         suffixIcon: GestureDetector(
-                          onTap: () => viewModel.hidePassword(),
+                          onTap: () => viewModel.hidePsw(),
                           child: Icon(
                             viewModel.status.hidePass
                                 ? Icons.visibility

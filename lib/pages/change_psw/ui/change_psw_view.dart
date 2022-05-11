@@ -6,8 +6,8 @@ import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/change_password/change_password_effect.dart';
-import 'package:localdaily/pages/change_password/change_password_view_model.dart';
+import 'package:localdaily/pages/change_psw/change_psw_effect.dart';
+import 'package:localdaily/pages/change_psw/change_psw_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
@@ -18,42 +18,42 @@ import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part 'change_password_mobile.dart';
+part 'change_psw_mobile.dart';
 
-part 'change_password_web.dart';
+part 'change_psw_web.dart';
 
-class ChangePasswordView extends StatelessWidget {
-  const ChangePasswordView({
+class ChangePswView extends StatelessWidget {
+  const ChangePswView({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ChangePasswordViewModel>(
-      create: (_) => ChangePasswordViewModel(
+    return ChangeNotifierProvider<ChangePswViewModel>(
+      create: (_) => ChangePswViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
       ),
       builder: (BuildContext context, _) {
         return const Scaffold(
           backgroundColor: LdColors.white,
-          body: _ChangePasswordBody(),
+          body: _ChangePswBody(),
         );
       },
     );
   }
 }
 
-class _ChangePasswordBody extends StatefulWidget {
-  const _ChangePasswordBody({
+class _ChangePswBody extends StatefulWidget {
+  const _ChangePswBody({
     Key? key,
   }) : super(key: key);
 
   @override
-  _ChangePasswordBodyState createState() => _ChangePasswordBodyState();
+  _ChangePswBodyState createState() => _ChangePswBodyState();
 }
 
-class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
+class _ChangePswBodyState extends State<_ChangePswBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
 
   final TextEditingController currentPswCtrl = TextEditingController();
@@ -64,10 +64,9 @@ class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<ChangePasswordViewModel>().onInit();
+      context.read<ChangePswViewModel>().onInit();
     });
-    final ChangePasswordViewModel viewModel =
-        context.read<ChangePasswordViewModel>();
+    final ChangePswViewModel viewModel = context.read<ChangePswViewModel>();
 
     _effectSubscription = viewModel.effects.listen((ChangePswEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
@@ -98,12 +97,12 @@ class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
     currentPswCtrl.dispose();
     newPswCtrl.dispose();
     againNewPswCtrl.dispose();
+    _effectSubscription.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ChangePasswordViewModel viewModel =
-        context.watch<ChangePasswordViewModel>();
+    final ChangePswViewModel viewModel = context.watch<ChangePswViewModel>();
     final Widget loading = viewModel.status.isLoading
         ? ProgressIndicatorLocalD()
         : const SizedBox.shrink();
@@ -119,10 +118,10 @@ class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? ChangePasswordWeb(
+                      ? ChangePswWeb(
                           keyForm: keyForm,
                         )
-                      : ChangePasswordMobile(
+                      : ChangePswMobile(
                           keyForm: keyForm,
                           currentPswCtrl: currentPswCtrl,
                           newPswCtrl: newPswCtrl,

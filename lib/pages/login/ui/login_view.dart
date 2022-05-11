@@ -59,8 +59,8 @@ class _LoginBodyState extends State<_LoginBody> {
   @override
   void dispose() {
     passwordCtrl.dispose();
-    _effectSubscription.cancel();
     usuarioCtrl.dispose();
+    _effectSubscription.cancel();
     super.dispose();
   }
 

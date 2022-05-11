@@ -126,7 +126,7 @@ class SettingsMobile extends StatelessWidget {
                     LdAssets.dlycopIconBlack,
                     title: 'Direccion de wallet',
                     subtitle: 'Cambia la dirección de tu wallet',
-                    onTap: () {},
+                    onTap: () => viewModel.goDirectionWallet(context),
                   ),
                   _dividerOptions(),
                   _rowOptionSetting(

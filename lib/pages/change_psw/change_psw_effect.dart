@@ -2,7 +2,8 @@ import 'package:localdaily/view_model.dart';
 
 abstract class ChangePswEffect extends Effect {}
 
-class ShowDialogRegisterEffect extends ChangePswEffect {}
+class ShowDialogChangePswEffect extends ChangePswEffect {}
+
 class ShowSnackbarConnectivityEffect extends ChangePswEffect {
   final String message;
 
