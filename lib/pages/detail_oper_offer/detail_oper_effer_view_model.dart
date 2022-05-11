@@ -365,7 +365,7 @@ class DetailOperOfferViewModel
     closeDialog(context);
 
     status = status.copyWith(isLoading: true);
-    final CancelOper body = CancelOper(advertisementId: json.encode(offerId));
+    final CancelOper body = CancelOper(idAvertisement: offerId);
 
     try {
       await _interactor.cancelOperation(body).then((response) {

@@ -81,13 +81,13 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
       },
       options: status.resultGetBanks.data
           .map(
-            (data) => FormBuilderFieldOption(
+            (Bank data) => FormBuilderFieldOption(
+              value: data.description,
               child: Row(
                 children: [
                   Text(data.description),
                 ],
               ),
-              value: data.description,
             ),
           )
           .toList(growable: false),
@@ -97,6 +97,7 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
       context,
       customWidget: customWidget,
       title: 'Selecciona las entidades',
+      isClosed: true,
     );
   }
 

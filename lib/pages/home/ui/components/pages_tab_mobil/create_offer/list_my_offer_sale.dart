@@ -86,14 +86,13 @@ class ListMyOffersSale extends StatelessWidget {
                                       : LdAssets.saleNoOffer,
                                   title: viewModel.status.typeOffer ==
                                           TypeOffer.buy
-                                      ? viewModel.status.extraFilters != null
+                                      ? viewModel.countFilters() > 0
                                           ? 'No hay publicaciones para estos filtros'
                                           : 'Aun no tienes ofertas de compra'
-                                      : viewModel.status.extraFilters != null
+                                      : viewModel.countFilters() > 0
                                           ? 'No hay publicaciones para estos filtros'
                                           : 'Aun no tienes ofertas de ventas',
-                                  description: viewModel.status.extraFilters !=
-                                          null
+                                  description: viewModel.countFilters() > 0
                                       ? 'Por favor seleccione nuevos criterios'
                                       : 'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
                                   btnText: viewModel.status.typeOffer ==
@@ -104,8 +103,8 @@ class ListMyOffersSale extends StatelessWidget {
                                       ? viewModel.goCreateOffer(context)
                                       : viewModel.goLogin(context),
                                 ),
-                            ),
-                          )
+                              ),
+                            )
                           : MyOfferCard(
                               item: items[index],
                               textTheme: textTheme,

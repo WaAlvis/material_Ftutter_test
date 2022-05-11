@@ -8,6 +8,7 @@ extension ShowDialogWidgetAlert on BuildContext {
     // required String message,
     required Widget customWidget,
     required String title,
+    required bool isClosed,
     String? btnText,
     VoidCallback? onTap,
     String? btnTextSecondary,
@@ -31,7 +32,7 @@ extension ShowDialogWidgetAlert on BuildContext {
             backgroundColor: LdColors.white,
             child: SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.all(25),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -42,17 +43,18 @@ extension ShowDialogWidgetAlert on BuildContext {
                           title,
                           style: textTheme.bodyMedium?.copyWith(fontSize: 18),
                         ),
-                        GestureDetector(
-                          onTap: onTapClose != null
-                              ? onTapClose
-                              : () {
-                                  print('llego vacio el ontapclose');
+                        if (isClosed)
+                          GestureDetector(
+                            onTap: onTapClose ??
+                                () {
                                   Navigator.pop(context);
                                 },
-                          child: Text('X',
-                              style:
-                                  textTheme.bodyMedium?.copyWith(fontSize: 18)),
-                        )
+                            child: Text('X',
+                                style: textTheme.bodyMedium
+                                    ?.copyWith(fontSize: 18)),
+                          )
+                        else
+                          Container()
                       ],
                     ),
                     const SizedBox(

@@ -60,7 +60,7 @@ class _FilterMobile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         const SizedBox(
-                          height: 32,
+                          height: 28,
                         ),
                         FormBuilderRadioGroup(
                           initialValue: viewModel.status.range,
@@ -75,15 +75,19 @@ class _FilterMobile extends StatelessWidget {
                           orientation: OptionsOrientation.vertical,
                           name: 'range',
                           decoration: InputDecoration(
-                            label: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'Cantidad DLYCOP',
-                                  style: textTheme.bodyMedium
-                                      ?.copyWith(fontSize: 24),
-                                )
-                              ],
+                            label: Container(
+                              height: 70,
+                              padding: EdgeInsets.only(bottom: 45),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Cantidad DLYCOP',
+                                    style: textTheme.bodyMedium
+                                        ?.copyWith(fontSize: 24),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           activeColor: LdColors.orangePrimary,
