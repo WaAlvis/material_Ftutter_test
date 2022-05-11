@@ -175,6 +175,7 @@ class ChangePswMobile extends StatelessWidget {
                         obscureText: viewModel.status.hidePass,
                         validator: (_) => viewModel.validatorCurrentPswNotEmpty(
                           currentPswCtrl.text,
+                          newPswCtrl.text,
                         ),
                         suffixIcon: GestureDetector(
                           onTap: () => viewModel.hidePsw(),

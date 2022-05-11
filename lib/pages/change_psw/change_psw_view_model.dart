@@ -152,13 +152,16 @@ class ChangePswViewModel
         hidePass: !status.hidePass,
       );
 
-  String? validatorCurrentPswNotEmpty(String? email) {
+  String? validatorCurrentPswNotEmpty(String? oldEmail, String newEmail) {
     {
-      if (email == null || email.isEmpty) {
+      if (oldEmail == null || oldEmail.isEmpty) {
         return '* La Contraseña actual es necesaria';
       }
-      if (email.length < 8) {
+      if (oldEmail.length < 8) {
         return '* Minimo 8 caracteres';
+      }
+      if (oldEmail == newEmail) {
+        return '* La contraseña actual y nueva son iguales';
       }
       return null;
     }
