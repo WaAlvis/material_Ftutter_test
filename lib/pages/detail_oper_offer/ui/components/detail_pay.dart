@@ -112,7 +112,9 @@ class CardDetailPay extends StatelessWidget {
                         Container()
                       else
                         GestureDetector(
-                          onTap: () {}, //Abrir perfil del comprador
+                          onTap: () {
+                            viewModel.goProfile(context);
+                          }, //Abrir perfil del comprador
                           child: Text(
                             isBuy ? 'Ver el vendedor' : 'Ver el comprador',
                             style: textTheme.bodyMedium?.copyWith(

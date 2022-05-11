@@ -112,22 +112,18 @@ class ListOffersMainSwitch extends StatelessWidget {
                                       imageName: LdAssets.emptyNotification,
                                       title: viewModel.status.typeOffer ==
                                               TypeOffer.sell
-                                          ? viewModel.status.extraFilters !=
-                                                  null
+                                          ? viewModel.countFilters() > 0
                                               ? 'No hay publicaciones para estos filtros'
                                               : 'Aún no hay ofertas de ventas'
-                                          : viewModel.status.extraFilters !=
-                                                  null
+                                          : viewModel.countFilters() > 0
                                               ? 'No hay publicaciones para estos filtros'
                                               : 'Aún no hay ofertas de compras',
                                       description: viewModel.status.typeOffer ==
                                               TypeOffer.sell
-                                          ? viewModel.status.extraFilters !=
-                                                  null
+                                          ? viewModel.countFilters() > 0
                                               ? 'Por favor seleccione nuevos criterios'
                                               : 'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.'
-                                          : viewModel.status.extraFilters !=
-                                                  null
+                                          : viewModel.countFilters() > 0
                                               ? 'Por favor seleccione nuevos criterios'
                                               : 'Aquí podrás visualizar las ofertas de compras creadas por la comunidad.',
                                     ),
