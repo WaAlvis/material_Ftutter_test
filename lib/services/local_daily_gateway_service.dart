@@ -112,10 +112,10 @@ abstract class LocalDailyGatewayService {
     @Body() BodyPinEmail bodyPin,
   );
 
-  @POST(UrlsApi.validateToken)
-  Future<ResponseData<ResultValidatePin>> validatePin(
-    @Body() BodyValidatePin bodyValidatePin,
-  );
+  // @POST(UrlsApi.validateToken)
+  // Future<ResponseData<ResultValidatePin>> validatePin(
+  //   @Body() BodyValidatePin bodyValidatePin,
+  // );
 
   @POST(UrlsApi.createUser)
   Future<ResponseData<ResultRegister>> registerUser(

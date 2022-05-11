@@ -125,13 +125,13 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultValidatePin>> validatePin(
-    BodyValidatePin bodyValidatePin,
-  ) async {
-    final ResponseData<ResultValidatePin> response =
-        await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
-    return response;
-  }
+  // Future<ResponseData<ResultValidatePin>> validatePin(
+  //   BodyValidatePin bodyValidatePin,
+  // ) async {
+  //   final ResponseData<ResultValidatePin> response =
+  //       await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
+  //   return response;
+  // }
 
   Future<ResponseData<ResultHome>> postGetAdvertisementByFilters(
     BodyHome bodyHome,
