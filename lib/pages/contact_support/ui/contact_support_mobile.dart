@@ -3,8 +3,10 @@ part of 'contact_support_view.dart';
 class _ContactSupportMobile extends StatelessWidget {
   const _ContactSupportMobile({
     Key? key,
+    required this.keyForm,
     required this.descriptionCtrl,
   }) : super(key: key);
+  final GlobalKey<FormState> keyForm;
   final TextEditingController descriptionCtrl;
 
   @override
@@ -32,7 +34,10 @@ class _ContactSupportMobile extends StatelessWidget {
                     top: Radius.circular(25),
                   ),
                 ),
-                child: _ContactSupportBody(descriptionCtrl: descriptionCtrl),
+                child: _ContactSupportBody(
+                  descriptionCtrl: descriptionCtrl,
+                  keyForm: keyForm,
+                ),
               ),
             ),
           )
@@ -45,9 +50,11 @@ class _ContactSupportMobile extends StatelessWidget {
 class _ContactSupportBody extends StatelessWidget {
   const _ContactSupportBody({
     Key? key,
+    required this.keyForm,
     required this.descriptionCtrl,
   }) : super(key: key);
   final TextEditingController descriptionCtrl;
+  final GlobalKey<FormState> keyForm;
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +99,26 @@ class _ContactSupportBody extends StatelessWidget {
               style: textTheme.textBlack,
             ),
             const SizedBox(height: 8),
-            TextFormField(
-              keyboardType: TextInputType.multiline,
-              controller: descriptionCtrl,
-              minLines: 5,
-              maxLines: 5,
-              maxLength: 250,
-              validator: (String? description) =>
-                  viewModel.validatorNotEmpty(description),
-              decoration: const InputDecoration(
-                hintText: 'Ingresa descripción',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
+            Form(
+              key: keyForm,
+              child: TextFormField(
+                keyboardType: TextInputType.multiline,
+                controller: descriptionCtrl,
+                minLines: 5,
+                maxLines: 5,
+                maxLength: 250,
+                onChanged: (String? description) => viewModel.changeDescription(
+                  description ?? '',
+                ),
+                validator: (String? description) =>
+                    viewModel.validatorNotEmpty(description),
+                decoration: const InputDecoration(
+                  hintText: 'Ingresa descripción',
+                  focusColor: LdColors.redError,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
                   ),
                 ),
               ),

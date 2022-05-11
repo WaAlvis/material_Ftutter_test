@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -66,6 +68,10 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
       } else if ('$T' == '$ResultNotificationCounter?' ||
           T == ResultNotificationCounter) {
         return ResultNotificationCounter.fromJson(json) as T;
+      } else if ('$T' == '$ResultSupportStatus?' || T == ResultSupportStatus) {
+        return ResultSupportStatus.fromJson(json) as T;
+      } else if ('$T' == '$ResultSupportType?' || T == ResultSupportType) {
+        return ResultSupportType.fromJson(json) as T;
       }
     }
     return json as T;
