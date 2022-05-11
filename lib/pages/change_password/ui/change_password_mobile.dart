@@ -249,6 +249,7 @@ class ChangePasswordMobile extends StatelessWidget {
                       PrimaryButtonCustom(
                         'Continuar',
                         onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           if (keyForm.currentState!.validate()) {
                             viewModel.changePsw(
                               context,

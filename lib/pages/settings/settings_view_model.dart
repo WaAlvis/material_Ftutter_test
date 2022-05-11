@@ -36,7 +36,8 @@ class SettingsViewModel extends ViewModel<SettingsStatus> {
       if (isConnectionValid) {
         _route.goChangePsw(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/change_password/change_password_effect.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
@@ -13,7 +14,8 @@ import 'package:localdaily/view_model.dart';
 
 import 'change_password_status.dart';
 
-class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
+class ChangePasswordViewModel
+    extends EffectsViewModel<ChangePasswordStatus, ChangePswEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
@@ -85,7 +87,7 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
         changePswService(context, idUser, oldPsw, newPsw);
         // goPageSuccessRecover(context, textTheme, email);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -129,19 +131,19 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
         .changePsw(bodyChangePsw)
         .then((ResponseData<ResultChangePsw> response) {
       if (response.isSuccess) {
-        // addEffect(ShowSuccessSnackbar('Contraseña actualizada'));
+        addEffect(ShowSuccessSnackbar('Contraseña actualizada'));
         goPageSuccessChange(
           context,
         );
         status = status.copyWith(isLoading: false);
       } else {
-        // addEffect(ShowWarningSnackbar('Error en la actualizacion'));
+        addEffect(ShowWarningSnackbar('Error en la actualizacion'));
         status = status.copyWith(isError: true, isLoading: false);
       }
     }).catchError((err) {
       status = status.copyWith(isError: true, isLoading: false);
 
-      // addEffect(ShowErrorSnackbar('Error en el servicio**'));
+      addEffect(ShowErrorSnackbar('Error en el servicio**'));
       print('NewPsw Error As: ${err}');
     });
   }

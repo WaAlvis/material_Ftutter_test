@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/change_password/change_password_effect.dart';
 import 'package:localdaily/pages/change_password/change_password_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/list_checks_required_psw.dart';
 import 'package:localdaily/widgets/primary_button.dart';
@@ -55,21 +59,37 @@ class _ChangePasswordBodyState extends State<_ChangePasswordBody> {
   final TextEditingController currentPswCtrl = TextEditingController();
   final TextEditingController newPswCtrl = TextEditingController();
   final TextEditingController againNewPswCtrl = TextEditingController();
+  late StreamSubscription<ChangePswEffect> _effectSubscription;
 
   @override
   void initState() {
-    // final HistoryViewModel viewModel = context.read<HistoryViewModel>();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<ChangePasswordViewModel>().onInit();
     });
+    final ChangePasswordViewModel viewModel =
+        context.read<ChangePasswordViewModel>();
+
+    _effectSubscription = viewModel.effects.listen((ChangePswEffect event) {
+      if (event is ShowSnackbarConnectivityEffect) {
+        LdSnackbar.buildConnectivitySnackbar(context, event.message);
+      } else if (event is ShowSuccessSnackbar) {
+        LdSnackbar.buildSuccessSnackbar(
+          context,
+          event.message,
+        );
+      } else if (event is ShowWarningSnackbar) {
+        LdSnackbar.buildSnackbar(
+          context,
+          event.message,
+        );
+      } else if (event is ShowErrorSnackbar) {
+        LdSnackbar.buildErrorSnackbar(
+          context,
+          event.message,
+        );
+      }
+    });
     super.initState();
-    // _scrollCtrl.addListener(() {
-    //   if (_scrollCtrl.position.pixels >= _scrollCtrl.position.maxScrollExtent &&
-    //       !viewModel.status.isLoadingHistory) {
-    //     print('Get Data Historial');
-    //     viewModel.mockFetch();
-    //   }
-    // });
   }
 
   @override
