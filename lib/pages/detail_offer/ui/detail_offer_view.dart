@@ -138,7 +138,7 @@ class _DetailOfferBodyState extends State<_DetailOfferBody> {
           title: 'Confirmar la ${widget.isBuy ? 'venta' : 'compra'}',
           message: widget.isBuy
               ? 'Reservaremos esta oferta de venta. Recuerda revisar tu cuenta bancaria para confirmar el pago.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la venta?'
-              : 'Reservaremos esta oferta de compra. Realiza tu pago y adjunta el comprobante antes de 12 horas.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la compra?',
+              : 'Reservaremos esta oferta de compra. Realiza tu pago y adjunta el comprobante antes de 72 horas.\n\nSi luego quieres cancelar la compra el sistema te restará una estrella de la calificación general de usuario.\n\n¿Quieres confirmar la compra?',
           btnText: 'Sí, confirmar',
           onTap: event.action,
           btnTextSecondary: 'No, cancelar',

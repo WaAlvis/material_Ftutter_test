@@ -4,8 +4,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
-import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
+import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_type/body_support_type.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -275,6 +278,24 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultNotificationCounter> response =
         await locator<LocalDailyGatewayService>().getNotificationsUnread(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultSupportStatus>> getSupportStatus(
+    BodySupportStatus body,
+  ) async {
+    final ResponseData<ResultSupportStatus> response =
+        await locator<LocalDailyGatewayService>().getSupportStatus(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultSupportType>> getSupportType(
+    BodySupportType body,
+  ) async {
+    final ResponseData<ResultSupportType> response =
+        await locator<LocalDailyGatewayService>().getSupportTypes(body);
 
     return response;
   }

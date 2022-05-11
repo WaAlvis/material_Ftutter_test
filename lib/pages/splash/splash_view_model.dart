@@ -38,6 +38,8 @@ class SplashViewModel extends ViewModel<SplashStatus> {
       configurationProvider,
       _interactor,
     );
+    ConfigurationModule.getSupportStatus(configurationProvider, _interactor);
+    ConfigurationModule.getSupportType(configurationProvider, _interactor);
 
     if (configurationProvider.getResultBanks != null &&
         configurationProvider.getResultDocsTypes != null &&

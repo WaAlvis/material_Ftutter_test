@@ -8,8 +8,10 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/contact_support/contact_support_effect.dart';
 import 'package:localdaily/pages/contact_support/contact_support_view_model.dart';
+import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
@@ -52,6 +54,7 @@ class ContactSupportBody extends StatefulWidget {
 }
 
 class _ContactSupportBodyState extends State<ContactSupportBody> {
+  final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   late StreamSubscription<ContactSupportEffect> _effectSubscription;
   final TextEditingController _descriptionCtrl = TextEditingController();
 
@@ -60,6 +63,8 @@ class _ContactSupportBodyState extends State<ContactSupportBody> {
     final ContactSupportViewModel viewModel =
         context.read<ContactSupportViewModel>();
     final DataUserProvider userProvider = context.read<DataUserProvider>();
+    final ConfigurationProvider configurationProvider =
+        context.read<ConfigurationProvider>();
 
     _effectSubscription = viewModel.effects.listen((event) {
       if (event is ShowSnackbarConnectivityEffect) {
@@ -71,12 +76,17 @@ class _ContactSupportBodyState extends State<ContactSupportBody> {
           context,
           'Se envió tu caso a soporte, espera una pronta respuesta en tu email',
         );
+      } else if (event is ShowLoadingEffect) {
+        LdDialog.buildLoadingDialog(context);
       } else if (event is CreateContactSupportEffect) {
-        viewModel.createContactSupport(
-          userProvider.getDataUserLogged!.email,
-          userProvider.getDataUserLogged!.id,
-          context,
-        );
+        if (keyForm.currentState!.validate()) {
+          viewModel.createContactSupport(
+            userProvider.getDataUserLogged!.email,
+            userProvider.getDataUserLogged!.id,
+            context,
+            configurationProvider.getResultSupportType,
+          );
+        }
       }
     });
     super.initState();
@@ -97,7 +107,10 @@ class _ContactSupportBodyState extends State<ContactSupportBody> {
         slivers: <Widget>[
           SliverFillRemaining(
             hasScrollBody: false,
-            child: _ContactSupportMobile(descriptionCtrl: _descriptionCtrl),
+            child: _ContactSupportMobile(
+              descriptionCtrl: _descriptionCtrl,
+              keyForm: keyForm,
+            ),
           )
         ],
       ),

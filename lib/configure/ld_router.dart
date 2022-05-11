@@ -258,6 +258,7 @@ class LdRouter {
       context,
       AppRoutes.detailOperOfferRoute.route,
       replace: replace,
+      transition: TransitionType.none,
       routeSettings: RouteSettings(
         arguments: <String, String>{
           'offerId': offerId,
@@ -277,6 +278,7 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.attachedFileRoute.route,
+      transition: TransitionType.none,
       routeSettings: RouteSettings(
         arguments: <String, String>{
           'type': isOper,
