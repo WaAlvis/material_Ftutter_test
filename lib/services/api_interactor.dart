@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -84,6 +86,15 @@ class ServiceInteractor {
 
     return response;
   }
+
+  Future<ResponseData<ResultChangePsw>> changePsw(
+      BodyChangePsw bodyChangePsw,) async {
+    final ResponseData<ResultChangePsw> response =
+    await locator<LocalDailyGatewayService>().changePsw(bodyChangePsw);
+
+    return response;
+  }
+
 
   Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
     final ResponseData<ResultHistoryOperationsUser> response =

@@ -1,6 +1,14 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
+import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 
 import 'change_password_status.dart';
@@ -14,7 +22,7 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     this._interactor,
   ) {
     status = ChangePasswordStatus(
-      isLoading: true,
+      isLoading: false,
       isError: false,
       isCurrentPswFieldEmpty: true,
       hasUpperLetter: false,
@@ -65,6 +73,79 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
         hasDigits;
   }
 
+  void changePsw(
+    BuildContext context,
+    String idUser,
+    String oldPsw,
+    String newPsw,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        status = status.copyWith(isLoading: true);
+        changePswService(context, idUser, oldPsw, newPsw);
+        // goPageSuccessRecover(context, textTheme, email);
+      } else {
+        // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void goPageSuccessChange(
+    BuildContext context,
+  ) {
+    final InfoViewArguments info = InfoViewArguments(
+      title: 'Felicitaciones',
+      imageType: ImageType.success,
+      description: 'Cambiaste tu contraseña de acceso a LocalDaily',
+      actionCaption: 'Finalizar',
+      onAction: () => _route.goSettings(context),
+    );
+    _route.goInfoView(context, info);
+  }
+
+  Digest encryptionPass(String pass) {
+    final List<int> bytes = utf8.encode(pass);
+    return sha256.convert(bytes);
+  }
+
+  Future<void> changePswService(
+    BuildContext context,
+    String idUser,
+    String oldPsw,
+    String newPsw,
+  ) async {
+    status = status.copyWith(isLoading: true);
+    final String oldSha256Psw = encryptionPass(oldPsw).toString();
+    final String newSha256Psw = encryptionPass(newPsw).toString();
+
+    final BodyChangePsw bodyChangePsw = BodyChangePsw(
+      clientId: 'f160e3d8-aca1-4c5b-a7df-c07a858013cd',
+      userId: idUser,
+      password: oldSha256Psw,
+      newPassword: newSha256Psw,
+    );
+
+    _interactor
+        .changePsw(bodyChangePsw)
+        .then((ResponseData<ResultChangePsw> response) {
+      if (response.isSuccess) {
+        // addEffect(ShowSuccessSnackbar('Contraseña actualizada'));
+        goPageSuccessChange(
+          context,
+        );
+        status = status.copyWith(isLoading: false);
+      } else {
+        // addEffect(ShowWarningSnackbar('Error en la actualizacion'));
+        status = status.copyWith(isError: true, isLoading: false);
+      }
+    }).catchError((err) {
+      status = status.copyWith(isError: true, isLoading: false);
+
+      // addEffect(ShowErrorSnackbar('Error en el servicio**'));
+      print('NewPsw Error As: ${err}');
+    });
+  }
+
   void hidePassword() => status = status.copyWith(
         hidePass: !status.hidePass,
       );
@@ -73,6 +154,9 @@ class ChangePasswordViewModel extends ViewModel<ChangePasswordStatus> {
     {
       if (email == null || email.isEmpty) {
         return '* La Contraseña actual es necesaria';
+      }
+      if (email.length < 8) {
+        return '* Minimo 8 caracteres';
       }
       return null;
     }

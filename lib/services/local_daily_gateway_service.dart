@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -44,6 +46,7 @@ class UrlsApi {
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
   static const String recoverPassword = '/Identity/GetRecoverPassword';
+  static const String changePassword = '/Identity/ChangePassword';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
@@ -91,11 +94,18 @@ abstract class LocalDailyGatewayService {
     @Body() BodyLogin bodyLogin,
   );
 
-  //Login & Register
+  //Recover Psw
   @POST(UrlsApi.recoverPassword)
   Future<ResponseData<ResultRecoverPsw>> recoverPsw(
     @Body() BodyRecoverPsw bodyRecoverPsw,
   );
+
+  //Change Psw
+  @POST(UrlsApi.changePassword)
+  Future<ResponseData<ResultChangePsw>> changePsw(
+      @Body() BodyChangePsw bodyChangePsw,
+      );
+
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(

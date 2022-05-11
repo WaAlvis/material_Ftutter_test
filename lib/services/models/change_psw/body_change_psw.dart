@@ -1,27 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'body_recover_psw.g.dart';
+part 'body_change_psw.g.dart';
 
 @JsonSerializable()
-class BodyRecoverPsw {
-  BodyRecoverPsw({
-    required this.filter,
-    required this.document,
-    required this.signature,
-    //Todo quest V
+class BodyChangePsw {
+  BodyChangePsw({
     required this.clientId,
-    required this.codeLang,
-
+    required this.userId,
+    required this.password,
+    required this.newPassword,
   });
 
-  factory BodyRecoverPsw.fromJson(Map<String, dynamic> json) =>
-      _$BodyRecoverPswFromJson(json);
+  factory BodyChangePsw.fromJson(Map<String, dynamic> json) =>
+      _$BodyChangePswFromJson(json);
 
-  String filter;
-  String document;
-  String signature;
   String clientId;
-  String codeLang;
+  String userId;
+  String password;
+  String newPassword;
 
-  Map<String, dynamic> toJson() => _$BodyRecoverPswToJson(this);
+  Map<String, dynamic> toJson() => _$BodyChangePswToJson(this);
 }
