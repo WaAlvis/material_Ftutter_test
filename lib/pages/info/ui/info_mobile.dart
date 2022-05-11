@@ -14,6 +14,8 @@ class _InfoMobile extends StatelessWidget {
       appBar: arguments.pageTitle == null || arguments.pageTitle!.isEmpty
           ? null
           : LdAppbar(
+              withBackIcon: true,
+              actionBack: arguments.actionBack,
               title: arguments.pageTitle,
               centerTitle: false,
             ),
@@ -33,7 +35,7 @@ class _InfoMobile extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: content(arguments, textTheme,size),
+                  children: content(arguments, textTheme, size),
                 ),
               ),
               if (arguments.hasActionButton)
@@ -68,18 +70,20 @@ List<Widget> divider() => <Widget>[
       ),
     ];
 
-List<Widget> content(InfoViewArguments arguments, TextTheme textTheme, Size size) =>
+List<Widget> content(
+        InfoViewArguments arguments, TextTheme textTheme, Size size) =>
     <Widget>[
       SvgPicture.asset(imageList[arguments.imageType.index]),
       const SizedBox(height: 20),
       Text(
         arguments.title!,
-        style: textTheme.infoTitle.copyWith(color: arguments.colorTitle),
+        style: textTheme.infoTitle
+            .copyWith(color: arguments.colorTitle, fontWeight: FontWeight.w500),
         textAlign: TextAlign.center,
       ),
       const SizedBox(height: 20),
       SizedBox(
-        width: size.width*.8,
+        width: size.width * .8,
         child: Text(
           arguments.description,
           style: textTheme.textWhite.copyWith(fontWeight: FontWeight.normal),

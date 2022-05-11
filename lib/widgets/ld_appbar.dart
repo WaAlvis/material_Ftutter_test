@@ -17,6 +17,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
   final ResultDataUser? dataUserProvider;
   final VoidCallback? goNotifications;
   final bool? centerTitle;
+  final void Function()? actionBack;
 
   const LdAppbar({
     this.dataUserProvider,
@@ -27,6 +28,7 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.goLogin,
     this.goNotifications,
     this.centerTitle = true,
+    this.actionBack,
   });
 
   @override
@@ -45,8 +47,8 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         leading: withBackIcon
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.arrow_back),
+                onPressed: actionBack ?? () => Navigator.of(context).pop(),
               )
             : null,
         title: title != null
