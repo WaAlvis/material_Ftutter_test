@@ -27,9 +27,9 @@ class _CardBankBuyState extends State<CardBankBuy> {
       if (bank.description.isNotEmpty) {
         isEmpty = false;
       }
-      print('**** $index  &&&& ${bank.description}');
-      print(
-          '${bank.description} posicion ${widget.viewModel.status.listAccountTypes.isEmpty}');
+      // print('**** $index  &&&& ${bank.description}');
+      // print(
+      //     '${bank.description} posicion ${widget.viewModel.status.listAccountTypes.isEmpty}');
 
       list.add(
         CardBankBuyDetails(

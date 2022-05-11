@@ -58,7 +58,6 @@ class _CustomSliderRangeState extends State<CustomSliderRange> {
               initialValue: viewModel.status.selectRange!,
               displayValues: DisplayValues.none,
               valueTransformer: (RangeValues? rangeVal) {
-                print(rangeVal);
                 return '[${rangeVal!.start}, ${rangeVal.end}]';
               },
               decoration: InputDecoration(

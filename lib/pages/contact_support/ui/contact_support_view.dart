@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/contact_support/contact_support_effect.dart';
 import 'package:localdaily/pages/contact_support/contact_support_view_model.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
-import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +26,7 @@ class ContactSupportView extends StatelessWidget {
     this.isbuy = false,
   }) : super(key: key);
   final String advertisementId;
-  final String reference;
+  final int reference;
   final bool isbuy;
 
   @override
@@ -31,6 +35,8 @@ class ContactSupportView extends StatelessWidget {
       create: (_) => ContactSupportViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
+        advertisementId,
+        reference,
         isbuy: isbuy,
       ),
       child: const ContactSupportBody(),
@@ -46,13 +52,40 @@ class ContactSupportBody extends StatefulWidget {
 }
 
 class _ContactSupportBodyState extends State<ContactSupportBody> {
+  late StreamSubscription<ContactSupportEffect> _effectSubscription;
   final TextEditingController _descriptionCtrl = TextEditingController();
-  final TextEditingController _mobileCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    final ContactSupportViewModel viewModel =
+        context.read<ContactSupportViewModel>();
+    final DataUserProvider userProvider = context.read<DataUserProvider>();
+
+    _effectSubscription = viewModel.effects.listen((event) {
+      if (event is ShowSnackbarConnectivityEffect) {
+        LdSnackbar.buildConnectivitySnackbar(context, event.message);
+      } else if (event is ShowSnackbarErrorEffect) {
+        LdSnackbar.buildErrorSnackbar(context, event.message);
+      } else if (event is ShowSnackbarSuccesEffect) {
+        LdSnackbar.buildSuccessSnackbar(
+          context,
+          'Se envió tu caso a soporte, espera una pronta respuesta en tu email',
+        );
+      } else if (event is CreateContactSupportEffect) {
+        viewModel.createContactSupport(
+          userProvider.getDataUserLogged!.email,
+          userProvider.getDataUserLogged!.id,
+          context,
+        );
+      }
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _effectSubscription.cancel();
     _descriptionCtrl.dispose();
-    _mobileCtrl.dispose();
     super.dispose();
   }
 
@@ -64,10 +97,7 @@ class _ContactSupportBodyState extends State<ContactSupportBody> {
         slivers: <Widget>[
           SliverFillRemaining(
             hasScrollBody: false,
-            child: _ContactSupportMobile(
-              descriptionCtrl: _descriptionCtrl,
-              mobileCtrl: _mobileCtrl,
-            ),
+            child: _ContactSupportMobile(descriptionCtrl: _descriptionCtrl),
           )
         ],
       ),

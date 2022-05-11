@@ -1,8 +1,10 @@
 part of 'notification_view.dart';
 
 class _NotificationMobile extends StatelessWidget {
-  const _NotificationMobile({Key? key, required this.notiScrollCtrl})
-      : super(key: key);
+  const _NotificationMobile({
+    Key? key,
+    required this.notiScrollCtrl,
+  }) : super(key: key);
   final ScrollController notiScrollCtrl;
 
   @override
@@ -11,53 +13,88 @@ class _NotificationMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: LdColors.blackBackground,
-      appBar: const LdAppbar(title: 'Notificaciones'),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const AppbarCircles(hAppbar: hAppbar),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                height: size.height - hAppbar,
-                constraints: BoxConstraints(
-                  minHeight: size.height - hAppbar,
-                  maxHeight: size.height - hAppbar,
-                ),
-                padding: const EdgeInsets.all(18.0),
-                decoration: const BoxDecoration(
-                  color: LdColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25),
+    final NotificationViewModel viewModel =
+        context.watch<NotificationViewModel>();
+    final DataUserProvider userProvider = context.read<DataUserProvider>();
+    final List<NotificationP> items = viewModel.status.resultNotification.data;
+
+    return WillPopScope(
+      onWillPop: () => viewModel.goHome(context),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: LdColors.blackBackground,
+        appBar: const LdAppbar(title: 'Notificaciones'),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const AppbarCircles(hAppbar: hAppbar),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height - hAppbar,
+                  constraints: BoxConstraints(
+                    minHeight: size.height - hAppbar,
+                    maxHeight: size.height - hAppbar,
                   ),
-                ),
-                child: RefreshIndicator(
-                  color: LdColors.orangePrimary,
-                  onRefresh: () async {
-                    await Future.delayed(Duration(seconds: 1));
-                  },
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 10,
-                    controller: notiScrollCtrl,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _NotificationSlide(
-                        index: index,
-                        notificationType: NotificationType.c,
-                        offerStatus: OfferStatus.Pendiente,
+                  padding: const EdgeInsets.all(18.0),
+                  decoration: const BoxDecoration(
+                    color: LdColors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25),
+                    ),
+                  ),
+                  child: RefreshIndicator(
+                    color: LdColors.orangePrimary,
+                    onRefresh: () async {
+                      await viewModel.getData(
+                        userProvider.getDataUserLogged?.id ?? '',
+                        refresh: true,
                       );
                     },
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      shrinkWrap: items.isEmpty,
+                      itemCount: viewModel.status.isLoading
+                          ? 10
+                          : items.isEmpty
+                              ? 1
+                              : items.length,
+                      controller: notiScrollCtrl,
+                      itemBuilder: (BuildContext context, int index) {
+                        return viewModel.status.isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: LdColors.whiteDark,
+                                highlightColor: LdColors.grayButton,
+                                child: const Card(
+                                  margin: EdgeInsets.all(10),
+                                  child: SizedBox(height: 100),
+                                ),
+                              )
+                            : items.isEmpty
+                                ? IntrinsicHeight(child: _EmptyNotifications())
+                                : _NotificationSlide(
+                                    viewModel: viewModel,
+                                    notificationType:
+                                        NotificationType.values.firstWhere(
+                                      (element) =>
+                                          element.name ==
+                                          items[index]
+                                              .identifierCode
+                                              .toLowerCase(),
+                                    ),
+                                    notification: items[index],
+                                  );
+                      },
+                    ),
                   ),
                 ),
-                //_EmptyNotifications(),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -87,24 +124,25 @@ class _EmptyNotifications extends StatelessWidget {
 class _NotificationSlide extends StatelessWidget {
   const _NotificationSlide({
     Key? key,
-    required this.index,
     required this.notificationType,
-    required this.offerStatus,
+    required this.notification,
+    required this.viewModel,
   }) : super(key: key);
-  final int index;
   final NotificationType notificationType;
-  final OfferStatus offerStatus;
+  final NotificationP notification;
+  final NotificationViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Slidable(
-        key: ValueKey<int>(index),
+        key: UniqueKey(),
         startActionPane: ActionPane(
           motion: const ScrollMotion(),
-          // TODO: Eliminar la notificación de la lista local y posteriormente de la bd? inhabilitar
-          dismissible: DismissiblePane(onDismissed: () {}),
+          dismissible: DismissiblePane(
+            onDismissed: () => viewModel.removeNotification(notification.id),
+          ),
           children: const <Widget>[
             SlidableAction(
               onPressed: null,
@@ -117,7 +155,7 @@ class _NotificationSlide extends StatelessWidget {
         ),
         child: _NotificationCard(
           notificationType: notificationType,
-          offerStatus: offerStatus,
+          notification: notification,
         ),
       ),
     );
@@ -128,20 +166,20 @@ class _NotificationCard extends StatelessWidget {
   const _NotificationCard({
     Key? key,
     required this.notificationType,
-    required this.offerStatus,
+    required this.notification,
   }) : super(key: key);
   final NotificationType notificationType;
-  final OfferStatus offerStatus;
+  final NotificationP notification;
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat format = DateFormat('dd-MM-yyyy hh:mm a');
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Color colorLight = _getNotificationColor(
-      notificationType,
-      offerStatus,
+      notification,
       isLight: true,
     );
-    final Color color = _getNotificationColor(notificationType, offerStatus);
+    final Color color = _getNotificationColor(notification);
     final bool needContrast = notificationType == NotificationType.sc ||
         notificationType == NotificationType.sv;
 
@@ -179,7 +217,7 @@ class _NotificationCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  'Ejemplo de notificación',
+                  notification.tittle,
                   style: textTheme.textBlack.copyWith(
                     fontWeight: FontWeight.w500,
                     color: needContrast ? LdColors.blackText : color,
@@ -194,11 +232,13 @@ class _NotificationCard extends StatelessWidget {
                         color: LdColors.blackText,
                       ),
                       children: <TextSpan>[
-                        const TextSpan(
-                            text:
-                                'Tu oferta de venta #00001 pasó al estado cerrado. Los DLYCOP fueron entregados. '),
+                        TextSpan(text: '${notification.message} '),
                         TextSpan(
-                          text: '17/11/2021 - 08:34 a.m.',
+                          text: format.format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              notification.createDate,
+                            ),
+                          ),
                           style: textTheme.textBlack
                               .copyWith(fontSize: 12, color: LdColors.gray),
                         ),
@@ -216,20 +256,18 @@ class _NotificationCard extends StatelessWidget {
 }
 
 Color _getNotificationColor(
-  NotificationType notificationType,
-  OfferStatus offerStatus, {
+  NotificationP notification, {
   bool isLight = false,
 }) {
-  if (notificationType == NotificationType.sc ||
-      notificationType == NotificationType.sv) {
+  if (notification.isSupportNotification) {
     return isLight ? LdColors.yellowlight : LdColors.yellowDark;
-  } else if (notificationType == NotificationType.t) {
+  } else if (notification.isExpirationDate) {
     return isLight ? LdColors.redlight : LdColors.orangeWarning;
-  } else if (offerStatus == OfferStatus.Publicado) {
+  } else if (notification.isPublishNotification) {
     return isLight ? LdColors.orangelight : LdColors.orangePrimary;
-  } else if (offerStatus == OfferStatus.Pendiente) {
+  } else if (notification.isPendingNotification) {
     return isLight ? LdColors.graylight : LdColors.blackText;
-  } else if (offerStatus == OfferStatus.Cerrado) {
+  } else if (notification.isClosingNotification) {
     return isLight ? LdColors.bluelight : LdColors.blueDark;
   } else {
     return isLight ? LdColors.greenlight : LdColors.green;

@@ -22,7 +22,7 @@ class OperationCard extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: onTap, //asi pase bien la navegacion?
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: LdColors.white,

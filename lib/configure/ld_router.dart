@@ -187,11 +187,23 @@ class LdRouter {
     );
   }
 
-  void goContactSupport(BuildContext context) {
+  void goContactSupport(
+    BuildContext context,
+    String offerId,
+    int reference, {
+    bool isBuy = false,
+  }) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.contactSupport.route,
       transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, dynamic>{
+          'id': offerId,
+          'reference': reference,
+          'isBuy': isBuy,
+        },
+      ),
     );
   }
 

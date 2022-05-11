@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/attach_file/result_get_attach_file.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
@@ -27,6 +28,10 @@ import 'package:localdaily/services/models/info_user_publish/response/result_inf
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -243,6 +248,33 @@ class ServiceInteractor {
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().addRateUser(body);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> createContactSupport(
+    BodyContactSupport body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().createSupportCase(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultNotification>> getNotifications(
+    BodyNotifications body,
+  ) async {
+    final ResponseData<ResultNotification> response =
+        await locator<LocalDailyGatewayService>().getNotifications(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
+    BodyNotificationCounter body,
+  ) async {
+    final ResponseData<ResultNotificationCounter> response =
+        await locator<LocalDailyGatewayService>().getNotificationsUnread(body);
 
     return response;
   }

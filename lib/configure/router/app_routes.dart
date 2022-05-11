@@ -146,10 +146,13 @@ class AppRoutes {
   static final AppRoute contactSupport = AppRoute(
     '/contact_support',
     Handler(
-      handlerFunc: (_, __) => const ContactSupportView(
-        advertisementId: '',
-        reference: '',
-        isbuy: true,
+      handlerFunc: (BuildContext? context, __) => ContactSupportView(
+        advertisementId: (context!.settings!.arguments!
+            as Map<String, dynamic>)['id'] as String,
+        reference: (context.settings!.arguments!
+            as Map<String, dynamic>)['reference'] as int,
+        isbuy: (context.settings!.arguments! as Map<String, dynamic>)['isBuy']
+            as bool,
       ),
     ),
   );
