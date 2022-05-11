@@ -29,6 +29,7 @@ class LdDialog {
     BuildContext context, {
     required Widget customWidget,
     required String title,
+    required bool isClosed,
     String? btnText,
     VoidCallback? onTap,
     String? btnTextSecondary,
@@ -43,6 +44,7 @@ class LdDialog {
       btnTextSecondary: btnTextSecondary,
       onTapSecondary: onTapSecondary,
       onTapClose: onTapClose,
+      isClosed: isClosed,
     );
   }
 

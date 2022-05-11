@@ -5,13 +5,13 @@ part 'cancel_oper.g.dart';
 @JsonSerializable()
 class CancelOper {
   CancelOper({
-    required this.advertisementId,
+    required this.idAvertisement,
   });
 
   factory CancelOper.fromJson(Map<String, dynamic> json) =>
       _$CancelOperFromJson(json);
 
-  String advertisementId;
+  String idAvertisement;
 
   Map<String, dynamic> toJson() => _$CancelOperToJson(this);
 }

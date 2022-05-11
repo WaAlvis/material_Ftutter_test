@@ -72,7 +72,6 @@ class AttachedFileViewModel
         status = status.copyWith(isLoading: false);
         closeDialog(context);
       } catch (e) {
-        print('error al traer la imagen $e');
         status = status.copyWith(isLoading: false);
         closeDialog(context);
       }
@@ -153,8 +152,7 @@ class AttachedFileViewModel
       status = status.copyWith(extensionUrl: result.files.first.extension);
       status = status.copyWith(file: file);
       status = status.copyWith(filePath: file.path);
-      print(
-          '${status.extensionUrl} pppppppppppp ${result.files.first.extension}');
+
       closeDialog(context);
     } else {
       // User canceled the picker
@@ -191,14 +189,13 @@ class AttachedFileViewModel
         '${dir!.path}/${DateTime.now().millisecondsSinceEpoch.toString()}.pdf',
       );
       await file.writeAsBytes(docFile);
-      print(dir.path);
+
       addEffect(
         ShowSnackbarSuccesEffect(
           'Archivo guardado exitosamente en: ${file.path}',
         ),
       );
       Uint8List contents = await file.readAsBytes();
-      print('${contents.length} ontenido del archivo');
       status = status.copyWith(isLoading: false);
       try {
         OpenFile.open(file.path);

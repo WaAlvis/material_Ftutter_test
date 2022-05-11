@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/commons/ld_assets.dart';
+import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -20,6 +23,7 @@ import 'package:localdaily/services/models/notifications/counter/body_notificati
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -127,7 +131,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
               extraFilters: ExtraFilters(), extraFiltersString: '');
         });
     status = status.copyWith(filtersArguments: filtersArguments);
-
     getData(context, resultDataUser?.id ?? '');
     if (resultDataUser == null) return;
 
@@ -146,6 +149,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   ) async {
     status = status.copyWith(
         typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters());
+
     await getData(context, userId, refresh: true);
   }
 
@@ -677,8 +681,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   int countFilters() {
-    print(
-        'extrafiltersstring ${status.extraFiltersString}  extrafilters ${status.extraFilters?.toJson()}');
     int count = 0;
     if (status.extraFilters?.range != null &&
         status.extraFilters?.range != -1) {
@@ -695,11 +697,83 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     if (status.extraFilters?.bank != null &&
         status.extraFilters?.bank != '[]') {
       count = count + 1;
-      print(
-          '${status.extraFilters!.bank} Filtro de bancos account ${status.extraFilters!.bank?.isEmpty}');
     }
 
     return count;
+  }
+
+  openRateSeller(BuildContext context, TextTheme textTheme) {
+    Widget customWidget = Container(
+      // padding: const EdgeInsets.all(25),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            height: 150,
+            margin: const EdgeInsets.only(bottom: 18),
+            child: SvgPicture.asset(LdAssets.dlycopfree),
+          ),
+          Flexible(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '¡Dailys liberados!',
+                      style: textTheme.bodyMedium!.copyWith(
+                        fontSize: 24,
+                        color: LdColors.orangePrimary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'Ya recibiste exitosamente tus DLYCOP.',
+                      style: textTheme.bodySmall!.copyWith(
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          MaterialButton(
+            color: LdColors.orangePrimary,
+            minWidth: double.maxFinite,
+            height: 42,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            disabledColor: LdColors.orangePrimary.withOpacity(0.7),
+            onPressed: () {
+              closeDialog(context);
+            },
+            child: Text(
+              'btnText',
+              // style: textTheme.textBlack.copyWith(
+              //   fontSize: 16,
+              // ),
+            ),
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+    return LdDialog.buildWidgetAlertDialog(
+      context,
+      customWidget: customWidget,
+      title: '',
+      isClosed: false,
+    );
   }
 }
 

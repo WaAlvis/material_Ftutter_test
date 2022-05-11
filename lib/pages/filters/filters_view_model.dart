@@ -66,7 +66,6 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
   void getDialogBanks(BuildContext context) {
     final GlobalKey<FormBuilderState> _formKeyBanks =
         GlobalKey<FormBuilderState>();
-    print('Lista de bancos ${status.banks}');
     final Widget customWidget = FormBuilderCheckboxGroup(
       key: _formKeyBanks,
       name: 'listBanks',
@@ -81,13 +80,13 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
       },
       options: status.resultGetBanks.data
           .map(
-            (data) => FormBuilderFieldOption(
+            (Bank data) => FormBuilderFieldOption(
+              value: data.description,
               child: Row(
                 children: [
                   Text(data.description),
                 ],
               ),
-              value: data.description,
             ),
           )
           .toList(growable: false),
@@ -97,6 +96,7 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
       context,
       customWidget: customWidget,
       title: 'Selecciona las entidades',
+      isClosed: true,
     );
   }
 
@@ -150,26 +150,18 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
 
   void setRange(int? index) {
     status = status.copyWith(range: index);
-    print(status.range);
-    print(index);
   }
 
   void setStatus(int? index) {
     status = status.copyWith(status: index);
-    print(status.status);
-    print(index);
   }
 
   void setDateExpiry(int? index) {
     status = status.copyWith(dateExpiry: index);
-    print(status.dateExpiry);
-    print('$index index');
   }
 
   void setRangeSlider(RangeValues rangeValues) {
     status = status.copyWith(selectRange: rangeValues);
-    print(status.dateExpiry);
-    print(rangeValues);
   }
 
   void goToHome(BuildContext context) {
@@ -189,7 +181,6 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
     if (listBank != null && listBank != '') {
 // jsonDecode(listBank) as List<String>.cast<String>();
       stringList = listBank.split(',');
-      print(stringList);
     }
     status = status.copyWith(
       range: filtersArguments.extraFilters?.range,
@@ -201,7 +192,6 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
 
   void clearFilters() {
     status = status.copyWith(range: -1, dateExpiry: -1, status: -1, banks: []);
-    print(status.range);
   }
 
   List<String> setBankApi(String banks) {

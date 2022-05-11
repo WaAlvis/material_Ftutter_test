@@ -147,7 +147,7 @@ class _ProfileSellerMobile extends StatelessWidget {
   Widget _summaryOperationsRow(
     TextTheme textTheme, {
     required String titleSection,
-    required List<dynamic> leftBox ,
+    required List<dynamic> leftBox,
     required List<dynamic> rightBox,
   }) {
     return Column(
@@ -348,7 +348,7 @@ class RateStars extends StatelessWidget {
         color: LdColors.white,
       ),
       onRatingUpdate: (double rating) {
-        print(rating);
+        // print(rating);
       },
     );
   }

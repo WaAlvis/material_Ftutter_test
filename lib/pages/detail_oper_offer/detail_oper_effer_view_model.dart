@@ -70,8 +70,7 @@ class DetailOperOfferViewModel
     status = status.copyWith(isLoading: true);
     status = status.copyWith(isOper2: isOper == 'Operacion' ? true : false);
     status = status.copyWith(userId: dataUserProvider.getDataUserLogged!.id);
-    print(
-        '${status.isOper2} que esta llegando ${status.isBuy} isoper??? $isOper');
+
     if (next) {
       // TODO: consultar tipo de cuentas
       // getAccountsType(context);
@@ -94,12 +93,10 @@ class DetailOperOfferViewModel
           try {
             response.result!.advertisementPayAccount!
                 .forEach((AdvertisementPayAccount account) {
-              print('account ${account.toJson()}');
               int index = listAccountTypes!.indexWhere(
                   (AccountType accountType) =>
                       accountType.id == account.accountTypeId);
 
-              print('${index} accounttype');
               if (index != -1) {
                 status = status.copyWith(
                   listAccountTypes: <AccountType>[
@@ -365,7 +362,7 @@ class DetailOperOfferViewModel
     closeDialog(context);
 
     status = status.copyWith(isLoading: true);
-    final CancelOper body = CancelOper(advertisementId: json.encode(offerId));
+    final CancelOper body = CancelOper(idAvertisement: offerId);
 
     try {
       await _interactor.cancelOperation(body).then((response) {
@@ -377,20 +374,17 @@ class DetailOperOfferViewModel
           imageType: ImageType.success,
           pageTitle: '',
           onAction: () {
-            print('pantalla nueva ');
-
             try {
               closeDialog(context);
               _router.goHome(context);
             } catch (e) {
-              print('pantalla nueva $e');
+              print(' $e');
             }
           },
         );
         if (response.isSuccess) {
           _router.goInfoView(context, info);
         } else {
-          print('algo salio mal');
           status = status.copyWith(isLoading: false);
           addEffect(ShowSnackbarErrorEffect(
             'Algo salio mal, por favor intente nuevamente',
@@ -438,6 +432,9 @@ class DetailOperOfferViewModel
 
   void setRate(double rate) {
     status = status.copyWith(rateUser: rate);
-    print('Status.rate ${status.rateUser}');
+  }
+
+  void goProfile(BuildContext context) {
+    _router.goProfileSeller(context, status.item!.idUserPublish, 'En proceso');
   }
 }

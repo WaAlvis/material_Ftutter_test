@@ -201,7 +201,22 @@ class OptionsFilterRow extends StatelessWidget {
               'Filtros ($quantityFilter)',
               style: textTheme.textSmallBlack,
             ),
-          )
+          ),
+          const SizedBox(
+            width: 200,
+          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     viewModel.openRateSeller(
+          //       context,
+          //       textTheme,
+          //     );
+          //   },
+          //   child: Text(
+          //     'CVendedor',
+          //     style: textTheme.textSmallBlack,
+          //   ),
+          // )
         ],
       ),
     );

@@ -12,7 +12,6 @@ class _AttachedFileMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     //Alturas de el APpbar y el body
     const double hAppbar = 100;
-    print(' viewModel.status.isView  ${viewModel.status.isView}');
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
