@@ -35,3 +35,9 @@ enum SupportType {
   LocalDLYBuy,
   LocalDLYSale,
 }
+
+enum SupportStatus {
+  Abierto,
+  Proceso,
+  Cerrado,
+}

@@ -9,7 +9,6 @@ import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
-import 'package:localdaily/pages/home/home_status.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/pages/login/ui/login_view.dart';
@@ -21,7 +20,7 @@ import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
-import 'package:localdaily/services/models/home/extra_filters.dart';
+import 'package:localdaily/pages/support_cases/ui/support_cases_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
@@ -211,6 +210,13 @@ class AppRoutes {
             )),
   );
 
+  static final AppRoute supportCasesRoute = AppRoute(
+    '/supportCases',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => const SupportCasesView(),
+    ),
+  );
+
   static final List<AppRoute> routes = <AppRoute>[
     rootRoute,
     homeRoute,
@@ -235,5 +241,6 @@ class AppRoutes {
     detailOperOfferRoute,
     attachedFileRoute,
     filters,
+    supportCasesRoute
   ];
 }

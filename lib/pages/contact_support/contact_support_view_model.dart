@@ -76,11 +76,13 @@ class ContactSupportViewModel
     }
 
     final BodyContactSupport body = BodyContactSupport(
-      idPublish: advertisementId,
+      idAdvertisement: advertisementId,
       idUserPublish: userId,
       description: status.description,
-      email: email,
+      emailUserPublish: email,
       idSupportType: idSupportType,
+      jiraKey: '',
+      userPublishNickname: '',
       id: '',
       datePublish: '',
       dateSolution: '',
@@ -88,7 +90,7 @@ class ContactSupportViewModel
       idUserSupport: '',
       jiraLink: '',
     );
-    print(body.toJson());
+
     try {
       await _interactor.createContactSupport(body).then((response) {
         status = status.copyWith(isLoading: false);

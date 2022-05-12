@@ -45,6 +45,8 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
+import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 
 class ServiceInteractor {
@@ -296,6 +298,15 @@ class ServiceInteractor {
   ) async {
     final ResponseData<ResultSupportType> response =
         await locator<LocalDailyGatewayService>().getSupportTypes(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultSupportCases>> getSupportCases(
+    BodySupportCases body,
+  ) async {
+    final ResponseData<ResultSupportCases> response =
+        await locator<LocalDailyGatewayService>().getSupportCases(body);
 
     return response;
   }

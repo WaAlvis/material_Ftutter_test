@@ -10,7 +10,6 @@ class _NotificationMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double hAppbar = 100;
-    final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
     final NotificationViewModel viewModel =
