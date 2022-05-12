@@ -19,6 +19,7 @@ import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
+import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 
 class LdConverter<T> implements JsonConverter<T, Object?> {
   const LdConverter();
@@ -72,6 +73,8 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultSupportStatus.fromJson(json) as T;
       } else if ('$T' == '$ResultSupportType?' || T == ResultSupportType) {
         return ResultSupportType.fromJson(json) as T;
+      } else if ('$T' == '$ResultSupportCases?' || T == ResultSupportCases) {
+        return ResultSupportCases.fromJson(json) as T;
       }
     }
     return json as T;

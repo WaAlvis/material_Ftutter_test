@@ -43,6 +43,8 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
+import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
 
@@ -95,6 +97,7 @@ class UrlsApi {
       '/WebAdmin/Notification/GetCountNotificationUnread';
   static const String getSupportStatus = '/WebAdmin/SupportStatus';
   static const String getSupportTypes = '/WebAdmin/SupportType';
+  static const String getSupportCases = '/WebAdmin/SupportCase/GetSupport';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -250,8 +253,14 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<ResultSupportStatus>> getSupportStatus(
     @Body() BodySupportStatus body,
   );
+
   @POST(UrlsApi.getSupportTypes)
   Future<ResponseData<ResultSupportType>> getSupportTypes(
     @Body() BodySupportType body,
+  );
+
+  @POST(UrlsApi.getSupportCases)
+  Future<ResponseData<ResultSupportCases>> getSupportCases(
+    @Body() BodySupportCases body,
   );
 }

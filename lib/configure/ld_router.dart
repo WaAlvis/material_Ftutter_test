@@ -4,11 +4,6 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
-import 'package:localdaily/pages/home/home_status.dart';
-import 'package:localdaily/services/models/detail_oper_offer/advertisement_document.dart';
-import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
-import 'package:localdaily/services/models/home/extra_filters.dart';
-import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -287,6 +282,16 @@ class LdRouter {
           'isView': isView,
         },
       ),
+    );
+  }
+
+  void goSupportCases(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.supportCasesRoute.route,
+      transition: TransitionType.none,
     );
   }
 }

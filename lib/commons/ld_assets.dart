@@ -28,6 +28,7 @@ class LdAssets {
   static const String infoOk = '$pathImages/info_ok.svg';
   static const String infoMail = '$pathImages/mail.svg';
   static const String dlycopfree = '$pathImages/dlycloseoper.svg';
+  static const String emptySupport = '$pathImages/empty_support.svg';
 
   static const String dlycopIconWhite = '$pathIcons/DLYcop_white.svg';
   static const String dlycopIconBlack = '$pathIcons/DLYcop_black.svg';
