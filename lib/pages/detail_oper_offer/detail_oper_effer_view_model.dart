@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/commons/ld_assets.dart';
+import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_oper_offer/detail_oper_offer_effect.dart';
@@ -306,7 +308,7 @@ class DetailOperOfferViewModel
       title: '¡Dailys entregados!',
       description: 'Tus Dailys fueron entregados exitosamente al comprador.',
       imageType: ImageType.success,
-      pageTitle: ' ',
+      pageTitle: '',
       customWidget: CardRateUser(
         viewModel: viewModel,
       ),
@@ -436,5 +438,85 @@ class DetailOperOfferViewModel
 
   void goProfile(BuildContext context) {
     _router.goProfileSeller(context, status.item!.idUserPublish, 'En proceso');
+  }
+
+  void openRateSeller(
+    BuildContext context,
+    TextTheme textTheme,
+    DetailOperOfferViewModel viewModel,
+  ) {
+    Widget customWidget = Container(
+      // padding: const EdgeInsets.all(25),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            height: 150,
+            margin: const EdgeInsets.only(bottom: 18),
+            child: SvgPicture.asset(LdAssets.dlycopfree),
+          ),
+          Flexible(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '¡Dailys liberados!',
+                      style: textTheme.bodyMedium!.copyWith(
+                        fontSize: 24,
+                        color: LdColors.orangePrimary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'Ya recibiste exitosamente tus DLYCOP.',
+                      style: textTheme.bodySmall!
+                          .copyWith(fontSize: 18, color: LdColors.blackText),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 34,
+                    ),
+                    CardRateUser(viewModel: viewModel)
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          MaterialButton(
+            color: LdColors.orangePrimary,
+            minWidth: double.maxFinite,
+            height: 42,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            disabledColor: LdColors.orangePrimary.withOpacity(0.7),
+            onPressed: () {
+              closeDialog(context);
+            },
+            child: Text(
+              'Finalizar',
+              style: textTheme.bodyText1!.copyWith(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    return LdDialog.buildWidgetAlertDialog(
+      context,
+      customWidget: customWidget,
+      title: '',
+      isClosed: false,
+    );
   }
 }

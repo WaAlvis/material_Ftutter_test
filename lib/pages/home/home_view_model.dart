@@ -9,6 +9,7 @@ import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/local_storage_service.dart';
+import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
@@ -409,7 +410,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
-      strJsonExtraFilters: status.extraFiltersString ?? '',
+      strJsonExtraFilters:
+          status.extraFiltersString?.replaceAll('-1', 'null') ?? '',
     );
     final BodyHome body = BodyHome(
       pagination: pagination,
@@ -518,7 +520,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         statusCode: '${OfferStatus.Pendiente.index}',
         idUserExclusion: '',
         idUserInteraction: userId,
-        strJsonExtraFilters: status.extraFiltersString ?? '');
+        strJsonExtraFilters:
+            status.extraFiltersString?.replaceAll('-1', 'null') ?? '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -618,7 +621,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         statusCode: '',
         idUserExclusion: '',
         idUserInteraction: '',
-        strJsonExtraFilters: status.extraFiltersString ?? '');
+        strJsonExtraFilters:
+            status.extraFiltersString?.replaceAll('-1', 'null') ?? '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -700,80 +704,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     }
 
     return count;
-  }
-
-  openRateSeller(BuildContext context, TextTheme textTheme) {
-    Widget customWidget = Container(
-      // padding: const EdgeInsets.all(25),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            height: 150,
-            margin: const EdgeInsets.only(bottom: 18),
-            child: SvgPicture.asset(LdAssets.dlycopfree),
-          ),
-          Flexible(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      '¡Dailys liberados!',
-                      style: textTheme.bodyMedium!.copyWith(
-                        fontSize: 24,
-                        color: LdColors.orangePrimary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Text(
-                      'Ya recibiste exitosamente tus DLYCOP.',
-                      style: textTheme.bodySmall!.copyWith(
-                        fontSize: 18,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          MaterialButton(
-            color: LdColors.orangePrimary,
-            minWidth: double.maxFinite,
-            height: 42,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            disabledColor: LdColors.orangePrimary.withOpacity(0.7),
-            onPressed: () {
-              closeDialog(context);
-            },
-            child: Text(
-              'btnText',
-              // style: textTheme.textBlack.copyWith(
-              //   fontSize: 16,
-              // ),
-            ),
-          ),
-          const SizedBox(height: 10),
-        ],
-      ),
-    );
-    return LdDialog.buildWidgetAlertDialog(
-      context,
-      customWidget: customWidget,
-      title: '',
-      isClosed: false,
-    );
   }
 }
 

@@ -25,9 +25,7 @@ class _InteractiveAttachedFileState extends State<InteractiveAttachedFile> {
   Widget build(BuildContext context) {
     final AttachedFileViewModel viewModel =
         context.watch<AttachedFileViewModel>();
-    print(
-      '${viewModel.status.filePath} ruta del archivo ${viewModel.status.extensionFile} extension del archivo ${viewModel.status.bytes?.isEmpty} archivo en bytes .${viewModel.status.extensionUrl}',
-    );
+
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
