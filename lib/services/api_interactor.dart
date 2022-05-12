@@ -79,10 +79,10 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultRecoverPsw>> requestPsw(
+  Future<ResponseData<ResultRecoverPsw>> requestNewPsw(
       BodyRecoverPsw bodyRecoverPsw) async {
     final ResponseData<ResultRecoverPsw> response =
-        await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
+        await locator<LocalDailyGatewayService>().recoverNewPsw(bodyRecoverPsw);
 
     return response;
   }

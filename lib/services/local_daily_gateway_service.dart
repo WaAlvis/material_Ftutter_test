@@ -96,7 +96,7 @@ abstract class LocalDailyGatewayService {
 
   //Recover Psw
   @POST(UrlsApi.recoverPassword)
-  Future<ResponseData<ResultRecoverPsw>> recoverPsw(
+  Future<ResponseData<ResultRecoverPsw>> recoverNewPsw(
     @Body() BodyRecoverPsw bodyRecoverPsw,
   );
 

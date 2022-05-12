@@ -48,7 +48,6 @@ class RecoverPswViewModel
       if (isConnectionValid) {
         status = status.copyWith(isLoading: true);
         sendNewPsw(context, textTheme, email);
-        // goPageSuccessRecover(context, textTheme, email);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -76,7 +75,7 @@ class RecoverPswViewModel
     );
 
     _interactor
-        .requestPsw(bodyRecoverPsw)
+        .requestNewPsw(bodyRecoverPsw)
         .then((ResponseData<ResultRecoverPsw> response) {
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Nueva contraseña enviada'));
