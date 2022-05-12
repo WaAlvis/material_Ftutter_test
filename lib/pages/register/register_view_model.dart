@@ -200,59 +200,59 @@ class RegisterViewModel
   void validateCodePin(
     String codePin,
   ) {
-    // status = status.copyWith(
-    //   isLoading: true,
-    // );
-    // LdConnection.validateConnection().then((bool isConnectionValid) {
-    //   if (isConnectionValid) {
-    //     validatedPin(codePin);
-    //   } else {
-    //     addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-    //   }
-    //   status = status.copyWith(
-    //     isLoading: false,
-    //   );
-    // });
+    status = status.copyWith(
+      isLoading: true,
+    );
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        validatedPin(codePin);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+      status = status.copyWith(
+        isLoading: false,
+      );
+    });
   }
 
-  // Future<void> validatedPin(
-  //   //fin step 3
-  //   String codePin,
-  // ) async {
-  //   status = status.copyWith(
-  //     isLoading: true,
-  //   );
-  //
-  //   final EntityValidatePin entityValidatePin = EntityValidatePin(
-  //     numberOrEmail: status.emailRegister,
-  //     otp: codePin,
-  //   );
-  //   final BodyValidatePin bodyValidatePin = BodyValidatePin(
-  //     entity: entityValidatePin,
-  //   );
-  //
-  //   _interactor.validatePin(bodyValidatePin).then((
-  //     ResponseData<ResultValidatePin> response,
-  //   ) {
-  //     if (response.isSuccess) {
-  //       if (response.result!.valid) {
-  //         addEffect(ShowSuccessSnackbar('Pin validado con éxito'));
-  //         goNextStep(
-  //           currentStep: RegisterStep.validatePinStep_3,
-  //         );
-  //       } else {
-  //         addEffect(ShowWarningSnackbar('Codigo incorrecto'));
-  //       }
-  //     } else {
-  //       addEffect(ShowWarningSnackbar('Error en la validación'));
-  //     }
-  //     status = status.copyWith(isLoading: false);
-  //   }).catchError((Object err) {
-  //     addEffect(ShowErrorSnackbar('Error servicio**'));
-  //
-  //     status = status.copyWith(isLoading: false);
-  //   });
-  // }
+  Future<void> validatedPin(
+    //fin step 3
+    String codePin,
+  ) async {
+    status = status.copyWith(
+      isLoading: true,
+    );
+
+    final EntityValidatePin entityValidatePin = EntityValidatePin(
+      numberOrEmail: status.emailRegister,
+      otp: codePin,
+    );
+    final BodyValidatePin bodyValidatePin = BodyValidatePin(
+      entity: entityValidatePin,
+    );
+
+    _interactor.validatePin(bodyValidatePin).then((
+      ResponseData<ResultValidatePin> response,
+    ) {
+      if (response.isSuccess) {
+        if (response.result!.valid) {
+          addEffect(ShowSuccessSnackbar('Pin validado con éxito'));
+          goNextStep(
+            currentStep: RegisterStep.validatePinStep_3,
+          );
+        } else {
+          addEffect(ShowWarningSnackbar('Codigo incorrecto'));
+        }
+      } else {
+        addEffect(ShowWarningSnackbar('Error en la validación'));
+      }
+      status = status.copyWith(isLoading: false);
+    }).catchError((Object err) {
+      addEffect(ShowErrorSnackbar('Error servicio**'));
+
+      status = status.copyWith(isLoading: false);
+    });
+  }
 
   Future<void> reSendPinToEmail(String email) => sendPinToEmail(email);
 
