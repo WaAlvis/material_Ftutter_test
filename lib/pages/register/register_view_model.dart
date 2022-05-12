@@ -170,7 +170,6 @@ class RegisterViewModel
       if (isConnectionValid) {
         await sendPinToEmail(email);
         //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
-        goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }

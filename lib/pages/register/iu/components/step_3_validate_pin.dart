@@ -121,22 +121,9 @@ class Step3ValidatePin extends StatelessWidget {
                                 fontSize: 11,
                               ),
                             ),
-                            onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: const Text('Codigo Reenviado!'),
-                                  action: SnackBarAction(
-                                    label: 'OK',
-                                    onPressed: () {
-                                      // Code to execute.
-                                    },
-                                  ),
-                                ),
-                              );
-                              viewModel.reSendPinToEmail(
-                                viewModel.status.emailRegister,
-                              );
-                            },
+                            onTap: () => viewModel.reSendPinToEmail(
+                              viewModel.status.emailRegister,
+                            ),
                           ),
                           Text(
                             ' el codigo?',
@@ -158,12 +145,12 @@ class Step3ValidatePin extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 10),
-                PrimaryButtonCustom(
-                  'Continuar sin validar',
-                  onPressed: () => viewModel.goNextStep(
-                    currentStep: RegisterStep.validatePinStep_3,
-                  ),
-                ),
+                // PrimaryButtonCustom(
+                //   'Continuar sin validar',
+                //   onPressed: () => viewModel.goNextStep(
+                //     currentStep: RegisterStep.validatePinStep_3,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -221,7 +208,6 @@ class PinCodeWidget extends StatelessWidget {
       errorAnimationDuration: 10,
       errorTextSpace: 30,
       pinTheme: PinTheme(
-
         selectedColor: LdColors.orangePrimary,
         activeColor: viewModel.status.isErrorPinValidate
             ? LdColors.orangeWarning
