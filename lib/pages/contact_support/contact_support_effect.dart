@@ -17,3 +17,5 @@ class ShowSnackbarErrorEffect extends ContactSupportEffect {
   final String message;
   ShowSnackbarErrorEffect(this.message);
 }
+
+class ShowLoadingEffect extends ContactSupportEffect {}

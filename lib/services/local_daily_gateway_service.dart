@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
+import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_type/body_support_type.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -89,6 +93,8 @@ class UrlsApi {
       '/WebAdmin/Notification/GetNotificationByUserId';
   static const String getNotificationsUnread =
       '/WebAdmin/Notification/GetCountNotificationUnread';
+  static const String getSupportStatus = '/WebAdmin/SupportStatus';
+  static const String getSupportTypes = '/WebAdmin/SupportType';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -238,5 +244,14 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getNotificationsUnread)
   Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
     @Body() BodyNotificationCounter body,
+  );
+
+  @POST(UrlsApi.getSupportStatus)
+  Future<ResponseData<ResultSupportStatus>> getSupportStatus(
+    @Body() BodySupportStatus body,
+  );
+  @POST(UrlsApi.getSupportTypes)
+  Future<ResponseData<ResultSupportType>> getSupportTypes(
+    @Body() BodySupportType body,
   );
 }

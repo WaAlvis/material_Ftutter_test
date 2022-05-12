@@ -9,7 +9,7 @@ class BodyContactSupport {
     this.datePublish,
     required this.idUserPublish,
     required this.description,
-    this.idSupportType,
+    required this.idSupportType,
     this.idSupportStatus,
     this.idUserSupport,
     this.dateSolution,
@@ -25,7 +25,7 @@ class BodyContactSupport {
   String? datePublish;
   String idUserPublish;
   String description;
-  String? idSupportType;
+  String idSupportType;
   String? idSupportStatus;
   String? idUserSupport;
   String? dateSolution;

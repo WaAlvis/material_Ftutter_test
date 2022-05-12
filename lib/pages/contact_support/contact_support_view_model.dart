@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/contact_support/contact_support_effect.dart';
 import 'package:localdaily/pages/contact_support/contact_support_status.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/view_model.dart';
 
 class ContactSupportViewModel
@@ -56,17 +58,41 @@ class ContactSupportViewModel
     String email,
     String userId,
     BuildContext context,
+    ResultSupportType? supportTypes,
   ) async {
     status = status.copyWith(isLoading: true);
+    addEffect(ShowLoadingEffect());
+
+    String idSupportType = '';
+    if (supportTypes != null) {
+      final int index = supportTypes.data.indexWhere(
+        (element) => isbuy
+            ? element.description == SupportType.LocalDLYBuy.name
+            : element.description == SupportType.LocalDLYSale.name,
+      );
+      if (index != -1) {
+        idSupportType = supportTypes.data[index].id;
+      }
+    }
+
     final BodyContactSupport body = BodyContactSupport(
       idPublish: advertisementId,
       idUserPublish: userId,
       description: status.description,
       email: email,
+      idSupportType: idSupportType,
+      id: '',
+      datePublish: '',
+      dateSolution: '',
+      idSupportStatus: '',
+      idUserSupport: '',
+      jiraLink: '',
     );
+    print(body.toJson());
     try {
       await _interactor.createContactSupport(body).then((response) {
         status = status.copyWith(isLoading: false);
+        _route.pop(context);
         if (response.isSuccess) {
           addEffect(ShowSnackbarSuccesEffect());
           _route.goHome(context);
@@ -84,6 +110,7 @@ class ContactSupportViewModel
           'No fue posible enviar el caso de soporte, intenta más tarde',
         ),
       );
+      _route.pop(context);
       status = status.copyWith(isLoading: false);
     }
   }
