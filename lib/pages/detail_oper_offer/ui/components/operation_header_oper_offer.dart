@@ -31,6 +31,22 @@ class OperationHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        const SizedBox(
+          width: 200,
+        ),
+        // GestureDetector(
+        //   onTap: () {
+        //     viewModel.openRateSeller(
+        //       context,
+        //       textTheme,
+        //       viewModel,
+        //     );
+        //   },
+        //   child: Text(
+        //     'CVendedor',
+        //     style: textTheme.textSmallBlack,
+        //   ),
+        // ),
         Text(
           isBuy
               ? viewModel.status.isOper2
