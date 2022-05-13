@@ -2,7 +2,6 @@ import 'package:localdaily/view_model.dart';
 
 class ChangePswStatus extends ViewStatus {
   final bool isLoading;
-  final bool isError;
   final bool isCurrentPswFieldEmpty;
   final bool isNewPswFieldEmpty;
   final bool isAgainNewPswFieldEmpty;
@@ -16,7 +15,6 @@ class ChangePswStatus extends ViewStatus {
 
   ChangePswStatus({
     required this.isLoading,
-    required this.isError,
     required this.isCurrentPswFieldEmpty,
     required this.isNewPswFieldEmpty,
     required this.isAgainNewPswFieldEmpty,
@@ -31,7 +29,6 @@ class ChangePswStatus extends ViewStatus {
 
   ChangePswStatus copyWith({
     bool? isLoading,
-    bool? isError,
     bool? isCurrentPswFieldEmpty,
     bool? isNewPswFieldEmpty,
     bool? isAgainNewPswFieldEmpty,
@@ -45,7 +42,6 @@ class ChangePswStatus extends ViewStatus {
   }) {
     return ChangePswStatus(
       isLoading: isLoading ?? this.isLoading,
-      isError: isError ?? this.isError,
       isCurrentPswFieldEmpty: isCurrentPswFieldEmpty ?? this.isCurrentPswFieldEmpty,
       isNewPswFieldEmpty: isNewPswFieldEmpty ?? this.isNewPswFieldEmpty,
       isAgainNewPswFieldEmpty: isAgainNewPswFieldEmpty ?? this.isAgainNewPswFieldEmpty,

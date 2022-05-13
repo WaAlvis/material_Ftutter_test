@@ -44,13 +44,13 @@ class ProfileSellerViewModel
   void seeMoreOffers() {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        addEffect(ShowSnackbarSeviceIncompleteEffect('Aun seguimos trabajando en este servicio'));
+        addEffect(ShowSnackbarSeviceIncompleteEffect(
+            'Aun seguimos trabajando en este servicio'));
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
-
 
   void getInfoUserPublish(String idUser) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
@@ -78,12 +78,9 @@ class ProfileSellerViewModel
       } else {
         addEffect(ShowErrorSnackbar('Error al cargar los datos'));
       }
+      status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
     });
-    status = status.copyWith(isLoading: false);
   }
-
-//Register
-
 }

@@ -26,6 +26,10 @@ class LdRouter {
     // navigatorKey.currentState!.pop();
     AppRouter.router.pop(context);
   }
+  void popTwo(BuildContext context) {
+    navigatorKey.currentState!.pop();
+    AppRouter.router.pop(context);
+  }
 
   void goHome(BuildContext context) {
     AppRouter.router.navigateTo(
@@ -95,9 +99,6 @@ class LdRouter {
   void goDetailHistoryOperation(
     BuildContext context,
     DataUserAdvertisement item,
-    // {
-    // required bool isBuying,
-    // }
   ) {
     AppRouter.router.navigateTo(
       context,
@@ -146,6 +147,16 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
+  // void goSettingsPostChangePsw(
+  //   BuildContext context,
+  // ) {
+  //   AppRouter.router.navigateTo(
+  //     context,
+  //     AppRoutes.settingsRoute.route,
+  //     transition: TransitionType.none,
+  //   );
+  // }
 
   void goCreateOffer(BuildContext context, TypeOffer type) {
     AppRouter.router.navigateTo(

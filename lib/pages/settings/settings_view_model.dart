@@ -8,7 +8,8 @@ import 'package:localdaily/view_model.dart';
 
 import 'settings_status.dart';
 
-class SettingsViewModel extends EffectsViewModel<SettingsStatus,SettingEffect> {
+class SettingsViewModel
+    extends EffectsViewModel<SettingsStatus, SettingEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
@@ -32,26 +33,24 @@ class SettingsViewModel extends EffectsViewModel<SettingsStatus,SettingEffect> {
   void changeLanguage(Language? value) {
     status = status.copyWith(currentLanguage: value);
   }
+
   void goChangePsw(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goChangePsw(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-
       }
     });
   }
+
   void goDirectionWallet(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         // _route.goDitectionWallet(context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-
       }
     });
   }
-
-
 }

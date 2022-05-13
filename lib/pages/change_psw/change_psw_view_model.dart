@@ -25,7 +25,6 @@ class ChangePswViewModel
   ) {
     status = ChangePswStatus(
       isLoading: false,
-      isError: false,
       isCurrentPswFieldEmpty: true,
       hasUpperLetter: false,
       hasMore8Chars: false,
@@ -44,11 +43,11 @@ class ChangePswViewModel
     _route.pop(context);
   }
 
-  void changeCurrentPsw(String Psw) =>
-      status = status.copyWith(isCurrentPswFieldEmpty: Psw.isEmpty);
+  void changeCurrentPsw(String psw) =>
+      status = status.copyWith(isCurrentPswFieldEmpty: psw.isEmpty);
 
-  void changeNewPsw(String Psw) =>
-      status = status.copyWith(isNewPswFieldEmpty: Psw.isEmpty);
+  void changeNewPsw(String psw) =>
+      status = status.copyWith(isNewPswFieldEmpty: psw.isEmpty);
 
   void changeAgainNewPsw(String Psw) =>
       status = status.copyWith(isAgainNewPswFieldEmpty: Psw.isEmpty);
@@ -59,7 +58,7 @@ class ChangePswViewModel
     final bool hasSpecialCharacters =
         Psw.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     final bool hasMinLength = Psw.length > minLength;
-    bool hasDigits = Psw.contains(new RegExp(r'[0-9]'));
+    final bool hasDigits = Psw.contains(new RegExp(r'[0-9]'));
 
     status = status.copyWith(
       hasMore8Chars: hasMinLength,
@@ -83,9 +82,7 @@ class ChangePswViewModel
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        status = status.copyWith(isLoading: true);
         changePswService(context, idUser, oldPsw, newPsw);
-        // goPageSuccessRecover(context, textTheme, email);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -100,7 +97,7 @@ class ChangePswViewModel
       imageType: ImageType.success,
       description: 'Cambiaste tu contraseña de acceso a LocalDaily',
       actionCaption: 'Finalizar',
-      onAction: () => _route.goSettings(context),
+      onAction: () => _route.popTwo(context),
     );
     _route.goInfoView(context, info);
   }
@@ -135,16 +132,14 @@ class ChangePswViewModel
         goPageSuccessChange(
           context,
         );
-        status = status.copyWith(isLoading: false);
       } else {
-        addEffect(ShowWarningSnackbar('Error en la actualizacion'));
-        status = status.copyWith(isError: true, isLoading: false);
+        addEffect(ShowWarningSnackbar('Error en la actualización'));
       }
-    }).catchError((err) {
-      status = status.copyWith(isError: true, isLoading: false);
-
+      status = status.copyWith(
+        isLoading: false,
+      );
+    }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
-      print('NewPsw Error As: ${err}');
     });
   }
 
