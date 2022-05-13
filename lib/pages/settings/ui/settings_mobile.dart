@@ -123,15 +123,6 @@ class SettingsMobile extends StatelessWidget {
                   _rowOptionSetting(
                     textTheme,
                     viewModel,
-                    LdAssets.dlycopIconBlack,
-                    title: 'Direccion de wallet',
-                    subtitle: 'Cambia la dirección de tu wallet',
-                    onTap: () => viewModel.goDirectionWallet(context),
-                  ),
-                  _dividerOptions(),
-                  _rowOptionSetting(
-                    textTheme,
-                    viewModel,
                     LdAssets.pswBlack,
                     onTap: () => viewModel.goChangePsw(context),
                     title: 'Contraseña',
@@ -139,16 +130,6 @@ class SettingsMobile extends StatelessWidget {
                     sizeIconSvg: 42,
                   ),
                   _dividerOptions(),
-                  _rowOptionSetting(
-                    textTheme,
-                    viewModel,
-                    LdAssets.globalBlack,
-                    title: 'Idioma',
-                    subtitle: 'Escoge el idioma de preferencia',
-                    sizeIconSvg: 42,
-                    optionLanguage: true,
-                    arrowIcon: false,
-                  )
                 ],
               ),
             ),

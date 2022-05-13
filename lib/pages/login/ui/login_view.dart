@@ -84,11 +84,11 @@ class _LoginBodyState extends State<_LoginBody> {
       } else if (event is DialogFailAttempsLogin) {
         LdDialog.buildDenseAlertDialog(
           context,
-          image: LdAssets.noFounds,
+          image: LdAssets.loginIdentity,
           title: 'Numero de intentos excedidos',
           message:
               'Has superado la cantidad de intentos para ingresar a tu cuenta.\n\n Intenta generar una nueva contraseña.',
-          btnText: 'Ok, cerrar',
+          btnText: 'Aceptar',
           onTap: () => viewModel.closeDialog(context),
         );
       }
