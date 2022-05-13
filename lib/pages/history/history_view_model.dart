@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/history/history_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
@@ -12,7 +13,7 @@ import 'package:localdaily/view_model.dart';
 
 import 'history_status.dart';
 
-class HistoryViewModel extends ViewModel<HistoryStatus> {
+class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
@@ -33,7 +34,7 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     String idUser, {
     bool refresh = false,
   }) async {
-    await getAndOrderOperationsForDay(idUser);
+    getOperations(idUser);
   }
 
   void goBack(BuildContext context) {
@@ -72,6 +73,16 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     return value;
   }
 
+  void getOperations(String idUser) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        getAndOrderOperationsForDay(idUser);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
   Future<void> getAndOrderOperationsForDay(String idUSer) async {
     status = status.copyWith(isLoading: true);
 
@@ -88,24 +99,28 @@ class HistoryViewModel extends ViewModel<HistoryStatus> {
     _interactor
         .getHistoryOperationsUser(bodyHistoryOperationsUser)
         .then((ResponseData<ResultHistoryOperationsUser> response) async {
-      final List<GroupAdvertisement> value;
       if (response.isSuccess) {
         final List<DataUserAdvertisement> dataOperations =
             response.result!.data;
         if (dataOperations.isNotEmpty) {
-          value = organizeDaysOperations(dataOperations);
-          status = status.copyWith(operationsForDay: value, isLoading: false);
+          final List<GroupAdvertisement> value =
+              organizeDaysOperations(dataOperations);
+          status = status.copyWith(
+            operationsForDay: value,
+          );
         } else {
           status = status.copyWith(isDataEmpty: true);
         }
       } else {
-        //Add effect NOT success
+        addEffect(ShowErrorSnackbar('Error en la consulta'));
+
       }
+      status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
+      addEffect(ShowErrorSnackbar('**Error en el Servicio'));
       print('Operations User Error As: $err');
       status = status.copyWith(isLoading: false);
     });
-    // status = status.copyWith(isLoading: false);
   }
 
   void goDetailHistoryOperation(
