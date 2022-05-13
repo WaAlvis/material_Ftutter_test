@@ -11,7 +11,7 @@ import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
-import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/login/response/result_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:string_validator/string_validator.dart';
@@ -64,14 +64,12 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        if (keyForm.currentState!.validate()) {
           login(
             context,
             userCtrl.text,
             passwordCtrl.text,
             dataUserProvider,
           );
-        }
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -96,6 +94,10 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
+  }
+
+  void closeDialog(BuildContext context) {
+    _route.pop(context);
   }
 
   Future<void> login(
@@ -133,6 +135,12 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
       } else {
         const String err = 'Usuario o contraseña incorrectos';
         addEffect(ShowErrorSnackbar(err));
+        final String attemps = response.error!.info['attemps'] as String;
+        print(response.error!.info!['attemps']);
+        if (int.parse(attemps) == 3) {
+          addEffect(DialogFailAttempsLogin());
+
+        }
       }
       status = status.copyWith(isLoading: false);
     }).catchError((dynamic err) {

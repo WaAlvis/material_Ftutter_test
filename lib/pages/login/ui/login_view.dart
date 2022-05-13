@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/login/login_effect.dart';
 import 'package:localdaily/pages/login/login_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
@@ -16,7 +18,6 @@ import 'package:localdaily/widgets/ld_footer.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
 import 'package:provider/provider.dart';
-
 
 part 'login_mobile.dart';
 
@@ -79,6 +80,16 @@ class _LoginBodyState extends State<_LoginBody> {
         LdSnackbar.buildSnackbar(
           context,
           event.message,
+        );
+      } else if (event is DialogFailAttempsLogin) {
+        LdDialog.buildDenseAlertDialog(
+          context,
+          image: LdAssets.noFounds,
+          title: 'Numero de intentos excedidos',
+          message:
+              'Has superado la cantidad de intentos para ingresar a tu cuenta.\n\n Intenta generar una nueva contraseña.',
+          btnText: 'Ok, cerrar',
+          onTap: () => viewModel.closeDialog(context),
         );
       }
     });
