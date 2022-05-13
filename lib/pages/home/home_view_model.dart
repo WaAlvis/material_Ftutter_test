@@ -517,17 +517,21 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
             ? '${TypeOffer.sell.index}'
             : '${TypeOffer.buy.index}',
         idUserPublish: '',
-        statusCode: '${OfferStatus.Pendiente.index}',
+        statusCode: '',
         idUserExclusion: '',
         idUserInteraction: userId,
         strJsonExtraFilters:
-            status.extraFiltersString?.replaceAll('-1', 'null') ?? '');
+            status.extraFiltersString != null && status.extraFiltersString != ''
+                ? status.extraFiltersString!.replaceAll('-1', 'null')
+                : '{status:[1,4]}');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
     );
 
     try {
+      print('${status.extraFiltersString} extra  ${filters.toJson()}');
+
       // Solicitud al servicio
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
@@ -622,7 +626,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         idUserExclusion: '',
         idUserInteraction: '',
         strJsonExtraFilters:
-            status.extraFiltersString?.replaceAll('-1', 'null') ?? '');
+            status.extraFiltersString?.replaceAll('-1', 'null') ??
+                'status:[1,4]');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,

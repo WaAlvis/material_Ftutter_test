@@ -34,6 +34,7 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
         isBuy: widget.isBuy,
         item: widget.item,
         isOper: widget.viewModel.status.isOper2,
+        stateDis: widget.viewModel.status.item!.idStatus,
       ),
     );
     switch (widget.state) {
@@ -111,18 +112,21 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
         isBuy: widget.isBuy,
         item: widget.item,
         isOper: widget.viewModel.status.isOper2,
+        stateDis: widget.viewModel.status.item!.idStatus,
       ));
       _list2.add(DetailState(
         state: 'Pagado',
         isBuy: widget.isBuy,
         item: widget.item,
         isOper: widget.viewModel.status.isOper2,
+        stateDis: widget.viewModel.status.item!.idStatus,
       ));
       _list2.add(DetailState(
         state: 'Pendiente de pago',
         isBuy: widget.isBuy,
         item: widget.item,
         isOper: widget.viewModel.status.isOper2,
+        stateDis: widget.viewModel.status.item!.idStatus,
       ));
       _list2.add(
         DetailState(
@@ -130,6 +134,7 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
           isBuy: widget.isBuy,
           item: widget.item,
           isOper: widget.viewModel.status.isOper2,
+          stateDis: widget.viewModel.status.item!.idStatus,
         ),
       );
       if (countStates == 1) {
@@ -155,6 +160,7 @@ class _CardDetailOperOfferState extends State<CardDetailOperOffer> {
         isBuy: widget.isBuy,
         item: widget.item,
         isOper: widget.viewModel.status.isOper2,
+        stateDis: widget.viewModel.status.item!.idStatus,
       ));
       setState(() {});
     }

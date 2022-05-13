@@ -190,10 +190,18 @@ class TitleBarCard2 extends StatelessWidget {
                     ? hasDocuments
                         ? LdColors.greenState
                         : LdColors.grayState
-                    : LdColors.blueState,
+                    : state == 4
+                        ? LdColors.redError
+                        : LdColors.blueState,
           ),
           child: Text(
-            OfferStatus.values[state == 1 && hasDocuments ? 4 : state].name,
+            OfferStatus
+                .values[state == 1 && hasDocuments
+                    ? 4
+                    : state == 4
+                        ? 5
+                        : state]
+                .name,
             style: textTheme.textSmallWhite.copyWith(color: LdColors.white),
             textAlign: TextAlign.center,
           ),
