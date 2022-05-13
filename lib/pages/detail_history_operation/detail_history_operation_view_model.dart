@@ -21,7 +21,6 @@ class DetailHistoryOperationViewModel extends EffectsViewModel<
     this._route,
     this._interactor,
     this.idUser,
-
   ) {
     status = DetailHistoryOperationStatus(
       isLoading: true,
@@ -102,15 +101,13 @@ class DetailHistoryOperationViewModel extends EffectsViewModel<
         .then((ResponseData<ResultDataUser> response) {
       if (response.isSuccess) {
         final ResultDataUser? userBuyer = response.result;
-
         status = status.copyWith(userBuyer: userBuyer);
       } else {
         addEffect(ShowErrorSnackbar('Error al obtener el nombre'));
-
       }
+      status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el Servicio **'));
-
       status = status.copyWith(isLoading: false);
     });
   }

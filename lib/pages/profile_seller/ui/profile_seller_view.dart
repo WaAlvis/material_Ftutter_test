@@ -25,12 +25,12 @@ part 'profile_seller_mobile.dart';
 part 'profile_seller_web.dart';
 
 class ProfileSellerView extends StatelessWidget {
-  const ProfileSellerView(
-      {Key? key,
-      this.isBuy = false,
-      required this.idUser,
-      required this.nickName})
-      : super(key: key);
+  const ProfileSellerView({
+    Key? key,
+    this.isBuy = false,
+    required this.idUser,
+    required this.nickName,
+  }) : super(key: key);
 
   final bool isBuy;
   final String idUser;
