@@ -118,7 +118,6 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('**Error en el Servicio'));
-      print('Operations User Error As: $err');
       status = status.copyWith(isLoading: false);
     });
   }
@@ -135,7 +134,7 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
           // isBuying: isBuying
         );
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }

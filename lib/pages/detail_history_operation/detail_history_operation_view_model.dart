@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/detail_history_operation/detail_history_operation_effect.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
@@ -10,21 +11,17 @@ import 'package:localdaily/view_model.dart';
 
 import 'detail_history_operation_status.dart';
 
-class DetailHistoryOperationViewModel
-    extends ViewModel<DetailHistoryOperationStatus> {
+class DetailHistoryOperationViewModel extends EffectsViewModel<
+    DetailHistoryOperationStatus, DetailHistoryOperationEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
   final String idUser;
-
-  // final bool isBuying;
 
   DetailHistoryOperationViewModel(
     this._route,
     this._interactor,
     this.idUser,
-    // {
-    // required this.isBuying,
-    // }
+
   ) {
     status = DetailHistoryOperationStatus(
       isLoading: true,
@@ -33,13 +30,9 @@ class DetailHistoryOperationViewModel
   }
 
   Future<void> onInit() async {
-    getNameBuyer(
+    getName(
       idUser,
     );
-    // if (isBuying) {
-    //   getNameBuyer(dataUserAdvertisement
-    //       .advertisement.advertisementUserInteraction!.first.idUser,);
-    // }
   }
 
   void goBack(BuildContext context) {
@@ -86,7 +79,17 @@ class DetailHistoryOperationViewModel
       if (isConnectionValidvalue) {
         _route.goProfileSeller(context, idUserPublish, nickName);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void getName(String idBuyer) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        getNameBuyer(idBuyer);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
@@ -102,10 +105,12 @@ class DetailHistoryOperationViewModel
 
         status = status.copyWith(userBuyer: userBuyer);
       } else {
-        //Add effect NOT success
+        addEffect(ShowErrorSnackbar('Error al obtener el nombre'));
+
       }
     }).catchError((Object err) {
-      print('Operations User Error As: $err');
+      addEffect(ShowErrorSnackbar('Error en el Servicio **'));
+
       status = status.copyWith(isLoading: false);
     });
   }
