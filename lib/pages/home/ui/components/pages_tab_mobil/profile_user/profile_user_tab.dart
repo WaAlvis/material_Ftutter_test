@@ -50,7 +50,10 @@ class ProfileUser extends StatelessWidget {
   }
 
   Widget _headerCardUser(
-      BuildContext context, Color colorCardWhite, Size size,) {
+    BuildContext context,
+    Color colorCardWhite,
+    Size size,
+  ) {
     // final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
 
     return Stack(
@@ -304,6 +307,7 @@ class ProfileUser extends StatelessWidget {
         );
         break;
       case NavigateOption.support:
+        viewModel.goSupportCases(context);
         // TODO: Handle this case.
         break;
       case NavigateOption.settings:
@@ -311,7 +315,6 @@ class ProfileUser extends StatelessWidget {
         break;
       case NavigateOption.logout:
         viewModel.logoutUser(context, userProvider);
-        // TODO: Handle this case.
         break;
     }
   }

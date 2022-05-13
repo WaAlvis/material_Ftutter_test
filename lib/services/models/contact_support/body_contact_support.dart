@@ -14,8 +14,10 @@ class BodyContactSupport {
     this.idUserSupport,
     this.dateSolution,
     this.jiraLink,
-    required this.idPublish,
-    required this.email,
+    required this.idAdvertisement,
+    required this.emailUserPublish,
+    this.userPublishNickname,
+    this.jiraKey,
   });
 
   factory BodyContactSupport.fromJson(Map<String, dynamic> json) =>
@@ -30,8 +32,10 @@ class BodyContactSupport {
   String? idUserSupport;
   String? dateSolution;
   String? jiraLink;
-  String idPublish;
-  String email;
+  String idAdvertisement;
+  String emailUserPublish;
+  String? userPublishNickname;
+  String? jiraKey;
 
   Map<String, dynamic> toJson() => _$BodyContactSupportToJson(this);
 }
