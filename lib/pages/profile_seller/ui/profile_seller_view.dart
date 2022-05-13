@@ -93,6 +93,11 @@ class _ProfileSellerBodyState extends State<_ProfileSellerBody> {
           context,
           event.message,
         );
+      } else if (event is ShowSnackbarSeviceIncompleteEffect) {
+        LdSnackbar.buildSnackbar(
+          context,
+          event.message,
+        );
       }
     });
 

@@ -41,6 +41,17 @@ class ProfileSellerViewModel
     getInfoUserPublish(idUser);
   }
 
+  void seeMoreOffers() {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        addEffect(ShowSnackbarSeviceIncompleteEffect('Aun seguimos trabajando en este servicio'));
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+
   void getInfoUserPublish(String idUser) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {

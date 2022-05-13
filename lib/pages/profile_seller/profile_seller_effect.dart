@@ -8,6 +8,12 @@ class ShowSnackbarConnectivityEffect extends ProfileSellerEffect {
   ShowSnackbarConnectivityEffect(this.message);
 }
 
+class ShowSnackbarSeviceIncompleteEffect extends ProfileSellerEffect {
+  final String message;
+
+  ShowSnackbarSeviceIncompleteEffect(this.message);
+}
+
 class ShowErrorSnackbar extends ProfileSellerEffect {
   final String message;
 

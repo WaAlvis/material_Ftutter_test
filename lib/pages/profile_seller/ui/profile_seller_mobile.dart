@@ -127,7 +127,7 @@ class _ProfileSellerMobile extends StatelessWidget {
                             ),
                             PrimaryButtonCustom(
                               'Ver más ofertas',
-                              onPressed: () {},
+                              onPressed: () => viewModel.seeMoreOffers(),
                             ),
                           ],
                         ),
@@ -147,7 +147,7 @@ class _ProfileSellerMobile extends StatelessWidget {
   Widget _summaryOperationsRow(
     TextTheme textTheme, {
     required String titleSection,
-    required List<dynamic> leftBox ,
+    required List<dynamic> leftBox,
     required List<dynamic> rightBox,
   }) {
     return Column(
