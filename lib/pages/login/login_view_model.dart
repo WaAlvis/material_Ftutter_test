@@ -64,12 +64,12 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-          login(
-            context,
-            userCtrl.text,
-            passwordCtrl.text,
-            dataUserProvider,
-          );
+        login(
+          context,
+          userCtrl.text,
+          passwordCtrl.text,
+          dataUserProvider,
+        );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -128,22 +128,24 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
               response.result,
             );
             _route.goHome(context);
+          } else {
+            addEffect(ShowErrorSnackbar('Error al obtener informacion'));
           }
-        }).catchError((dynamic err) {
+          status = status.copyWith(isLoading: false);
+        }).catchError((Object err) {
+          addEffect(ShowErrorSnackbar('Error en el servicio**'));
           status = status.copyWith(isLoading: false);
         });
       } else {
-        const String err = 'Usuario o contraseña incorrectos';
-        addEffect(ShowErrorSnackbar(err));
+        addEffect(ShowErrorSnackbar('Usuario o contraseña incorrectos'));
         final String attemps = response.error!.info['attemps'] as String;
-        print(response.error!.info!['attemps']);
         if (int.parse(attemps) == 3) {
           addEffect(DialogFailAttempsLogin());
-
         }
       }
       status = status.copyWith(isLoading: false);
     }).catchError((dynamic err) {
+      addEffect(ShowErrorSnackbar('Error en el servicio**'));
       status = status.copyWith(isLoading: false);
     });
   }

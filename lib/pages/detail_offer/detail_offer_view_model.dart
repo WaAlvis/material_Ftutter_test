@@ -241,13 +241,13 @@ class DetailOfferViewModel
           print('Reserve Error As: ${response.error?.message}');
         }
         status = status.copyWith(isLoading: false);
-      }).catchError((err) {
+      }).catchError((Object err) {
         addEffect(
           ShowSnackbarErrorEffect(
             'No fue posible separar la oferta, intenta más tarde',
           ),
         );
-        print('Reserve Error As: ${err}');
+        print('Reserve Error As: $err');
         status = status.copyWith(isLoading: false);
       });
     } else {

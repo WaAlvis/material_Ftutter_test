@@ -135,11 +135,11 @@ class ChangePswViewModel
       } else {
         addEffect(ShowWarningSnackbar('Error en la actualización'));
       }
-      status = status.copyWith(
-        isLoading: false,
-      );
+      status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
+      status = status.copyWith(isLoading: false);
+
     });
   }
 

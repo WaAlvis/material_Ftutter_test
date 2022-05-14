@@ -58,6 +58,22 @@ class RecoverPswViewModel
           BuildContext context, TextTheme textTheme, String emailUser) =>
       sendNewPsw(context, textTheme, emailUser, again: true);
 
+  String? textError({required String errorMsj}) {
+    const String start = 'is ';
+    const String end = '")';
+    final int startIndex = errorMsj.indexOf(start);
+    final int endIndex = errorMsj.indexOf(end, startIndex + start.length);
+    final Map<String, String> types = <String, String>{
+      'not found': 'Correo no encontrado',
+    };
+    final String detailError = errorMsj.substring(
+      startIndex + start.length,
+      endIndex,
+    );
+
+    return types[detailError];
+  }
+
   Future<void> sendNewPsw(
     BuildContext context,
     TextTheme textTheme,
@@ -80,14 +96,17 @@ class RecoverPswViewModel
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Nueva contraseña enviada'));
         if (!again) goPageSuccessRecover(context, textTheme, emailUser);
-        status = status.copyWith(isLoading: false);
       } else {
-        addEffect(ShowWarningSnackbar('Error en el envio'));
-        status = status.copyWith(isError: true, isLoading: false);
+        final String err = textError(
+              errorMsj: response.error!.info as String,
+            ) ??
+            'Error en la recuperacion';
+        addEffect(ShowWarningSnackbar(err));
       }
-    }).catchError((err) {
+      status = status.copyWith(isLoading: false);
+    }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
-      print('NewPsw Error As: ${err}');
+      status = status.copyWith(isLoading: false);
     });
   }
 

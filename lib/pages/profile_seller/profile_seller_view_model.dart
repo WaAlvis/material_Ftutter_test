@@ -80,6 +80,8 @@ class ProfileSellerViewModel
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
+      status = status.copyWith(isLoading: false);
+
     });
   }
 }
