@@ -113,6 +113,8 @@ class __DetailOperOfferBodyState extends State<_DetailOperOfferBody> {
         viewModel.effects.listen((DetailOperOfferEffect event) {
       if (event is ShowSnackConnetivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
+      } else if (event is ShowSnackbarErrorEffect) {
+        LdSnackbar.buildErrorSnackbar(context, event.message);
       }
     });
 

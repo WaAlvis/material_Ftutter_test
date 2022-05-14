@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -192,11 +193,37 @@ class LdRouter {
     );
   }
 
-  void goContactSupport(BuildContext context) {
+  void goContactSupport(
+    BuildContext context,
+    String offerId,
+    int reference, {
+    bool isBuy = false,
+  }) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.contactSupport.route,
       transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, dynamic>{
+          'id': offerId,
+          'reference': reference,
+          'isBuy': isBuy,
+        },
+      ),
+    );
+  }
+
+  void goFilters(
+    BuildContext context,
+    FiltersArguments filtersArguments,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.filters.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, FiltersArguments>{'extraFilters': filtersArguments},
+      ),
     );
   }
 
@@ -237,6 +264,7 @@ class LdRouter {
       context,
       AppRoutes.detailOperOfferRoute.route,
       replace: replace,
+      transition: TransitionType.none,
       routeSettings: RouteSettings(
         arguments: <String, String>{
           'offerId': offerId,
@@ -248,7 +276,7 @@ class LdRouter {
 
   void goAttachedFile(
     BuildContext context,
-    // bool isOper,
+    String isOper,
     String offerIdFile,
     String extensionFile,
     String isView,
@@ -256,14 +284,25 @@ class LdRouter {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.attachedFileRoute.route,
+      transition: TransitionType.none,
       routeSettings: RouteSettings(
         arguments: <String, String>{
-          // 'type': isOper,
+          'type': isOper,
           'offerId': offerIdFile,
           'extensionFile': extensionFile,
           'isView': isView,
         },
       ),
+    );
+  }
+
+  void goSupportCases(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.supportCasesRoute.route,
+      transition: TransitionType.none,
     );
   }
 }

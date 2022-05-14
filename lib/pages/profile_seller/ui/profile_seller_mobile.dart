@@ -348,7 +348,7 @@ class RateStars extends StatelessWidget {
         color: LdColors.white,
       ),
       onRatingUpdate: (double rating) {
-        print(rating);
+        // print(rating);
       },
     );
   }

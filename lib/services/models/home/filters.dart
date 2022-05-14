@@ -10,6 +10,7 @@ class Filters {
     required this.statusCode,
     required this.idUserExclusion,
     required this.idUserInteraction,
+    required this.strJsonExtraFilters,
   });
 
   factory Filters.fromJson(Map<String, dynamic> json) =>
@@ -20,6 +21,7 @@ class Filters {
   String statusCode;
   String idUserExclusion;
   String idUserInteraction;
+  String strJsonExtraFilters;
 
   Map<String, dynamic> toJson() => _$FiltersToJson(this);
 }

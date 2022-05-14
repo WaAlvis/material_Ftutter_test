@@ -41,7 +41,7 @@ class ListOperationsOffers extends StatelessWidget {
           children: <Widget>[
             OptionsFilterRow(
               textTheme: textTheme,
-              quantityFilter: 2,
+              quantityFilter: viewModel.countFilters(),
             ),
             const Divider(
               height: 8,
@@ -85,10 +85,15 @@ class ListOperationsOffers extends StatelessWidget {
                                     imageName: LdAssets.emptyNotification,
                                     title: viewModel.status.typeOffer ==
                                             TypeOffer.buy
-                                        ? 'Aún no tienes compras en proceso'
-                                        : 'Aún no tienes ventas en proceso',
-                                    description:
-                                        'Puedes ir al inicio y buscar alguna publicación que te llame la atención.',
+                                        ? viewModel.countFilters() > 0
+                                            ? 'No hay publicaciones para estos filtros'
+                                            : 'Aún no tienes compras en proceso'
+                                        : viewModel.countFilters() > 0
+                                            ? 'No hay publicaciones para estos filtros'
+                                            : 'Aún no tienes ventas en proceso',
+                                    description: viewModel.countFilters() > 0
+                                        ? 'Por favor seleccione nuevos criterios'
+                                        : 'Puedes ir al inicio y buscar alguna publicación que te llame la atención.',
                                   ),
                                 ),
                               )

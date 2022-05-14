@@ -7,6 +7,7 @@ import 'package:localdaily/pages/contact_support/ui/contact_support_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
+import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
@@ -19,6 +20,7 @@ import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
+import 'package:localdaily/pages/support_cases/ui/support_cases_view.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
@@ -143,10 +145,13 @@ class AppRoutes {
   static final AppRoute contactSupport = AppRoute(
     '/contact_support',
     Handler(
-      handlerFunc: (_, __) => const ContactSupportView(
-        advertisementId: '',
-        reference: '',
-        isbuy: true,
+      handlerFunc: (BuildContext? context, __) => ContactSupportView(
+        advertisementId: (context!.settings!.arguments!
+            as Map<String, dynamic>)['id'] as String,
+        reference: (context.settings!.arguments!
+            as Map<String, dynamic>)['reference'] as int,
+        isbuy: (context.settings!.arguments! as Map<String, dynamic>)['isBuy']
+            as bool,
       ),
     ),
   );
@@ -191,7 +196,24 @@ class AppRoutes {
             as Map<String, String>)['extensionFile']!,
         isView:
             (context.settings!.arguments! as Map<String, String>)['isView']!,
+        isOper: (context.settings!.arguments! as Map<String, String>)['type']!,
       ),
+    ),
+  );
+
+  static final AppRoute filters = AppRoute(
+    '/filters',
+    Handler(
+        handlerFunc: (BuildContext? context, __) => FilterView(
+              filtersArguments: (context!.settings!.arguments!
+                  as Map<String, FiltersArguments>)['extraFilters']!,
+            )),
+  );
+
+  static final AppRoute supportCasesRoute = AppRoute(
+    '/supportCases',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => const SupportCasesView(),
     ),
   );
 
@@ -218,5 +240,7 @@ class AppRoutes {
     // personalInfoRegisterRoute,
     detailOperOfferRoute,
     attachedFileRoute,
+    filters,
+    supportCasesRoute
   ];
 }

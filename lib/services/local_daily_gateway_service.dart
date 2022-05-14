@@ -3,6 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
 import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
+import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_type/body_support_type.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -25,6 +31,10 @@ import 'package:localdaily/services/models/info_user_publish/response/result_inf
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/response/result_login.dart';
+import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -35,6 +45,8 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
+import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
 
@@ -78,7 +90,17 @@ class UrlsApi {
       '/AttachDocuments/AttachDocument/GetDocumentAdvertisement';
 
   static const String addRateUser = '/User/UserInfoAdditional/RateUser';
+  static const String cancelOperation =
+      '/Transaction/DistributionOptions/CancelOperation';
   static const String getInfoUserPublish = '/User/UserInfoAdditional';
+  static const String createSupportCase = '/WebAdmin/SupportCase';
+  static const String getNotifications =
+      '/WebAdmin/Notification/GetNotificationByUserId';
+  static const String getNotificationsUnread =
+      '/WebAdmin/Notification/GetCountNotificationUnread';
+  static const String getSupportStatus = '/WebAdmin/SupportStatus';
+  static const String getSupportTypes = '/WebAdmin/SupportType';
+  static const String getSupportCases = '/WebAdmin/SupportCase/GetSupport';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -181,6 +203,11 @@ abstract class LocalDailyGatewayService {
     @Body() BodyAddPayAccount body,
   );
 
+  @POST(UrlsApi.cancelOperation)
+  Future<ResponseData<dynamic>> cancelOperation(
+    @Body() CancelOper body,
+  );
+
 // Attach file
   @POST(UrlsApi.sendAttach)
   Future<ResponseData<dynamic>> sendAttach(
@@ -206,7 +233,7 @@ abstract class LocalDailyGatewayService {
   );
 
   @POST(UrlsApi.releaseToken)
-  Future<ResponseData<bool>> confirmPayment(
+  Future<ResponseData<dynamic>> confirmPayment(
     @Body() ConfirmPayment body,
   );
 
@@ -217,4 +244,34 @@ abstract class LocalDailyGatewayService {
 
   @POST(UrlsApi.getAccountType)
   Future<ResponseData<ResultAccountType>> getAccountType();
+
+  @POST(UrlsApi.createSupportCase)
+  Future<ResponseData<dynamic>> createSupportCase(
+    @Body() BodyContactSupport body,
+  );
+
+  @POST(UrlsApi.getNotifications)
+  Future<ResponseData<ResultNotification>> getNotifications(
+    @Body() BodyNotifications body,
+  );
+
+  @POST(UrlsApi.getNotificationsUnread)
+  Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
+    @Body() BodyNotificationCounter body,
+  );
+
+  @POST(UrlsApi.getSupportStatus)
+  Future<ResponseData<ResultSupportStatus>> getSupportStatus(
+    @Body() BodySupportStatus body,
+  );
+
+  @POST(UrlsApi.getSupportTypes)
+  Future<ResponseData<ResultSupportType>> getSupportTypes(
+    @Body() BodySupportType body,
+  );
+
+  @POST(UrlsApi.getSupportCases)
+  Future<ResponseData<ResultSupportCases>> getSupportCases(
+    @Body() BodySupportCases body,
+  );
 }

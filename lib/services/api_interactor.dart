@@ -3,8 +3,14 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
+import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
 import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
+import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_type/body_support_type.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -27,6 +33,10 @@ import 'package:localdaily/services/models/info_user_publish/response/result_inf
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/response/result_login.dart';
+import 'package:localdaily/services/models/notifications/body_notifications.dart';
+import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
+import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -37,6 +47,8 @@ import 'package:localdaily/services/models/register/send_validate/result_pin_ema
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
+import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 
 class ServiceInteractor {
@@ -95,7 +107,6 @@ class ServiceInteractor {
     return response;
   }
 
-
   Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
     final ResponseData<ResultHistoryOperationsUser> response =
         await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
@@ -103,9 +114,11 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(BodyInfoUserPublish bodyInfoUserPublish) async {
+  Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(
+      BodyInfoUserPublish bodyInfoUserPublish) async {
     final ResponseData<ResultInfoUserPublish> response =
-        await locator<LocalDailyGatewayService>().getInfoUserPublish(bodyInfoUserPublish);
+        await locator<LocalDailyGatewayService>()
+            .getInfoUserPublish(bodyInfoUserPublish);
 
     return response;
   }
@@ -181,6 +194,15 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<dynamic>> cancelOperation(
+    CancelOper body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().cancelOperation(body);
+
+    return response;
+  }
+
   Future<ResponseData<dynamic>> sendAttach({
     required String AdvertisementId,
     required XFile xFile,
@@ -205,10 +227,10 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<bool>> confirmPayment(
+  Future<ResponseData<dynamic>> confirmPayment(
     ConfirmPayment body,
   ) async {
-    final ResponseData<bool> response =
+    final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().confirmPayment(body);
 
     return response;
@@ -239,6 +261,60 @@ class ServiceInteractor {
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>().addRateUser(body);
+
+    return response;
+  }
+
+  Future<ResponseData<dynamic>> createContactSupport(
+    BodyContactSupport body,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>().createSupportCase(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultNotification>> getNotifications(
+    BodyNotifications body,
+  ) async {
+    final ResponseData<ResultNotification> response =
+        await locator<LocalDailyGatewayService>().getNotifications(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
+    BodyNotificationCounter body,
+  ) async {
+    final ResponseData<ResultNotificationCounter> response =
+        await locator<LocalDailyGatewayService>().getNotificationsUnread(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultSupportStatus>> getSupportStatus(
+    BodySupportStatus body,
+  ) async {
+    final ResponseData<ResultSupportStatus> response =
+        await locator<LocalDailyGatewayService>().getSupportStatus(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultSupportType>> getSupportType(
+    BodySupportType body,
+  ) async {
+    final ResponseData<ResultSupportType> response =
+        await locator<LocalDailyGatewayService>().getSupportTypes(body);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultSupportCases>> getSupportCases(
+    BodySupportCases body,
+  ) async {
+    final ResponseData<ResultSupportCases> response =
+        await locator<LocalDailyGatewayService>().getSupportCases(body);
 
     return response;
   }

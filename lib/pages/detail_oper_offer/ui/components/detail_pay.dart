@@ -112,7 +112,9 @@ class CardDetailPay extends StatelessWidget {
                         Container()
                       else
                         GestureDetector(
-                          onTap: () {}, //Abrir perfil del comprador
+                          onTap: () {
+                            viewModel.goProfile(context);
+                          }, //Abrir perfil del comprador
                           child: Text(
                             isBuy ? 'Ver el vendedor' : 'Ver el comprador',
                             style: textTheme.bodyMedium?.copyWith(
@@ -143,7 +145,7 @@ class CardDetailPay extends StatelessWidget {
                 colorButton: LdColors.white,
                 colorTextBorder: _color,
                 onPressed: () {
-                  viewModel.goAttachedFile(context, isOper, '1');
+                  viewModel.goAttachedFile(context, viewModel.isOper, '1');
                 },
               ),
             const SizedBox(
@@ -161,7 +163,8 @@ class CardDetailPay extends StatelessWidget {
                   colorText: LdColors.white,
                   onPressed: isBuy
                       ? () {
-                          viewModel.goAttachedFile(context, isOper, '');
+                          viewModel.goAttachedFile(
+                              context, viewModel.isOper, '');
                         }
                       : () {}, //confirmar pago,
                 )
@@ -189,7 +192,8 @@ class CardDetailPay extends StatelessWidget {
                   colorText: LdColors.white,
                   onPressed: isBuy
                       ? () {
-                          viewModel.goAttachedFile(context, isOper, '');
+                          viewModel.goAttachedFile(
+                              context, viewModel.isOper, '');
                         }
                       : () {
                           viewModel.getDialogConfirmPay(context, viewModel);

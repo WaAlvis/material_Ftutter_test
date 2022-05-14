@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
+import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/account_type.dart';
 import 'package:localdaily/services/models/create_offers/get_banks/response/result_get_banks.dart';
 import 'package:localdaily/services/models/create_offers/get_doc_type/response/result_get_docs_type.dart';
@@ -30,6 +32,20 @@ class ConfigurationProvider with ChangeNotifier {
   ResultTypeOffer? get getResultTypeOffer => _resultTypeOffer;
   void setResultTypeOffer(ResultTypeOffer? resultTypeOffer) {
     _resultTypeOffer = resultTypeOffer;
+    notifyListeners();
+  }
+
+  ResultSupportStatus? _resultSupportStatus;
+  ResultSupportStatus? get getResultSupportStatus => _resultSupportStatus;
+  void setResultSupportStatus(ResultSupportStatus? resultSupportStatus) {
+    _resultSupportStatus = resultSupportStatus;
+    notifyListeners();
+  }
+
+  ResultSupportType? _resultSupportType;
+  ResultSupportType? get getResultSupportType => _resultSupportType;
+  void setResultSupportType(ResultSupportType? resultSupportType) {
+    _resultSupportType = resultSupportType;
     notifyListeners();
   }
 }

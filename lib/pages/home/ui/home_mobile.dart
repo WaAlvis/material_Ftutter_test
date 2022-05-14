@@ -64,6 +64,7 @@ class _HomeMobile extends StatelessWidget {
         dataUserProvider: dataUserProvider.getDataUserLogged,
         goLogin: (BuildContext context) => viewModel.goLogin(context),
         goNotifications: () => viewModel.goNotifications(context),
+        homeViewModel: viewModel,
       ),
       LdAppbar(
         title: 'Mis operaciones',
@@ -179,6 +180,8 @@ class OptionsFilterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10, top: 18),
       child: Row(
@@ -187,10 +190,18 @@ class OptionsFilterRow extends StatelessWidget {
             width: 5,
           ),
           const Icon(Icons.filter_alt_outlined),
-          Text(
-            'Filtros ($quantityFilter)',
-            style: textTheme.textSmallBlack,
-          )
+          GestureDetector(
+            onTap: () {
+              viewModel.goFiltres(
+                context,
+                // viewModel.status.filtersArguments!,
+              );
+            },
+            child: Text(
+              'Filtros ($quantityFilter)',
+              style: textTheme.textSmallBlack,
+            ),
+          ),
         ],
       ),
     );

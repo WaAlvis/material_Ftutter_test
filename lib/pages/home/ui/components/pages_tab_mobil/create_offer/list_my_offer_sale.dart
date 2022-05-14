@@ -42,7 +42,7 @@ class ListMyOffersSale extends StatelessWidget {
           children: <Widget>[
             OptionsFilterRow(
               textTheme: textTheme,
-              quantityFilter: 2,
+              quantityFilter: viewModel.countFilters(),
             ),
             const Divider(
               height: 8,
@@ -86,10 +86,15 @@ class ListMyOffersSale extends StatelessWidget {
                                       : LdAssets.saleNoOffer,
                                   title: viewModel.status.typeOffer ==
                                           TypeOffer.buy
-                                      ? 'Aun no tienes ofertas de compra'
-                                      : 'Aun no tienes ofertas de ventas',
-                                  description:
-                                      'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
+                                      ? viewModel.countFilters() > 0
+                                          ? 'No hay publicaciones para estos filtros'
+                                          : 'Aun no tienes ofertas de compra'
+                                      : viewModel.countFilters() > 0
+                                          ? 'No hay publicaciones para estos filtros'
+                                          : 'Aun no tienes ofertas de ventas',
+                                  description: viewModel.countFilters() > 0
+                                      ? 'Por favor seleccione nuevos criterios'
+                                      : 'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
                                   btnText: viewModel.status.typeOffer ==
                                           TypeOffer.buy
                                       ? 'Crear oferta de compra'
@@ -98,8 +103,8 @@ class ListMyOffersSale extends StatelessWidget {
                                       ? viewModel.goCreateOffer(context)
                                       : viewModel.goLogin(context),
                                 ),
-                            ),
-                          )
+                              ),
+                            )
                           : MyOfferCard(
                               item: items[index],
                               textTheme: textTheme,

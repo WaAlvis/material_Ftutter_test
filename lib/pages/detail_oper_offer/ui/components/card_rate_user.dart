@@ -52,8 +52,8 @@ class CardRateUser extends StatelessWidget {
               color: LdColors.white,
             ),
             onRatingUpdate: (double rating) {
-              viewModel.status.rateUser = rating;
-              print(viewModel.status.rateUser);
+              // viewModel.status.rateUser = rating;
+              viewModel.setRate(rating);
             },
           ),
           const SizedBox(

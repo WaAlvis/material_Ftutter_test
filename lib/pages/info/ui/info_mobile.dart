@@ -15,7 +15,6 @@ class _InfoMobile extends StatelessWidget {
           ? null
           : LdAppbar(
               withBackIcon: true,
-              actionBack: arguments.actionBack,
               title: arguments.pageTitle,
               centerTitle: false,
             ),

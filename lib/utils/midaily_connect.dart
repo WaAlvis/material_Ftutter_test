@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -52,17 +53,27 @@ class MiDailyConnect {
         break;
       default:
     }
-
-    if (await canLaunch(_url)) {
-      print(_url);
+    try {
       await launch(_url, headers: <String, String>{});
-    } else {
-      //TODO: Aplicacion no esta instalada, abrir la tienda dependiendo SO.
+      // if (await canLaunch(_url)) {
+      // } else {
+      //   if (Platform.isAndroid) {
+      //     await launch(
+      //       'https://play.google.com/store/apps/details?id=com.brandinggrp.midaily&hl=es_CO&gl=US',
+      //       headers: <String, String>{},
+      //     );
+      //   } else if (Platform.isIOS) {
+      //     await launch(
+      //       'https://apps.apple.com/co/app/mi-daily/id1569921133',
+      //       headers: <String, String>{},
+      //     );
+      //   }
+      // }
+    } catch (e) {
       LdSnackbar.buildErrorSnackbar(
         context,
         'Ocurrió un inconveniente con la petición, intentalo más tarde',
       );
-      return;
     }
   }
 
@@ -72,28 +83,22 @@ class MiDailyConnect {
     Uri? uri,
   ) async {
     print(uri);
-    print(1);
     // Validar URL
     if (uri == null) return;
 
     // Validar usuario Loggeado
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     if (userProvider.getDataUserLogged == null) return;
-    print(2);
 
     final String host = uri.host;
 
-    print(host);
-    print(userProvider.getMiDailyConnectCode);
     // Validar que el código generado sea el mismo al que recibe como respuesta
     if (userProvider.getMiDailyConnectCode == null ||
         host != userProvider.getMiDailyConnectCode) return;
-    print(3);
 
     // Validar que el path o funcion no esta vacío
     final String? path = uri.queryParameters['path'];
     if (path == null || path.isEmpty) return;
-    print(4);
 
     // Validar si la operación fue exitosa o no
     final String? isSuccess = uri.queryParameters['success'];

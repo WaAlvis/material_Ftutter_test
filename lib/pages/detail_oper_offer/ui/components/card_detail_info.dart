@@ -39,7 +39,13 @@ class CardDetailinfo extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  item.valueToSell,
+                  NumberFormat.simpleCurrency(
+                    decimalDigits: 0,
+                    name: '',
+                    locale: 'IT',
+                  ).format(
+                    double.parse(item.valueToSell),
+                  ),
                   style: textTheme.titleBigBlack
                       .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left,
@@ -82,7 +88,14 @@ class CardDetailinfo extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  '=  ${(val * marg).roundToDouble().toStringAsFixed(0)} COP',
+                  '= ${NumberFormat.simpleCurrency(
+                    decimalDigits: 0,
+                    name: '',
+                    locale: 'IT',
+                  ).format(
+                    double.parse(
+                        (val * marg).roundToDouble().toStringAsFixed(0)),
+                  )} COP',
                   style: textTheme.titleBigBlack.copyWith(
                       fontSize: 24,
                       color: LdColors.orangePrimary,

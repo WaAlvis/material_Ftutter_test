@@ -29,3 +29,15 @@ enum NotificationType {
   sc, // Soporte Venta
   t, // Tiempo
 }
+
+enum SupportType {
+  LocalDLYGeneral,
+  LocalDLYBuy,
+  LocalDLYSale,
+}
+
+enum SupportStatus {
+  Abierto,
+  Proceso,
+  Cerrado,
+}
