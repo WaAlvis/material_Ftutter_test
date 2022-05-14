@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -35,17 +33,18 @@ class ProfileSellerViewModel
     );
   }
 
-  Future<void> onInit({
-    bool validateNotification = false,
-  }) async {
+  Future<void> onInit() async {
     getInfoUserPublish(idUser);
   }
 
   void seeMoreOffers() {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        addEffect(ShowSnackbarSeviceIncompleteEffect(
-            'Aun seguimos trabajando en este servicio'));
+        addEffect(
+          ShowSnackbarSeviceIncompleteEffect(
+            'Aun seguimos trabajando en este servicio',
+          ),
+        );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }

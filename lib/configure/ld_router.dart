@@ -26,6 +26,7 @@ class LdRouter {
     // navigatorKey.currentState!.pop();
     AppRouter.router.pop(context);
   }
+
   void popTwo(BuildContext context) {
     navigatorKey.currentState!.pop();
     AppRouter.router.pop(context);
@@ -97,9 +98,8 @@ class LdRouter {
   }
 
   void goDetailHistoryOperation(
-    BuildContext context,
-    DataUserAdvertisement item,
-  ) {
+      BuildContext context, DataUserAdvertisement item,
+      {required bool isBuying}) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,
@@ -107,7 +107,7 @@ class LdRouter {
       routeSettings: RouteSettings(
         arguments: <String, dynamic>{
           'item': item,
-          // 'isBuying': isBuying
+          'isBuying': isBuying,
         },
       ),
     );

@@ -27,10 +27,10 @@ class DetailHistoryOperationView extends StatelessWidget {
   const DetailHistoryOperationView({
     Key? key,
     this.item,
-    // this.isBuying,
+    this.isBuying,
   }) : super(key: key);
 
-  // final bool? isBuying;
+  final bool? isBuying;
   final DataUserAdvertisement? item;
 
   @override
@@ -39,7 +39,9 @@ class DetailHistoryOperationView extends StatelessWidget {
       create: (_) => DetailHistoryOperationViewModel(
         locator<LdRouter>(),
         locator<ServiceInteractor>(),
-        item!.advertisement.advertisementUserInteraction!.first.idUser,
+        isBuying!
+            ? item!.advertisement.advertisementUserInteraction!.first.idUser
+            : item!.advertisement.idUserPublish,
       ),
       builder: (BuildContext context, _) {
         return Scaffold(

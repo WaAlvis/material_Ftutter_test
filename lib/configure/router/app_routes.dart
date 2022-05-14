@@ -92,8 +92,8 @@ class AppRoutes {
       handlerFunc: (BuildContext? context, __) => DetailHistoryOperationView(
         item: (context!.settings!.arguments! as Map<String, dynamic>)['item']
             as DataUserAdvertisement,
-        // isBuying: (context.settings!.arguments!
-        // as Map<String, dynamic>)['isBuying'] as bool
+        isBuying: (context.settings!.arguments!
+            as Map<String, dynamic>)['isBuying'] as bool,
       ),
     ),
   );

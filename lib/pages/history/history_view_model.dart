@@ -125,13 +125,13 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
   void goDetailHistoryOperation(
     BuildContext context, {
     required DataUserAdvertisement item,
-    // required bool isBuying,
+    required bool isBuying,
   }) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goDetailHistoryOperation(
           context, item,
-          // isBuying: isBuying
+          isBuying: isBuying,
         );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
