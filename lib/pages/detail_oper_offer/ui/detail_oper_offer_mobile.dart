@@ -179,9 +179,10 @@ class _DetailOperOfferMobile extends StatelessWidget {
                               )
                             else
                               Container(),
-                            CardSupport(
-                              textTheme: textTheme,
-                            ),
+                            if (viewModel.status.item != null)
+                              CardSupport(
+                                textTheme: textTheme,
+                              ),
                             const SizedBox(
                               height: 53,
                             ),

@@ -165,8 +165,9 @@ class _DetailOfferMobile extends StatelessWidget {
                                       changeFillWith:
                                           viewModel.status.selectedBank != null,
                                       value: viewModel.status.selectedBank?.id,
-                                      onChanged: (String? idBank) =>
-                                          viewModel.bankSelected(idBank!),
+                                      onChanged: (String? idBank) {
+                                        viewModel.bankSelected(idBank!);
+                                      },
                                       optionItems: viewModel
                                           .status.listBanks.data
                                           .map((Bank item) {
@@ -197,8 +198,15 @@ class _DetailOfferMobile extends StatelessWidget {
                                       hintText: 'seleciona el tipo',
                                       validator: (String? value) =>
                                           viewModel.validatorNotEmpty(value),
-                                      value: viewModel
-                                          .status.selectedAccountType?.id,
+                                      value: viewModel.status.selectedBank!
+                                                      .description ==
+                                                  'NEQUI' ||
+                                              viewModel.status.selectedBank!
+                                                      .description ==
+                                                  'DAVIPLATA'
+                                          ? '998ea2c8-aac4-11ec-9cf0-5740eef20236'
+                                          : viewModel
+                                              .status.selectedAccountType?.id,
                                       changeFillWith: viewModel
                                               .status.selectedAccountType !=
                                           null,
@@ -206,19 +214,40 @@ class _DetailOfferMobile extends StatelessWidget {
                                           viewModel
                                               .accountTypeSelected(idDocType!),
                                       optionItems: viewModel
-                                          .status.listAccountType
-                                          .map((AccountType item) {
-                                        return DropdownMenuItem<String>(
-                                          value: item.id,
-                                          child: Text(item.description),
-                                        );
-                                      }).toList(),
+                                                      .status
+                                                      .selectedBank!
+                                                      .description ==
+                                                  'NEQUI' ||
+                                              viewModel.status.selectedBank!
+                                                      .description ==
+                                                  'DAVIPLATA'
+                                          ? viewModel.status.listAccountTypeB
+                                              .map((AccountType item) {
+                                              return DropdownMenuItem<String>(
+                                                value: item.id,
+                                                child: Text(item.description),
+                                              );
+                                            }).toList()
+                                          : viewModel.status.listAccountType
+                                              .map((AccountType item) {
+                                              return DropdownMenuItem<String>(
+                                                value: item.id,
+                                                child: Text(item.description),
+                                              );
+                                            }).toList(),
                                     ),
                                     const SizedBox(
                                       height: 12,
                                     ),
                                     InputTextCustom(
-                                      '# cuenta',
+                                      viewModel.status.selectedBank!
+                                                      .description ==
+                                                  'NEQUI' ||
+                                              viewModel.status.selectedBank!
+                                                      .description ==
+                                                  'DAVIPLATA'
+                                          ? '# celular'
+                                          : '# cuenta',
                                       hintText: 'Escribe el número',
                                       maxLength: 20,
                                       validator: (String? value) =>

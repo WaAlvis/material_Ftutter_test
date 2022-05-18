@@ -16,6 +16,7 @@ class DetailOfferStatus extends ViewStatus {
   ResultGetBanks listBanks;
   ResultGetDocsType listDocsType;
   List<AccountType> listAccountType;
+  List<AccountType> listAccountTypeB;
   final Bank? selectedBank;
   final DocType? selectedDocType;
   final AccountType? selectedAccountType;
@@ -30,6 +31,7 @@ class DetailOfferStatus extends ViewStatus {
     required this.listDocsType,
     required this.selectedBank,
     required this.listAccountType,
+    required this.listAccountTypeB,
     required this.selectedDocType,
     required this.selectedAccountType,
   });
@@ -43,6 +45,7 @@ class DetailOfferStatus extends ViewStatus {
     ResultGetBanks? listBanks,
     ResultGetDocsType? listDocsType,
     List<AccountType>? listAccountType,
+    List<AccountType>? listAccountTypeB,
     Bank? selectedBank,
     DocType? selectedDocType,
     AccountType? selectedAccountType,
@@ -57,6 +60,7 @@ class DetailOfferStatus extends ViewStatus {
       listDocsType: listDocsType ?? this.listDocsType,
       selectedBank: selectedBank ?? this.selectedBank,
       listAccountType: listAccountType ?? this.listAccountType,
+      listAccountTypeB: listAccountTypeB ?? this.listAccountTypeB,
       selectedDocType: selectedDocType ?? this.selectedDocType,
       selectedAccountType: selectedAccountType ?? this.selectedAccountType,
     );
