@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/register/send_validate/entity_pin_email.dart';
 
 part 'body_pin_email.g.dart';
 
 @JsonSerializable()
 class BodyPinEmail {
   BodyPinEmail({
+    required this.clientId,
     required this.numberOrEmail,
     required this.codevia,
   });
@@ -13,6 +13,7 @@ class BodyPinEmail {
   factory BodyPinEmail.fromJson(Map<String, dynamic> json) =>
       _$BodyPinEmailFromJson(json);
 
+  String clientId;
   String numberOrEmail;
   String codevia;
 

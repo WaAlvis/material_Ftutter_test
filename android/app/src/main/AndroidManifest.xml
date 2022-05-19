@@ -11,15 +11,18 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:exported="true" >
+            android:exported="true">
 
             <!-- Deep Links -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
-                <data android:scheme="localdaily" />
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
+              <data
+                android:scheme="localdaily"
+                android:host="app.com"
+                 />
             </intent-filter>
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -49,11 +52,4 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-    <!-- <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="midailyapp" />
-        </intent>
-    </queries> -->
 </manifest>

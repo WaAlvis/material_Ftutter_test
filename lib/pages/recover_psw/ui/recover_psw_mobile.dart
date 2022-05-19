@@ -93,7 +93,7 @@ class _RecoverPswWebMobile extends StatelessWidget {
                             height: 40,
                           ),
                           InputTextCustom(
-                            'Correo electronio *',
+                            'Correo electronico *',
                             hintText: 'Ingresa correo del usuario',
                             controller: emailForRecoverCtrl,
                             onChange: (String value) =>
@@ -111,38 +111,15 @@ class _RecoverPswWebMobile extends StatelessWidget {
                           ),
                         ],
                       ),
-                      TextButton(
-                        onPressed: () async {
-                          final OpenMailAppResult result =
-                              await OpenMailApp.openMailApp();
 
-                          if (!result.didOpen && !result.canOpen) {
-                            showNoMailAppsDialog(context);
-                          } else if (!result.didOpen && result.canOpen) {
-                            showDialog(
-                              context: context,
-                              builder: (_) {
-                                return MailAppPickerDialog(
-                                  mailApps: result.options,
-                                );
-                              },
-                            );
-                          }
-                        },
-                        child: Text(
-                          'Abrir correo',
-                          style: textTheme.textSmallWhite.copyWith(
-                            decoration: TextDecoration.underline,
-                            color: LdColors.gray,
-                          ),
-                        ),
-                      ),
                       PrimaryButtonCustom(
                         'Enviar',
                         onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           if (keyForm.currentState!.validate()) {
                             viewModel.requestNewPsw(
-                                context, emailForRecoverCtrl.text);
+                                context,textTheme, emailForRecoverCtrl.text,
+                            );
                           }
                         },
                       ),

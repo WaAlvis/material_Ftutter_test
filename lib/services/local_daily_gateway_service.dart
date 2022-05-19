@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
@@ -28,7 +30,7 @@ import 'package:localdaily/services/models/info_user_publish/body_info_user_publ
 import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
-import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/login/response/result_login.dart';
 import 'package:localdaily/services/models/notifications/body_notifications.dart';
 import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
 import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
@@ -56,6 +58,7 @@ class UrlsApi {
   static const String createUser = '/User/User';
   static const String login = '/Identity/Authentication';
   static const String recoverPassword = '/Identity/GetRecoverPassword';
+  static const String changePassword = '/Identity/ChangePassword';
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
@@ -113,17 +116,25 @@ abstract class LocalDailyGatewayService {
     @Body() BodyLogin bodyLogin,
   );
 
-  //Login & Register
+  //Recover Psw
   @POST(UrlsApi.recoverPassword)
-  Future<ResponseData<ResultRecoverPsw>> recoverPsw(
+  Future<ResponseData<ResultRecoverPsw>> recoverNewPsw(
     @Body() BodyRecoverPsw bodyRecoverPsw,
   );
+
+  //Change Psw
+  @POST(UrlsApi.changePassword)
+  Future<ResponseData<ResultChangePsw>> changePsw(
+      @Body() BodyChangePsw bodyChangePsw,
+      );
+
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
     @Body() BodyPinEmail bodyPin,
   );
 
+  //Validate OTP
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
     @Body() BodyValidatePin bodyValidatePin,

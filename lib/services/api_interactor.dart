@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/services/local_daily_gateway_service.dart';
-import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
+import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
 import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
 import 'package:localdaily/services/models/contact_support/support_type/body_support_type.dart';
@@ -30,7 +32,7 @@ import 'package:localdaily/services/models/info_user_publish/body_info_user_publ
 import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
-import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/login/response/result_login.dart';
 import 'package:localdaily/services/models/notifications/body_notifications.dart';
 import 'package:localdaily/services/models/notifications/counter/body_notification_counter.dart';
 import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
@@ -89,19 +91,25 @@ class ServiceInteractor {
     return response;
   }
 
-  Future<ResponseData<ResultRecoverPsw>> requestPsw(
+  Future<ResponseData<ResultRecoverPsw>> requestNewPsw(
       BodyRecoverPsw bodyRecoverPsw) async {
     final ResponseData<ResultRecoverPsw> response =
-        await locator<LocalDailyGatewayService>().recoverPsw(bodyRecoverPsw);
+        await locator<LocalDailyGatewayService>().recoverNewPsw(bodyRecoverPsw);
 
     return response;
   }
 
-  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
-      BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+  Future<ResponseData<ResultChangePsw>> changePsw(
+      BodyChangePsw bodyChangePsw,) async {
+    final ResponseData<ResultChangePsw> response =
+    await locator<LocalDailyGatewayService>().changePsw(bodyChangePsw);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
     final ResponseData<ResultHistoryOperationsUser> response =
-        await locator<LocalDailyGatewayService>()
-            .getHistoryOperationsUser(bodyHistoryOperationsUser);
+        await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
 
     return response;
   }

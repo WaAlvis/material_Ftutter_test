@@ -21,8 +21,10 @@ class InfoViewArguments {
   final bool hasActionButton;
   final String actionCaption;
   final VoidCallback? onAction;
+  final VoidCallback? actionBack;
 
-  const InfoViewArguments({
+  const InfoViewArguments( {
+    this.actionBack,
     this.title,
     this.colorTitle,
     required this.description,

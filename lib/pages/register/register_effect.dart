@@ -26,16 +26,3 @@ class ShowWarningSnackbar extends RegisterEffect {
 
   ShowWarningSnackbar(this.message);
 }
-
-//
-// class ShowSnackbarErrorRequestPinEffect extends RegisterEffect {}
-//
-// class ShowSnackbarValidPinSuccessEffect extends RegisterEffect {}
-//
-// class ShowSnackbarErrorValidatePinEffect extends RegisterEffect {}
-//
-// class ShowSnackbarErrorRegisterEffect extends RegisterEffect {
-//   final String message;
-//
-//   ShowSnackbarErrorRegisterEffect(this.message);
-// }

@@ -291,9 +291,9 @@ class RowInfoPartner extends StatelessWidget {
                         child: FittedBox(
                           alignment: Alignment.centerLeft,
                           fit: BoxFit.scaleDown,
-                          child: viewModel.status.userBuyer != null
+                          child: !viewModel.status.isLoading
                               ? Text(
-                                  viewModel.status.userBuyer!.nickName,
+                                  viewModel.status.userBuyer?.nickName ?? '- - - - - - - - - -' ,
                                   textAlign: TextAlign.left,
                                 )
                               : Shimmer.fromColors(

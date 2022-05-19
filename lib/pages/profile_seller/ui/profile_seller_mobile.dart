@@ -127,7 +127,7 @@ class _ProfileSellerMobile extends StatelessWidget {
                             ),
                             PrimaryButtonCustom(
                               'Ver más ofertas',
-                              onPressed: () {},
+                              onPressed: () => viewModel.seeMoreOffers(),
                             ),
                           ],
                         ),

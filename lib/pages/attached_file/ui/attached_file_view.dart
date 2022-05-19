@@ -120,6 +120,13 @@ class __AttachedFileBodyState extends State<_AttachedFileBody> {
     super.initState();
   }
 
+
+  @override
+  void dispose() {
+    _effectSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final AttachedFileViewModel viewModel =

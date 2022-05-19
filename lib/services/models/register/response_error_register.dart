@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:localdaily/services/models/login/info_login_error.dart';
+import 'package:localdaily/services/models/login/response/info_login_error.dart';
 
 part 'response_error_register.g.dart';
 

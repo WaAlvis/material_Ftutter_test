@@ -66,7 +66,7 @@ class RegisterBodyState extends State<RegisterBody> {
 
   final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController confirmPassCtrl = TextEditingController();
-  final TextEditingController codePinCtrl = TextEditingController();
+  TextEditingController codePinCtrl = TextEditingController();
   final TextEditingController addressWallet = TextEditingController();
   final TextEditingController dateBirthCtrl = TextEditingController();
   late StreamSubscription<RegisterEffect> _effectSubscription;
@@ -81,7 +81,6 @@ class RegisterBodyState extends State<RegisterBody> {
     phoneCtrl.dispose();
     passwordCtrl.dispose();
     confirmPassCtrl.dispose();
-    codePinCtrl.dispose();
     addressWallet.dispose();
     _effectSubscription.cancel();
 
@@ -92,14 +91,6 @@ class RegisterBodyState extends State<RegisterBody> {
   void initState() {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final RegisterViewModel viewModel = context.read<RegisterViewModel>();
-
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   context.read<RegisterViewModel>().onInit(
-    //     // context,
-    //     // dataUserProvider,
-    //     // dataUserProvider.getDataUserLogged,
-    //   );
-    // });
 
     _effectSubscription = viewModel.effects.listen((RegisterEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {

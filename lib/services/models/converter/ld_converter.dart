@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/contact_support/support_status/result_support_status.dart';
 import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/create_offers/get_account_type/result_account_type.dart';
@@ -12,7 +13,7 @@ import 'package:localdaily/services/models/history_operations_user/response/resu
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
-import 'package:localdaily/services/models/login/result_login.dart';
+import 'package:localdaily/services/models/login/response/result_login.dart';
 import 'package:localdaily/services/models/notifications/counter/result_notification_counter.dart';
 import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
@@ -75,6 +76,8 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultSupportType.fromJson(json) as T;
       } else if ('$T' == '$ResultSupportCases?' || T == ResultSupportCases) {
         return ResultSupportCases.fromJson(json) as T;
+      } else if ('$T' == '$ResultChangePsw?' || T == ResultChangePsw) {
+        return ResultChangePsw.fromJson(json) as T;
       }
     }
     return json as T;
