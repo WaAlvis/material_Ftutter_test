@@ -13,6 +13,7 @@ class BodyRegisterDataUser {
     required this.dateBirth,
     required this.email,
     required this.phone,
+    required this.indicative,
     required this.userTypeId,
     required this.password,
     required this.isActive,
@@ -34,6 +35,7 @@ class BodyRegisterDataUser {
   String dateBirth;
   String email;
   String phone;
+  int indicative;
   String userTypeId;
   String password;
   bool isActive;

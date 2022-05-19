@@ -163,55 +163,36 @@ class RegisterViewModel
 
   void requiredPinForEmailValidation(String email) {
     //fin step 1
-    status = status.copyWith(
-      isLoading: true,
-    );
     LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
         await sendPinToEmail(email);
         //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
-        goNextStep(currentStep: RegisterStep.emailStep_1);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
-      status = status.copyWith(
-        isLoading: false,
-      );
     });
   }
 
   void continueValidatePin() {
     //fin step 2
-    status = status.copyWith(
-      isLoading: true,
-    );
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         goNextStep(currentStep: RegisterStep.msjEmailStep_2);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
-      status = status.copyWith(
-        isLoading: false,
-      );
     });
   }
 
   void validateCodePin(
     String codePin,
   ) {
-    status = status.copyWith(
-      isLoading: true,
-    );
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         validatedPin(codePin);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
-      status = status.copyWith(
-        isLoading: false,
-      );
     });
   }
 
@@ -249,46 +230,41 @@ class RegisterViewModel
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error servicio**'));
-
       status = status.copyWith(isLoading: false);
     });
   }
 
-  Future<void> reSendPinToEmail(String email) => sendPinToEmail(email);
+  Future<void> reSendPinToEmail(String email) =>
+      sendPinToEmail(email, againSend: true);
 
-  Future<void> sendPinToEmail(
-    String email,
-  ) async {
+  Future<void> sendPinToEmail(String email, {bool againSend = false}) async {
     status = status.copyWith(
       isLoading: true,
       emailRegister: email,
     );
 
-    final EntityPinEmail entityPin = EntityPinEmail(
-      clientId: '123',
-      numberOrEmail: email,
-      codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a', //Email
-    );
-    final BodyPinEmail bodyPin = BodyPinEmail(
+    final BodyPinEmail bodyPinEmail = BodyPinEmail(
+      clientId: 'f160e3d8-aca1-4c5b-a7df-c07a858013cd',
       numberOrEmail: email,
       codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a',
     );
 
-    _interactor.requestPinValidateEmail(bodyPin).then((
+    _interactor.requestPinValidateEmail(bodyPinEmail).then((
       ResponseData<ResultPinEmail> response,
     ) {
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Código enviado'));
-        //Todo ACTIVAR, cuando sea efectivo el envio de codigo al correo
-        goNextStep(currentStep: RegisterStep.emailStep_1);
+        if (!againSend) {
+          goNextStep(currentStep: RegisterStep.emailStep_1);
+        }
       } else {
         addEffect(ShowWarningSnackbar('Error en el envio'));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error servicio**'));
+      status = status.copyWith(isLoading: false);
     });
-    status = status.copyWith(isLoading: false);
   }
 
   void goNextStep({
@@ -327,7 +303,6 @@ class RegisterViewModel
     String nickName,
     String password,
   ) async {
-    status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
       (bool isConnectionValid) {
         if (isConnectionValid) {
@@ -337,36 +312,8 @@ class RegisterViewModel
           addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
         }
       },
-    ).catchError((Object err) {
-      addEffect(ShowErrorSnackbar('Error servicio**'));
-      print('Envio de Codigo Error As: $err');
-    });
-    status = status.copyWith(isLoading: false);
+    );
   }
-
-  // Future<void> savePersonalData(
-  //     String name, String surname, String dateBirth, String phone) async {
-  //   status = status.copyWith(isLoading: true);
-  //   LdConnection.validateConnection().then(
-  //     (bool value) {
-  //       if (value) {
-  //         status = status.copyWith(
-  //           names: name,
-  //           surnames: surname,
-  //           dateBirth: dateBirth,
-  //           phone: phone,
-  //         );
-  //         goNextStep(currentStep: RegisterStep.personalDataStep_5);
-  //       } else {
-  //         // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
-  //       }
-  //     },
-  //   ).catchError((Object err) {
-  //     print('Envio de Codigo Error As: $err');
-  //     addEffect(ShowErrorSnackbar('Error servicio**'));
-  //   });
-  //   status = status.copyWith(isLoading: false);
-  // }
 
   String? textError({required String errorMsj}) {
     const String start = 'Detail="';
@@ -394,7 +341,6 @@ class RegisterViewModel
     String dateBirth,
     String phone,
   ) async {
-    status = status.copyWith(isLoading: true);
     LdConnection.validateConnection().then(
       (bool isConnectionValid) {
         if (isConnectionValid) {
@@ -410,11 +356,7 @@ class RegisterViewModel
           addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
         }
       },
-    ).catchError((Object err) {
-      addEffect(ShowErrorSnackbar('Error servicio**'));
-      print('Registro de Usuario Error As: $err');
-    });
-    status = status.copyWith(isLoading: false);
+    );
   }
 
   Future<void> registerUserService(
@@ -436,7 +378,8 @@ class RegisterViewModel
       secondLastName: '',
       dateBirth: status.dateBirth,
       email: status.emailRegister,
-      phone: '${status.indicativePhone}$phone',
+      indicative: int.parse(status.indicativePhone.replaceFirst('+', '')),
+      phone: phone,
       userTypeId: '9c2f4526-5933-4404-96fc-784a87a7b674',
       password: sha256passWord,
       isActive: true,
@@ -451,7 +394,6 @@ class RegisterViewModel
         .postRegisterUser(bodyRegister)
         .then((ResponseData<ResultRegister> response) {
       if (response.isSuccess) {
-        //todo
         final String idUser = response.result!.id;
         _interactor
             .getUserById(idUser)
@@ -464,8 +406,10 @@ class RegisterViewModel
               isErrorPinValidate: false,
             );
             goSuccessRegister(context);
-            //todo vista intermedia
+          } else {
+            addEffect(ShowErrorSnackbar('Error en almacenando la info'));
           }
+          status = status.copyWith(isLoading: false);
         }).catchError((Object err) {
           addEffect(ShowErrorSnackbar('Error servicio**'));
           status = status.copyWith(
@@ -481,10 +425,22 @@ class RegisterViewModel
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
+      addEffect(ShowErrorSnackbar('Error servicio**'));
       status = status.copyWith(
         isLoading: false,
       );
     });
+  }
+
+  void goSuccessRegister(BuildContext context) {
+    final InfoViewArguments info = InfoViewArguments(
+      actionCaption: 'Ingresar',
+      title: '¡Felciitaciones!',
+      colorTitle: LdColors.white,
+      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
+      onAction: () => _route.goHome(context),
+    );
+    _route.goInfoView(context, info);
   }
 
   Digest encryptionPass(String pass) {
@@ -578,7 +534,7 @@ class RegisterViewModel
   }
 
   String? validateBirthday(String? value) {
-    if (value == ''|| value == null) {
+    if (value == '' || value == null) {
       return '* Tu fecha de nacimiento es necesaria';
     }
     return null;
@@ -604,17 +560,6 @@ class RegisterViewModel
         hasSpecialCharacters &
         hasLowercase &
         hasDigits;
-  }
-
-  void goSuccessRegister(BuildContext context) {
-    final InfoViewArguments info = InfoViewArguments(
-      actionCaption: 'Ingresar',
-      title: '¡Felciitaciones!',
-      colorTitle: LdColors.white,
-      description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
-      onAction: () => _route.goHome(context),
-    );
-    _route.goInfoView(context, info);
   }
 
 // Future<void> openEmail(BuildContext context) async {

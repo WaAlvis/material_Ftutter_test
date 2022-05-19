@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
+import 'package:localdaily/pages/settings/settings_effect.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/view_model.dart';
 
 import 'settings_status.dart';
 
-class SettingsViewModel extends ViewModel<SettingsStatus> {
+class SettingsViewModel
+    extends EffectsViewModel<SettingsStatus, SettingEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
@@ -31,14 +33,24 @@ class SettingsViewModel extends ViewModel<SettingsStatus> {
   void changeLanguage(Language? value) {
     status = status.copyWith(currentLanguage: value);
   }
+
   void goChangePsw(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goChangePsw(context);
       } else {
-        // addEffect(ShowSnackbarConnectivityEffect(i18n.noConnection));
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
 
+  void goDirectionWallet(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        // _route.goDitectionWallet(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
 }

@@ -1,8 +1,7 @@
 import 'package:localdaily/view_model.dart';
 
-class ChangePasswordStatus extends ViewStatus {
+class ChangePswStatus extends ViewStatus {
   final bool isLoading;
-  final bool isError;
   final bool isCurrentPswFieldEmpty;
   final bool isNewPswFieldEmpty;
   final bool isAgainNewPswFieldEmpty;
@@ -14,9 +13,8 @@ class ChangePasswordStatus extends ViewStatus {
   final bool hidePass;
 
 
-  ChangePasswordStatus({
+  ChangePswStatus({
     required this.isLoading,
-    required this.isError,
     required this.isCurrentPswFieldEmpty,
     required this.isNewPswFieldEmpty,
     required this.isAgainNewPswFieldEmpty,
@@ -29,9 +27,8 @@ class ChangePasswordStatus extends ViewStatus {
 
   });
 
-  ChangePasswordStatus copyWith({
+  ChangePswStatus copyWith({
     bool? isLoading,
-    bool? isError,
     bool? isCurrentPswFieldEmpty,
     bool? isNewPswFieldEmpty,
     bool? isAgainNewPswFieldEmpty,
@@ -43,9 +40,8 @@ class ChangePasswordStatus extends ViewStatus {
     bool? hidePass,
 
   }) {
-    return ChangePasswordStatus(
+    return ChangePswStatus(
       isLoading: isLoading ?? this.isLoading,
-      isError: isError ?? this.isError,
       isCurrentPswFieldEmpty: isCurrentPswFieldEmpty ?? this.isCurrentPswFieldEmpty,
       isNewPswFieldEmpty: isNewPswFieldEmpty ?? this.isNewPswFieldEmpty,
       isAgainNewPswFieldEmpty: isAgainNewPswFieldEmpty ?? this.isAgainNewPswFieldEmpty,

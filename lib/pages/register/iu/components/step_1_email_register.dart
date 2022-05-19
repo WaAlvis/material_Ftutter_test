@@ -57,6 +57,7 @@ class Step1EmailRegister extends StatelessWidget {
               PrimaryButtonCustom(
                 'Enviar código de verificacion',
                 onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   if (keyForm.currentState!.validate()) {
                     viewModel.continueStep_2MsjEmail  (emailCtrl.text);
                   }

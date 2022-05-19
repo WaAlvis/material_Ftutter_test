@@ -5,6 +5,9 @@ part 'entity_validate_pin.g.dart';
 @JsonSerializable()
 class EntityValidatePin {
   EntityValidatePin({
+    // No enviar
+    // required this.id,
+    // required this.clientId,
     required this.numberOrEmail,
     required this.otp,
 

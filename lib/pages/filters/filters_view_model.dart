@@ -23,6 +23,7 @@ import 'filters_status.dart';
 class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
   late LdRouter _router;
   late ServiceInteractor _interactor;
+
   FilterViewModel(
     this._router,
     this._interactor,

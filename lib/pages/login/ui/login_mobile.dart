@@ -184,22 +184,26 @@ class _LoginMobile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        PrimaryButtonCustom(
-                          'Ingresar',
-                          onPressed: () => viewModel.goHomeForLogin(
-                            context,
-                            keyForm,
-                            userCtrl,
-                            passwordCtrl,
-                            dataUserProvider,
-                          ),
-                          // onPressed: () {
-                          //   if (keyForm.currentState!.validate()) {
-                          //     viewModel.goHome(
-                          //         context, userCtrl, passwordCtrl, dataUserProvider);
-                          //   }
-                          // },
-                        ),
+                        PrimaryButtonCustom('Ingresar', onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          if (keyForm.currentState!.validate()) {
+                            viewModel.goHomeForLogin(
+                              context,
+                              keyForm,
+                              userCtrl,
+                              passwordCtrl,
+                              dataUserProvider,
+                            );
+                          }
+                        }
+
+                            // onPressed: () {
+                            //   if (keyForm.currentState!.validate()) {
+                            //     viewModel.goHome(
+                            //         context, userCtrl, passwordCtrl, dataUserProvider);
+                            //   }
+                            // },
+                            ),
                       ],
                     ),
                   ),

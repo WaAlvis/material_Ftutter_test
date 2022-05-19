@@ -2,13 +2,13 @@ import 'package:localdaily/view_model.dart';
 
 abstract class RecoverPswEffect extends Effect {}
 
+class ShowDialogRecoverPswEffect extends RecoverPswEffect {}
+
 class ShowSnackbarConnectivityEffect extends RecoverPswEffect {
   final String message;
 
   ShowSnackbarConnectivityEffect(this.message);
 }
-
-class ShowDialogRecoverPswEffect extends RecoverPswEffect {}
 
 class ShowSuccessSnackbar extends RecoverPswEffect {
   final String message;

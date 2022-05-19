@@ -182,7 +182,7 @@ class ListOperationDay extends StatelessWidget {
                   onTap: () => viewModel.goDetailHistoryOperation(
                     context,
                     item: dayOperations[index],
-                    // isBuying: isBuying,
+                    isBuying: isBuying,
                   ),
                   borderRadius: BorderRadius.circular(20),
                   highlightColor: dayOperations[index]

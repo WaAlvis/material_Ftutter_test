@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
-import 'package:localdaily/widgets/list_checks_required_psw.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
+import 'package:localdaily/widgets/list_checks_required_psw.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 
 class Step4AccountData extends StatelessWidget {

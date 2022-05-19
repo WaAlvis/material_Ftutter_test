@@ -1,7 +1,7 @@
-part of 'change_password_view.dart';
+part of 'change_psw_view.dart';
 
-class ChangePasswordWeb extends StatelessWidget {
-  const ChangePasswordWeb({
+class ChangePswWeb extends StatelessWidget {
+  const ChangePswWeb({
     Key? key,
     required this.keyForm,
   }) : super(key: key);

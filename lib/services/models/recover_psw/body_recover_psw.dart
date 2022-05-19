@@ -8,6 +8,8 @@ class BodyRecoverPsw {
     required this.filter,
     required this.document,
     required this.signature,
+    //Todo quest V
+    required this.clientId,
     required this.codeLang,
 
   });
@@ -18,6 +20,7 @@ class BodyRecoverPsw {
   String filter;
   String document;
   String signature;
+  String clientId;
   String codeLang;
 
   Map<String, dynamic> toJson() => _$BodyRecoverPswToJson(this);

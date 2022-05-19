@@ -28,6 +28,11 @@ class LdRouter {
     AppRouter.router.pop(context);
   }
 
+  void popTwo(BuildContext context) {
+    navigatorKey.currentState!.pop();
+    AppRouter.router.pop(context);
+  }
+
   void goHome(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
@@ -94,12 +99,8 @@ class LdRouter {
   }
 
   void goDetailHistoryOperation(
-    BuildContext context,
-    DataUserAdvertisement item,
-    // {
-    // required bool isBuying,
-    // }
-  ) {
+      BuildContext context, DataUserAdvertisement item,
+      {required bool isBuying}) {
     AppRouter.router.navigateTo(
       context,
       AppRoutes.detailHistoryOperationRoute.route,
@@ -107,7 +108,7 @@ class LdRouter {
       routeSettings: RouteSettings(
         arguments: <String, dynamic>{
           'item': item,
-          // 'isBuying': isBuying
+          'isBuying': isBuying,
         },
       ),
     );
@@ -147,6 +148,16 @@ class LdRouter {
       transition: TransitionType.none,
     );
   }
+
+  // void goSettingsPostChangePsw(
+  //   BuildContext context,
+  // ) {
+  //   AppRouter.router.navigateTo(
+  //     context,
+  //     AppRoutes.settingsRoute.route,
+  //     transition: TransitionType.none,
+  //   );
+  // }
 
   void goCreateOffer(BuildContext context, TypeOffer type) {
     AppRouter.router.navigateTo(
