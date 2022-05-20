@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>localdaily</string>
+	<string>LocalDLY</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -36,10 +36,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>La aplicacion necesita poder acceder a la galeria para subir comprobantes.</string>
 	<key>UIBackgroundModes</key>
-	<array>
-		<string>Acceso a los archivos de su dispositivo.</string>
-		<string>Poder filtran los archivos que pude subir como coprobantes.</string>
-	</array>
+	<array/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
