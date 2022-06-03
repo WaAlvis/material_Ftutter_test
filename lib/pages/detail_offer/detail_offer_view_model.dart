@@ -59,6 +59,7 @@ class DetailOfferViewModel
         totalPages: 1,
       ),
       listAccountType: <AccountType>[],
+      listAccountTypeB: <AccountType>[],
     );
   }
 
@@ -80,12 +81,16 @@ class DetailOfferViewModel
   }
 
   void goProfileSeller(
-    BuildContext context,
-      {required String idUser,required String nickName,}) {
+    BuildContext context, {
+    required String idUser,
+    required String nickName,
+  }) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
         _route.goProfileSeller(
-          context,idUser,nickName,
+          context,
+          idUser,
+          nickName,
         );
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
@@ -113,7 +118,22 @@ class DetailOfferViewModel
       (Bank bank) => bank.id == id,
     );
     if (index != -1) {
-      status = status.copyWith(selectedBank: status.listBanks.data[index]);
+      status = status.copyWith(
+        selectedBank: status.listBanks.data[index],
+      );
+      if (status.selectedBank?.description == 'NEQUI' ||
+          status.selectedBank?.description == 'DAVIPLATA') {
+        status = status.copyWith(
+          listAccountTypeB: <AccountType>[
+            AccountType(
+              description: 'Billetera virutal',
+              id: '998ea2c8-aac4-11ec-9cf0-5740eef20236',
+            )
+          ],
+        );
+      } else {}
+      // print(
+      //     '${status.selectedBank?.description} listaccounttype ${status.selectedAccountType?.id}  listaccounttype ${status.selectedAccountType?.description}');
     }
   }
 

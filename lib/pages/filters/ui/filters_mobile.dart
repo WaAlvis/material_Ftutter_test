@@ -495,6 +495,43 @@ class _FilterMobile extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              FormBuilderFieldOption(
+                                value: 4,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 24,
+                                      width: 130,
+                                      decoration: const BoxDecoration(
+                                        color: LdColors.redError,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(4),
+                                        ),
+                                      ),
+                                      child: Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          FittedBox(
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              'Disputa',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: LdColors.white,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               // FormBuilderFieldOption(
                               //   value: 4,
                               //   child: Row(

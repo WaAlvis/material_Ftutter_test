@@ -7,12 +7,14 @@ class DetailState extends StatefulWidget {
     required this.isBuy,
     required this.item,
     required this.isOper,
+    required this.stateDis,
   }) : super(key: key);
 
   final String state;
   final bool isBuy;
   final ResultDataAdvertisement item;
   final bool isOper;
+  final String stateDis;
 
   @override
   State<DetailState> createState() => _DetailStateState();
@@ -22,6 +24,7 @@ class _DetailStateState extends State<DetailState> {
   Color _color = LdColors.orangePrimary;
   String stateString = '';
   final DateFormat f = DateFormat('dd-MM-yyyy hh:mm a');
+
   @override
   void initState() {
     _getColor();
@@ -36,7 +39,7 @@ class _DetailStateState extends State<DetailState> {
             'Se cerró la oferta de ${widget.isBuy ? 'compra' : 'venta'} exitosamente.';
         break;
       case 'Pagado':
-        _color = LdColors.green;
+        _color = widget.stateDis == '4' ? LdColors.redError : LdColors.green;
         stateString = widget.isOper
             ? widget.isBuy
                 ? 'Realizaste el pago y adjuntaste el comprobante.'
@@ -117,7 +120,7 @@ class _DetailStateState extends State<DetailState> {
                       alignment: Alignment.centerLeft,
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        widget.state,
+                        widget.stateDis == '4' ? 'En disputa' : widget.state,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: LdColors.white,

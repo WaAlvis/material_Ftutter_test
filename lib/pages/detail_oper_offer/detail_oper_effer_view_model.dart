@@ -166,6 +166,12 @@ class DetailOperOfferViewModel
         });
 
         switch (status.item!.idStatus) {
+          case '4':
+            status = status.copyWith(state: 'Pagado');
+            status = status.copyWith(
+                extensionFile: status.listAdvertisementDoc[0].fileExtension);
+
+            break;
           case '2':
             status = status.copyWith(state: 'Cerrado');
             status = status.copyWith(
@@ -193,7 +199,7 @@ class DetailOperOfferViewModel
         }
       } catch (e) {
         addEffect(
-          ShowSnackbarErrorEffect('Error desconocdio'),
+          ShowSnackbarErrorEffect('Error desconocdio $e'),
         ); //cambiar mensaje
       }
       // status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);

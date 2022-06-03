@@ -20,7 +20,14 @@ enum NavigateOption {
 
 enum DailyConnectType { walletAddress, transaction }
 
-enum OfferStatus { Publicado, Pendiente, Cerrado, pending, Pagado }
+enum OfferStatus {
+  Publicado,
+  Pendiente,
+  Cerrado,
+  pending,
+  Pagado,
+  Disputa,
+}
 
 enum NotificationType {
   c, // Compra

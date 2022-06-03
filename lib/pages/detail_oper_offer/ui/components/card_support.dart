@@ -34,7 +34,9 @@ class CardSupport extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        '¿Tienes inquietudes con esta operación?',
+                        viewModel.status.item!.idStatus == '4'
+                            ? 'Esta publicación se encuentra en disputa por una de las partes, recibirás la información respectiva del caso en tu correo electrónico.'
+                            : '¿Tienes inquietudes con esta operación?',
                         style: textTheme.textBlack.copyWith(
                           fontSize: 14,
                         ),
@@ -47,14 +49,16 @@ class CardSupport extends StatelessWidget {
                         onTap: () => viewModel.goContactSupport(
                           context,
                         ), //Abrir perfil del comprador
-                        child: Text(
-                          'Contacta a soporte',
-                          style: textTheme.bodyMedium?.copyWith(
-                            fontSize: 18,
-                            decoration: TextDecoration.underline,
-                            color: LdColors.orangePrimary,
-                          ),
-                        ),
+                        child: viewModel.status.item!.idStatus == '4'
+                            ? const SizedBox()
+                            : Text(
+                                'Contacta a soporte',
+                                style: textTheme.bodyMedium?.copyWith(
+                                  fontSize: 18,
+                                  decoration: TextDecoration.underline,
+                                  color: LdColors.orangePrimary,
+                                ),
+                              ),
                       )
                     ],
                   ),
