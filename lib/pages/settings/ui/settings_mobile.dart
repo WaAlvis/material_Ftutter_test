@@ -194,10 +194,8 @@ class SettingsMobile extends StatelessWidget {
               ),
               FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Flexible(
-                  child: Text(
-                    subtitle,
-                  ),
+                child: Text(
+                  subtitle,
                 ),
               ),
             ],

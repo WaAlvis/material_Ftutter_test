@@ -37,107 +37,105 @@ class _ProfileSellerMobile extends StatelessWidget {
         appBar: const LdAppbar(
           title: 'Perfil del comprador',
         ),
-        body: Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const AppbarCircles(
-                  hAppbar: hAppbar,
-                ),
-                Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: size.width,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                      ),
-                      child: Container(
-                        constraints: BoxConstraints(maxHeight: hBody),
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          left: 16,
-                          right: 16,
-                          bottom: 20,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: LdColors.white,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(25),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            _nameUser(textTheme, viewModel),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const Spacer(),
-                            _containerRateSeller(
-                              infoUser?.rateGeneral ?? 0.5,
-                              textTheme,
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            const Spacer(),
-                            Column(
-                              children: <Widget>[
-                                _summaryOperationsRow(
-                                  textTheme,
-                                  titleSection: 'Operaciones',
-                                  leftBox: <dynamic>[
-                                    infoUser?.numberOfSales ?? '0',
-                                    'Ventas realizadas'
-                                  ],
-                                  rightBox: <dynamic>[
-                                    infoUser?.numberOfBuys ?? '0',
-                                    'Compras realizadas'
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                _summaryOperationsRow(
-                                  textTheme,
-                                  titleSection: 'Ofertas publicadas',
-                                  leftBox: <dynamic>[
-                                    infoUser?.openSales ?? '0',
-                                    'De ventas'
-                                  ],
-                                  rightBox: <dynamic>[
-                                    infoUser?.openBuys ?? '0',
-                                    'De compra'
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Spacer(
-                              flex: 3,
-                            ),
-                            PrimaryButtonCustom(
-                              'Ver más ofertas',
-                              onPressed: () => viewModel.seeMoreOffers(),
-                            ),
-                          ],
-                        ),
+        body: SingleChildScrollView(
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const AppbarCircles(
+                hAppbar: hAppbar,
+              ),
+              Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    width: size.width,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
                       ),
                     ),
-                    _circleAvatar(),
-                  ],
-                ),
-              ],
-            ),
+                    child: Container(
+                      constraints: BoxConstraints(maxHeight: hBody),
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 16,
+                        right: 16,
+                        bottom: 20,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: LdColors.white,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(25),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          _nameUser(textTheme, viewModel),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          const Spacer(),
+                          _containerRateSeller(
+                            infoUser?.rateGeneral ?? 0.5,
+                            textTheme,
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          const Spacer(),
+                          Column(
+                            children: <Widget>[
+                              _summaryOperationsRow(
+                                textTheme,
+                                titleSection: 'Operaciones',
+                                leftBox: <dynamic>[
+                                  infoUser?.numberOfSales ?? '0',
+                                  'Ventas realizadas'
+                                ],
+                                rightBox: <dynamic>[
+                                  infoUser?.numberOfBuys ?? '0',
+                                  'Compras realizadas'
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              _summaryOperationsRow(
+                                textTheme,
+                                titleSection: 'Ofertas publicadas',
+                                leftBox: <dynamic>[
+                                  infoUser?.openSales ?? '0',
+                                  'De ventas'
+                                ],
+                                rightBox: <dynamic>[
+                                  infoUser?.openBuys ?? '0',
+                                  'De compra'
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Spacer(
+                            flex: 3,
+                          ),
+                          PrimaryButtonCustom(
+                            'Ver más ofertas',
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  _circleAvatar(),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -276,14 +274,12 @@ class _ProfileSellerMobile extends StatelessWidget {
     return Column(
       children: <Widget>[
         SizedBox(
-          child: Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                viewModel.status.nickName,
-                style: textTheme.textBigBlack
-                    .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
-              ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              viewModel.status.nickName,
+              style: textTheme.textBigBlack
+                  .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
             ),
           ),
         ),
