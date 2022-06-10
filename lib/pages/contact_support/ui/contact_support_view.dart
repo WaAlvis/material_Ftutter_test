@@ -26,21 +26,19 @@ class ContactSupportView extends StatelessWidget {
     required this.advertisementId,
     required this.reference,
     this.isbuy = false,
+    this.isDisputa = false,
   }) : super(key: key);
   final String advertisementId;
   final int reference;
   final bool isbuy;
+  final bool isDisputa;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ContactSupportViewModel>(
-      create: (_) => ContactSupportViewModel(
-        locator<LdRouter>(),
-        locator<ServiceInteractor>(),
-        advertisementId,
-        reference,
-        isbuy: isbuy,
-      ),
+      create: (_) => ContactSupportViewModel(locator<LdRouter>(),
+          locator<ServiceInteractor>(), advertisementId, reference,
+          isbuy: isbuy, isDisputa: isDisputa),
       child: const ContactSupportBody(),
     );
   }
@@ -83,6 +81,7 @@ class _ContactSupportBodyState extends State<ContactSupportBody> {
           viewModel.createContactSupport(
             userProvider.getDataUserLogged!.email,
             userProvider.getDataUserLogged!.id,
+            false,
             context,
             configurationProvider.getResultSupportType,
           );

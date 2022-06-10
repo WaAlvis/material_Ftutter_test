@@ -401,12 +401,17 @@ class ProfileUser extends StatelessWidget {
               const SizedBox(
                 width: 12,
               ),
-              const CircleAvatar(
-                radius: sizeCircleIcon,
-                backgroundColor: LdColors.orangePrimary,
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  viewModel.goSettingsUpdate(context);
+                },
+                child: const CircleAvatar(
+                  radius: sizeCircleIcon,
+                  backgroundColor: LdColors.orangePrimary,
+                  child: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],

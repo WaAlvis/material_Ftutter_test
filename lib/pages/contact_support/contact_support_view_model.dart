@@ -7,6 +7,7 @@ import 'package:localdaily/pages/contact_support/contact_support_status.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
+import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/view_model.dart';
 
 class ContactSupportViewModel
@@ -16,6 +17,7 @@ class ContactSupportViewModel
   late String advertisementId;
   late int reference;
   late bool isbuy;
+  late bool isDisputa;
 
   ContactSupportViewModel(
     this._route,
@@ -23,11 +25,13 @@ class ContactSupportViewModel
     this.advertisementId,
     this.reference, {
     required this.isbuy,
+    required this.isDisputa,
   }) {
     status = ContactSupportStatus(
       isLoading: false,
       isError: false,
       isBuy: isbuy,
+      isDisputa: false,
       description: '',
     );
   }
@@ -57,6 +61,7 @@ class ContactSupportViewModel
   Future<void> createContactSupport(
     String email,
     String userId,
+    bool isDisputa,
     BuildContext context,
     ResultSupportType? supportTypes,
   ) async {
@@ -91,8 +96,33 @@ class ContactSupportViewModel
       jiraLink: '',
     );
 
+    final BodyUpdateStatus bodyStatus = BodyUpdateStatus(
+      idAdvertisement: advertisementId,
+      idUserInteraction: userId,
+      statusOrigin: 1,
+      statusDestiny: 4,
+      successfulTransaction: true,
+    );
+
     try {
-      await _interactor.createContactSupport(body).then((response) {
+      await _interactor.createContactSupport(body).then((response) async {
+        if (isDisputa) {
+          print('&&&Caso pasado a disputa');
+          await _interactor.reserveOffer(bodyStatus).then((response) => {
+                if (response.isSuccess)
+                  {
+                    addEffect(ShowSnackbarSuccesEffect()),
+                  }
+                else
+                  {
+                    addEffect(
+                      ShowSnackbarErrorEffect(
+                        'No fue posible enviar el caso de soporte/disputa, intenta más tarde',
+                      ),
+                    )
+                  }
+              });
+        }
         status = status.copyWith(isLoading: false);
         _route.pop(context);
         if (response.isSuccess) {

@@ -100,16 +100,19 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultChangePsw>> changePsw(
-      BodyChangePsw bodyChangePsw,) async {
+    BodyChangePsw bodyChangePsw,
+  ) async {
     final ResponseData<ResultChangePsw> response =
-    await locator<LocalDailyGatewayService>().changePsw(bodyChangePsw);
+        await locator<LocalDailyGatewayService>().changePsw(bodyChangePsw);
 
     return response;
   }
 
-  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+  Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
+      BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
     final ResponseData<ResultHistoryOperationsUser> response =
-        await locator<LocalDailyGatewayService>().getHistoryOperationsUser(bodyHistoryOperationsUser);
+        await locator<LocalDailyGatewayService>()
+            .getHistoryOperationsUser(bodyHistoryOperationsUser);
 
     return response;
   }

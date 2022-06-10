@@ -5,6 +5,7 @@ import 'package:localdaily/configure/router/app_router.dart';
 import 'package:localdaily/configure/router/app_routes.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
@@ -149,6 +150,16 @@ class LdRouter {
     );
   }
 
+  void goSettingsUpdate(
+    BuildContext context,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.settingsUpdateRoute.route,
+      transition: TransitionType.none,
+    );
+  }
+
   // void goSettingsPostChangePsw(
   //   BuildContext context,
   // ) {
@@ -198,6 +209,7 @@ class LdRouter {
     String offerId,
     int reference, {
     bool isBuy = false,
+    bool isDisputa = false,
   }) {
     AppRouter.router.navigateTo(
       context,
@@ -208,6 +220,23 @@ class LdRouter {
           'id': offerId,
           'reference': reference,
           'isBuy': isBuy,
+          'isDisputa': isDisputa,
+        },
+      ),
+    );
+  }
+
+  void goDetailSupport(
+    BuildContext context,
+    BodyContactSupport advertisement,
+  ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.detailSupport.route,
+      transition: TransitionType.none,
+      routeSettings: RouteSettings(
+        arguments: <String, dynamic>{
+          'advertisement': advertisement,
         },
       ),
     );

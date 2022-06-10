@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/support_cases/support_cases_effect.dart';
@@ -111,5 +112,9 @@ class SupportCasesViewModel
       );
       print('Error support cases $e');
     }
+  }
+
+  void goDetailSupport(BuildContext context, BodyContactSupport advertisement) {
+    _route.goDetailSupport(context, advertisement);
   }
 }

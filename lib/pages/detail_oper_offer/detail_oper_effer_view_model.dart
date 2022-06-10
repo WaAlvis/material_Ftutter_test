@@ -202,7 +202,7 @@ class DetailOperOfferViewModel
           ShowSnackbarErrorEffect('Error desconocdio $e'),
         ); //cambiar mensaje
       }
-      // status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);
+      status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);
     } else {
       status = status.copyWith(isLoading: false);
 
@@ -431,6 +431,25 @@ class DetailOperOfferViewModel
           status.item?.id ?? '',
           status.item?.reference ?? 0,
           isBuy: status.isBuy,
+          isDisputa: false,
+        );
+      } else {
+        addEffect(ShowSnackConnetivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
+  void goContactSupportDispute(
+    BuildContext context,
+  ) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
+      if (isConnectionValid) {
+        _router.goContactSupport(
+          context,
+          status.item?.id ?? '',
+          status.item?.reference ?? 0,
+          isBuy: status.isBuy,
+          isDisputa: true,
         );
       } else {
         addEffect(ShowSnackConnetivityEffect('Sin conexión a internet'));
@@ -451,13 +470,14 @@ class DetailOperOfferViewModel
     TextTheme textTheme,
     DetailOperOfferViewModel viewModel,
   ) {
+    status = status.copyWith(rateUser: 0.0);
     Widget customWidget = Container(
       // padding: const EdgeInsets.all(25),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            height: 150,
+            height: 120,
             margin: const EdgeInsets.only(bottom: 18),
             child: SvgPicture.asset(LdAssets.dlycopfree),
           ),
@@ -505,8 +525,47 @@ class DetailOperOfferViewModel
               borderRadius: BorderRadius.circular(20),
             ),
             disabledColor: LdColors.orangePrimary.withOpacity(0.7),
-            onPressed: () {
-              closeDialog(context);
+            onPressed: () async {
+              final RateUser bodyRate = RateUser(
+                isSeller: true,
+                userId: status.item!.idUserPublish,
+                rate: status.rateUser!.toString(),
+                advertisementId: status.item!.id,
+                isOper: isOper,
+              );
+              if (status.rateUser! > 0) {
+                closeDialog(context);
+                status = status.copyWith(isLoading: true);
+                try {
+                  await _interactor.addRateUser(bodyRate).then((response) {
+                    // final statusCode = response.result.statusCode;
+                    if (response.isSuccess) {
+                      try {
+                        LdSnackbar.buildSuccessSnackbar(
+                            context, 'Gracias por Calificar al usuario');
+                        // _router.goDetailOperOffer(
+                        //   context,
+                        //   offerId,
+                        //   // status.isOper2 ? 'Operacion' : 'Oferta',
+                        //   isOper,
+                        //   replace: true,
+                        // );
+                        status = status.copyWith(isLoading: false);
+                      } catch (e) {
+                        print('info $e');
+                      }
+                    } else {
+                      LdSnackbar.buildErrorSnackbar(context,
+                          'Algo salio mal, por favor intente nuevamente');
+                    }
+                  });
+                } catch (e) {
+                  print('$e ');
+                }
+              } else {
+                LdSnackbar.buildErrorSnackbar(context,
+                    'Es necesario que califiques al usuario entre 1 y 5');
+              }
             },
             child: Text(
               'Finalizar',
@@ -515,6 +574,9 @@ class DetailOperOfferViewModel
               ),
             ),
           ),
+          const SizedBox(
+            height: 24,
+          )
         ],
       ),
     );
