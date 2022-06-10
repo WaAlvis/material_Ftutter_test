@@ -118,11 +118,16 @@ class _SupportCaseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateFormat format = DateFormat('dd-MM-yyyy hh:mm a');
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final SupportCasesViewModel viewModel =
+        context.watch<SupportCasesViewModel>();
     final ConfigurationProvider configurationProvider =
         context.read<ConfigurationProvider>();
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        print('${item.emailUserPublish}');
+        viewModel.goDetailSupport(context, item);
+      },
       child: Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(bottom: 15),

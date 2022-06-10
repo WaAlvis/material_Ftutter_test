@@ -55,20 +55,20 @@ class MiDailyConnect {
     }
     try {
       await launch(_url, headers: <String, String>{});
-      // if (await canLaunch(_url)) {
-      // } else {
-      //   if (Platform.isAndroid) {
-      //     await launch(
-      //       'https://play.google.com/store/apps/details?id=com.brandinggrp.midaily&hl=es_CO&gl=US',
-      //       headers: <String, String>{},
-      //     );
-      //   } else if (Platform.isIOS) {
-      //     await launch(
-      //       'https://apps.apple.com/co/app/mi-daily/id1569921133',
-      //       headers: <String, String>{},
-      //     );
-      //   }
-      // }
+      if (await canLaunch(_url)) {
+      } else {
+        if (Platform.isAndroid) {
+          await launch(
+            'https://play.google.com/store/apps/details?id=com.brandinggrp.midaily&hl=es_CO&gl=US',
+            headers: <String, String>{},
+          );
+        } else if (Platform.isIOS) {
+          await launch(
+            'https://apps.apple.com/co/app/mi-daily/id1569921133',
+            headers: <String, String>{},
+          );
+        }
+      }
     } catch (e) {
       LdSnackbar.buildErrorSnackbar(
         context,

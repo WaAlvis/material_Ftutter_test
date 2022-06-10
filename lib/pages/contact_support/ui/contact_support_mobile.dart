@@ -82,7 +82,7 @@ class _ContactSupportBody extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Abrir caso de soporte',
+              'Abrir caso de ${viewModel.isDisputa ? 'disputa' : 'soporte'}',
               style: textTheme.textBigBlack.copyWith(
                 color: LdColors.orangePrimary,
                 fontWeight: FontWeight.w500,
@@ -90,7 +90,7 @@ class _ContactSupportBody extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Detalle el inconveniente que ha presentado. En el transcurso de las próximas 24 horas hábiles, uno de nuestros agentes te responderá.',
+              'Detalle el inconveniente que ha presentado. En el transcurso de las próximas 72 horas hábiles, uno de nuestros agentes te responderá.',
               style: textTheme.textGray.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 25),

@@ -7,6 +7,7 @@ import 'package:localdaily/pages/contact_support/ui/contact_support_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
+import 'package:localdaily/pages/detail_support/ui/detail_support_view.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/history/ui/history_view.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
@@ -19,8 +20,10 @@ import 'package:localdaily/pages/profile_seller/ui/profile_seller_view.dart';
 import 'package:localdaily/pages/recover_psw/ui/recover_psw_view.dart';
 import 'package:localdaily/pages/register/iu/register_view.dart';
 import 'package:localdaily/pages/settings/ui/settings_view.dart';
+import 'package:localdaily/pages/settings_update/ui/settings_update_view.dart';
 import 'package:localdaily/pages/splash/ui/splash_view.dart';
 import 'package:localdaily/pages/support_cases/ui/support_cases_view.dart';
+import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 
@@ -110,6 +113,11 @@ class AppRoutes {
     Handler(handlerFunc: (_, __) => const ChangePswView()),
   );
 
+  static final AppRoute settingsUpdateRoute = AppRoute(
+    '/settings_update',
+    Handler(handlerFunc: (_, __) => const SettingsUpdateView()),
+  );
+
   static final AppRoute createOfferBuyRoute = AppRoute(
     '/create_offer_buy',
     Handler(handlerFunc: (_, __) => const OfferBuyView()),
@@ -152,6 +160,18 @@ class AppRoutes {
             as Map<String, dynamic>)['reference'] as int,
         isbuy: (context.settings!.arguments! as Map<String, dynamic>)['isBuy']
             as bool,
+        isDisputa: (context.settings!.arguments!
+            as Map<String, dynamic>)['isDisputa'] as bool,
+      ),
+    ),
+  );
+
+  static final AppRoute detailSupport = AppRoute(
+    '/detail_support',
+    Handler(
+      handlerFunc: (BuildContext? context, __) => DetailSupportView(
+        advertisement: (context!.settings!.arguments!
+            as Map<String, dynamic>)['advertisement'] as BodyContactSupport,
       ),
     ),
   );
@@ -241,6 +261,8 @@ class AppRoutes {
     detailOperOfferRoute,
     attachedFileRoute,
     filters,
-    supportCasesRoute
+    supportCasesRoute,
+    settingsUpdateRoute,
+    detailSupport
   ];
 }

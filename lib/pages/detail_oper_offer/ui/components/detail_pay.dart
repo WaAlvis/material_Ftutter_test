@@ -124,6 +124,28 @@ class CardDetailPay extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                        ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      if (state == 'Pagado')
+                        GestureDetector(
+                          onTap: () {
+                            viewModel.openRateSeller(
+                              context,
+                              textTheme,
+                              viewModel,
+                            );
+                          }, //Abrir perfil del comprador
+                          child: Text(
+                            'Calificar el vendedor',
+                            style: textTheme.bodyMedium?.copyWith(
+                              decoration: TextDecoration.underline,
+                              color: LdColors.orangePrimary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         )
                     ],
                   ),
@@ -202,7 +224,23 @@ class CardDetailPay extends StatelessWidget {
               else
                 Container()
             else
-              Container()
+              Container(),
+            const SizedBox(
+              height: 12,
+            ),
+            if (state == 'Pagado')
+              PrimaryButtonCustom(
+                'Solicitar disputa',
+                colorButton: LdColors.white,
+                colorTextBorder: LdColors.redError,
+                colorText: LdColors.redError,
+                onPressed: () {
+                  viewModel.goContactSupportDispute(
+                    context,
+                  );
+                  // viewModel.getDialogConfirmPay(context, viewModel);
+                },
+              )
           ],
         ),
       ),
