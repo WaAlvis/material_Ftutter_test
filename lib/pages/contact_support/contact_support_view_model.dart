@@ -4,11 +4,13 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/contact_support/contact_support_effect.dart';
 import 'package:localdaily/pages/contact_support/contact_support_status.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/contact_support/support_type/result_support_type.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 class ContactSupportViewModel
     extends EffectsViewModel<ContactSupportStatus, ContactSupportEffect> {
@@ -105,23 +107,34 @@ class ContactSupportViewModel
     );
 
     try {
-      await _interactor.createContactSupport(body).then((response) async {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
+      await _interactor
+          .createContactSupport(body, 'Bearer ${token!.token}')
+          .then((response) async {
         if (isDisputa) {
-          print('&&&Caso pasado a disputa');
-          await _interactor.reserveOffer(bodyStatus).then((response) => {
-                if (response.isSuccess)
-                  {
-                    addEffect(ShowSnackbarSuccesEffect()),
-                  }
-                else
-                  {
-                    addEffect(
-                      ShowSnackbarErrorEffect(
-                        'No fue posible enviar el caso de soporte/disputa, intenta más tarde',
-                      ),
-                    )
-                  }
-              });
+          final DataUserProvider dataUserProvider =
+              context.read<DataUserProvider>();
+
+          final token = dataUserProvider.getTokenLogin;
+          await _interactor
+              .reserveOffer(bodyStatus, 'Bearer ${token!.token}')
+              .then((response) => {
+                    if (response.isSuccess)
+                      {
+                        addEffect(ShowSnackbarSuccesEffect()),
+                      }
+                    else
+                      {
+                        addEffect(
+                          ShowSnackbarErrorEffect(
+                            'No fue posible enviar el caso de soporte/disputa, intenta más tarde',
+                          ),
+                        )
+                      }
+                  });
         }
         status = status.copyWith(isLoading: false);
         _route.pop(context);

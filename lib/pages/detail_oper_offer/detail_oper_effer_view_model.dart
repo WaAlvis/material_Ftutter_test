@@ -27,6 +27,7 @@ import 'package:localdaily/services/models/home/get_offers/reponse/advertisement
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'detail_oper_offer_status.dart';
 
@@ -78,7 +79,13 @@ class DetailOperOfferViewModel
       // getAccountsType(context);
 
       try {
-        await _interactor.getDetailAdvertisement(offerId).then((response) {
+        final DataUserProvider dataUserProvider =
+            context.read<DataUserProvider>();
+
+        final token = dataUserProvider.getTokenLogin;
+        await _interactor
+            .getDetailAdvertisement(offerId, 'Bearer ${token!.token}')
+            .then((response) {
           status = status.copyWith(isLoading: false);
           status = status.copyWith(item: response.result);
           status = status.copyWith(
@@ -321,7 +328,13 @@ class DetailOperOfferViewModel
       onAction: () async {
         if (status.rateUser! > 0) {
           try {
-            await _interactor.addRateUser(bodyRate).then((response) {
+            final DataUserProvider dataUserProvider =
+                context.read<DataUserProvider>();
+
+            final token = dataUserProvider.getTokenLogin;
+            await _interactor
+                .addRateUser(bodyRate, 'Bearer ${token!.token}')
+                .then((response) {
               // final statusCode = response.result.statusCode;
               if (response.isSuccess) {
                 try {
@@ -350,7 +363,13 @@ class DetailOperOfferViewModel
       },
     );
     try {
-      await _interactor.confirmPayment(body).then((response) {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
+      await _interactor
+          .confirmPayment(body, 'Bearer ${token!.token}')
+          .then((response) {
         if (response.isSuccess) {
           _router.goInfoView(context, info);
           status = status.copyWith(isLoading: false);
@@ -373,7 +392,13 @@ class DetailOperOfferViewModel
     final CancelOper body = CancelOper(idAvertisement: offerId);
 
     try {
-      await _interactor.cancelOperation(body).then((response) {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
+      await _interactor
+          .cancelOperation(body, 'Bearer ${token!.token}')
+          .then((response) {
         InfoViewArguments info = InfoViewArguments(
           title: '¡Cancelada!',
           description: status.isOper2
@@ -537,7 +562,13 @@ class DetailOperOfferViewModel
                 closeDialog(context);
                 status = status.copyWith(isLoading: true);
                 try {
-                  await _interactor.addRateUser(bodyRate).then((response) {
+                  final DataUserProvider dataUserProvider =
+                      context.read<DataUserProvider>();
+
+                  final token = dataUserProvider.getTokenLogin;
+                  await _interactor
+                      .addRateUser(bodyRate, 'Bearer ${token!.token}')
+                      .then((response) {
                     // final statusCode = response.result.statusCode;
                     if (response.isSuccess) {
                       try {

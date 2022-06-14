@@ -69,18 +69,20 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultCreateOffer>> createOffer(
-    BodyOffer bodyOffer,
-  ) async {
+      //no arrojo errores
+      BodyOffer bodyOffer,
+      String headers) async {
     final ResponseData<ResultCreateOffer> response =
-        await locator<LocalDailyGatewayService>().createOffer(bodyOffer);
+        await locator<LocalDailyGatewayService>()
+            .createOffer(bodyOffer, headers);
     return response;
   }
 
   Future<ResponseData<ResultUpdateStatus>> reserveOffer(
-    BodyUpdateStatus body,
-  ) async {
+      BodyUpdateStatus body, String headers) async {
     final ResponseData<ResultUpdateStatus> response =
-        await locator<LocalDailyGatewayService>().updateStatusAdv(body);
+        await locator<LocalDailyGatewayService>()
+            .updateStatusAdv(body, headers);
     return response;
   }
 
@@ -92,60 +94,75 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultRecoverPsw>> requestNewPsw(
-      BodyRecoverPsw bodyRecoverPsw) async {
+      BodyRecoverPsw bodyRecoverPsw, String headers) async {
     final ResponseData<ResultRecoverPsw> response =
-        await locator<LocalDailyGatewayService>().recoverNewPsw(bodyRecoverPsw);
+        await locator<LocalDailyGatewayService>()
+            .recoverNewPsw(bodyRecoverPsw, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultChangePsw>> changePsw(
     BodyChangePsw bodyChangePsw,
+    String headers,
   ) async {
     final ResponseData<ResultChangePsw> response =
-        await locator<LocalDailyGatewayService>().changePsw(bodyChangePsw);
+        await locator<LocalDailyGatewayService>()
+            .changePsw(bodyChangePsw, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
-      BodyHistoryOperationsUser bodyHistoryOperationsUser) async {
+    BodyHistoryOperationsUser bodyHistoryOperationsUser,
+    String headers,
+  ) async {
     final ResponseData<ResultHistoryOperationsUser> response =
         await locator<LocalDailyGatewayService>()
-            .getHistoryOperationsUser(bodyHistoryOperationsUser);
+            .getHistoryOperationsUser(bodyHistoryOperationsUser, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(
-      BodyInfoUserPublish bodyInfoUserPublish) async {
+    BodyInfoUserPublish bodyInfoUserPublish,
+    String headers,
+  ) async {
     final ResponseData<ResultInfoUserPublish> response =
         await locator<LocalDailyGatewayService>()
-            .getInfoUserPublish(bodyInfoUserPublish);
+            .getInfoUserPublish(bodyInfoUserPublish, headers);
 
     return response;
   }
 
-  Future<ResponseData<ResultDataUser>> getUserById(String id) async {
+  Future<ResponseData<ResultDataUser>> getUserById(
+    String id,
+    String headers,
+  ) async {
+    print('${headers.toString()} @@@');
     final ResponseData<ResultDataUser> response =
-        await locator<LocalDailyGatewayService>().getUserId(id);
+        await locator<LocalDailyGatewayService>().getUserId(id, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultPinEmail>> requestPinValidateEmail(
     BodyPinEmail bodyPin,
+    String headers,
   ) async {
     final ResponseData<ResultPinEmail> response =
-        await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
+        await locator<LocalDailyGatewayService>()
+            .sendPinEmail(bodyPin, headers);
     return response;
   }
 
   Future<ResponseData<ResultValidatePin>> validatePin(
     BodyValidatePin bodyValidatePin,
+    String headers,
   ) async {
     final ResponseData<ResultValidatePin> response =
-        await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
+        await locator<LocalDailyGatewayService>()
+            .validatePin(bodyValidatePin, headers);
     return response;
   }
 
@@ -160,48 +177,54 @@ class ServiceInteractor {
 
   Future<ResponseData<ResultRegister>> postRegisterUser(
     BodyRegisterDataUser bodyRegisterUser,
+    String headers,
   ) async {
     final ResponseData<ResultRegister> response =
         await locator<LocalDailyGatewayService>()
-            .registerUser(bodyRegisterUser);
+            .registerUser(bodyRegisterUser, headers);
 
     return response;
   }
 
   Future<ResponseData<dynamic>> putUpdateAddress(
     BodyUpdateAddress bodyUpdateAddress,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>()
-            .updateAddress(bodyUpdateAddress);
+            .updateAddress(bodyUpdateAddress, headers);
 
     return response;
   }
 
   Future<ResponseData<dynamic>> createTransaction(
     BodyCreateTransaction bodyCreateTransaction,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>()
-            .createTransaction(bodyCreateTransaction);
+            .createTransaction(bodyCreateTransaction, headers);
 
     return response;
   }
 
   Future<ResponseData<dynamic>> addPayAccount(
     BodyAddPayAccount body,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
-        await locator<LocalDailyGatewayService>().addPayAccount(body);
+        await locator<LocalDailyGatewayService>().addPayAccount(body, headers);
 
     return response;
   }
 
   Future<ResponseData<dynamic>> cancelOperation(
     CancelOper body,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
-        await locator<LocalDailyGatewayService>().cancelOperation(body);
+        await locator<LocalDailyGatewayService>()
+            .cancelOperation(body, headers);
 
     return response;
   }
@@ -210,6 +233,7 @@ class ServiceInteractor {
     required String AdvertisementId,
     required XFile xFile,
     required String UserId,
+    required String headers,
   }) async {
     File file = File(xFile.path);
     final ResponseData<dynamic> response =
@@ -217,6 +241,7 @@ class ServiceInteractor {
       AdvertisementId,
       UserId,
       file,
+      headers,
     );
     return response;
   }
@@ -232,23 +257,31 @@ class ServiceInteractor {
 
   Future<ResponseData<dynamic>> confirmPayment(
     ConfirmPayment body,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
-        await locator<LocalDailyGatewayService>().confirmPayment(body);
+        await locator<LocalDailyGatewayService>().confirmPayment(body, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultDataAdvertisement>> getDetailAdvertisement(
-      String id) async {
+    String id,
+    String headers,
+  ) async {
     final ResponseData<ResultDataAdvertisement> response =
-        await locator<LocalDailyGatewayService>().getDetailAdvertisement(id);
+        await locator<LocalDailyGatewayService>()
+            .getDetailAdvertisement(id, headers);
     return response;
   }
 
-  Future<ResponseData<String>> getAttachFile(String advertismentID) async {
+  Future<ResponseData<String>> getAttachFile(
+    String advertismentID,
+    String headers,
+  ) async {
     final ResponseData<String> response =
-        await locator<LocalDailyGatewayService>().getAttachFile(advertismentID);
+        await locator<LocalDailyGatewayService>()
+            .getAttachFile(advertismentID, headers);
     return response;
   }
 
@@ -261,36 +294,43 @@ class ServiceInteractor {
 
   Future<ResponseData<dynamic>> addRateUser(
     RateUser body,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
-        await locator<LocalDailyGatewayService>().addRateUser(body);
+        await locator<LocalDailyGatewayService>().addRateUser(body, headers);
 
     return response;
   }
 
   Future<ResponseData<dynamic>> createContactSupport(
     BodyContactSupport body,
+    String headers,
   ) async {
     final ResponseData<dynamic> response =
-        await locator<LocalDailyGatewayService>().createSupportCase(body);
+        await locator<LocalDailyGatewayService>()
+            .createSupportCase(body, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultNotification>> getNotifications(
     BodyNotifications body,
+    String headers,
   ) async {
     final ResponseData<ResultNotification> response =
-        await locator<LocalDailyGatewayService>().getNotifications(body);
+        await locator<LocalDailyGatewayService>()
+            .getNotifications(body, headers);
 
     return response;
   }
 
   Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
     BodyNotificationCounter body,
+    String headers,
   ) async {
     final ResponseData<ResultNotificationCounter> response =
-        await locator<LocalDailyGatewayService>().getNotificationsUnread(body);
+        await locator<LocalDailyGatewayService>()
+            .getNotificationsUnread(body, headers);
 
     return response;
   }
@@ -315,9 +355,11 @@ class ServiceInteractor {
 
   Future<ResponseData<ResultSupportCases>> getSupportCases(
     BodySupportCases body,
+    String headers,
   ) async {
     final ResponseData<ResultSupportCases> response =
-        await locator<LocalDailyGatewayService>().getSupportCases(body);
+        await locator<LocalDailyGatewayService>()
+            .getSupportCases(body, headers);
 
     return response;
   }

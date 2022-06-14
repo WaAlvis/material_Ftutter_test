@@ -69,7 +69,7 @@ class _HistoryBodyState extends State<_HistoryBody> {
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     WidgetsBinding.instance!.addPostFrameCallback(
-      (_) => viewModel.onInit(dataUserProvider.getDataUserLogged!.id),
+      (_) => viewModel.onInit(dataUserProvider.getDataUserLogged!.id, context),
     );
 
     _effectSubscription = viewModel.effects.listen((HistoryEffect event) async {

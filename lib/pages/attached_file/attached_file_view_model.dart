@@ -15,6 +15,7 @@ import 'package:localdaily/view_model.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class AttachedFileViewModel
     extends EffectsViewModel<AttachedFileStatus, AttachedFileEffect> {
@@ -63,8 +64,12 @@ class AttachedFileViewModel
 
     if (next) {
       try {
+        final DataUserProvider dataUserProvider =
+            context.read<DataUserProvider>();
+
+        final token = dataUserProvider.getTokenLogin;
         await _interactor
-            .getAttachFile('$offerId$extensionFile')
+            .getAttachFile('$offerId$extensionFile', 'Bearer ${token!.token}')
             .then((response) {
           final Uint8List bytesFile = base64.decode(response.result.toString());
           status = status.copyWith(bytes: bytesFile);
@@ -97,9 +102,16 @@ class AttachedFileViewModel
     status = status.copyWith(isLoading: true);
     addEffect(ShowLoadingEffect());
     try {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
       _interactor
           .sendAttach(
-              AdvertisementId: offerId, xFile: status.file!, UserId: UserId)
+              AdvertisementId: offerId,
+              xFile: status.file!,
+              UserId: UserId,
+              headers: 'Bearer ${token!.token}')
           .then((response) {
         status = status.copyWith(isLoading: false);
         closeDialog(context);

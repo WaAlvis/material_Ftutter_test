@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:localdaily/providers/configuration_provider.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/filters.dart';
 import 'package:localdaily/services/models/contact_support/support_status/body_support_status.dart';
@@ -11,6 +13,7 @@ import 'package:localdaily/services/models/create_offers/get_doc_type/response/r
 import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:provider/provider.dart';
 
 class ConfigurationModule {
   static Future<void> getBanks(
@@ -76,6 +79,7 @@ class ConfigurationModule {
   static Future<void> getTypeOffer(
     ConfigurationProvider configurationProvider,
     ServiceInteractor interactor,
+    BuildContext context,
   ) async {
     final Pagination pagination = Pagination(
       isPaginable: false,
@@ -85,7 +89,9 @@ class ConfigurationModule {
 
     try {
       final ResponseData<ResultTypeOffer> response =
-          await interactor.getTypesAdvertisement(pagination);
+          await interactor.getTypesAdvertisement(
+        pagination,
+      );
       if (!response.isSuccess) {
         throw response.error?.message ?? 'Error en la consulta';
       }
@@ -98,6 +104,7 @@ class ConfigurationModule {
   static Future<void> getSupportStatus(
     ConfigurationProvider configurationProvider,
     ServiceInteractor interactor,
+    BuildContext context,
   ) async {
     final Filters filters = Filters(id: '', code: '', description: '');
     final Pagination pagination = Pagination(
@@ -125,6 +132,7 @@ class ConfigurationModule {
   static Future<void> getSupportType(
     ConfigurationProvider configurationProvider,
     ServiceInteractor interactor,
+    BuildContext context,
   ) async {
     final Filters filters = Filters(id: '', code: '', description: '');
     final Pagination pagination = Pagination(

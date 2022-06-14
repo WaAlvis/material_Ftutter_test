@@ -119,9 +119,12 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
 
     _interactor.postLogin(bodyLogin).then((ResponseData<ResultLogin> response) {
       if (response.isSuccess) {
+        dataUserProvider.setTokenLogin(response.result!.tokenData);
         final String idUser = response.result!.user.id;
+        final token = dataUserProvider.getTokenLogin;
+
         _interactor
-            .getUserById(idUser)
+            .getUserById(idUser, 'Bearer ${token!.token}')
             .then((ResponseData<ResultDataUser> response) {
           if (response.isSuccess) {
             dataUserProvider.setDataUserLogged(

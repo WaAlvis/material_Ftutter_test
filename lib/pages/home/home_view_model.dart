@@ -27,6 +27,7 @@ import 'package:localdaily/utils/crypto_utils.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'home_status.dart';
@@ -115,7 +116,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     bool validateNotification = false,
   }) async {
     if (userProvider.getDataUserLogged != null) {
-      getCountNotification(userProvider.getDataUserLogged!.id);
+      getCountNotification(userProvider.getDataUserLogged!.id, context);
     }
     FiltersArguments filtersArguments = FiltersArguments(
         // extraFilters: status.extraFilters,
@@ -278,11 +279,17 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     });
   }
 
-  Future<void> getCountNotification(String userId) async {
+  Future<void> getCountNotification(String userId, BuildContext context) async {
     try {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
       final BodyNotificationCounter body =
           BodyNotificationCounter(idUser: userId);
-      _interactor.getNotificationsUnread(body).then((response) {
+      _interactor
+          .getNotificationsUnread(body, 'Bearer ${token!.token}')
+          .then((response) {
         if (response.isSuccess) {
           status = status.copyWith(
             countNotification: response.result!.notificationsUnread,

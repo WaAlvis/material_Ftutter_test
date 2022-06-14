@@ -65,6 +65,7 @@ class _NotificationBodyState extends State<_NotificationBody> {
         viewModel
             .getData(
           userProvider.getDataUserLogged?.id ?? '',
+          context,
           isPagination: true,
         )
             .then(
@@ -83,7 +84,7 @@ class _NotificationBodyState extends State<_NotificationBody> {
     });
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      viewModel.onInit(userProvider.getDataUserLogged?.id ?? '');
+      viewModel.onInit(userProvider.getDataUserLogged?.id ?? '', context);
     });
 
     super.initState();

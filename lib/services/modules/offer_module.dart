@@ -10,6 +10,7 @@ import 'package:localdaily/services/models/create_offers/transaction/entity_tran
 import 'package:localdaily/services/models/detail_offer/result_update_status.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:provider/provider.dart';
 
 class OfferModule {
   // SE CRAE UNA OFERTA DE COMPRA O VENTA
@@ -19,17 +20,17 @@ class OfferModule {
     Map<String, String>? params, {
     bool isBuy = false,
   }) async {
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
+    final token = dataUserProvider.getTokenLogin;
     await ServiceInteractor()
-        .createOffer(userProvider.getBodyOffer!)
+        .createOffer(userProvider.getBodyOffer!, 'Bearer ${token!.token}')
         .then((ResponseData<ResultCreateOffer> response) async {
       if (response.isSuccess) {
         // Se crea la transacción en BD
         if (!isBuy && params != null) {
-          await _createTransaction(
-            'Creacion de oferta LOCALDAILY',
-            params,
-            response.result!.id,
-          );
+          await _createTransaction('Creacion de oferta LOCALDAILY', params,
+              response.result!.id, context);
         }
         LdRouter().pop(LdRouter().navigatorKey.currentContext!);
         LdSnackbar.buildSuccessSnackbar(
@@ -66,6 +67,7 @@ class OfferModule {
     String message,
     Map<String, String> params,
     String adId,
+    BuildContext context,
   ) async {
     // Se crea la transacción en BD
     final BodyCreateTransaction body = BodyCreateTransaction(
@@ -87,8 +89,12 @@ class OfferModule {
         },
       ]),
     );
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
-    ServiceInteractor().createTransaction(body).catchError((err) {
+    final token = dataUserProvider.getTokenLogin;
+    ServiceInteractor()
+        .createTransaction(body, 'Bearer ${token!.token}')
+        .catchError((err) {
       print('ERROR CREATE TRANSACTION: $err');
       LdRouter().pop(LdRouter().navigatorKey.currentContext!);
     });
@@ -100,20 +106,26 @@ class OfferModule {
     Map<String, String> params,
   ) async {
     // Se crea una transacción correspondiente a la reserva
-    _createTransaction(
-      'Reserva de oferta LOCALDAILY',
-      params,
-      userProvider.getBodyUpdateStatus!.idAdvertisement,
-    );
+    _createTransaction('Reserva de oferta LOCALDAILY', params,
+        userProvider.getBodyUpdateStatus!.idAdvertisement, context);
 
     // Se actualiza la información de los bancos de la publicación
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
+    final token = dataUserProvider.getTokenLogin;
     ServiceInteractor()
-        .addPayAccount(userProvider.getBodyAddPayAccount!)
+        .addPayAccount(
+            userProvider.getBodyAddPayAccount!, 'Bearer ${token!.token}')
         .then((ResponseData<dynamic> response) {
       if (response.isSuccess) {
         // Se actualiza el estado de la publicacion a en proceso
+        final DataUserProvider dataUserProvider =
+            context.read<DataUserProvider>();
+
+        final token = dataUserProvider.getTokenLogin;
         ServiceInteractor()
-            .reserveOffer(userProvider.getBodyUpdateStatus!)
+            .reserveOffer(
+                userProvider.getBodyUpdateStatus!, 'Bearer ${token!.token}')
             .then((ResponseData<ResultUpdateStatus> response) {
           if (response.isSuccess) {
             LdSnackbar.buildSuccessSnackbar(

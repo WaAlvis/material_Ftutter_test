@@ -28,7 +28,8 @@ class SplashViewModel extends ViewModel<SplashStatus> {
     BuildContext context,
     ConfigurationProvider configurationProvider,
   ) async {
-    await ConfigurationModule.getTypeOffer(configurationProvider, _interactor);
+    await ConfigurationModule.getTypeOffer(
+        configurationProvider, _interactor, context);
     await ConfigurationModule.getBanks(configurationProvider, _interactor);
     await ConfigurationModule.getDocumentType(
       configurationProvider,
@@ -38,8 +39,10 @@ class SplashViewModel extends ViewModel<SplashStatus> {
       configurationProvider,
       _interactor,
     );
-    ConfigurationModule.getSupportStatus(configurationProvider, _interactor);
-    ConfigurationModule.getSupportType(configurationProvider, _interactor);
+    ConfigurationModule.getSupportStatus(
+        configurationProvider, _interactor, context);
+    ConfigurationModule.getSupportType(
+        configurationProvider, _interactor, context);
 
     if (configurationProvider.getResultBanks != null &&
         configurationProvider.getResultDocsTypes != null &&

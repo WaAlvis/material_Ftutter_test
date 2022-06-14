@@ -47,6 +47,7 @@ class _NotificationMobile extends StatelessWidget {
                     onRefresh: () async {
                       await viewModel.getData(
                         userProvider.getDataUserLogged?.id ?? '',
+                        context,
                         refresh: true,
                       );
                     },

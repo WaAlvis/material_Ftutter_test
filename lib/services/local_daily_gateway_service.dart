@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
 import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/cancel_oper.dart';
@@ -105,13 +105,17 @@ class UrlsApi {
 
 ///WebAdmin/Advertisement create offer sell buy
 
-@RestApi(baseUrl: 'https://dev-local-indentity.midaily.co')
+@RestApi(baseUrl: 'https://dev-local-indentity.midaily.co') // Dev
+// @RestApi(baseUrl: 'https://local-gwmobile.stglocal.consulting') // Stangin
+// @Header('common-header: xx')
 abstract class LocalDailyGatewayService {
-  factory LocalDailyGatewayService(Dio dio, {String baseUrl}) =
-      _LocalDailyGatewayService;
+  factory LocalDailyGatewayService(
+    Dio dio, {
+    String baseUrl,
+  }) = _LocalDailyGatewayService;
 
   //Login & Register
-  @POST(UrlsApi.login)
+  @POST(UrlsApi.login) // No necesita token
   Future<ResponseData<ResultLogin>> loginUser(
     @Body() BodyLogin bodyLogin,
   );
@@ -120,33 +124,37 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.recoverPassword)
   Future<ResponseData<ResultRecoverPsw>> recoverNewPsw(
     @Body() BodyRecoverPsw bodyRecoverPsw,
+    @Header('Authorization') String headers,
   );
 
   //Change Psw
   @POST(UrlsApi.changePassword)
   Future<ResponseData<ResultChangePsw>> changePsw(
-      @Body() BodyChangePsw bodyChangePsw,
-      );
-
+    @Body() BodyChangePsw bodyChangePsw,
+    @Header('Authorization') String headers,
+  );
 
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
     @Body() BodyPinEmail bodyPin,
+    @Header('Authorization') String headers,
   );
 
   //Validate OTP
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
     @Body() BodyValidatePin bodyValidatePin,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.createUser)
   Future<ResponseData<ResultRegister>> registerUser(
     @Body() BodyRegisterDataUser bodyRegisterDataUser,
+    @Header('Authorization') String headers,
   );
 
   //HOME
-  @POST(UrlsApi.getAllByFilters)
+  @POST(UrlsApi.getAllByFilters) // No necesita token
   Future<ResponseData<ResultHome>> getAdvertisment(
     @Body() BodyHome bodyHome,
   );
@@ -155,14 +163,15 @@ abstract class LocalDailyGatewayService {
   @GET(UrlsApi.dataUser)
   Future<ResponseData<ResultDataUser>> getUserId(
     @Query('id') String id,
+    @Header('Authorization') String headers,
   );
 
-  @POST(UrlsApi.getBanks)
+  @POST(UrlsApi.getBanks) // no necesita token
   Future<ResponseData<ResultGetBanks>> getBanks(
     @Body() Pagination bodyGetBanks,
   );
 
-  @POST(UrlsApi.getDocsType)
+  @POST(UrlsApi.getDocsType) // No necesita token
   Future<ResponseData<ResultGetDocsType>> getDocsType(
     @Body() Pagination bodyGetDocsType,
   );
@@ -170,42 +179,50 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getHistoryOperationsUser)
   Future<ResponseData<ResultHistoryOperationsUser>> getHistoryOperationsUser(
     @Body() BodyHistoryOperationsUser bodyHistoryOperationsUser,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.getInfoUserPublish)
   Future<ResponseData<ResultInfoUserPublish>> getInfoUserPublish(
     @Body() BodyInfoUserPublish bodyInfoUserPublish,
+    @Header('Authorization') String headers,
   );
 
   //Offer
   @POST(UrlsApi.createOffer)
   Future<ResponseData<ResultCreateOffer>> createOffer(
     @Body() BodyOffer bodyOffer,
+    @Header('Authorization') String headers,
   );
 
   @PUT(UrlsApi.updateStatusAdv)
   Future<ResponseData<ResultUpdateStatus>> updateStatusAdv(
     @Body() BodyUpdateStatus bodyCreateSmartContract,
+    @Header('Authorization') String headers,
   );
 
   @PUT(UrlsApi.updateAddress)
   Future<ResponseData<dynamic>> updateAddress(
     @Body() BodyUpdateAddress bodyUpdateAddress,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.createTransaction)
   Future<ResponseData<dynamic>> createTransaction(
     @Body() BodyCreateTransaction bodyCreateTransaction,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.addPayAccount)
   Future<ResponseData<dynamic>> addPayAccount(
     @Body() BodyAddPayAccount body,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.cancelOperation)
   Future<ResponseData<dynamic>> cancelOperation(
     @Body() CancelOper body,
+    @Header('Authorization') String headers,
   );
 
 // Attach file
@@ -214,20 +231,23 @@ abstract class LocalDailyGatewayService {
     @Part() String AdvertisementId,
     @Part() String UserId,
     @Part() File File,
+    @Header('Authorization') String headers,
   );
 
   //Get
   @GET(UrlsApi.getDetailAdvertisement)
   Future<ResponseData<ResultDataAdvertisement>> getDetailAdvertisement(
     @Query('id') String id,
+    @Header('Authorization') String headers,
   );
   //Get
   @GET(UrlsApi.getAttachFile)
   Future<ResponseData<String>> getAttachFile(
     @Query('advertismentID') String advertismentID,
+    @Header('Authorization') String headers,
   );
 
-  @POST(UrlsApi.getTypeAdvertisement)
+  @POST(UrlsApi.getTypeAdvertisement) //No necesita token
   Future<ResponseData<ResultTypeOffer>> getTypeAdvertisement(
     @Body() Pagination body,
   );
@@ -235,37 +255,42 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.releaseToken)
   Future<ResponseData<dynamic>> confirmPayment(
     @Body() ConfirmPayment body,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.addRateUser)
   Future<ResponseData<dynamic>> addRateUser(
     @Body() RateUser body,
+    @Header('Authorization') String headers,
   );
 
-  @POST(UrlsApi.getAccountType)
+  @POST(UrlsApi.getAccountType) // No necesita token
   Future<ResponseData<ResultAccountType>> getAccountType();
 
   @POST(UrlsApi.createSupportCase)
   Future<ResponseData<dynamic>> createSupportCase(
     @Body() BodyContactSupport body,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.getNotifications)
   Future<ResponseData<ResultNotification>> getNotifications(
     @Body() BodyNotifications body,
+    @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.getNotificationsUnread)
   Future<ResponseData<ResultNotificationCounter>> getNotificationsUnread(
     @Body() BodyNotificationCounter body,
+    @Header('Authorization') String headers,
   );
 
-  @POST(UrlsApi.getSupportStatus)
+  @POST(UrlsApi.getSupportStatus) // No necesita token
   Future<ResponseData<ResultSupportStatus>> getSupportStatus(
     @Body() BodySupportStatus body,
   );
 
-  @POST(UrlsApi.getSupportTypes)
+  @POST(UrlsApi.getSupportTypes) // No necesita token
   Future<ResponseData<ResultSupportType>> getSupportTypes(
     @Body() BodySupportType body,
   );
@@ -273,5 +298,6 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.getSupportCases)
   Future<ResponseData<ResultSupportCases>> getSupportCases(
     @Body() BodySupportCases body,
+    @Header('Authorization') String headers,
   );
 }

@@ -1,14 +1,18 @@
+// import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/notification/notification_effect.dart';
 import 'package:localdaily/pages/notification/notification_status.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/notifications/body_notifications.dart';
 import 'package:localdaily/services/models/notifications/notification.dart';
 import 'package:localdaily/services/models/notifications/result_notification.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 class NotificationViewModel
     extends EffectsViewModel<NotificationStatus, NotificationEffect> {
@@ -28,10 +32,10 @@ class NotificationViewModel
     );
   }
 
-  Future<void> onInit(String userId) async {
+  Future<void> onInit(String userId, BuildContext context) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
-      await getData(userId);
+      await getData(userId, context);
     } else {
       addEffect(SnackbarConnectivityEffect('Sin conexión a internet'));
     }
@@ -67,7 +71,8 @@ class NotificationViewModel
   }
 
   Future<bool?> getData(
-    String userId, {
+    String userId,
+    BuildContext context, {
     bool refresh = false,
     bool isPagination = false,
   }) async {
@@ -100,7 +105,13 @@ class NotificationViewModel
         BodyNotifications(idUser: userId, pagination: pagination);
 
     try {
-      await _interactor.getNotifications(body).then((response) {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
+      await _interactor
+          .getNotifications(body, 'Bearer ${token!.token}')
+          .then((response) {
         status = status.copyWith(isLoading: false);
         if (response.isSuccess) {
           final List<NotificationP> data = <NotificationP>[

@@ -122,8 +122,7 @@ class Step3ValidatePin extends StatelessWidget {
                               ),
                             ),
                             onTap: () => viewModel.reSendPinToEmail(
-                              viewModel.status.emailRegister,
-                            ),
+                                viewModel.status.emailRegister, context),
                           ),
                           Text(
                             ' el codigo?',
@@ -140,7 +139,8 @@ class Step3ValidatePin extends StatelessWidget {
                   'Validar',
                   onPressed: () {
                     if (keyForm.currentState!.validate()) {
-                      viewModel.continueStep_4AccountData(codePinCtrl.text);
+                      viewModel.continueStep_4AccountData(
+                          codePinCtrl.text, context);
                     }
                   },
                 ),

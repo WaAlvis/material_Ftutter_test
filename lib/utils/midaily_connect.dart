@@ -161,15 +161,17 @@ class MiDailyConnect {
       );
       return;
     }
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
+    final token = dataUserProvider.getTokenLogin;
     // Guardar en bd el address
     ServiceInteractor()
         .putUpdateAddress(
-      BodyUpdateAddress(
-        idUser: userProvider.getDataUserLogged?.id ?? '',
-        addressWallet: address,
-      ),
-    )
+            BodyUpdateAddress(
+              idUser: userProvider.getDataUserLogged?.id ?? '',
+              addressWallet: address,
+            ),
+            'Bearer ${token!.token}')
         .then((value) async {
       if (value.isSuccess) {
         // Guardar localmente el address
@@ -254,12 +256,15 @@ class MiDailyConnect {
     await _localStorage.getPreferences()?.remove(email);
     userProvider.setAddress('');
     // Eliminar en bd el address
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+
+    final token = dataUserProvider.getTokenLogin;
     ServiceInteractor().putUpdateAddress(
-      BodyUpdateAddress(
-        idUser: userProvider.getDataUserLogged?.id ?? '',
-        addressWallet: '',
-      ),
-    );
+        BodyUpdateAddress(
+          idUser: userProvider.getDataUserLogged?.id ?? '',
+          addressWallet: '',
+        ),
+        'Bearer ${token!.token}');
   }
 
   static String _getRandomString(int length) => String.fromCharCodes(

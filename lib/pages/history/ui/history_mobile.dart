@@ -50,6 +50,7 @@ class HistoryMobile extends StatelessWidget {
             onRefresh: () async {
               await viewModel.onInit(
                 idUser,
+                context,
                 refresh: true,
               );
             },

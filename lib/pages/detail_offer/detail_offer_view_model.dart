@@ -23,6 +23,7 @@ import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'detail_offer_status.dart';
 
@@ -246,8 +247,12 @@ class DetailOfferViewModel
     );
 
     if (typeOffer == TypeOffer.sell) {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
       _interactor
-          .reserveOffer(body)
+          .reserveOffer(body, 'Bearer ${token!.token}')
           .then((ResponseData<ResultUpdateStatus> response) {
         if (response.isSuccess) {
           addEffect(ShowSnackbarSuccesEffect());

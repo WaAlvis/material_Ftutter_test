@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/history/history_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/body_history_operations_user.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
@@ -10,6 +11,7 @@ import 'package:localdaily/services/models/history_operations_user/response/resu
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'history_status.dart';
 
@@ -31,10 +33,11 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
   }
 
   Future<void> onInit(
-    String idUser, {
+    String idUser,
+    BuildContext context, {
     bool refresh = false,
   }) async {
-    getOperations(idUser);
+    getOperations(idUser, context);
   }
 
   void goBack(BuildContext context) {
@@ -73,17 +76,18 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
     return value;
   }
 
-  void getOperations(String idUser) {
+  void getOperations(String idUser, BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        getAndOrderOperationsForDay(idUser);
+        getAndOrderOperationsForDay(idUser, context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
 
-  Future<void> getAndOrderOperationsForDay(String idUSer) async {
+  Future<void> getAndOrderOperationsForDay(
+      String idUSer, BuildContext context) async {
     status = status.copyWith(isLoading: true);
 
     final BodyHistoryOperationsUser bodyHistoryOperationsUser =
@@ -95,9 +99,12 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
         itemsPerPage: 10,
       ),
     );
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
+    final token = dataUserProvider.getTokenLogin;
     _interactor
-        .getHistoryOperationsUser(bodyHistoryOperationsUser)
+        .getHistoryOperationsUser(
+            bodyHistoryOperationsUser, 'Bearer ${token!.token}')
         .then((ResponseData<ResultHistoryOperationsUser> response) async {
       if (response.isSuccess) {
         final List<DataUserAdvertisement> dataOperations =
@@ -113,7 +120,6 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
         }
       } else {
         addEffect(ShowErrorSnackbar('Error en la consulta'));
-
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
@@ -130,7 +136,8 @@ class HistoryViewModel extends EffectsViewModel<HistoryStatus, HistoryEffect> {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
         _route.goDetailHistoryOperation(
-          context, item,
+          context,
+          item,
           isBuying: isBuying,
         );
       } else {

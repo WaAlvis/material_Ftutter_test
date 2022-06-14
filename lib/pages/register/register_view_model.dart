@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:js';
 
 import 'package:country_code_picker/country_code.dart';
 import 'package:crypto/crypto.dart';
@@ -24,6 +25,7 @@ import 'package:localdaily/services/models/register/validate_pin/entity_validate
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'register_status.dart';
@@ -132,13 +134,11 @@ class RegisterViewModel
     status.dateBirthCtrl.text = dateT;
   }
 
-  void continueStep_2MsjEmail(String email) =>
-      requiredPinForEmailValidation(email); //fin step 1
+  void continueStep_2MsjEmail(String email, BuildContext context) =>
+      requiredPinForEmailValidation(email, context); //fin step 1
   void continueStep_3ValidatePin() => continueValidatePin(); //fin step 2
-  void continueStep_4AccountData(
-    String codePin,
-  ) =>
-      validateCodePin(codePin); //fin step 3
+  void continueStep_4AccountData(String codePin, BuildContext context) =>
+      validateCodePin(codePin, context); //fin step 3
   void continueStep_5PersonalData(String nick, String psw) =>
       registerNickPswUser(
         nick,
@@ -161,11 +161,11 @@ class RegisterViewModel
         phone,
       ); //fin step 5
 
-  void requiredPinForEmailValidation(String email) {
+  void requiredPinForEmailValidation(String email, BuildContext context) {
     //fin step 1
     LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        await sendPinToEmail(email);
+        await sendPinToEmail(email, context);
         //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
@@ -186,10 +186,11 @@ class RegisterViewModel
 
   void validateCodePin(
     String codePin,
+    BuildContext context,
   ) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
-        validatedPin(codePin);
+        validatedPin(codePin, context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
@@ -199,6 +200,7 @@ class RegisterViewModel
   Future<void> validatedPin(
     //fin step 3
     String codePin,
+    BuildContext context,
   ) async {
     status = status.copyWith(
       isLoading: true,
@@ -211,8 +213,10 @@ class RegisterViewModel
     final BodyValidatePin bodyValidatePin = BodyValidatePin(
       entity: entityValidatePin,
     );
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
-    _interactor.validatePin(bodyValidatePin).then((
+    final token = dataUserProvider.getTokenLogin;
+    _interactor.validatePin(bodyValidatePin, 'Bearer ${token!.token}').then((
       ResponseData<ResultValidatePin> response,
     ) {
       if (response.isSuccess) {
@@ -234,10 +238,11 @@ class RegisterViewModel
     });
   }
 
-  Future<void> reSendPinToEmail(String email) =>
-      sendPinToEmail(email, againSend: true);
+  Future<void> reSendPinToEmail(String email, BuildContext context) =>
+      sendPinToEmail(email, context, againSend: true);
 
-  Future<void> sendPinToEmail(String email, {bool againSend = false}) async {
+  Future<void> sendPinToEmail(String email, BuildContext context,
+      {bool againSend = false}) async {
     status = status.copyWith(
       isLoading: true,
       emailRegister: email,
@@ -248,8 +253,12 @@ class RegisterViewModel
       numberOrEmail: email,
       codevia: 'cf1c420a-38bd-44b0-8187-fbf1e91ad21a',
     );
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
-    _interactor.requestPinValidateEmail(bodyPinEmail).then((
+    final token = dataUserProvider.getTokenLogin;
+    _interactor
+        .requestPinValidateEmail(bodyPinEmail, 'Bearer ${token!.token}')
+        .then((
       ResponseData<ResultPinEmail> response,
     ) {
       if (response.isSuccess) {
@@ -389,14 +398,15 @@ class RegisterViewModel
       rateBuyer: '',
       isCorporative: false,
     );
-
+    final token = dataUserProvider.getTokenLogin;
     _interactor
-        .postRegisterUser(bodyRegister)
+        .postRegisterUser(bodyRegister, 'Bearer ${token!.token}')
         .then((ResponseData<ResultRegister> response) {
       if (response.isSuccess) {
         final String idUser = response.result!.id;
+        final token = dataUserProvider.getTokenLogin;
         _interactor
-            .getUserById(idUser)
+            .getUserById(idUser, 'Bearer ${token!.token}')
             .then((ResponseData<ResultDataUser> responseDataUser) async {
           if (responseDataUser.isSuccess) {
             dataUserProvider.setDataUserLogged(

@@ -59,7 +59,7 @@ class Step1EmailRegister extends StatelessWidget {
                 onPressed: () {
                   FocusManager.instance.primaryFocus?.unfocus();
                   if (keyForm.currentState!.validate()) {
-                    viewModel.continueStep_2MsjEmail  (emailCtrl.text);
+                    viewModel.continueStep_2MsjEmail(emailCtrl.text, context);
                   }
                 },
               ),

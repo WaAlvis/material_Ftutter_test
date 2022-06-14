@@ -3,11 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_history_operation/detail_history_operation_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'detail_history_operation_status.dart';
 
@@ -28,9 +30,10 @@ class DetailHistoryOperationViewModel extends EffectsViewModel<
     );
   }
 
-  Future<void> onInit() async {
+  Future<void> onInit(BuildContext context) async {
     getName(
       idUser,
+      context,
     );
   }
 
@@ -83,21 +86,23 @@ class DetailHistoryOperationViewModel extends EffectsViewModel<
     });
   }
 
-  void getName(String idBuyer) {
+  void getName(String idBuyer, BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValidvalue) {
       if (isConnectionValidvalue) {
-        getNameBuyer(idBuyer);
+        getNameBuyer(idBuyer, context);
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
       }
     });
   }
 
-  Future<void> getNameBuyer(String idBuyer) async {
+  Future<void> getNameBuyer(String idBuyer, BuildContext context) async {
     status = status.copyWith(isLoading: true);
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
+    final token = dataUserProvider.getTokenLogin;
     _interactor
-        .getUserById(idBuyer)
+        .getUserById(idUser, 'Bearer ${token!.token}')
         .then((ResponseData<ResultDataUser> response) {
       if (response.isSuccess) {
         final ResultDataUser? userBuyer = response.result;
