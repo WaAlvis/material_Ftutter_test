@@ -79,7 +79,7 @@ class _DetailHistoryOperationBodyState
         context.read<DetailHistoryOperationViewModel>();
 
     WidgetsBinding.instance!.addPostFrameCallback(
-      (_) => viewModel.onInit(),
+      (_) => viewModel.onInit(context),
     );
 
     _effectSubscription =

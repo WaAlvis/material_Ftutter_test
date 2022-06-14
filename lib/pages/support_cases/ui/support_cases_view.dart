@@ -67,6 +67,7 @@ class _SupportCasesBodyState extends State<SupportCasesBody> {
         viewModel
             .getData(
           userProvider.getDataUserLogged?.id ?? '',
+          context,
           isPagination: true,
         )
             .then(
@@ -85,7 +86,7 @@ class _SupportCasesBodyState extends State<SupportCasesBody> {
     });
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      viewModel.onInit(userProvider.getDataUserLogged?.id ?? '');
+      viewModel.onInit(userProvider.getDataUserLogged?.id ?? '', context);
     });
 
     super.initState();

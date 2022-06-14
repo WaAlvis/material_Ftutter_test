@@ -3,14 +3,15 @@ import 'package:localdaily/services/models/create_offers/offer/body_offer.dart';
 import 'package:localdaily/services/models/detail_offer/body_add_pay_account.dart';
 import 'package:localdaily/services/models/detail_offer/body_update_status.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
+import 'package:localdaily/services/models/login/token_login.dart';
 
 class DataUserProvider with ChangeNotifier {
-  // late TokenLogin _tokenLogin;
-  // TokenLogin get getTokenLogin => _tokenLogin;
-  // void setTokenLogin(TokenLogin tokenLogin) {
-  //   _tokenLogin = tokenLogin;
-  //   notifyListeners();
-  // }
+  TokenLogin? _tokenLogin;
+  TokenLogin? get getTokenLogin => _tokenLogin;
+  void setTokenLogin(TokenLogin tokenLogin) {
+    _tokenLogin = tokenLogin;
+    notifyListeners();
+  }
 
   ResultDataUser? _dataUser;
   ResultDataUser? get getDataUserLogged => _dataUser;

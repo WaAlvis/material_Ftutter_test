@@ -81,7 +81,7 @@ class _ProfileSellerBodyState extends State<_ProfileSellerBody> {
         context.read<ProfileSellerViewModel>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<ProfileSellerViewModel>().onInit();
+      context.read<ProfileSellerViewModel>().onInit(context);
     });
 
     _effectSubscription =

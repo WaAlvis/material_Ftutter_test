@@ -6,11 +6,13 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/change_psw/change_psw_effect.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/change_psw/body_change_psw.dart';
 import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'change_psw_status.dart';
 
@@ -123,9 +125,11 @@ class ChangePswViewModel
       password: oldSha256Psw,
       newPassword: newSha256Psw,
     );
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
+    final token = dataUserProvider.getTokenLogin;
     _interactor
-        .changePsw(bodyChangePsw)
+        .changePsw(bodyChangePsw, 'Bearer ${token!.token}')
         .then((ResponseData<ResultChangePsw> response) {
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Contraseña actualizada'));
@@ -139,7 +143,6 @@ class ChangePswViewModel
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
       status = status.copyWith(isLoading: false);
-
     });
   }
 

@@ -7,12 +7,14 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/info/ui/info_view.dart';
 import 'package:localdaily/pages/recover_psw/recover_psw_effect.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/recover_psw/body_recover_psw.dart';
 import 'package:localdaily/services/models/recover_psw/result_recover_psw.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:provider/provider.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'recover_psw_status.dart';
@@ -89,9 +91,11 @@ class RecoverPswViewModel
       signature: '',
       codeLang: 'es',
     );
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
+    final token = dataUserProvider.getTokenLogin;
     _interactor
-        .requestNewPsw(bodyRecoverPsw)
+        .requestNewPsw(bodyRecoverPsw, 'Bearer ${token!.token}')
         .then((ResponseData<ResultRecoverPsw> response) {
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Nueva contraseña enviada'));

@@ -1,14 +1,18 @@
+// import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/support_cases/support_cases_effect.dart';
 import 'package:localdaily/pages/support_cases/support_cases_status.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
 import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/view_model.dart';
+import 'package:provider/provider.dart';
 
 class SupportCasesViewModel
     extends EffectsViewModel<SupportCasesStatus, SupportCasesEffect> {
@@ -28,17 +32,18 @@ class SupportCasesViewModel
     );
   }
 
-  Future<void> onInit(String userId) async {
+  Future<void> onInit(String userId, BuildContext context) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
-      await getData(userId);
+      await getData(userId, context);
     } else {
       addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
   }
 
   Future<bool?> getData(
-    String userId, {
+    String userId,
+    BuildContext context, {
     bool refresh = false,
     bool isPagination = false,
   }) async {
@@ -85,7 +90,14 @@ class SupportCasesViewModel
         BodySupportCases(filters: filters, pagination: pagination);
 
     try {
-      await _interactor.getSupportCases(body).then((response) {
+      final DataUserProvider dataUserProvider =
+          context.read<DataUserProvider>();
+
+      final token = dataUserProvider.getTokenLogin;
+      print('${token!.toJson()} @@@');
+      await _interactor
+          .getSupportCases(body, 'Bearer ${token!.token}')
+          .then((response) {
         status = status.copyWith(isLoading: false);
         if (response.isSuccess) {
           final List<BodyContactSupport> data = <BodyContactSupport>[
