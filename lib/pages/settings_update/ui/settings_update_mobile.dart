@@ -24,91 +24,18 @@ class SettingsUpdateMobile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      body: Column(
-        children: <Widget>[
-          Container(
-            width: size.width,
-            color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: hAppbar,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 12.0,
-                      right: 12.0,
-                      top: 30,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () => viewModel.goBack(context),
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: LdColors.white,
-                          ),
-                        ),
-                        Text(
-                          'Actualizar informacion',
-                          style: textTheme.textBigWhite,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.transparent,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            AppBarBigger(
+              title: 'Actualizar informacion',
+              hAppbar: hAppbar,
+              textTheme: textTheme,
             ),
-          ),
-          SingleChildScrollView(
-            child: Container(
+            Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 40,
+                horizontal: 16,
+                vertical: 30,
               ),
               width: size.width,
               constraints: BoxConstraints(minHeight: hBody),
@@ -118,24 +45,134 @@ class SettingsUpdateMobile extends StatelessWidget {
                   top: Radius.circular(25),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _rowOptionSetting(
-                    textTheme,
-                    viewModel,
-                    LdAssets.pswBlack,
-                    onTap: () => viewModel.goChangePsw(context),
-                    title: 'Contraseña',
-                    subtitle: 'Cambia tu contraseña de acceso',
-                    sizeIconSvg: 42,
-                  ),
-                  _dividerOptions(),
-                ],
+              child: Form(
+                key: keyForm,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text(
+                            'Cambiar Contraseña',
+                            style: textTheme.textBlack.copyWith(
+                              // color: LdColors.orangeWarning,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            'Ingresa una contraseña segura y fácil de recordar',
+                            style: textTheme.textBlack.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    // InputTextCustom(
+                    //   'Contraseña actual*',
+                    //   hintText: '8+ digitos',
+                    //   controller: currentPswCtrl,
+                    //   onChange: (String psw) {
+                    //     viewModel.changeCurrentPsw(psw);
+                    //   },
+                    //   changeFillWith: !viewModel.status.isCurrentPswFieldEmpty,
+                    //   textInputAction: TextInputAction.next,
+                    //   obscureText: viewModel.status.hidePass,
+                    //   validator: (_) => viewModel.validatorCurrentPswNotEmpty(
+                    //     currentPswCtrl.text,
+                    //     newPswCtrl.text,
+                    //   ),
+                    //   suffixIcon: GestureDetector(
+                    //     onTap: () => viewModel.hidePsw(),
+                    //     child: Icon(
+                    //       viewModel.status.hidePass
+                    //           ? Icons.visibility
+                    //           : Icons.visibility_off,
+                    //       color: LdColors.blackBackground,
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 16),
+                    // InputTextCustom(
+                    //   'Nueva Contraseña *',
+                    //   hintText: '8+ digitos',
+                    //   controller: newPswCtrl,
+                    //   onChange: (String psw) {
+                    //     viewModel.changeNewPsw(psw);
+                    //     viewModel.isPswValid(psw);
+                    //   },
+                    //   changeFillWith: !viewModel.status.isNewPswFieldEmpty,
+                    //   textInputAction: TextInputAction.next,
+                    //   obscureText: viewModel.status.hidePass,
+                    //   validator: (_) => viewModel.validatorPsws(
+                    //     newPswCtrl.text,
+                    //     againNewPswCtrl.text,
+                    //   ),
+                    //   suffixIcon: GestureDetector(
+                    //     onTap: () => viewModel.hidePsw(),
+                    //     child: Icon(
+                    //       viewModel.status.hidePass
+                    //           ? Icons.visibility
+                    //           : Icons.visibility_off,
+                    //       color: LdColors.blackBackground,
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 16),
+                    // InputTextCustom(
+                    //   'Repetir nueva contraseña*',
+                    //   hintText: '8+ digitos',
+                    //   controller: againNewPswCtrl,
+                    //   onChange: (String psw) {
+                    //     viewModel.changeAgainNewPsw(psw);
+                    //   },
+                    //   changeFillWith: !viewModel.status.isAgainNewPswFieldEmpty,
+                    //   textInputAction: TextInputAction.next,
+                    //   obscureText: viewModel.status.hidePass,
+                    //   suffixIcon: GestureDetector(
+                    //     onTap: () => viewModel.hidePsw(),
+                    //     child: Icon(
+                    //       viewModel.status.hidePass
+                    //           ? Icons.visibility
+                    //           : Icons.visibility_off,
+                    //       color: LdColors.blackBackground,
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 16),
+
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // PrimaryButtonCustom(
+                    //   'Continuar',
+                    //   onPressed: () {
+                    //     FocusManager.instance.primaryFocus?.unfocus();
+                    //     if (keyForm.currentState!.validate()) {
+                    //       viewModel.changePsw(
+                    //         context,
+                    //         dataUserProvider.getDataUserLogged!.id,
+                    //         currentPswCtrl.text,
+                    //         newPswCtrl.text,
+                    //       );
+                    //     }
+                    //   },
+                    // )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

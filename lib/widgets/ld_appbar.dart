@@ -56,6 +56,8 @@ class LdAppbar extends StatelessWidget implements PreferredSizeWidget {
         title: title != null
             ? Text(
                 title!,
+                softWrap: true,
+                overflow: TextOverflow.visible,
                 style: textTheme.textBigWhite,
               )
             : Row(

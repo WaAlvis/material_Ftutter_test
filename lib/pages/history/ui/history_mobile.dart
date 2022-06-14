@@ -24,13 +24,14 @@ class HistoryMobile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      appBar: const LdAppbar(
-        title: 'Historial',
-        withBackIcon: true,
-      ),
+
       body: Column(
         children: <Widget>[
-          const AppbarCircles(hAppbar: hAppbar),
+          AppBarBigger(
+            title: 'Historial',
+            hAppbar: hAppbar,
+            textTheme: textTheme,
+          ),
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(

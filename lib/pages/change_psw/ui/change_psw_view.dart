@@ -11,6 +11,8 @@ import 'package:localdaily/pages/change_psw/change_psw_view_model.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:localdaily/widgets/app_bar_bigger.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/list_checks_required_psw.dart';
 import 'package:localdaily/widgets/primary_button.dart';
