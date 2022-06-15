@@ -11,6 +11,7 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/settings_update/settings_update_effect.dart';
 import 'package:localdaily/pages/settings_update/settings_update_view_model.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
@@ -60,6 +61,7 @@ class _SettingsUpdateBody extends StatefulWidget {
 class _SettingsUpdateBodyState extends State<_SettingsUpdateBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
   late StreamSubscription<SettingsUpdateEffect> _effectSubscription;
+  final TextEditingController nickNameCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -78,9 +80,10 @@ class _SettingsUpdateBodyState extends State<_SettingsUpdateBody> {
 
   @override
   void dispose() {
-    super.dispose();
     // _scrollCtrl.dispose();
     _effectSubscription.cancel();
+    nickNameCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -99,6 +102,7 @@ class _SettingsUpdateBodyState extends State<_SettingsUpdateBody> {
                       keyForm: keyForm,
                     )
                   : SettingsUpdateMobile(
+                      nickNameCtrl,
                       keyForm: keyForm,
                       // scrollCtrl: _scrollCtrl,
                     ),

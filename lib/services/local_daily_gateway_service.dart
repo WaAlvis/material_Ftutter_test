@@ -62,6 +62,7 @@ class UrlsApi {
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
+  static const String updateDataUser = '/User/User';
   static const String getHistoryOperationsUser =
       '/WebAdmin/Advertisement/GetHistoryAvertisementUser';
   static const String getDocsType =
@@ -200,6 +201,12 @@ abstract class LocalDailyGatewayService {
     @Body() BodyUpdateStatus bodyCreateSmartContract,
     @Header('Authorization') String headers,
   );
+
+  @PUT(UrlsApi.updateDataUser)
+  Future<ResponseData<ResultDataUser>> updateDataUser(
+      @Body() ResultDataUser newDataUser,
+      @Header('Authorization') String headers,
+      );
 
   @PUT(UrlsApi.updateAddress)
   Future<ResponseData<dynamic>> updateAddress(

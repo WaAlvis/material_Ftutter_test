@@ -93,6 +93,16 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<ResultDataUser>> updateDataUser(
+      ResultDataUser newDataUser,
+      String headers,
+      ) async {
+    final ResponseData<ResultDataUser> response =
+    await locator<LocalDailyGatewayService>().updateDataUser(newDataUser, headers);
+
+    return response;
+  }
+
   Future<ResponseData<ResultRecoverPsw>> requestNewPsw(
       BodyRecoverPsw bodyRecoverPsw, String headers) async {
     final ResponseData<ResultRecoverPsw> response =

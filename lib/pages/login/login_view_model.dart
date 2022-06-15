@@ -57,7 +57,6 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
 
   void goHomeForLogin(
     BuildContext context,
-    GlobalKey<FormState> keyForm,
     TextEditingController userCtrl,
     TextEditingController passwordCtrl,
     DataUserProvider dataUserProvider,

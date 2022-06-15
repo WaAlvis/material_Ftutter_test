@@ -189,7 +189,6 @@ class _LoginMobile extends StatelessWidget {
                           if (keyForm.currentState!.validate()) {
                             viewModel.goHomeForLogin(
                               context,
-                              keyForm,
                               userCtrl,
                               passwordCtrl,
                               dataUserProvider,
