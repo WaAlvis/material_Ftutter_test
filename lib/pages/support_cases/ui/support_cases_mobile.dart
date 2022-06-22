@@ -62,41 +62,23 @@ class _SupportCasesMobile extends StatelessWidget {
                 shrinkWrap: items.isEmpty,
                 itemCount: viewModel.status.isLoading
                     ? 10
-                    : items.isEmpty
-                        ? 100
-                        : items.length,
+                    : items.length,
                 controller: supportScrollCtrl,
-                itemBuilder:
-                    (BuildContext context, int index) {
-                List<BodyContactSupport> fadeItems=  List.generate(100, (index) {
-                  return
-                    BodyContactSupport(
-                      idSupportStatus: '200',
-                      idUserPublish: 'idUserPublish',
-                      description: 'description',
-                      idSupportType: 'idSupportType',
-                      idAdvertisement: 'idAdvertisement',
-                      emailUserPublish: 'emailUserPublish',
-                    );
-                  });
+                itemBuilder: (BuildContext context, int index) {
                   return viewModel.status.isLoading
-                      ?
-
-                  Shimmer.fromColors(
-                          baseColor: LdColors.whiteDark,
-                          highlightColor: LdColors.grayButton,
-                          child: const Card(
-                            margin: EdgeInsets.all(10),
-                            child: SizedBox(height: 100),
-                          ),
-                        )
-                      :
-                  _SupportCaseCard(item: fadeItems[index] );
-                  // items.isEmpty
-                  //         ? const IntrinsicHeight(
-                  //             child: _EmptySupportCases(),
-                  //           )
-                  //         : _SupportCaseCard(item: items[index]);
+                      ? Shimmer.fromColors(
+                    baseColor: LdColors.whiteDark,
+                    highlightColor: LdColors.grayButton,
+                    child: const Card(
+                      margin: EdgeInsets.all(10),
+                      child: SizedBox(height: 100),
+                    ),
+                  )
+                      : items.isEmpty
+                      ? const IntrinsicHeight(
+                    child: _EmptySupportCases(),
+                  )
+                      : _SupportCaseCard(item: items[index]);
                 },
               ),
             ),
@@ -146,7 +128,7 @@ class _SupportCaseCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('${item.emailUserPublish}');
-        viewModel.goDetailSupport(context, item);
+        // viewModel.goDetailSupport(context, item);
       },
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -202,9 +184,9 @@ class _SupportCaseCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                ),
+                // const Icon(
+                //   Icons.arrow_forward_ios,
+                // ),
               ],
             ),
           ],
