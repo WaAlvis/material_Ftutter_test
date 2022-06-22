@@ -36,26 +36,32 @@ extension ShowDialogWidgetAlert on BuildContext {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          title,
-                          style: textTheme.bodyMedium?.copyWith(fontSize: 18),
-                        ),
-                        if (isClosed)
-                          GestureDetector(
-                            onTap: onTapClose ??
-                                () {
-                                  Navigator.pop(context);
-                                },
-                            child: Text('X',
-                                style: textTheme.bodyMedium
-                                    ?.copyWith(fontSize: 18)),
-                          )
-                        else
-                          Container()
-                      ],
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            title,
+                            style: textTheme.bodyMedium?.copyWith(fontSize: 18),
+                          ),
+                          if (isClosed)
+                            GestureDetector(
+                              onTap: onTapClose ??
+                                  () {
+                                    Navigator.pop(context);
+                                  },
+                              child: Text('X',
+                                  style: textTheme.bodyMedium
+                                      ?.copyWith(fontSize: 18)),
+                            )
+                          else
+                            Container()
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 16,

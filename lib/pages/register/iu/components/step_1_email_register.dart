@@ -99,22 +99,22 @@ class CheckboxTyC extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: textTheme.bodyText1,
-        children: <InlineSpan>[
-          const TextSpan(
+        children: const <InlineSpan>[
+          TextSpan(
             text: 'Acepto los ',
           ),
           TextSpan(
             text: 'Terminos y Condiciones',
-            style: const TextStyle(color: LdColors.orangePrimary),
-            recognizer: TapGestureRecognizer(),
+            style: TextStyle(color: LdColors.orangePrimary),
+            // recognizer: ,
           ),
-          const TextSpan(text: ' del servicio y los '),
+          TextSpan(text: ' del servicio y los '),
           TextSpan(
             text: 'Términos de uso',
             style: const TextStyle(color: LdColors.orangePrimary),
-            recognizer: TapGestureRecognizer(),
+            // recognizer: TapGestureRecognizer(),
           ),
-          const TextSpan(text: ' de la aplicacón'),
+          TextSpan(text: ' de la aplicacón'),
         ],
       ),
     );

@@ -33,7 +33,7 @@ class ContactSupportViewModel
       isLoading: false,
       isError: false,
       isBuy: isbuy,
-      isDisputa: false,
+      isDisputa: isDisputa,
       description: '',
     );
   }
@@ -109,12 +109,14 @@ class ContactSupportViewModel
     try {
       final DataUserProvider dataUserProvider =
           context.read<DataUserProvider>();
-
       final token = dataUserProvider.getTokenLogin;
       await _interactor
           .createContactSupport(body, 'Bearer ${token!.token}')
           .then((response) async {
+        print('${isDisputa} @#@#');
+
         if (isDisputa) {
+          print('${bodyStatus.toJson()} @#@#');
           final DataUserProvider dataUserProvider =
               context.read<DataUserProvider>();
 
@@ -135,18 +137,18 @@ class ContactSupportViewModel
                         )
                       }
                   });
-        }
-        status = status.copyWith(isLoading: false);
-        _route.pop(context);
-        if (response.isSuccess) {
-          addEffect(ShowSnackbarSuccesEffect());
-          _route.goHome(context);
-        } else {
-          addEffect(
-            ShowSnackbarErrorEffect(
-              'No fue posible enviar el caso de soporte, intenta más tarde',
-            ),
-          );
+          status = status.copyWith(isLoading: false);
+          _route.pop(context);
+          if (response.isSuccess) {
+            addEffect(ShowSnackbarSuccesEffect());
+            _route.goHome(context);
+          } else {
+            addEffect(
+              ShowSnackbarErrorEffect(
+                'No fue posible enviar el caso de soporte, intenta más tarde',
+              ),
+            );
+          }
         }
       });
     } catch (e) {

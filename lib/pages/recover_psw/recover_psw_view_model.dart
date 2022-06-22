@@ -95,7 +95,9 @@ class RecoverPswViewModel
 
     final token = dataUserProvider.getTokenLogin;
     _interactor
-        .requestNewPsw(bodyRecoverPsw, 'Bearer ${token!.token}')
+        .requestNewPsw(
+      bodyRecoverPsw,
+    )
         .then((ResponseData<ResultRecoverPsw> response) {
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Nueva contraseña enviada'));

@@ -151,7 +151,7 @@ class _SupportCaseCard extends StatelessWidget {
                 ),
                 _buildStatus(
                   textTheme,
-                  item.idSupportStatus!,
+                  item.idSupportStatus,
                   configurationProvider.getResultSupportStatus!,
                 ),
               ],

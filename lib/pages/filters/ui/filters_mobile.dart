@@ -323,254 +323,254 @@ class _FilterMobile extends StatelessWidget {
                               ),
                             ],
                           ),
-                        if (int.parse(index.toString()) > 0)
-                          FormBuilderRadioGroup(
-                            orientation: OptionsOrientation.vertical,
-                            controlAffinity: ControlAffinity.trailing,
-                            initialValue: viewModel.status.status,
-                            name: 'status',
-                            valueTransformer: (int? index) {
-                              if (index != null)
-                                jsonFilterString.status = index.toString();
-                            },
-                            onChanged: (int? index) {
-                              viewModel.setStatus(index);
-                            },
-                            decoration: InputDecoration(
-                              label: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[Text('Estado')],
-                              ),
-                              // labelText: 'Cantidad DLYCOP',
-                              labelStyle:
-                                  textTheme.bodyMedium?.copyWith(fontSize: 24),
-                            ),
-                            activeColor: LdColors.orangePrimary,
-                            options: [
-                              FormBuilderFieldOption(
-                                value: 0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 24,
-                                      width: 130,
-                                      decoration: const BoxDecoration(
-                                        color: LdColors.orangePrimary,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      ),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Publicado',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: LdColors.white,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              FormBuilderFieldOption(
-                                value: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 24,
-                                      width: 130,
-                                      decoration: const BoxDecoration(
-                                        color: LdColors.grayState,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      ),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Pendiente',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: LdColors.white,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              FormBuilderFieldOption(
-                                value: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 24,
-                                      width: 130,
-                                      decoration: const BoxDecoration(
-                                        color: LdColors.green,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      ),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Pagado',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: LdColors.white,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              FormBuilderFieldOption(
-                                value: 2,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 24,
-                                      width: 130,
-                                      decoration: const BoxDecoration(
-                                        color: LdColors.blueState,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      ),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Cerrado',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: LdColors.white,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              FormBuilderFieldOption(
-                                value: 4,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 24,
-                                      width: 130,
-                                      decoration: const BoxDecoration(
-                                        color: LdColors.redError,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      ),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Disputa',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: LdColors.white,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // FormBuilderFieldOption(
-                              //   value: 4,
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.start,
-                              //     children: <Widget>[
-                              //       Container(
-                              //         height: 24,
-                              //         width: 130,
-                              //         decoration: const BoxDecoration(
-                              //           color: LdColors.yellowDark,
-                              //           borderRadius: BorderRadius.all(
-                              //             Radius.circular(4),
-                              //           ),
-                              //         ),
-                              //         child: Flex(
-                              //           direction: Axis.horizontal,
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: <Widget>[
-                              //             FittedBox(
-                              //               alignment: Alignment.centerLeft,
-                              //               fit: BoxFit.scaleDown,
-                              //               child: Text(
-                              //                 'Soporte',
-                              //                 textAlign: TextAlign.center,
-                              //                 style: TextStyle(
-                              //                   color: LdColors.white,
-                              //                   fontSize: 14,
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                            ],
-                          ),
+                        // if (int.parse(index.toString()) > 0)
+                        //   FormBuilderRadioGroup(
+                        //     orientation: OptionsOrientation.vertical,
+                        //     controlAffinity: ControlAffinity.trailing,
+                        //     initialValue: viewModel.status.status,
+                        //     name: 'status',
+                        //     valueTransformer: (int? index) {
+                        //       if (index != null)
+                        //         jsonFilterString.status = index.toString();
+                        //     },
+                        //     onChanged: (int? index) {
+                        //       viewModel.setStatus(index);
+                        //     },
+                        //     decoration: InputDecoration(
+                        //       label: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: const <Widget>[Text('Estado')],
+                        //       ),
+                        //       // labelText: 'Cantidad DLYCOP',
+                        //       labelStyle:
+                        //           textTheme.bodyMedium?.copyWith(fontSize: 24),
+                        //     ),
+                        //     activeColor: LdColors.orangePrimary,
+                        //     options: [
+                        //       FormBuilderFieldOption(
+                        //         value: 0,
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Container(
+                        //               height: 24,
+                        //               width: 130,
+                        //               decoration: const BoxDecoration(
+                        //                 color: LdColors.orangePrimary,
+                        //                 borderRadius: BorderRadius.all(
+                        //                   Radius.circular(4),
+                        //                 ),
+                        //               ),
+                        //               child: Flex(
+                        //                 direction: Axis.horizontal,
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.center,
+                        //                 children: <Widget>[
+                        //                   FittedBox(
+                        //                     alignment: Alignment.centerLeft,
+                        //                     fit: BoxFit.scaleDown,
+                        //                     child: Text(
+                        //                       'Publicado',
+                        //                       textAlign: TextAlign.center,
+                        //                       style: TextStyle(
+                        //                         color: LdColors.white,
+                        //                         fontSize: 14,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       FormBuilderFieldOption(
+                        //         value: 1,
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Container(
+                        //               height: 24,
+                        //               width: 130,
+                        //               decoration: const BoxDecoration(
+                        //                 color: LdColors.grayState,
+                        //                 borderRadius: BorderRadius.all(
+                        //                   Radius.circular(4),
+                        //                 ),
+                        //               ),
+                        //               child: Flex(
+                        //                 direction: Axis.horizontal,
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.center,
+                        //                 children: <Widget>[
+                        //                   FittedBox(
+                        //                     alignment: Alignment.centerLeft,
+                        //                     fit: BoxFit.scaleDown,
+                        //                     child: Text(
+                        //                       'Pendiente',
+                        //                       textAlign: TextAlign.center,
+                        //                       style: TextStyle(
+                        //                         color: LdColors.white,
+                        //                         fontSize: 14,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       FormBuilderFieldOption(
+                        //         value: 1,
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Container(
+                        //               height: 24,
+                        //               width: 130,
+                        //               decoration: const BoxDecoration(
+                        //                 color: LdColors.green,
+                        //                 borderRadius: BorderRadius.all(
+                        //                   Radius.circular(4),
+                        //                 ),
+                        //               ),
+                        //               child: Flex(
+                        //                 direction: Axis.horizontal,
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.center,
+                        //                 children: <Widget>[
+                        //                   FittedBox(
+                        //                     alignment: Alignment.centerLeft,
+                        //                     fit: BoxFit.scaleDown,
+                        //                     child: Text(
+                        //                       'Pagado',
+                        //                       textAlign: TextAlign.center,
+                        //                       style: TextStyle(
+                        //                         color: LdColors.white,
+                        //                         fontSize: 14,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       FormBuilderFieldOption(
+                        //         value: 2,
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Container(
+                        //               height: 24,
+                        //               width: 130,
+                        //               decoration: const BoxDecoration(
+                        //                 color: LdColors.blueState,
+                        //                 borderRadius: BorderRadius.all(
+                        //                   Radius.circular(4),
+                        //                 ),
+                        //               ),
+                        //               child: Flex(
+                        //                 direction: Axis.horizontal,
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.center,
+                        //                 children: <Widget>[
+                        //                   FittedBox(
+                        //                     alignment: Alignment.centerLeft,
+                        //                     fit: BoxFit.scaleDown,
+                        //                     child: Text(
+                        //                       'Cerrado',
+                        //                       textAlign: TextAlign.center,
+                        //                       style: TextStyle(
+                        //                         color: LdColors.white,
+                        //                         fontSize: 14,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       FormBuilderFieldOption(
+                        //         value: 4,
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: <Widget>[
+                        //             Container(
+                        //               height: 24,
+                        //               width: 130,
+                        //               decoration: const BoxDecoration(
+                        //                 color: LdColors.redError,
+                        //                 borderRadius: BorderRadius.all(
+                        //                   Radius.circular(4),
+                        //                 ),
+                        //               ),
+                        //               child: Flex(
+                        //                 direction: Axis.horizontal,
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.center,
+                        //                 children: <Widget>[
+                        //                   FittedBox(
+                        //                     alignment: Alignment.centerLeft,
+                        //                     fit: BoxFit.scaleDown,
+                        //                     child: Text(
+                        //                       'Disputa',
+                        //                       textAlign: TextAlign.center,
+                        //                       style: TextStyle(
+                        //                         color: LdColors.white,
+                        //                         fontSize: 14,
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       // FormBuilderFieldOption(
+                        //       //   value: 4,
+                        //       //   child: Row(
+                        //       //     mainAxisAlignment: MainAxisAlignment.start,
+                        //       //     children: <Widget>[
+                        //       //       Container(
+                        //       //         height: 24,
+                        //       //         width: 130,
+                        //       //         decoration: const BoxDecoration(
+                        //       //           color: LdColors.yellowDark,
+                        //       //           borderRadius: BorderRadius.all(
+                        //       //             Radius.circular(4),
+                        //       //           ),
+                        //       //         ),
+                        //       //         child: Flex(
+                        //       //           direction: Axis.horizontal,
+                        //       //           mainAxisAlignment:
+                        //       //               MainAxisAlignment.center,
+                        //       //           children: <Widget>[
+                        //       //             FittedBox(
+                        //       //               alignment: Alignment.centerLeft,
+                        //       //               fit: BoxFit.scaleDown,
+                        //       //               child: Text(
+                        //       //                 'Soporte',
+                        //       //                 textAlign: TextAlign.center,
+                        //       //                 style: TextStyle(
+                        //       //                   color: LdColors.white,
+                        //       //                   fontSize: 14,
+                        //       //                 ),
+                        //       //               ),
+                        //       //             ),
+                        //       //           ],
+                        //       //         ),
+                        //       //       ),
+                        //       //     ],
+                        //       //   ),
+                        //       // ),
+                        //     ],
+                        //   ),
                         // Container(
                         //   padding: EdgeInsets.all(15),
                         //   child: CustomSliderRange(),

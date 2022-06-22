@@ -83,7 +83,7 @@ class UrlsApi {
   static const String getTypeAdvertisement =
       '/WebAdmin/TypeAdvertisement/GetAllTypeAdvertisement';
 
-  static const String getDetailAdvertisement = '/WebAdmin/Advertisement/id';
+  static const String getDetailAdvertisement = '/WebAdmin/Advertisement';
   static const String getAccountType =
       '/Configuration/ConfigurationAccountType/GetData';
   static const String getAttachFile =
@@ -124,7 +124,6 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.recoverPassword)
   Future<ResponseData<ResultRecoverPsw>> recoverNewPsw(
     @Body() BodyRecoverPsw bodyRecoverPsw,
-    @Header('Authorization') String headers,
   );
 
   //Change Psw
@@ -137,26 +136,27 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.sendPinEmail)
   Future<ResponseData<ResultPinEmail>> sendPinEmail(
     @Body() BodyPinEmail bodyPin,
-    @Header('Authorization') String headers,
+    // @Header('Authorization') String headers,
   );
 
   //Validate OTP
   @POST(UrlsApi.validateToken)
   Future<ResponseData<ResultValidatePin>> validatePin(
     @Body() BodyValidatePin bodyValidatePin,
-    @Header('Authorization') String headers,
+    // @Header('Authorization') String headers,
   );
 
   @POST(UrlsApi.createUser)
   Future<ResponseData<ResultRegister>> registerUser(
     @Body() BodyRegisterDataUser bodyRegisterDataUser,
-    @Header('Authorization') String headers,
+    // @Header('Authorization') String headers,
   );
 
   //HOME
   @POST(UrlsApi.getAllByFilters) // No necesita token
   Future<ResponseData<ResultHome>> getAdvertisment(
     @Body() BodyHome bodyHome,
+    // @Header('Authorization') String headers,
   );
 
 //Data User, Bank, Doc

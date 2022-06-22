@@ -94,10 +94,9 @@ class ServiceInteractor {
   }
 
   Future<ResponseData<ResultRecoverPsw>> requestNewPsw(
-      BodyRecoverPsw bodyRecoverPsw, String headers) async {
+      BodyRecoverPsw bodyRecoverPsw) async {
     final ResponseData<ResultRecoverPsw> response =
-        await locator<LocalDailyGatewayService>()
-            .recoverNewPsw(bodyRecoverPsw, headers);
+        await locator<LocalDailyGatewayService>().recoverNewPsw(bodyRecoverPsw);
 
     return response;
   }
@@ -139,7 +138,6 @@ class ServiceInteractor {
     String id,
     String headers,
   ) async {
-    print('${headers.toString()} @@@');
     final ResponseData<ResultDataUser> response =
         await locator<LocalDailyGatewayService>().getUserId(id, headers);
 
@@ -148,21 +146,17 @@ class ServiceInteractor {
 
   Future<ResponseData<ResultPinEmail>> requestPinValidateEmail(
     BodyPinEmail bodyPin,
-    String headers,
   ) async {
     final ResponseData<ResultPinEmail> response =
-        await locator<LocalDailyGatewayService>()
-            .sendPinEmail(bodyPin, headers);
+        await locator<LocalDailyGatewayService>().sendPinEmail(bodyPin);
     return response;
   }
 
   Future<ResponseData<ResultValidatePin>> validatePin(
     BodyValidatePin bodyValidatePin,
-    String headers,
   ) async {
     final ResponseData<ResultValidatePin> response =
-        await locator<LocalDailyGatewayService>()
-            .validatePin(bodyValidatePin, headers);
+        await locator<LocalDailyGatewayService>().validatePin(bodyValidatePin);
     return response;
   }
 
@@ -177,11 +171,10 @@ class ServiceInteractor {
 
   Future<ResponseData<ResultRegister>> postRegisterUser(
     BodyRegisterDataUser bodyRegisterUser,
-    String headers,
   ) async {
     final ResponseData<ResultRegister> response =
         await locator<LocalDailyGatewayService>()
-            .registerUser(bodyRegisterUser, headers);
+            .registerUser(bodyRegisterUser);
 
     return response;
   }
