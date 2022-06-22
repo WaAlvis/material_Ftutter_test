@@ -18,7 +18,7 @@ class HistoryMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
-    const double hAppbar = 150;
+    const double hAppbar = 120;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(

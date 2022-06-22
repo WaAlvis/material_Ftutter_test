@@ -8,7 +8,7 @@ class _SupportCasesMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double hAppbar = 100;
+    const double hAppbar = 120;
     final Size size = MediaQuery.of(context).size;
 
     final SupportCasesViewModel viewModel =
@@ -16,69 +16,88 @@ class _SupportCasesMobile extends StatelessWidget {
     final DataUserProvider userProvider = context.read<DataUserProvider>();
     final List<BodyContactSupport> items =
         viewModel.status.resultSupportCases.data;
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      appBar: const LdAppbar(title: 'Servicio al cliente'),
+      // appBar: const LdAppbar(title: 'Servicio al cliente'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const AppbarCircles(hAppbar: hAppbar),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                height: size.height - hAppbar,
-                constraints: BoxConstraints(
-                  minHeight: size.height - hAppbar,
-                  maxHeight: size.height - hAppbar,
+          AppBarBigger(
+            title: 'Servicio al cliente',
+            hAppbar: hAppbar,
+            textTheme: textTheme,
+          ),
+          // const AppbarCircles(hAppbar: hAppbar),
+          Container(
+            height: size.height - hAppbar,
+            constraints: BoxConstraints(
+              minHeight: size.height - hAppbar,
+              maxHeight: size.height - hAppbar,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
+            decoration: const BoxDecoration(
+              color: LdColors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(25),
+              ),
+            ),
+            child: RefreshIndicator(
+              color: LdColors.orangePrimary,
+              onRefresh: () async {
+                await viewModel.getData(
+                  userProvider.getDataUserLogged?.id ?? '',
+                  context,
+                  refresh: true,
+                );
+              },
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
-                padding: const EdgeInsets.all(18.0),
-                decoration: const BoxDecoration(
-                  color: LdColors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25),
-                  ),
-                ),
-                child: RefreshIndicator(
-                  color: LdColors.orangePrimary,
-                  onRefresh: () async {
-                    await viewModel.getData(
-                      userProvider.getDataUserLogged?.id ?? '',
-                      context,
-                      refresh: true,
+                shrinkWrap: items.isEmpty,
+                itemCount: viewModel.status.isLoading
+                    ? 10
+                    : items.isEmpty
+                        ? 100
+                        : items.length,
+                controller: supportScrollCtrl,
+                itemBuilder:
+                    (BuildContext context, int index) {
+                List<BodyContactSupport> fadeItems=  List.generate(100, (index) {
+                  return
+                    BodyContactSupport(
+                      idSupportStatus: '200',
+                      idUserPublish: 'idUserPublish',
+                      description: 'description',
+                      idSupportType: 'idSupportType',
+                      idAdvertisement: 'idAdvertisement',
+                      emailUserPublish: 'emailUserPublish',
                     );
-                  },
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
-                    shrinkWrap: items.isEmpty,
-                    itemCount: viewModel.status.isLoading
-                        ? 10
-                        : items.isEmpty
-                            ? 1
-                            : items.length,
-                    controller: supportScrollCtrl,
-                    itemBuilder: (BuildContext context, int index) {
-                      return viewModel.status.isLoading
-                          ? Shimmer.fromColors(
-                              baseColor: LdColors.whiteDark,
-                              highlightColor: LdColors.grayButton,
-                              child: const Card(
-                                margin: EdgeInsets.all(10),
-                                child: SizedBox(height: 100),
-                              ),
-                            )
-                          : items.isEmpty
-                              ? const IntrinsicHeight(
-                                  child: _EmptySupportCases(),
-                                )
-                              : _SupportCaseCard(item: items[index]);
-                    },
-                  ),
-                ),
+                  });
+                  return viewModel.status.isLoading
+                      ?
+
+                  Shimmer.fromColors(
+                          baseColor: LdColors.whiteDark,
+                          highlightColor: LdColors.grayButton,
+                          child: const Card(
+                            margin: EdgeInsets.all(10),
+                            child: SizedBox(height: 100),
+                          ),
+                        )
+                      :
+                  _SupportCaseCard(item: fadeItems[index] );
+                  // items.isEmpty
+                  //         ? const IntrinsicHeight(
+                  //             child: _EmptySupportCases(),
+                  //           )
+                  //         : _SupportCaseCard(item: items[index]);
+                },
               ),
             ),
           )

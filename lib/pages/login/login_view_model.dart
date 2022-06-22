@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
@@ -111,6 +112,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
     final BodyLogin bodyLogin = BodyLogin(
       identity: email,
       password: pass256,
+      // password: '',
       signature:
           'T2CswFciHcSgFxh8LKRYLuz2dqwuzSCWnat/KRxACqdJhr3aLJBWObPmVyUaE6xtpAca+F1r0F06M4eh2pv6IOUcQueMO7+IRq8Kym8Py48Exu13nOcMkJhoz+o5+alZz7wuHLaAE822PCdnMkEls651+DimZ9qe16SpYVyoisU+P16jUkWBNZ/YVP3xLSNn5yUUK9paYyrKkvviNhlUKcBK0ptu5BS8edadgTXs5PRvYOP7wNp/y8RGgXRfnvNEh6as2xjjvizhEIC0GLywT9MYt/VDCXHZDk+8mpN7wVv6qn6MHEzZw6Gw1q5ObxlGTn67Ap48GjHicLYb1w5fGw==',
       wearableId: 'd9b1289a-ae98-4e86-a145-ac046a8bd5be',
@@ -129,6 +131,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
             dataUserProvider.setDataUserLogged(
               response.result,
             );
+            dataUserProvider.setNickName(response.result!.nickName);
             _route.goHome(context);
           } else {
             addEffect(ShowErrorSnackbar('Error al obtener informacion'));
@@ -139,17 +142,32 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
           status = status.copyWith(isLoading: false);
         });
       } else {
-        addEffect(ShowErrorSnackbar('Usuario o contraseña incorrectos'));
+        status = status.copyWith(isLoading: false);
         final String attemps = response.error!.info['attemps'] as String;
         if (int.parse(attemps) == 3) {
+          final String timeLocked = response.error!.info['timeUnlock'] as String;
+          status =status.copyWith(timeUnlockUser: _timeUnlockUser( timeLocked),);
           addEffect(DialogFailAttempsLogin());
+          addEffect(ShowErrorSnackbar('Bloqueo temporal del Usuario'));
+
+          return;
         }
+        addEffect(ShowErrorSnackbar('Usuario o contraseña incorrectos'));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((dynamic err) {
       addEffect(ShowErrorSnackbar('Error en el servicio**'));
       status = status.copyWith(isLoading: false);
     });
+  }
+
+  String _timeUnlockUser (String timeLock){
+    final int halfHour = (Duration.millisecondsPerHour * 0.5).toInt();
+    final int timeLocked = int.parse(timeLock);
+    final int unlockTime = halfHour + timeLocked;
+    final DateTime dt = DateTime.fromMillisecondsSinceEpoch(unlockTime);
+    final String d12TimeUnlock = DateFormat('hh:mm a').format(dt);
+    return d12TimeUnlock;
   }
 
   Digest encryptPass(String pass) {

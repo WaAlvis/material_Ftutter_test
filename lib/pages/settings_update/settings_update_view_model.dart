@@ -7,9 +7,12 @@ import 'package:localdaily/pages/settings_update/ui/settings_update_view.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/token_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/update_data_user/body_new_data_user.dart';
+import 'package:localdaily/services/models/update_data_user/result_change_data_user.dart';
 import 'package:localdaily/view_model.dart';
 
 // import 'settings_status.dart';
@@ -68,35 +71,14 @@ class SettingsUpdateViewModel
     status = status.copyWith(isLoading: true);
     final ResultDataUser dataUser = dataUserProvider.getDataUserLogged!;
 
-    final ResultDataUser newDataUser = ResultDataUser(
-      id: dataUser.id,
-      nickName: newNickName,
-      firstName: dataUser.firstName,
-      secondName: dataUser.secondName,
-      firstLastName: dataUser.firstLastName,
-      secondLastName: dataUser.secondLastName,
-      dateBirth: dataUser.dateBirth,
-      email: dataUser.email,
-      phone: dataUser.phone,
-      userTypeId: dataUser.userTypeId,
-      //TODO psw 12345678
-      password:
-          'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f',
-      isActive: dataUser.isActive,
-      addressWallet: dataUser.addressWallet,
-      dateTimeCreate: dataUser.dateTimeCreate,
-      rateSeller: dataUser.rateSeller,
-      rateBuyer: dataUser.rateBuyer,
-      isCorporative: dataUser.isCorporative,
-      indicative: dataUser.indicative,
-    );
+    final BodyNewDataUser bodyNewNick = BodyNewDataUser(id: dataUser.id, newValue: newNickName);
     final TokenLogin token = dataUserProvider.getTokenLogin!;
     _interactor
-        .updateDataUser(newDataUser, 'Bearer ${token.token}')
-        .then((ResponseData<ResultDataUser> response) {
+        .updateDataUser(bodyNewNick, 'Bearer ${token.token}')
+        .then((ResponseData<ResultChangeDataUser> response) {
       if (response.isSuccess) {
-        dataUserProvider.setDataUserLogged(
-          response.result,
+        dataUserProvider.setNickName(
+            newNickName,
         );
         Navigator.pop(context);
       } else {
@@ -106,6 +88,7 @@ class SettingsUpdateViewModel
 
       status = status.copyWith(isLoading: false);
     }).catchError((dynamic err) {
+      print('@@@ $err');
       // addEffect(ShowErrorSnackbar('Error en el servicio**'));
       status = status.copyWith(isLoading: false);
     });
