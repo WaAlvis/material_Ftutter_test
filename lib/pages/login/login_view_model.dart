@@ -161,6 +161,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
             .getUserById(idUser, 'Bearer ${token!.token}')
             .then((ResponseData<ResultDataUser> response) {
           if (response.isSuccess) {
+            dataUserProvider.setNickName(response.result!.nickName);
             dataUserProvider.setDataUserLogged(
               response.result,
             );
