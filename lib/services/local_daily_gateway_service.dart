@@ -47,8 +47,11 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
 import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
+import 'package:localdaily/services/models/update_data_user/result_change_data_user.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:retrofit/http.dart';
+
+import 'models/update_data_user/body_new_data_user.dart';
 
 part 'local_daily_gateway_service.g.dart';
 
@@ -62,6 +65,7 @@ class UrlsApi {
   static const String dataUser = '/User/User/GetById';
   static const String getBanks = '/Configuration/ConfigurationBank/GetData';
   static const String updateStatusAdv = '/WebAdmin/Advertisement/UpdateStatus';
+  static const String updateDataUser = '/User/User/ChangeUserNickname';
   static const String getHistoryOperationsUser =
       '/WebAdmin/Advertisement/GetHistoryAvertisementUser';
   static const String getDocsType =
@@ -124,6 +128,7 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.recoverPassword)
   Future<ResponseData<ResultRecoverPsw>> recoverNewPsw(
     @Body() BodyRecoverPsw bodyRecoverPsw,
+    // @Header('Authorization') String headers,
   );
 
   //Change Psw
@@ -198,6 +203,12 @@ abstract class LocalDailyGatewayService {
   @PUT(UrlsApi.updateStatusAdv)
   Future<ResponseData<ResultUpdateStatus>> updateStatusAdv(
     @Body() BodyUpdateStatus bodyCreateSmartContract,
+    @Header('Authorization') String headers,
+  );
+
+  @POST(UrlsApi.updateDataUser)
+  Future<ResponseData<ResultChangeDataUser>> updateDataUser(
+    @Body() BodyNewDataUser newDataUser,
     @Header('Authorization') String headers,
   );
 

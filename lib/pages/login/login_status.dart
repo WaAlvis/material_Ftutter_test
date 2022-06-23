@@ -7,6 +7,7 @@ class LoginStatus extends ViewStatus {
   final bool isEmailFieldEmpty;
   final bool isPswFieldEmpty;
   final bool isBio;
+  final String? timeUnlockUser;
 
   LoginStatus({
     required this.isLoading,
@@ -15,6 +16,7 @@ class LoginStatus extends ViewStatus {
     required this.isEmailFieldEmpty,
     required this.isPswFieldEmpty,
     required this.isBio,
+    this.timeUnlockUser,
   });
 
   LoginStatus copyWith({
@@ -24,6 +26,7 @@ class LoginStatus extends ViewStatus {
     bool? isEmailFieldEmpty,
     bool? isPswFieldEmpty,
     bool? isBio,
+    String? timeUnlockUser,
   }) {
     return LoginStatus(
       isPswFieldEmpty: isPswFieldEmpty ?? this.isPswFieldEmpty,
@@ -32,6 +35,7 @@ class LoginStatus extends ViewStatus {
       isError: isError ?? this.isError,
       hidePass: hidePass ?? this.hidePass,
       isBio: isBio ?? this.isBio,
+      timeUnlockUser: timeUnlockUser ?? this.timeUnlockUser,
     );
   }
 }

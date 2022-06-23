@@ -34,6 +34,13 @@ class DataUserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String? _nickName;
+  String? get getNickName => _nickName;
+  void setNickName(String? newNick) {
+    _nickName = newNick;
+    notifyListeners();
+  }
+
   // --- Objetos para almacenar datos temporalmente, se usan con DailyConnect ---
 
   BodyOffer? _bodyOffer;

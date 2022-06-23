@@ -10,9 +10,13 @@ import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/detail_support/detail_support_effect.dart';
 import 'package:localdaily/pages/detail_support/detail_support_view_model.dart';
+import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:localdaily/widgets/app_bar_bigger.dart';
+import 'package:localdaily/widgets/input_text_custom.dart';
+import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
@@ -94,8 +98,7 @@ class _DetailSupportBodyState extends State<_DetailSupportBody> {
                   ? DetailSupportWeb(
                       keyForm: keyForm,
                     )
-                  : DetailSupportMobile(
-                      keyForm: keyForm,
+                  : DetailSupportMobile(keyForm: keyForm,
                       // scrollCtrl: _scrollCtrl,
                     ),
             )

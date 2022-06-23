@@ -392,7 +392,9 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    viewModel.status.resultDataUser?.nickName ?? 'Sin Usuario',
+
+                    dataUserProvider.getNickName ??
+                        'Sin Usuario',
                     style: textTheme.textBigBlack
                         .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),

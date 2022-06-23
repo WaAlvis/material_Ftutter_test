@@ -91,9 +91,8 @@ class RecoverPswViewModel
       signature: '',
       codeLang: 'es',
     );
-    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
-    final token = dataUserProvider.getTokenLogin;
     _interactor
         .requestNewPsw(
       bodyRecoverPsw,

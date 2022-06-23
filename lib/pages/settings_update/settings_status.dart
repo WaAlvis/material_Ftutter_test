@@ -5,24 +5,24 @@ import 'package:localdaily/view_model.dart';
 class SettingsUpdateStatus extends ViewStatus {
   final bool isLoading;
   final bool isError;
-  final Language currentLanguage;
+  final bool isNickNameFieldEmpty;
 
   SettingsUpdateStatus({
     required this.isLoading,
-    required this.currentLanguage,
     required this.isError,
+    required this.isNickNameFieldEmpty,
   });
 
   SettingsUpdateStatus copyWith(
       {bool? isLoading,
-      Language? currentLanguage,
+      bool? isNickNameFieldEmpty,
       bool? isError,
       bool? isLoadingOperations,
       bool? allLoaded}) {
     return SettingsUpdateStatus(
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
-      currentLanguage: currentLanguage ?? this.currentLanguage,
+      isNickNameFieldEmpty: isNickNameFieldEmpty ?? this.isNickNameFieldEmpty,
     );
   }
 }

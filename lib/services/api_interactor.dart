@@ -49,6 +49,8 @@ import 'package:localdaily/services/models/register/validate_pin/result_validate
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
 import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
+import 'package:localdaily/services/models/update_data_user/body_new_data_user.dart';
+import 'package:localdaily/services/models/update_data_user/result_change_data_user.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
 
 class ServiceInteractor {
@@ -89,6 +91,17 @@ class ServiceInteractor {
   Future<ResponseData<ResultLogin>> postLogin(BodyLogin bodyLogin) async {
     final ResponseData<ResultLogin> response =
         await locator<LocalDailyGatewayService>().loginUser(bodyLogin);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultChangeDataUser>> updateDataUser(
+    BodyNewDataUser newDataUser,
+    String headers,
+  ) async {
+    final ResponseData<ResultChangeDataUser> response =
+        await locator<LocalDailyGatewayService>()
+            .updateDataUser(newDataUser, headers);
 
     return response;
   }
