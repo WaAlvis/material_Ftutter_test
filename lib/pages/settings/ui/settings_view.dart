@@ -12,6 +12,9 @@ import 'package:localdaily/pages/settings/settings_effect.dart';
 import 'package:localdaily/pages/settings/settings_view_model.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:localdaily/widgets/app_bar_bigger.dart';
+import 'package:localdaily/widgets/appbar_circles.dart';
+import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 

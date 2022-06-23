@@ -21,6 +21,7 @@ import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
+import 'package:localdaily/services/models/update_data_user/result_change_data_user.dart';
 
 class LdConverter<T> implements JsonConverter<T, Object?> {
   const LdConverter();
@@ -78,6 +79,8 @@ class LdConverter<T> implements JsonConverter<T, Object?> {
         return ResultSupportCases.fromJson(json) as T;
       } else if ('$T' == '$ResultChangePsw?' || T == ResultChangePsw) {
         return ResultChangePsw.fromJson(json) as T;
+      }else if ('$T' == '$ResultChangeDataUser?' || T == ResultChangeDataUser) {
+        return ResultChangeDataUser.fromJson(json) as T;
       }
     }
     return json as T;

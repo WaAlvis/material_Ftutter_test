@@ -8,7 +8,9 @@ import 'package:localdaily/pages/support_cases/support_cases_status.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/contact_support/body_contact_support.dart';
+import 'package:localdaily/services/models/login/token_login.dart';
 import 'package:localdaily/services/models/pagination.dart';
+import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/services/models/support_cases/body_support_cases.dart';
 import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/view_model.dart';
@@ -86,18 +88,17 @@ class SupportCasesViewModel
       currentPage: currentPage,
       itemsPerPage: itemsPerPage,
     );
-    final BodySupportCases body =
+    final BodySupportCases bodySupportCases =
         BodySupportCases(filters: filters, pagination: pagination);
 
     try {
       final DataUserProvider dataUserProvider =
           context.read<DataUserProvider>();
 
-      final token = dataUserProvider.getTokenLogin;
-      print('${token!.toJson()} @@@');
+      final TokenLogin token = dataUserProvider.getTokenLogin!;
       await _interactor
-          .getSupportCases(body, 'Bearer ${token!.token}')
-          .then((response) {
+          .getSupportCases(bodySupportCases, 'Bearer ${token!.token}')
+          .then((ResponseData<ResultSupportCases> response) {
         status = status.copyWith(isLoading: false);
         if (response.isSuccess) {
           final List<BodyContactSupport> data = <BodyContactSupport>[

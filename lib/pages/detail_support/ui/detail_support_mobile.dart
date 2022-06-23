@@ -1,24 +1,27 @@
 part of 'detail_support_view.dart';
 
 class DetailSupportMobile extends StatelessWidget {
-  const DetailSupportMobile({
-    Key? key,
-    required this.keyForm,
+  const DetailSupportMobile(
+      // this.nickNameCtrl,
+      {
+        Key? key,
+        required this.keyForm,
 
-    // required this.scrollCtrl,
-  }) : super(key: key);
+        // required this.scrollCtrl,
+      }) : super(key: key);
   final GlobalKey<FormState> keyForm;
 
-  // final ScrollController scrollCtrl;
+  // final TextEditingController nickNameCtrl;
 
   @override
   Widget build(BuildContext context) {
     final DetailSupportViewModel viewModel =
-        context.watch<DetailSupportViewModel>();
+    context.watch<DetailSupportViewModel>();
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
-    const double hAppbar = 150;
+    const double hAppbar = 120;
     final double hBody = size.height - hAppbar;
 
     return Scaffold(
@@ -26,112 +29,94 @@ class DetailSupportMobile extends StatelessWidget {
       backgroundColor: LdColors.blackBackground,
       body: Column(
         children: <Widget>[
-          Container(
-            width: size.width,
-            color: LdColors.blackBackground,
-            child: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: <Widget>[
-                // Esto es el circulo, ideal volverlo widget
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    // El tamaño depende del tamaño de la pantalla
-                    width: (size.width) / 4,
-                    height: (size.width) / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 2 / 4,
-                    height: (size.width) * 2 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: SizedBox(
-                    width: (size.width) * 3 / 4,
-                    height: (size.width) * 3 / 4,
-                    child: QuarterCircle(
-                      circleAlignment: CircleAlignment.bottomRight,
-                      color: LdColors.grayLight.withOpacity(0.05),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: hAppbar,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 12.0,
-                      right: 12.0,
-                      top: 30,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () => viewModel.goBack(context),
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: LdColors.white,
-                          ),
-                        ),
-                        Text(
-                          'Detalles del caso de soporte',
-                          style: textTheme.textBigWhite,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.transparent,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          AppBarBigger(
+            title: 'Detalles del caso',
+            hAppbar: hAppbar,
+            textTheme: textTheme,
           ),
-          SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 40,
-              ),
-              width: size.width,
-              constraints: BoxConstraints(minHeight: hBody),
-              decoration: const BoxDecoration(
-                color: LdColors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 30,
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _rowOptionSetting(
-                    textTheme,
-                    viewModel,
-                    LdAssets.pswBlack,
-                    onTap: () => viewModel.goChangePsw(context),
-                    title: 'Contraseña',
-                    subtitle: 'Cambia tu contraseña de acceso',
-                    sizeIconSvg: 42,
+                width: size.width,
+                constraints: BoxConstraints(minHeight: hBody),
+                decoration: const BoxDecoration(
+                  color: LdColors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25),
                   ),
-                  _dividerOptions(),
-                ],
+                ),
+                child: Form(
+                  key: keyForm,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      //TODO implement detail suport case
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text(
+                              'Cambiar Informacion',
+                              style: textTheme.textBlack.copyWith(
+                                // color: LdColors.orangeWarning,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              'Cambien su nombre de usuario',
+                              style: textTheme.textBlack.copyWith(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      InputTextCustom(
+                        'Nombre de usuario  *',
+                        hintText: 'Ingresa tu nuevo Nickname ',
+                        // controller: nickNameCtrl,
+                        // onChange: (String value) =>
+                        //     viewModel.changeNickName(value),
+                        // changeFillWith: !viewModel.status.isNickNameFieldEmpty,
+                        textInputAction: TextInputAction.next,
+                        maxLength: 40,
+                        counterText: '',
+                        // validator: (String? str) =>
+                        //     viewModel.validatorNickName(str),
+                        // inputFormatters: <TextInputFormatter>[
+                        //   FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
+                        // ],
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      PrimaryButtonCustom(
+                        'Actualizar',
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          if (keyForm.currentState!.validate()) {
+                            // viewModel.changeDataUser(
+                            //   context,
+                            //   nickNameCtrl.text,
+                            //   dataUserProvider,
+                            // );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -139,117 +124,5 @@ class DetailSupportMobile extends StatelessWidget {
       ),
     );
   }
-
-  Widget _dividerOptions() {
-    return const Divider(
-      height: 80,
-      endIndent: 0,
-      thickness: 1.5,
-      // color: Colors.black,
-    );
-  }
-
-  Widget _rowOptionSetting(
-    TextTheme textTheme,
-    DetailSupportViewModel viewModel,
-    String iconLdAsset, {
-    required String title,
-    required String subtitle,
-    double? sizeIconSvg = 30,
-    bool optionLanguage = false,
-    bool arrowIcon = true,
-    void Function()? onTap,
-  }) {
-    final TextStyle styleTextLan = textTheme.textSmallBlack;
-    return Column(
-      children: <Widget>[
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: SizedBox(
-            height: sizeIconSvg,
-            child: SvgPicture.asset(iconLdAsset),
-          ),
-          trailing: SizedBox(
-            height: 40,
-            child: FloatingActionButton(
-              elevation: 0,
-              backgroundColor:
-                  arrowIcon ? LdColors.orangePrimary : Colors.transparent,
-              onPressed: onTap,
-              child: const Icon(
-                Icons.arrow_forward_rounded,
-                size: 20,
-              ),
-            ),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                style: textTheme.subtitleBlack
-                    .copyWith(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  subtitle,
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (optionLanguage)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            // direction: Axis.horizontal,
-            children: <Widget>[
-              Flexible(
-                child: ListTile(
-                  horizontalTitleGap: 0,
-                  title: Text(
-                    'Español',
-                    style: styleTextLan,
-                    textAlign: TextAlign.end,
-                  ),
-                  contentPadding: EdgeInsets.zero,
-                  trailing: Radio<Language>(
-                    activeColor: LdColors.orangePrimary,
-                    value: Language.spanish,
-                    groupValue: viewModel.status.currentLanguage,
-                    onChanged: (Language? value) {
-                      viewModel.changeLanguage(value);
-                    },
-                  ),
-                ),
-              ),
-              Flexible(
-                child: ListTile(
-                  contentPadding: const EdgeInsets.only(right: 50),
-                  horizontalTitleGap: 0,
-                  title: Text(
-                    'Inglés',
-                    style: styleTextLan,
-                    textAlign: TextAlign.end,
-                  ),
-                  trailing: Radio<Language>(
-                    activeColor: LdColors.orangePrimary,
-                    value: Language.english,
-                    groupValue: viewModel.status.currentLanguage,
-                    onChanged: (Language? value) {
-                      viewModel.changeLanguage(value);
-                    },
-                  ),
-                ),
-              ),
-            ],
-          )
-      ],
-    );
-  }
 }
 
-enum Language { spanish, english }

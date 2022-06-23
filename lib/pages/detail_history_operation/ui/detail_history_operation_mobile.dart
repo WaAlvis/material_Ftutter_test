@@ -21,7 +21,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
 
-    const double hAppbar = 150;
+    const double hAppbar = 120;
     final double hBody = size.height - hAppbar;
     final TextStyle styleGrayText = textTheme.textGray.copyWith(fontSize: 14);
     final bool isBuying =
@@ -30,13 +30,18 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
-      appBar: const LdAppbar(
-        title: 'Detalle',
-        withBackIcon: true,
-      ),
+      // appBar: const LdAppbar(
+      //   title: 'Detalle',
+      //   withBackIcon: true,
+      // ),
       body: Column(
         children: <Widget>[
-          const AppbarCircles(hAppbar: hAppbar),
+          AppBarBigger(
+            title: 'Detalles operacion',
+            hAppbar: hAppbar,
+            textTheme: textTheme,
+          ),
+
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -54,9 +59,9 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    _operationType(textTheme, viewModel, dataUserProvider,
-                        styleGrayText, isBuying),
-                    RowInfoPartner(
+                    _OperationType(textTheme, viewModel, dataUserProvider,
+                        styleGrayText, isBuying, item),
+                    _RowInfoPartner(
                       textTheme,
                       viewModel,
                       styleGrayText,
@@ -98,50 +103,15 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                       viewModel,
                       textTheme,
                     ),
+
                   ],
                 ),
               ),
             ),
           ),
+
         ],
       ),
-    );
-  }
-
-  Column _operationType(
-    TextTheme textTheme,
-    DetailHistoryOperationViewModel viewModel,
-    DataUserProvider dataUserProvider,
-    TextStyle styleGrayText,
-    bool isBuying,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        if (isBuying)
-          Text(
-            'Venta de DLYCOP',
-            style: textTheme.textBlack.copyWith(
-              color: LdColors.orangeWarning,
-              fontWeight: FontWeight.w700,
-            ),
-          )
-        else
-          Text(
-            'Compra de DLYCOP',
-            style: textTheme.textBlack.copyWith(
-              color: LdColors.green,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          '# referencia: ${item.advertisement.reference}',
-          style: styleGrayText,
-        ),
-      ],
     );
   }
 
@@ -241,8 +211,8 @@ class DetailHistoryOperationMobile extends StatelessWidget {
   }
 }
 
-class RowInfoPartner extends StatelessWidget {
-  const RowInfoPartner(
+class _RowInfoPartner extends StatelessWidget {
+  const _RowInfoPartner(
     this.textTheme,
     this.viewModel,
     this.styleGrayText, {
@@ -370,5 +340,55 @@ class RowInfoPartner extends StatelessWidget {
     );
   }
 }
+
+class _OperationType extends StatelessWidget {
+  const _OperationType(
+  this.textTheme,
+  this.viewModel,
+  this.dataUserProvider,
+  this.styleGrayText,
+  this.isBuying, this.item);
+
+  final DataUserAdvertisement item;
+  final TextTheme textTheme;
+  final DetailHistoryOperationViewModel viewModel;
+  final DataUserProvider dataUserProvider;
+  final TextStyle styleGrayText;
+  final bool isBuying;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        if (isBuying)
+          Text(
+            'Venta de DLYCOP',
+            style: textTheme.textBlack.copyWith(
+              color: LdColors.orangeWarning,
+              fontWeight: FontWeight.w700,
+            ),
+          )
+        else
+          Text(
+            'Compra de DLYCOP',
+            style: textTheme.textBlack.copyWith(
+              color: LdColors.green,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        const SizedBox(
+          height: 8,
+        ),
+        Text(
+          '# referencia: ${item.advertisement.reference}',
+          style: styleGrayText,
+        ),
+      ],
+    );
+
+  }
+}
+
 
 enum _TypeMoney { dlycop, cop }

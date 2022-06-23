@@ -24,7 +24,6 @@ class DetailSupportViewModel
     status = DetailSupportStatus(
       isLoading: true,
       isError: false,
-      currentLanguage: Language.spanish,
     );
   }
 
@@ -34,27 +33,15 @@ class DetailSupportViewModel
     _route.pop(context);
   }
 
-  void changeLanguage(Language? value) {
-    status = status.copyWith(currentLanguage: value);
-  }
 
-  void goChangePsw(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
-      if (isConnectionValid) {
-        _route.goChangePsw(context);
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
 
-  void goDirectionWallet(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
-      if (isConnectionValid) {
-        // _route.goDitectionWallet(context);
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
+  // void goDirectionWallet(BuildContext context) {
+  //   LdConnection.validateConnection().then((bool isConnectionValid) {
+  //     if (isConnectionValid) {
+  //       // _route.goDitectionWallet(context);
+  //     } else {
+  //       addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+  //     }
+  //   });
+  // }
 }
