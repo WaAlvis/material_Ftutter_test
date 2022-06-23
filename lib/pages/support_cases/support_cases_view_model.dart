@@ -95,7 +95,8 @@ class SupportCasesViewModel
       final DataUserProvider dataUserProvider =
           context.read<DataUserProvider>();
 
-      final TokenLogin token = dataUserProvider.getTokenLogin!;
+      final token = dataUserProvider.getTokenLogin;
+
       await _interactor
           .getSupportCases(bodySupportCases, 'Bearer ${token!.token}')
           .then((ResponseData<ResultSupportCases> response) {

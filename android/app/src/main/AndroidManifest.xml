@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.elbit.localp2p">
      <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <application
         android:label="localdaily"
         android:icon="@mipmap/ic_launcher">

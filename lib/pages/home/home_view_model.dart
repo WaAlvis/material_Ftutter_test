@@ -660,6 +660,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     );
     // Solicitud al servicio
     try {
+      // print('@@@ ${status.extraFiltersString}');
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {

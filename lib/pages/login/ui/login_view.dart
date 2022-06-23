@@ -70,7 +70,7 @@ class _LoginBodyState extends State<_LoginBody> {
     final LoginViewModel viewModel = context.read<LoginViewModel>();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<LoginViewModel>().onInit();
+      context.read<LoginViewModel>().onInit(context: context);
     });
 
     _effectSubscription = viewModel.effects.listen((LoginEffect event) async {

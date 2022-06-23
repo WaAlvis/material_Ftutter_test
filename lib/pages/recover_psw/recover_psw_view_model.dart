@@ -94,7 +94,9 @@ class RecoverPswViewModel
     // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     _interactor
-        .requestNewPsw(bodyRecoverPsw,)
+        .requestNewPsw(
+      bodyRecoverPsw,
+    )
         .then((ResponseData<ResultRecoverPsw> response) {
       if (response.isSuccess) {
         addEffect(ShowSuccessSnackbar('Nueva contraseña enviada'));

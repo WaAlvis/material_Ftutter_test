@@ -216,7 +216,7 @@ class RegisterViewModel
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     final token = dataUserProvider.getTokenLogin;
-    _interactor.validatePin(bodyValidatePin, 'Bearer ${token!.token}').then((
+    _interactor.validatePin(bodyValidatePin).then((
       ResponseData<ResultValidatePin> response,
     ) {
       if (response.isSuccess) {
@@ -256,9 +256,7 @@ class RegisterViewModel
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
 
     final token = dataUserProvider.getTokenLogin;
-    _interactor
-        .requestPinValidateEmail(bodyPinEmail, 'Bearer ${token!.token}')
-        .then((
+    _interactor.requestPinValidateEmail(bodyPinEmail).then((
       ResponseData<ResultPinEmail> response,
     ) {
       if (response.isSuccess) {
@@ -400,7 +398,7 @@ class RegisterViewModel
     );
     final token = dataUserProvider.getTokenLogin;
     _interactor
-        .postRegisterUser(bodyRegister, 'Bearer ${token!.token}')
+        .postRegisterUser(bodyRegister)
         .then((ResponseData<ResultRegister> response) {
       if (response.isSuccess) {
         final String idUser = response.result!.id;

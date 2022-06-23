@@ -19,6 +19,7 @@ class CardDetailPay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int timeLimit = item.expiredDate;
     Color _color = LdColors.orangePrimary;
     String _comprobante = LdAssets.comprobante3;
     String _title1 = '';
@@ -228,7 +229,8 @@ class CardDetailPay extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            if (state == 'Pagado')
+            if (state == 'Pagado' &&
+                viewModel.status.listAdvertisementDoc.isNotEmpty)
               PrimaryButtonCustom(
                 'Solicitar disputa',
                 colorButton: LdColors.white,

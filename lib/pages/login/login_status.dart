@@ -6,6 +6,7 @@ class LoginStatus extends ViewStatus {
   final bool isError;
   final bool isEmailFieldEmpty;
   final bool isPswFieldEmpty;
+  final bool isBio;
   final String? timeUnlockUser;
 
   LoginStatus({
@@ -14,6 +15,7 @@ class LoginStatus extends ViewStatus {
     required this.hidePass,
     required this.isEmailFieldEmpty,
     required this.isPswFieldEmpty,
+    required this.isBio,
     this.timeUnlockUser,
   });
 
@@ -23,6 +25,7 @@ class LoginStatus extends ViewStatus {
     bool? hidePass,
     bool? isEmailFieldEmpty,
     bool? isPswFieldEmpty,
+    bool? isBio,
     String? timeUnlockUser,
   }) {
     return LoginStatus(
@@ -31,8 +34,8 @@ class LoginStatus extends ViewStatus {
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
       hidePass: hidePass ?? this.hidePass,
+      isBio: isBio ?? this.isBio,
       timeUnlockUser: timeUnlockUser ?? this.timeUnlockUser,
     );
-
   }
 }

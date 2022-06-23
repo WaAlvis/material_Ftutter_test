@@ -81,7 +81,7 @@ class _ContactSupportBodyState extends State<ContactSupportBody> {
           viewModel.createContactSupport(
             userProvider.getDataUserLogged!.email,
             userProvider.getDataUserLogged!.id,
-            false,
+            viewModel.status.isDisputa,
             context,
             configurationProvider.getResultSupportType,
           );

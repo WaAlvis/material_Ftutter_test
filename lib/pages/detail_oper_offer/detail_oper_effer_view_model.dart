@@ -209,7 +209,7 @@ class DetailOperOfferViewModel
           ShowSnackbarErrorEffect('Error desconocdio $e'),
         ); //cambiar mensaje
       }
-      status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);
+      // status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);
     } else {
       status = status.copyWith(isLoading: false);
 
@@ -487,7 +487,8 @@ class DetailOperOfferViewModel
   }
 
   void goProfile(BuildContext context) {
-    _router.goProfileSeller(context, status.item!.idUserPublish, 'En proceso');
+    _router.goProfileSeller(context, status.item!.idUserPublish,
+        status.isBuy ? 'Vendedor' : 'Comprador');
   }
 
   void openRateSeller(
