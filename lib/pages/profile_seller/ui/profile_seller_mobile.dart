@@ -34,21 +34,28 @@ class _ProfileSellerMobile extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: LdColors.blackBackground,
-        appBar: const LdAppbar(
-          title: 'Perfil del comprador',
-        ),
         body: SingleChildScrollView(
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const AppbarCircles(
+              AppBarBigger(
+                topPaddingTitle: 50,
                 hAppbar: hAppbar,
+                textTheme: textTheme,
+                title: 'Perfil del usuario',
               ),
               Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
                 children: <Widget>[
                   Container(
+                    constraints: BoxConstraints(minHeight: hBody),
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 16,
+                      right: 16,
+                      bottom: 20,
+                    ),
                     width: size.width,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -57,79 +64,60 @@ class _ProfileSellerMobile extends StatelessWidget {
                         topRight: Radius.circular(12),
                       ),
                     ),
-                    child: Container(
-                      constraints: BoxConstraints(maxHeight: hBody),
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        left: 16,
-                        right: 16,
-                        bottom: 20,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: LdColors.white,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            _nameUser(textTheme, viewModel),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            _containerRateSeller(
+                              infoUser?.rateGeneral ?? 0.5,
+                              textTheme,
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            _summaryOperationsRow(
+                              textTheme,
+                              titleSection: 'Operaciones',
+                              leftBox: <dynamic>[
+                                infoUser?.numberOfSales ?? '0',
+                                'Ventas realizadas'
+                              ],
+                              rightBox: <dynamic>[
+                                infoUser?.numberOfBuys ?? '0',
+                                'Compras realizadas'
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            _summaryOperationsRow(
+                              textTheme,
+                              titleSection: 'Ofertas publicadas',
+                              leftBox: <dynamic>[
+                                infoUser?.openSales ?? '0',
+                                'De ventas'
+                              ],
+                              rightBox: <dynamic>[
+                                infoUser?.openBuys ?? '0',
+                                'De compra'
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          _nameUser(textTheme, viewModel),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Spacer(),
-                          _containerRateSeller(
-                            infoUser?.rateGeneral ?? 0.5,
-                            textTheme,
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Spacer(),
-                          Column(
-                            children: <Widget>[
-                              _summaryOperationsRow(
-                                textTheme,
-                                titleSection: 'Operaciones',
-                                leftBox: <dynamic>[
-                                  infoUser?.numberOfSales ?? '0',
-                                  'Ventas realizadas'
-                                ],
-                                rightBox: <dynamic>[
-                                  infoUser?.numberOfBuys ?? '0',
-                                  'Compras realizadas'
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              _summaryOperationsRow(
-                                textTheme,
-                                titleSection: 'Ofertas publicadas',
-                                leftBox: <dynamic>[
-                                  infoUser?.openSales ?? '0',
-                                  'De ventas'
-                                ],
-                                rightBox: <dynamic>[
-                                  infoUser?.openBuys ?? '0',
-                                  'De compra'
-                                ],
-                              ),
-                            ],
-                          ),
-                          const Spacer(
-                            flex: 3,
-                          ),
-                          PrimaryButtonCustom(
-                            'Ver más ofertas',
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
+                        PrimaryButtonCustom(
+                          'Ver más ofertas',
+                          onPressed: () {},
+                        )
+                      ],
                     ),
                   ),
                   _circleAvatar(),
@@ -195,7 +183,7 @@ class _ProfileSellerMobile extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            const Spacer(),
+            // const Spacer(),
             Text(
               amountOperations,
               style: textTheme.textBigBlack.copyWith(

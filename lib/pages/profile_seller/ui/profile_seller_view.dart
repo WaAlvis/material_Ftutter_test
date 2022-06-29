@@ -11,6 +11,7 @@ import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/user_data_home.dart';
 import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
+import 'package:localdaily/widgets/app_bar_bigger.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/ld_appbar.dart';
 import 'package:localdaily/widgets/ld_footer.dart';

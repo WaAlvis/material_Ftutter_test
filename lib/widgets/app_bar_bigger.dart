@@ -7,6 +7,7 @@ import 'package:localdaily/widgets/appbar_circles.dart';
 class AppBarBigger extends StatelessWidget {
   final String title;
   final double hAppbar;
+  final double? topPaddingTitle;
   final TextTheme textTheme;
   final void Function()? actionBack;
 
@@ -16,6 +17,7 @@ class AppBarBigger extends StatelessWidget {
     required this.textTheme,
     required this.title,
     this.actionBack,
+    this.topPaddingTitle,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class AppBarBigger extends StatelessWidget {
         AppbarCircles(hAppbar: hAppbar),
         SizedBox(
           // width: widthScreen,
-          height: hAppbar,
+          height: topPaddingTitle == null ? hAppbar : topPaddingTitle! + 50,
           child: Padding(
             padding: const EdgeInsets.only(
               top: 30,
