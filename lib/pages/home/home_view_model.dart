@@ -446,6 +446,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
     try {
       // Solicitud al servicio
+      // print('${filters.toJson()} ####');
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
@@ -549,7 +550,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         strJsonExtraFilters:
             status.extraFiltersString != null && status.extraFiltersString != ''
                 ? status.extraFiltersString!.replaceAll('-1', 'null')
-                : '{status:[1,4]}');
+                : '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,

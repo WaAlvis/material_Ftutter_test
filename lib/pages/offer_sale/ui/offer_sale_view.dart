@@ -119,7 +119,11 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
               userId: dataUserProvider.getDataUserLogged!.id,
               docNum: docNumCtrl.text,
               margin: marginCtrl.text,
-              accountTypeId: viewModel.status.selectedAccountType!.id,
+              accountTypeId: (viewModel.status.selectedBank!.description ==
+                          'NEQUI' ||
+                      viewModel.status.selectedBank!.description == 'DAVIPLATA')
+                  ? '998ea2c8-aac4-11ec-9cf0-5740eef20236'
+                  : viewModel.status.selectedAccountType!.id,
               accountNum: accountNumCtrl.text,
               nameTitularAccount: nameTitularAccountCtrl.text,
               bankId: viewModel.status.selectedBank!.id,

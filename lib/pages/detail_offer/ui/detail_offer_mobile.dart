@@ -221,7 +221,7 @@ class _DetailOfferMobile extends StatelessWidget {
                                               viewModel.status.selectedBank!
                                                       .description ==
                                                   'DAVIPLATA'
-                                          ? viewModel.status.listAccountTypeB
+                                          ? viewModel.status.listAccountType
                                               .map((AccountType item) {
                                               return DropdownMenuItem<String>(
                                                 value: item.id,
@@ -636,7 +636,7 @@ void confirmBottomSheet(
               onPressed: () => viewModel.onClicConfirmkReserveDly(
                 context,
                 () => viewModel.reservationPaymentForDly(
-                  context,
+                  context: context,
                   typeOffer: isBuy ? TypeOffer.buy : TypeOffer.sell,
                   item: data,
                   userCurrent: user,

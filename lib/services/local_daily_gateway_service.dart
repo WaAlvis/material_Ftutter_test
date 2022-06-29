@@ -109,8 +109,8 @@ class UrlsApi {
 
 ///WebAdmin/Advertisement create offer sell buy
 
-@RestApi(baseUrl: 'https://dev-local-indentity.midaily.co') // Dev
-// @RestApi(baseUrl: 'https://local-gwmobile.stglocal.consulting') // Stangin
+// @RestApi(baseUrl: 'https://dev-local-indentity.midaily.co') // Dev
+@RestApi(baseUrl: 'https://local-gwmobile.stglocal.consulting') // Stangin
 // @Header('common-header: xx')
 abstract class LocalDailyGatewayService {
   factory LocalDailyGatewayService(

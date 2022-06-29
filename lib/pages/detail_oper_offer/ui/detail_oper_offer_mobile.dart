@@ -151,9 +151,7 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 56,
                             ),
-                            if (estado == 'Pendiente de pago' &&
-                                    viewModel.status.isOper2 ||
-                                estado == 'Publicado')
+                            if (estado == 'Publicado')
                               Container(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: PrimaryButtonCustom(

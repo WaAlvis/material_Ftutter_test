@@ -207,15 +207,17 @@ class _OfferSaleMobile extends StatelessWidget {
                                   changeFillWith:
                                       viewModel.status.selectedAccountType !=
                                           null,
-                                  onChanged: (String? idDocType) =>
-                                      viewModel.accountTypeSelected(idDocType!),
+                                  onChanged: (String? idDocType) {
+                                    print('@#@# $idDocType');
+                                    viewModel.accountTypeSelected(idDocType!);
+                                  },
                                   optionItems: viewModel.status.selectedBank!
                                                   .description ==
                                               'NEQUI' ||
                                           viewModel.status.selectedBank!
                                                   .description ==
                                               'DAVIPLATA'
-                                      ? viewModel.status.listAccountTypeB
+                                      ? viewModel.status.listAccountType
                                           .map((AccountType item) {
                                           return DropdownMenuItem<String>(
                                             value: item.id,

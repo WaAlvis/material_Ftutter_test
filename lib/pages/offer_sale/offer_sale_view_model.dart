@@ -95,7 +95,7 @@ class OfferSaleViewModel
       if (status.selectedBank?.description == 'NEQUI' ||
           status.selectedBank?.description == 'DAVIPLATA') {
         status = status.copyWith(
-          listAccountTypeB: <AccountType>[
+          listAccountType: <AccountType>[
             AccountType(
               description: 'Billetera virutal',
               id: '998ea2c8-aac4-11ec-9cf0-5740eef20236',
