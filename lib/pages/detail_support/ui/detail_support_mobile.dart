@@ -4,11 +4,11 @@ class DetailSupportMobile extends StatelessWidget {
   const DetailSupportMobile(
       // this.nickNameCtrl,
       {
-        Key? key,
-        required this.keyForm,
+    Key? key,
+    required this.keyForm,
 
-        // required this.scrollCtrl,
-      }) : super(key: key);
+    // required this.scrollCtrl,
+  }) : super(key: key);
   final GlobalKey<FormState> keyForm;
 
   // final TextEditingController nickNameCtrl;
@@ -16,7 +16,7 @@ class DetailSupportMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DetailSupportViewModel viewModel =
-    context.watch<DetailSupportViewModel>();
+        context.watch<DetailSupportViewModel>();
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
@@ -49,73 +49,94 @@ class DetailSupportMobile extends StatelessWidget {
                     top: Radius.circular(25),
                   ),
                 ),
-                child: Form(
-                  key: keyForm,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      //TODO implement detail suport case
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Text(
-                              'Cambiar Informacion',
-                              style: textTheme.textBlack.copyWith(
-                                // color: LdColors.orangeWarning,
-                                fontWeight: FontWeight.w700,
-                              ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    //TODO implement detail suport case
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            LdAssets.createOffer,
+                            height: 204,
+                            width: 204,
+                          ),
+                          const SizedBox(
+                            width: 24,
+                          ),
+                          Text(
+                            'Descripcion:',
+                            style: textTheme.textBlack.copyWith(
+                              color: LdColors.orangeWarning,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
                             ),
-                            const SizedBox(
-                              height: 16,
+                          ),
+                          Text(
+                            viewModel.advertisement.description,
+                            style: textTheme.textBlack.copyWith(
+                              color: LdColors.grayLight,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
                             ),
-                            Text(
-                              'Cambien su nombre de usuario',
-                              style: textTheme.textBlack.copyWith(
-                                fontSize: 16,
-                              ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            'Usuario de la publicacion \n${viewModel.advertisement.userPublishNickname}',
+                            style: textTheme.textBlack.copyWith(
+                              fontSize: 16,
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            'Fecha de la publicacion \n${viewModel.advertisement.datePublish}',
+                            style: textTheme.textBlack.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            'Fecha de la solucion \n ${viewModel.advertisement.dateSolution == '1/1/0001 12:00:00 AM' ? 'Su caso esta en proceso' : viewModel.advertisement.dateSolution}',
+                            style: textTheme.textBlack.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            'Correo asociado al caso \n${viewModel.advertisement.emailUserPublish}',
+                            style: textTheme.textBlack.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 32,
+                          ),
+                          Text(
+                            'Estimado usuario La gestión de su caso será informado por el email registrado asegurece de haberlo registrado correctamente para el seguimiento de su caso',
+                            style: textTheme.textBlack.copyWith(
+                              fontSize: 16,
+                              color: LdColors.blackText,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      InputTextCustom(
-                        'Nombre de usuario  *',
-                        hintText: 'Ingresa tu nuevo Nickname ',
-                        // controller: nickNameCtrl,
-                        // onChange: (String value) =>
-                        //     viewModel.changeNickName(value),
-                        // changeFillWith: !viewModel.status.isNickNameFieldEmpty,
-                        textInputAction: TextInputAction.next,
-                        maxLength: 40,
-                        counterText: '',
-                        // validator: (String? str) =>
-                        //     viewModel.validatorNickName(str),
-                        // inputFormatters: <TextInputFormatter>[
-                        //   FilteringTextInputFormatter.deny(RegExp(r'[ ]')),
-                        // ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      PrimaryButtonCustom(
-                        'Actualizar',
-                        onPressed: () {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          if (keyForm.currentState!.validate()) {
-                            // viewModel.changeDataUser(
-                            //   context,
-                            //   nickNameCtrl.text,
-                            //   dataUserProvider,
-                            // );
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -125,4 +146,3 @@ class DetailSupportMobile extends StatelessWidget {
     );
   }
 }
-
