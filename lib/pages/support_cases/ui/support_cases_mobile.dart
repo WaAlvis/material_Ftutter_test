@@ -118,6 +118,8 @@ class _SupportCaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('*** ${item.toString()}');
+
     final DateFormat format = DateFormat('dd-MM-yyyy hh:mm a');
     final TextTheme textTheme = Theme.of(context).textTheme;
     final SupportCasesViewModel viewModel =
@@ -127,8 +129,8 @@ class _SupportCaseCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        print('${item.emailUserPublish}');
-        // viewModel.goDetailSupport(context, item);
+        print('*** ${item.id}');
+        viewModel.goDetailSupport(context, item);
       },
       child: Container(
         padding: const EdgeInsets.all(16),

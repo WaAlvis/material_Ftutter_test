@@ -10,20 +10,20 @@ class ShowSnackbarConnectivityEffect extends SettingsUpdateEffect {
   ShowSnackbarConnectivityEffect(this.message);
 }
 
-// class ShowErrorSnackbar extends SettingEffect {
-//   final String message;
-//
-//   ShowErrorSnackbar(this.message);
-// }
+class ShowErrorSnackbar extends SettingsUpdateEffect {
+  final String message;
 
-// class ShowSuccessSnackbar extends SettingEffect {
-//   final String message;
-//
-//   ShowSuccessSnackbar(this.message);
-// }
+  ShowErrorSnackbar(this.message);
+}
 
-// class ShowWarningSnackbar extends SettingEffect {
-//   final String message;
-//
-//   ShowWarningSnackbar(this.message);
-// }
+class ShowSuccessSnackbar extends SettingsUpdateEffect {
+  final String message;
+
+  ShowSuccessSnackbar(this.message);
+}
+
+class ShowWarningSnackbar extends SettingsUpdateEffect {
+  final String message;
+
+  ShowWarningSnackbar(this.message);
+}
