@@ -157,9 +157,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
-    const String instagramUrl = 'https://www.instagram.com/local.daily_/';
-    const String twitterUrl = 'https://twitter.com/';
-    const String facebookUrl = 'https://es-la.facebook.com/';
+    const String instagramUrl = 'https://instagram.com/local.daily_?igshid=YmMyMTA2M2Y=';
+    const String twitterUrl = 'https://twitter.com/localdaily_?s=21&t=djl82p5fSxCknxZ8qIoiWA';
+    const String facebookUrl = 'https://www.facebook.com/profile.php?id=100081114404165';
     final String url;
     switch (type) {
       case SocialNetwork.facebook:
