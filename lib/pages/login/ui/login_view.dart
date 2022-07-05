@@ -87,7 +87,7 @@ class _LoginBodyState extends State<_LoginBody> {
           image: LdAssets.loginIdentity,
           title: 'Numero de intentos excedidos',
           message:
-              'Has superado la cantidad de intentos para ingresar a tu cuenta.\n\nPuedes generar una nueva contraseña e intenta de nuevo despues de las: \n\n${viewModel.status.timeUnlockUser}',
+              'Has superado la cantidad de intentos para ingresar a tu cuenta.\n\nPuedes generar una nueva contraseña e intenta de nuevo despues de las: \n\n${viewModel.status.timeUnlockUser?? ''}',
           btnText: 'Aceptar',
           onTap: () => viewModel.closeDialog(context),
         );

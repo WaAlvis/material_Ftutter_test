@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
@@ -339,6 +340,19 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   void closeDialog(BuildContext context) {
     _route.pop(context);
+  }
+
+  String getFinishDate(int timeStamp) {
+    final DateTime dateFinish = DateTime.fromMillisecondsSinceEpoch(
+      timeStamp,
+    );
+    final DateTime now = DateTime.now();
+    final Duration difference = dateFinish.difference(now);
+    return difference.inMinutes < 59
+        ?'${difference.inMinutes} m'
+        : difference.inHours < 23
+            ? '${difference.inHours} h'
+            : '${difference.inDays} d';
   }
 
   Future<void> getData(

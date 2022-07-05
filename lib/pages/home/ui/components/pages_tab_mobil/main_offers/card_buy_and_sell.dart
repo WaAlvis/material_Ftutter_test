@@ -14,6 +14,8 @@ class CardBuyAndSell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    // print('*** $dayitem');
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);
       return totalCost.toString();
@@ -41,11 +43,11 @@ class CardBuyAndSell extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TitleBarCard(
-                // name: item.user.nickName,
                 name: item.user.nickName,
                 stars: '${item.user.rateSeller}',
-                // time: item.advertisement.expiredDate,
-                time: '7d',
+                time: viewModel.getFinishDate(
+                  item.advertisement.expiredDate,
+                ),
                 textTheme: textTheme,
               ),
               const Padding(
