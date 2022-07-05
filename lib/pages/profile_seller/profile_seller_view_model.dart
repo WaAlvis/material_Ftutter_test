@@ -88,4 +88,14 @@ class ProfileSellerViewModel
       status = status.copyWith(isLoading: false);
     });
   }
+
+  void goHomeForMoreOffers(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValidvalue) {
+      if (isConnectionValidvalue) {
+        _route.goHome(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
 }
