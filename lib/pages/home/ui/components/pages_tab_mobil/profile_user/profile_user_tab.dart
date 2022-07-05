@@ -26,7 +26,7 @@ class ProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    // final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     const Color colorCardWhite = LdColors.white;
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
@@ -368,7 +368,8 @@ class ProfileUser extends StatelessWidget {
 
   Widget _nameEditPencil(BuildContext context, Color colorCardWhite) {
     final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
-
+    final String dateCreateUser =
+        dataUserProvider.getDataUserLogged?.dateTimeCreate.split(' ').first ?? '';
     const double sizeCircleIcon = 22;
     return Column(
       children: <Widget>[
@@ -392,9 +393,7 @@ class ProfileUser extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-
-                    dataUserProvider.getNickName ??
-                        'Sin Usuario',
+                    dataUserProvider.getNickName ?? 'Invitado',
                     style: textTheme.textBigBlack
                         .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
                   ),
@@ -423,7 +422,7 @@ class ProfileUser extends StatelessWidget {
           const SizedBox.shrink()
         else
           Text(
-            'usuario desde el 2010',
+            'Usuario desde $dateCreateUser',
             style: textTheme.textSmallBlack.copyWith(
               color: LdColors.gray,
               fontSize: 14,
