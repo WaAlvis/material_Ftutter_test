@@ -157,9 +157,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
-    const String instagramUrl = 'https://instagram.com/local.daily_?igshid=YmMyMTA2M2Y=';
-    const String twitterUrl = 'https://twitter.com/localdaily_?s=21&t=djl82p5fSxCknxZ8qIoiWA';
-    const String facebookUrl = 'https://www.facebook.com/profile.php?id=100081114404165';
+    const String instagramUrl =
+        'https://instagram.com/local.daily_?igshid=YmMyMTA2M2Y=';
+    const String twitterUrl =
+        'https://twitter.com/localdaily_?s=21&t=djl82p5fSxCknxZ8qIoiWA';
+    const String facebookUrl =
+        'https://www.facebook.com/profile.php?id=100081114404165';
     final String url;
     switch (type) {
       case SocialNetwork.facebook:
@@ -178,6 +181,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       throw 'Could not launch $url';
     }
     // can't launch url, there is some error
+  }
+
+  void launchWebConnect(SocialNetwork type) {
+    LdConnection.validateConnection().then((bool isConnectionValid) async {
+      if (isConnectionValid) {
+        launchWeb(type);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
   }
 
   void goHistoryOperations(
@@ -349,7 +362,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     final DateTime now = DateTime.now();
     final Duration difference = dateFinish.difference(now);
     return difference.inMinutes < 59
-        ?'${difference.inMinutes} m'
+        ? '${difference.inMinutes} m'
         : difference.inHours < 23
             ? '${difference.inHours} h'
             : '${difference.inDays} d';

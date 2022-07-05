@@ -228,7 +228,7 @@ class ProfileUser extends StatelessWidget {
       children: <Widget>[
         if (instagram)
           OutlinedButton(
-            onPressed: () => viewModel.launchWeb(SocialNetwork.instagram),
+            onPressed: () => viewModel.launchWebConnect(SocialNetwork.instagram),
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(LdColors.orangePrimary),
@@ -250,7 +250,7 @@ class ProfileUser extends StatelessWidget {
           const SizedBox.shrink(),
         if (facebook)
           OutlinedButton(
-            onPressed: () => viewModel.launchWeb(SocialNetwork.facebook),
+            onPressed: () => viewModel.launchWebConnect(SocialNetwork.facebook),
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(LdColors.orangePrimary),
@@ -271,7 +271,7 @@ class ProfileUser extends StatelessWidget {
           const SizedBox.shrink(),
         if (twitter)
           OutlinedButton(
-            onPressed: () => viewModel.launchWeb(SocialNetwork.twitter),
+            onPressed: () => viewModel.launchWebConnect(SocialNetwork.twitter),
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(LdColors.orangePrimary),
