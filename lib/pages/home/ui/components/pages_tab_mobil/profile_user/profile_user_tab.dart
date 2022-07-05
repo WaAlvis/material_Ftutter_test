@@ -369,7 +369,8 @@ class ProfileUser extends StatelessWidget {
   Widget _nameEditPencil(BuildContext context, Color colorCardWhite) {
     final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
     final String dateCreateUser =
-        dataUserProvider.getDataUserLogged?.dateTimeCreate.split(' ').first ?? '';
+        dataUserProvider.getDataUserLogged?.dateTimeCreate.split(' ').first ??
+            '';
     const double sizeCircleIcon = 22;
     return Column(
       children: <Widget>[
@@ -378,43 +379,40 @@ class ProfileUser extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              const CircleAvatar(
-                radius: sizeCircleIcon,
-                backgroundColor: Colors.transparent,
-                child: Icon(
-                  Icons.opacity,
-                  color: Colors.transparent,
-                ),
-              ),
               const SizedBox(
-                width: 12,
+                width: sizeCircleIcon * 2,
               ),
               Flexible(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(
-                    dataUserProvider.getNickName ?? 'Invitado',
-                    style: textTheme.textBigBlack
-                        .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      dataUserProvider.getNickName ?? 'Invitado',
+                      style: textTheme.textBigBlack
+                          .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 12,
-              ),
-              GestureDetector(
-                onTap: () {
-                  viewModel.goSettingsUpdate(context);
-                },
-                child: const CircleAvatar(
-                  radius: sizeCircleIcon,
-                  backgroundColor: LdColors.orangePrimary,
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
+              if (dataUserProvider.getDataUserLogged == null)
+                const SizedBox(
+                  width: sizeCircleIcon * 2,
+                )
+              else
+                GestureDetector(
+                  onTap: () {
+                    viewModel.goSettingsUpdate(context);
+                  },
+                  child: const CircleAvatar(
+                    radius: sizeCircleIcon,
+                    backgroundColor: LdColors.orangePrimary,
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
