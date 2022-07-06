@@ -204,4 +204,3 @@ class ChangePswMobile extends StatelessWidget {
   }
 }
 
-enum Language { spanish, english }

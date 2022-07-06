@@ -1,5 +1,6 @@
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
+import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/services/models/home/extra_filters.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
@@ -9,7 +10,7 @@ import 'package:localdaily/view_model.dart';
 class HomeStatus extends ViewStatus {
   final bool isLoading;
   final bool isError;
-  final int indexTab;
+  final OptionTab optionTab;
   final bool hideWallet;
   final bool hideValues;
   late ResultHome offersBuyDataHome;
@@ -18,7 +19,6 @@ class HomeStatus extends ViewStatus {
   late ResultHome operationSaleData;
   late ResultHome myOfferBuyData;
   late ResultHome myOfferSaleData;
-
   final TypeOffer typeOffer;
   final String image;
   final String titleText;
@@ -44,7 +44,7 @@ class HomeStatus extends ViewStatus {
     // required this.listHistoryOpertaions,
     required this.hideWallet,
     required this.hideValues,
-    required this.indexTab,
+    required this.optionTab,
     this.isLoading = true,
     required this.isError,
     required this.typeOffer,
@@ -71,7 +71,7 @@ class HomeStatus extends ViewStatus {
     ResultHome? operationSaleData,
     ResultHome? myOfferBuyData,
     ResultHome? myOfferSaleData,
-    int? indexTab,
+    OptionTab? optionTab,
     TypeOffer? typeOffer,
     String? image,
     String? titleText,
@@ -88,7 +88,7 @@ class HomeStatus extends ViewStatus {
       resultDataUser: resultDataUser ?? this.resultDataUser,
       hideWallet: hideWallet ?? this.hideWallet,
       hideValues: hideValues ?? this.hideValues,
-      indexTab: indexTab ?? this.indexTab,
+      optionTab: optionTab ?? this.optionTab,
       isLoading: isLoading ?? this.isLoading,
       isError: isError ?? this.isError,
       offersBuyDataHome: offersBuyDataHome ?? this.offersBuyDataHome,

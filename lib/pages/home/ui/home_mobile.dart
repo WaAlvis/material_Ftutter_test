@@ -85,8 +85,8 @@ class _HomeMobile extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _appbars.elementAt(viewModel.status.indexTab),
-      floatingActionButton: viewModel.status.indexTab == 2 &&
+      appBar: _appbars.elementAt(viewModel.status.optionTab.index),
+      floatingActionButton: viewModel.status.optionTab == OptionTab.myOffers &&
               ((viewModel.status.myOfferBuyData.data.isNotEmpty &&
                       viewModel.status.typeOffer == TypeOffer.buy) ||
                   (viewModel.status.myOfferSaleData.data.isNotEmpty &&
@@ -115,18 +115,18 @@ class _HomeMobile extends StatelessWidget {
           ),
           child: BottomNavigationBar(
             unselectedItemColor: LdColors.blackText,
-            currentIndex: viewModel.status.indexTab,
+            currentIndex: viewModel.status.optionTab.index,
             selectedItemColor: LdColors.orangePrimary,
             onTap: (int index) {
-              if (index != viewModel.status.indexTab) {
-                viewModel.swapType(
+              if (index != viewModel.status.optionTab.index) {
+            viewModel.swapType(
                   context,
                   TypeOffer.buy,
                   dataUserProvider.getDataUserLogged?.id ?? '',
                 );
               }
               viewModel.onItemTapped(
-                index,
+                OptionTab.values[index],
                 dataUserProvider.getAddress ?? '',
               );
             },
@@ -162,7 +162,7 @@ class _HomeMobile extends StatelessWidget {
           ),
         ),
       ),
-      body: _pages.elementAt(viewModel.status.indexTab),
+      body: _pages.elementAt(viewModel.status.optionTab.index),
     );
   }
 }

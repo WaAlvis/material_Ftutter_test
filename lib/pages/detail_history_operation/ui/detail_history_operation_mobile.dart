@@ -41,7 +41,6 @@ class DetailHistoryOperationMobile extends StatelessWidget {
             hAppbar: hAppbar,
             textTheme: textTheme,
           ),
-
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -78,7 +77,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                       textTheme,
                       viewModel,
                       styleGrayText,
-                      amountIn: _TypeMoney.dlycop,
+                      amountIn: TypeMoney.dlycop,
                       amountValue: item.advertisement.valueToSell,
                     ),
                     const SizedBox(
@@ -92,7 +91,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                       textTheme,
                       viewModel,
                       styleGrayText,
-                      amountIn: _TypeMoney.cop,
+                      amountIn: TypeMoney.cop,
                       amountValue: item.advertisement.valueToSell,
                     ),
                     const SizedBox(
@@ -103,13 +102,11 @@ class DetailHistoryOperationMobile extends StatelessWidget {
                       viewModel,
                       textTheme,
                     ),
-
                   ],
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -161,7 +158,7 @@ class DetailHistoryOperationMobile extends StatelessWidget {
     TextTheme textTheme,
     DetailHistoryOperationViewModel viewModel,
     TextStyle grayText, {
-    required _TypeMoney amountIn,
+    required TypeMoney amountIn,
     required String amountValue,
   }) {
     final TextStyle styleBlackAmount = textTheme.textBigBlack.copyWith(
@@ -172,13 +169,13 @@ class DetailHistoryOperationMobile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          amountIn == _TypeMoney.cop ? 'Cantidad en COP' : 'Cantidad en DLYCOP',
+          amountIn == TypeMoney.cop ? 'Cantidad en COP' : 'Cantidad en DLYCOP',
           style: grayText,
         ),
         const SizedBox(
           height: 8,
         ),
-        if (amountIn == _TypeMoney.cop)
+        if (amountIn == TypeMoney.cop)
           Text(
             '= ${viewModel.calculateCopTotal(
               margin: item.advertisement.margin,
@@ -263,7 +260,8 @@ class _RowInfoPartner extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: !viewModel.status.isLoading
                               ? Text(
-                                  viewModel.status.userBuyer?.nickName ?? '- - - - - - - - - -' ,
+                                  viewModel.status.userBuyer?.nickName ??
+                                      '- - - - - - - - - -',
                                   textAlign: TextAlign.left,
                                 )
                               : Shimmer.fromColors(
@@ -342,12 +340,8 @@ class _RowInfoPartner extends StatelessWidget {
 }
 
 class _OperationType extends StatelessWidget {
-  const _OperationType(
-  this.textTheme,
-  this.viewModel,
-  this.dataUserProvider,
-  this.styleGrayText,
-  this.isBuying, this.item);
+  const _OperationType(this.textTheme, this.viewModel, this.dataUserProvider,
+      this.styleGrayText, this.isBuying, this.item);
 
   final DataUserAdvertisement item;
   final TextTheme textTheme;
@@ -386,9 +380,5 @@ class _OperationType extends StatelessWidget {
         ),
       ],
     );
-
   }
 }
-
-
-enum _TypeMoney { dlycop, cop }

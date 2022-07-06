@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localdaily/commons/ld_assets.dart';
-import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/configure/local_storage_service.dart';
-import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
 import 'package:localdaily/pages/home/home_effect.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
@@ -25,7 +19,6 @@ import 'package:localdaily/services/models/notifications/counter/body_notificati
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/crypto_utils.dart';
-import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +68,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         totalItems: 10,
         totalPages: 1,
       ),
-      indexTab: 0,
+      optionTab: OptionTab.home,
       typeOffer: TypeOffer.buy,
       image: LdAssets.buyNoOffer,
       titleText: 'Aún no tienes ofertas de compra',
@@ -83,17 +76,19 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       balance: -1,
       filtersArguments: FiltersArguments(),
     );
+
   }
 
+
   Future<void> onItemTapped(
-    int index,
+    OptionTab optionTab,
     String address,
   ) async {
-    status = status.copyWith(indexTab: index);
+    status = status.copyWith(optionTab: optionTab);
     // status = status.copyWith(
     //     extraFilters: ExtraFilters(
     //         range: null, dateExpiry: null, bank: null, status: null));
-    if (index == 3) {
+    if (optionTab == OptionTab.myOffers) {
       status = status.copyWith(
         balance: await CryptoUtils().getBalance(address),
       );
@@ -122,13 +117,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     FiltersArguments filtersArguments = FiltersArguments(
         // extraFilters: status.extraFilters,
         homeStatus: status,
-        indexTab: status.indexTab,
+        indexTab: status.optionTab.index,
         setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
           status = status.copyWith(extraFilters: extraFilters);
           status = status.copyWith(extraFiltersString: extraFiltersString);
           getData(context, resultDataUser?.id ?? '', refresh: true);
         },
-        getFilters: <int>() => status.indexTab,
+        getFilters: <int>() => status.optionTab.index,
         clearFilters: () {
           status = status.copyWith(
               extraFilters: ExtraFilters(), extraFiltersString: '');
@@ -376,14 +371,14 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
-      if (status.indexTab == 0) {
+      if (status.optionTab == OptionTab.home) {
         await getDataHome(
           context,
           userId,
           refresh: refresh,
           isPagination: isPagination,
         );
-      } else if (status.indexTab == 1) {
+      } else if (status.optionTab == OptionTab.operations) {
         if (userId.isNotEmpty)
           await getDataOperations(
             context,
@@ -391,7 +386,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
             refresh: refresh,
             isPagination: isPagination,
           );
-      } else if (status.indexTab == 2) {
+      } else if (status.optionTab == OptionTab.myOffers) {
         if (userId.isNotEmpty)
           await getDataOffers(
             context,
@@ -766,4 +761,3 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 }
 
-enum SocialNetwork { facebook, instagram, twitter }
