@@ -28,14 +28,22 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
+
 part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
+
 // Components Mobile
 part 'components/pages_tab_mobil/main_offers/card_wallet_connect.dart';
+
 part 'components/pages_tab_mobil/main_offers/main_offers_tab.dart';
+
 part 'components/pages_tab_mobil/operation_offer/operation_card.dart';
+
 part 'components/pages_tab_mobil/operation_offer/operations_offers_tab.dart';
+
 part 'components/pages_tab_mobil/profile_user/profile_user_tab.dart';
+
 part 'home_mobile.dart';
+
 part 'home_web.dart';
 
 class HomeView extends StatelessWidget {
@@ -71,8 +79,8 @@ class _HomeBodyState extends State<_HomeBody> {
   final ScrollController mainScrollSellCtrl = ScrollController();
   final ScrollController operationScrollBuyCtrl = ScrollController();
   final ScrollController operationScrollSellCtrl = ScrollController();
-  final ScrollController offerScrollBuyCtrl = ScrollController();
-  final ScrollController offerScrollSellCtrl = ScrollController();
+  final ScrollController myOfferScrollBuyCtrl = ScrollController();
+  final ScrollController myOfferScrollSellCtrl = ScrollController();
 
   late StreamSubscription<HomeEffect> _effectSubscription;
 
@@ -85,8 +93,8 @@ class _HomeBodyState extends State<_HomeBody> {
     mainScrollSellCtrl.dispose();
     operationScrollBuyCtrl.dispose();
     operationScrollSellCtrl.dispose();
-    offerScrollBuyCtrl.dispose();
-    offerScrollSellCtrl.dispose();
+    myOfferScrollBuyCtrl.dispose();
+    myOfferScrollSellCtrl.dispose();
     super.dispose();
   }
 
@@ -124,12 +132,12 @@ class _HomeBodyState extends State<_HomeBody> {
         dataUserProvider.getDataUserLogged?.id ?? '',
       );
       _scrollControllerListener(
-        offerScrollBuyCtrl,
+        myOfferScrollBuyCtrl,
         viewModel,
         dataUserProvider.getDataUserLogged?.id ?? '',
       );
       _scrollControllerListener(
-        offerScrollSellCtrl,
+        myOfferScrollSellCtrl,
         viewModel,
         dataUserProvider.getDataUserLogged?.id ?? '',
       );
@@ -186,8 +194,8 @@ class _HomeBodyState extends State<_HomeBody> {
                           mainScrollSellCtrl: mainScrollSellCtrl,
                           operationScrollBuyCtrl: operationScrollBuyCtrl,
                           operationScrollSellCtrl: operationScrollSellCtrl,
-                          offerScrollBuyCtrl: offerScrollBuyCtrl,
-                          offerScrollSellCtrl: offerScrollSellCtrl,
+                          offerScrollBuyCtrl: myOfferScrollBuyCtrl,
+                          offerScrollSellCtrl: myOfferScrollSellCtrl,
                         ),
                 )
               ],
@@ -204,31 +212,32 @@ class _HomeBodyState extends State<_HomeBody> {
     HomeViewModel viewModel,
     String id,
   ) {
-    scrollController.addListener(() {
+    scrollController.addListener(() async {
       if (scrollController.position.pixels >
               scrollController.position.maxScrollExtent &&
           !viewModel.status.isLoading) {
-        if (scrollController.position.maxScrollExtent != 0) {
-          scrollController.jumpTo(
-            scrollController.position.maxScrollExtent,
-          );
-        }
 
+
+        if(viewModel.status.isLoadingScroll) return;
+        if(!viewModel.status.thereIsMoreData) return;
+        viewModel.status = viewModel.status.copyWith(isLoadingScroll: true);
+        // await  Future.delayed(const Duration(seconds: 3));
+        //TODO: Quitar este Delayed de la get data
         viewModel
             .getData(
-          context,
           id,
           isPagination: true,
         )
             .then(
           (_) {
-            if (scrollController.position.maxScrollExtent != 0) {
-              scrollController.animateTo(
-                scrollController.position.maxScrollExtent + 150,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.decelerate,
+            viewModel.status = viewModel.status.copyWith(isLoadingScroll: false);
+            if (scrollController.position.pixels+100 <= scrollController.position.maxScrollExtent)return;
+            scrollController.animateTo(
+              scrollController.position.pixels + 100,
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.fastOutSlowIn,
               );
-            }
+
           },
         );
       }

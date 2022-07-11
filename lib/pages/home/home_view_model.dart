@@ -29,7 +29,7 @@ import 'home_status.dart';
 class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
-  final int itemsPerPage = 10;
+  final int itemsPerPage = 3;
   late LocalStorageService _localStorage;
 
   HomeViewModel(this._route, this._interactor, this._localStorage) {
@@ -40,32 +40,32 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       countNotification: 0,
       offersBuyDataHome: ResultHome(
         data: <Data>[],
-        totalItems: 10,
+        totalItems: itemsPerPage,
         totalPages: 1,
       ),
       offersSaleDataHome: ResultHome(
         data: <Data>[],
-        totalItems: 10,
+        totalItems: itemsPerPage,
         totalPages: 1,
       ),
       operationBuyData: ResultHome(
         data: <Data>[],
-        totalItems: 10,
+        totalItems: itemsPerPage,
         totalPages: 1,
       ),
       operationSaleData: ResultHome(
         data: <Data>[],
-        totalItems: 10,
+        totalItems: itemsPerPage,
         totalPages: 1,
       ),
       myOfferBuyData: ResultHome(
         data: <Data>[],
-        totalItems: 10,
+        totalItems: itemsPerPage,
         totalPages: 1,
       ),
       myOfferSaleData: ResultHome(
         data: <Data>[],
-        totalItems: 10,
+        totalItems: itemsPerPage,
         totalPages: 1,
       ),
       optionTab: OptionTab.home,
@@ -76,9 +76,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       balance: -1,
       filtersArguments: FiltersArguments(),
     );
-
   }
-
 
   Future<void> onItemTapped(
     OptionTab optionTab,
@@ -121,7 +119,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
           status = status.copyWith(extraFilters: extraFilters);
           status = status.copyWith(extraFiltersString: extraFiltersString);
-          getData(context, resultDataUser?.id ?? '', refresh: true);
+          getData(resultDataUser?.id ?? '', refresh: true);
         },
         getFilters: <int>() => status.optionTab.index,
         clearFilters: () {
@@ -129,7 +127,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
               extraFilters: ExtraFilters(), extraFiltersString: '');
         });
     status = status.copyWith(filtersArguments: filtersArguments);
-    getData(context, resultDataUser?.id ?? '');
+    getData(resultDataUser?.id ?? '', );
     if (resultDataUser == null) return;
 
     // Se trae el address en caso de que sea el mismo en BD que en LocalStorage
@@ -146,9 +144,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String userId,
   ) async {
     status = status.copyWith(
-        typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters());
+        typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters(),
+    thereIsMoreData: true,);
 
-    await getData(context, userId, refresh: true);
+    await getData(userId,
+        refresh: true,
+      );
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
@@ -364,38 +365,37 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
   }
 
   Future<void> getData(
-    BuildContext context,
-    String userId, {
-    bool refresh = false,
-    bool isPagination = false,
-  }) async {
+    String userId,
+      {bool refresh = false,
+        bool isPagination = false,
+      })
+    async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
       if (status.optionTab == OptionTab.home) {
         await getDataHome(
-          context,
           userId,
           refresh: refresh,
           isPagination: isPagination,
         );
       } else if (status.optionTab == OptionTab.operations) {
-        if (userId.isNotEmpty)
+        if (userId.isNotEmpty) {
           await getDataOperations(
-            context,
             userId,
             refresh: refresh,
             isPagination: isPagination,
           );
-      } else if (status.optionTab == OptionTab.myOffers) {
-        if (userId.isNotEmpty)
-          await getDataOffers(
-            context,
-            userId,
-            refresh: refresh,
-            isPagination: isPagination,
-          );
+        }
       }
-    } else {
+      } else if (status.optionTab == OptionTab.myOffers) {
+        if (userId.isNotEmpty){
+          await getDataOffers(
+            userId,
+            refresh: refresh,
+            isPagination: isPagination,
+          );
+        }
+      } else {
       addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
     status = status.copyWith(isLoading: false);
@@ -403,11 +403,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   // ------ CONSULTA PARA TRAER TARJETAS DEL INICIO ------
   Future<void> getDataHome(
-    BuildContext context,
-    String userId, {
+      String userId, {
     bool refresh = false,
     bool isPagination = false,
   }) async {
+
     // Validación para evitar consultar al cambiar cada tab, solo 1 vez
     if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
@@ -455,7 +455,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      statusCode: '${OfferStatus.Publicado.index}',
+      // statusCode: '${OfferStatus.Publicado.index}',
+      statusCode: '',
       idUserExclusion: userId,
       idUserInteraction: '',
       strJsonExtraFilters:
@@ -491,6 +492,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+          _printCurrentDataAndTotalData(data,status.offersSaleDataHome.totalItems);
+          if (status.offersSaleDataHome.totalItems == data.length){
+            status=status.copyWith(thereIsMoreData: false);
+          }
         } else {
           status = status.copyWith(
             offersBuyDataHome: isPagination
@@ -501,6 +506,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+          _printCurrentDataAndTotalData(data,status.offersBuyDataHome.totalItems);
+          if (status.offersBuyDataHome.totalItems == data.length){
+            status=status.copyWith(thereIsMoreData: false);
+          }
+
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -510,10 +520,13 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       print('Get DataHome Error As: $err');
     }
   }
+    void _printCurrentDataAndTotalData(List<Data> data, int totalInService){
+    // SOLO para testear la cantidad de items actuales y en la BD
+    print('items in DB: $totalInService  , Items in current list: ${data.length} ');
 
+  }
   // ------ CONSULTA PARA TRAER TARJETAS DE OPERACIONES ------
   Future<void> getDataOperations(
-    BuildContext context,
     String userId, {
     bool refresh = false,
     bool isPagination = false,
@@ -597,6 +610,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+          _printCurrentDataAndTotalData(data,status.operationSaleData.totalItems);
+          if (status.operationSaleData.totalItems == data.length){
+            status=status.copyWith(thereIsMoreData: false);
+          }
         } else {
           status = status.copyWith(
             operationBuyData: isPagination
@@ -607,6 +624,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+        }
+        _printCurrentDataAndTotalData(data,status.operationBuyData.totalItems);
+        if (status.operationBuyData.totalItems == data.length){
+          status=status.copyWith(thereIsMoreData: false);
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -619,7 +640,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   // ------ CONSULTA PARA TRAER TARJETAS DE MIS OFERTAS ------
   Future<void> getDataOffers(
-    BuildContext context,
     String userId, {
     bool refresh = false,
     bool isPagination = false,
@@ -700,6 +720,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+          _printCurrentDataAndTotalData(data,status.myOfferBuyData.totalItems);
+          if (status.myOfferBuyData.totalItems == data.length){
+            status=status.copyWith(thereIsMoreData: false);
+          }
         } else {
           status = status.copyWith(
             myOfferSaleData: isPagination
@@ -710,6 +734,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+        }
+        _printCurrentDataAndTotalData(data,status.myOfferSaleData.totalItems);
+        if (status.myOfferSaleData.totalItems == data.length){
+          status=status.copyWith(thereIsMoreData: false);
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -760,4 +788,3 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     return count;
   }
 }
-

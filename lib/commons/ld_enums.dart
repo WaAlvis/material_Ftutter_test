@@ -11,7 +11,7 @@ enum RegisterStep {
 
 enum TypeOffer { sell, buy }
 enum SocialNetwork { facebook, instagram, twitter }
-enum OptionTab {home,operations,myOffers,profile}
+enum  OptionTab {home,operations,myOffers,profile}
 enum Language { spanish, english }
 enum TypeMoney { dlycop, cop }
 

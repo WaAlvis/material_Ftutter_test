@@ -1,15 +1,15 @@
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/filters/ui/filters_view.dart';
-import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/services/models/home/extra_filters.dart';
-import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/result_home.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/view_model.dart';
 
 class HomeStatus extends ViewStatus {
-  final bool isLoading;
   final bool isError;
+  final bool isLoading;
+  final bool isLoadingScroll;
+  final bool thereIsMoreData;
   final OptionTab optionTab;
   final bool hideWallet;
   final bool hideValues;
@@ -28,6 +28,7 @@ class HomeStatus extends ViewStatus {
   final String buttonText;
   final double balance;
   final int countNotification;
+
   //filters
   final ExtraFilters? extraFilters;
   final FiltersArguments? filtersArguments;
@@ -46,6 +47,8 @@ class HomeStatus extends ViewStatus {
     required this.hideValues,
     required this.optionTab,
     this.isLoading = true,
+    this.isLoadingScroll = false,
+    this.thereIsMoreData = true,
     required this.isError,
     required this.typeOffer,
     required this.image,
@@ -62,6 +65,8 @@ class HomeStatus extends ViewStatus {
   HomeStatus copyWith({
     ResultDataUser? resultDataUser,
     bool? isLoading,
+    bool? isLoadingScroll,
+    bool? thereIsMoreData,
     bool? isError,
     bool? hideWallet,
     bool? hideValues,
@@ -90,6 +95,8 @@ class HomeStatus extends ViewStatus {
       hideValues: hideValues ?? this.hideValues,
       optionTab: optionTab ?? this.optionTab,
       isLoading: isLoading ?? this.isLoading,
+      thereIsMoreData: thereIsMoreData ?? this.thereIsMoreData,
+      isLoadingScroll: isLoadingScroll ?? this.isLoadingScroll,
       isError: isError ?? this.isError,
       offersBuyDataHome: offersBuyDataHome ?? this.offersBuyDataHome,
       offersSaleDataHome: offersSaleDataHome ?? this.offersSaleDataHome,
@@ -97,7 +104,7 @@ class HomeStatus extends ViewStatus {
       operationSaleData: operationSaleData ?? this.operationSaleData,
       myOfferBuyData: myOfferBuyData ?? this.myOfferBuyData,
       myOfferSaleData: myOfferSaleData ?? this.myOfferSaleData,
-      typeOffer: typeOffer ?? this.typeOffer,
+      typeOffer: typeOffer ?? this.typeOffer,   
       image: image ?? this.image,
       // listHistoryOpertaions:
       //     listHistoryOpertaions ?? this.listHistoryOpertaions,
