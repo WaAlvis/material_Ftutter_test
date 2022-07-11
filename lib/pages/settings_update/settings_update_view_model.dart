@@ -3,11 +3,8 @@ import 'package:localdaily/configure/ld_connection.dart';
 import 'package:localdaily/configure/ld_router.dart';
 import 'package:localdaily/pages/settings_update/settings_status.dart';
 import 'package:localdaily/pages/settings_update/settings_update_effect.dart';
-import 'package:localdaily/pages/settings_update/ui/settings_update_view.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
-
 import 'package:localdaily/services/api_interactor.dart';
-import 'package:localdaily/services/models/change_psw/result_change_psw.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/token_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
@@ -27,7 +24,7 @@ class SettingsUpdateViewModel
     this._interactor,
   ) {
     status = SettingsUpdateStatus(
-      isLoading: true,
+      isLoading: false,
       isError: false,
       isNickNameFieldEmpty: true,
     );
@@ -45,9 +42,9 @@ class SettingsUpdateViewModel
     return null;
   }
 
-  void goBack(BuildContext context) {
-    _route.pop(context);
-  }
+  // void goBack(BuildContext context) {
+  //   _route.pop(context);
+  // }
 
   void changeDataUser(
     BuildContext context,
@@ -76,44 +73,23 @@ class SettingsUpdateViewModel
     _interactor
         .updateDataUser(bodyNewNick, 'Bearer ${token.token}')
         .then((ResponseData<ResultChangeDataUser> response) {
+
       if (response.isSuccess) {
+        addEffect(ShowSuccessSnackbar('Datos actualizados con exito'));
         dataUserProvider.setNickName(
             newNickName,
         );
         Navigator.pop(context);
       } else {
-        // addEffect(ShowErrorSnackbar('No Actualizado'));
-
+        addEffect(ShowWarningSnackbar('Datos no actualizados, intentalo mas tarde'));
       }
-
       status = status.copyWith(isLoading: false);
     }).catchError((dynamic err) {
-      print('@@@ $err');
-      // addEffect(ShowErrorSnackbar('Error en el servicio**'));
+      addEffect(ShowErrorSnackbar('Error en el servicio, intentalo mas tarde'));
       status = status.copyWith(isLoading: false);
     });
   }
 
   void changeNickName(String nickName) =>
       status = status.copyWith(isNickNameFieldEmpty: nickName.isEmpty);
-
-  void goChangePsw(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
-      if (isConnectionValid) {
-        _route.goChangePsw(context);
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
-
-  void goDirectionWallet(BuildContext context) {
-    LdConnection.validateConnection().then((bool isConnectionValid) {
-      if (isConnectionValid) {
-        // _route.goDitectionWallet(context);
-      } else {
-        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
-      }
-    });
-  }
 }
