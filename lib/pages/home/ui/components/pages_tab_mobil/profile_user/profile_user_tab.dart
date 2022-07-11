@@ -26,7 +26,7 @@ class ProfileUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    // final TextTheme textTheme = Theme.of(context).textTheme;
     final Size size = MediaQuery.of(context).size;
     const Color colorCardWhite = LdColors.white;
     final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
@@ -228,7 +228,7 @@ class ProfileUser extends StatelessWidget {
       children: <Widget>[
         if (instagram)
           OutlinedButton(
-            onPressed: () => viewModel.launchWeb(SocialNetwork.instagram),
+            onPressed: () => viewModel.launchWebConnect(SocialNetwork.instagram),
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(LdColors.orangePrimary),
@@ -250,7 +250,7 @@ class ProfileUser extends StatelessWidget {
           const SizedBox.shrink(),
         if (facebook)
           OutlinedButton(
-            onPressed: () => viewModel.launchWeb(SocialNetwork.facebook),
+            onPressed: () => viewModel.launchWebConnect(SocialNetwork.facebook),
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(LdColors.orangePrimary),
@@ -271,7 +271,7 @@ class ProfileUser extends StatelessWidget {
           const SizedBox.shrink(),
         if (twitter)
           OutlinedButton(
-            onPressed: () => viewModel.launchWeb(SocialNetwork.twitter),
+            onPressed: () => viewModel.launchWebConnect(SocialNetwork.twitter),
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(LdColors.orangePrimary),
@@ -368,7 +368,9 @@ class ProfileUser extends StatelessWidget {
 
   Widget _nameEditPencil(BuildContext context, Color colorCardWhite) {
     final DataUserProvider dataUserProvider = context.watch<DataUserProvider>();
-
+    final String dateCreateUser =
+        dataUserProvider.getDataUserLogged?.dateTimeCreate.split(' ').first ??
+            '';
     const double sizeCircleIcon = 22;
     return Column(
       children: <Widget>[
@@ -377,45 +379,40 @@ class ProfileUser extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              const CircleAvatar(
-                radius: sizeCircleIcon,
-                backgroundColor: Colors.transparent,
-                child: Icon(
-                  Icons.opacity,
-                  color: Colors.transparent,
-                ),
-              ),
               const SizedBox(
-                width: 12,
+                width: sizeCircleIcon * 2,
               ),
               Flexible(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(
-
-                    dataUserProvider.getNickName ??
-                        'Sin Usuario',
-                    style: textTheme.textBigBlack
-                        .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      dataUserProvider.getNickName ?? 'Invitado',
+                      style: textTheme.textBigBlack
+                          .copyWith(fontSize: 26, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 12,
-              ),
-              GestureDetector(
-                onTap: () {
-                  viewModel.goSettingsUpdate(context);
-                },
-                child: const CircleAvatar(
-                  radius: sizeCircleIcon,
-                  backgroundColor: LdColors.orangePrimary,
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
+              if (dataUserProvider.getDataUserLogged == null)
+                const SizedBox(
+                  width: sizeCircleIcon * 2,
+                )
+              else
+                GestureDetector(
+                  onTap: () {
+                    viewModel.goSettingsUpdate(context);
+                  },
+                  child: const CircleAvatar(
+                    radius: sizeCircleIcon,
+                    backgroundColor: LdColors.orangePrimary,
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -423,7 +420,7 @@ class ProfileUser extends StatelessWidget {
           const SizedBox.shrink()
         else
           Text(
-            'usuario desde el 2010',
+            'Usuario desde $dateCreateUser',
             style: textTheme.textSmallBlack.copyWith(
               color: LdColors.gray,
               fontSize: 14,

@@ -145,7 +145,7 @@ class Step3ValidatePin extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 10),
-                // PrimaryButtonCustom(
+                // PrimaryButtonCustom( // PASAR SIN VERIFICACION DE OTP
                 //   'Continuar sin validar',
                 //   onPressed: () => viewModel.goNextStep(
                 //     currentStep: RegisterStep.validatePinStep_3,

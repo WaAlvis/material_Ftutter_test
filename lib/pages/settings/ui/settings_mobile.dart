@@ -178,4 +178,4 @@ class SettingsMobile extends StatelessWidget {
   }
 }
 
-enum Language { spanish, english }
+

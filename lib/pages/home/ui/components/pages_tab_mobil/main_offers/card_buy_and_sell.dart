@@ -14,14 +14,12 @@ class CardBuyAndSell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeViewModel viewModel = context.watch<HomeViewModel>();
+    // print('*** $dayitem');
     String totalValueCalculate(String margin, String amount) {
       final double totalCost = double.parse(margin) * int.parse(amount);
       return totalCost.toString();
     }
-
-    final DateTime dateNow = DateTime.now();
-    DateTime lastTime = DateTime.fromMillisecondsSinceEpoch(
-        item.advertisement.expiredDate - dateNow.millisecondsSinceEpoch);
 
     return GestureDetector(
       onTap: onTap, //asi pase bien la navegacion?
@@ -48,12 +46,9 @@ class CardBuyAndSell extends StatelessWidget {
                 // name: item.user.nickName,
                 name: item.user.nickName,
                 stars: '${item.user.rateSeller}',
-                time: '${DateTime.fromMillisecondsSinceEpoch(
+                time: viewModel.getFinishDate(
                   item.advertisement.expiredDate,
-                ).difference(
-                      DateTime.now(),
-                    ).inDays} d',
-                // time: '1ss7d',
+                ),
                 textTheme: textTheme,
               ),
               const Padding(

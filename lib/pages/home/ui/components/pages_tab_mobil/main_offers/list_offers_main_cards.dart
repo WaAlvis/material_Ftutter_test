@@ -12,6 +12,8 @@ import 'package:localdaily/utils/midaily_connect.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../../../widgets/LoadingIconScroll.dart';
+
 class ListOffersMainSwitch extends StatelessWidget {
   const ListOffersMainSwitch(
     this.data, {
@@ -28,6 +30,7 @@ class ListOffersMainSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     final HomeViewModel viewModel = context.watch<HomeViewModel>();
     final DataUserProvider userProvider = context.watch<DataUserProvider>();
     final List<Data> items = viewModel.status.typeOffer == TypeOffer.buy
@@ -37,7 +40,9 @@ class ListOffersMainSwitch extends StatelessWidget {
     return RefreshIndicator(
       color: LdColors.orangePrimary,
       onRefresh: () async {
-        await viewModel.getData(context, userId, refresh: true);
+        await viewModel.getData( userId,
+            refresh: true
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -63,88 +68,102 @@ class ListOffersMainSwitch extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.separated(
-                controller: mainScrollCtrl,
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 8,
-                  );
-                },
-                padding: EdgeInsets.zero,
-                itemCount: viewModel.status.isLoading ? 3 : items.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return viewModel.status.isLoading
-                      ? Shimmer.fromColors(
-                          baseColor: LdColors.whiteDark,
-                          highlightColor: LdColors.grayButton,
-                          child: const Card(
-                            margin: EdgeInsets.all(10),
-                            child: SizedBox(height: 160),
-                          ),
-                        )
-                      : index == 0
-                          ? Column(
-                              children: <Widget>[
-                                AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 500),
-                                  child: userId.isNotEmpty &&
-                                          (userProvider.getAddress == null ||
-                                              userProvider.getAddress == '')
-                                      ? CardWalletConnect(
-                                          onTap: () =>
-                                              MiDailyConnect.createConnection(
-                                            context,
-                                            DailyConnectType.walletAddress,
-                                            '',
-                                            '',
-                                          ),
-                                          textTheme: textTheme,
-                                          connected: false,
-                                        )
-                                      : const SizedBox.shrink(),
-                                ),
-                                if (items.isEmpty)
-                                  IntrinsicHeight(
-                                    child: AdviceMessage(
-                                      imageName: LdAssets.emptyNotification,
-                                      title: viewModel.status.typeOffer ==
-                                              TypeOffer.sell
-                                          ? viewModel.countFilters() > 0
-                                              ? 'No hay publicaciones para estos filtros'
-                                              : 'Aún no hay ofertas de ventas'
-                                          : viewModel.countFilters() > 0
-                                              ? 'No hay publicaciones para estos filtros'
-                                              : 'Aún no hay ofertas de compras',
-                                      description: viewModel.status.typeOffer ==
-                                              TypeOffer.sell
-                                          ? viewModel.countFilters() > 0
-                                              ? 'Por favor seleccione nuevos criterios'
-                                              : 'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.'
-                                          : viewModel.countFilters() > 0
-                                              ? 'Por favor seleccione nuevos criterios'
-                                              : 'Aquí podrás visualizar las ofertas de compras creadas por la comunidad.',
-                                    ),
-                                  )
-                              ],
+              child: Stack(
+                children: <Widget>[
+                  ListView.separated(
+                    controller: mainScrollCtrl,
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 8,
+                      );
+                    },
+                    padding: EdgeInsets.zero,
+                    itemCount:
+                        viewModel.status.isLoading ? 3 : items.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return viewModel.status.isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: LdColors.whiteDark,
+                              highlightColor: LdColors.grayButton,
+                              child: const Card(
+                                margin: EdgeInsets.all(10),
+                                child: SizedBox(height: 160),
+                              ),
                             )
-                          : CardBuyAndSell(
-                              onTap: () {
-                                userId.isEmpty
-                                    ? viewModel.goLogin(context)
-                                    : viewModel.goDetailOffer(
-                                        context,
-                                        item: items[index - 1],
-                                        isBuy: viewModel.status.typeOffer ==
-                                            TypeOffer.sell,
-                                      );
-                              },
-                              item: items[index - 1],
-                              textTheme: textTheme,
-                            );
-                },
+                          : index == 0
+                              ? Column(
+                                  children: <Widget>[
+                                    AnimatedSwitcher(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      child: userId.isNotEmpty &&
+                                              (userProvider.getAddress ==
+                                                      null ||
+                                                  userProvider.getAddress == '')
+                                          ? CardWalletConnect(
+                                              onTap: () => MiDailyConnect
+                                                  .createConnection(
+                                                context,
+                                                DailyConnectType.walletAddress,
+                                                '',
+                                                '',
+                                              ),
+                                              textTheme: textTheme,
+                                              connected: false,
+                                            )
+                                          : const SizedBox.shrink(),
+                                    ),
+                                    if (items.isEmpty)
+                                      IntrinsicHeight(
+                                        child: AdviceMessage(
+                                          imageName: LdAssets.emptyNotification,
+                                          title: viewModel.status.typeOffer ==
+                                                  TypeOffer.sell
+                                              ? viewModel.countFilters() > 0
+                                                  ? 'No hay publicaciones para estos filtros'
+                                                  : 'Aún no hay ofertas de ventas'
+                                              : viewModel.countFilters() > 0
+                                                  ? 'No hay publicaciones para estos filtros'
+                                                  : 'Aún no hay ofertas de compras',
+                                          description: viewModel
+                                                      .status.typeOffer ==
+                                                  TypeOffer.sell
+                                              ? viewModel.countFilters() > 0
+                                                  ? 'Por favor seleccione nuevos criterios'
+                                                  : 'Aquí podrás visualizar las ofertas de ventas creadas por la comunidad.'
+                                              : viewModel.countFilters() > 0
+                                                  ? 'Por favor seleccione nuevos criterios'
+                                                  : 'Aquí podrás visualizar las ofertas de compras creadas por la comunidad.',
+                                        ),
+                                      )
+                                  ],
+                                )
+                              : CardBuyAndSell(
+                                  onTap: () {
+                                    userId.isEmpty
+                                        ? viewModel.goLogin(context)
+                                        : viewModel.goDetailOffer(
+                                            context,
+                                            item: items[index - 1],
+                                            isBuy: viewModel.status.typeOffer ==
+                                                TypeOffer.sell,
+                                          );
+                                  },
+                                  item: items[index - 1],
+                                  textTheme: textTheme,
+                                );
+                    },
+                  ),
+                  if (viewModel.status.isLoadingScroll)
+                    Positioned(
+                      bottom: 10,
+                      left: size.width * 0.5 - 40,
+                      child: const LoadingIconScroll(),
+                    )
+                ],
               ),
             ),
           ],

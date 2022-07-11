@@ -16,6 +16,7 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/login/body_login.dart';
 import 'package:localdaily/services/models/login/get_by_id/result_data_user.dart';
 import 'package:localdaily/services/models/login/response/result_login.dart';
+import 'package:localdaily/services/models/login/token_login.dart';
 import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
@@ -152,13 +153,13 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
       if (response.isSuccess) {
         dataUserProvider.setTokenLogin(response.result!.tokenData);
         final String idUser = response.result!.user.id;
-        final token = dataUserProvider.getTokenLogin;
+        final TokenLogin token = dataUserProvider.getTokenLogin!;
         final List<String> enableList =
             _localStorage.getPreferences()?.getStringList('biometric') ??
                 <String>[];
         const FlutterSecureStorage storage = FlutterSecureStorage();
         _interactor
-            .getUserById(idUser, 'Bearer ${token!.token}')
+            .getUserById(idUser, 'Bearer ${token.token}')
             .then((ResponseData<ResultDataUser> response) {
           if (response.isSuccess) {
             dataUserProvider.setNickName(response.result!.nickName);

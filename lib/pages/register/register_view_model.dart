@@ -396,7 +396,6 @@ class RegisterViewModel
       rateBuyer: '',
       isCorporative: false,
     );
-    final token = dataUserProvider.getTokenLogin;
     _interactor
         .postRegisterUser(bodyRegister)
         .then((ResponseData<ResultRegister> response) {
@@ -435,19 +434,17 @@ class RegisterViewModel
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
       addEffect(ShowErrorSnackbar('Error servicio**'));
-      status = status.copyWith(
-        isLoading: false,
-      );
+      status = status.copyWith(isLoading: false);
     });
   }
 
   void goSuccessRegister(BuildContext context) {
     final InfoViewArguments info = InfoViewArguments(
-      actionCaption: 'Ingresar',
+      actionCaption: 'Ir a Login',
       title: '¡Felciitaciones!',
       colorTitle: LdColors.white,
       description: 'Ya tienes una cuenta. Es hora de comprar y vender tus DLY.',
-      onAction: () => _route.goHome(context),
+      onAction: () => _route.goLoginForLogout(context),
     );
     _route.goInfoView(context, info);
   }

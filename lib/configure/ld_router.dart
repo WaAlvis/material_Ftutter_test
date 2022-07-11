@@ -49,7 +49,7 @@ class LdRouter {
       context,
       AppRoutes.homeRoute.route,
       transition: TransitionType.none,
-      // clearStack: true,
+      clearStack: true,
       replace: true,
     );
   }
