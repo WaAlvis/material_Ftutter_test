@@ -183,16 +183,24 @@ class FilterViewModel extends EffectsViewModel<FilterStatus, FilterEffect> {
 // jsonDecode(listBank) as List<String>.cast<String>();
       stringList = listBank.split(',');
     }
+    int? state;
+    if (filtersArguments.extraFilters?.status != null) {
+      state = filtersArguments.extraFilters?.status;
+      print('@## $state');
+    } else {
+      state = -2;
+      print('@# $state');
+    }
     status = status.copyWith(
       range: filtersArguments.extraFilters?.range,
       dateExpiry: filtersArguments.extraFilters?.dateExpiry,
-      status: filtersArguments.extraFilters?.status,
+      status: state,
       banks: stringList,
     );
   }
 
   void clearFilters() {
-    status = status.copyWith(range: -1, dateExpiry: -1, status: -1, banks: []);
+    status = status.copyWith(range: -1, dateExpiry: -1, status: -2, banks: []);
   }
 
   List<String> setBankApi(String banks) {

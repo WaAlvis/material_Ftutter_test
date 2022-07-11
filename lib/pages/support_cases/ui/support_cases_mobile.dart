@@ -18,7 +18,6 @@ class _SupportCasesMobile extends StatelessWidget {
         viewModel.status.resultSupportCases.data;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: LdColors.blackBackground,
@@ -60,25 +59,23 @@ class _SupportCasesMobile extends StatelessWidget {
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
                 shrinkWrap: items.isEmpty,
-                itemCount: viewModel.status.isLoading
-                    ? 10
-                    : items.length,
+                itemCount: viewModel.status.isLoading ? 10 : items.length,
                 controller: supportScrollCtrl,
                 itemBuilder: (BuildContext context, int index) {
                   return viewModel.status.isLoading
                       ? Shimmer.fromColors(
-                    baseColor: LdColors.whiteDark,
-                    highlightColor: LdColors.grayButton,
-                    child: const Card(
-                      margin: EdgeInsets.all(10),
-                      child: SizedBox(height: 100),
-                    ),
-                  )
+                          baseColor: LdColors.whiteDark,
+                          highlightColor: LdColors.grayButton,
+                          child: const Card(
+                            margin: EdgeInsets.all(10),
+                            child: SizedBox(height: 100),
+                          ),
+                        )
                       : items.isEmpty
-                      ? const IntrinsicHeight(
-                    child: _EmptySupportCases(),
-                  )
-                      : _SupportCaseCard(item: items[index]);
+                          ? const IntrinsicHeight(
+                              child: _EmptySupportCases(),
+                            )
+                          : _SupportCaseCard(item: items[index]);
                 },
               ),
             ),
@@ -129,6 +126,7 @@ class _SupportCaseCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        print('${item.toJson()}');
         print('*** ${item.id}');
         viewModel.goDetailSupport(context, item);
       },

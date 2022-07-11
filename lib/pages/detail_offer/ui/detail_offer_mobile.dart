@@ -221,7 +221,7 @@ class _DetailOfferMobile extends StatelessWidget {
                                               viewModel.status.selectedBank!
                                                       .description ==
                                                   'DAVIPLATA'
-                                          ? viewModel.status.listAccountTypeB
+                                          ? viewModel.status.listAccountType
                                               .map((AccountType item) {
                                               return DropdownMenuItem<String>(
                                                 value: item.id,
@@ -358,6 +358,9 @@ class OperationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime dateNow = DateTime.now();
+    DateTime lastTime = DateTime.fromMillisecondsSinceEpoch(
+        ad.expiredDate - dateNow.millisecondsSinceEpoch);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -636,7 +639,7 @@ void confirmBottomSheet(
               onPressed: () => viewModel.onClicConfirmkReserveDly(
                 context,
                 () => viewModel.reservationPaymentForDly(
-                  context,
+                  context: context,
                   typeOffer: isBuy ? TypeOffer.buy : TypeOffer.sell,
                   item: data,
                   userCurrent: user,

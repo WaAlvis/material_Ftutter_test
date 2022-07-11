@@ -123,8 +123,15 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         homeStatus: status,
         indexTab: status.indexTab,
         setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
+          extraFilters.status = extraFilters.status ?? -2;
+          extraFiltersString =
+              extraFiltersString.replaceAll('status: null', 'status: -2');
+          extraFiltersString = extraFiltersString.replaceAll('null', '');
+          extraFiltersString = extraFiltersString.replaceAll('[]', '');
           status = status.copyWith(extraFilters: extraFilters);
           status = status.copyWith(extraFiltersString: extraFiltersString);
+          print('### setfilters ${status.extraFiltersString}');
+
           getData(context, resultDataUser?.id ?? '', refresh: true);
         },
         getFilters: <int>() => status.indexTab,
@@ -437,7 +444,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       idUserExclusion: userId,
       idUserInteraction: '',
       strJsonExtraFilters:
-          status.extraFiltersString?.replaceAll('-1', 'null') ?? '',
+          status.extraFiltersString?.replaceAll('-1', '') ?? '',
     );
     final BodyHome body = BodyHome(
       pagination: pagination,
@@ -446,6 +453,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
     try {
       // Solicitud al servicio
+      print('${filters.toJson()} #### ${status.extraFiltersString}');
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
@@ -548,8 +556,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         idUserInteraction: userId,
         strJsonExtraFilters:
             status.extraFiltersString != null && status.extraFiltersString != ''
-                ? status.extraFiltersString!.replaceAll('-1', 'null')
-                : '{status:[1,4]}');
+                ? status.extraFiltersString!.replaceAll('-1', '')
+                : '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -652,8 +660,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         idUserExclusion: '',
         idUserInteraction: '',
         strJsonExtraFilters:
-            status.extraFiltersString?.replaceAll('-1', 'null') ??
-                'status:[1,4]');
+            status.extraFiltersString?.replaceAll('-1', '') ?? 'status:-2');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -727,7 +734,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       count = count + 1;
     }
     if (status.extraFilters?.status != null &&
-        status.extraFilters?.status != -1) {
+        status.extraFilters?.status != -2) {
       count = count + 1;
     }
     if (status.extraFilters?.bank != null &&

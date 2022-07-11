@@ -47,7 +47,7 @@ class LdRouter {
   void goLoginForLogout(BuildContext context) {
     AppRouter.router.navigateTo(
       context,
-      AppRoutes.loginRoute.route,
+      AppRoutes.homeRoute.route,
       transition: TransitionType.none,
       // clearStack: true,
       replace: true,

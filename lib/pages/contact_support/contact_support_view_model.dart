@@ -149,6 +149,19 @@ class ContactSupportViewModel
               ),
             );
           }
+        } else {
+          status = status.copyWith(isLoading: false);
+          _route.pop(context);
+          if (response.isSuccess) {
+            addEffect(ShowSnackbarSuccesEffect());
+            _route.goHome(context);
+          } else {
+            addEffect(
+              ShowSnackbarErrorEffect(
+                'No fue posible enviar el caso de soporte, intenta más tarde',
+              ),
+            );
+          }
         }
       });
     } catch (e) {

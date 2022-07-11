@@ -19,6 +19,10 @@ class CardBuyAndSell extends StatelessWidget {
       return totalCost.toString();
     }
 
+    final DateTime dateNow = DateTime.now();
+    DateTime lastTime = DateTime.fromMillisecondsSinceEpoch(
+        item.advertisement.expiredDate - dateNow.millisecondsSinceEpoch);
+
     return GestureDetector(
       onTap: onTap, //asi pase bien la navegacion?
       child: Container(
@@ -44,8 +48,12 @@ class CardBuyAndSell extends StatelessWidget {
                 // name: item.user.nickName,
                 name: item.user.nickName,
                 stars: '${item.user.rateSeller}',
-                // time: item.advertisement.expiredDate,
-                time: '7d',
+                time: '${DateTime.fromMillisecondsSinceEpoch(
+                  item.advertisement.expiredDate,
+                ).difference(
+                      DateTime.now(),
+                    ).inDays} d',
+                // time: '1ss7d',
                 textTheme: textTheme,
               ),
               const Padding(

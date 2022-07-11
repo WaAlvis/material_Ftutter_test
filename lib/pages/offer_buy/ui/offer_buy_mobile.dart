@@ -25,6 +25,7 @@ class _OfferBuyMobile extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double hAppbar = 100;
     final double hBody = size.height - hAppbar;
+    NumberFormat f = new NumberFormat("#,##0.00", "es_AR");
 
     return GestureDetector(
       onTap: () {
@@ -105,11 +106,20 @@ class _OfferBuyMobile extends StatelessWidget {
                                 color: LdColors.orangePrimary.withOpacity(0.7),
                                 fontSize: 18,
                               ),
-                              inputFormatters: <TextInputFormatter>[
+                              // inputFormatters: <TextInputFormatter>[
+                              //   FilteringTextInputFormatter.allow(
+                              //     RegExp(r'(^\d*\.?\d*)$'),
+                              //     // RegExp('[0-9]+[,.]{0,1}[0-9]*'),
+                              //   ),
+                              //   // DecimalTextInputFormatter(decimalRange: 1),
+                              // ],
+                              inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                   RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                                 ),
-                                DecimalTextInputFormatter(decimalRange: 1),
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^(\d+)?\.?\d{0,1}'),
+                                ),
                               ],
                               keyboardType:
                                   const TextInputType.numberWithOptions(
@@ -210,7 +220,7 @@ class _OfferBuyMobile extends StatelessWidget {
                               height: 20,
                             ),
                             PrimaryButtonCustom(
-                              'Crear oferta de venta',
+                              'Crear oferta de compra',
                               onPressed: viewModel.onClickCreateOffer,
                             ),
                           ],

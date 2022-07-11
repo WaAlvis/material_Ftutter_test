@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Uso de la autenticacion para iniciar sesion</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -50,10 +48,14 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>La aplicacion necesita poder tomar fotos para subir comprobantes.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Uso de la autenticacion para iniciar sesion</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>La aplicacion necesita poder acceder a la galeria para subir comprobantes.</string>
 	<key>UIBackgroundModes</key>
-	<array/>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
