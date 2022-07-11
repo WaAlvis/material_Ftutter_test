@@ -400,7 +400,30 @@ class RegisterViewModel
         .postRegisterUser(bodyRegister)
         .then((ResponseData<ResultRegister> response) {
       if (response.isSuccess) {
-        goSuccessRegister(context);
+        final String idUser = response.result!.id;
+        final token = dataUserProvider.getTokenLogin;
+        _interactor
+            .getUserById(idUser, 'Bearer ${token!.token}')
+            .then((ResponseData<ResultDataUser> responseDataUser) async {
+          if (responseDataUser.isSuccess) {
+            dataUserProvider.setDataUserLogged(
+              responseDataUser.result,
+            );
+            status = status.copyWith(
+              isErrorPinValidate: false,
+            );
+            goSuccessRegister(context);
+          } else {
+            addEffect(ShowErrorSnackbar('Error en almacenando la info'));
+          }
+          status = status.copyWith(isLoading: false);
+        }).catchError((Object err) {
+          print(err.toString());
+          addEffect(ShowErrorSnackbar('Error servicio**'));
+          status = status.copyWith(
+            isLoading: false,
+          );
+        });
       } else {
         final String err = textError(
               errorMsj: response.error!.message,

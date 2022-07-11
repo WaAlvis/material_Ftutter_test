@@ -109,11 +109,19 @@ class _OfferSaleMobile extends StatelessWidget {
                             color: LdColors.orangePrimary.withOpacity(0.7),
                             fontSize: 18,
                           ),
-                          inputFormatters: <TextInputFormatter>[
+                          // inputFormatters: <TextInputFormatter>[
+                          //   FilteringTextInputFormatter.allow(
+                          //     RegExp('[0-9]+[,.]{0,1}[0-9]*'),
+                          //   ),
+                          //   DecimalTextInputFormatter(decimalRange: 1),
+                          // ],
+                          inputFormatters: [
                             FilteringTextInputFormatter.allow(
                               RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                             ),
-                            DecimalTextInputFormatter(decimalRange: 1),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'^(\d+)?\.?\d{0,1}'),
+                            ),
                           ],
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
@@ -207,15 +215,17 @@ class _OfferSaleMobile extends StatelessWidget {
                                   changeFillWith:
                                       viewModel.status.selectedAccountType !=
                                           null,
-                                  onChanged: (String? idDocType) =>
-                                      viewModel.accountTypeSelected(idDocType!),
+                                  onChanged: (String? idDocType) {
+                                    print('@#@# $idDocType');
+                                    viewModel.accountTypeSelected(idDocType!);
+                                  },
                                   optionItems: viewModel.status.selectedBank!
                                                   .description ==
                                               'NEQUI' ||
                                           viewModel.status.selectedBank!
                                                   .description ==
                                               'DAVIPLATA'
-                                      ? viewModel.status.listAccountTypeB
+                                      ? viewModel.status.listAccountType
                                           .map((AccountType item) {
                                           return DropdownMenuItem<String>(
                                             value: item.id,

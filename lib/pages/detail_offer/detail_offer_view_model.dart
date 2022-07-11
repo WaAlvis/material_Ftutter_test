@@ -125,7 +125,7 @@ class DetailOfferViewModel
       if (status.selectedBank?.description == 'NEQUI' ||
           status.selectedBank?.description == 'DAVIPLATA') {
         status = status.copyWith(
-          listAccountTypeB: <AccountType>[
+          listAccountType: <AccountType>[
             AccountType(
               description: 'Billetera virutal',
               id: '998ea2c8-aac4-11ec-9cf0-5740eef20236',
@@ -223,8 +223,8 @@ class DetailOfferViewModel
     }
   }
 
-  Future<void> reservationPaymentForDly(
-    BuildContext context, {
+  Future<void> reservationPaymentForDly({
+    required BuildContext context,
     required Data item,
     required ResultDataUser userCurrent,
     required TypeOffer typeOffer,
@@ -233,7 +233,10 @@ class DetailOfferViewModel
     required String docNum,
     required String titular,
   }) async {
+    // final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
     closeDialog(_route.navigatorKey.currentContext!);
+    // print('${context} context');
+    // _route.pop(context);
     status = status.copyWith(isLoading: true);
 
     final BodyUpdateStatus body = BodyUpdateStatus(
@@ -247,10 +250,7 @@ class DetailOfferViewModel
     );
 
     if (typeOffer == TypeOffer.sell) {
-      final DataUserProvider dataUserProvider =
-          context.read<DataUserProvider>();
-
-      final token = dataUserProvider.getTokenLogin;
+      final token = userProvider.getTokenLogin;
       _interactor
           .reserveOffer(body, 'Bearer ${token!.token}')
           .then((ResponseData<ResultUpdateStatus> response) {
@@ -286,7 +286,10 @@ class DetailOfferViewModel
           <String, dynamic>{
             'bankId': status.selectedBank!.id,
             'accountNumber': accountNo,
-            'accountTypeId': status.selectedAccountType!.id,
+            'accountTypeId': (status.selectedBank!.description == 'NEQUI' ||
+                    status.selectedBank!.description == 'DAVIPLATA')
+                ? '998ea2c8-aac4-11ec-9cf0-5740eef20236'
+                : status.selectedAccountType!.id,
             'documentNumber': docNum,
             'documentTypeID': status.selectedDocType!.id,
             'titularUserName': titular,

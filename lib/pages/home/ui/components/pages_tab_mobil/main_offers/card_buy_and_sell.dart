@@ -43,6 +43,7 @@ class CardBuyAndSell extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TitleBarCard(
+                // name: item.user.nickName,
                 name: item.user.nickName,
                 stars: '${item.user.rateSeller}',
                 time: viewModel.getFinishDate(

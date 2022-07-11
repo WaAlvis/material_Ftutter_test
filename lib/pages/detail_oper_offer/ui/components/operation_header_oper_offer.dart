@@ -108,7 +108,9 @@ class OperationHeader extends StatelessWidget {
                           const SizedBox(width: 6),
                           // TODO: Calcular tiempo restante de la publicacion
                           Text(
-                            expiredDate > 0 ? '$expiredDate d' : '0 d',
+                            viewModel.status.dateHours! > 0
+                                ? '${viewModel.status.dateHours} h'
+                                : '0 d',
                             style: textTheme.textWhite,
                           )
                         ],
@@ -161,7 +163,7 @@ class OperationHeader extends StatelessWidget {
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                viewModel.status.dateHours! > 72
+                                viewModel.status.dateHours! < 0
                                     ? 'Finalizado'
                                     : '${viewModel.status.dateHours} h',
                                 style: textTheme.textWhite,

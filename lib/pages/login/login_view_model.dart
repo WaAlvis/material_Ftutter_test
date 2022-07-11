@@ -186,7 +186,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
                         '¡Perfecto! has habilitado tu inicio de sesión biométrico. Podrás utilizarlo de aquí en adelante cada que ingreses a LocalDLY.');
                   }
                 },
-                btnTextSecondary: 'Cancelar',
+                btnTextSecondary: 'Tal vez, después',
                 onTapSecondary: () {
                   _route.goHome(context);
                 },
@@ -204,11 +204,20 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
           status = status.copyWith(isLoading: false);
         });
       } else {
-        addEffect(ShowErrorSnackbar('Usuario o contraseña incorrectos'));
+        status = status.copyWith(isLoading: false);
         final String attemps = response.error!.info['attemps'] as String;
         if (int.parse(attemps) == 3) {
+          final String timeLocked =
+              response.error!.info['timeUnlock'] as String;
+          status = status.copyWith(
+            timeUnlockUser: _timeUnlockUser(timeLocked),
+          );
           addEffect(DialogFailAttempsLogin());
+          addEffect(ShowErrorSnackbar('Bloqueo temporal del Usuario'));
+
+          return;
         }
+        addEffect(ShowErrorSnackbar('Usuario o contraseña incorrectos'));
       }
       status = status.copyWith(isLoading: false);
     }).catchError((dynamic err) {
@@ -248,6 +257,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
             .getUserById(idUser, 'Bearer ${token!.token}')
             .then((ResponseData<ResultDataUser> response) {
           if (response.isSuccess) {
+            dataUserProvider.setNickName(response.result!.nickName);
             dataUserProvider.setDataUserLogged(
               response.result,
             );

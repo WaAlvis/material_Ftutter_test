@@ -22,9 +22,7 @@ class DetailSupportViewModel
     this.advertisement,
   ) {
     status = DetailSupportStatus(
-      isLoading: true,
-      isError: false,
-    );
+        isLoading: true, isError: false, advertisement: advertisement);
   }
 
   Future<void> onInit() async {}
@@ -32,8 +30,6 @@ class DetailSupportViewModel
   void goBack(BuildContext context) {
     _route.pop(context);
   }
-
-
 
   // void goDirectionWallet(BuildContext context) {
   //   LdConnection.validateConnection().then((bool isConnectionValid) {

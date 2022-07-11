@@ -86,6 +86,7 @@ class DetailOperOfferViewModel
         await _interactor
             .getDetailAdvertisement(offerId, 'Bearer ${token!.token}')
             .then((response) {
+          print(response.result!.toJson());
           status = status.copyWith(isLoading: false);
           status = status.copyWith(item: response.result);
           status = status.copyWith(
@@ -206,7 +207,7 @@ class DetailOperOfferViewModel
         }
       } catch (e) {
         addEffect(
-          ShowSnackbarErrorEffect('Error desconocdio $e'),
+          ShowSnackbarErrorEffect('Esta publicacion no tiene adjuntos'),
         ); //cambiar mensaje
       }
       // status = status.copyWith(state: 'Pagado', isBuy: false, isOper2: true);
@@ -309,7 +310,7 @@ class DetailOperOfferViewModel
       value: (double.parse(status.item!.valueToSell) * 0.975).toString(),
       message: 'Usuario confirmo orden de pago',
     );
-
+    print(body.toJson());
     final RateUser bodyRate = RateUser(
       isSeller: true,
       userId: status.item!.idUserPublish,
@@ -442,8 +443,8 @@ class DetailOperOfferViewModel
   void hoursForExpire(DateTime date) {
     final DateTime date2 = DateTime.now();
     final int difference = date2.difference(date).inHours;
-    status = status.copyWith(dateHours: difference);
-    // print('$difference   horas pasada al header ${status.dateHours}');
+    print('quedan n horas ${72 - difference}  $date  $date2');
+    status = status.copyWith(dateHours: 72 - difference);
   }
 
   void goContactSupport(

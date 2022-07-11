@@ -29,7 +29,9 @@ class CardDetailPay extends StatelessWidget {
         _color = LdColors.blueState;
         _comprobante = LdAssets.comprobante3;
         _title1 = isBuy
-            ? 'Adjuntaste el comprobante de pago.'
+            ? viewModel.status.item!.advertisementDocuments!.isEmpty
+                ? 'Publicacion cancelada'
+                : 'Adjuntaste el comprobante de pago.'
             : 'Comprador adjuntó un comprobante de pago.';
         _title2 = '';
         break;
@@ -37,7 +39,9 @@ class CardDetailPay extends StatelessWidget {
         _color = LdColors.green;
         _comprobante = LdAssets.comprobante;
         _title1 = isBuy
-            ? 'Adjuntaste el comprobante de pago.'
+            ? viewModel.status.item!.advertisementDocuments!.isEmpty
+                ? 'Publicacion cancelada'
+                : 'Adjuntaste el comprobante de pago.'
             : 'Comprador adjuntó un comprobante de pago.';
         _title2 =
             isBuy ? '' : 'Valida la información antes de confirmar el pago.';
@@ -109,7 +113,10 @@ class CardDetailPay extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      if (state == 'Publicado')
+                      if (state == 'Publicado' ||
+                          state == 'Cerrado' &&
+                              viewModel
+                                  .status.item!.advertisementDocuments!.isEmpty)
                         Container()
                       else
                         GestureDetector(
@@ -129,7 +136,7 @@ class CardDetailPay extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      if (state == 'Pagado')
+                      if (state == 'Pagado' && viewModel.status.isBuy)
                         GestureDetector(
                           onTap: () {
                             viewModel.openRateSeller(
@@ -159,7 +166,10 @@ class CardDetailPay extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            if (state == 'Pendiente de pago' || state == 'Publicado')
+            if (state == 'Pendiente de pago' ||
+                state == 'Publicado' ||
+                state == 'Cerrado' &&
+                    viewModel.status.item!.advertisementDocuments!.isEmpty)
               Container()
             else
               PrimaryButtonCustom(

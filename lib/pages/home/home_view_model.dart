@@ -117,8 +117,15 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         homeStatus: status,
         indexTab: status.optionTab.index,
         setFilters: (ExtraFilters extraFilters, String extraFiltersString) {
+          extraFilters.status = extraFilters.status ?? -2;
+          extraFiltersString =
+              extraFiltersString.replaceAll('status: null', 'status: -2');
+          extraFiltersString = extraFiltersString.replaceAll('null', '');
+          extraFiltersString = extraFiltersString.replaceAll('[]', '');
           status = status.copyWith(extraFilters: extraFilters);
           status = status.copyWith(extraFiltersString: extraFiltersString);
+          print('### setfilters ${status.extraFiltersString}');
+
           getData(resultDataUser?.id ?? '', refresh: true);
         },
         getFilters: <int>() => status.optionTab.index,
@@ -363,13 +370,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
             ? '${difference.inHours} h'
             : '${difference.inDays} d';
   }
-
   Future<void> getData(
-    String userId,
-      {bool refresh = false,
+      String userId, {
+        bool refresh = false,
         bool isPagination = false,
-      })
-    async {
+      }) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
       if (status.optionTab == OptionTab.home) {
@@ -379,27 +384,64 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           isPagination: isPagination,
         );
       } else if (status.optionTab == OptionTab.operations) {
-        if (userId.isNotEmpty) {
+        if (userId.isNotEmpty)
           await getDataOperations(
             userId,
             refresh: refresh,
             isPagination: isPagination,
           );
-        }
-      }
       } else if (status.optionTab == OptionTab.myOffers) {
-        if (userId.isNotEmpty){
+        if (userId.isNotEmpty)
           await getDataOffers(
             userId,
             refresh: refresh,
             isPagination: isPagination,
           );
-        }
-      } else {
+      }
+    } else {
       addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
     }
     status = status.copyWith(isLoading: false);
   }
+  // Future<void> getData(
+  //   String userId,
+  //     {bool refresh = false,
+  //       bool isPagination = false,
+  //     })
+  //   async {
+  //   final bool next = await LdConnection.validateConnection();
+  //   if (next) {
+  //     if (status.optionTab == OptionTab.home) {
+  //       await getDataHome(
+  //         userId,
+  //         refresh: refresh,
+  //         isPagination: isPagination,
+  //       );
+  //     }
+  //     else if (status.optionTab == OptionTab.operations) {
+  //       if (userId.isNotEmpty) {
+  //         await getDataOperations(
+  //           userId,
+  //           refresh: refresh,
+  //           isPagination: isPagination,
+  //         );
+  //       }
+  //     }
+  //     else if (status.optionTab == OptionTab.myOffers) {
+  //       if (userId.isNotEmpty){
+  //         await getDataOffers(
+  //           userId,
+  //           refresh: refresh,
+  //           isPagination: isPagination,
+  //         );
+  //       }
+  //     }
+  //   }
+  //     else {
+  //     addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+  //     status = status.copyWith(isLoading: false);
+  //   }
+  // }
 
   // ------ CONSULTA PARA TRAER TARJETAS DEL INICIO ------
   Future<void> getDataHome(
@@ -455,12 +497,11 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
           ? '${TypeOffer.sell.index}'
           : '${TypeOffer.buy.index}',
       idUserPublish: '',
-      // statusCode: '${OfferStatus.Publicado.index}',
-      statusCode: '',
+      statusCode: '${OfferStatus.Publicado.index}',
       idUserExclusion: userId,
       idUserInteraction: '',
       strJsonExtraFilters:
-          status.extraFiltersString?.replaceAll('-1', 'null') ?? '',
+          status.extraFiltersString?.replaceAll('-1', '') ?? '',
     );
     final BodyHome body = BodyHome(
       pagination: pagination,
@@ -492,7 +533,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          _printCurrentDataAndTotalData(data,status.offersSaleDataHome.totalItems);
           if (status.offersSaleDataHome.totalItems == data.length){
             status=status.copyWith(thereIsMoreData: false);
           }
@@ -506,11 +546,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          _printCurrentDataAndTotalData(data,status.offersBuyDataHome.totalItems);
           if (status.offersBuyDataHome.totalItems == data.length){
             status=status.copyWith(thereIsMoreData: false);
           }
-
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -520,11 +558,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       print('Get DataHome Error As: $err');
     }
   }
-    void _printCurrentDataAndTotalData(List<Data> data, int totalInService){
-    // SOLO para testear la cantidad de items actuales y en la BD
-    print('items in DB: $totalInService  , Items in current list: ${data.length} ');
 
-  }
   // ------ CONSULTA PARA TRAER TARJETAS DE OPERACIONES ------
   Future<void> getDataOperations(
     String userId, {
@@ -583,8 +617,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         idUserInteraction: userId,
         strJsonExtraFilters:
             status.extraFiltersString != null && status.extraFiltersString != ''
-                ? status.extraFiltersString!.replaceAll('-1', 'null')
-                : '{status:[1,4]}');
+                ? status.extraFiltersString!.replaceAll('-1', '')
+                : '');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -610,7 +644,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          _printCurrentDataAndTotalData(data,status.operationSaleData.totalItems);
           if (status.operationSaleData.totalItems == data.length){
             status=status.copyWith(thereIsMoreData: false);
           }
@@ -623,11 +656,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                     totalPages: status.operationBuyData.totalPages,
                   )
                 : response.result,
-          );
-        }
-        _printCurrentDataAndTotalData(data,status.operationBuyData.totalItems);
-        if (status.operationBuyData.totalItems == data.length){
-          status=status.copyWith(thereIsMoreData: false);
+              );
+            if (status.operationBuyData.totalItems == data.length){
+              status=status.copyWith(thereIsMoreData: false);
+            }
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -694,8 +726,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
         idUserExclusion: '',
         idUserInteraction: '',
         strJsonExtraFilters:
-            status.extraFiltersString?.replaceAll('-1', 'null') ??
-                'status:[1,4]');
+            status.extraFiltersString?.replaceAll('-1', '') ?? 'status:-2');
     final BodyHome body = BodyHome(
       pagination: pagination,
       filters: filters,
@@ -720,7 +751,6 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          _printCurrentDataAndTotalData(data,status.myOfferBuyData.totalItems);
           if (status.myOfferBuyData.totalItems == data.length){
             status=status.copyWith(thereIsMoreData: false);
           }
@@ -733,11 +763,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                     totalPages: status.myOfferSaleData.totalPages,
                   )
                 : response.result,
-          );
-        }
-        _printCurrentDataAndTotalData(data,status.myOfferSaleData.totalItems);
-        if (status.myOfferSaleData.totalItems == data.length){
-          status=status.copyWith(thereIsMoreData: false);
+            );
+          if (status.myOfferSaleData.totalItems == data.length){
+            status=status.copyWith(thereIsMoreData: false);
+          }
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -777,7 +806,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       count = count + 1;
     }
     if (status.extraFilters?.status != null &&
-        status.extraFilters?.status != -1) {
+        status.extraFilters?.status != -2) {
       count = count + 1;
     }
     if (status.extraFilters?.bank != null &&
