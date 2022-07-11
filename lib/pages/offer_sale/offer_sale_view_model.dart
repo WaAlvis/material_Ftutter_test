@@ -118,6 +118,9 @@ class OfferSaleViewModel
         valueText == '0 COP') {
       return '* Campo necesario';
     }
+    if (double.parse(valueText) > 9.9) {
+      return '* Debe ingresar un valor entre 0.8 y 9.9';
+    }
     return null;
   }
 

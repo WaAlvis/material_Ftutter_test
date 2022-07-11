@@ -83,6 +83,16 @@ class _DetailOperOfferMobile extends StatelessWidget {
                             const SizedBox(
                               height: 24,
                             ),
+                            if (viewModel.status.isBuy)
+                              Text(
+                                'Estimado usuario asegúrese de adjuntar el comprobante correcto de acuerdo a la operación que está realizando, en caso contrario puede recibir una calificación negativa a su perfil.',
+                                style:
+                                    textTheme.textGray.copyWith(fontSize: 15),
+                              ),
+                            if (viewModel.status.isBuy)
+                              const SizedBox(
+                                height: 24,
+                              ),
                             if (viewModel.status.item != null)
                               CardDetailPay(
                                 textTheme: textTheme,

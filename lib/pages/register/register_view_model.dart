@@ -419,6 +419,7 @@ class RegisterViewModel
           }
           status = status.copyWith(isLoading: false);
         }).catchError((Object err) {
+          print(err.toString());
           addEffect(ShowErrorSnackbar('Error servicio**'));
           status = status.copyWith(
             isLoading: false,

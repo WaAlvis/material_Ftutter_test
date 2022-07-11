@@ -358,6 +358,9 @@ class OperationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime dateNow = DateTime.now();
+    DateTime lastTime = DateTime.fromMillisecondsSinceEpoch(
+        ad.expiredDate - dateNow.millisecondsSinceEpoch);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
