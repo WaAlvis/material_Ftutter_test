@@ -34,19 +34,6 @@ class OperationHeader extends StatelessWidget {
         const SizedBox(
           width: 200,
         ),
-        // GestureDetector(
-        //   onTap: () {
-        //     viewModel.openRateSeller(
-        //       context,
-        //       textTheme,
-        //       viewModel,
-        //     );
-        //   },
-        //   child: Text(
-        //     'CVendedor',
-        //     style: textTheme.textSmallBlack,
-        //   ),
-        // ),
         Text(
           isBuy
               ? viewModel.status.isOper2
@@ -121,66 +108,76 @@ class OperationHeader extends StatelessWidget {
         else
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.check_box,
-                        color: LdColors.orangePrimary,
-                      ),
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          'Oferta de ${isBuy ? 'Compra' : 'venta'} reservada',
-                          style: textTheme.bodyText2?.copyWith(
-                              color: LdColors.orangePrimary, fontSize: 14),
+                  Flexible(
+                    flex: 2,
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.check_box,
+                          color: LdColors.orangePrimary,
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 6,
-                        horizontal: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: LdColors.redError,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          const Icon(
-                            Icons.timer,
-                            color: LdColors.white,
-                            size: 20,
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'Oferta de ${isBuy ? 'Compra' : 'venta'} reservada',
+                              style: textTheme.bodyText2?.copyWith(
+                                  color: LdColors.orangePrimary, fontSize: 14),
+                            ),
                           ),
-                          const SizedBox(width: 6),
-                          // TODO: Calcular tiempo restante de la publicacion
-                          if (viewModel.status.dateHours != null)
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                viewModel.status.dateHours! < 0
-                                    ? 'Finalizado'
-                                    : '${viewModel.status.dateHours} h',
-                                style: textTheme.textWhite,
-                              ),
-                            )
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12,),
+                  Flexible(
+                    child: Container(
+
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 6,
+                          horizontal: 6,
+                        ),
+                        decoration: BoxDecoration(
+
+                          color: LdColors.redError,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.timer,
+                              color: LdColors.white,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 6),
+                            // TODO: Calcular tiempo restante de la publicacion
+                            if (viewModel.status.dateHours != null)
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    viewModel.status.dateHours! < 0
+                                        ? 'Finalizado'
+                                        : '${viewModel.status.dateHours} h',
+                                    style: textTheme.textWhite,
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
+                    ),
+                  ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  Text(
-                    // '# referencia: ${ad.id.substring(0, 5)}',
-                    '# referencia: $ad',
-                    style: textTheme.textGray,
-                  ),
-                ],
+              Text(
+                // '# referencia: ${ad.id.substring(0, 5)}',
+                '# referencia: $ad',
+                style: textTheme.textGray,
               )
             ],
           )
