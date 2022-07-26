@@ -477,7 +477,9 @@ class PublisherInformation extends StatelessWidget {
           width: 6,
         ),
         Text(
-          user.rateBuyer.toString(),
+          viewModel.status.isBuy //o sino invertir el ternario.
+              ? user.rateSeller.toString()
+              : user.rateBuyer.toString(),
           style: textTheme.textSmallBlack,
         ),
         const Spacer(),
