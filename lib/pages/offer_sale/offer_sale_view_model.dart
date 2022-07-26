@@ -111,15 +111,32 @@ class OfferSaleViewModel
   void changeNameTitularAccount(String name) =>
       status = status.copyWith(isNameTitularAccountEmpty: name.isEmpty);
 
-  String? validatorNotEmpty(String? valueText) {
+  String? validatorMargin(String? value, {required double min,required double max}) {
+    // if( valueText.contains(','))
+    print(value);
+    final String valueText = value!.split(' ').first;
+
+
     if (valueText == null ||
         valueText.isEmpty ||
         valueText == '0' ||
         valueText == '0 COP') {
       return '* Campo necesario';
     }
-    if (double.parse(valueText) > 9.9) {
-      return '* Debe ingresar un valor entre 0.8 y 9.9';
+
+    final String newValue = valueText.replaceAll(',', '.');
+    final double doubleValue = double.parse(newValue);
+    if (doubleValue > max || doubleValue < min) {
+      return '* Debe ingresar un valor entre $min y $max';
+    }
+    return null;
+  }
+
+  String? validatorNotEmpty(String? valueText) {
+
+    if (valueText == null ||
+        valueText.isEmpty) {
+      return '* Campo necesario';
     }
     return null;
   }

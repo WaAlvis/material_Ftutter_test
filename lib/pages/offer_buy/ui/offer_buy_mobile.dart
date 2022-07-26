@@ -26,7 +26,8 @@ class _OfferBuyMobile extends StatelessWidget {
     const double hAppbar = 100;
     final double hBody = size.height - hAppbar;
     NumberFormat f = new NumberFormat("#,##0.00", "es_AR");
-
+    const double maxMarginInput = 3.0;
+    const double minMarginInput = 0.7;
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -81,13 +82,19 @@ class _OfferBuyMobile extends StatelessWidget {
                             ),
                             InputTextCustom(
                               'Valor de los DLYCOP*',
-                              counterText: 'Min: 0.8, Max: 9.9',
-                              onChange: (_) => viewModel.calculateTotalMoney(
-                                marginCtrl.text,
-                                amountDLYCtrl.text,
-                              ),
-                              onTap: () => marginCtrl.text =
-                                  viewModel.resetValueMargin(marginCtrl.text),
+                              counterText: 'Min: $minMarginInput, Max: $maxMarginInput',
+                              onChange: (_) =>
+                                viewModel.calculateTotalMoney(
+                                  marginCtrl.text,
+                                  amountDLYCtrl.text,
+                                ),
+                              validator: (String? value) =>
+                                  viewModel.validatorMargin(value, min: minMarginInput, max: maxMarginInput),
+                              onTap: () {
+                                // marginCtrl.selection = TextSelection.fromPosition(TextPosition(offset: marginCtrl.text.length));
+                                marginCtrl.text =
+                                    viewModel.resetValueMargin(marginCtrl.text);
+                              },
                               onEditingComplete: () => marginCtrl.text =
                                   viewModel.completeEditMargin(
                                 marginCtrl.text,
@@ -98,28 +105,19 @@ class _OfferBuyMobile extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                               controller: marginCtrl,
-                              validator: (String? value) =>
-                                  viewModel.validatorNotEmpty(value),
                               changeFillWith: !viewModel.status.isMarginEmpty,
                               hintText: '0 COP',
                               hintStyle: TextStyle(
                                 color: LdColors.orangePrimary.withOpacity(0.7),
                                 fontSize: 18,
                               ),
-                              // inputFormatters: <TextInputFormatter>[
-                              //   FilteringTextInputFormatter.allow(
-                              //     RegExp(r'(^\d*\.?\d*)$'),
-                              //     // RegExp('[0-9]+[,.]{0,1}[0-9]*'),
-                              //   ),
-                              //   // DecimalTextInputFormatter(decimalRange: 1),
-                              // ],
-                              inputFormatters: [
+                              inputFormatters: <TextInputFormatter>[
+                                LengthLimitingTextInputFormatter(3),      //only 6 digit
+                                // NumericalRangeFormatter(min: 0.8, max: 3.0),
                                 FilteringTextInputFormatter.allow(
                                   RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                                 ),
-                                FilteringTextInputFormatter.allow(
-                                  RegExp(r'^(\d+)?\.?\d{0,1}'),
-                                ),
+                                DecimalTextInputFormatter(decimalRange: 1, min: minMarginInput),
                               ],
                               keyboardType:
                                   const TextInputType.numberWithOptions(

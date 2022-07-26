@@ -2,38 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
-class NumericalRangeFormatter extends TextInputFormatter {
-  final double min;
-  final double max;
+class DecimalTextInputFormatter extends TextInputFormatter {
+  DecimalTextInputFormatter({required this.decimalRange, required this.min})
+      : assert(decimalRange == null || decimalRange > 0);
 
-  NumericalRangeFormatter({required this.min, required this.max});
+  final int decimalRange;
+  final double min;
+
 
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    // final String value=changeSeparatorGroup(newValue.text);
-
-    if (newValue.text == '') {
-      return newValue;
-    } else if (double.parse(changeSeparatorGroup(newValue.text)) < min) {
-      return TextEditingValue().copyWith(text: min.toStringAsFixed(2));
-    } else {
-      return double.parse(changeSeparatorGroup(newValue.text)) > max
-          ? oldValue
-          : newValue;
+      TextEditingValue oldValue, // unused.
+      TextEditingValue newValue,
+      ) {
+    TextSelection newSelection = newValue.selection;
+    String truncated = newValue.text;
+    if (double.parse(newValue.text) < min && newValue.text.length > 2) {
+      truncated = '$min';
     }
-  }
+    if (decimalRange != null) {
+      String value = newValue.text;
 
-  String changeSeparatorGroup(String value) {
-    if (value.contains('.')) {
-      return value;
-    } else {
-      return value;
+      if ((oldValue.text.length < newValue.text.length ||
+          oldValue.text.length == newValue.text.length) &&
+          newValue.text.length == 1) {
+        value = '$value.';
+        truncated = value;
+        newSelection = newValue.selection.copyWith(
+          baseOffset: math.min(truncated.length, truncated.length + 1),
+          extentOffset: math.min(truncated.length, truncated.length + 1),
+        );
+      } else if (oldValue.text.length == 1 &&
+          newValue.text[newValue.text.length - 1] != '.' &&
+          newValue.text.length > 1) {
+        final String lastNumber = newValue.text[newValue.text.length - 1];
+        final double parsedValue = double.parse(newValue.text.split('').join('.'));
+        value = parsedValue < min ? '$min' : '${oldValue.text}.$lastNumber';
+        truncated = value;
+        newSelection = newValue.selection.copyWith(
+          baseOffset: math.min(truncated.length, truncated.length + 1),
+          extentOffset: math.min(truncated.length, truncated.length + 1),
+        );
+      }
+
+      if (value.contains(".") &&
+          value.substring(value.indexOf(".") + 1).length > decimalRange) {
+        truncated = oldValue.text;
+        newSelection = oldValue.selection;
+      } else if (value == "." || value == ",") {
+        truncated = "0.";
+
+        newSelection = newValue.selection.copyWith(
+          baseOffset: math.min(truncated.length, truncated.length + 1),
+          extentOffset: math.min(truncated.length, truncated.length + 1),
+        );
+      }
+
+      return TextEditingValue(
+        text: truncated,
+        selection: newSelection,
+      );
     }
+    return newValue;
   }
 }
+
 
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
   static const String separator = '.'; // Change this to '.' for other locales
@@ -92,65 +125,3 @@ class ThousandsSeparatorInputFormatter extends TextInputFormatter {
   }
 }
 
-class DecimalTextInputFormatter extends TextInputFormatter {
-  DecimalTextInputFormatter({required this.decimalRange})
-      : assert(decimalRange == null || decimalRange > 0);
-
-  final int decimalRange;
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue, // unused.
-    TextEditingValue newValue,
-  ) {
-    TextSelection newSelection = newValue.selection;
-    String truncated = newValue.text;
-    if (double.parse(newValue.text) < 0.8 && newValue.text.length > 2) {
-      truncated = '0.8';
-    }
-    if (decimalRange != null) {
-      String value = newValue.text;
-
-      if ((oldValue.text.length < newValue.text.length ||
-              oldValue.text.length == newValue.text.length) &&
-          newValue.text.length == 1) {
-        value = '$value.';
-        truncated = value;
-        newSelection = newValue.selection.copyWith(
-          baseOffset: math.min(truncated.length, truncated.length + 1),
-          extentOffset: math.min(truncated.length, truncated.length + 1),
-        );
-      } else if (oldValue.text.length == 1 &&
-          newValue.text[newValue.text.length - 1] != '.' &&
-          newValue.text.length > 1) {
-        final String lastNumber = newValue.text[newValue.text.length - 1];
-        final double parsedValue = double.parse(newValue.text.split('').join('.'));
-        value = parsedValue < 0.8 ? '0.8' : '${oldValue.text}.$lastNumber';
-        truncated = value;
-        newSelection = newValue.selection.copyWith(
-          baseOffset: math.min(truncated.length, truncated.length + 1),
-          extentOffset: math.min(truncated.length, truncated.length + 1),
-        );
-      }
-
-      if (value.contains(".") &&
-          value.substring(value.indexOf(".") + 1).length > decimalRange) {
-        truncated = oldValue.text;
-        newSelection = oldValue.selection;
-      } else if (value == "." || value == ",") {
-        truncated = "0.";
-
-        newSelection = newValue.selection.copyWith(
-          baseOffset: math.min(truncated.length, truncated.length + 1),
-          extentOffset: math.min(truncated.length, truncated.length + 1),
-        );
-      }
-
-      return TextEditingValue(
-        text: truncated,
-        selection: newSelection,
-      );
-    }
-    return newValue;
-  }
-}
