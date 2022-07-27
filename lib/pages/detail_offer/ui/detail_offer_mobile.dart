@@ -412,7 +412,7 @@ class OperationHeader extends StatelessWidget {
                           ).difference(
                               DateTime.now(),
                             ).inDays.toString()} d'
-                        : '0 d',
+                        : 'xxxxx d',
                     style: textTheme.textWhite,
                   )
                 ],

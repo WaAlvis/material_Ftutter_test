@@ -111,13 +111,13 @@ class _OfferBuyMobile extends StatelessWidget {
                                 color: LdColors.orangePrimary.withOpacity(0.7),
                                 fontSize: 18,
                               ),
+                              // TODO: no permitir PASTE
                               inputFormatters: <TextInputFormatter>[
+                                DecimalTextInputFormatter(decimalRange: 1, min: minMarginInput),
                                 LengthLimitingTextInputFormatter(3),      //only 6 digit
-                                // NumericalRangeFormatter(min: 0.8, max: 3.0),
                                 FilteringTextInputFormatter.allow(
                                   RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                                 ),
-                                DecimalTextInputFormatter(decimalRange: 1, min: minMarginInput),
                               ],
                               keyboardType:
                                   const TextInputType.numberWithOptions(

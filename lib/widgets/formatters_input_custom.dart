@@ -17,6 +17,15 @@ class DecimalTextInputFormatter extends TextInputFormatter {
       ) {
     TextSelection newSelection = newValue.selection;
     String truncated = newValue.text;
+
+    try {
+      double.parse(newValue.text);
+    }
+   catch(e) {
+     truncated = '0.';
+     return newValue;
+    }
+
     if (double.parse(newValue.text) < min && newValue.text.length > 2) {
       truncated = '$min';
     }
