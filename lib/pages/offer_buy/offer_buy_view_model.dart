@@ -13,9 +13,12 @@ import 'package:localdaily/services/models/create_offers/offer/entity_offer.dart
 import 'package:localdaily/services/models/create_offers/type_offer/result_type_offer.dart';
 import 'package:localdaily/services/models/pagination.dart';
 import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/users/body_updateaddress.dart';
 import 'package:localdaily/services/modules/offer_module.dart';
 import 'package:localdaily/utils/values_format.dart';
 import 'package:localdaily/view_model.dart';
+
+import 'package:provider/provider.dart';
 
 import 'offer_buy_status.dart';
 
@@ -116,6 +119,12 @@ class OfferBuyViewModel
     return null;
   }
 
+  String? validatorAddress(String? valueText) {
+    if (valueText == null || valueText.isEmpty) {
+      return '* Campo necesario';
+    }
+  }
+
   String? validatorAmount(String? value) {
     if (value == null || value.isEmpty || value == '0' || value == '0 COP') {
       return '* Campo necesario';
@@ -183,6 +192,7 @@ class OfferBuyViewModel
     required String infoPlusOffer,
     required String userId,
     required String wordSecret,
+    required String address,
   }) async {
     closeDialog(context);
     status = status.copyWith(isLoading: true);
@@ -196,6 +206,9 @@ class OfferBuyViewModel
       final List<int> hash2 = k2.digest();
       return HEX.encode(hash2);
     } */
+
+    final bodyAddress =
+        BodyUpdateAddress(idUser: userId, addressWallet: address);
 
     final EntityOffer entity = EntityOffer(
       idTypeAdvertisement: typeOffer.data
@@ -217,7 +230,20 @@ class OfferBuyViewModel
     );
 
     userProvider.setBodyOffer(bodyOffer);
-    await OfferModule.createOffer(context, userProvider, null, isBuy: true);
-    status = status.copyWith(isLoading: false);
+    final DataUserProvider dataUserProvider = context.read<DataUserProvider>();
+    final token = dataUserProvider.getTokenLogin;
+    await _interactor
+        .putUpdateAddress(bodyAddress, 'Bearer ${token!.token}')
+        .then(
+          (response) async => {
+            await OfferModule.createOffer(context, userProvider, null,
+                    isBuy: true)
+                .then((value) => status = status.copyWith(isLoading: false))
+          },
+        )
+        .catchError((Object err) {
+      addEffect(ShowSnackbarErrorEffect('message'));
+      status = status.copyWith(isLoading: false);
+    });
   }
 }

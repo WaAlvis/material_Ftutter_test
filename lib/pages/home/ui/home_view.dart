@@ -216,10 +216,8 @@ class _HomeBodyState extends State<_HomeBody> {
       if (scrollController.position.pixels >
               scrollController.position.maxScrollExtent &&
           !viewModel.status.isLoading) {
-
-
-        if(viewModel.status.isLoadingScroll) return;
-        if(!viewModel.status.thereIsMoreData) return;
+        if (viewModel.status.isLoadingScroll) return;
+        if (!viewModel.status.thereIsMoreData) return;
         viewModel.status = viewModel.status.copyWith(isLoadingScroll: true);
         // await  Future.delayed(const Duration(seconds: 3));
         //TODO: Quitar este Delayed de la get data
@@ -230,14 +228,15 @@ class _HomeBodyState extends State<_HomeBody> {
         )
             .then(
           (_) {
-            viewModel.status = viewModel.status.copyWith(isLoadingScroll: false);
-            if (scrollController.position.pixels+100 <= scrollController.position.maxScrollExtent)return;
-            scrollController.animateTo(
-              scrollController.position.pixels + 100,
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.fastOutSlowIn,
-              );
-
+            viewModel.status =
+                viewModel.status.copyWith(isLoadingScroll: false);
+            if (scrollController.position.pixels + 100 <=
+                scrollController.position.maxScrollExtent) return;
+            // scrollController.animateTo(
+            //   scrollController.position.pixels + 100,
+            //   duration: const Duration(milliseconds: 600),
+            //   curve: Curves.fastOutSlowIn,
+            // );
           },
         );
       }

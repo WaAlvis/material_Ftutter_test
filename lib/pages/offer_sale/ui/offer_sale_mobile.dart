@@ -95,8 +95,8 @@ class _OfferSaleMobile extends StatelessWidget {
                               viewModel.resetValueMargin(marginCtrl.text),
                           onEditingComplete: () => marginCtrl.text =
                               viewModel.completeEditMargin(marginCtrl.text),
-                          validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
+                          // validator: (String? value) =>
+                          //     viewModel.validatorNotEmpty(value),
                           controller: marginCtrl,
                           changeFillWith: !viewModel.status.isMarginEmpty,
                           style: const TextStyle(

@@ -134,7 +134,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
               extraFilters: ExtraFilters(), extraFiltersString: '');
         });
     status = status.copyWith(filtersArguments: filtersArguments);
-    getData(resultDataUser?.id ?? '', );
+    getData(
+      resultDataUser?.id ?? '',
+    );
     if (resultDataUser == null) return;
 
     // Se trae el address en caso de que sea el mismo en BD que en LocalStorage
@@ -151,12 +153,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String userId,
   ) async {
     status = status.copyWith(
-        typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters(),
-    thereIsMoreData: true,);
+      typeOffer: type,
+      extraFiltersString: '',
+      extraFilters: ExtraFilters(),
+      thereIsMoreData: true,
+    );
 
-    await getData(userId,
-        refresh: true,
-      );
+    await getData(
+      userId,
+      refresh: true,
+    );
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
@@ -370,11 +376,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
             ? '${difference.inHours} h'
             : '${difference.inDays} d';
   }
+
   Future<void> getData(
-      String userId, {
-        bool refresh = false,
-        bool isPagination = false,
-      }) async {
+    String userId, {
+    bool refresh = false,
+    bool isPagination = false,
+  }) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
       if (status.optionTab == OptionTab.home) {
@@ -445,11 +452,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   // ------ CONSULTA PARA TRAER TARJETAS DEL INICIO ------
   Future<void> getDataHome(
-      String userId, {
+    String userId, {
     bool refresh = false,
     bool isPagination = false,
   }) async {
-
     // Validación para evitar consultar al cambiar cada tab, solo 1 vez
     if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
@@ -533,8 +539,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          if (status.offersSaleDataHome.totalItems == data.length){
-            status=status.copyWith(thereIsMoreData: false);
+          if (status.offersSaleDataHome.totalItems == data.length) {
+            status = status.copyWith(thereIsMoreData: false);
           }
         } else {
           status = status.copyWith(
@@ -546,8 +552,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          if (status.offersBuyDataHome.totalItems == data.length){
-            status=status.copyWith(thereIsMoreData: false);
+          if (status.offersBuyDataHome.totalItems == data.length) {
+            status = status.copyWith(thereIsMoreData: false);
           }
         }
       } else {
@@ -644,8 +650,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          if (status.operationSaleData.totalItems == data.length){
-            status=status.copyWith(thereIsMoreData: false);
+          if (status.operationSaleData.totalItems == data.length) {
+            status = status.copyWith(thereIsMoreData: false);
           }
         } else {
           status = status.copyWith(
@@ -656,10 +662,10 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                     totalPages: status.operationBuyData.totalPages,
                   )
                 : response.result,
-              );
-            if (status.operationBuyData.totalItems == data.length){
-              status=status.copyWith(thereIsMoreData: false);
-            }
+          );
+          if (status.operationBuyData.totalItems == data.length) {
+            status = status.copyWith(thereIsMoreData: false);
+          }
         }
       } else {
         print('ERROR obteniendo la data de Home');
@@ -751,8 +757,8 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
-          if (status.myOfferBuyData.totalItems == data.length){
-            status=status.copyWith(thereIsMoreData: false);
+          if (status.myOfferBuyData.totalItems == data.length) {
+            status = status.copyWith(thereIsMoreData: false);
           }
         } else {
           status = status.copyWith(
@@ -763,9 +769,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                     totalPages: status.myOfferSaleData.totalPages,
                   )
                 : response.result,
-            );
-          if (status.myOfferSaleData.totalItems == data.length){
-            status=status.copyWith(thereIsMoreData: false);
+          );
+          if (status.myOfferSaleData.totalItems == data.length) {
+            status = status.copyWith(thereIsMoreData: false);
           }
         }
       } else {

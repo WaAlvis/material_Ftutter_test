@@ -7,6 +7,7 @@ import 'package:localdaily/services/models/detail_oper_offer/advertisement_docum
 import 'package:localdaily/services/models/detail_oper_offer/result_get_advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
+import 'package:localdaily/services/models/users/info_users.dart';
 import 'package:localdaily/view_model.dart';
 
 class DetailOperOfferStatus extends ViewStatus {
@@ -25,26 +26,29 @@ class DetailOperOfferStatus extends ViewStatus {
   List<DocType>? docsType;
   double? rateUser;
   int? dateHours;
+  InfoUsers userPublish;
+  InfoUsers userOperator;
 
   // agregar demas estados con el servicio
 
-  DetailOperOfferStatus({
-    required this.isLoading,
-    required this.isError,
-    required this.item,
-    required this.isBuy,
-    required this.docsType,
-    required this.dateOfExpire,
-    required this.listAdvertisementDoc,
-    required this.banks,
-    required this.state,
-    required this.listAccountTypes,
-    required this.isOper2,
-    required this.extensionFile,
-    required this.userId,
-    required this.rateUser,
-    required this.dateHours,
-  });
+  DetailOperOfferStatus(
+      {required this.isLoading,
+      required this.isError,
+      required this.item,
+      required this.isBuy,
+      required this.docsType,
+      required this.dateOfExpire,
+      required this.listAdvertisementDoc,
+      required this.banks,
+      required this.state,
+      required this.listAccountTypes,
+      required this.isOper2,
+      required this.extensionFile,
+      required this.userId,
+      required this.rateUser,
+      required this.dateHours,
+      required this.userOperator,
+      required this.userPublish});
 
   DetailOperOfferStatus copyWith({
     int? dateOfExpire,
@@ -62,23 +66,26 @@ class DetailOperOfferStatus extends ViewStatus {
     String? userId,
     double? rateUser,
     int? dateHours,
+    InfoUsers? userPublish,
+    InfoUsers? userOperator,
   }) {
     return DetailOperOfferStatus(
-      isLoading: isLoading ?? this.isLoading,
-      isError: isError ?? this.isError,
-      isBuy: isBuy ?? this.isBuy,
-      item: item ?? this.item,
-      dateOfExpire: dateOfExpire ?? this.dateOfExpire,
-      listAdvertisementDoc: listAdvertisementDoc ?? this.listAdvertisementDoc,
-      banks: banks ?? this.banks,
-      docsType: docsType ?? this.docsType,
-      state: state ?? this.state,
-      listAccountTypes: listAccountTypes ?? this.listAccountTypes,
-      isOper2: isOper2 ?? this.isOper2,
-      extensionFile: extensionFile ?? extensionFile,
-      userId: userId ?? this.userId,
-      rateUser: rateUser ?? this.rateUser,
-      dateHours: dateHours ?? this.dateHours,
-    );
+        isLoading: isLoading ?? this.isLoading,
+        isError: isError ?? this.isError,
+        isBuy: isBuy ?? this.isBuy,
+        item: item ?? this.item,
+        dateOfExpire: dateOfExpire ?? this.dateOfExpire,
+        listAdvertisementDoc: listAdvertisementDoc ?? this.listAdvertisementDoc,
+        banks: banks ?? this.banks,
+        docsType: docsType ?? this.docsType,
+        state: state ?? this.state,
+        listAccountTypes: listAccountTypes ?? this.listAccountTypes,
+        isOper2: isOper2 ?? this.isOper2,
+        extensionFile: extensionFile ?? extensionFile,
+        userId: userId ?? this.userId,
+        rateUser: rateUser ?? this.rateUser,
+        dateHours: dateHours ?? this.dateHours,
+        userOperator: userOperator ?? this.userOperator,
+        userPublish: userPublish ?? this.userPublish);
   }
 }

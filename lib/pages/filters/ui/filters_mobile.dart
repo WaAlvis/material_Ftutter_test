@@ -383,43 +383,43 @@ class _FilterMobile extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              FormBuilderFieldOption(
-                                value: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 24,
-                                      width: 130,
-                                      decoration: const BoxDecoration(
-                                        color: LdColors.grayState,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      ),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Pendiente',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: LdColors.white,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // FormBuilderFieldOption(
+                              //   value: 1,
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.start,
+                              //     children: <Widget>[
+                              //       Container(
+                              //         height: 24,
+                              //         width: 130,
+                              //         decoration: const BoxDecoration(
+                              //           color: LdColors.grayState,
+                              //           borderRadius: BorderRadius.all(
+                              //             Radius.circular(4),
+                              //           ),
+                              //         ),
+                              //         child: Flex(
+                              //           direction: Axis.horizontal,
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.center,
+                              //           children: <Widget>[
+                              //             FittedBox(
+                              //               alignment: Alignment.centerLeft,
+                              //               fit: BoxFit.scaleDown,
+                              //               child: Text(
+                              //                 'Pendiente',
+                              //                 textAlign: TextAlign.center,
+                              //                 style: TextStyle(
+                              //                   color: LdColors.white,
+                              //                   fontSize: 14,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               FormBuilderFieldOption(
                                 value: 1,
                                 child: Row(
@@ -443,7 +443,7 @@ class _FilterMobile extends StatelessWidget {
                                             alignment: Alignment.centerLeft,
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              'Pagado',
+                                              'Pendiente/Pagado',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: LdColors.white,

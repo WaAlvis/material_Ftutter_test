@@ -277,7 +277,8 @@ class _ProfileSellerMobile extends StatelessWidget {
           height: 12,
         ),
         Text(
-          'usuario desde el 2010',
+          // 'usuario desde el 2010',
+          '',
           style: textTheme.textSmallBlack.copyWith(
             color: LdColors.gray,
             fontSize: 14,

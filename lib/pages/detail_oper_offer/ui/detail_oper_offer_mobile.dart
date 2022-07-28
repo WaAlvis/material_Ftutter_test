@@ -168,10 +168,10 @@ class _DetailOperOfferMobile extends StatelessWidget {
                                   isBuy
                                       ? viewModel.status.isOper2
                                           ? 'Cancelar la compra'
-                                          : 'Quitar la publicación'
+                                          : 'Cancelar la publicación'
                                       : viewModel.status.isOper2
                                           ? 'Cancelar la venta'
-                                          : 'Quitar la publicación',
+                                          : 'Cancelar la publicación',
                                   colorText: LdColors.orangePrimary,
                                   colorButton: LdColors.white,
                                   colorTextBorder: LdColors.orangePrimary,

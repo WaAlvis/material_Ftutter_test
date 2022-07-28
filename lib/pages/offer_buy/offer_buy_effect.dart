@@ -10,3 +10,9 @@ class ShowSnackbarConnectivityEffect extends OfferBuyEffect {
 
   ShowSnackbarConnectivityEffect(this.message);
 }
+
+class ShowSnackbarErrorEffect extends OfferBuyEffect {
+  final String message;
+
+  ShowSnackbarErrorEffect(this.message);
+}

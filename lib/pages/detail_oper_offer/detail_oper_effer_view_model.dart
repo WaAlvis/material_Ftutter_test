@@ -24,6 +24,9 @@ import 'package:localdaily/services/models/detail_oper_offer/advertisement_docum
 import 'package:localdaily/services/models/detail_oper_offer/confirm_payment/confirm_payment.dart';
 import 'package:localdaily/services/models/detail_oper_offer/rate_user/rate_user.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/advertisement_pay_account.dart';
+import 'package:localdaily/services/models/info_user_publish/response/result_info_user_publish.dart';
+import 'package:localdaily/services/models/response_data.dart';
+import 'package:localdaily/services/models/users/info_users.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/view_model.dart';
@@ -60,6 +63,8 @@ class DetailOperOfferViewModel
       userId: '',
       rateUser: 0,
       dateHours: 0,
+      userOperator: InfoUsers(),
+      userPublish: InfoUsers(),
     );
   }
 
@@ -86,7 +91,7 @@ class DetailOperOfferViewModel
         await _interactor
             .getDetailAdvertisement(offerId, 'Bearer ${token!.token}')
             .then((response) {
-          print(response.result!.toJson());
+          // print(response.result!.toJson());
           status = status.copyWith(isLoading: false);
           status = status.copyWith(item: response.result);
           status = status.copyWith(
@@ -100,6 +105,26 @@ class DetailOperOfferViewModel
           List<AccountType>? listAccountTypes =
               configurationProvider.getResultAccountTypes;
 
+          try {
+            final body1 = {'id': status.item!.id};
+            final body = jsonEncode(body1);
+            print('$body algo');
+            _interactor
+                .infoInteractorUsers(body, 'Bearer ${token.token}')
+                .then((response) {
+              if (response.isSuccess) {
+                print('${response.toJson()} algo2');
+                status = status.copyWith(
+                    userOperator: response.result!.userOperator,
+                    userPublish: response.result!.userPublish);
+              }
+
+              print('${status.userOperator.toJson()} @#@#');
+              print('${status.userPublish.toJson()} @#@#');
+            });
+          } catch (e) {
+            print('$e infoInteractorUsers');
+          }
           try {
             response.result!.advertisementPayAccount!
                 .forEach((AdvertisementPayAccount account) {
@@ -254,10 +279,10 @@ class DetailOperOfferViewModel
       title: isBuy
           ? isOper
               ? '¿Ya no quieres comprar estos DLYCOP?'
-              : '¿Quieres quitar esta publicación?'
+              : '¿Quieres Cancelar esta publicación?'
           : isOper
               ? '¿Ya no quieres vender estos DLYCOP?'
-              : '¿Quieres quitar esta publicación?',
+              : '¿Quieres Cancelar esta publicación?',
       message: isBuy
           ? isOper
               ? 'Piénsalo un poco más. El sistema te dará una mala calificación y perderás la oportunidad de tener más DLYCOP.'
@@ -489,7 +514,7 @@ class DetailOperOfferViewModel
 
   void goProfile(BuildContext context) {
     _router.goProfileSeller(context, status.item!.idUserPublish,
-        status.isBuy ? 'Vendedor' : 'Comprador');
+        status.userOperator.firstLastName!);
   }
 
   void openRateSeller(

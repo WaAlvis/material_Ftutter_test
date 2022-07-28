@@ -34,7 +34,7 @@ class ListMyOffersSale extends StatelessWidget {
     return RefreshIndicator(
       color: LdColors.orangePrimary,
       onRefresh: () async {
-        viewModel.getData( userId, refresh: true);
+        viewModel.getData(userId, refresh: true);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -81,7 +81,8 @@ class ListMyOffersSale extends StatelessWidget {
                             )
                           : items.isEmpty
                               ? Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 30),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
                                   child: IntrinsicHeight(
                                     child: AdviceMessage(
                                       imageName: viewModel.status.typeOffer ==
@@ -92,10 +93,10 @@ class ListMyOffersSale extends StatelessWidget {
                                               TypeOffer.buy
                                           ? viewModel.countFilters() > 0
                                               ? 'No hay publicaciones para estos filtros'
-                                              : 'Aun no tienes ofertas de compra'
+                                              : 'Aún“ no tienes ofertas de compra'
                                           : viewModel.countFilters() > 0
                                               ? 'No hay publicaciones para estos filtros'
-                                              : 'Aun no tienes ofertas de ventas',
+                                              : 'Aún“ no tienes ofertas de venta',
                                       description: viewModel.countFilters() > 0
                                           ? 'Por favor seleccione nuevos criterios'
                                           : 'Crea tu primera oferta y vuelve aqui para hacerle seguimiento.',
@@ -116,13 +117,12 @@ class ListMyOffersSale extends StatelessWidget {
                                 );
                     },
                   ),
-                  if(viewModel.status.isLoadingScroll)
+                  if (viewModel.status.isLoadingScroll)
                     Positioned(
                       bottom: 10,
                       left: size.width * 0.5 - 40,
                       child: const LoadingIconScroll(),
                     )
-
                 ],
               ),
             ),

@@ -20,6 +20,7 @@ import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
 import 'package:localdaily/services/models/register/send_validate/entity_pin_email.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
+import 'package:localdaily/services/models/register/validate_data/body_validate.dart';
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/entity_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
@@ -27,6 +28,7 @@ import 'package:localdaily/services/models/response_data.dart';
 import 'package:localdaily/view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'register_status.dart';
 
@@ -165,7 +167,17 @@ class RegisterViewModel
     //fin step 1
     LdConnection.validateConnection().then((bool isConnectionValid) async {
       if (isConnectionValid) {
-        await sendPinToEmail(email, context);
+        final body =
+            BodyValidateRegister(validateField: 'email', dataValue: email);
+        await _interactor.validateRegisterData(body).then(
+          (response) async {
+            if (response.result['result'] == true) {
+              await sendPinToEmail(email, context);
+            } else {
+              addEffect(ShowErrorSnackbar('El correo ya se encuentra en uso'));
+            }
+          },
+        );
         //Todo DESACTIVAR, cuando sea efectivo el envio de codigo al correo
       } else {
         addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
@@ -311,10 +323,25 @@ class RegisterViewModel
     String password,
   ) async {
     LdConnection.validateConnection().then(
-      (bool isConnectionValid) {
+      (bool isConnectionValid) async {
         if (isConnectionValid) {
-          status = status.copyWith(nickName: nickName, password: password);
-          goNextStep(currentStep: RegisterStep.accountDataStep_4);
+          status.copyWith(isLoading: true);
+          final body = BodyValidateRegister(
+              validateField: 'nickname', dataValue: nickName);
+          await _interactor.validateRegisterData(body).then(
+            (response) async {
+              status.copyWith(isLoading: false);
+
+              if (response.result['result'] == true) {
+                status =
+                    status.copyWith(nickName: nickName, password: password);
+                goNextStep(currentStep: RegisterStep.accountDataStep_4);
+              } else {
+                addEffect(
+                    ShowErrorSnackbar('El Nickname ya se encuentra en uso'));
+              }
+            },
+          );
         } else {
           addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
         }
@@ -433,6 +460,7 @@ class RegisterViewModel
       }
       status = status.copyWith(isLoading: false);
     }).catchError((Object err) {
+      print(err.toString());
       addEffect(ShowErrorSnackbar('Error servicio**'));
       status = status.copyWith(isLoading: false);
     });
@@ -577,4 +605,9 @@ class RegisterViewModel
 //   }
 // }
 
+  openTyc(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 }

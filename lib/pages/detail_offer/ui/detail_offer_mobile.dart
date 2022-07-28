@@ -326,7 +326,7 @@ class _DetailOfferMobile extends StatelessWidget {
                           ],
                         ),
                         PrimaryButtonCustom(
-                          'Separar oferta de compra DLYCOP',
+                          'Separar oferta de ${!viewModel.status.isBuy ? 'compra' : 'venta'} DLYCOP',
                           onPressed: viewModel.onClickReserveDly,
                         ),
                       ],

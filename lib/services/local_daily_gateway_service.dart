@@ -42,6 +42,7 @@ import 'package:localdaily/services/models/register/body_register_data_user.dart
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
+import 'package:localdaily/services/models/register/validate_data/body_validate.dart';
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
@@ -49,6 +50,8 @@ import 'package:localdaily/services/models/support_cases/body_support_cases.dart
 import 'package:localdaily/services/models/support_cases/result_support_cases.dart';
 import 'package:localdaily/services/models/update_data_user/result_change_data_user.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
+import 'package:localdaily/services/models/users/info_users.dart';
+import 'package:localdaily/services/models/users/result_info_users.dart';
 import 'package:retrofit/http.dart';
 
 import 'models/update_data_user/body_new_data_user.dart';
@@ -105,6 +108,9 @@ class UrlsApi {
   static const String getSupportStatus = '/WebAdmin/SupportStatus';
   static const String getSupportTypes = '/WebAdmin/SupportType';
   static const String getSupportCases = '/WebAdmin/SupportCase/GetSupport';
+  static const String validateData = '/User/User/ValidateData';
+  static const String infoInteractorUsers =
+      '/WebAdmin/SupportCase/GetDetailSupportCase';
 }
 
 ///WebAdmin/Advertisement create offer sell buy
@@ -135,6 +141,13 @@ abstract class LocalDailyGatewayService {
   @POST(UrlsApi.changePassword)
   Future<ResponseData<ResultChangePsw>> changePsw(
     @Body() BodyChangePsw bodyChangePsw,
+    @Header('Authorization') String headers,
+  );
+
+  //Change Psw
+  @POST(UrlsApi.infoInteractorUsers)
+  Future<ResponseData<ResultUsersInteractorInfo>> infoInteractorUsers(
+    @Body() dynamic bodyIdAadv,
     @Header('Authorization') String headers,
   );
 
@@ -228,6 +241,11 @@ abstract class LocalDailyGatewayService {
   Future<ResponseData<dynamic>> addPayAccount(
     @Body() BodyAddPayAccount body,
     @Header('Authorization') String headers,
+  );
+
+  @POST(UrlsApi.validateData)
+  Future<ResponseData<dynamic>> validateRegisterData(
+    @Body() BodyValidateRegister body,
   );
 
   @POST(UrlsApi.cancelOperation)

@@ -44,6 +44,7 @@ import 'package:localdaily/services/models/register/body_register_data_user.dart
 import 'package:localdaily/services/models/register/result_register.dart';
 import 'package:localdaily/services/models/register/send_validate/body_pin_email.dart';
 import 'package:localdaily/services/models/register/send_validate/result_pin_email.dart';
+import 'package:localdaily/services/models/register/validate_data/body_validate.dart';
 import 'package:localdaily/services/models/register/validate_pin/body_validate_pin.dart';
 import 'package:localdaily/services/models/register/validate_pin/result_validate_pin.dart';
 import 'package:localdaily/services/models/response_data.dart';
@@ -52,6 +53,7 @@ import 'package:localdaily/services/models/support_cases/result_support_cases.da
 import 'package:localdaily/services/models/update_data_user/body_new_data_user.dart';
 import 'package:localdaily/services/models/update_data_user/result_change_data_user.dart';
 import 'package:localdaily/services/models/users/body_updateaddress.dart';
+import 'package:localdaily/services/models/users/result_info_users.dart';
 
 class ServiceInteractor {
   Future<ResponseData<ResultGetDocsType>> getDocumentType(
@@ -203,6 +205,16 @@ class ServiceInteractor {
     return response;
   }
 
+  Future<ResponseData<dynamic>> validateRegisterData(
+    BodyValidateRegister bodyValidateRegister,
+  ) async {
+    final ResponseData<dynamic> response =
+        await locator<LocalDailyGatewayService>()
+            .validateRegisterData(bodyValidateRegister);
+
+    return response;
+  }
+
   Future<ResponseData<dynamic>> createTransaction(
     BodyCreateTransaction bodyCreateTransaction,
     String headers,
@@ -231,6 +243,17 @@ class ServiceInteractor {
     final ResponseData<dynamic> response =
         await locator<LocalDailyGatewayService>()
             .cancelOperation(body, headers);
+
+    return response;
+  }
+
+  Future<ResponseData<ResultUsersInteractorInfo>> infoInteractorUsers(
+    dynamic body,
+    String headers,
+  ) async {
+    final ResponseData<ResultUsersInteractorInfo> response =
+        await locator<LocalDailyGatewayService>()
+            .infoInteractorUsers(body, headers);
 
     return response;
   }
