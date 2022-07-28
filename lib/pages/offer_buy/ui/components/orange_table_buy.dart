@@ -42,6 +42,7 @@ class AmountOrangeTableBuy extends StatelessWidget {
                   onChanged: onChange,
                   controller: controller,
                   validator: validator,
+
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                     ThousandsSeparatorInputFormatter()
@@ -49,6 +50,10 @@ class AmountOrangeTableBuy extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   style: textTheme.subtitleWhite,
                   decoration: InputDecoration(
+                    errorStyle: const TextStyle(
+                        color: Colors.yellowAccent,
+                        fontWeight: FontWeight.w500,
+                        wordSpacing: 1.2),
                     border: InputBorder.none,
                     hintText: '0',
                     hintStyle: textTheme.subtitleWhite,
