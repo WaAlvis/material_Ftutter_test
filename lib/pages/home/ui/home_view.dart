@@ -231,12 +231,13 @@ class _HomeBodyState extends State<_HomeBody> {
             .then(
           (_) {
             viewModel.status = viewModel.status.copyWith(isLoadingScroll: false);
+
             if (scrollController.position.pixels+100 <= scrollController.position.maxScrollExtent)return;
-            scrollController.animateTo(
-              scrollController.position.pixels + 100,
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.fastOutSlowIn,
-              );
+            // scrollController.animateTo(
+            //   scrollController.position.pixels + 100,
+            //   duration: const Duration(milliseconds: 600),
+            //   curve: Curves.fastOutSlowIn,
+            //   );
 
           },
         );
