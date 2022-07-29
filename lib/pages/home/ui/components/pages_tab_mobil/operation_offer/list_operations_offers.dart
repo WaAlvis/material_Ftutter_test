@@ -4,6 +4,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/advice_message.dart';
+import 'package:localdaily/pages/home/ui/components/snack_suggestion_connect_midaily.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
 import 'package:localdaily/widgets/LoadingIconScroll.dart';
@@ -46,6 +47,9 @@ class ListOperationsOffers extends StatelessWidget {
             OptionsFilterRow(
               textTheme: textTheme,
               quantityFilter: viewModel.countFilters(),
+            ),
+            const SnackSuggestionConnectMiDaily(
+              'Asegurate de teber tu sesion iniciada en la App MiDaily',
             ),
             const Divider(
               height: 8,

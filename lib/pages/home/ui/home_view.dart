@@ -16,6 +16,7 @@ import 'package:localdaily/pages/home/ui/components/advice_message.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/create_offer/list_my_offer_sale.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/main_offers/list_offers_main_cards.dart';
 import 'package:localdaily/pages/home/ui/components/pages_tab_mobil/operation_offer/list_operations_offers.dart';
+import 'package:localdaily/pages/home/ui/components/snack_suggestion_connect_midaily.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -28,6 +29,7 @@ import 'package:localdaily/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 part 'components/pages_tab_mobil/create_offer/my_offers_tab.dart';
+
 
 part 'components/pages_tab_mobil/main_offers/card_buy_and_sell.dart';
 
@@ -179,6 +181,7 @@ class _HomeBodyState extends State<_HomeBody> {
 
         return Stack(
           children: <Widget>[
+
             CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: <Widget>[

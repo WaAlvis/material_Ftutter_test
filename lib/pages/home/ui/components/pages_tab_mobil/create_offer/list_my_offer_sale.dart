@@ -11,6 +11,8 @@ import 'package:localdaily/widgets/LoadingIconScroll.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../snack_suggestion_connect_midaily.dart';
+
 class ListMyOffersSale extends StatelessWidget {
   const ListMyOffersSale({
     Key? key,
@@ -45,6 +47,9 @@ class ListMyOffersSale extends StatelessWidget {
             OptionsFilterRow(
               textTheme: textTheme,
               quantityFilter: viewModel.countFilters(),
+            ),
+            const SnackSuggestionConnectMiDaily(
+              'Asegurate de teber tu sesion iniciada en la App MiDaily',
             ),
             const Divider(
               height: 8,

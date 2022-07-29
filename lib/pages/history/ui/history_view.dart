@@ -16,8 +16,8 @@ import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/services/models/history_operations_user/response/data_user_advertisement.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/app_bar_bigger.dart';
-import 'package:localdaily/widgets/appbar_circles.dart';
-import 'package:localdaily/widgets/ld_appbar.dart';
+import 'package:localdaily/pages/home/ui/components/snack_suggestion_connect_midaily.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 

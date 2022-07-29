@@ -5,6 +5,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/commons/ld_enums.dart';
 import 'package:localdaily/pages/home/home_view_model.dart';
 import 'package:localdaily/pages/home/ui/components/advice_message.dart';
+import 'package:localdaily/pages/home/ui/components/snack_suggestion_connect_midaily.dart';
 import 'package:localdaily/pages/home/ui/home_view.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/models/home/get_offers/reponse/data.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../widgets/LoadingIconScroll.dart';
+
 
 class ListOffersMainSwitch extends StatelessWidget {
   const ListOffersMainSwitch(
@@ -40,9 +42,7 @@ class ListOffersMainSwitch extends StatelessWidget {
     return RefreshIndicator(
       color: LdColors.orangePrimary,
       onRefresh: () async {
-        await viewModel.getData( userId,
-            refresh: true
-        );
+        await viewModel.getData(userId, refresh: true);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -53,6 +53,9 @@ class ListOffersMainSwitch extends StatelessWidget {
             OptionsFilterRow(
               textTheme: textTheme,
               quantityFilter: viewModel.countFilters(),
+            ),
+            const SnackSuggestionConnectMiDaily(
+              'Asegurate de teber tu sesion iniciada en la App MiDaily',
             ),
             const Divider(
               height: 8,
@@ -172,3 +175,4 @@ class ListOffersMainSwitch extends StatelessWidget {
     );
   }
 }
+
