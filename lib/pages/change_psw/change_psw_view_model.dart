@@ -16,12 +16,12 @@ import 'package:provider/provider.dart';
 
 import 'change_psw_status.dart';
 
-class ChangePswViewModel
+class DeleteAccountViewModel
     extends EffectsViewModel<ChangePswStatus, ChangePswEffect> {
   final LdRouter _route;
   final ServiceInteractor _interactor;
 
-  ChangePswViewModel(
+  DeleteAccountViewModel(
     this._route,
     this._interactor,
   ) {

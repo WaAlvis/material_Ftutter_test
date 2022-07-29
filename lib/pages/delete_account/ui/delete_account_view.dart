@@ -3,29 +3,28 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localdaily/app_theme.dart';
+import 'package:localdaily/commons/ld_assets.dart';
 import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/configure/get_it_locator.dart';
 import 'package:localdaily/configure/ld_router.dart';
-import 'package:localdaily/pages/change_psw/change_psw_effect.dart';
-import 'package:localdaily/pages/change_psw/change_psw_view_model.dart';
+import 'package:localdaily/pages/delete_account/delete_account_effect.dart';
+import 'package:localdaily/pages/delete_account/delete_account_view_model.dart';
+
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
+import 'package:localdaily/utils/ld_dialog.dart';
 import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/app_bar_bigger.dart';
-import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
-import 'package:localdaily/widgets/list_checks_required_psw.dart';
 import 'package:localdaily/widgets/primary_button.dart';
 import 'package:localdaily/widgets/progress_indicator_local_d.dart';
-import 'package:localdaily/widgets/quarter_circle.dart';
 import 'package:provider/provider.dart';
 
-part 'change_psw_mobile.dart';
+part 'delete_account_mobile.dart';
+part 'delete_account_web.dart';
 
-part 'change_psw_web.dart';
-
-class ChangePswView extends StatelessWidget {
-  const ChangePswView({
+class DeleteAccountView extends StatelessWidget {
+  const DeleteAccountView({
     Key? key,
   }) : super(key: key);
 
@@ -39,29 +38,27 @@ class ChangePswView extends StatelessWidget {
       builder: (BuildContext context, _) {
         return const Scaffold(
           backgroundColor: LdColors.white,
-          body: _ChangePswBody(),
+          body: _deleteAccountBody(),
         );
       },
     );
   }
 }
 
-class _ChangePswBody extends StatefulWidget {
-  const _ChangePswBody({
+class _deleteAccountBody extends StatefulWidget {
+  const _deleteAccountBody({
     Key? key,
   }) : super(key: key);
 
   @override
-  _ChangePswBodyState createState() => _ChangePswBodyState();
+  _deleteAccountBodyState createState() => _deleteAccountBodyState();
 }
 
-class _ChangePswBodyState extends State<_ChangePswBody> {
+class _deleteAccountBodyState extends State<_deleteAccountBody> {
   final GlobalKey<FormState> keyForm = GlobalKey<FormState>();
 
-  final TextEditingController currentPswCtrl = TextEditingController();
-  final TextEditingController newPswCtrl = TextEditingController();
-  final TextEditingController againNewPswCtrl = TextEditingController();
-  late StreamSubscription<ChangePswEffect> _effectSubscription;
+  final TextEditingController pswDeleteAccountCtrl = TextEditingController();
+  late StreamSubscription<DeleteAccountEffect> _effectSubscription;
 
   @override
   void initState() {
@@ -70,7 +67,7 @@ class _ChangePswBodyState extends State<_ChangePswBody> {
     });
     final DeleteAccountViewModel viewModel = context.read<DeleteAccountViewModel>();
 
-    _effectSubscription = viewModel.effects.listen((ChangePswEffect event) {
+    _effectSubscription = viewModel.effects.listen((DeleteAccountEffect event) {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ShowSuccessSnackbar) {
@@ -88,7 +85,21 @@ class _ChangePswBodyState extends State<_ChangePswBody> {
           context,
           event.message,
         );
+      }else if (event is DialogConfirmDeleteAccount) {
+        LdDialog.buildDenseAlertDialog(
+          context,
+          image: LdAssets.loginIdentity,
+          title: 'Eliminacion de cuenta',
+          message:
+                    'Este proceso eliminara de manera permanente su cuenta de usuario y no podra ser recuperada.\n\n ¿Desea eliminar su cuenta?',
+          btnText: 'Eliminar cuenta',
+          onTap: () => viewModel.deleteAccountCloseDialog(context ),
+          btnTextSecondary: 'Cancelar',
+          onTapSecondary: () => viewModel.closeDialog(context)
+        );
       }
+
+
     });
     super.initState();
   }
@@ -96,9 +107,7 @@ class _ChangePswBodyState extends State<_ChangePswBody> {
   @override
   void dispose() {
     super.dispose();
-    currentPswCtrl.dispose();
-    newPswCtrl.dispose();
-    againNewPswCtrl.dispose();
+    pswDeleteAccountCtrl.dispose();
     _effectSubscription.cancel();
   }
 
@@ -120,14 +129,13 @@ class _ChangePswBodyState extends State<_ChangePswBody> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: maxWidth > 1024
-                      ? ChangePswWeb(
+                      ? DeleteAccountWeb(
                           keyForm: keyForm,
                         )
-                      : ChangePswMobile(
+                      : DeleteAccountMobile(
                           keyForm: keyForm,
-                          currentPswCtrl: currentPswCtrl,
-                          newPswCtrl: newPswCtrl,
-                          againNewPswCtrl: againNewPswCtrl,
+                          pswDeleteAccountCtrl: pswDeleteAccountCtrl,
+
                           // scrollCtrl: _scrollCtrl,
                         ),
                 )

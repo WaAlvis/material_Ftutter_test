@@ -150,6 +150,17 @@ class LdRouter {
     );
   }
 
+  void goDeleteAccount(
+      BuildContext context,
+      ) {
+    AppRouter.router.navigateTo(
+      context,
+      AppRoutes.deleteAccount.route,
+      transition: TransitionType.none,
+    );
+  }
+
+
   void goSettingsUpdate(
     BuildContext context,
   ) {

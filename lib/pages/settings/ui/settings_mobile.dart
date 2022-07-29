@@ -50,13 +50,22 @@ class SettingsMobile extends StatelessWidget {
                   _rowOptionSetting(
                     textTheme,
                     viewModel,
-                    LdAssets.pswBlack,
+                    iconLdAsset: LdAssets.pswBlack,
                     onTap: () => viewModel.goChangePsw(context),
                     title: 'Contraseña',
-                    subtitle: 'Cambia tu contraseña de acceso',
+                    subtitle: 'Cambia tu contraseña de acceso.',
                     sizeIconSvg: 42,
                   ),
                   _dividerOptions(),
+                  _rowOptionSetting(
+                    textTheme,
+                    viewModel,
+                    icon: Icons.remove_circle,
+                    onTap: () => viewModel.goDeleteAccount(context),
+                    title: 'Eliminar cuenta',
+                    subtitle: 'Elimina de manera permanente tu cuenta de usuario.',
+                    sizeIconSvg: 35,
+                  )
                 ],
               ),
             ),
@@ -77,8 +86,9 @@ class SettingsMobile extends StatelessWidget {
 
   Widget _rowOptionSetting(
     TextTheme textTheme,
-    SettingsViewModel viewModel,
-    String iconLdAsset, {
+    SettingsViewModel viewModel, {
+      String? iconLdAsset,
+      IconData? icon,
     required String title,
     required String subtitle,
     double? sizeIconSvg = 30,
@@ -93,7 +103,9 @@ class SettingsMobile extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           leading: SizedBox(
             height: sizeIconSvg,
-            child: SvgPicture.asset(iconLdAsset),
+            child: iconLdAsset != null
+              ? SvgPicture.asset(iconLdAsset)
+              : Icon(icon, size: sizeIconSvg, color: LdColors.blackBackground,),
           ),
           trailing: SizedBox(
             height: 40,
@@ -119,11 +131,10 @@ class SettingsMobile extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  subtitle,
-                ),
+              Text(
+                subtitle,
+                softWrap: true,
+                style: TextStyle(fontSize: 13),
               ),
             ],
           ),

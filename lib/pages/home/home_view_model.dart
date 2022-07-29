@@ -449,6 +449,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     bool refresh = false,
     bool isPagination = false,
   }) async {
+    if (refresh) {
+      status =status.copyWith(thereIsMoreData :true);
+    }
 
     // Validación para evitar consultar al cambiar cada tab, solo 1 vez
     if (!refresh && !isPagination) {
@@ -513,7 +516,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
-        final List<Data> data = status.typeOffer == TypeOffer.buy
+        List<Data> data = status.typeOffer == TypeOffer.buy
             ? <Data>[
                 ...status.offersSaleDataHome.data,
                 ...response.result!.data
@@ -534,6 +537,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                 : response.result,
           );
           if (status.offersSaleDataHome.totalItems == data.length){
+            data = <Data>[];
             status=status.copyWith(thereIsMoreData: false);
           }
         } else {
@@ -546,7 +550,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+
           if (status.offersBuyDataHome.totalItems == data.length){
+            data = <Data>[];
             status=status.copyWith(thereIsMoreData: false);
           }
         }
@@ -565,6 +571,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     bool refresh = false,
     bool isPagination = false,
   }) async {
+    if (refresh) {
+      status =status.copyWith(thereIsMoreData :true);
+    }
     // Validación para evitar consultar al cambiar cada tab, solo 1 vez
     if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
@@ -631,7 +640,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
-        final List<Data> data = status.typeOffer == TypeOffer.buy
+        List<Data> data = status.typeOffer == TypeOffer.buy
             ? <Data>[...status.operationSaleData.data, ...response.result!.data]
             : <Data>[...status.operationBuyData.data, ...response.result!.data];
         if (status.typeOffer == TypeOffer.buy) {
@@ -644,7 +653,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
           );
+
           if (status.operationSaleData.totalItems == data.length){
+            data = <Data>[];
             status=status.copyWith(thereIsMoreData: false);
           }
         } else {
@@ -657,7 +668,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                   )
                 : response.result,
               );
-            if (status.operationBuyData.totalItems == data.length){
+
+          if (status.operationBuyData.totalItems == data.length){
+              data = <Data>[];
               status=status.copyWith(thereIsMoreData: false);
             }
         }
@@ -676,6 +689,9 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     bool refresh = false,
     bool isPagination = false,
   }) async {
+    if (refresh) {
+      status =status.copyWith(thereIsMoreData :true);
+    }
     // Validación para evitar consultar al cambiar cada tab, solo 1 vez
     if (!refresh && !isPagination) {
       if (status.typeOffer == TypeOffer.buy) {
@@ -737,7 +753,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
       final ResponseData<ResultHome> response =
           await _interactor.postGetAdvertisementByFilters(body);
       if (response.isSuccess) {
-        final List<Data> data = status.typeOffer == TypeOffer.buy
+         List<Data> data = status.typeOffer == TypeOffer.buy
             ? <Data>[...status.myOfferBuyData.data, ...response.result!.data]
             : <Data>[...status.myOfferSaleData.data, ...response.result!.data];
 
@@ -752,6 +768,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                 : response.result,
           );
           if (status.myOfferBuyData.totalItems == data.length){
+            data = <Data>[];
             status=status.copyWith(thereIsMoreData: false);
           }
         } else {
@@ -765,6 +782,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
                 : response.result,
             );
           if (status.myOfferSaleData.totalItems == data.length){
+            data = <Data>[];
             status=status.copyWith(thereIsMoreData: false);
           }
         }

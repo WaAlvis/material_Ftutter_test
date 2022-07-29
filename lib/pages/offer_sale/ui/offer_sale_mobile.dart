@@ -31,6 +31,8 @@ class _OfferSaleMobile extends StatelessWidget {
     //Alturas de el APpbar y el body
     const double hAppbar = 100;
     final double hBody = size.height - hAppbar;
+    const double maxMarginInput = 3.0;
+    const double minMarginInput = 0.7;
 
     return GestureDetector(
       onTap: () {
@@ -86,7 +88,7 @@ class _OfferSaleMobile extends StatelessWidget {
                         ),
                         InputTextCustom(
                           'Valor de los DLYCOP*',
-                          counterText: 'Min: 0.8, Max: 9.9',
+                          counterText: 'Min: $minMarginInput, Max: $maxMarginInput',
                           onChange: (_) => viewModel.calculateTotalMoney(
                             marginCtrl.text,
                             amountDLYCtrl.text,
@@ -96,7 +98,7 @@ class _OfferSaleMobile extends StatelessWidget {
                           onEditingComplete: () => marginCtrl.text =
                               viewModel.completeEditMargin(marginCtrl.text),
                           validator: (String? value) =>
-                              viewModel.validatorNotEmpty(value),
+                              viewModel.validatorMargin(value,min: minMarginInput,max: maxMarginInput),
                           controller: marginCtrl,
                           changeFillWith: !viewModel.status.isMarginEmpty,
                           style: const TextStyle(
@@ -109,19 +111,13 @@ class _OfferSaleMobile extends StatelessWidget {
                             color: LdColors.orangePrimary.withOpacity(0.7),
                             fontSize: 18,
                           ),
-                          // inputFormatters: <TextInputFormatter>[
-                          //   FilteringTextInputFormatter.allow(
-                          //     RegExp('[0-9]+[,.]{0,1}[0-9]*'),
-                          //   ),
-                          //   DecimalTextInputFormatter(decimalRange: 1),
-                          // ],
-                          inputFormatters: [
+                          inputFormatters: <TextInputFormatter>[
+                            LengthLimitingTextInputFormatter(3),      //only 6 digit
+                            // NumericalRangeFormatter(min: 0.8, max: 3.0),
                             FilteringTextInputFormatter.allow(
                               RegExp('[0-9]+[,.]{0,1}[0-9]*'),
                             ),
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'^(\d+)?\.?\d{0,1}'),
-                            ),
+                            DecimalTextInputFormatter(decimalRange: 1, min: minMarginInput),
                           ],
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,

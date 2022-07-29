@@ -112,23 +112,17 @@ class _DetailStateState extends State<DetailState> {
                     Radius.circular(4),
                   ),
                 ),
-                child: Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    FittedBox(
-                      alignment: Alignment.centerLeft,
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        widget.stateDis == '4' ? 'En disputa' : widget.state,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: LdColors.white,
-                          fontSize: 14,
-                        ),
-                      ),
+                child: FittedBox(
+                  alignment: Alignment.centerLeft,
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    widget.stateDis == '4' ? 'En disputa' : widget.state,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: LdColors.white,
+                      fontSize: 14,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

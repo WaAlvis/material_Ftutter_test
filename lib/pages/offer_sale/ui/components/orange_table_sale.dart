@@ -55,6 +55,10 @@ class OrangeTableSale extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   style: textTheme.subtitleWhite,
                   decoration: InputDecoration(
+                    errorStyle: const TextStyle(
+                        color: Colors.yellowAccent,
+                        fontWeight: FontWeight.w500,
+                        wordSpacing: 1.2),
                     border: InputBorder.none,
                     hintText: '0',
                     hintStyle: textTheme.subtitleWhite,

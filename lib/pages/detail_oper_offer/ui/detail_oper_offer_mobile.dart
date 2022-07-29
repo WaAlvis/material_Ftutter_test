@@ -48,154 +48,148 @@ class _DetailOperOfferMobile extends StatelessWidget {
                     padding: const EdgeInsets.all(18.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            OperationHeader(
-                              expiredDate: viewModel.status.dateOfExpire,
-                              isBuy: viewModel.status.isBuy,
-                              ad: viewModel.status.item?.reference.toString() ??
-                                  '',
-                              textTheme: textTheme,
-                              size: size,
-                              state: estado,
-                              isOper: viewModel.status.isOper2,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            if (viewModel.status.item != null)
-                              CardDetailOperOffer(
-                                textTheme: textTheme,
-                                isBuy: viewModel.status.isBuy,
-                                state: estado,
-                                item: viewModel.status.item!,
-                                viewModel: viewModel,
-                              ),
-                            const SizedBox(height: 32),
-                            Text(
-                              'Comprobante de pago',
-                              style: textTheme.subtitleBlack
-                                  .copyWith(fontSize: 18),
-                            ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            if (viewModel.status.isBuy)
-                              Text(
-                                'Estimado usuario asegúrese de adjuntar el comprobante correcto de acuerdo a la operación que está realizando, en caso contrario puede recibir una calificación negativa a su perfil.',
-                                style:
-                                    textTheme.textGray.copyWith(fontSize: 15),
-                              ),
-                            if (viewModel.status.isBuy)
-                              const SizedBox(
-                                height: 24,
-                              ),
-                            if (viewModel.status.item != null)
-                              CardDetailPay(
-                                textTheme: textTheme,
-                                viewModel: viewModel,
-                                state: estado,
-                                isBuy: viewModel.status.isBuy,
-                                isOper: viewModel.status.isOper2,
-                                item: viewModel.status.item!,
-                              )
-                            else
-                              Container(),
-                            const SizedBox(
-                              height: 32,
-                            ),
-                            Text(
-                              'Información de la oferta',
-                              style: textTheme.subtitleBlack
-                                  .copyWith(fontSize: 18),
-                            ),
-                            const SizedBox(
-                              height: 40,
-                            ),
-                            if (viewModel.status.item != null)
-                              CardDetailinfo(
-                                textTheme: textTheme,
-                                isBuy: viewModel.status.isBuy,
-                                item: viewModel.status.item!,
-                              )
-                            else
-                              Container(),
-                            const SizedBox(
-                              height: 21,
-                            ),
-                            Text(
-                              'Información adicional',
-                              style: textTheme.textGray.copyWith(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 9,
-                            ),
+                        OperationHeader(
+                          expiredDate: viewModel.status.dateOfExpire,
+                          isBuy: viewModel.status.isBuy,
+                          ad: viewModel.status.item?.reference.toString() ??
+                              '',
+                          textTheme: textTheme,
+                          size: size,
+                          state: estado,
+                          isOper: viewModel.status.isOper2,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        if (viewModel.status.item != null)
+                          CardDetailOperOffer(
+                            textTheme: textTheme,
+                            isBuy: viewModel.status.isBuy,
+                            state: estado,
+                            item: viewModel.status.item!,
+                            viewModel: viewModel,
+                          ),
+                        const SizedBox(height: 32),
+                        Text(
+                          'Comprobante de pago',
+                          style: textTheme.subtitleBlack
+                              .copyWith(fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        if (viewModel.status.isBuy)
+                          Text(
+                            'Estimado usuario asegúrese de adjuntar el comprobante correcto de acuerdo a la operación que está realizando, en caso contrario puede recibir una calificación negativa a su perfil.',
+                            style:
+                                textTheme.textGray.copyWith(fontSize: 15),
+                          ),
+                        if (viewModel.status.isBuy)
+                          const SizedBox(
+                            height: 24,
+                          ),
+                        if (viewModel.status.item != null)
+                          CardDetailPay(
+                            textTheme: textTheme,
+                            viewModel: viewModel,
+                            state: estado,
+                            isBuy: viewModel.status.isBuy,
+                            isOper: viewModel.status.isOper2,
+                            item: viewModel.status.item!,
+                          )
+                        else
+                          Container(),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Text(
+                          'Información de la oferta',
+                          style: textTheme.subtitleBlack
+                              .copyWith(fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        if (viewModel.status.item != null)
+                          CardDetailinfo(
+                            textTheme: textTheme,
+                            isBuy: viewModel.status.isBuy,
+                            item: viewModel.status.item!,
+                          )
+                        else
+                          Container(),
+                        const SizedBox(
+                          height: 21,
+                        ),
+                        Text(
+                          'Información adicional',
+                          style: textTheme.textGray.copyWith(fontSize: 14),
+                        ),
+                        const SizedBox(
+                          height: 9,
+                        ),
 
-                            if (viewModel.status.item != null)
-                              CardAddInfo(
-                                textTheme: textTheme,
-                                addInfo: viewModel.status.item!.termsOfTrade,
-                              )
-                            else
-                              CardAddInfo(
-                                textTheme: textTheme,
-                                addInfo: '',
-                              ),
-                            // const SizedBox(
-                            //   height: 40,
-                            // ),
-                            // CardBankSell(textTheme: textTheme, item: item),
-                            const SizedBox(
-                              height: 40,
+                        if (viewModel.status.item != null)
+                          CardAddInfo(
+                            textTheme: textTheme,
+                            addInfo: viewModel.status.item!.termsOfTrade,
+                          )
+                        else
+                          CardAddInfo(
+                            textTheme: textTheme,
+                            addInfo: '',
+                          ),
+                        // const SizedBox(
+                        //   height: 40,
+                        // ),
+                        // CardBankSell(textTheme: textTheme, item: item),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        if (viewModel.status.item != null)
+                          CardBankBuy(
+                            textTheme: textTheme,
+                            isBuy: viewModel.status.isBuy,
+                            state: estado,
+                            viewModel: viewModel,
+                          ),
+                        const SizedBox(
+                          height: 56,
+                        ),
+                        if (estado == 'Publicado')
+                          Container(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: PrimaryButtonCustom(
+                              isBuy
+                                  ? viewModel.status.isOper2
+                                      ? 'Cancelar la compra'
+                                      : 'Quitar la publicación'
+                                  : viewModel.status.isOper2
+                                      ? 'Cancelar la venta'
+                                      : 'Quitar la publicación',
+                              colorText: LdColors.orangePrimary,
+                              colorButton: LdColors.white,
+                              colorTextBorder: LdColors.orangePrimary,
+                              onPressed: () {
+                                viewModel.getDialog(
+                                  context,
+                                  viewModel,
+                                  isBuy,
+                                  viewModel.status.isOper2,
+                                );
+                              },
                             ),
-                            if (viewModel.status.item != null)
-                              CardBankBuy(
-                                textTheme: textTheme,
-                                isBuy: viewModel.status.isBuy,
-                                state: estado,
-                                viewModel: viewModel,
-                              ),
-                            const SizedBox(
-                              height: 56,
-                            ),
-                            if (estado == 'Publicado')
-                              Container(
-                                padding: const EdgeInsets.only(bottom: 16),
-                                child: PrimaryButtonCustom(
-                                  isBuy
-                                      ? viewModel.status.isOper2
-                                          ? 'Cancelar la compra'
-                                          : 'Quitar la publicación'
-                                      : viewModel.status.isOper2
-                                          ? 'Cancelar la venta'
-                                          : 'Quitar la publicación',
-                                  colorText: LdColors.orangePrimary,
-                                  colorButton: LdColors.white,
-                                  colorTextBorder: LdColors.orangePrimary,
-                                  onPressed: () {
-                                    viewModel.getDialog(
-                                      context,
-                                      viewModel,
-                                      isBuy,
-                                      viewModel.status.isOper2,
-                                    );
-                                  },
-                                ),
-                              )
-                            else
-                              Container(),
-                            if (viewModel.status.item != null)
-                              CardSupport(
-                                textTheme: textTheme,
-                              ),
-                            const SizedBox(
-                              height: 53,
-                            ),
-                          ],
-                        )
+                          )
+                        else
+                          Container(),
+                        if (viewModel.status.item != null)
+                          CardSupport(
+                            textTheme: textTheme,
+                          ),
+                        const SizedBox(
+                          height: 53,
+                        ),
                       ],
                     ),
                   ),

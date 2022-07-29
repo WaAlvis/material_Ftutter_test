@@ -1,20 +1,16 @@
-part of 'change_psw_view.dart';
+part of 'delete_account_view.dart';
 
-class ChangePswMobile extends StatelessWidget {
-  const ChangePswMobile({
+class DeleteAccountMobile extends StatelessWidget {
+  const DeleteAccountMobile({
     Key? key,
     required this.keyForm,
-    required this.currentPswCtrl,
-    required this.newPswCtrl,
-    required this.againNewPswCtrl,
+    required this.pswDeleteAccountCtrl,
 
     // required this.scrollCtrl,
   }) : super(key: key);
   final GlobalKey<FormState> keyForm;
 
-  final TextEditingController currentPswCtrl;
-  final TextEditingController newPswCtrl;
-  final TextEditingController againNewPswCtrl;
+  final TextEditingController pswDeleteAccountCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +39,8 @@ class ChangePswMobile extends StatelessWidget {
               Container(
                 width: size.width,
                 color: LdColors.blackBackground,
-                child:           AppBarBigger(
-                  title: 'Cambiar Contraseña',
+                child: AppBarBigger(
+                  title: 'Eliminar cuenta',
                   hAppbar: hAppbar,
                   textTheme: textTheme,
                 ),
@@ -73,7 +69,7 @@ class ChangePswMobile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Text(
-                              'Cambiar Contraseña',
+                              'Eliminar Cuenta de usuario',
                               style: textTheme.textBlack.copyWith(
                                 // color: LdColors.orangeWarning,
                                 fontWeight: FontWeight.w700,
@@ -83,7 +79,7 @@ class ChangePswMobile extends StatelessWidget {
                               height: 16,
                             ),
                             Text(
-                              'Ingresa una contraseña segura y fácil de recordar',
+                              'Esta accion eliminara de manera permanente tu cuenta de usuario',
                               style: textTheme.textBlack.copyWith(
                                 fontSize: 16,
                               ),
@@ -95,18 +91,16 @@ class ChangePswMobile extends StatelessWidget {
                         height: 40,
                       ),
                       InputTextCustom(
-                        'Contraseña actual*',
+                        'Verificacion de contraseña*',
                         hintText: '8+ digitos',
-                        controller: currentPswCtrl,
-                        onChange: (String psw) {
-                          viewModel.changeCurrentPsw(psw);
-                        },
-                        changeFillWith: !viewModel.status.isCurrentPswFieldEmpty,
+                        controller: pswDeleteAccountCtrl,
+                        onChange: (String psw) {},
+                        changeFillWith:
+                            !viewModel.status.isCurrentPswFieldEmpty,
                         textInputAction: TextInputAction.next,
                         obscureText: viewModel.status.hidePass,
-                        validator: (_) => viewModel.validatorCurrentPswNotEmpty(
-                          currentPswCtrl.text,
-                          newPswCtrl.text,
+                        validator: (_) => viewModel.validatorPswNotEmpty(
+                          pswDeleteAccountCtrl.text,
                         ),
                         suffixIcon: GestureDetector(
                           onTap: () => viewModel.hidePsw(),
@@ -117,77 +111,19 @@ class ChangePswMobile extends StatelessWidget {
                             color: LdColors.blackBackground,
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      InputTextCustom(
-                        'Nueva Contraseña *',
-                        hintText: '8+ digitos',
-                        controller: newPswCtrl,
-                        onChange: (String psw) {
-                          viewModel.changeNewPsw(psw);
-                          viewModel.isPswValid(psw);
-                        },
-                        changeFillWith: !viewModel.status.isNewPswFieldEmpty,
-                        textInputAction: TextInputAction.next,
-                        obscureText: viewModel.status.hidePass,
-                        validator: (_) => viewModel.validatorPsws(
-                          newPswCtrl.text,
-                          againNewPswCtrl.text,
-                        ),
-                        suffixIcon: GestureDetector(
-                          onTap: () => viewModel.hidePsw(),
-                          child: Icon(
-                            viewModel.status.hidePass
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: LdColors.blackBackground,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      InputTextCustom(
-                        'Repetir nueva contraseña*',
-                        hintText: '8+ digitos',
-                        controller: againNewPswCtrl,
-                        onChange: (String psw) {
-                          viewModel.changeAgainNewPsw(psw);
-                        },
-                        changeFillWith: !viewModel.status.isAgainNewPswFieldEmpty,
-                        textInputAction: TextInputAction.next,
-                        obscureText: viewModel.status.hidePass,
-                        suffixIcon: GestureDetector(
-                          onTap: () => viewModel.hidePsw(),
-                          child: Icon(
-                            viewModel.status.hidePass
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: LdColors.blackBackground,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      ListChecksRequiredPsw(
-                        context,
-                        textTheme,
-                        hasSpecialCharStatus: viewModel.status.hasSpecialChar,
-                        hasMore8CharsStatus: viewModel.status.hasMore8Chars,
-                        hasUpperLetterStatus: viewModel.status.hasUpperLetter,
-                        hasLowerLetterStatus: viewModel.status.hasLowerLetter,
-                        hasNumberCharStatus: viewModel.status.hasNumberChar,
                       ),
                       const SizedBox(
                         height: 30,
                       ),
                       PrimaryButtonCustom(
-                        'Continuar',
+                        'Eliminar cuenta',
                         onPressed: () {
                           FocusManager.instance.primaryFocus?.unfocus();
                           if (keyForm.currentState!.validate()) {
-                            viewModel.changePsw(
+                            viewModel.deleteAccount(
                               context,
-                              dataUserProvider.getDataUserLogged!.id,
-                              currentPswCtrl.text,
-                              newPswCtrl.text,
+                              dataUserProvider,
+                              pswDeleteAccountCtrl.text,
                             );
                           }
                         },
@@ -203,4 +139,3 @@ class ChangePswMobile extends StatelessWidget {
     );
   }
 }
-
