@@ -4,6 +4,7 @@ import 'package:localdaily/pages/attached_file/ui/attached_file_view.dart';
 import 'package:localdaily/pages/buy_sell/ui/buy_sell_view.dart';
 import 'package:localdaily/pages/change_psw/ui/change_psw_view.dart';
 import 'package:localdaily/pages/contact_support/ui/contact_support_view.dart';
+import 'package:localdaily/pages/delete_account/ui/delete_account_view.dart';
 import 'package:localdaily/pages/detail_history_operation/ui/detail_history_operation_view.dart';
 import 'package:localdaily/pages/detail_offer/ui/detail_offer_view.dart';
 import 'package:localdaily/pages/detail_oper_offer/ui/detail_oper_offer_view.dart';
@@ -111,6 +112,11 @@ class AppRoutes {
   static final AppRoute changePswRoute = AppRoute(
     '/change_psw',
     Handler(handlerFunc: (_, __) => const ChangePswView()),
+  );
+
+  static final AppRoute deleteAccount = AppRoute(
+    '/delete_account',
+    Handler(handlerFunc: (_, __) => const DeleteAccountView()),
   );
 
   static final AppRoute settingsUpdateRoute = AppRoute(
@@ -238,6 +244,7 @@ class AppRoutes {
   );
 
   static final List<AppRoute> routes = <AppRoute>[
+    deleteAccount,
     rootRoute,
     homeRoute,
     buyRoute,

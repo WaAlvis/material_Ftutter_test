@@ -35,6 +35,16 @@ class SettingsViewModel
     status = status.copyWith(currentLanguage: value);
   }
 
+  void goDeleteAccount(BuildContext context) {
+    LdConnection.validateConnection().then((bool isConnectionValid) {
+      if (isConnectionValid) {
+        _route.goDeleteAccount(context);
+      } else {
+        addEffect(ShowSnackbarConnectivityEffect('Sin conexión a internet'));
+      }
+    });
+  }
+
   void goChangePsw(BuildContext context) {
     LdConnection.validateConnection().then((bool isConnectionValid) {
       if (isConnectionValid) {
