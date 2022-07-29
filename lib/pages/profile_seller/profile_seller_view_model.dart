@@ -76,6 +76,7 @@ class ProfileSellerViewModel
         .getInfoUserPublish(bodyInfoUserPublish, 'Bearer ${token!.token}')
         .then((ResponseData<ResultInfoUserPublish> response) {
       if (response.isSuccess) {
+        print('@@@ ${response.result?.toJson()}');
         status = status.copyWith(
           infoUserPublish: response.result,
         );

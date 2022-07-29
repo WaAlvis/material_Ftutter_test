@@ -15,6 +15,7 @@ import 'package:localdaily/providers/configuration_provider.dart';
 import 'package:localdaily/providers/data_user_provider.dart';
 import 'package:localdaily/services/api_interactor.dart';
 import 'package:localdaily/utils/ld_dialog.dart';
+import 'package:localdaily/utils/ld_snackbar.dart';
 import 'package:localdaily/widgets/appbar_circles.dart';
 import 'package:localdaily/widgets/formatters_input_custom.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
@@ -64,6 +65,7 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
   final TextEditingController amountDLYCtrl = TextEditingController();
   final TextEditingController infoPlusOfferCtrl = TextEditingController();
   final TextEditingController cancelSecretCtrl = TextEditingController();
+  final TextEditingController addressCtrl = TextEditingController();
 
   late FocusNode focusDLYCOP;
   late StreamSubscription<OfferBuyEffect> _effectSubscription;
@@ -73,6 +75,7 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
   @override
   void dispose() {
     marginCtrl.dispose();
+    addressCtrl.dispose();
     amountDLYCtrl.dispose();
     infoPlusOfferCtrl.dispose();
     focusDLYCOP.dispose();
@@ -115,11 +118,17 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
               infoPlusOffer: infoPlusOfferCtrl.text,
               userId: dataUserProvider.getDataUserLogged!.id,
               wordSecret: cancelSecretCtrl.text,
+              address: addressCtrl.text,
             ),
             btnTextSecondary: 'Cancelar',
             onTapSecondary: () => viewModel.closeDialog(context),
           );
         }
+      } else if (event is ShowSnackbarErrorEffect) {
+        LdSnackbar.buildErrorSnackbar(
+          context,
+          'No fue posible agregar la address, por favor intente nuevamente',
+        );
       }
     });
 
@@ -156,6 +165,7 @@ class _OfferBuyBodyState extends State<_OfferBuyBody> {
                           infoPlusOfferCtrl: infoPlusOfferCtrl,
                           amountDLYCtrl: amountDLYCtrl,
                           cancelSecretCtrl: cancelSecretCtrl,
+                          addressCtrl: addressCtrl,
                         ),
                 ),
               ],

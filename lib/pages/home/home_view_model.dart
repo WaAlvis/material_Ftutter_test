@@ -151,12 +151,16 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
     String userId,
   ) async {
     status = status.copyWith(
-        typeOffer: type, extraFiltersString: '', extraFilters: ExtraFilters(),
-    thereIsMoreData: true,);
+      typeOffer: type,
+      extraFiltersString: '',
+      extraFilters: ExtraFilters(),
+      thereIsMoreData: true,
+    );
 
-    await getData(userId,
-        refresh: true,
-      );
+    await getData(
+      userId,
+      refresh: true,
+    );
   }
 
   Future<void> launchWeb(SocialNetwork type) async {
@@ -370,11 +374,12 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
             ? '${difference.inHours} h'
             : '${difference.inDays} d';
   }
+
   Future<void> getData(
-      String userId, {
-        bool refresh = false,
-        bool isPagination = false,
-      }) async {
+    String userId, {
+    bool refresh = false,
+    bool isPagination = false,
+  }) async {
     final bool next = await LdConnection.validateConnection();
     if (next) {
       if (status.optionTab == OptionTab.home) {
@@ -445,7 +450,7 @@ class HomeViewModel extends EffectsViewModel<HomeStatus, HomeEffect> {
 
   // ------ CONSULTA PARA TRAER TARJETAS DEL INICIO ------
   Future<void> getDataHome(
-      String userId, {
+    String userId, {
     bool refresh = false,
     bool isPagination = false,
   }) async {

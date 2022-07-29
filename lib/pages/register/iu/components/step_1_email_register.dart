@@ -6,6 +6,7 @@ import 'package:localdaily/commons/ld_colors.dart';
 import 'package:localdaily/pages/register/register_view_model.dart';
 import 'package:localdaily/widgets/input_text_custom.dart';
 import 'package:localdaily/widgets/primary_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Step1EmailRegister extends StatelessWidget {
   const Step1EmailRegister({
@@ -95,29 +96,82 @@ class CheckboxTyC extends StatelessWidget {
     );
   }
 
-  RichText richTextTyC() {
-    return RichText(
-      text: TextSpan(
-        style: textTheme.bodyText1,
-        children: const <InlineSpan>[
-          TextSpan(
-            text: 'Acepto los ',
+  Widget richTextTyC() {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'Acepto los ',
+                style: textTheme.bodyText1,
+              ),
+              GestureDetector(
+                onTap: () {
+                  print('object');
+                  viewModel.openTyc('https://localdly.com/tyc/');
+                },
+                child: Text(
+                  'Terminos y Condiciones',
+                  style: TextStyle(
+                      color: LdColors.orangePrimary,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  ' del ',
+                  maxLines: 2,
+                  style: textTheme.bodyText1,
+                ),
+              ),
+            ],
           ),
-          TextSpan(
-            text: 'Terminos y Condiciones',
-            style: TextStyle(color: LdColors.orangePrimary),
-            // recognizer: ,
+          Row(
+            children: [
+              Text(
+                'servicio y las ',
+                style: textTheme.bodyText1,
+              ),
+              GestureDetector(
+                onTap: () {
+                  viewModel
+                      .openTyc('https://localdly.com/politicas-de-privacidad/');
+                },
+                child: Text(
+                  'politicas de privacidad',
+                  style: TextStyle(
+                      color: LdColors.orangePrimary,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
-          TextSpan(text: ' del servicio y los '),
-          TextSpan(
-            text: 'Términos de uso',
-            style: const TextStyle(color: LdColors.orangePrimary),
-            // recognizer: TapGestureRecognizer(),
-          ),
-          TextSpan(text: ' de la aplicacón'),
         ],
       ),
     );
+    // return RichText(
+    //   text: TextSpan(
+    //     style: textTheme.bodyText1,
+    //     children: <InlineSpan>[
+    //       const TextSpan(
+    //         text: 'Acepto los ',
+    //       ),
+    //       TextSpan(
+    //           text: 'Terminos y Condiciones',
+    //           style: const TextStyle(color: LdColors.orangePrimary),
+    //           recognizer: TapGestureRecognizer()
+    //             ..onTap = () => viewModel.openTyc('https://localdly.com/tyc/')),
+    //       const TextSpan(text: ' del servicio y las '),
+    //       TextSpan(
+    //         text: 'politicas de privacidad',
+    //         style: const TextStyle(color: LdColors.orangePrimary),
+    //       ),
+    //       const TextSpan(text: ' de la aplicacón'),
+    //     ],
+    //   ),
+    // );
   }
 }
 

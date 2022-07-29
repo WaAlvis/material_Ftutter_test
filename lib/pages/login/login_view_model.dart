@@ -161,7 +161,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         _interactor
             .getUserById(idUser, 'Bearer ${token.token}')
             .then((ResponseData<ResultDataUser> response) {
-          if (response.isSuccess) {
+          if (response.isSuccess && response.result!.isActive) {
             dataUserProvider.setNickName(response.result!.nickName);
             dataUserProvider.setDataUserLogged(
               response.result,
@@ -256,7 +256,7 @@ class LoginViewModel extends EffectsViewModel<LoginStatus, LoginEffect> {
         _interactor
             .getUserById(idUser, 'Bearer ${token!.token}')
             .then((ResponseData<ResultDataUser> response) {
-          if (response.isSuccess) {
+          if (response.isSuccess && response.result!.isActive) {
             dataUserProvider.setNickName(response.result!.nickName);
             dataUserProvider.setDataUserLogged(
               response.result,

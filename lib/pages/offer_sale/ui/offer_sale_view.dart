@@ -104,6 +104,7 @@ class _OfferSaleBodyState extends State<_OfferSaleBody> {
       if (event is ShowSnackbarConnectivityEffect) {
         LdSnackbar.buildConnectivitySnackbar(context, event.message);
       } else if (event is ValidateOfferEffect) {
+        print('objecto ${keyForm.currentState!.validate()}');
         if (keyForm.currentState!.validate()) {
           LdDialog.buildDenseAlertDialog(
             context,

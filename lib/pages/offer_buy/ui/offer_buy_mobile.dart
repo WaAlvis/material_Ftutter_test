@@ -9,6 +9,7 @@ class _OfferBuyMobile extends StatelessWidget {
     required this.infoPlusOfferCtrl,
     required this.focusDLYCOP,
     required this.cancelSecretCtrl,
+    required this.addressCtrl,
   }) : super(key: key);
 
   final GlobalKey<FormState> keyForm;
@@ -17,6 +18,7 @@ class _OfferBuyMobile extends StatelessWidget {
   final TextEditingController amountDLYCtrl;
   final TextEditingController infoPlusOfferCtrl;
   final TextEditingController cancelSecretCtrl;
+  final TextEditingController addressCtrl;
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +124,27 @@ class _OfferBuyMobile extends StatelessWidget {
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                 decimal: true,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            InputTextCustom(
+                              'Address ',
+                              counterText: 'Ingrese una address valida',
+                              style: const TextStyle(
+                                color: LdColors.orangePrimary,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              controller: addressCtrl,
+                              validator: (String? value) =>
+                                  viewModel.validatorAddress(value),
+                              changeFillWith: !viewModel.status.isMarginEmpty,
+                              hintText: 'Address donde desea recibir sus DLY',
+                              hintStyle: TextStyle(
+                                color: LdColors.orangePrimary.withOpacity(0.7),
+                                fontSize: 16,
                               ),
                             ),
                             const SizedBox(
